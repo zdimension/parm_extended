@@ -57,7 +57,7 @@
 <Button ActivityLevel="Active high" FPGAPinIOStandard="Default" FPGAPinName="PIN_U4" FPGAPinPullBehavior="Float" Height="32" LocationX="96" LocationY="360" Width="20"/>
 <Button ActivityLevel="Active high" FPGAPinIOStandard="Default" FPGAPinName="PIN_V1" FPGAPinPullBehavior="Float" Height="29" LocationX="75" LocationY="359" Width="13"/>
 <Button ActivityLevel="Active high" FPGAPinIOStandard="Default" FPGAPinName="PIN_V2" FPGAPinPullBehavior="Float" Height="30" LocationX="47" LocationY="358" Width="17"/>
-<Hex00 ActivityLevel="Active high" FPGAPinIOStandard="Default" FPGAPinName="PIN_AF10" FPGAPinPullBehavior="Float" Height="30" LocationX="70" LocationY="70" Width="30"/>
+<Hex ActivityLevel="Active high" FPGAPinDriveStrength="Default" FPGAPinIOStandard="Default" FPGAPinName="PIN_AF10" Height="15" LocationX="680" LocationY="312" Width="14"/>
 </IOComponents>
 <BoardPicture>
 <!--This section hold the board picture-->
