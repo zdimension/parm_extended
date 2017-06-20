@@ -1,0 +1,11 @@
+Procédure de déploiement sur FPGA d’un projet logisim.
+
+- FPGA MENU → FPGA Commander
+- Sélectionner toolpath → /opt/altera/quartus/bin (à adapter selon la soupe)
+- Vérifier que la carte sélectionnée est la Altera-DE2
+- Vérifier que “Label only the components without a label” est sélectionné
+- Cocher write to flash
+- Cliquer sur Annotate
+- Cliquer sur Download
+- Soit mapper à la main les inputs / outputs (cliquer sur un élement de la liste puis sur le composant dans l’image) soit ouvrir un fichier XML de mappage pré enregistré.
+- Cliquer sur Done (PATIENNNNNNTER) et lorsqu’il est demandé ‘Download ?’ cliquer sur ok
