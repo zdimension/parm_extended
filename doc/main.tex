@@ -16,6 +16,7 @@
 \usepackage{lastpage}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
+\usepackage{listings}
 
 \usepackage{ifluatex}
 \ifluatex
@@ -105,6 +106,8 @@ node.write(img.node(image))
 \date{\today}
 
 \begin{document}
+\lstset{xleftmargin=.25in}
+
 \maketitle
 \textcolor{blue}{\url{https://github.com/NassimBounouas/Stage_SI3_PeP}}
 \tableofcontents
@@ -115,12 +118,60 @@ node.write(img.node(image))
 \subsection{Le microprocesseur ARM Cortex-M0}
 	Le microprocesseur ARM Cortex-M0 
 
+\subsection{Assembleur}
+
+\subsubsection{Syntaxe}
+Syntaxe UAL\\
+S: màj des drapeaux\\
+<c>: condition\\
+Rd: registre destination\\
+<imm?>: immédiat\\
+SP: registre de pointeur de pile en mémoire\\
+opcode: code de l'instruction, peut occuper jusqu'à la taille indiquée\\
+
+\section{Jeu d'instructions (Instruction Set Architecture)}
+
 \subsection{Instructions à implémenter}
+
+\textbf{Binaire:}\\
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+\hline
+\multicolumn{6}{|c}{opcode} & \multicolumn{10}{|c|}{} \\
+\hline
+\end{tabular}
+
 
 \subsubsection{Shift, add, sub, mov}
 
-\subsubsubsection{Logical Shift Left}
-Page A7-298
+\textbf{Binaire:}\\
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & \multicolumn{1}{|c}{13} & 12 & 11 & 10 & 9 & \multicolumn{1}{|c}{8} & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+\hline
+0 & 0 & \multicolumn{5}{|c}{opcode} & \multicolumn{9}{|c|}{} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{LSL (immediate): Logical Shift Left (p. 298)}
+
+\textbf{Description: }
+
+Décale le contenu du registre \texttt{Rm} vers la gauche d'un nombre de bits donné par l'immédiat \texttt{imm5}, écrit le résultat dans le registre \texttt{Rd}.\\
+Des zéros sont insérés à droite.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+LSLS <Rd>,<Rm>,#<imm5>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -130,8 +181,21 @@ Page A7-298
 \hline
 \end{tabular}
 
-\subsubsubsection{Logical Shift Right}
-A7-302
+\subsubsubsection{LSR (immediate): Logical Shift Right (p. 302)}
+
+\textbf{Description: }
+
+Décale le contenu du registre \texttt{Rm} vers la droite d'un nombre de bits donné par l'immédiat \texttt{imm5}, écrit le résultat dans le registre \texttt{Rd}.\\
+Des zéros sont insérés à gauche.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+LSRS <Rd>,<Rm>,#<imm5>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -142,8 +206,21 @@ A7-302
 \end{tabular}
 
 
-\subsubsubsection{Arithmetic Shift Right}
-A7-203
+\subsubsubsection{ASR (immediate): Arithmetic Shift Right (p. 203)}
+
+\textbf{Description: }
+
+Décale le contenu du registre \texttt{Rm} vers la droite d'un nombre de bits donné par l'immédiat \texttt{imm5}, écrit le résultat dans le registre \texttt{Rd}.\\
+Le bit de signe de \texttt{Rm} est ré-inséré à gauche.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+ASRS <Rd>,<Rm>,#<imm5>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -154,8 +231,20 @@ A7-203
 \end{tabular}
 
 
-\subsubsubsection{Add register}
-A7-191
+\subsubsubsection{ADD (register): Add register (p. 191)}
+
+\textbf{Description: }
+
+Ajoute le contenu du registre \texttt{Rn} au contenu du registre \texttt{Rm}, écrit le résultat dans le registre \texttt{Rd}.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+ADDS <Rd>,<Rn>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -166,8 +255,19 @@ A7-191
 \end{tabular}
 
 
-\subsubsubsection{Substract register}
-A7-450
+\subsubsubsection{SUB (register): Substract register (p. 450)}
+
+\textbf{Description: }
+Soustrait le contenu du registre \texttt{Rn} au contenu du registre \texttt{Rm}, écrit le résultat dans le registre \texttt{Rd}.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+SUBS <Rd>,<Rn>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -177,8 +277,20 @@ A7-450
 \hline
 \end{tabular}
 
-\subsubsubsection{Move}
-A7-312
+\subsubsubsection{MOV (immediate): Move (p. 312)}
+
+\textbf{Description: }
+
+Écrit l'immédiat \texttt{imm8} dans le registre \texttt{Rd}.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+MOVS <Rd>,#<imm8>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -191,8 +303,30 @@ A7-312
 
 \subsubsection{Data processing}
 
-\subsubsubsection{Bitwise AND}
-A7-201
+\textbf{Binaire:}\\
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & 2 & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{4}{|c}{opcode} & \multicolumn{6}{|c|}{} \\
+\hline
+\end{tabular}
+
+\subsubsubsection{AND (register): Bitwise AND (p. 201)}
+
+\textbf{Description: }
+
+Effectue un ET binaire entre le contenu du registre \texttt{Rdn} et le contenu du registre \texttt{Rm}, écrit le résultat dans le registre \texttt{Rdn}.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+ANDS <Rdn>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -203,8 +337,20 @@ A7-201
 \end{tabular}
 
 
-\subsubsubsection{Exclusive OR}
-A7-239
+\subsubsubsection{EOR (register): Exclusive OR (p. 239)}
+
+\textbf{Description: }
+
+Effectue un OU exclusif binaire entre le contenu du registre \texttt{Rdn} et le contenu du registre \texttt{Rm}, écrit le résultat dans le registre \texttt{Rdn}.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+EORS <Rdn>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -215,8 +361,21 @@ A7-239
 \end{tabular}
 
 
-\subsubsubsection{Logical Shift Left}
-A7-300
+\subsubsubsection{LSL (register): Logical Shift Left (p. 300)}
+
+\textbf{Description: }
+
+Décale le contenu du registre \texttt{Rdn} vers la gauche d'un nombre de bits donné par l'octet inférieur du registre \texttt{Rm}, écrit le résultat dans le registre \texttt{Rdn}.\\
+Des zéros sont insérés à droite.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+LSLS <Rdn>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -228,8 +387,21 @@ A7-300
 
 
 
-\subsubsubsection{Logical Shift Right}
-A7-304
+\subsubsubsection{LSR (register): Logical Shift Right (p. 304)}
+
+\textbf{Description: }
+
+Décale le contenu du registre \texttt{Rdn} vers la droite d'un nombre de bits donné par l'octet inférieur du registre \texttt{Rm}, écrit le résultat dans le registre \texttt{Rdn}.\\
+Des zéros sont insérés à gauche.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+LSRS <Rdn>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -240,8 +412,21 @@ A7-304
 \end{tabular}
 
 
-\subsubsubsection{Arithmetic Shift Right}
-A7-205
+\subsubsubsection{ASR (register): Arithmetic Shift Right (p. 205)}
+
+\textbf{Description: }
+
+Décale le contenu du registre \texttt{Rdn} vers la droite d'un nombre de bits donné par l'octet inférieur du registre \texttt{Rm}, écrit le résultat dans le registre \texttt{Rdn}.\\
+Le bit de signe de \texttt{Rdn} est ré-inséré à gauche.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+ASRS <Rdn>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -252,8 +437,20 @@ A7-205
 \end{tabular}
 
 
-\subsubsubsection{Add with Carry}
-A7-187
+\subsubsubsection{ADC (register): Add with Carry (p. 187)}
+
+\textbf{Description: }
+
+Ajoute le contenu du registre \texttt{Rm} et le drapeau de retenu au contenu du registre \texttt{Rdn}, écrit le résultat dans le registre \texttt{Rdn}.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+ADCS <Rdn>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -263,8 +460,20 @@ A7-187
 \hline
 \end{tabular}
 
-\subsubsubsection{Substract with Carry}
-A7-380
+\subsubsubsection{SBC (register): Substract with Carry (p. 380)}
+
+\textbf{Description: }
+
+Soustrait le contenu du registre \texttt{Rm} et le complément du drapeau de retenu au contenu du registre \texttt{Rdn}, écrit le résultat dans le registre \texttt{Rdn}.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+SBCS <Rdn>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -276,8 +485,21 @@ A7-380
 
 
 
-\subsubsubsection{Rotate Right}
-A7-368
+\subsubsubsection{ROR (register): Rotate Right (p. 368)}
+
+\textbf{Description: }
+
+Pivote le contenu du registre \texttt{Rdn} vers la droite d'un nombre de bits donné par l'octet inférieur du registre \texttt{Rm}, écrit le résultat dans le registre \texttt{Rdn}.\\
+Les bits de \texttt{Rdn} sortant à droite sont ré-insérés à gauche.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+RORS <Rdn>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -288,8 +510,20 @@ A7-368
 \end{tabular}
 
 
-\subsubsubsection{Set flags on bitwise AND}
-A7-466
+\subsubsubsection{TST (register): Set flags on bitwise AND (p. 466)}
+
+\textbf{Description: }
+
+Effectue un ET logique entre le contenu du registre \texttt{Rn} et le contenu du registre \texttt{Rm}, le résultat n'est pas écrit.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+TST <Rn>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -301,8 +535,20 @@ A7-466
 
 
 
-\subsubsubsection{Reverse Substract from 0}
-A7-372
+\subsubsubsection{RSB (immediate): Reverse Substract from 0 (p. 372)}
+
+\textbf{Description: }
+
+Soustrait le contenu du registre \texttt{Rn} à l'immédiat 0, écrit le résultat dans le registre \texttt{Rd}.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+RSBS <Rd>,<Rn>,#0
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -314,8 +560,20 @@ A7-372
 
 
 
-\subsubsubsection{Compare Registers}
-A7-231
+\subsubsubsection{CMP (register): Compare Registers (p. 231)}
+
+\textbf{Description: }
+
+Soustrait le contenu du registre \texttt{Rm} au contenu du registre \texttt{Rn}, le résultat n'est pas écrit.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+CMP <Rn>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -326,8 +584,20 @@ A7-231
 \end{tabular}
 
 
-\subsubsubsection{Compare Negative}
-A7-227
+\subsubsubsection{CMN (register): Compare Negative (p. 227)}
+
+\textbf{Description: }
+
+Ajoute le contenu du registre \texttt{Rm} au contenu du registre \texttt{Rn}, le résultat n'est pas écrit.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+CMN <Rn>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -338,8 +608,20 @@ A7-227
 \end{tabular}
 
 
-\subsubsubsection{Logical OR}
-A7-336
+\subsubsubsection{ORR (register): Logical OR (p. 336)}
+
+\textbf{Description: }
+
+Effectue un OU binaire entre le contenu du registre \texttt{Rdn} et le contenu du registre \texttt{Rm}, écrit le résultat dans le registre \texttt{Rdn}.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+ORRS <Rdn>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -350,8 +632,20 @@ A7-336
 \end{tabular}
 
 
-\subsubsubsection{Multiply Two Registers}
-A7-324
+\subsubsubsection{MUL: Multiply Two Registers (p. 324)}
+
+\textbf{Description: }
+
+Multiplie le contenu du registre \texttt{Rn} avec le contenu du registre \texttt{Rdm}, écrit les 32 bits de poids faible du résultat dans le registre \texttt{Rdm}.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+MULS <Rdm>,<Rn>,<Rdm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -362,8 +656,20 @@ A7-324
 \end{tabular}
 
 
-\subsubsubsection{Bit Clear}
-A7-213
+\subsubsubsection{BIC (register): Bit Clear (p. 213)}
+
+\textbf{Description: }
+
+Effectue un ET binaire entre le contenu du registre \texttt{Rdn} et le contenu du registre \texttt{Rm}, écrit le résultat dans le registre \texttt{Rdn}.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+BICS <Rdn>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -374,8 +680,20 @@ A7-213
 \end{tabular}
 
 
-\subsubsubsection{Bitwise NOT}
-A-328
+\subsubsubsection{MVN (register): Bitwise NOT (p. 328)}
+
+\textbf{Description: }
+
+Effectue un NON binaire sur le contenu du registre \texttt{Rm}, écrit le résultat dans le registre \texttt{Rd}.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+MVNS <Rd>,<Rm>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
 
 \begin{tabular}{| c c c c c c c c c c c c c c c c |}
 \hline
@@ -388,18 +706,146 @@ A-328
 
 \subsubsection{Load/Store}
 
-\subsubsubsection{Store Registers}
-\subsubsubsection{Load Register}
+\textbf{Binaire:}\\
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & \multicolumn{1}{|c}{11} & 10 & 9 & \multicolumn{1}{|c}{8} & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+\hline
+1 & 0 & 0 & 1 & \multicolumn{3}{|c}{opcode} & \multicolumn{9}{|c|}{} \\
+\hline
+\end{tabular}
+
+\subsubsubsection{STR (immediate): Store Register (p. 426)}
+
+\textbf{Description: }
+
+Écrit un mot de 32 bits contnue dans le registre \texttt{Rt} à l'adresse mémoire spécifiée.\\
+L'adresse mémoire est calculée à partir du contenu du registre \texttt{SP} plus l'immédiat \texttt{imm8}.\\
+
+\textbf{Assembleur:} T2
+
+\begin{lstlisting}
+STR <Rt>,[SP,#<imm8>]
+\end{lstlisting}
+
+\textbf{Binaire:}\\
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & \multicolumn{1}{|c}{11} & \multicolumn{1}{|c}{10} & 9 & 8 & \multicolumn{1}{|c}{7} & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+\hline
+1 & 0 & 0 & 1 & \multicolumn{1}{|c}{0} & \multicolumn{3}{|c}{Rt} & \multicolumn{8}{|c|}{imm8} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{LDR (immediate): Load Register (p. 252)}
+
+\textbf{Description: }
+
+Charge un mot de 32 bits contenu à l'adresse mémoire spécifiée, écrit le résultat dans le registre \texttt{Rt}.\\
+L'adresse mémoire est calculée à partir du contenu du registre \texttt{SP} plus l'immédiat \texttt{imm8}.\\
+
+\textbf{Assembleur:} T2
+
+\begin{lstlisting}
+LDR <Rt>,[SP{,#<imm8>}]
+\end{lstlisting}
+
+\textbf{Binaire:}\\
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & \multicolumn{1}{|c}{11} & \multicolumn{1}{|c}{10} & 9 & 8 & \multicolumn{1}{|c}{7} & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+\hline
+1 & 0 & 0 & 1 & \multicolumn{1}{|c}{1} & \multicolumn{3}{|c}{Rt} & \multicolumn{8}{|c|}{imm8} \\
+\hline
+\end{tabular}
 
 \subsubsection{Branch}
 
-\subsubsubsection{Conditional Branch}
+\textbf{Binaire:}\\
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & \multicolumn{1}{|c}{11} & 10 & 9 & 8 & \multicolumn{1}{|c}{7} & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+\hline
+1 & 1 & 0 & 1 & \multicolumn{4}{|c}{opcode} & \multicolumn{8}{|c|}{} \\
+\hline
+\end{tabular}
+
+\subsubsubsection{B: Conditional Branch (p. 207)}
+
+\textbf{Description: }
+
+Continue l'exécution à partir de l'étiquette \texttt{label} si la condition \texttt{<c>} est vérifiée.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+B<c> <label>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & \multicolumn{1}{|c}{11} & 10 & 9 & 8 & \multicolumn{1}{|c}{7} & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+\hline
+1 & 1 & 0 & 1 & \multicolumn{4}{|c}{cond} & \multicolumn{8}{|c|}{imm8} \\
+\hline
+\end{tabular}
+
+\subsection{Conditions (p. 176)}
+
+\begin{tabular}{| c | c | c | c |}
+\hline
+\textbf{code} & \textbf{symbole} & \textbf{signification} & \textbf{drapeaux}\\
+\hline
+0000 & EQ & égalité & Z == 1\\
+\hline
+0001 & NE & différence & Z == 0\\
+\hline
+0010 & CS & retenue & C == 1\\
+\hline
+0011 & CC & pas de retenue & C == 0\\
+\hline
+0100 & MI & négatif & N == 1\\
+\hline
+0101 & PL & positif ou nul & N == 0\\
+\hline
+0110 & VS & dépassement de capacité & V == 1\\
+\hline
+0111 & VC & pas de dépassement de capacité & V == 0\\
+\hline
+1000 & HI & supérieur (non signé) & C == 1 et Z == 0\\
+\hline
+1001 & LS & inférieur ou égal (non signé) & C == 0 et Z == 1\\
+\hline
+1010 & GE & supérieur ou égal (signé) & N == V\\
+\hline
+1011 & LT & inférieur (signé) & N != V\\
+\hline
+1100 & GT & supérieur (signé) & Z == 0 et N == V\\
+\hline
+1101 & LE & inférieur ou égal (signé) & Z == 1 ou Z != V\\
+\hline
+1110 & aucun ou AL & toujours vrai & \\
+\hline
+\end{tabular}
 
 
+\subsection{Drapeaux (p. 31)}
 
-\subsubsection{Meow}
-\subsubsubsection{Mjau}
-MiaouNyanMeowMjau
+\begin{itemize}
+	\item \texttt{N}: résultat négatif, égal au bit de poids fort du résultat
+	\item \texttt{Z}: résultat nul, égal à 1 si le résultat est 0
+	\item \texttt{C}: retenue
+	\item \texttt{V}: dépassement de capacité
+\end{itemize}
+
+
 
 \section{Répartition des rôles}
 \subsection{Nyan}
