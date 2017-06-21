@@ -114,6 +114,289 @@ node.write(img.node(image))
 \section{Présentation du projet}
 \subsection{Le microprocesseur ARM Cortex-M0}
 	Le microprocesseur ARM Cortex-M0 
+
+\subsection{Instructions à implémenter}
+
+\subsubsection{Shift, add, sub, mov}
+
+\subsubsubsection{Logical Shift Left}
+Page A7-298
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & \multicolumn{1}{|c}{12} & 11 & \multicolumn{1}{|c}{10} & 9 & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 0 & 0 & \multicolumn{1}{|c}{0} & 0 & \multicolumn{5}{|c|}{imm5} & \multicolumn{3}{|c|}{Rm} & \multicolumn{3}{|c|}{Rd} \\
+\hline
+\end{tabular}
+
+\subsubsubsection{Logical Shift Right}
+A7-302
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & \multicolumn{1}{|c}{12} & 11 & \multicolumn{1}{|c}{10} & 9 & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline   
+0 & 0 & 0 & \multicolumn{1}{|c}{0} & 1 & \multicolumn{5}{|c|}{imm5} & \multicolumn{3}{|c|}{Rm} & \multicolumn{3}{|c|}{Rd} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{Arithmetic Shift Right}
+A7-203
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & \multicolumn{1}{|c}{12} & 11 & \multicolumn{1}{|c}{10} & 9 & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline   
+0 & 0 & 0 & \multicolumn{1}{|c}{1} & 0 & \multicolumn{5}{|c|}{imm5} & \multicolumn{3}{|c|}{Rm} & \multicolumn{3}{|c|}{Rd} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{Add register}
+A7-191
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & \multicolumn{1}{|c}{12} & 11 & \multicolumn{1}{|c}{10} & \multicolumn{1}{|c}{9} & \multicolumn{1}{|c}{8} & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline   
+0 & 0 & 0 & \multicolumn{1}{|c}{1} & 1 &  \multicolumn{1}{|c}{0} & \multicolumn{1}{|c}{0} & \multicolumn{3}{|c|}{Rm} & \multicolumn{3}{|c|}{Rn} & \multicolumn{3}{|c|}{Rd} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{Substract register}
+A7-450
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & \multicolumn{1}{|c}{12} & 11 & \multicolumn{1}{|c}{10} & \multicolumn{1}{|c}{9} & \multicolumn{1}{|c}{8} & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline   
+0 & 0 & 0 & \multicolumn{1}{|c}{1} & 1 &  \multicolumn{1}{|c}{0} & \multicolumn{1}{|c}{1} & \multicolumn{3}{|c|}{Rm} & \multicolumn{3}{|c|}{Rn} & \multicolumn{3}{|c|}{Rd} \\
+\hline
+\end{tabular}
+
+\subsubsubsection{Move}
+A7-312
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & \multicolumn{1}{|c}{12} & 11 & \multicolumn{1}{|c}{10} & 9 & 8 & \multicolumn{1}{|c}{7} & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+\hline
+0 & 0 & 1 & \multicolumn{1}{|c}{0} & 0 & \multicolumn{3}{|c|}{Rd} & \multicolumn{8}{|c|}{imm8} \\
+\hline
+\end{tabular}
+
+
+\subsubsection{Data processing}
+
+\subsubsubsection{Bitwise AND}
+A7-201
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{0} & 0 & 0 & 0 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rdn} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{Exclusive OR}
+A7-239
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{0} & 0 & 0 & 1 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rdn} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{Logical Shift Left}
+A7-300
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{0} & 0 & 1 & 0 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rdn} \\
+\hline
+\end{tabular}
+
+
+
+\subsubsubsection{Logical Shift Right}
+A7-304
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{0} & 0 & 1 & 1 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rdn} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{Arithmetic Shift Right}
+A7-205
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{0} & 1 & 0 & 0 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rdn} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{Add with Carry}
+A7-187
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{0} & 1 & 0 & 1 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rdn} \\
+\hline
+\end{tabular}
+
+\subsubsubsection{Substract with Carry}
+A7-380
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{0} & 1 & 1 & 0 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rdn} \\
+\hline
+\end{tabular}
+
+
+
+\subsubsubsection{Rotate Right}
+A7-368
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{0} & 1 & 1 & 1 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rdn} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{Set flags on bitwise AND}
+A7-466
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{1} & 0 & 0 & 0 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rn} \\
+\hline
+\end{tabular}
+
+
+
+\subsubsubsection{Reverse Substract from 0}
+A7-372
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{1} & 0 & 0 & 1 & \multicolumn{3}{|c}{Rn} & \multicolumn{3}{|c|}{Rd} \\
+\hline
+\end{tabular}
+
+
+
+\subsubsubsection{Compare Registers}
+A7-231
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{1} & 0 & 1 & 0 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rn} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{Compare Negative}
+A7-227
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{1} & 0 & 1 & 1 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rn} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{Logical OR}
+A7-336
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{1} & 1 & 0 & 0 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rdn} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{Multiply Two Registers}
+A7-324
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{1} & 1 & 0 & 1 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rdm} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{Bit Clear}
+A7-213
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{1} & 1 & 1 & 0 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rdn} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{Bitwise NOT}
+A-328
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{1} & 1 & 1 & 1 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rd} \\
+\hline
+\end{tabular}
+
+
+\subsubsection{Load/Store}
+
+\subsubsubsection{Store Registers}
+\subsubsubsection{Load Register}
+
+\subsubsection{Branch}
+
+\subsubsubsection{Conditional Branch}
+
+
+
 \subsubsection{Meow}
 \subsubsubsection{Mjau}
 MiaouNyanMeowMjau
