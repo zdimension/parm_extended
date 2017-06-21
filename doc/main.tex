@@ -129,6 +129,8 @@ Rd: registre destination\\
 SP: registre de pointeur de pile en mémoire\\
 opcode: code de l'instruction, peut occuper jusqu'à la taille indiquée\\
 
+\section{Jeu d'instructions (Instruction Set Architecture)}
+
 \subsection{Instructions à implémenter}
 
 \textbf{Binaire:}\\
@@ -834,10 +836,14 @@ B<c> <label>
 \end{tabular}
 
 
+\subsection{Drapeaux (p. 31)}
 
-
-\subsection{Drapeaux}
-
+\begin{itemize}
+	\item \texttt{N}: résultat négatif, égal au bit de poids fort du résultat
+	\item \texttt{Z}: résultat nul, égal à 1 si le résultat est 0
+	\item \texttt{C}: retenue
+	\item \texttt{V}: dépassement de capacité
+\end{itemize}
 
 
 
