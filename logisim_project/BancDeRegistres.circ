@@ -136,9 +136,9 @@ This file is intended to be loaded by Logisim-evolution (https://github.com/reds
     <appear>
       <path d="M149,74 Q153,84 157,74" fill="none" stroke="#808080" stroke-width="2"/>
       <rect fill="none" height="89" stroke="#000000" stroke-width="2" width="279" x="130" y="71"/>
-      <text font-family="SansSerif" font-size="12" text-anchor="middle" x="389" y="125">AOut</text>
+      <text font-family="SansSerif" font-size="12" text-anchor="middle" x="386" y="144">AOut</text>
       <text font-family="SansSerif" font-size="12" text-anchor="middle" x="299" y="126">BancDeRegistres</text>
-      <text font-family="SansSerif" font-size="12" text-anchor="middle" x="388" y="145">BOut</text>
+      <text font-family="SansSerif" font-size="12" text-anchor="middle" x="386" y="124">BOut</text>
       <text font-family="SansSerif" font-size="12" text-anchor="middle" x="179" y="151">Clk</text>
       <text font-family="SansSerif" font-size="12" text-anchor="middle" x="215" y="150">Reset</text>
       <text font-family="SansSerif" font-size="12" text-anchor="middle" x="165" y="115">RegDest</text>
@@ -159,8 +159,8 @@ This file is intended to be loaded by Logisim-evolution (https://github.com/reds
       <circ-port height="8" pin="90,760" width="8" x="126" y="86"/>
       <circ-port height="8" pin="680,1840" width="8" x="316" y="156"/>
       <circ-port height="8" pin="650,870" width="8" x="276" y="156"/>
-      <circ-port height="10" pin="760,1770" width="10" x="405" y="135"/>
-      <circ-port height="10" pin="730,800" width="10" x="405" y="115"/>
+      <circ-port height="10" pin="760,1770" width="10" x="405" y="115"/>
+      <circ-port height="10" pin="730,800" width="10" x="405" y="135"/>
       <circ-port height="10" pin="760,970" width="10" x="195" y="65"/>
       <circ-port height="10" pin="760,1060" width="10" x="215" y="65"/>
       <circ-port height="10" pin="760,1150" width="10" x="235" y="65"/>
@@ -327,84 +327,7 @@ This file is intended to be loaded by Logisim-evolution (https://github.com/reds
     <wire from="(550,800)" to="(630,800)"/>
     <wire from="(100,1680)" to="(170,1680)"/>
     <wire from="(130,1040)" to="(330,1040)"/>
-    <comp lib="0" loc="(700,1510)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="32"/>
-      <a name="label" val="r6"/>
-    </comp>
-    <comp lib="0" loc="(430,1310)" name="Tunnel">
-      <a name="width" val="32"/>
-      <a name="label" val="r4"/>
-    </comp>
-    <comp lib="0" loc="(70,1260)" name="Pin">
-      <a name="label" val="Input_2"/>
-    </comp>
-    <comp lib="0" loc="(760,1770)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="Output_bus_1"/>
-      <a name="labelloc" val="north"/>
-    </comp>
-    <comp lib="2" loc="(80,1700)" name="Decoder">
-      <a name="select" val="3"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="0" loc="(430,1570)" name="Tunnel">
-      <a name="width" val="32"/>
-      <a name="label" val="r6"/>
-    </comp>
-    <comp lib="0" loc="(760,1510)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="Output_bus_2"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="0" loc="(430,1440)" name="Tunnel">
-      <a name="width" val="32"/>
-      <a name="label" val="r5"/>
-    </comp>
-    <comp lib="0" loc="(760,1240)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="Output_bus_6"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="4" loc="(330,1640)" name="Register">
-      <a name="width" val="32"/>
-    </comp>
     <comp lib="4" loc="(330,1380)" name="Register">
-      <a name="width" val="32"/>
-    </comp>
-    <comp lib="0" loc="(650,870)" name="Pin">
-      <a name="facing" val="north"/>
-      <a name="width" val="3"/>
-      <a name="label" val="Input_bus_1"/>
-      <a name="labelloc" val="south"/>
-    </comp>
-    <comp lib="0" loc="(90,760)" name="Pin">
-      <a name="width" val="32"/>
-      <a name="label" val="Input_bus_2"/>
-      <a name="labelloc" val="north"/>
-    </comp>
-    <comp lib="0" loc="(700,1420)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="32"/>
-      <a name="label" val="r5"/>
-    </comp>
-    <comp lib="0" loc="(70,1230)" name="Pin">
-      <a name="label" val="Input_1"/>
-    </comp>
-    <comp lib="0" loc="(760,1150)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="Output_bus_8"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="4" loc="(330,730)" name="Register">
       <a name="width" val="32"/>
     </comp>
     <comp lib="0" loc="(730,800)" name="Pin">
@@ -414,6 +337,82 @@ This file is intended to be loaded by Logisim-evolution (https://github.com/reds
       <a name="label" val="Output_bus_7"/>
       <a name="labelloc" val="north"/>
     </comp>
+    <comp lib="0" loc="(70,1230)" name="Pin">
+      <a name="label" val="Input_1"/>
+    </comp>
+    <comp lib="0" loc="(430,1050)" name="Tunnel">
+      <a name="width" val="32"/>
+      <a name="label" val="r2"/>
+    </comp>
+    <comp lib="4" loc="(330,1250)" name="Register">
+      <a name="width" val="32"/>
+    </comp>
+    <comp lib="0" loc="(760,1600)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="Output_bus_4"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(70,1260)" name="Pin">
+      <a name="label" val="Input_2"/>
+    </comp>
+    <comp lib="0" loc="(90,760)" name="Pin">
+      <a name="width" val="32"/>
+      <a name="label" val="Input_bus_2"/>
+      <a name="labelloc" val="north"/>
+    </comp>
+    <comp lib="0" loc="(760,1420)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="Output_bus_3"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="4" loc="(330,990)" name="Register">
+      <a name="width" val="32"/>
+    </comp>
+    <comp lib="0" loc="(760,1770)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="Output_bus_1"/>
+      <a name="labelloc" val="north"/>
+    </comp>
+    <comp lib="0" loc="(760,1330)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="Output_bus_5"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(760,970)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="Output_bus_10"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(700,1420)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="width" val="32"/>
+      <a name="label" val="r5"/>
+    </comp>
+    <comp lib="0" loc="(430,1570)" name="Tunnel">
+      <a name="width" val="32"/>
+      <a name="label" val="r6"/>
+    </comp>
+    <comp lib="0" loc="(430,790)" name="Tunnel">
+      <a name="width" val="32"/>
+      <a name="label" val="r0"/>
+    </comp>
+    <comp lib="4" loc="(330,730)" name="Register">
+      <a name="width" val="32"/>
+    </comp>
+    <comp lib="0" loc="(430,1440)" name="Tunnel">
+      <a name="width" val="32"/>
+      <a name="label" val="r5"/>
+    </comp>
     <comp lib="4" loc="(330,860)" name="Register">
       <a name="width" val="32"/>
     </comp>
@@ -421,27 +420,22 @@ This file is intended to be loaded by Logisim-evolution (https://github.com/reds
       <a name="width" val="32"/>
       <a name="label" val="r3"/>
     </comp>
-    <comp lib="0" loc="(430,1050)" name="Tunnel">
-      <a name="width" val="32"/>
-      <a name="label" val="r2"/>
-    </comp>
-    <comp lib="4" loc="(330,1510)" name="Register">
-      <a name="width" val="32"/>
+    <comp lib="0" loc="(80,1730)" name="Pin">
+      <a name="facing" val="north"/>
+      <a name="width" val="3"/>
+      <a name="label" val="Input_bus_4"/>
     </comp>
     <comp lib="0" loc="(700,1330)" name="Tunnel">
       <a name="facing" val="east"/>
       <a name="width" val="32"/>
       <a name="label" val="r4"/>
     </comp>
-    <comp lib="2" loc="(670,800)" name="Multiplexer">
-      <a name="select" val="3"/>
+    <comp lib="0" loc="(760,1060)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
       <a name="width" val="32"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="0" loc="(700,1060)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="32"/>
-      <a name="label" val="r1"/>
+      <a name="label" val="Output_bus_9"/>
+      <a name="labelloc" val="east"/>
     </comp>
     <comp lib="0" loc="(700,970)" name="Tunnel">
       <a name="facing" val="east"/>
@@ -454,53 +448,19 @@ This file is intended to be loaded by Logisim-evolution (https://github.com/reds
       <a name="label" val="Input_bus_3"/>
       <a name="labelloc" val="south"/>
     </comp>
-    <comp lib="0" loc="(760,1420)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="Output_bus_3"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="4" loc="(330,1120)" name="Register">
-      <a name="width" val="32"/>
-    </comp>
-    <comp lib="4" loc="(330,1250)" name="Register">
-      <a name="width" val="32"/>
-    </comp>
-    <comp lib="0" loc="(430,1700)" name="Tunnel">
-      <a name="width" val="32"/>
-      <a name="label" val="r7"/>
-    </comp>
-    <comp lib="0" loc="(700,1240)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="32"/>
-      <a name="label" val="r3"/>
-    </comp>
-    <comp lib="0" loc="(760,1600)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="Output_bus_4"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="0" loc="(760,1060)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="Output_bus_9"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="0" loc="(80,1730)" name="Pin">
+    <comp lib="0" loc="(650,870)" name="Pin">
       <a name="facing" val="north"/>
       <a name="width" val="3"/>
-      <a name="label" val="Input_bus_4"/>
+      <a name="label" val="Input_bus_1"/>
+      <a name="labelloc" val="south"/>
     </comp>
-    <comp lib="0" loc="(760,970)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
+    <comp lib="0" loc="(700,1060)" name="Tunnel">
+      <a name="facing" val="east"/>
       <a name="width" val="32"/>
-      <a name="label" val="Output_bus_10"/>
-      <a name="labelloc" val="east"/>
+      <a name="label" val="r1"/>
+    </comp>
+    <comp lib="4" loc="(330,1510)" name="Register">
+      <a name="width" val="32"/>
     </comp>
     <comp lib="0" loc="(430,920)" name="Tunnel">
       <a name="width" val="32"/>
@@ -511,20 +471,34 @@ This file is intended to be loaded by Logisim-evolution (https://github.com/reds
       <a name="width" val="32"/>
       <a name="enable" val="false"/>
     </comp>
+    <comp lib="4" loc="(330,1120)" name="Register">
+      <a name="width" val="32"/>
+    </comp>
     <comp lib="0" loc="(700,1600)" name="Tunnel">
       <a name="facing" val="east"/>
       <a name="width" val="32"/>
       <a name="label" val="r7"/>
     </comp>
-    <comp lib="0" loc="(430,790)" name="Tunnel">
-      <a name="width" val="32"/>
-      <a name="label" val="r0"/>
-    </comp>
-    <comp lib="0" loc="(760,1330)" name="Pin">
+    <comp lib="0" loc="(760,1240)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="width" val="32"/>
-      <a name="label" val="Output_bus_5"/>
+      <a name="label" val="Output_bus_6"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="4" loc="(330,1640)" name="Register">
+      <a name="width" val="32"/>
+    </comp>
+    <comp lib="2" loc="(670,800)" name="Multiplexer">
+      <a name="select" val="3"/>
+      <a name="width" val="32"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="0" loc="(760,1510)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="Output_bus_2"/>
       <a name="labelloc" val="east"/>
     </comp>
     <comp lib="0" loc="(700,1150)" name="Tunnel">
@@ -532,8 +506,34 @@ This file is intended to be loaded by Logisim-evolution (https://github.com/reds
       <a name="width" val="32"/>
       <a name="label" val="r2"/>
     </comp>
-    <comp lib="4" loc="(330,990)" name="Register">
+    <comp lib="0" loc="(700,1510)" name="Tunnel">
+      <a name="facing" val="east"/>
       <a name="width" val="32"/>
+      <a name="label" val="r6"/>
+    </comp>
+    <comp lib="2" loc="(80,1700)" name="Decoder">
+      <a name="select" val="3"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="0" loc="(430,1700)" name="Tunnel">
+      <a name="width" val="32"/>
+      <a name="label" val="r7"/>
+    </comp>
+    <comp lib="0" loc="(700,1240)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="width" val="32"/>
+      <a name="label" val="r3"/>
+    </comp>
+    <comp lib="0" loc="(430,1310)" name="Tunnel">
+      <a name="width" val="32"/>
+      <a name="label" val="r4"/>
+    </comp>
+    <comp lib="0" loc="(760,1150)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="Output_bus_8"/>
+      <a name="labelloc" val="east"/>
     </comp>
   </circuit>
 </project>
