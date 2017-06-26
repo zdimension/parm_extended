@@ -106,7 +106,7 @@ This file is intended to be loaded by Logisim-evolution (https://github.com/reds
       <circ-port height="10" pin="1190,560" width="10" x="145" y="195"/>
       <circ-port height="8" pin="140,100" width="8" x="86" y="176"/>
       <circ-port height="8" pin="230,100" width="8" x="146" y="176"/>
-      <circ-port height="8" pin="300,80" width="8" x="76" y="186"/>
+      <circ-port height="8" pin="300,130" width="8" x="76" y="186"/>
       <circ-port height="8" pin="340,80" width="8" x="96" y="206"/>
       <circ-port height="8" pin="640,80" width="8" x="86" y="196"/>
       <circ-anchor facing="north" height="6" width="6" x="117" y="197"/>
@@ -281,9 +281,9 @@ This file is intended to be loaded by Logisim-evolution (https://github.com/reds
     <wire from="(230,720)" to="(230,760)"/>
     <wire from="(400,650)" to="(550,650)"/>
     <wire from="(660,460)" to="(730,460)"/>
-    <wire from="(300,80)" to="(300,320)"/>
     <wire from="(590,510)" to="(590,890)"/>
     <wire from="(760,270)" to="(760,460)"/>
+    <wire from="(300,130)" to="(300,320)"/>
     <wire from="(660,630)" to="(670,630)"/>
     <wire from="(660,710)" to="(670,710)"/>
     <wire from="(230,260)" to="(360,260)"/>
@@ -549,6 +549,12 @@ This file is intended to be loaded by Logisim-evolution (https://github.com/reds
     <comp lib="2" loc="(880,110)" name="BitSelector">
       <a name="width" val="32"/>
     </comp>
+    <comp lib="0" loc="(300,130)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="width" val="5"/>
+      <a name="label" val="Shift"/>
+      <a name="labelloc" val="north"/>
+    </comp>
     <comp lib="3" loc="(400,360)" name="Shifter">
       <a name="width" val="32"/>
       <a name="shift" val="lr"/>
@@ -578,12 +584,6 @@ This file is intended to be loaded by Logisim-evolution (https://github.com/reds
     <comp lib="0" loc="(650,620)" name="Tunnel">
       <a name="facing" val="east"/>
       <a name="label" val="C_1"/>
-    </comp>
-    <comp lib="0" loc="(300,80)" name="Pin">
-      <a name="facing" val="south"/>
-      <a name="width" val="5"/>
-      <a name="label" val="Shift"/>
-      <a name="labelloc" val="north"/>
     </comp>
   </circuit>
 </project>
