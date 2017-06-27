@@ -1,0 +1,10 @@
+In RSB instruction, Rn is the first operand. Needs to be reversed in both the controller and the ALU for simplification. ie. use Rm in controller and A in ALU.
+In MUL instruction, Rn is the first operand and Rdm is the second operand. Use Rm as 1st operand and Rdn as second operand in controller.
+TST, CMP, CMN discard the result. Effectively copy Rn to Rd to achieve the same behaviour. ie. the ALU copies B to S on opcode 1000, 1010, 1011.
+
+//Shift in ALU must be 8 bits because LSL (register) for example uses bottom byte of register → Nope use 5 bits but mux inside CPU
+
+ALU uses Rn (B) register for shifts. In shift/add/sub/move, for shifts (immediate), use Rn instead of Rm to g
+
+Carry unused on add/sub, inhibit inside controller
+Backward jump on conditional branch: negative offset on additioner?
