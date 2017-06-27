@@ -8,3 +8,42 @@ ALU uses Rn (B) register for shifts. In shift/add/sub/move, for shifts (immediat
 
 Carry unused on add/sub, inhibit inside controller
 Backward jump on conditional branch: negative offset on additioner?
+
+
+
+LDR/STR: 
+Encoding T2: only positive offset
+
+Specifies the immediate offset added to or subtracted from the value of <Rn> to form the address.
+Permitted values are multiples of 4 in the range 0-124 for encoding T1, multiples of 4 in the range
+0-1020 for encoding T2, any value in the range 0-4095 for encoding T3, and any value in the range
+0-255 for encoding T4. For the offset addressing syntax, <imm> can be omitted, meaning an offset of
+0.
+
+
+
+B<c>:
+Encoding T1: negative and positive offset (even numbers)
+
+Specifies the label of the instruction that is to be branched to. The assembler calculates the required
+value of the offset from the PC value of the B instruction to this label, then selects an encoding that
+will set imm32 to that offset.
+Permitted offsets are even numbers in the range -256 to 254 for encoding T1, -2048 to 2046 for
+encoding T2, -1048576 to 1048574 for encoding T3, and -16777216 to 16777214 for encoding T4.
+
+
+
+
+
+ADD/SUB SP immediate:
+Add: Encoding T2
+Sub: Encoding T1
+
+Specifies the immediate value to be added to the value obtained from SP. Permitted values are
+multiples of 4 in the range 0-508 for encoding T1 and any value in the range 0-4095 for encoding
+T3. See Modified immediate constants in Thumb instructions on page A5-137 for the range of
+permitted values for encoding T2.
+When both 32-bit encodings are available for an instruction, encoding T2 is preferred to encoding
+T3 (if encoding T3 is required, use the SUBW syntax).
+
+Handled directly in controller since the Stack Pointer register is inside the controller and not in the registers bench (addressing limited to 3bits)
