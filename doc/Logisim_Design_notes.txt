@@ -52,3 +52,11 @@ Handled directly in controller since the Stack Pointer register is inside the co
 
 SUB register:
 carry forced to 1 in controller since it is reversed in the ALU for SBC
+
+
+
+MOV:
+unsigned immediates
+
+LDR/STR:
+Lose one cycle (PC no incremented) for RAM access
