@@ -128,6 +128,7 @@ Rd: registre destination\\
 <imm?>: immédiat\\
 SP: registre de pointeur de pile en mémoire\\
 opcode: code de l'instruction, peut occuper jusqu'à la taille indiquée\\
+\[\]: argument optionnel\\
 
 \section{Jeu d'instructions (Instruction Set Architecture)}
 
@@ -258,7 +259,7 @@ ADDS <Rd>,<Rn>,<Rm>
 \subsubsubsection{SUB (register): Substract register (p. 450)}
 
 \textbf{Description: }
-Soustrait le contenu du registre \texttt{Rn} au contenu du registre \texttt{Rm}, écrit le résultat dans le registre \texttt{Rd}.\\
+Soustrait le contenu du registre \texttt{Rm} au contenu du registre \texttt{Rn}, écrit le résultat dans le registre \texttt{Rd}.\\
 Les drapeaux sont mis à jour.\\
 
 \textbf{Assembleur:} T1
@@ -720,7 +721,7 @@ MVNS <Rd>,<Rm>
 
 \textbf{Description: }
 
-Écrit un mot de 32 bits contnue dans le registre \texttt{Rt} à l'adresse mémoire spécifiée.\\
+Écrit un mot de 32 bits contenu dans le registre \texttt{Rt} à l'adresse mémoire spécifiée.\\
 L'adresse mémoire est calculée à partir du contenu du registre \texttt{SP} plus l'immédiat \texttt{imm8}.\\
 
 \textbf{Assembleur:} T2
@@ -763,6 +764,70 @@ LDR <Rt>,[SP{,#<imm8>}]
 \hline
 \end{tabular}
 
+
+
+\subsubsection{Miscellaneous 16-bit instructions}
+
+\textbf{Binaire:}\\
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & \multicolumn{1}{|c}{11} & 10 & 9 & 8 & 7 & 6 & 5 & \multicolumn{1}{|c}{4} & 3 & 2 & 1 & 0 \\
+\hline
+1 & 0 & 1 & 1 & \multicolumn{7}{|c}{opcode} & \multicolumn{5}{|c|}{} \\
+\hline
+\end{tabular}
+
+\subsubsubsection{ADD (SP plus immediate): Add Immediate to SP (p. 193}
+
+\textbf{Description: }
+
+Ajoute un immédiat à la valeur du registre \texttt{SP}, écrit le résultat dans le registre \texttt{SP}.
+Les drapeaux ne sont pas mis à jour.
+
+\textbf{Assembleur:} T2
+
+\begin{lstlisting}
+ADD [SP,]SP,#<imm7>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & \multicolumn{1}{|c}{11} & 10 & 9 & 8 & \multicolumn{1}{|c}{7} & \multicolumn{1}{|c}{6} & 5 & 4 & 3 & 2 & 1 & 0 \\
+\hline
+1 & 0 & 1 & 1 & \multicolumn{1}{|c}{0} & 0 & 0 & 0 & \multicolumn{1}{|c}{0} & \multicolumn{7}{|c|}{imm7} \\
+\hline
+\end{tabular}
+
+\subsubsubsection{SUB (SP minus immediate): Subtract Immediate from SP (p. 452)}
+
+\textbf{Description: }
+
+Soustrait un immédiat à la valeur du registre \texttt{SP}, écrit le résultat dans le registre \texttt{SP}.
+Les drapeaux ne sont pas mis à jour.
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+SUB [SP,]SP,#<imm7>
+\end{lstlisting}
+
+
+
+\textbf{Binaire:}\\
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & 12 & \multicolumn{1}{|c}{11} & 10 & 9 & 8 & \multicolumn{1}{|c}{7} & \multicolumn{1}{|c}{6} & 5 & 4 & 3 & 2 & 1 & 0 \\
+\hline
+1 & 0 & 1 & 1 & \multicolumn{1}{|c}{0} & 0 & 0 & 0 & \multicolumn{1}{|c}{1} & \multicolumn{7}{|c|}{imm7} \\
+\hline
+\end{tabular}
+
+
+
 \subsubsection{Branch}
 
 \textbf{Binaire:}\\
@@ -796,6 +861,13 @@ B<c> <label>
 1 & 1 & 0 & 1 & \multicolumn{4}{|c}{cond} & \multicolumn{8}{|c|}{imm8} \\
 \hline
 \end{tabular}
+
+
+
+
+
+
+
 
 \subsection{Conditions (p. 176)}
 
