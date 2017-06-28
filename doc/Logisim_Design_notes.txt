@@ -47,3 +47,8 @@ When both 32-bit encodings are available for an instruction, encoding T2 is pref
 T3 (if encoding T3 is required, use the SUBW syntax).
 
 Handled directly in controller since the Stack Pointer register is inside the controller and not in the registers bench (addressing limited to 3bits)
+
+
+
+SUB register:
+carry forced to 1 in controller since it is reversed in the ALU for SBC
