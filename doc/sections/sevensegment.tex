@@ -68,8 +68,18 @@ Nous allons ici associer à chaque valeur à sa décomposition en segment d'apr�
 
 \subsubsection{Mise en place sur logisim}
 \paragraph{}
-La table de vérité présentée dans la section précèdente peut être utilisée pour obtenir une fonction simplifiée de chaque segment en utilisant les tables de Karnaugh\footnote{\url{http://www.electronics-tutorials.ws/blog/7-segment-display-tutorial.html}}. Logisim embarque une fonctionnalité permettant d'effectuer cette analyse de manière simplifiée. Pour celà il est nécessaire de lancer logisim avec l'option -analyze soit dans notre cas :
+La table de vérité présentée dans la section précèdente peut être utilisée pour obtenir une fonction simplifiée de chaque segment en utilisant les tables de Karnaugh\footnote{\url{https://fr.wikipedia.org/wiki/Table_de_Karnaugh}}. Logisim embarque une fonctionnalité permettant d'effectuer cette analyse de manière simplifiée. Pour celà il est nécessaire de lancer logisim avec l'option -analyze soit dans notre cas :
 
 \begin{lstlisting}[language=bash]
 java -jar logisim-evolution.jar -analyze
 \end{lstlisting}
+
+\paragraph{}
+En utilisant ce paramètre une option apparaît dans le menu "Projet"->"Analyser le circuit". Il est possible dans l'onglet "table" de remplir la table de vérité du circuit. Une fois le tableau complété, cliquer sur "Construire le circuit" générera le circuit correspondant. Ce dernier devrait ressembler à ceci :
+
+\begin{figure}[H]
+        \makebox[\textwidth]{\includegraphics[width=4cm]{pictures/sevendecoder.png}}
+	\caption{Contenu du composant "Seven segment decoder"}
+\end{figure}
+
+
