@@ -146,6 +146,55 @@ SUBS <Rd>,<Rn>,<Rm>
 \hline
 \end{tabular}
 
+
+\subsubsubsection{ADD (immediate): Add 3-bit immediate (p. 189)}
+
+\textbf{Description: }
+
+Ajoute l'immédiat \texttt{Imm3} au contenu du registre \texttt{Rn}, écrit le résultat dans le registre \texttt{Rd}.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+ADDS <Rd>,<Rn>,<#imm3>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & \multicolumn{1}{|c}{12} & 11 & \multicolumn{1}{|c}{10} & \multicolumn{1}{|c}{9} & \multicolumn{1}{|c}{8} & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline   
+0 & 0 & 0 & \multicolumn{1}{|c}{1} & 1 &  \multicolumn{1}{|c}{1} & \multicolumn{1}{|c}{0} & \multicolumn{3}{|c|}{Imm3} & \multicolumn{3}{|c|}{Rn} & \multicolumn{3}{|c|}{Rd} \\
+\hline
+\end{tabular}
+
+
+\subsubsubsection{SUB (immediate): Subtract 3-bit immediate (p. 448)}
+
+\textbf{Description: }
+
+Soustrait l'immédiat \texttt{Imm3} au contenu du registre \texttt{Rn}, écrit le résultat dans le registre \texttt{Rd}.\\
+Les drapeaux sont mis à jour.\\
+
+\textbf{Assembleur:} T1
+
+\begin{lstlisting}
+SUBS <Rd>,<Rn>,#<imm3>
+\end{lstlisting}
+
+\textbf{Binaire:}\\
+
+\begin{tabular}{| c c c c c c c c c c c c c c c c |}
+\hline
+15 & 14 & 13 & \multicolumn{1}{|c}{12} & 11 & \multicolumn{1}{|c}{10} & \multicolumn{1}{|c}{9} & \multicolumn{1}{|c}{8} & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
+\hline   
+0 & 0 & 0 & \multicolumn{1}{|c}{1} & 1 &  \multicolumn{1}{|c}{1} & \multicolumn{1}{|c}{1} & \multicolumn{3}{|c|}{Imm3} & \multicolumn{3}{|c|}{Rn} & \multicolumn{3}{|c|}{Rd} \\
+\hline
+\end{tabular}
+
+
 \subsubsubsection{MOV (immediate): Move (p. 312)}
 
 \textbf{Description: }
