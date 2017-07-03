@@ -215,13 +215,14 @@ end TCL_Generic;
     <wire from="(790,140)" to="(810,140)"/>
     <wire from="(830,20)" to="(850,20)"/>
     <wire from="(160,1000)" to="(1020,1000)"/>
+    <wire from="(40,50)" to="(510,50)"/>
     <wire from="(1140,160)" to="(1270,160)"/>
     <wire from="(210,200)" to="(230,200)"/>
     <wire from="(1140,0)" to="(1140,160)"/>
     <wire from="(830,90)" to="(960,90)"/>
     <wire from="(1110,650)" to="(1330,650)"/>
+    <wire from="(750,50)" to="(750,240)"/>
     <wire from="(660,340)" to="(660,400)"/>
-    <wire from="(40,50)" to="(750,50)"/>
     <wire from="(1240,590)" to="(1260,590)"/>
     <wire from="(1110,660)" to="(1320,660)"/>
     <wire from="(1010,260)" to="(1060,260)"/>
@@ -229,9 +230,9 @@ end TCL_Generic;
     <wire from="(830,70)" to="(890,70)"/>
     <wire from="(470,280)" to="(520,280)"/>
     <wire from="(1280,610)" to="(1280,640)"/>
+    <wire from="(670,150)" to="(730,150)"/>
     <wire from="(1160,570)" to="(1160,600)"/>
     <wire from="(1110,560)" to="(1110,590)"/>
-    <wire from="(750,150)" to="(750,240)"/>
     <wire from="(520,280)" to="(520,360)"/>
     <wire from="(1110,620)" to="(1230,620)"/>
     <wire from="(830,100)" to="(1000,100)"/>
@@ -255,6 +256,7 @@ end TCL_Generic;
     <wire from="(800,370)" to="(860,370)"/>
     <wire from="(540,390)" to="(600,390)"/>
     <wire from="(750,240)" to="(810,240)"/>
+    <wire from="(510,50)" to="(750,50)"/>
     <wire from="(1320,660)" to="(1320,670)"/>
     <wire from="(540,420)" to="(710,420)"/>
     <wire from="(80,220)" to="(80,250)"/>
@@ -267,8 +269,8 @@ end TCL_Generic;
     <wire from="(1110,630)" to="(1240,630)"/>
     <wire from="(200,280)" to="(200,970)"/>
     <wire from="(1020,300)" to="(1020,1000)"/>
+    <wire from="(510,50)" to="(510,100)"/>
     <wire from="(860,370)" to="(860,620)"/>
-    <wire from="(670,150)" to="(750,150)"/>
     <wire from="(800,300)" to="(810,300)"/>
     <wire from="(1110,560)" to="(1130,560)"/>
     <wire from="(1040,280)" to="(1040,970)"/>
@@ -296,7 +298,6 @@ end TCL_Generic;
     <wire from="(670,370)" to="(690,370)"/>
     <wire from="(540,440)" to="(750,440)"/>
     <wire from="(540,430)" to="(760,430)"/>
-    <wire from="(750,50)" to="(750,150)"/>
     <wire from="(950,20)" to="(950,80)"/>
     <wire from="(1090,270)" to="(1090,370)"/>
     <wire from="(160,240)" to="(160,1000)"/>
@@ -307,27 +308,15 @@ end TCL_Generic;
     <wire from="(790,140)" to="(790,190)"/>
     <wire from="(1170,590)" to="(1190,590)"/>
     <wire from="(880,150)" to="(880,200)"/>
-    <comp lib="5" loc="(1190,590)" name="LED">
-      <a name="label" val="LED_3"/>
-    </comp>
-    <comp lib="0" loc="(900,130)" name="Probe">
-      <a name="facing" val="south"/>
-      <a name="radix" val="16"/>
-    </comp>
-    <comp lib="5" loc="(1280,610)" name="LED">
-      <a name="label" val="LED_6"/>
-    </comp>
-    <comp lib="5" loc="(1050,130)" name="LED">
-      <a name="label" val="L7"/>
-    </comp>
-    <comp lib="0" loc="(590,570)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="8"/>
-      <a name="label" val="ROM_Addr"/>
+    <comp lib="5" loc="(1260,590)" name="LED">
+      <a name="label" val="LED_5"/>
     </comp>
     <comp lib="0" loc="(1110,270)" name="Tunnel">
       <a name="width" val="8"/>
       <a name="label" val="RAM_Addr"/>
+    </comp>
+    <comp lib="5" loc="(980,50)" name="LED">
+      <a name="label" val="L4"/>
     </comp>
     <comp lib="0" loc="(980,130)" name="Probe">
       <a name="facing" val="south"/>
@@ -336,19 +325,65 @@ end TCL_Generic;
     <comp lib="5" loc="(880,30)" name="LED">
       <a name="label" val="L1"/>
     </comp>
-    <comp lib="5" loc="(1050,110)" name="LED">
-      <a name="label" val="L6"/>
+    <comp lib="5" loc="(660,340)" name="LED">
+      <a name="label" val="A3"/>
     </comp>
-    <comp lib="4" loc="(230,190)" name="RAM">
-      <a name="dataWidth" val="32"/>
-      <a name="databus" val="bibus"/>
-      <a name="label" val="RAMa"/>
+    <comp lib="0" loc="(940,170)" name="Probe">
+      <a name="facing" val="south"/>
+      <a name="radix" val="16"/>
+    </comp>
+    <comp lib="5" loc="(1330,670)" name="LED">
+      <a name="label" val="LED_8"/>
+    </comp>
+    <comp lib="0" loc="(510,100)" name="Clock">
+      <a name="facing" val="north"/>
     </comp>
     <comp lib="5" loc="(560,340)" name="LED">
       <a name="label" val="A0"/>
     </comp>
-    <comp lib="5" loc="(590,350)" name="LED">
-      <a name="label" val="A1"/>
+    <comp loc="(1010,240)" name="CPU">
+      <a name="label" val="CPU_1"/>
+    </comp>
+    <comp lib="0" loc="(80,220)" name="Constant">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="0" loc="(590,570)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="width" val="8"/>
+      <a name="label" val="ROM_Addr"/>
+    </comp>
+    <comp lib="5" loc="(760,450)" name="LED">
+      <a name="label" val="A7"/>
+    </comp>
+    <comp lib="0" loc="(860,170)" name="Probe">
+      <a name="facing" val="south"/>
+      <a name="radix" val="16"/>
+    </comp>
+    <comp lib="5" loc="(910,50)" name="LED">
+      <a name="label" val="L2"/>
+    </comp>
+    <comp lib="5" loc="(850,20)" name="LED">
+      <a name="label" val="L0"/>
+    </comp>
+    <comp lib="5" loc="(690,370)" name="LED">
+      <a name="label" val="A4"/>
+    </comp>
+    <comp lib="8" loc="(1167,300)" name="Text">
+      <a name="text" val="Use only 8 bit adresses"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="5" loc="(670,180)" name="Button">
+      <a name="label" val="Rst_Button"/>
+    </comp>
+    <comp lib="5" loc="(670,150)" name="Button">
+      <a name="label" val="Clk_Button"/>
+    </comp>
+    <comp lib="5" loc="(620,370)" name="LED">
+      <a name="label" val="A2"/>
+    </comp>
+    <comp lib="0" loc="(880,150)" name="Probe">
+      <a name="facing" val="south"/>
+      <a name="radix" val="16"/>
     </comp>
     <comp lib="0" loc="(840,190)" name="Probe">
       <a name="facing" val="south"/>
@@ -358,6 +393,134 @@ end TCL_Generic;
       <a name="fanout" val="8"/>
       <a name="incoming" val="8"/>
       <a name="appear" val="right"/>
+    </comp>
+    <comp lib="5" loc="(950,20)" name="LED">
+      <a name="label" val="L3"/>
+    </comp>
+    <comp lib="5" loc="(1130,560)" name="LED">
+      <a name="label" val="LED_1"/>
+    </comp>
+    <comp lib="5" loc="(1050,130)" name="LED">
+      <a name="label" val="L7"/>
+    </comp>
+    <comp lib="5" loc="(1160,570)" name="LED">
+      <a name="label" val="LED_2"/>
+    </comp>
+    <comp lib="5" loc="(710,390)" name="LED">
+      <a name="label" val="A5"/>
+    </comp>
+    <comp lib="4" loc="(230,190)" name="RAM">
+      <a name="dataWidth" val="32"/>
+      <a name="databus" val="bibus"/>
+      <a name="label" val="RAMa"/>
+    </comp>
+    <comp lib="5" loc="(1230,560)" name="LED">
+      <a name="label" val="LED_4"/>
+    </comp>
+    <comp lib="5" loc="(1000,70)" name="LED">
+      <a name="label" val="L5"/>
+    </comp>
+    <comp lib="4" loc="(610,560)" name="ROM">
+      <a name="dataWidth" val="16"/>
+      <a name="contents">addr/data: 8 16
+b08c 2000 9008 21ff 9104 9000 defe 9800
+9904 4288 da08 defe 9800 9908 4081 9108
+defe 9800 1c40 9000 def0 b00c
+</a>
+      <a name="label" val="ROMa"/>
+    </comp>
+    <comp lib="0" loc="(520,360)" name="Splitter">
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="32"/>
+      <a name="appear" val="right"/>
+      <a name="bit8" val="none"/>
+      <a name="bit9" val="none"/>
+      <a name="bit10" val="none"/>
+      <a name="bit11" val="none"/>
+      <a name="bit12" val="none"/>
+      <a name="bit13" val="none"/>
+      <a name="bit14" val="none"/>
+      <a name="bit15" val="none"/>
+      <a name="bit16" val="none"/>
+      <a name="bit17" val="none"/>
+      <a name="bit18" val="none"/>
+      <a name="bit19" val="none"/>
+      <a name="bit20" val="none"/>
+      <a name="bit21" val="none"/>
+      <a name="bit22" val="none"/>
+      <a name="bit23" val="none"/>
+      <a name="bit24" val="none"/>
+      <a name="bit25" val="none"/>
+      <a name="bit26" val="none"/>
+      <a name="bit27" val="none"/>
+      <a name="bit28" val="none"/>
+      <a name="bit29" val="none"/>
+      <a name="bit30" val="none"/>
+      <a name="bit31" val="none"/>
+    </comp>
+    <comp lib="5" loc="(760,430)" name="LED">
+      <a name="label" val="A6"/>
+    </comp>
+    <comp lib="0" loc="(1110,220)" name="Tunnel">
+      <a name="width" val="8"/>
+      <a name="label" val="ROM_Addr"/>
+    </comp>
+    <comp lib="5" loc="(590,350)" name="LED">
+      <a name="label" val="A1"/>
+    </comp>
+    <comp lib="0" loc="(900,130)" name="Probe">
+      <a name="facing" val="south"/>
+      <a name="radix" val="16"/>
+    </comp>
+    <comp lib="5" loc="(1190,590)" name="LED">
+      <a name="label" val="LED_3"/>
+    </comp>
+    <comp lib="5" loc="(1050,110)" name="LED">
+      <a name="label" val="L6"/>
+    </comp>
+    <comp lib="0" loc="(210,200)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="width" val="8"/>
+      <a name="label" val="RAM_Addr"/>
+    </comp>
+    <comp lib="0" loc="(810,130)" name="Splitter">
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="32"/>
+      <a name="bit8" val="none"/>
+      <a name="bit9" val="none"/>
+      <a name="bit10" val="none"/>
+      <a name="bit11" val="none"/>
+      <a name="bit12" val="none"/>
+      <a name="bit13" val="none"/>
+      <a name="bit14" val="none"/>
+      <a name="bit15" val="none"/>
+      <a name="bit16" val="none"/>
+      <a name="bit17" val="none"/>
+      <a name="bit18" val="none"/>
+      <a name="bit19" val="none"/>
+      <a name="bit20" val="none"/>
+      <a name="bit21" val="none"/>
+      <a name="bit22" val="none"/>
+      <a name="bit23" val="none"/>
+      <a name="bit24" val="none"/>
+      <a name="bit25" val="none"/>
+      <a name="bit26" val="none"/>
+      <a name="bit27" val="none"/>
+      <a name="bit28" val="none"/>
+      <a name="bit29" val="none"/>
+      <a name="bit30" val="none"/>
+      <a name="bit31" val="none"/>
+    </comp>
+    <comp lib="0" loc="(960,150)" name="Probe">
+      <a name="facing" val="south"/>
+      <a name="radix" val="16"/>
+    </comp>
+    <comp lib="0" loc="(920,190)" name="Probe">
+      <a name="facing" val="south"/>
+      <a name="radix" val="16"/>
+    </comp>
+    <comp lib="5" loc="(1330,650)" name="LED">
+      <a name="label" val="LED_7"/>
     </comp>
     <comp lib="0" loc="(1060,260)" name="Splitter">
       <a name="fanout" val="1"/>
@@ -395,166 +558,8 @@ end TCL_Generic;
       <a name="bit30" val="none"/>
       <a name="bit31" val="none"/>
     </comp>
-    <comp lib="5" loc="(660,340)" name="LED">
-      <a name="label" val="A3"/>
-    </comp>
-    <comp lib="5" loc="(980,50)" name="LED">
-      <a name="label" val="L4"/>
-    </comp>
-    <comp loc="(1010,240)" name="CPU">
-      <a name="label" val="CPU_1"/>
-    </comp>
-    <comp lib="5" loc="(1330,650)" name="LED">
-      <a name="label" val="LED_7"/>
-    </comp>
-    <comp lib="0" loc="(520,360)" name="Splitter">
-      <a name="fanout" val="8"/>
-      <a name="incoming" val="32"/>
-      <a name="appear" val="right"/>
-      <a name="bit8" val="none"/>
-      <a name="bit9" val="none"/>
-      <a name="bit10" val="none"/>
-      <a name="bit11" val="none"/>
-      <a name="bit12" val="none"/>
-      <a name="bit13" val="none"/>
-      <a name="bit14" val="none"/>
-      <a name="bit15" val="none"/>
-      <a name="bit16" val="none"/>
-      <a name="bit17" val="none"/>
-      <a name="bit18" val="none"/>
-      <a name="bit19" val="none"/>
-      <a name="bit20" val="none"/>
-      <a name="bit21" val="none"/>
-      <a name="bit22" val="none"/>
-      <a name="bit23" val="none"/>
-      <a name="bit24" val="none"/>
-      <a name="bit25" val="none"/>
-      <a name="bit26" val="none"/>
-      <a name="bit27" val="none"/>
-      <a name="bit28" val="none"/>
-      <a name="bit29" val="none"/>
-      <a name="bit30" val="none"/>
-      <a name="bit31" val="none"/>
-    </comp>
-    <comp lib="0" loc="(210,200)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="width" val="8"/>
-      <a name="label" val="RAM_Addr"/>
-    </comp>
-    <comp lib="5" loc="(910,50)" name="LED">
-      <a name="label" val="L2"/>
-    </comp>
-    <comp lib="5" loc="(670,180)" name="Button">
-      <a name="label" val="Rst_Button"/>
-    </comp>
-    <comp lib="0" loc="(810,130)" name="Splitter">
-      <a name="fanout" val="8"/>
-      <a name="incoming" val="32"/>
-      <a name="bit8" val="none"/>
-      <a name="bit9" val="none"/>
-      <a name="bit10" val="none"/>
-      <a name="bit11" val="none"/>
-      <a name="bit12" val="none"/>
-      <a name="bit13" val="none"/>
-      <a name="bit14" val="none"/>
-      <a name="bit15" val="none"/>
-      <a name="bit16" val="none"/>
-      <a name="bit17" val="none"/>
-      <a name="bit18" val="none"/>
-      <a name="bit19" val="none"/>
-      <a name="bit20" val="none"/>
-      <a name="bit21" val="none"/>
-      <a name="bit22" val="none"/>
-      <a name="bit23" val="none"/>
-      <a name="bit24" val="none"/>
-      <a name="bit25" val="none"/>
-      <a name="bit26" val="none"/>
-      <a name="bit27" val="none"/>
-      <a name="bit28" val="none"/>
-      <a name="bit29" val="none"/>
-      <a name="bit30" val="none"/>
-      <a name="bit31" val="none"/>
-    </comp>
-    <comp lib="5" loc="(1130,560)" name="LED">
-      <a name="label" val="LED_1"/>
-    </comp>
-    <comp lib="5" loc="(1260,590)" name="LED">
-      <a name="label" val="LED_5"/>
-    </comp>
-    <comp lib="8" loc="(1167,300)" name="Text">
-      <a name="text" val="Use only 8 bit adresses"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="5" loc="(710,390)" name="LED">
-      <a name="label" val="A5"/>
-    </comp>
-    <comp lib="0" loc="(940,170)" name="Probe">
-      <a name="facing" val="south"/>
-      <a name="radix" val="16"/>
-    </comp>
-    <comp lib="5" loc="(760,450)" name="LED">
-      <a name="label" val="A7"/>
-    </comp>
-    <comp lib="5" loc="(1000,70)" name="LED">
-      <a name="label" val="L5"/>
-    </comp>
-    <comp lib="4" loc="(610,560)" name="ROM">
-      <a name="dataWidth" val="16"/>
-      <a name="contents">addr/data: 8 16
-b090 2005 900c 2002 980c 9008 9808 2003
-9004 9804 2004 9000 9804
-</a>
-      <a name="label" val="ROMa"/>
-    </comp>
-    <comp lib="5" loc="(1330,670)" name="LED">
-      <a name="label" val="LED_8"/>
-    </comp>
-    <comp lib="0" loc="(920,190)" name="Probe">
-      <a name="facing" val="south"/>
-      <a name="radix" val="16"/>
-    </comp>
-    <comp lib="0" loc="(860,170)" name="Probe">
-      <a name="facing" val="south"/>
-      <a name="radix" val="16"/>
-    </comp>
-    <comp lib="5" loc="(1160,570)" name="LED">
-      <a name="label" val="LED_2"/>
-    </comp>
-    <comp lib="5" loc="(1230,560)" name="LED">
-      <a name="label" val="LED_4"/>
-    </comp>
-    <comp lib="5" loc="(620,370)" name="LED">
-      <a name="label" val="A2"/>
-    </comp>
-    <comp lib="5" loc="(760,430)" name="LED">
-      <a name="label" val="A6"/>
-    </comp>
-    <comp lib="5" loc="(670,150)" name="Button">
-      <a name="label" val="Clk_Button"/>
-    </comp>
-    <comp lib="0" loc="(1110,220)" name="Tunnel">
-      <a name="width" val="8"/>
-      <a name="label" val="ROM_Addr"/>
-    </comp>
-    <comp lib="5" loc="(850,20)" name="LED">
-      <a name="label" val="L0"/>
-    </comp>
-    <comp lib="0" loc="(80,220)" name="Constant">
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="5" loc="(950,20)" name="LED">
-      <a name="label" val="L3"/>
-    </comp>
-    <comp lib="5" loc="(690,370)" name="LED">
-      <a name="label" val="A4"/>
-    </comp>
-    <comp lib="0" loc="(960,150)" name="Probe">
-      <a name="facing" val="south"/>
-      <a name="radix" val="16"/>
-    </comp>
-    <comp lib="0" loc="(880,150)" name="Probe">
-      <a name="facing" val="south"/>
-      <a name="radix" val="16"/>
+    <comp lib="5" loc="(1280,610)" name="LED">
+      <a name="label" val="LED_6"/>
     </comp>
   </circuit>
   <circuit name="CPU">
@@ -587,12 +592,12 @@ b090 2005 900c 2002 980c 9008 9808 2003
       <text font-family="SansSerif" font-size="12" text-anchor="middle" x="140" y="40">R3</text>
       <text font-family="SansSerif" font-size="12" text-anchor="middle" x="160" y="40">R4</text>
       <text font-family="SansSerif" font-size="12" text-anchor="middle" x="180" y="40">R5</text>
+      <circ-port height="10" pin="1270,80" width="10" x="245" y="55"/>
+      <circ-port height="8" pin="160,210" width="8" x="46" y="96"/>
+      <circ-port height="8" pin="160,360" width="8" x="46" y="76"/>
       <circ-port height="10" pin="1270,140" width="10" x="245" y="75"/>
       <circ-port height="8" pin="160,280" width="8" x="46" y="116"/>
-      <circ-port height="10" pin="1270,80" width="10" x="245" y="55"/>
-      <circ-port height="8" pin="160,360" width="8" x="46" y="76"/>
       <circ-port height="8" pin="160,330" width="8" x="46" y="56"/>
-      <circ-port height="8" pin="160,210" width="8" x="46" y="96"/>
       <circ-port height="10" pin="1270,240" width="10" x="245" y="95"/>
       <text font-family="SansSerif" font-size="12" text-anchor="middle" x="200" y="40">R6</text>
       <text font-family="SansSerif" font-size="12" text-anchor="middle" x="220" y="40">R7</text>
@@ -607,7 +612,7 @@ b090 2005 900c 2002 980c 9008 9808 2003
       <circ-port height="10" pin="970,280" width="10" x="175" y="15"/>
       <circ-port height="10" pin="990,260" width="10" x="195" y="15"/>
       <circ-port height="10" pin="1010,240" width="10" x="215" y="15"/>
-      <circ-port height="10" pin="1300,430" width="10" x="245" y="105"/>
+      <circ-port height="10" pin="1300,430" width="10" x="245" y="115"/>
       <circ-anchor facing="east" height="6" width="6" x="247" y="57"/>
     </appear>
     <wire from="(950,410)" to="(950,680)"/>
@@ -631,7 +636,6 @@ b090 2005 900c 2002 980c 9008 9808 2003
     <wire from="(1040,660)" to="(1040,670)"/>
     <wire from="(440,700)" to="(990,700)"/>
     <wire from="(930,240)" to="(930,320)"/>
-    <wire from="(1070,470)" to="(1120,470)"/>
     <wire from="(1010,240)" to="(1010,320)"/>
     <wire from="(190,360)" to="(190,580)"/>
     <wire from="(160,360)" to="(190,360)"/>
@@ -646,6 +650,8 @@ b090 2005 900c 2002 980c 9008 9808 2003
     <wire from="(440,620)" to="(920,620)"/>
     <wire from="(250,540)" to="(270,540)"/>
     <wire from="(1100,390)" to="(1100,510)"/>
+    <wire from="(1170,700)" to="(1240,700)"/>
+    <wire from="(1170,700)" to="(1170,820)"/>
     <wire from="(440,660)" to="(780,660)"/>
     <wire from="(990,410)" to="(990,700)"/>
     <wire from="(1120,620)" to="(1120,780)"/>
@@ -658,13 +664,13 @@ b090 2005 900c 2002 980c 9008 9808 2003
     <wire from="(1210,210)" to="(1210,640)"/>
     <wire from="(900,430)" to="(1300,430)"/>
     <wire from="(1250,240)" to="(1270,240)"/>
-    <wire from="(1170,610)" to="(1170,820)"/>
     <wire from="(1080,390)" to="(1080,410)"/>
     <wire from="(1250,240)" to="(1250,390)"/>
     <wire from="(490,110)" to="(490,560)"/>
     <wire from="(440,680)" to="(950,680)"/>
     <wire from="(1110,540)" to="(1110,560)"/>
     <wire from="(250,280)" to="(250,540)"/>
+    <wire from="(1170,610)" to="(1170,700)"/>
     <wire from="(460,80)" to="(460,540)"/>
     <wire from="(1260,110)" to="(1260,140)"/>
     <wire from="(440,760)" to="(1070,760)"/>
@@ -677,10 +683,10 @@ b090 2005 900c 2002 980c 9008 9808 2003
     <wire from="(220,330)" to="(580,330)"/>
     <wire from="(1140,630)" to="(1140,640)"/>
     <wire from="(190,360)" to="(550,360)"/>
+    <wire from="(1010,470)" to="(1120,470)"/>
     <wire from="(220,600)" to="(220,820)"/>
     <wire from="(330,210)" to="(330,300)"/>
     <wire from="(440,780)" to="(1120,780)"/>
-    <wire from="(1010,470)" to="(1030,470)"/>
     <wire from="(160,280)" to="(250,280)"/>
     <wire from="(580,280)" to="(600,280)"/>
     <wire from="(890,280)" to="(890,320)"/>
@@ -704,16 +710,117 @@ b090 2005 900c 2002 980c 9008 9808 2003
     <wire from="(1100,390)" to="(1250,390)"/>
     <wire from="(1040,720)" to="(1060,720)"/>
     <wire from="(550,470)" to="(880,470)"/>
+    <comp lib="0" loc="(1270,240)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="RAM_Out"/>
+    </comp>
+    <comp lib="0" loc="(950,300)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="R4"/>
+      <a name="labelloc" val="east"/>
+      <a name="radix" val="16"/>
+    </comp>
+    <comp lib="0" loc="(1240,700)" name="Probe">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="8" loc="(704,774)" name="Text">
+      <a name="text" val="Use data from register or immediate for shift"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="12" loc="(440,540)" name="Controller">
+      <a name="label" val="Controller_1"/>
+    </comp>
+    <comp lib="0" loc="(1270,140)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="RAM_Addr"/>
+    </comp>
+    <comp lib="0" loc="(970,280)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="R5"/>
+      <a name="labelloc" val="east"/>
+      <a name="radix" val="16"/>
+    </comp>
     <comp lib="8" loc="(640,634)" name="Text">
       <a name="text" val="Use data frpm Imm8 instead of A register"/>
       <a name="font" val="SansSerif plain 12"/>
     </comp>
-    <comp lib="0" loc="(910,260)" name="Pin">
+    <comp lib="0" loc="(1010,240)" name="Pin">
       <a name="facing" val="south"/>
       <a name="output" val="true"/>
       <a name="width" val="32"/>
-      <a name="label" val="R2"/>
+      <a name="label" val="R7"/>
+      <a name="labelloc" val="east"/>
       <a name="radix" val="16"/>
+    </comp>
+    <comp lib="10" loc="(1140,610)" name="ALU">
+      <a name="label" val="ALU_1"/>
+    </comp>
+    <comp lib="8" loc="(706,794)" name="Text">
+      <a name="text" val="Trigger carry for additionner"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="2" loc="(1090,730)" name="Multiplexer">
+      <a name="width" val="5"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="0" loc="(160,210)" name="Pin">
+      <a name="width" val="32"/>
+      <a name="label" val="RAM_In"/>
+    </comp>
+    <comp lib="0" loc="(890,280)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="R1"/>
+      <a name="radix" val="16"/>
+    </comp>
+    <comp lib="0" loc="(870,300)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="R0"/>
+      <a name="radix" val="16"/>
+    </comp>
+    <comp lib="2" loc="(1110,540)" name="Multiplexer">
+      <a name="facing" val="south"/>
+      <a name="width" val="32"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="0" loc="(1300,430)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="Store"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="11" loc="(1070,330)" name="BancRegistre">
+      <a name="label" val="Regs_1"/>
+    </comp>
+    <comp lib="8" loc="(608,201)" name="Text">
+      <a name="text" val="RAM/ALU Input selector"/>
+      <a name="font" val="SansSerif plain 14"/>
+    </comp>
+    <comp lib="2" loc="(630,290)" name="Multiplexer">
+      <a name="width" val="32"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="0" loc="(930,240)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="R3"/>
+      <a name="radix" val="16"/>
+    </comp>
+    <comp lib="0" loc="(160,280)" name="Pin">
+      <a name="width" val="16"/>
+      <a name="label" val="ROM_In"/>
     </comp>
     <comp lib="0" loc="(990,260)" name="Pin">
       <a name="facing" val="south"/>
@@ -723,82 +830,29 @@ b090 2005 900c 2002 980c 9008 9808 2003
       <a name="labelloc" val="east"/>
       <a name="radix" val="16"/>
     </comp>
-    <comp lib="12" loc="(440,540)" name="Controller">
-      <a name="label" val="Controller_1"/>
-    </comp>
-    <comp lib="2" loc="(1090,730)" name="Multiplexer">
-      <a name="width" val="5"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="0" loc="(870,300)" name="Pin">
+    <comp lib="0" loc="(910,260)" name="Pin">
       <a name="facing" val="south"/>
       <a name="output" val="true"/>
       <a name="width" val="32"/>
-      <a name="label" val="R0"/>
+      <a name="label" val="R2"/>
       <a name="radix" val="16"/>
-    </comp>
-    <comp lib="0" loc="(1270,240)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="RAM_Out"/>
-    </comp>
-    <comp lib="10" loc="(1140,610)" name="ALU">
-      <a name="label" val="ALU_1"/>
     </comp>
     <comp lib="8" loc="(743,264)" name="Text">
       <a name="text" val="Imm8 input for Move"/>
       <a name="font" val="SansSerif plain 12"/>
     </comp>
-    <comp lib="11" loc="(1070,330)" name="BancRegistre">
-      <a name="label" val="Regs_1"/>
-    </comp>
-    <comp lib="2" loc="(630,290)" name="Multiplexer">
-      <a name="width" val="32"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="8" loc="(706,794)" name="Text">
-      <a name="text" val="Trigger carry for additionner"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="8" loc="(704,774)" name="Text">
-      <a name="text" val="Use data from register or immediate for shift"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
     <comp lib="8" loc="(843,893)" name="Text"/>
-    <comp lib="0" loc="(970,280)" name="Pin">
-      <a name="facing" val="south"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="R5"/>
-      <a name="labelloc" val="east"/>
-      <a name="radix" val="16"/>
+    <comp lib="0" loc="(160,360)" name="Pin">
+      <a name="label" val="Rst"/>
+    </comp>
+    <comp lib="0" loc="(160,330)" name="Pin">
+      <a name="label" val="Clk"/>
     </comp>
     <comp lib="0" loc="(1270,80)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="width" val="8"/>
       <a name="label" val="ROM_Addr"/>
-    </comp>
-    <comp lib="0" loc="(890,280)" name="Pin">
-      <a name="facing" val="south"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="R1"/>
-      <a name="radix" val="16"/>
-    </comp>
-    <comp lib="0" loc="(1300,430)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="Store"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="0" loc="(160,360)" name="Pin">
-      <a name="label" val="Rst"/>
-    </comp>
-    <comp lib="0" loc="(1070,470)" name="Bit Extender">
-      <a name="out_width" val="32"/>
-      <a name="type" val="zero"/>
     </comp>
     <comp lib="0" loc="(1040,660)" name="Splitter">
       <a name="facing" val="south"/>
@@ -836,55 +890,6 @@ b090 2005 900c 2002 980c 9008 9808 2003
       <a name="bit29" val="none"/>
       <a name="bit30" val="none"/>
       <a name="bit31" val="none"/>
-    </comp>
-    <comp lib="0" loc="(160,330)" name="Pin">
-      <a name="label" val="Clk"/>
-    </comp>
-    <comp lib="2" loc="(1110,540)" name="Multiplexer">
-      <a name="facing" val="south"/>
-      <a name="width" val="32"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="0" loc="(160,210)" name="Pin">
-      <a name="width" val="32"/>
-      <a name="label" val="RAM_In"/>
-    </comp>
-    <comp lib="0" loc="(160,280)" name="Pin">
-      <a name="width" val="16"/>
-      <a name="label" val="ROM_In"/>
-    </comp>
-    <comp lib="0" loc="(930,240)" name="Pin">
-      <a name="facing" val="south"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="R3"/>
-      <a name="radix" val="16"/>
-    </comp>
-    <comp lib="8" loc="(608,201)" name="Text">
-      <a name="text" val="RAM/ALU Input selector"/>
-      <a name="font" val="SansSerif plain 14"/>
-    </comp>
-    <comp lib="0" loc="(950,300)" name="Pin">
-      <a name="facing" val="south"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="R4"/>
-      <a name="labelloc" val="east"/>
-      <a name="radix" val="16"/>
-    </comp>
-    <comp lib="0" loc="(1270,140)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="RAM_Addr"/>
-    </comp>
-    <comp lib="0" loc="(1010,240)" name="Pin">
-      <a name="facing" val="south"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="R7"/>
-      <a name="labelloc" val="east"/>
-      <a name="radix" val="16"/>
     </comp>
   </circuit>
 </project>
