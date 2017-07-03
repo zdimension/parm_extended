@@ -60,3 +60,137 @@ unsigned immediates
 
 LDR/STR:
 Lose one cycle (PC no incremented) for RAM access
+
+
+
+
+For ROR: C = N
+
+
+
+
+
+
+
+
+
+
+
+
+
+AND:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry; // From pre-shift
+// APSR.V unchanged
+
+
+EOR:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry; // From pre-shift
+// APSR.V unchanged
+
+
+LSL:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry; // carry_out = result<0 - shift>;
+// APSR.V unchanged
+assume shift > 0
+
+
+LSR:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry; // carry_out = result<shift - 1>;
+// APSR.V unchanged
+assume shift > 0
+
+ASR:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry; // carry_out = result<shift - 1>;
+// APSR.V unchanged
+assume shift > 0
+
+ADC:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry;
+APSR.V = overflow;
+
+
+SBC:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry;
+APSR.V = overflow;
+
+
+ROR:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry; // carry_out = result<31>;
+// APSR.V unchanged
+
+TST:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry; // From pre-shift
+// APSR.V unchanged
+
+
+RSB:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry;
+APSR.V = overflow;
+
+
+CMP:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry;
+APSR.V = overflow;
+
+
+CMN:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry;
+APSR.V = overflow;
+
+
+ORR:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry; // From pre-shift
+// APSR.V unchanged
+
+
+MUL:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result<31:0>);
+// APSR.C unchanged
+// APSR.V unchanged
+
+BIC:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry; // From pre-shift
+// APSR.V unchanged
+
+MVN:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry; // From pre-shift
+// APSR.V unchanged
+
+
+MOV:
+APSR.N = result<31>;
+APSR.Z = IsZeroBit(result);
+APSR.C = carry; // APSR.C
+// APSR.V unchanged
+
