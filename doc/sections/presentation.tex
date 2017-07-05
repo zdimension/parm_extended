@@ -14,3 +14,29 @@ SP: registre de pointeur de pile en mémoire\\
 opcode: code de l'instruction, peut occuper jusqu'à la taille indiquée\\
 \[\]: argument optionnel\\
 
+Example:
+\begin{lstlisting}
+.LBBH:                                
+	ldr	r0, [sp, #4]
+	ldr	r1, [sp, #28]
+	cmp	r0, r1
+	bge	.LBBK
+	b	.LBBI
+.LBBI:                                
+	ldr	r0, [sp, #20]
+	movs	r1, #1
+	ands	r0, r1
+	str	r0, [sp, #36]
+	ldr	r0, [sp, #32]
+	subs	r0, r1, r0
+	str	r0, [sp, #32]
+	ldr	r0, [sp, #32]
+	ldr	r1, [sp, #36]
+	lsls	r1, r1, #1
+	adds	r0, r0, r1
+	str	r0, [sp, #52]
+	ldr	r0, [sp, #20]
+	asrs	r0, r0, #1
+	str	r0, [sp, #20]
+	b	.LBBJ
+\end{lstlisting}
