@@ -11,6 +11,16 @@
 \textbf{Port}		& \textbf{Taille} & \textbf{Description}\\
 \hline
 
+\texttt{Inst}		& \texttt{16} & Instruction à traiter\\
+\hline
+\texttt{Flags}		&  \texttt{4} & Drapeaux en entrée, ordre \texttt{NZCV}\\
+\hline
+\texttt{Clk}		&  \texttt{1} & Horloge\\
+\hline
+\texttt{Reset}		&  \texttt{1} & Remise à Zero\\
+\hline
+
+
 \hline
 \end{tabular}
 
@@ -23,4 +33,209 @@
 \hline
 
 \hline
+\texttt{Carry}		&  \texttt{1} & Retenue sortante (provenant des drapeaux) à destination de l'ALU\\
+\hline
+\texttt{DP\_Shift}	&  \texttt{1} & Provenance du nombre de décalages: 0 pour registre A, 1 pour Imm5 \\
+\hline
+\texttt{Imm8\_Enable}	&  \texttt{1} & Provenance de la donnée A: 0 pour registre, 1 pour Imm8\\
+\hline
+\texttt{Imm5}		&  \texttt{5} & Nombre de décalage pour les instructions de décalage de la catégorie \textit{Shift, add, sub, mov}\\
+\hline
+\texttt{Imm8}		&  \texttt{8} & Valeur pour l'instruction \texttt{MOV}\\
+\hline
+\texttt{ALU\_Opcode}	&  \texttt{4} & Code opération à destination de l'ALU\\
+\hline
+\texttt{Rm}		&  \texttt{3} & Séléction du registre pour lecture de l'opérande A\\
+\hline
+\texttt{Rn}		&  \texttt{3} & Sélection du registre pour lecture de l'opérande B\\
+\hline
+\texttt{Rd}		&  \texttt{3} & Sélection du registre pour enregistrement du résultat\\
+\hline
+\texttt{RAM\_Addr}	& \texttt{32} & Adresse mémoire des instructions \textit{Load/Store}\\
+\hline
+\texttt{Load}		&  \texttt{1} & Provenance des données en entrée du banc de registre: 0 pour résultat de l'ALU, 1 pour sortie de la RAM\\
+\hline
+\texttt{Store}		&  \texttt{1} & 1 pour stocker la valeur du registre \texttt{Rm} à l'adress \texttt{RAM\_Address}\\
+\hline
+\texttt{PC}		&  \texttt{8} & Compteur ordinal: adresse de la prochaine instruction en ROM\\
+
+
+\hline
 \end{tabular}
+
+\subsection{Sous composants}
+
+\subsubsection{Décodeur d'instruction}
+
+\subsubsection{Shift, add, sub, mov}
+
+\subsubsection{Data Processing}
+
+\subsubsection{Flags APSR}
+
+\subsubsection{Load/Store}
+
+\subsubsection{SP Address}
+
+\subsubsection{Conditional}
+
+\subsubsubsection{Description}
+
+\subsubsubsection{Interface}
+
+\textbf{Entrées}\\
+
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Port}		& \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\texttt{Instruction}	& \texttt{16} & Instruction du branchement conditionnel à décoder\\
+\hline
+\texttt{Enable}		&  \texttt{1} & Active le composant. Si 0, les sortie sont forcées à 0\\
+\hline
+\texttt{N}		&  \texttt{1} & Drapeau négatif\\
+\hline
+\texttt{Z}		&  \texttt{1} & Drapeau nul\\
+\hline
+\texttt{C}		&  \texttt{1} & Drapeau retenue\\
+\hline
+\texttt{V}		&  \texttt{1} & Drapeau dépassement de capacité\\
+
+
+\hline
+\end{tabular}
+
+\vspace{1em}
+\textbf{Sorties}\\
+
+\begin{tabular}{|l|r|l|}
+\hline 
+\textbf{Port} & \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\hline
+\texttt{Verified}	&  \texttt{1} & La condition est vérifiée\\
+\hline
+\texttt{Offset}		&  \texttt{8} & Offset à appliquer au Program Counter si la condition est vérifiée\\
+
+\hline
+\end{tabular}
+
+
+
+\subsubsection{Program Counter}
+
+\subsubsubsection{Description}
+
+Le compteur ordinal (\textit{Program Counter}), aussi appelé pointeur d'instruction (\textit{Instruction Pointer}),
+est un compteur 8 bits dont la valeur donne l'adresse de la prochaine instruction à exécuter.
+Il est déjà implémenté directement dans le contrôleur.
+
+Il s'incrémente automatiquement à chaque coup d'horloge lorsque le signal \texttt{Count} est à l'état haut.
+Le signal \texttt{PC\_Hold} sortant du sous-composant \textit{Load/Store} retarde cette incrémentation d'un cycle afin de laisser le temps à la RAM de présenter la donnée sélectionnée sur sa sortie.
+En effet, étant synchrone, elle n'agit qu'au coup d'horloge suivant.
+
+Lorsque le signal \texttt{Load} est à l'état haut, le compteur charge la valeur suivante à partir de son entrée au prochain coup d'horloge.
+Les instructions de branchement (voir \textit{\ref{subsubsec:Branching}~\nameref{subsubsec:Branching}}) du sous-composant \textit{Conditional} exploitent cette possibilité
+afin d'altérer le flot d'exécution du programme en sautant à une certaine adresse.
+
+\paragraph{Remarque:} afin d'être cohérent avec le comportement d'un vrai \texttt{Cortex-M0} et donc rester compatible avec les programmes compilés par \texttt{GCC} ou \texttt{LLVM},
+l'offset du branchement est incrémenté de 3.
+
+\subsubsubsection{Interface}
+
+\textbf{Entrées}\\
+
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Port}		& \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\texttt{Data}		&  \texttt{8} & Valeur du compteur à définir si \texttt{Load} est à l'état haut\\
+\hline
+\texttt{Count}		&  \texttt{1} & Active l'incrémentation automatique du compteur\\
+\hline
+\texttt{UpDown}		&  \texttt{1} & 0: décrémente, 1: incrémente. Forcé à 1.\\
+\hline
+\texttt{Load}		&  \texttt{1} & Charge la valeur à partir de l'entrée \texttt{Data}\\
+\hline
+\texttt{Clk}		&  \texttt{1} & Horloge\\
+\hline
+\texttt{Clear}		&  \texttt{1} & Remise à Zero\\
+\hline
+
+
+\hline
+\end{tabular}
+
+\vspace{1em}
+\textbf{Sorties}\\
+
+\begin{tabular}{|l|r|l|}
+\hline 
+\textbf{Port} & \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\hline
+\texttt{Output}		&  \texttt{8} & Valeur courante du compteur ordinal\\
+\hline
+\texttt{Carry}		&  \texttt{1} & 1 si le compteur atteint sa valeur maximale. Non utilisé ici.\\
+
+\hline
+\end{tabular}
+
+
+\subsubsection{Stack Pointer}
+
+\subsubsubsection{Description}
+
+Le pointeur de pile (\textit{Stack Pointer}) est un simple registre 32 bits indiquant l'adresse en mémoire du début de la pile.
+Il est déjà implémenté directement dans le contrôleur.
+
+Son contenu est modifié par les instructions \texttt{ADD} et \texttt{SUB} 
+(voir \textit{\ref{subsubsec:MiscInstr}~\nameref{subsubsec:MiscInstr}}) du sous-composant \textit{SP Address}.
+
+Son contenu est utilisé par les instructions \texttt{LDR} et \texttt{STR} 
+(voir \textit{\ref{subsubsec:LoadStore}~\nameref{subsubsec:LoadStore}}) du sous-composant \textit{Load/Store}.
+
+\paragraph{Remarque:} en général dans un programme, on commence par décrémenter (avec \texttt{SUB}) le pointeur de pile de la quantité d'espace mémoire dont on aura besoin. Par la suite, pour les accès mémoire on utilisera \texttt{LDR} et \texttt{STR} avec un offset pour sélectionner le bon emplacement dans la pile. À la fin, on incrémente (avec \texttt{ADD}) le pointeur de pile pour revenir à l'état initial.
+
+On peut dire que la pile grandit vers le bas.
+
+\subsubsubsection{Interface}
+
+\textbf{Entrées}\\
+
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Port}		& \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\texttt{Data}		& \texttt{32} & Nouvelle valeur du pointeur de pile\\
+\hline
+\texttt{Enable}		&  \texttt{1} & Active l'enregistrement de la valeur au prochain coup d'horloge\\
+\hline
+\texttt{Clk}		&  \texttt{1} & Horloge\\
+\hline
+\texttt{Reset}		&  \texttt{1} & Remise à Zero\\
+\hline
+
+
+\hline
+\end{tabular}
+
+\vspace{1em}
+\textbf{Sorties}\\
+
+\begin{tabular}{|l|r|l|}
+\hline 
+\textbf{Port} & \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\hline
+\texttt{Output}		& \texttt{32} & Valeur courante du pointeur de pile\\
+
+\hline
+\end{tabular}
+

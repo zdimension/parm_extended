@@ -1,6 +1,9 @@
 \section{Jeu d'instructions (Instruction Set Architecture)}
 \label{sec:ISA}
 
+Toutes les informations présentes dans cette section proviennent directement du manuel de référence de l'achitecture ARMv7-M (\textit{ARM v7-M Architecture Reference Manual}). Elles ont été traduites et réorganisées pour en faciliter la lecture.
+En cas de doute, ou pour en savoir plus, les pages du manuel sont indiquées entre parenthèses.
+
 \subsection{Instructions à implémenter}
 
 \textbf{Binaire:}\\
@@ -703,6 +706,7 @@ MVNS <Rd>,<Rm>
 
 
 \subsubsection{Load/Store}
+\label{subsubsec:LoadStore}
 
 \textbf{Binaire:}\\
 
@@ -764,6 +768,7 @@ LDR <Rt>,[SP{,#<imm8>}]
 
 
 \subsubsection{Miscellaneous 16-bit instructions}
+\label{subsubsec:MiscInstr}
 
 \textbf{Binaire:}\\
 
@@ -826,6 +831,7 @@ SUB [SP,]SP,#<imm7>
 
 
 \subsubsection{Branch}
+\label{subsubsec:Branching}
 
 \textbf{Binaire:}\\
 
