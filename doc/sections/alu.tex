@@ -1,6 +1,103 @@
 \section{ALU}
-\subsection{nyan}
-\subsubsection{meow}
-\subsubsubsection{mjau}
-miaounyanmeowmjau
 
+\subsection{Description}
+
+\subsection{Interface}
+
+\subsubsection{Entrées}
+
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Port}		& \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\texttt{A}		& \texttt{32} & Registre première opérande\\
+\hline
+\texttt{B}		& \texttt{32} & Registre seconde opérande\\
+\hline
+\texttt{Shift}		&  \texttt{5} & Immédiat nombre de décalage\\
+\hline
+\texttt{CarryIn}	&  \texttt{1} & Signal retenu entrente\\
+\hline
+\texttt{Codop}		&  \texttt{4} & Code opération ALU\\
+
+\hline
+\end{tabular}
+
+
+\subsubsection{Sorties}
+
+\begin{tabular}{|l|r|l|}
+\hline 
+\textbf{Port} & \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\texttt{S}	& \texttt{32} & Registre résultat\\
+\hline
+\texttt{Flags}	&  \texttt{4} & Registre drapeaux, ordre: \texttt{NZCV}\\
+
+\hline
+\end{tabular}
+
+
+\subsection{Opérations}
+Ces opérations de l'ALU correspondent exactement aux instructions de la catégorie \textit{Data Processing}. En cas de doute, se référer à \textit{\ref{sec:ISA}~\nameref{sec:ISA}}.
+
+\begin{tabular}{|r|c|l|l|}
+\hline
+\textbf{Codop}  & \textbf{Opération}	& \textbf{Instructions} & \textbf{Description}\\
+\hline
+
+$0000$ & \texttt{A and B}			& AND			&\\
+\hline
+$0001$ & \texttt{A xor B}			& EOR			&\\
+\hline
+$0010$ & \texttt{B << Shift}			& LSL			&\\
+\hline
+$0011$ & \texttt{B >> Shift}			& LSR			&\\
+\hline
+$0100$ & \texttt{B >> Shift (arith)}		& ASR			&\\
+\hline
+$0101$ & \texttt{A + B + CarryIn}		& ADC			&\\
+\hline
+$0110$ & \texttt{A – B + CarryIn – 1}		& SBC			&\\
+\hline
+$0111$ & \texttt{B >> Shift (rot)}		& ROR			&\\
+\hline
+$1000$ & \texttt{A and B}			& TST			& Résultat perdu, seuls les drapeaux sont mis à jour\\
+\hline
+$1001$ & \texttt{0 – B}				& RSB			&\\
+\hline
+$1010$ & \texttt{A – B}				& CMP			& Résultat perdu, seuls les drapeaux sont mis à jour\\
+\hline
+$1011$ & \texttt{A + B}				& CMN			& Résultat perdu, seuls les drapeaux sont mis à jour\\
+\hline
+$1100$ & \texttt{A or B}			& ORR			&\\
+\hline
+$1101$ & \texttt{A * B}				& MUL			&\\
+\hline
+$1110$ & \texttt{A and not B}			& BIC			&\\
+\hline
+$1111$ & \texttt{Not B}				& MVN			&\\
+\hline
+\end{tabular}
+
+\subsection{Drapeaux}
+
+Ces drapeaux de l'ALU correspondent exactement aux drapeaux de l'architecture ARM. En cas de doute, se référer à \textit{\ref{sec:ISA}~\nameref{sec:ISA}} et \textit{\ref{subsec:Flags}~\nameref{subsec:Flags}} .
+
+\begin{tabular}{|c|l|l|}
+\hline
+\textbf{Symbole} & \textbf{Nom} & \textbf{Description}\\
+\hline
+
+\texttt{N}	& \texttt{Negative}	& Résultat négatif\\
+\hline
+\texttt{Z}	& \texttt{Zero}		& Résultat nul\\
+\hline
+\texttt{C}	& \texttt{CarryOut}	& Retenue sortante (dépassement de capacité non-signé)\\
+\hline
+\texttt{V}	&  \texttt{Overflow}	& Dépassement de capacité signé\\
+
+\hline
+\end{tabular}

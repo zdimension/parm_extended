@@ -1,0 +1,33 @@
+# ALU
+
+## Input
+A	| 32 | Registre première opérande
+B	| 32 | Registre seconde opérande
+Shift	|  5 | Immédiat nombre de décalage
+CarryIn	|  1 | Signal retenu entrente
+Codop	|  4 | Code opération ALU
+
+## Output
+S	| 32 | Registre résultat
+Flags	|  4 | Registre drapeaux, ordre: NZCV
+
+
+## Codop
+
+Codop  & Opération			& Instructions \\
+$0000$ & $A and B$			& AND\\
+$0001$ & $A xor B$			& EOR\\
+$0010$ & $B << Shift$			& LSL\\
+$0011$ & $B >> Shift$			& LSR\\
+$0100$ & $B >> Shift (arith)$		& ASR\\
+$0101$ & $A + B + CarryIn$		& ADC\\
+$0110$ & $A – B + CarryIn – 1$		& SBC\\
+$0111$ & $B >> Shift (rot)$		& ROR\\
+$1000$ & $A and B$			& TST\\
+$1001$ & $0 – B$			& RSB\\
+$1010$ & $A – B$			& CMP\\
+$1011$ & $A + B$			& CMN\\
+$1100$ & $A or B$			& ORR\\
+$1101$ & $A * B$			& MUL\\
+$1110$ & $A and not B$			& BIC\\
+$1111$ & $Not B$			& MVN\\
