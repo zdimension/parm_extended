@@ -15,7 +15,7 @@ Le principe de cet afficheur est très simple, En allumant plusieurs segments en
 \paragraph{}
 L'objectif est ici est de recevoir une information sur 4 bits (comprise entre Ob0000 et 0b1111) et de la traduire sur 7 bits correspondant aux segments à allumer et à ceux à éteindre\footnote{\url{http://www.electronics-tutorials.ws/blog/7-segment-display-tutorial.html}}.
 
-\subsubsection{Table de correspondance}
+\subsection{Table de correspondance}
 Nous allons ici associer à chaque valeur à sa décomposition en segment d'après le schéma suivant :
 \begin{figure}[H]
         \makebox[\textwidth]{\includegraphics[height=3cm]{pictures/7segdetails.pdf}}
@@ -66,7 +66,7 @@ Nous allons ici associer à chaque valeur à sa décomposition en segment d'apr�
 	\caption{Décomposition des caractères hexadécimaux en segments}
 \end{table}
 
-\subsubsection{Mise en place sur logisim}
+\subsection{Mise en place sur logisim}
 \paragraph{}
 La table de vérité présentée dans la section précèdente peut être utilisée pour obtenir une fonction simplifiée de chaque segment en utilisant les tables de Karnaugh\footnote{\url{https://fr.wikipedia.org/wiki/Table_de_Karnaugh}}. Logisim embarque une fonctionnalité permettant d'effectuer cette analyse de manière simplifiée. Pour celà il est nécessaire de lancer logisim avec l'option -analyze soit dans notre cas :
 
