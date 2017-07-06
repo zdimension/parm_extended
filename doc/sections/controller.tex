@@ -77,9 +77,64 @@
 
 \subsubsection{SP Address}
 
+\subsubsubsection{Description}
+
+Le bloc \textit{SP Address} traite les instructions de mise à jour du pointeur de pile (voir \textit{\ref{subsubsec:MiscInstr}~\nameref{subsubsec:MiscInstr}}).
+
+La sortie \texttt{New\_Stack\_Pointer} correspond à la nouvelle valeur du pointeur de pile qui sera enregistré dans le \textit{Stack Pointer}.
+Elle est calculée en fonction de la valeur actuelle du \texttt{Stack\_Pointer} et de l'opération en provenance de l'instruction (addition ou soustraction d'un immédiat).
+
+Si l'entrée \texttt{Enable} est à 0, la sortie \texttt{Write\_Enable} est forcée à 0.
+
+\subsubsubsection{Interface}
+
+\textbf{Entrées}\\
+
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Port}		& \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\texttt{Instruction}	& \texttt{16} & Instruction de mise à jour du pointeur de pile à décoder\\
+\hline
+\texttt{Enable}		&  \texttt{1} & Active le composant. Si 0, les sortie sont forcées à 0\\
+\hline
+\texttt{Stack\_Pointer}	&  \texttt{32} & Valeur courante du pointeur de pile\\
+
+\hline
+\end{tabular}
+
+\vspace{1em}
+\textbf{Sorties}\\
+
+\begin{tabular}{|l|r|l|}
+\hline 
+\textbf{Port} & \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\hline
+\texttt{Write\_Enable}		&  \texttt{1} & Le registre du pointeur de pile sera mis à jour avec la valeur \texttt{New\_Stack\_Pointer}\\
+\hline
+\texttt{New\_Stack\_Pointer}	&  \texttt{32} & Nouvelle valeur du pointeur de pile\\
+
+\hline
+\end{tabular}
+
+
+
+
 \subsubsection{Conditional}
 
 \subsubsubsection{Description}
+
+Le bloc conditionnel traite les instructions de branchement conditionnel (voir \textit{\ref{subsubsubsec:CondBranch}~\nameref{subsubsubsec:CondBranch}}).
+
+Il vérifie la condition à l'aide des drapeaux du registre \textit{Flags APSR}, selon le tableau  \textit{\ref{subsec:CondFlags}~\nameref{subsec:CondFlags}}.
+Si la condition est vérifiée, la sortie \texttt{Verified} passe à 1.
+
+La sortie \texttt{Offset} correspond à l'offset qui sera ajouté au \textit{Program Counter}, en provenance de l'instruction.
+
+Si l'entrée \texttt{Enable} est à 0, la sortie \texttt{Verified} est forcée à 0.
 
 \subsubsubsection{Interface}
 
