@@ -75,6 +75,76 @@
 
 \subsubsection{Load/Store}
 
+\subsubsubsection{Description}
+
+Le bloc \textit{Load/Store} traite les instructions de lecture/écriture en mémoire (voir \textit{\ref{subsubsec:LoadStore}~\nameref{subsubsec:LoadStore}}).
+
+La sortie \texttt{RAM\_Addr} correspond à l'adresse mémoire à laquelle effectuer l'opération.
+Elle est calculée en fonction de la valeur actuelle du \texttt{Stack\_Pointer} et de l'offset provenant de l'instruction.
+
+La sortie \texttt{Store} indique à la mémoire de stocker la donnée du registre Rm à l'adresse \texttt{RAM\_Addr}. La donnée sera écrite au cycle suivant.
+
+La sortie \texttt{Load} indique au processeur de présenter la donnée à l'adresse \texttt{RAM\_ADDR} en entrée du banc de registre (\texttt{DataIn}). La donnée sera disponible au cycle suivant.
+
+La sortie \texttt{PC_Hold} retarde l'incrémentation du \textit{Program Counter} d'un coup d'horloge. La RAM étant synchrone, elle a besoin d'un cycle pour traiter l'opération de lecture/écriture. La donnée lue n'est donc pas disponible immédiatement, et le processeur ne peut pas commencer à exécuter l'instruction suivante.
+La sortie \texttt{Load} devra donc elle aussi être retardée d'un cycle.
+
+Si l'entrée \texttt{Enable} est à 0, les sorties sont forcées à 0.
+
+\paragraph{Astuce:} utiliser une bascule D pour activer \texttt{PC\_Hold} et retarder \texttt{Load}.
+
+\subsubsubsection{Interface}
+
+\textbf{Entrées}\\
+
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Port}		& \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\texttt{Instruction}	& \texttt{16} & Instruction de lecture/écriture en mémoire à décoder\\
+\hline
+\texttt{Enable}		&  \texttt{1} & Active le composant. Si 0, les sortie sont forcées à 0\\
+\hline
+\texttt{Stack\_Pointer}	& \texttt{32} & Valeur courante du pointeur de pile\\
+\hline
+\texttt{Clk}		&  \texttt{1} & Horloge\\
+\hline
+\texttt{Reset}		&  \texttt{1} & Remise à zéro\\
+
+
+\hline
+\end{tabular}
+
+\vspace{1em}
+\textbf{Sorties}\\
+
+\begin{tabular}{|l|r|l|}
+\hline 
+\textbf{Port} & \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\hline
+\texttt{Store}		&  \texttt{1} & Informe d'une opération d'écriture\\
+\hline
+\texttt{Load}		&  \texttt{1} & Informe d'une opération de lecture\\
+\hline
+\texttt{PC_Hold}	&  \texttt{1} & Retarde l'incrémentation du compteur ordinal d'un cycle\\
+\hline
+\texttt{Rm}		&  \texttt{3} & Registre de provenance de la donnée écrite en mémoire\\
+\hline
+\texttt{Rn}		&  \texttt{3} & Registre inutilisé\\
+\hline
+\texttt{Rd}		&  \texttt{3} & Registre de destination de la donnée lue en mémoire\\
+\hline
+\texttt{RAM\_Addr}	&  \texttt{32} Adresse mémoire à laquelle effectuer les opérations\\
+
+\hline
+\end{tabular}
+
+
+
+
 \subsubsection{SP Address}
 
 \subsubsubsection{Description}
@@ -99,7 +169,7 @@ Si l'entrée \texttt{Enable} est à 0, la sortie \texttt{Write\_Enable} est forc
 \hline
 \texttt{Enable}		&  \texttt{1} & Active le composant. Si 0, les sortie sont forcées à 0\\
 \hline
-\texttt{Stack\_Pointer}	&  \texttt{32} & Valeur courante du pointeur de pile\\
+\texttt{Stack\_Pointer}	& \texttt{32} & Valeur courante du pointeur de pile\\
 
 \hline
 \end{tabular}
@@ -115,7 +185,7 @@ Si l'entrée \texttt{Enable} est à 0, la sortie \texttt{Write\_Enable} est forc
 \hline
 \texttt{Write\_Enable}		&  \texttt{1} & Le registre du pointeur de pile sera mis à jour avec la valeur \texttt{New\_Stack\_Pointer}\\
 \hline
-\texttt{New\_Stack\_Pointer}	&  \texttt{32} & Nouvelle valeur du pointeur de pile\\
+\texttt{New\_Stack\_Pointer}	& \texttt{32} & Nouvelle valeur du pointeur de pile\\
 
 \hline
 \end{tabular}
