@@ -45,11 +45,11 @@ Le contrôleur abrite de plus le compteur ordinal et l'incrèmente lorsqu'il tra
 \hline
 \texttt{DP\_Shift}	&  \texttt{1} & Provenance du nombre de décalages: 0 pour registre A, 1 pour Imm5 \\
 \hline
-\texttt{Imm8\_Enable}	&  \texttt{1} & Provenance de la donnée A: 0 pour registre, 1 pour Imm8\\
+\texttt{Imm32\_Enable}	&  \texttt{1} & Provenance de la donnée A: 0 pour registre, 1 pour Imm32\\
 \hline
 \texttt{Imm5}		&  \texttt{5} & Nombre de décalage pour les instructions de décalage de la catégorie \textit{Shift, add, sub, mov}\\
 \hline
-\texttt{Imm8}		&  \texttt{8} & Valeur pour l'instruction \texttt{MOV}\\
+\texttt{Imm32}		&  \texttt{8} & Valeur pour l'instruction \texttt{MOV}\\
 \hline
 \texttt{ALU\_Opcode}	&  \texttt{4} & Code opération à destination de l'ALU\\
 \hline
@@ -77,8 +77,86 @@ Le contrôleur abrite de plus le compteur ordinal et l'incrèmente lorsqu'il tra
 
 \subsubsection{Shift, add, sub, mov}
 
-\subsubsection{Data Processing}
+\subsubsubsection{Description}
 
+Le bloc \textit{Shift, add, sub, mov} traite les instructions de calcul de la catégorie \texttt{Shift, add, sub, mov} (voir \textit{\ref{subsubsec:ShiftAddSubMov}~\nameref{subsubsec:ShiftAddSubMov}}).
+
+La sortie \texttt{ALU\_Opcode} devra être définie pour chacune des instructions afin d'exécuter la bonne opération dans l'ALU (voir \textit{\ref{subsec:Opcodes}~\nameref{subsec:Opcodes}}).
+
+Certaines instructions ne mettent pas à jour tous les drapeaux. La sortie \texttt{Flags\_Update\_Mask} doit être définie en conséquence avec le masque dont les bits à 1 correspondent aux drapeaux à mettre à jour.
+
+La sortie \texttt{Carry} force la valeur de la retenue entrante pour l'ALU. Les instructions \texttt{ADD} et \texttt{SUB} n'utilisent pas de retenue entrante.
+Elle doit être définie à 0 pour \texttt{ADD} et à 1 pour \texttt{SUB} étant donnée qu'elle est est inversée pour la soustraction dans l'ALU.
+
+La sortie \texttt{Imm32} est utilisée pour communiquer les valeurs des immédiats de \texttt{MOV}, \texttt{ADD} et \texttt{SUB} à l'ALU. Dans ce cas, la sortie \texttt{Imm32\_Enable} doit être définie à 1.
+Les immédiats devront être étendus de 3 ou 8 bits vers 32 bits en complétant par des zéros (ce sont des entiers non-signés).
+
+La sortie \texttt{Imm5} est utilisée en tant que valeur du nombre de décalage pour les instructions de décalage \texttt{LSL}, \texttt{LSR} et \texttt{ASR}.
+
+Si l'entrée \texttt{Enable} est à 0, les sorties sont forcées à 0.
+
+\paragraph{Remarque:} l'immédiat pour l'instruction \texttt{MOV} passe par l'ALU pour être enregistré dans le registre de destination.
+Pour que la valeur ne soit pas modifiée, on peut l'inverser ici et utiliser l'opération \texttt{RSB} dans l'ALU.
+
+\paragraph{Remarque 2:} pour les opérations de décalage, on préfèrera utiliser le registre \texttt{Rn} à la place de \texttt{Rm} pour rester cohérent avec les instructions de la catégorie \textit{Data Processing}. L'ALU travaillera uniquement sur l'opérande B.
+
+\paragraph{Remarque 3:} quand une instruction ne fait pas usage de certaines sorties, elles doivent être définies à 0.
+
+
+\subsubsubsection{Interface}
+
+\textbf{Entrées}\\
+
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Port}		& \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\texttt{Instruction}	& \texttt{16} & Instruction \textit{Shift, add, sub, mov} à décoder\\
+\hline
+\texttt{Enable}		&  \texttt{1} & Active le composant. Si 0, les sortie sont forcées à 0\\
+
+
+\hline
+\end{tabular}
+
+\vspace{1em}
+\textbf{Sorties}\\
+
+\begin{tabular}{|l|r|l|}
+\hline 
+\textbf{Port} & \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\texttt{ALU\_Opcode}		&  \texttt{4} & Code opération à destination de l'ALU\\
+\hline
+\texttt{Rm}			&  \texttt{3} & Sélection du registre opérande A\\
+\hline
+\texttt{Rn}			&  \texttt{3} & Sélection du registre opérande B\\
+\hline
+\texttt{Rd}			&  \texttt{3} & Sélection du registre résultat\\
+\hline
+\texttt{Flags\_Update\_Mask}	&  \texttt{4} & Masque de mise à jour des drapeaux à destination du bloc \textit{Flags APSR}\\
+\hline
+\texttt{Carry}			&  \texttt{1} & Valeur à utiliser en tant que retenue entrante pour l'ALU\\
+\hline
+\texttt{Imm32\_Enable}		&  \texttt{1} & Indique au processeur d'utiliser la sortie Imm32 à la place du registre Rm\\
+\hline
+\texttt{Imm5}			&  \texttt{5} & Nombre de décalage à destination de l'ALU\\
+\hline
+\texttt{Imm32}			& \texttt{32} & Valeur à utiliser en tant qu'opérande A de l'ALU\\
+
+\hline
+\end{tabular}
+
+
+
+
+
+
+
+
+\subsubsection{Data Processing}
 
 \subsubsubsection{Description}
 
