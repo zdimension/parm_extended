@@ -75,6 +75,52 @@ Le contrôleur abrite de plus le compteur ordinal et l'incrèmente lorsqu'il tra
 
 \subsubsection{Décodeur d'instruction}
 
+\subsubsubsection{Description}
+
+Le bloc \textit{Opcode Decoder} active l'une de ses sorties en fonction de la catégorie d'instruction reconnue, afin d'activer les blocs correspondant du contrôleur.
+
+L'entrée \texttt{Opcode} correspond au code opération pré-extrait de l'instruction, c'est à dire les 6 bits de poids fort de l'instruction.
+
+Les sorties doivent être activées en fonction du code binaire correspondant à chacune d'elle. Voir \textit{\ref{sec:ISA}~\nameref{sec:ISA}}.
+
+\subsubsubsection{Interface}
+
+\textbf{Entrées}\\
+
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Port}	& \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\texttt{Opcode}	& \texttt{6} & Code opération à décoder\\
+
+\hline
+\end{tabular}
+
+\vspace{1em}
+\textbf{Sorties}\\
+
+\begin{tabular}{|l|r|l|}
+\hline 
+\textbf{Port} & \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\texttt{Shift}			&  \texttt{1} & Active le bloc \textit{Shift, add, sub, mov}\\
+\hline
+\texttt{Data\_Processing}	&  \texttt{1} & Active le bloc \textit{Data Processing}\\
+\hline
+\texttt{Load\_Store}		&  \texttt{1} & Active le bloc \textit{Load/Store}\\
+\hline
+\texttt{SP\_Address}		&  \texttt{1} & Active le bloc \textit{SP Address}\\
+\hline
+\texttt{Branch}			&  \texttt{1} & Active le bloc \textit{Conditional}\\
+
+\hline
+\end{tabular}
+
+
+
+
 \subsubsection{Shift, add, sub, mov}
 
 \subsubsubsection{Description}
