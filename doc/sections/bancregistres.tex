@@ -13,27 +13,27 @@
 \hline
 \textbf{Nom} 	 & \textbf{Accès}              & \textbf{Valeur de remise à zéro} & \textbf{Description} & \textbf{A implémenter}\\
 \hline
-\texttt{R0 - R12} &  \texttt{Lecture - Écriture} &  \texttt{Inconnue}		  &  \texttt{Registres à usage général} &  \texttt{ OUI (uniquement 8)}\\
+\texttt{R0 - R12} &  \texttt{LE} &  \texttt{Inconnue}		  &  \texttt{Registres à usage général} &  \texttt{ OUI (uniquement 8)}\\
 \hline
-\texttt{MSP} 	 &  \texttt{Lecture - Écriture} &  \texttt{?} 			  &  \texttt{Pointeur de pile} &  \texttt{ Oui (contrôleur)}\\
+\texttt{MSP} 	 &  \texttt{LE} &  \texttt{?} 			  &  \texttt{Pointeur de pile} &  \texttt{ Oui (contrôleur)}\\
 \hline
-\texttt{PSP}	 &  \texttt{Lecture - Écriture} &  \texttt{Inconnue} 		  &  \texttt{Pointeur de pile} &  \texttt{Oui (contrôleur)}\\
+\texttt{PSP}	 &  \texttt{LE} &  \texttt{Inconnue} 		  &  \texttt{Pointeur de pile} &  \texttt{Oui (contrôleur)}\\
 \hline
-\texttt{LR} 	 &  \texttt{Lecture - Écriture} &  \texttt{Inconnue} 		  &  \texttt{Registre de lien} &  \texttt{Non}\\
+\texttt{LR} 	 &  \texttt{LE} &  \texttt{Inconnue} 		  &  \texttt{Registre de lien} &  \texttt{Non}\\
 \hline
-\texttt{PC} 	 &  \texttt{Lecture - Écriture} &  \texttt{?} 			  &  \texttt{Compteur d'instruction} &  \texttt{Oui (contrôleur)}\\
+\texttt{PC} 	 &  \texttt{LE} &  \texttt{?} 			  &  \texttt{Compteur d'instruction} &  \texttt{Oui (contrôleur)}\\
 \hline
-\texttt{PSR} 	 &  \texttt{Lecture - Écriture} &  \texttt{Inconnue} 		  &  \texttt{Statut du programme} &  \texttt{Non}\\
+\texttt{PSR} 	 &  \texttt{LE} &  \texttt{Inconnue} 		  &  \texttt{Statut du programme} &  \texttt{Non}\\
 \hline
-\texttt{ASPSR} 	 &  \texttt{Lecture - Écriture} &  \texttt{Inconnue} 		  &  \texttt{Statut d'application du programme} &  \texttt{Non}\\
+\texttt{ASPSR} 	 &  \texttt{LE} &  \texttt{Inconnue} 		  &  \texttt{Statut d'application du programme} &  \texttt{Non}\\
 \hline
-\texttt{IPSR} 	 &  \texttt{Lecture seule}      &  \texttt{0x00000000} 		  &  \texttt{Statut d'interruption du programme} &  \texttt{Non}\\
+\texttt{IPSR} 	 &  \texttt{L}      &  \texttt{0x00000000} 		  &  \texttt{Statut d'interruption du programme} &  \texttt{Non}\\
 \hline
-\texttt{EPSR} 	 &  \texttt{Lecture seule}      &  \texttt{Inconnue} 		  &  \texttt{Statut d'exécution du programme} &  \texttt{Non}\\
+\texttt{EPSR} 	 &  \texttt{L}      &  \texttt{Inconnue} 		  &  \texttt{Statut d'exécution du programme} &  \texttt{Non}\\
 \hline
-\texttt{PRIMASK}  &  \texttt{Lecture - Écriture} &  \texttt{0x00000000} 		  &  \texttt{Masque de priorité} &  \texttt{Non}\\
+\texttt{PRIMASK}  &  \texttt{LE} &  \texttt{0x00000000} 		  &  \texttt{Masque de priorité} &  \texttt{Non}\\
 \hline
-\texttt{CONTROL}  &  \texttt{Lecture - Écriture} &  \texttt{0x00000000} 		  &  \texttt{Registre de contrôle} &  \texttt{Non}\\
+\texttt{CONTROL}  &  \texttt{LE} &  \texttt{0x00000000} 		  &  \texttt{Registre de contrôle} &  \texttt{Non}\\
 \hline
 \end{tabular}
 
