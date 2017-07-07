@@ -71,7 +71,110 @@
 
 \subsubsection{Data Processing}
 
+
+\subsubsubsection{Description}
+
+Le bloc \textit{Data Processing} traite les instructions de calcul de la catégorie \texttt{Data Processing} (voir \textit{\ref{subsubsec:DataProc}~\nameref{subsubsec:DataProc}}).
+
+La sortie \texttt{ALU\_Opcode} correspond aux bits 6 à 9, les code opérations de l'ALU ayant été implémenté en conséquence.
+
+Certaines instructions ne mettent pas à jour tous les drapeaux. La sortie \texttt{Flags\_Update\_Mask} doit être définie en conséquence avec le masque dont les bits à 1 correspondent aux drapeaux à mettre à jour.
+
+Si l'entrée \texttt{Enable} est à 0, les sorties sont forcées à 0.
+
+\paragraph{Remarque:} les instructions \texttt{TST}, \texttt{CMP} et \texttt{CMN} ne mettent à jour que les drapeaux et n'enregistrent pas le résultat de l'opération.
+Pour celles-ci, le registre \texttt{Rd} sera défini à \texttt{Rn} afin d'être cohérent avec les autres instructions, et que l'ALU puisse copier le contenu de l'opérande B dans le résultat.
+
+
+\paragraph{Remarque 2:} pour les instructions \texttt{RSB} et \texttt{MUL}, les bits 3 à 5 définissent le registre \texttt{Rn}, contrairement aux autres instructions pour lesquelles ces bits définissent le registre \texttt{Rm}.
+Pour simplifier, le registre \texttt{Rm} sera utilisé pour toutes les instructions, en prenant soin de rester cohérent dans l'implémentation de l'ALU.
+
+
+\subsubsubsection{Interface}
+
+\textbf{Entrées}\\
+
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Port}		& \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\texttt{Instruction}	& \texttt{16} & Instruction \textit{Data Processing} à décoder\\
+\hline
+\texttt{Enable}		&  \texttt{1} & Active le composant. Si 0, les sortie sont forcées à 0\\
+
+
+\hline
+\end{tabular}
+
+\vspace{1em}
+\textbf{Sorties}\\
+
+\begin{tabular}{|l|r|l|}
+\hline 
+\textbf{Port} & \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\texttt{ALU\_Opcode}		&  \texttt{4} & Code opération à destination de l'ALU\\
+\hline
+\texttt{Rm}			&  \texttt{3} & Sélection du registre opérande A\\
+\hline
+\texttt{Rn}			&  \texttt{3} & Sélection du registre opérande B\\
+\hline
+\texttt{Rd}			&  \texttt{3} & Sélection du registre résultat\\
+\hline
+\texttt{Flags\_Update\_Mask}	&  \texttt{4} & Masque de mise à jour des drapeaux à destination du bloc \textit{Flags APSR}\\
+
+\hline
+\end{tabular}
+
+
+
+
 \subsubsection{Flags APSR}
+
+\subsubsubsection{Description}
+
+
+Le bloc \textit{Flags APSR} correspond au 4 bits de poids fort du registre \texttt{Application Program Status Register} de l'architecture ARM. Il conserve les drapeaux générés par la dernière instruction, afin qu'ils soient disponibles pour la prochaine instruction.
+
+L'entrée \texttt{Update\_Mask} permet de réinjecter l'ancien état d'un drapeau si le bit correspondant est à 0. Si le bit est à 1, le drapeau est mis à jour.
+
+\subsubsubsection{Interface}
+
+\textbf{Entrées}\\
+
+\begin{tabular}{|l|r|l|}
+\hline
+\textbf{Port}		& \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\texttt{Flags\_In}	&  \texttt{4} & Nouveaux drapeaux générés par l'instruction courante, ordre \texttt{NZCV}\\
+\hline
+\texttt{Update\_Mask}	&  \texttt{4} & Masque d'enregistrement des drapeaux, ordre \texttt{NZCV}\\
+\hline
+\texttt{Clk}		&  \texttt{1} & Horloge\\
+\hline
+\texttt{Reset}		&  \texttt{1} & Remise à zéro\\
+
+
+\hline
+\end{tabular}
+
+\vspace{1em}
+\textbf{Sorties}\\
+
+\begin{tabular}{|l|r|l|}
+\hline 
+\textbf{Port} & \textbf{Taille} & \textbf{Description}\\
+\hline
+
+\texttt{Flags\_Out}	&  \texttt{4} & Drapeaux générés par l'instruction précédente, ordre \texttt{NZCV}\\
+
+\hline
+\end{tabular}
+
+
 
 \subsubsection{Load/Store}
 
@@ -84,9 +187,9 @@ Elle est calculée en fonction de la valeur actuelle du \texttt{Stack\_Pointer} 
 
 La sortie \texttt{Store} indique à la mémoire de stocker la donnée du registre Rm à l'adresse \texttt{RAM\_Addr}. La donnée sera écrite au cycle suivant.
 
-La sortie \texttt{Load} indique au processeur de présenter la donnée à l'adresse \texttt{RAM\_ADDR} en entrée du banc de registre (\texttt{DataIn}). La donnée sera disponible au cycle suivant.
+La sortie \texttt{Load} indique au processeur de présenter la donnée à l'adresse \texttt{RAM\_Addr} en entrée du banc de registre (\texttt{DataIn}). La donnée sera disponible au cycle suivant.
 
-La sortie \texttt{PC_Hold} retarde l'incrémentation du \textit{Program Counter} d'un coup d'horloge. La RAM étant synchrone, elle a besoin d'un cycle pour traiter l'opération de lecture/écriture. La donnée lue n'est donc pas disponible immédiatement, et le processeur ne peut pas commencer à exécuter l'instruction suivante.
+La sortie \texttt{PC\_Hold} retarde l'incrémentation du \textit{Program Counter} d'un coup d'horloge. La RAM étant synchrone, elle a besoin d'un cycle pour traiter l'opération de lecture/écriture. La donnée lue n'est donc pas disponible immédiatement, et le processeur ne peut pas commencer à exécuter l'instruction suivante.
 La sortie \texttt{Load} devra donc elle aussi être retardée d'un cycle.
 
 Si l'entrée \texttt{Enable} est à 0, les sorties sont forcées à 0.
@@ -124,20 +227,17 @@ Si l'entrée \texttt{Enable} est à 0, les sorties sont forcées à 0.
 \textbf{Port} & \textbf{Taille} & \textbf{Description}\\
 \hline
 
-\hline
 \texttt{Store}		&  \texttt{1} & Informe d'une opération d'écriture\\
 \hline
 \texttt{Load}		&  \texttt{1} & Informe d'une opération de lecture\\
 \hline
-\texttt{PC_Hold}	&  \texttt{1} & Retarde l'incrémentation du compteur ordinal d'un cycle\\
+\texttt{PC\_Hold}	&  \texttt{1} & Retarde l'incrémentation du compteur ordinal d'un cycle\\
 \hline
 \texttt{Rm}		&  \texttt{3} & Registre de provenance de la donnée écrite en mémoire\\
 \hline
-\texttt{Rn}		&  \texttt{3} & Registre inutilisé\\
-\hline
 \texttt{Rd}		&  \texttt{3} & Registre de destination de la donnée lue en mémoire\\
 \hline
-\texttt{RAM\_Addr}	&  \texttt{32} Adresse mémoire à laquelle effectuer les opérations\\
+\texttt{RAM\_Addr}	& \texttt{32} & Adresse mémoire à laquelle effectuer les opérations\\
 
 \hline
 \end{tabular}
@@ -237,7 +337,6 @@ Si l'entrée \texttt{Enable} est à 0, la sortie \texttt{Verified} est forcée �
 \begin{tabular}{|l|r|l|}
 \hline 
 \textbf{Port} & \textbf{Taille} & \textbf{Description}\\
-\hline
 
 \hline
 \texttt{Verified}	&  \texttt{1} & La condition est vérifiée\\

@@ -251,6 +251,7 @@ MOVS <Rd>,#<imm8>
 
 
 \subsubsection{Data processing}
+\label{subsubsec:DataProc}
 
 \textbf{Binaire:}\\
 
@@ -268,8 +269,8 @@ MOVS <Rd>,#<imm8>
 
 Effectue un ET binaire entre le contenu du registre \texttt{Rdn} et le contenu du registre \texttt{Rm}, écrit le résultat dans le registre \texttt{Rdn}.\\
 Les drapeaux suivants sont mis à jour:\\
-\texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.
-\texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.
+\texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
+\texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
 \texttt{C = 0}\\
 
 \textbf{Assembleur:} T1
@@ -295,8 +296,8 @@ ANDS <Rdn>,<Rm>
 
 Effectue un OU exclusif binaire entre le contenu du registre \texttt{Rdn} et le contenu du registre \texttt{Rm}, écrit le résultat dans le registre \texttt{Rdn}.\\
 Les drapeaux suivants sont mis à jour:\\
-\texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.                                                                    
-\texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.
+\texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\                                                                  
+\texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
 \texttt{C = 0}\\
 
 \textbf{Assembleur:} T1
@@ -491,8 +492,8 @@ RORS <Rdn>,<Rm>
 
 Effectue un ET logique entre le contenu du registre \texttt{Rn} et le contenu du registre \texttt{Rm}, le résultat n'est pas écrit.\\
 Les drapeaux suivants sont mis à jour:\\
-\texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.
-\texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.
+\texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
+\texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
 \texttt{C = 0}\\
 
 \textbf{Assembleur:} T1
@@ -646,7 +647,7 @@ MULS <Rdm>,<Rn>,<Rdm>
 \hline
 15 & 14 & 13 & 12 & 11 & 10 & \multicolumn{1}{|c}{9} & 8 & 7 & 6 & \multicolumn{1}{|c}{5} & 4 & 3 & \multicolumn{1}{|c}{2} & 1 & 0 \\
 \hline
-0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{1} & 1 & 0 & 1 & \multicolumn{3}{|c}{Rm} & \multicolumn{3}{|c|}{Rdm} \\
+0 & 1 & 0 & 0 & 0 & 0 & \multicolumn{1}{|c}{1} & 1 & 0 & 1 & \multicolumn{3}{|c}{Rn} & \multicolumn{3}{|c|}{Rdm} \\
 \hline
 \end{tabular}
 
