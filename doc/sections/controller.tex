@@ -1,7 +1,15 @@
 \section{Contrôleur}
 
 \subsection{Description}
+\paragraph{}
+Le contrôleur ou unité de contrôle (Control unit en anglais) joue le rôle de chef d'orchestre au sein du processeur. Il est en charge du décodage des instructions. En fonction des informations récupérées au sein de l'instruction et des différents drapeaux, le controleur va agir sur le chemin de données.
 
+\paragraph{}
+Il est responsable du choix de la source fournissant les données. La sortie \texttt{Load} selon si elle est à 0 ou à 1 choisira respectivement un chargement depuis l'ALU ou directement depuis la RAM.
+Le même méchanisme est utilisé pour choisir la source du nombre de décalage, des immédiats 8 (voir tableau des sorties).
+
+\paragraph{}
+Le contrôleur abrite de plus le compteur ordinal et l'incrèmente lorsqu'il traite une instruction.
 \subsection{Interface}
 
 \subsubsection{Entrées}
@@ -53,7 +61,7 @@
 \hline
 \texttt{RAM\_Addr}	& \texttt{32} & Adresse mémoire des instructions \textit{Load/Store}\\
 \hline
-\texttt{Load}		&  \texttt{1} & Provenance des données en entrée du banc de registre: 0 pour résultat de l'ALU, 1 pour sortie de la RAM\\
+\texttt{Load}		&  \texttt{1} & Provenance des données en entrée du banc de registre\\
 \hline
 \texttt{Store}		&  \texttt{1} & 1 pour stocker la valeur du registre \texttt{Rm} à l'adress \texttt{RAM\_Address}\\
 \hline
