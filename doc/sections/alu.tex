@@ -2,9 +2,15 @@
 
 \subsection{Description}
 
-	L'unité arithmétique et logique est l'élèment qui se charge des calculs au sein du processeur. Les ALU les plus basiques ne font que des opérations sur des entiers cependant on trouve des ALU spécialisées. Les calculs sur ces dernières vont des opérations à virgule flottante jusqu'à des calculs plus complexes tels que des racines carrées, des logarithmes, des sinus ou cosinus...
+	L'unité arithmétique et logique est l'élèment qui se charge des calculs au sein du processeur. Les ALU les plus basiques ne font que des opérations sur des entiers cependant on trouve des ALU spécialisées. Les calculs sur ces dernières vont des opérations à virgule flottante jusqu'à des calculs plus complexes tels que des racines carrées, des logarithmes, des sinus ou cosinus... Notre ALU n'effectuera que des calculs simples (addition, soustraction, multiplication, décalage) sur des entiers.
 
 	Une ALU comporte deux entrées amenant les données à traiter. Une troisième entrée permet de désigner le calcul à effectuer. En sortie on retrouvera le résultat de l'opération ainsi que des drapeaux. Ces drapeaux représentent une série d'état à la suite d'un calcul : un résultat négatif, un résultat nul, un débordement ou encore une retenue. 
+
+
+\paragraph{Remarque:} les instructions \texttt{TST}, \texttt{CMP}, \texttt{CMN} n'enregistrent pas le résultat de l'opération. Seuls les drapeaux sont mis à jour.
+Pour ces opérations en particulier, il faudra recopier l'entrée \texttt{B} sur la sortie \texttt{S}. Le contrôleur définiera le même registre pour le registre \texttt{Rn} d'opérande B que pour le registre \texttt{Rd} de destination de la sortie S.
+
+\paragraph{Remarque 2:} pour l'instruction \texttt{SBC}, la retenue entrante doit être inversée (voir \textit{\ref{subsubsubsec:SBC}~\nameref{subsubsubsec:SBC}}).
 
 \subsection{Interface}
 
@@ -50,28 +56,28 @@ Ces opérations de l'ALU correspondent exactement aux instructions de la catégo
 
 \begin{tabular}{|r|c|l|l|}
 \hline
-\textbf{Codop}  & \textbf{Opération}	& \textbf{Instructions} & \textbf{Description}\\
+\textbf{Codop}  & \textbf{Opération}	& \textbf{Instructions} & \textbf{Remarque}\\
 \hline
 
 $0000$ & \texttt{A and B}			& AND			&\\
 \hline
 $0001$ & \texttt{A xor B}			& EOR			&\\
 \hline
-$0010$ & \texttt{B << Shift}			& LSL			&\\
+$0010$ & \texttt{B << Shift}			& LSL			& Retenue sortante, voir jeu d'instruction\\
 \hline
-$0011$ & \texttt{B >> Shift}			& LSR			&\\
+$0011$ & \texttt{B >> Shift}			& LSR			& Retenue sortante, voir jeu d'instruction\\
 \hline
-$0100$ & \texttt{B >> Shift (arith)}		& ASR			&\\
+$0100$ & \texttt{B >> Shift (arith)}		& ASR			& Retenue sortante, voir jeu d'instruction\\
 \hline
 $0101$ & \texttt{A + B + CarryIn}		& ADC			&\\
 \hline
-$0110$ & \texttt{A – B + CarryIn – 1}		& SBC			&\\
+$0110$ & \texttt{A – B + CarryIn – 1}		& SBC			& Retenue entrante inversée\\
 \hline
-$0111$ & \texttt{B >> Shift (rot)}		& ROR			&\\
+$0111$ & \texttt{B >> Shift (rot)}		& ROR			& Retenue sortante, voir jeu d'instruction\\
 \hline
 $1000$ & \texttt{A and B}			& TST			& Résultat perdu, seuls les drapeaux sont mis à jour\\
 \hline
-$1001$ & \texttt{0 – B}				& RSB			&\\
+$1001$ & \texttt{0 – A}				& RSB			& Registre Rm utilisé plutôt que Rn\\
 \hline
 $1010$ & \texttt{A – B}				& CMP			& Résultat perdu, seuls les drapeaux sont mis à jour\\
 \hline
