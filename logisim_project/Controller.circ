@@ -186,16 +186,16 @@ end TCL_Generic;
       <rect height="4" stroke="none" width="10" x="210" y="238"/>
       <text fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="204" y="64">PC</text>
       <rect height="20" stroke="none" width="150" x="60" y="310"/>
-      <circ-port height="10" pin="1320,410" width="10" x="215" y="195"/>
       <circ-port height="10" pin="1320,360" width="10" x="215" y="155"/>
-      <circ-port height="10" pin="1320,460" width="10" x="215" y="215"/>
       <circ-port height="10" pin="1320,170" width="10" x="215" y="135"/>
-      <circ-port height="10" pin="1320,270" width="10" x="215" y="235"/>
       <circ-port height="10" pin="1320,510" width="10" x="215" y="175"/>
-      <circ-port height="8" pin="100,530" width="8" x="46" y="116"/>
       <circ-port height="10" pin="1320,210" width="10" x="215" y="255"/>
-      <circ-port height="10" pin="1340,1160" width="10" x="215" y="55"/>
       <circ-port height="8" pin="130,230" width="8" x="46" y="56"/>
+      <circ-port height="10" pin="1340,1160" width="10" x="215" y="55"/>
+      <circ-port height="8" pin="100,530" width="8" x="46" y="116"/>
+      <circ-port height="10" pin="1320,270" width="10" x="215" y="235"/>
+      <circ-port height="10" pin="1320,460" width="10" x="215" y="215"/>
+      <circ-port height="10" pin="1320,410" width="10" x="215" y="195"/>
       <rect fill="none" height="280" stroke="#000000" stroke-width="2" width="150" x="60" y="50"/>
       <text fill="#ffffff" font-family="Dialog" font-size="14" font-weight="bold" text-anchor="middle" x="139" y="325">Controller</text>
       <text fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="207" y="285">DP_Shift</text>
@@ -401,11 +401,47 @@ end TCL_Generic;
     <wire from="(280,1250)" to="(1120,1250)"/>
     <wire from="(1160,790)" to="(1160,1090)"/>
     <wire from="(310,990)" to="(1020,990)"/>
+    <comp lib="0" loc="(1340,1160)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="8"/>
+      <a name="label" val="PC"/>
+    </comp>
+    <comp lib="0" loc="(1320,110)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="DP_Shift"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp loc="(920,530)" name="Flags_APSR"/>
+    <comp lib="1" loc="(1140,110)" name="AND Gate">
+      <a name="size" val="30"/>
+      <a name="negate1" val="true"/>
+    </comp>
+    <comp lib="1" loc="(1160,1120)" name="NOT Gate">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="1" loc="(1280,510)" name="OR Gate">
+      <a name="width" val="3"/>
+      <a name="size" val="30"/>
+      <a name="inputs" val="3"/>
+    </comp>
+    <comp loc="(990,880)" name="SP_Address">
+      <a name="label" val="SP_Address_1"/>
+    </comp>
+    <comp lib="0" loc="(1060,1110)" name="Constant">
+      <a name="facing" val="west"/>
+      <a name="value" val="0x0"/>
+    </comp>
     <comp lib="0" loc="(1320,270)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="width" val="32"/>
       <a name="label" val="Imm32"/>
+    </comp>
+    <comp lib="1" loc="(700,530)" name="OR Gate">
+      <a name="width" val="4"/>
+      <a name="size" val="30"/>
     </comp>
     <comp lib="0" loc="(1320,510)" name="Pin">
       <a name="facing" val="west"/>
@@ -414,59 +450,23 @@ end TCL_Generic;
       <a name="label" val="Rd"/>
       <a name="labelloc" val="east"/>
     </comp>
-    <comp lib="1" loc="(1160,1120)" name="NOT Gate">
-      <a name="facing" val="south"/>
-    </comp>
-    <comp lib="0" loc="(490,1150)" name="Splitter">
-      <a name="fanout" val="4"/>
-      <a name="incoming" val="4"/>
-      <a name="appear" val="right"/>
-      <a name="bit0" val="3"/>
-      <a name="bit1" val="2"/>
-      <a name="bit2" val="1"/>
-      <a name="bit3" val="0"/>
-    </comp>
-    <comp lib="4" loc="(340,700)" name="Register">
-      <a name="width" val="32"/>
-      <a name="label" val="Stack_Pointer"/>
-    </comp>
-    <comp lib="0" loc="(100,610)" name="Pin">
-      <a name="label" val="Reset"/>
-    </comp>
-    <comp lib="0" loc="(1320,210)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="5"/>
-      <a name="label" val="Imm5"/>
-    </comp>
-    <comp lib="0" loc="(1340,1160)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="8"/>
-      <a name="label" val="PC"/>
-    </comp>
-    <comp lib="1" loc="(1280,360)" name="OR Gate">
-      <a name="width" val="4"/>
-      <a name="size" val="30"/>
-    </comp>
-    <comp lib="0" loc="(100,530)" name="Pin">
-      <a name="width" val="4"/>
-      <a name="label" val="Flags"/>
-    </comp>
-    <comp lib="0" loc="(1320,410)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="3"/>
-      <a name="label" val="Rm"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="8" loc="(951,94)" name="Text">
-      <a name="text" val="IF Reg_Imm=1 THEN use shift value from register ELSE use shift value from Imm5"/>
+    <comp lib="8" loc="(983,1022)" name="Text">
+      <a name="text" val="Add 3 to offset because ARM pre-increments PC"/>
       <a name="font" val="SansSerif plain 12"/>
     </comp>
-    <comp lib="0" loc="(1060,1110)" name="Constant">
+    <comp lib="0" loc="(1320,170)" name="Pin">
       <a name="facing" val="west"/>
-      <a name="value" val="0x0"/>
+      <a name="output" val="true"/>
+      <a name="label" val="Imm32_Enable"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp loc="(520,240)" name="Opcode_Decoder">
+      <a name="label" val="Opcode_Decoder_1"/>
+    </comp>
+    <comp lib="1" loc="(1280,410)" name="OR Gate">
+      <a name="width" val="3"/>
+      <a name="size" val="30"/>
+      <a name="inputs" val="3"/>
     </comp>
     <comp lib="0" loc="(230,230)" name="Splitter">
       <a name="fanout" val="1"/>
@@ -489,15 +489,16 @@ end TCL_Generic;
       <a name="bit14" val="0"/>
       <a name="bit15" val="0"/>
     </comp>
-    <comp lib="0" loc="(990,1050)" name="Constant">
+    <comp lib="0" loc="(1320,360)" name="Pin">
       <a name="facing" val="west"/>
-      <a name="value" val="0x0"/>
+      <a name="output" val="true"/>
+      <a name="width" val="4"/>
+      <a name="label" val="ALU_Opcode"/>
+      <a name="labelloc" val="east"/>
     </comp>
-    <comp loc="(920,210)" name="Shift_Add_Sub_Mov">
-      <a name="label" val="Shift_Add_Sub_Mov_1"/>
-    </comp>
-    <comp loc="(920,690)" name="Load_Store">
-      <a name="label" val="Load_Store_1"/>
+    <comp lib="3" loc="(1000,1080)" name="Adder"/>
+    <comp loc="(900,1090)" name="Conditional">
+      <a name="label" val="Conditional_1"/>
     </comp>
     <comp lib="0" loc="(1320,820)" name="Pin">
       <a name="facing" val="west"/>
@@ -505,76 +506,20 @@ end TCL_Generic;
       <a name="label" val="Store"/>
       <a name="labelloc" val="east"/>
     </comp>
-    <comp loc="(900,1090)" name="Conditional">
-      <a name="label" val="Conditional_1"/>
-    </comp>
-    <comp lib="8" loc="(983,1022)" name="Text">
-      <a name="text" val="Add 3 to offset because ARM pre-increments PC"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="8" loc="(243,226)" name="Text">
-      <a name="text" val="Extract Opcode"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp loc="(920,390)" name="Data_Processing">
-      <a name="label" val="Data_Processing_1"/>
-    </comp>
     <comp lib="0" loc="(900,1060)" name="Constant">
       <a name="facing" val="south"/>
       <a name="width" val="8"/>
       <a name="value" val="0x3"/>
     </comp>
-    <comp lib="4" loc="(1120,1230)" name="Counter"/>
-    <comp loc="(520,240)" name="Opcode_Decoder">
-      <a name="label" val="Opcode_Decoder_1"/>
+    <comp lib="0" loc="(990,1050)" name="Constant">
+      <a name="facing" val="west"/>
+      <a name="value" val="0x0"/>
     </comp>
-    <comp lib="1" loc="(700,530)" name="OR Gate">
-      <a name="width" val="4"/>
-      <a name="size" val="30"/>
-    </comp>
-    <comp lib="0" loc="(1320,70)" name="Pin">
+    <comp lib="0" loc="(1320,210)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
-      <a name="label" val="Carry"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp loc="(990,880)" name="SP_Address">
-      <a name="label" val="SP_Address_1"/>
-    </comp>
-    <comp lib="8" loc="(314,54)" name="Text">
-      <a name="text" val="Extract carry"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="1" loc="(1280,410)" name="OR Gate">
-      <a name="width" val="3"/>
-      <a name="size" val="30"/>
-      <a name="inputs" val="3"/>
-    </comp>
-    <comp lib="1" loc="(1140,110)" name="AND Gate">
-      <a name="size" val="30"/>
-      <a name="negate1" val="true"/>
-    </comp>
-    <comp lib="0" loc="(1320,110)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="DP_Shift"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="0" loc="(1320,170)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="Imm32_Enable"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="3" loc="(1070,1140)" name="Adder"/>
-    <comp loc="(920,530)" name="Flags_APSR"/>
-    <comp lib="3" loc="(1000,1080)" name="Adder"/>
-    <comp lib="2" loc="(1270,70)" name="Multiplexer">
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="8" loc="(966,1037)" name="Text">
-      <a name="text" val="and does an additionnal prefect operation"/>
-      <a name="font" val="SansSerif plain 12"/>
+      <a name="width" val="5"/>
+      <a name="label" val="Imm5"/>
     </comp>
     <comp lib="0" loc="(1320,710)" name="Pin">
       <a name="facing" val="west"/>
@@ -583,21 +528,93 @@ end TCL_Generic;
       <a name="label" val="RAM_Addr"/>
       <a name="labelloc" val="east"/>
     </comp>
-    <comp lib="0" loc="(950,1280)" name="Constant"/>
+    <comp lib="8" loc="(951,94)" name="Text">
+      <a name="text" val="IF Reg_Imm=1 THEN use shift value from register ELSE use shift value from Imm5"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="4" loc="(1120,1230)" name="Counter"/>
     <comp lib="1" loc="(1280,460)" name="OR Gate">
       <a name="width" val="3"/>
       <a name="size" val="30"/>
     </comp>
-    <comp lib="1" loc="(1280,510)" name="OR Gate">
+    <comp lib="3" loc="(1070,1140)" name="Adder"/>
+    <comp lib="0" loc="(950,1280)" name="Constant"/>
+    <comp lib="0" loc="(100,570)" name="Pin">
+      <a name="label" val="Clk"/>
+    </comp>
+    <comp loc="(920,210)" name="Shift_Add_Sub_Mov">
+      <a name="label" val="Shift_Add_Sub_Mov_1"/>
+    </comp>
+    <comp lib="0" loc="(130,230)" name="Pin">
+      <a name="width" val="16"/>
+      <a name="label" val="Inst"/>
+    </comp>
+    <comp lib="8" loc="(243,226)" name="Text">
+      <a name="text" val="Extract Opcode"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(1320,460)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
       <a name="width" val="3"/>
+      <a name="label" val="Rn"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="1" loc="(1280,360)" name="OR Gate">
+      <a name="width" val="4"/>
       <a name="size" val="30"/>
-      <a name="inputs" val="3"/>
+    </comp>
+    <comp lib="0" loc="(490,1150)" name="Splitter">
+      <a name="fanout" val="4"/>
+      <a name="incoming" val="4"/>
+      <a name="appear" val="right"/>
+      <a name="bit0" val="3"/>
+      <a name="bit1" val="2"/>
+      <a name="bit2" val="1"/>
+      <a name="bit3" val="0"/>
+    </comp>
+    <comp loc="(920,390)" name="Data_Processing">
+      <a name="label" val="Data_Processing_1"/>
+    </comp>
+    <comp lib="2" loc="(1270,70)" name="Multiplexer">
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="0" loc="(100,610)" name="Pin">
+      <a name="label" val="Reset"/>
+    </comp>
+    <comp lib="0" loc="(100,530)" name="Pin">
+      <a name="width" val="4"/>
+      <a name="label" val="Flags"/>
+    </comp>
+    <comp lib="0" loc="(1320,70)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="Carry"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="8" loc="(314,54)" name="Text">
+      <a name="text" val="Extract carry"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(1320,410)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="3"/>
+      <a name="label" val="Rm"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="8" loc="(966,1037)" name="Text">
+      <a name="text" val="and does an additionnal prefect operation"/>
+      <a name="font" val="SansSerif plain 12"/>
     </comp>
     <comp lib="0" loc="(1320,780)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="label" val="Load"/>
       <a name="labelloc" val="east"/>
+    </comp>
+    <comp loc="(920,690)" name="Load_Store">
+      <a name="label" val="Load_Store_1"/>
     </comp>
     <comp lib="0" loc="(290,70)" name="Splitter">
       <a name="fanout" val="1"/>
@@ -607,30 +624,13 @@ end TCL_Generic;
       <a name="bit2" val="none"/>
       <a name="bit3" val="none"/>
     </comp>
-    <comp lib="0" loc="(1320,360)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="4"/>
-      <a name="label" val="ALU_Opcode"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="0" loc="(130,230)" name="Pin">
-      <a name="width" val="16"/>
-      <a name="label" val="Inst"/>
+    <comp lib="4" loc="(340,700)" name="Register">
+      <a name="width" val="32"/>
+      <a name="label" val="Stack_Pointer"/>
     </comp>
     <comp lib="8" loc="(1026,571)" name="Text">
       <a name="text" val="Buffer flags for next instruction"/>
       <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(100,570)" name="Pin">
-      <a name="label" val="Clk"/>
-    </comp>
-    <comp lib="0" loc="(1320,460)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="3"/>
-      <a name="label" val="Rn"/>
-      <a name="labelloc" val="east"/>
     </comp>
   </circuit>
   <circuit name="Conditional">
@@ -655,12 +655,12 @@ end TCL_Generic;
       <text fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="144">C</text>
       <rect height="4" stroke="none" width="10" x="240" y="58"/>
       <circ-port height="10" pin="1110,50" width="10" x="245" y="55"/>
-      <circ-port height="8" pin="550,270" width="8" x="46" y="116"/>
       <circ-port height="8" pin="210,120" width="8" x="46" y="76"/>
-      <circ-port height="8" pin="640,270" width="8" x="46" y="136"/>
       <circ-port height="8" pin="580,270" width="8" x="46" y="156"/>
-      <circ-port height="8" pin="210,90" width="8" x="46" y="56"/>
       <circ-port height="8" pin="610,270" width="8" x="46" y="96"/>
+      <circ-port height="8" pin="210,90" width="8" x="46" y="56"/>
+      <circ-port height="8" pin="640,270" width="8" x="46" y="136"/>
+      <circ-port height="8" pin="550,270" width="8" x="46" y="116"/>
       <text fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="235" y="64">Offset</text>
       <rect height="3" stroke="none" width="10" x="240" y="79"/>
       <circ-port height="10" pin="1110,110" width="10" x="245" y="75"/>
@@ -815,60 +815,10 @@ end TCL_Generic;
     <wire from="(610,500)" to="(690,500)"/>
     <wire from="(550,300)" to="(550,350)"/>
     <wire from="(550,350)" to="(690,350)"/>
-    <comp lib="1" loc="(770,810)" name="OR Gate">
-      <a name="size" val="30"/>
-      <a name="negate0" val="true"/>
-    </comp>
-    <comp lib="1" loc="(830,730)" name="AND Gate">
-      <a name="size" val="30"/>
-    </comp>
-    <comp lib="0" loc="(210,90)" name="Pin">
-      <a name="label" val="Enable"/>
-    </comp>
-    <comp lib="1" loc="(770,720)" name="AND Gate">
-      <a name="size" val="30"/>
-      <a name="negate0" val="true"/>
-    </comp>
-    <comp lib="1" loc="(720,610)" name="AND Gate">
-      <a name="size" val="30"/>
-    </comp>
-    <comp lib="0" loc="(640,270)" name="Pin">
-      <a name="facing" val="south"/>
-      <a name="label" val="C"/>
-      <a name="labelloc" val="north"/>
-    </comp>
-    <comp lib="1" loc="(830,1050)" name="AND Gate">
-      <a name="size" val="30"/>
-    </comp>
-    <comp lib="2" loc="(340,260)" name="Decoder">
-      <a name="facing" val="south"/>
-      <a name="select" val="4"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="1" loc="(730,560)" name="NAND Gate">
-      <a name="size" val="30"/>
-    </comp>
-    <comp lib="1" loc="(720,310)" name="AND Gate">
-      <a name="size" val="30"/>
-    </comp>
-    <comp lib="0" loc="(610,270)" name="Pin">
-      <a name="facing" val="south"/>
-      <a name="label" val="N"/>
-      <a name="labelloc" val="north"/>
-    </comp>
-    <comp lib="0" loc="(1110,110)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="Verified"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="0" loc="(850,240)" name="Constant">
-      <a name="facing" val="south"/>
-    </comp>
     <comp lib="1" loc="(710,1150)" name="XOR Gate">
       <a name="size" val="30"/>
     </comp>
-    <comp lib="1" loc="(720,510)" name="AND Gate">
+    <comp lib="1" loc="(720,610)" name="AND Gate">
       <a name="size" val="30"/>
     </comp>
     <comp lib="0" loc="(1000,290)" name="Constant">
@@ -879,9 +829,40 @@ end TCL_Generic;
       <a name="width" val="16"/>
       <a name="label" val="Instruction"/>
     </comp>
-    <comp lib="1" loc="(770,1040)" name="AND Gate">
+    <comp lib="1" loc="(720,410)" name="AND Gate">
+      <a name="size" val="30"/>
+    </comp>
+    <comp lib="1" loc="(730,360)" name="NAND Gate">
+      <a name="size" val="30"/>
+    </comp>
+    <comp lib="0" loc="(550,270)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="label" val="Z"/>
+      <a name="labelloc" val="north"/>
+    </comp>
+    <comp lib="1" loc="(720,1060)" name="XNOR Gate">
+      <a name="size" val="30"/>
+    </comp>
+    <comp lib="1" loc="(710,950)" name="XOR Gate">
+      <a name="size" val="30"/>
+    </comp>
+    <comp lib="1" loc="(770,720)" name="AND Gate">
       <a name="size" val="30"/>
       <a name="negate0" val="true"/>
+    </comp>
+    <comp lib="0" loc="(1110,110)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="Verified"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="2" loc="(340,260)" name="Decoder">
+      <a name="facing" val="south"/>
+      <a name="select" val="4"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="1" loc="(730,460)" name="NAND Gate">
+      <a name="size" val="30"/>
     </comp>
     <comp lib="0" loc="(250,120)" name="Splitter">
       <a name="incoming" val="16"/>
@@ -902,55 +883,36 @@ end TCL_Generic;
       <a name="bit14" val="none"/>
       <a name="bit15" val="none"/>
     </comp>
-    <comp lib="1" loc="(730,660)" name="NAND Gate">
-      <a name="size" val="30"/>
-    </comp>
-    <comp lib="0" loc="(550,270)" name="Pin">
-      <a name="facing" val="south"/>
-      <a name="label" val="Z"/>
-      <a name="labelloc" val="north"/>
-    </comp>
-    <comp lib="1" loc="(720,1060)" name="XNOR Gate">
-      <a name="size" val="30"/>
-    </comp>
-    <comp lib="1" loc="(720,410)" name="AND Gate">
-      <a name="size" val="30"/>
-    </comp>
-    <comp lib="1" loc="(730,360)" name="NAND Gate">
-      <a name="size" val="30"/>
-    </comp>
     <comp lib="1" loc="(770,1140)" name="OR Gate">
       <a name="size" val="30"/>
       <a name="negate1" val="true"/>
     </comp>
+    <comp lib="1" loc="(760,880)" name="XNOR Gate">
+      <a name="size" val="30"/>
+    </comp>
     <comp lib="1" loc="(830,890)" name="AND Gate">
+      <a name="size" val="30"/>
+    </comp>
+    <comp lib="1" loc="(720,510)" name="AND Gate">
+      <a name="size" val="30"/>
+    </comp>
+    <comp lib="1" loc="(830,1050)" name="AND Gate">
       <a name="size" val="30"/>
     </comp>
     <comp lib="1" loc="(830,1150)" name="AND Gate">
       <a name="size" val="30"/>
     </comp>
-    <comp lib="1" loc="(830,960)" name="AND Gate">
-      <a name="size" val="30"/>
-      <a name="negate0" val="true"/>
-    </comp>
+    <comp lib="1" loc="(1050,110)" name="AND Gate"/>
     <comp lib="2" loc="(930,240)" name="Multiplexer">
       <a name="facing" val="north"/>
       <a name="select" val="4"/>
     </comp>
-    <comp lib="1" loc="(1050,110)" name="AND Gate"/>
-    <comp lib="1" loc="(710,950)" name="XOR Gate">
+    <comp lib="1" loc="(720,310)" name="AND Gate">
       <a name="size" val="30"/>
     </comp>
-    <comp lib="1" loc="(730,460)" name="NAND Gate">
+    <comp lib="1" loc="(770,810)" name="OR Gate">
       <a name="size" val="30"/>
-    </comp>
-    <comp lib="0" loc="(580,270)" name="Pin">
-      <a name="facing" val="south"/>
-      <a name="label" val="V"/>
-      <a name="labelloc" val="north"/>
-    </comp>
-    <comp lib="1" loc="(830,820)" name="AND Gate">
-      <a name="size" val="30"/>
+      <a name="negate0" val="true"/>
     </comp>
     <comp lib="0" loc="(1110,50)" name="Pin">
       <a name="facing" val="west"/>
@@ -959,7 +921,45 @@ end TCL_Generic;
       <a name="label" val="Offset"/>
       <a name="labelloc" val="east"/>
     </comp>
-    <comp lib="1" loc="(760,880)" name="XNOR Gate">
+    <comp lib="0" loc="(580,270)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="label" val="V"/>
+      <a name="labelloc" val="north"/>
+    </comp>
+    <comp lib="1" loc="(830,960)" name="AND Gate">
+      <a name="size" val="30"/>
+      <a name="negate0" val="true"/>
+    </comp>
+    <comp lib="1" loc="(830,820)" name="AND Gate">
+      <a name="size" val="30"/>
+    </comp>
+    <comp lib="0" loc="(210,90)" name="Pin">
+      <a name="label" val="Enable"/>
+    </comp>
+    <comp lib="1" loc="(770,1040)" name="AND Gate">
+      <a name="size" val="30"/>
+      <a name="negate0" val="true"/>
+    </comp>
+    <comp lib="0" loc="(610,270)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="label" val="N"/>
+      <a name="labelloc" val="north"/>
+    </comp>
+    <comp lib="1" loc="(830,730)" name="AND Gate">
+      <a name="size" val="30"/>
+    </comp>
+    <comp lib="1" loc="(730,560)" name="NAND Gate">
+      <a name="size" val="30"/>
+    </comp>
+    <comp lib="0" loc="(640,270)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="label" val="C"/>
+      <a name="labelloc" val="north"/>
+    </comp>
+    <comp lib="0" loc="(850,240)" name="Constant">
+      <a name="facing" val="south"/>
+    </comp>
+    <comp lib="1" loc="(730,660)" name="NAND Gate">
       <a name="size" val="30"/>
     </comp>
   </circuit>
@@ -1016,24 +1016,9 @@ end TCL_Generic;
     <wire from="(240,110)" to="(240,230)"/>
     <wire from="(390,220)" to="(590,220)"/>
     <wire from="(210,130)" to="(210,190)"/>
-    <comp lib="0" loc="(590,220)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="Data_Processing"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="0" loc="(590,470)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="Branch"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="8" loc="(482,299)" name="Text">
-      <a name="text" val="Load/Store"/>
-    </comp>
-    <comp lib="0" loc="(170,90)" name="Pin">
-      <a name="width" val="6"/>
-      <a name="label" val="Opcode"/>
+    <comp lib="1" loc="(370,470)" name="AND Gate">
+      <a name="inputs" val="4"/>
+      <a name="negate2" val="true"/>
     </comp>
     <comp lib="0" loc="(590,310)" name="Pin">
       <a name="facing" val="west"/>
@@ -1041,32 +1026,22 @@ end TCL_Generic;
       <a name="label" val="Load_Store"/>
       <a name="labelloc" val="east"/>
     </comp>
-    <comp lib="1" loc="(370,470)" name="AND Gate">
-      <a name="inputs" val="4"/>
-      <a name="negate2" val="true"/>
+    <comp lib="0" loc="(590,220)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="Data_Processing"/>
+      <a name="labelloc" val="east"/>
     </comp>
-    <comp lib="1" loc="(370,310)" name="AND Gate">
-      <a name="inputs" val="4"/>
-      <a name="negate1" val="true"/>
-      <a name="negate2" val="true"/>
-    </comp>
-    <comp lib="8" loc="(488,207)" name="Text">
-      <a name="text" val="Data Processing"/>
+    <comp lib="8" loc="(479,129)" name="Text">
+      <a name="text" val="Shift, add, sub, mov"/>
     </comp>
     <comp lib="1" loc="(370,390)" name="AND Gate">
       <a name="inputs" val="4"/>
       <a name="negate1" val="true"/>
     </comp>
-    <comp lib="0" loc="(590,140)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="Shift"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="1" loc="(350,140)" name="AND Gate">
-      <a name="size" val="30"/>
-      <a name="negate0" val="true"/>
-      <a name="negate1" val="true"/>
+    <comp lib="0" loc="(170,90)" name="Pin">
+      <a name="width" val="6"/>
+      <a name="label" val="Opcode"/>
     </comp>
     <comp lib="1" loc="(390,220)" name="AND Gate">
       <a name="size" val="70"/>
@@ -1077,11 +1052,35 @@ end TCL_Generic;
       <a name="negate4" val="true"/>
       <a name="negate5" val="true"/>
     </comp>
-    <comp lib="8" loc="(479,129)" name="Text">
-      <a name="text" val="Shift, add, sub, mov"/>
+    <comp lib="1" loc="(370,310)" name="AND Gate">
+      <a name="inputs" val="4"/>
+      <a name="negate1" val="true"/>
+      <a name="negate2" val="true"/>
+    </comp>
+    <comp lib="8" loc="(488,207)" name="Text">
+      <a name="text" val="Data Processing"/>
+    </comp>
+    <comp lib="8" loc="(482,299)" name="Text">
+      <a name="text" val="Load/Store"/>
+    </comp>
+    <comp lib="1" loc="(350,140)" name="AND Gate">
+      <a name="size" val="30"/>
+      <a name="negate0" val="true"/>
+      <a name="negate1" val="true"/>
+    </comp>
+    <comp lib="0" loc="(200,90)" name="Splitter">
+      <a name="facing" val="south"/>
+      <a name="fanout" val="6"/>
+      <a name="incoming" val="6"/>
+    </comp>
+    <comp lib="0" loc="(590,470)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="Conditional"/>
+      <a name="labelloc" val="east"/>
     </comp>
     <comp lib="8" loc="(484,460)" name="Text">
-      <a name="text" val="Branch"/>
+      <a name="text" val="Conditional branch"/>
     </comp>
     <comp lib="0" loc="(590,390)" name="Pin">
       <a name="facing" val="west"/>
@@ -1089,10 +1088,11 @@ end TCL_Generic;
       <a name="label" val="SP_Address"/>
       <a name="labelloc" val="east"/>
     </comp>
-    <comp lib="0" loc="(200,90)" name="Splitter">
-      <a name="facing" val="south"/>
-      <a name="fanout" val="6"/>
-      <a name="incoming" val="6"/>
+    <comp lib="0" loc="(590,140)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="Shift"/>
+      <a name="labelloc" val="east"/>
     </comp>
   </circuit>
   <circuit name="Data_Processing">
@@ -1119,8 +1119,8 @@ end TCL_Generic;
       <text font-family="SansSerif" font-size="12" text-anchor="middle" x="85" y="84">Enable</text>
       <polyline fill="none" points="58,80 52,80" stroke="#000000" stroke-width="4"/>
       <text font-family="SansSerif" font-size="12" text-anchor="middle" x="196" y="143">Flags_Update_Mask</text>
-      <circ-port height="10" pin="800,210" width="10" x="265" y="55"/>
       <circ-port height="8" pin="210,110" width="8" x="46" y="56"/>
+      <circ-port height="10" pin="800,210" width="10" x="265" y="55"/>
       <rect height="4" stroke="none" width="10" x="260" y="138"/>
       <circ-port height="8" pin="210,150" width="8" x="46" y="76"/>
       <circ-port height="10" pin="800,170" width="10" x="265" y="75"/>
@@ -1188,45 +1188,13 @@ end TCL_Generic;
     <wire from="(540,270)" to="(550,270)"/>
     <wire from="(540,310)" to="(550,310)"/>
     <wire from="(540,350)" to="(550,350)"/>
+    <comp lib="8" loc="(318,573)" name="Text">
+      <a name="text" val="For simplification purposes, Rm is used for 1st operand both here and in the ALU."/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
     <comp lib="8" loc="(562,512)" name="Text">
       <a name="text" val="Note: instructions that does not save the result will still have the second operand as the destination register, the ALU will copy the second register to the destination register"/>
       <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="8" loc="(552,96)" name="Text">
-      <a name="text" val="Discard instruction Opcode"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="8" loc="(346,74)" name="Text">
-      <a name="text" val="Pull output low on Enable = 0"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(710,450)" name="Bit Extender">
-      <a name="in_width" val="1"/>
-      <a name="out_width" val="4"/>
-    </comp>
-    <comp lib="0" loc="(210,110)" name="Pin">
-      <a name="width" val="16"/>
-      <a name="label" val="Instruction"/>
-    </comp>
-    <comp lib="8" loc="(163,533)" name="Text">
-      <a name="text" val="Note 2: RSB instruction has Rn as 1st operand."/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="8" loc="(549,115)" name="Text">
-      <a name="text" val="Extract arguments"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(420,360)" name="Constant">
-      <a name="width" val="4"/>
-      <a name="value" val="0xc"/>
-    </comp>
-    <comp lib="0" loc="(420,230)" name="Constant">
-      <a name="width" val="4"/>
-      <a name="value" val="0xe"/>
-    </comp>
-    <comp lib="1" loc="(780,320)" name="AND Gate">
-      <a name="width" val="4"/>
-      <a name="size" val="30"/>
     </comp>
     <comp lib="0" loc="(800,90)" name="Pin">
       <a name="facing" val="west"/>
@@ -1235,62 +1203,17 @@ end TCL_Generic;
       <a name="label" val="Rn"/>
       <a name="labelloc" val="east"/>
     </comp>
-    <comp lib="1" loc="(390,130)" name="AND Gate">
-      <a name="width" val="16"/>
-    </comp>
-    <comp lib="8" loc="(265,553)" name="Text">
-      <a name="text" val="MUL instruction has Rn as 1st operand and Rdm as 2nd operand"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="2" loc="(590,310)" name="Multiplexer">
-      <a name="select" val="4"/>
-      <a name="width" val="4"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="0" loc="(210,150)" name="Pin">
-      <a name="label" val="Enable"/>
-    </comp>
-    <comp lib="8" loc="(318,573)" name="Text">
-      <a name="text" val="For simplification purposes, Rm is used for 1st operand both here and in the ALU."/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
     <comp lib="0" loc="(420,280)" name="Constant">
       <a name="width" val="4"/>
       <a name="value" val="0xf"/>
     </comp>
-    <comp lib="0" loc="(800,210)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="4"/>
-      <a name="label" val="ALU_Opcode"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="0" loc="(300,150)" name="Bit Extender">
-      <a name="in_width" val="1"/>
-    </comp>
-    <comp lib="0" loc="(800,320)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="4"/>
-      <a name="label" val="Flags_Update_Mask"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="0" loc="(800,170)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="3"/>
-      <a name="label" val="Rm"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="8" loc="(382,309)" name="Text">
+    <comp lib="8" loc="(552,96)" name="Text">
+      <a name="text" val="Discard instruction Opcode"/>
       <a name="font" val="SansSerif plain 12"/>
     </comp>
-    <comp lib="0" loc="(800,130)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="3"/>
-      <a name="label" val="Rd"/>
-      <a name="labelloc" val="east"/>
+    <comp lib="0" loc="(420,360)" name="Constant">
+      <a name="width" val="4"/>
+      <a name="value" val="0xc"/>
     </comp>
     <comp lib="0" loc="(550,130)" name="Splitter">
       <a name="fanout" val="3"/>
@@ -1311,6 +1234,83 @@ end TCL_Generic;
       <a name="bit13" val="none"/>
       <a name="bit14" val="none"/>
       <a name="bit15" val="none"/>
+    </comp>
+    <comp lib="8" loc="(549,115)" name="Text">
+      <a name="text" val="Extract arguments"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="2" loc="(590,310)" name="Multiplexer">
+      <a name="select" val="4"/>
+      <a name="width" val="4"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="0" loc="(800,130)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="3"/>
+      <a name="label" val="Rd"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(210,110)" name="Pin">
+      <a name="width" val="16"/>
+      <a name="label" val="Instruction"/>
+    </comp>
+    <comp lib="0" loc="(800,320)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="4"/>
+      <a name="label" val="Flags_Update_Mask"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="8" loc="(346,74)" name="Text">
+      <a name="text" val="Pull output low on Enable = 0"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="1" loc="(780,320)" name="AND Gate">
+      <a name="width" val="4"/>
+      <a name="size" val="30"/>
+    </comp>
+    <comp lib="0" loc="(300,150)" name="Bit Extender">
+      <a name="in_width" val="1"/>
+    </comp>
+    <comp lib="0" loc="(800,210)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="4"/>
+      <a name="label" val="ALU_Opcode"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="8" loc="(163,533)" name="Text">
+      <a name="text" val="Note 2: RSB instruction has Rn as 1st operand."/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(420,230)" name="Constant">
+      <a name="width" val="4"/>
+      <a name="value" val="0xe"/>
+    </comp>
+    <comp lib="8" loc="(265,553)" name="Text">
+      <a name="text" val="MUL instruction has Rn as 1st operand and Rdm as 2nd operand"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(710,450)" name="Bit Extender">
+      <a name="in_width" val="1"/>
+      <a name="out_width" val="4"/>
+    </comp>
+    <comp lib="0" loc="(800,170)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="3"/>
+      <a name="label" val="Rm"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="1" loc="(390,130)" name="AND Gate">
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="0" loc="(210,150)" name="Pin">
+      <a name="label" val="Enable"/>
+    </comp>
+    <comp lib="8" loc="(382,309)" name="Text">
+      <a name="font" val="SansSerif plain 12"/>
     </comp>
   </circuit>
   <circuit name="Shift_Add_Sub_Mov">
@@ -1339,14 +1339,14 @@ end TCL_Generic;
       <text fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="253" y="83">Imm5</text>
       <rect height="4" stroke="none" width="10" x="260" y="178"/>
       <text fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="252" y="103">Imm32</text>
-      <circ-port height="8" pin="200,360" width="8" x="46" y="36"/>
       <circ-port height="10" pin="960,1320" width="10" x="265" y="135"/>
-      <circ-port height="10" pin="960,1200" width="10" x="265" y="155"/>
       <circ-port height="10" pin="960,1080" width="10" x="265" y="175"/>
-      <circ-port height="10" pin="1060,380" width="10" x="265" y="115"/>
       <circ-port height="10" pin="960,1580" width="10" x="265" y="95"/>
-      <circ-port height="10" pin="1070,960" width="10" x="265" y="55"/>
       <circ-port height="10" pin="960,1450" width="10" x="265" y="75"/>
+      <circ-port height="10" pin="1070,960" width="10" x="265" y="55"/>
+      <circ-port height="10" pin="1060,380" width="10" x="265" y="115"/>
+      <circ-port height="10" pin="960,1200" width="10" x="265" y="155"/>
+      <circ-port height="8" pin="200,360" width="8" x="46" y="36"/>
       <rect height="20" stroke="none" width="200" x="61" y="210"/>
       <rect fill="none" height="200" stroke="#000000" stroke-width="2" width="200" x="60" y="30"/>
       <text fill="#ffffff" font-family="Dialog" font-size="14" font-weight="bold" text-anchor="middle" x="159" y="224">Shift_Add_Sub_Mov</text>
@@ -1515,8 +1515,8 @@ end TCL_Generic;
     <wire from="(530,1210)" to="(530,1220)"/>
     <wire from="(530,1050)" to="(530,1060)"/>
     <wire from="(420,450)" to="(480,450)"/>
-    <wire from="(410,440)" to="(470,440)"/>
     <wire from="(420,690)" to="(480,690)"/>
+    <wire from="(410,440)" to="(470,440)"/>
     <wire from="(570,1570)" to="(570,1580)"/>
     <wire from="(840,640)" to="(890,640)"/>
     <wire from="(530,1610)" to="(580,1610)"/>
@@ -1667,402 +1667,10 @@ end TCL_Generic;
     <wire from="(530,1160)" to="(540,1160)"/>
     <wire from="(530,1080)" to="(540,1080)"/>
     <wire from="(530,1480)" to="(540,1480)"/>
-    <comp lib="0" loc="(1060,380)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="4"/>
-      <a name="label" val="ALU_Opcode"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="8" loc="(565,435)" name="Text">
-      <a name="text" val="LSR 0011"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="8" loc="(728,1335)" name="Text">
-      <a name="text" val="and add/sub Imm3"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="8" loc="(566,483)" name="Text">
-      <a name="text" val="ASR 0100"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(390,1100)" name="Splitter">
-      <a name="fanout" val="1"/>
-      <a name="incoming" val="16"/>
-      <a name="appear" val="right"/>
-      <a name="bit0" val="none"/>
-      <a name="bit1" val="none"/>
-      <a name="bit2" val="none"/>
-      <a name="bit3" val="none"/>
-      <a name="bit4" val="none"/>
-      <a name="bit5" val="none"/>
-      <a name="bit6" val="none"/>
-      <a name="bit7" val="none"/>
-      <a name="bit8" val="0"/>
-      <a name="bit9" val="0"/>
-      <a name="bit10" val="0"/>
-      <a name="bit11" val="none"/>
-      <a name="bit12" val="none"/>
-      <a name="bit13" val="none"/>
-      <a name="bit14" val="none"/>
-      <a name="bit15" val="none"/>
-    </comp>
-    <comp lib="1" loc="(530,760)" name="AND Gate">
-      <a name="inputs" val="5"/>
-      <a name="negate0" val="true"/>
-    </comp>
-    <comp lib="8" loc="(965,902)" name="Text">
-      <a name="text" val="ALU will use Imm8 instead of Rm"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(800,370)" name="Constant">
-      <a name="width" val="4"/>
-      <a name="value" val="0x4"/>
-    </comp>
-    <comp lib="8" loc="(270,216)" name="Text">
-      <a name="text" val="Pull output low on Enable = 0"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="8" loc="(699,1191)" name="Text">
-      <a name="text" val="Inhibit Rn selection for move"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="2" loc="(580,1450)" name="Multiplexer">
-      <a name="select" val="3"/>
-      <a name="width" val="5"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="1" loc="(530,620)" name="AND Gate">
-      <a name="inputs" val="5"/>
-      <a name="negate0" val="true"/>
-      <a name="negate3" val="true"/>
-    </comp>
-    <comp lib="0" loc="(390,1600)" name="Splitter">
-      <a name="fanout" val="1"/>
-      <a name="incoming" val="16"/>
-      <a name="appear" val="right"/>
-      <a name="bit1" val="0"/>
-      <a name="bit2" val="0"/>
-      <a name="bit3" val="0"/>
-      <a name="bit4" val="0"/>
-      <a name="bit5" val="0"/>
-      <a name="bit6" val="0"/>
-      <a name="bit7" val="0"/>
-      <a name="bit8" val="none"/>
-      <a name="bit9" val="none"/>
-      <a name="bit10" val="none"/>
-      <a name="bit11" val="none"/>
-      <a name="bit12" val="none"/>
-      <a name="bit13" val="none"/>
-      <a name="bit14" val="none"/>
-      <a name="bit15" val="none"/>
-    </comp>
-    <comp lib="0" loc="(880,1000)" name="Constant">
-      <a name="facing" val="north"/>
-      <a name="value" val="0x0"/>
-    </comp>
-    <comp lib="0" loc="(700,570)" name="Constant">
-      <a name="facing" val="north"/>
-    </comp>
-    <comp lib="0" loc="(960,1580)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="Imm32"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="8" loc="(719,1449)" name="Text">
-      <a name="text" val="Inhibit Imm5 for add/sub/move"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(520,1520)" name="Constant">
-      <a name="facing" val="north"/>
-      <a name="width" val="5"/>
-      <a name="value" val="0x0"/>
-    </comp>
-    <comp lib="0" loc="(530,1360)" name="Constant">
-      <a name="facing" val="north"/>
-      <a name="width" val="3"/>
-      <a name="value" val="0x0"/>
-    </comp>
-    <comp lib="0" loc="(1070,600)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="4"/>
-      <a name="label" val="Flags_Update_Mask"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="1" loc="(530,550)" name="AND Gate">
-      <a name="inputs" val="5"/>
-      <a name="negate0" val="true"/>
-      <a name="negate3" val="true"/>
-      <a name="negate4" val="true"/>
-    </comp>
-    <comp lib="0" loc="(400,1160)" name="Splitter">
-      <a name="fanout" val="1"/>
-      <a name="incoming" val="16"/>
-      <a name="appear" val="right"/>
-      <a name="bit0" val="none"/>
-      <a name="bit1" val="none"/>
-      <a name="bit2" val="none"/>
-      <a name="bit3" val="0"/>
-      <a name="bit4" val="0"/>
-      <a name="bit5" val="0"/>
-      <a name="bit6" val="none"/>
-      <a name="bit7" val="none"/>
-      <a name="bit8" val="none"/>
-      <a name="bit9" val="none"/>
-      <a name="bit10" val="none"/>
-      <a name="bit11" val="none"/>
-      <a name="bit12" val="none"/>
-      <a name="bit13" val="none"/>
-      <a name="bit14" val="none"/>
-      <a name="bit15" val="none"/>
-    </comp>
-    <comp lib="0" loc="(800,390)" name="Constant">
-      <a name="width" val="4"/>
-      <a name="value" val="0x5"/>
-    </comp>
-    <comp lib="1" loc="(510,440)" name="AND Gate">
-      <a name="size" val="30"/>
-      <a name="inputs" val="3"/>
-      <a name="negate0" val="true"/>
-      <a name="negate1" val="true"/>
-    </comp>
-    <comp lib="8" loc="(304,1738)" name="Text">
-      <a name="text" val="Note: ALU uses Rn register for shifts. Use Rn instead of Rm for shifts (immediate) here too"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(960,1200)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="3"/>
-      <a name="label" val="Rn"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="0" loc="(200,310)" name="Bit Extender">
-      <a name="in_width" val="1"/>
-    </comp>
-    <comp lib="0" loc="(200,360)" name="Pin">
-      <a name="width" val="16"/>
-      <a name="label" val="Instruction"/>
-    </comp>
     <comp lib="0" loc="(570,1650)" name="Constant">
       <a name="facing" val="north"/>
       <a name="width" val="32"/>
       <a name="value" val="0x0"/>
-    </comp>
-    <comp lib="0" loc="(960,1080)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="3"/>
-      <a name="label" val="Rd"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="8" loc="(585,816)" name="Text">
-      <a name="text" val="MOV"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="8" loc="(575,610)" name="Text">
-      <a name="text" val="SUB 0110"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(840,580)" name="Constant">
-      <a name="width" val="4"/>
-      <a name="value" val="0xe"/>
-    </comp>
-    <comp lib="0" loc="(800,410)" name="Constant">
-      <a name="width" val="4"/>
-      <a name="value" val="0x6"/>
-    </comp>
-    <comp lib="0" loc="(1070,960)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="Imm32_Enable"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="8" loc="(567,386)" name="Text">
-      <a name="text" val="LSL 0010"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="8" loc="(453,1588)" name="Text">
-      <a name="text" val="Imm8"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="2" loc="(930,960)" name="Multiplexer">
-      <a name="select" val="3"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="1" loc="(1030,600)" name="AND Gate">
-      <a name="width" val="4"/>
-      <a name="size" val="30"/>
-    </comp>
-    <comp lib="0" loc="(960,1320)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="3"/>
-      <a name="label" val="Rm"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="8" loc="(794,299)" name="Text">
-      <a name="text" val="Select ALU Opcode for Shift/Add/Sub"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="8" loc="(690,1313)" name="Text">
-      <a name="text" val="Inhibit Rm selection for shift/move"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(840,790)" name="Constant"/>
-    <comp lib="1" loc="(1030,380)" name="AND Gate">
-      <a name="width" val="4"/>
-    </comp>
-    <comp lib="0" loc="(800,470)" name="Constant">
-      <a name="width" val="4"/>
-      <a name="value" val="0x9"/>
-    </comp>
-    <comp lib="8" loc="(678,1071)" name="Text">
-      <a name="text" val="Select correct bits for Rd"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(840,640)" name="Constant">
-      <a name="width" val="4"/>
-      <a name="value" val="0xc"/>
-    </comp>
-    <comp lib="8" loc="(458,1101)" name="Text">
-      <a name="text" val="Rd_MOV"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="8" loc="(572,755)" name="Text">
-      <a name="text" val="SUB 0110"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="8" loc="(444,1400)" name="Text">
-      <a name="text" val="Imm5"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(800,430)" name="Constant">
-      <a name="width" val="4"/>
-      <a name="value" val="0x5"/>
-    </comp>
-    <comp lib="2" loc="(620,1580)" name="Multiplexer">
-      <a name="select" val="3"/>
-      <a name="width" val="32"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="0" loc="(390,1050)" name="Splitter">
-      <a name="fanout" val="1"/>
-      <a name="incoming" val="16"/>
-      <a name="appear" val="right"/>
-      <a name="bit1" val="0"/>
-      <a name="bit2" val="0"/>
-      <a name="bit3" val="none"/>
-      <a name="bit4" val="none"/>
-      <a name="bit5" val="none"/>
-      <a name="bit6" val="none"/>
-      <a name="bit7" val="none"/>
-      <a name="bit8" val="none"/>
-      <a name="bit9" val="none"/>
-      <a name="bit10" val="none"/>
-      <a name="bit11" val="none"/>
-      <a name="bit12" val="none"/>
-      <a name="bit13" val="none"/>
-      <a name="bit14" val="none"/>
-      <a name="bit15" val="none"/>
-    </comp>
-    <comp lib="1" loc="(510,390)" name="AND Gate">
-      <a name="size" val="30"/>
-      <a name="inputs" val="3"/>
-      <a name="negate0" val="true"/>
-      <a name="negate1" val="true"/>
-      <a name="negate2" val="true"/>
-    </comp>
-    <comp lib="0" loc="(840,610)" name="Constant">
-      <a name="width" val="4"/>
-      <a name="value" val="0xf"/>
-    </comp>
-    <comp lib="8" loc="(455,1160)" name="Text">
-      <a name="text" val="Rm_Shift / Rn_Add_Sub"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="2" loc="(930,400)" name="Multiplexer">
-      <a name="select" val="3"/>
-      <a name="width" val="4"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="8" loc="(445,1518)" name="Text">
-      <a name="text" val="Imm3"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="3" loc="(530,1610)" name="Negator">
-      <a name="width" val="32"/>
-    </comp>
-    <comp lib="2" loc="(580,1080)" name="Multiplexer">
-      <a name="select" val="3"/>
-      <a name="width" val="3"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="8" loc="(971,736)" name="Text">
-      <a name="text" val="Enable carry for SUB since it is reversed in ALU"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(390,1540)" name="Splitter">
-      <a name="fanout" val="1"/>
-      <a name="incoming" val="16"/>
-      <a name="appear" val="right"/>
-      <a name="bit0" val="none"/>
-      <a name="bit1" val="none"/>
-      <a name="bit2" val="none"/>
-      <a name="bit3" val="none"/>
-      <a name="bit4" val="none"/>
-      <a name="bit5" val="none"/>
-      <a name="bit6" val="0"/>
-      <a name="bit7" val="0"/>
-      <a name="bit8" val="0"/>
-      <a name="bit9" val="none"/>
-      <a name="bit10" val="none"/>
-      <a name="bit11" val="none"/>
-      <a name="bit12" val="none"/>
-      <a name="bit13" val="none"/>
-      <a name="bit14" val="none"/>
-      <a name="bit15" val="none"/>
-    </comp>
-    <comp lib="8" loc="(312,519)" name="Text">
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="8" loc="(565,543)" name="Text">
-      <a name="text" val="ADD 0101"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(530,1240)" name="Constant">
-      <a name="facing" val="north"/>
-      <a name="width" val="3"/>
-      <a name="value" val="0x0"/>
-    </comp>
-    <comp lib="0" loc="(390,340)" name="Splitter">
-      <a name="facing" val="south"/>
-      <a name="fanout" val="5"/>
-      <a name="incoming" val="16"/>
-      <a name="bit0" val="none"/>
-      <a name="bit1" val="none"/>
-      <a name="bit2" val="none"/>
-      <a name="bit3" val="none"/>
-      <a name="bit4" val="none"/>
-      <a name="bit5" val="none"/>
-      <a name="bit6" val="none"/>
-      <a name="bit7" val="none"/>
-      <a name="bit8" val="none"/>
-      <a name="bit9" val="0"/>
-      <a name="bit10" val="1"/>
-      <a name="bit11" val="2"/>
-      <a name="bit12" val="3"/>
-      <a name="bit13" val="4"/>
-      <a name="bit14" val="none"/>
-      <a name="bit15" val="none"/>
-    </comp>
-    <comp lib="2" loc="(930,610)" name="Multiplexer">
-      <a name="select" val="3"/>
-      <a name="width" val="4"/>
-      <a name="enable" val="false"/>
     </comp>
     <comp lib="0" loc="(390,1400)" name="Splitter">
       <a name="fanout" val="1"/>
@@ -2085,33 +1693,400 @@ end TCL_Generic;
       <a name="bit14" val="none"/>
       <a name="bit15" val="none"/>
     </comp>
-    <comp lib="8" loc="(442,1052)" name="Text">
-      <a name="text" val="Rd"/>
+    <comp lib="0" loc="(840,640)" name="Constant">
+      <a name="width" val="4"/>
+      <a name="value" val="0xc"/>
+    </comp>
+    <comp lib="0" loc="(470,1610)" name="Bit Extender">
+      <a name="out_width" val="32"/>
+      <a name="type" val="zero"/>
+    </comp>
+    <comp lib="2" loc="(580,1080)" name="Multiplexer">
+      <a name="select" val="3"/>
+      <a name="width" val="3"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="0" loc="(960,1200)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="3"/>
+      <a name="label" val="Rn"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(530,1360)" name="Constant">
+      <a name="facing" val="north"/>
+      <a name="width" val="3"/>
+      <a name="value" val="0x0"/>
+    </comp>
+    <comp lib="8" loc="(572,755)" name="Text">
+      <a name="text" val="SUB 0110"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(470,1550)" name="Bit Extender">
+      <a name="in_width" val="3"/>
+      <a name="out_width" val="32"/>
+      <a name="type" val="zero"/>
+    </comp>
+    <comp lib="8" loc="(270,216)" name="Text">
+      <a name="text" val="Pull output low on Enable = 0"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(800,410)" name="Constant">
+      <a name="width" val="4"/>
+      <a name="value" val="0x6"/>
+    </comp>
+    <comp lib="0" loc="(390,1540)" name="Splitter">
+      <a name="fanout" val="1"/>
+      <a name="incoming" val="16"/>
+      <a name="appear" val="right"/>
+      <a name="bit0" val="none"/>
+      <a name="bit1" val="none"/>
+      <a name="bit2" val="none"/>
+      <a name="bit3" val="none"/>
+      <a name="bit4" val="none"/>
+      <a name="bit5" val="none"/>
+      <a name="bit6" val="0"/>
+      <a name="bit7" val="0"/>
+      <a name="bit8" val="0"/>
+      <a name="bit9" val="none"/>
+      <a name="bit10" val="none"/>
+      <a name="bit11" val="none"/>
+      <a name="bit12" val="none"/>
+      <a name="bit13" val="none"/>
+      <a name="bit14" val="none"/>
+      <a name="bit15" val="none"/>
+    </comp>
+    <comp lib="8" loc="(565,543)" name="Text">
+      <a name="text" val="ADD 0101"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(200,360)" name="Pin">
+      <a name="width" val="16"/>
+      <a name="label" val="Instruction"/>
+    </comp>
+    <comp lib="8" loc="(575,610)" name="Text">
+      <a name="text" val="SUB 0110"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(800,350)" name="Constant">
+      <a name="width" val="4"/>
+      <a name="value" val="0x3"/>
+    </comp>
+    <comp lib="0" loc="(840,610)" name="Constant">
+      <a name="width" val="4"/>
+      <a name="value" val="0xf"/>
+    </comp>
+    <comp lib="2" loc="(930,790)" name="Multiplexer">
+      <a name="select" val="3"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="1" loc="(530,620)" name="AND Gate">
+      <a name="inputs" val="5"/>
+      <a name="negate0" val="true"/>
+      <a name="negate3" val="true"/>
+    </comp>
+    <comp lib="8" loc="(445,1518)" name="Text">
+      <a name="text" val="Imm3"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(960,1080)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="3"/>
+      <a name="label" val="Rd"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="8" loc="(304,1738)" name="Text">
+      <a name="text" val="Note: ALU uses Rn register for shifts. Use Rn instead of Rm for shifts (immediate) here too"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(400,1160)" name="Splitter">
+      <a name="fanout" val="1"/>
+      <a name="incoming" val="16"/>
+      <a name="appear" val="right"/>
+      <a name="bit0" val="none"/>
+      <a name="bit1" val="none"/>
+      <a name="bit2" val="none"/>
+      <a name="bit3" val="0"/>
+      <a name="bit4" val="0"/>
+      <a name="bit5" val="0"/>
+      <a name="bit6" val="none"/>
+      <a name="bit7" val="none"/>
+      <a name="bit8" val="none"/>
+      <a name="bit9" val="none"/>
+      <a name="bit10" val="none"/>
+      <a name="bit11" val="none"/>
+      <a name="bit12" val="none"/>
+      <a name="bit13" val="none"/>
+      <a name="bit14" val="none"/>
+      <a name="bit15" val="none"/>
+    </comp>
+    <comp lib="2" loc="(620,1580)" name="Multiplexer">
+      <a name="select" val="3"/>
+      <a name="width" val="32"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="1" loc="(320,340)" name="AND Gate">
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="8" loc="(566,483)" name="Text">
+      <a name="text" val="ASR 0100"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(100,270)" name="Pin">
+      <a name="label" val="Enable"/>
+    </comp>
+    <comp lib="0" loc="(800,330)" name="Constant">
+      <a name="width" val="4"/>
+      <a name="value" val="0x2"/>
+    </comp>
+    <comp lib="1" loc="(1030,600)" name="AND Gate">
+      <a name="width" val="4"/>
+      <a name="size" val="30"/>
+    </comp>
+    <comp lib="0" loc="(200,270)" name="Bit Extender">
+      <a name="in_width" val="1"/>
+      <a name="out_width" val="4"/>
+    </comp>
+    <comp lib="8" loc="(567,386)" name="Text">
+      <a name="text" val="LSL 0010"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="1" loc="(510,490)" name="AND Gate">
+      <a name="size" val="30"/>
+      <a name="inputs" val="3"/>
+      <a name="negate0" val="true"/>
+      <a name="negate2" val="true"/>
+    </comp>
+    <comp lib="0" loc="(960,1580)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="Imm32"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(880,830)" name="Constant">
+      <a name="facing" val="north"/>
+      <a name="value" val="0x0"/>
+    </comp>
+    <comp lib="8" loc="(690,1313)" name="Text">
+      <a name="text" val="Inhibit Rm selection for shift/move"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="8" loc="(312,519)" name="Text">
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(1070,600)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="4"/>
+      <a name="label" val="Flags_Update_Mask"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="1" loc="(510,440)" name="AND Gate">
+      <a name="size" val="30"/>
+      <a name="inputs" val="3"/>
+      <a name="negate0" val="true"/>
+      <a name="negate1" val="true"/>
+    </comp>
+    <comp lib="8" loc="(445,1295)" name="Text">
+      <a name="text" val="Rm_Add_Sub_register"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="8" loc="(565,435)" name="Text">
+      <a name="text" val="LSR 0011"/>
       <a name="font" val="SansSerif plain 12"/>
     </comp>
     <comp lib="0" loc="(800,450)" name="Constant">
       <a name="width" val="4"/>
       <a name="value" val="0x6"/>
     </comp>
-    <comp lib="8" loc="(312,1763)" name="Text">
-      <a name="text" val="Note 2: MOV uses RSB ALU opcode with Imm8 inversed so that it is copied to output register"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(200,270)" name="Bit Extender">
-      <a name="in_width" val="1"/>
-      <a name="out_width" val="4"/>
-    </comp>
     <comp lib="8" loc="(243,1785)" name="Text">
       <a name="text" val="Note 3: Imm8_Enable forces the use of the immediate for Rm register"/>
       <a name="font" val="SansSerif plain 12"/>
     </comp>
-    <comp lib="0" loc="(470,1610)" name="Bit Extender">
-      <a name="out_width" val="32"/>
-      <a name="type" val="zero"/>
+    <comp lib="2" loc="(930,610)" name="Multiplexer">
+      <a name="select" val="3"/>
+      <a name="width" val="4"/>
+      <a name="enable" val="false"/>
     </comp>
-    <comp lib="2" loc="(930,790)" name="Multiplexer">
+    <comp lib="2" loc="(720,510)" name="Priority Encoder"/>
+    <comp lib="0" loc="(530,1240)" name="Constant">
+      <a name="facing" val="north"/>
+      <a name="width" val="3"/>
+      <a name="value" val="0x0"/>
+    </comp>
+    <comp lib="8" loc="(442,1052)" name="Text">
+      <a name="text" val="Rd"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="8" loc="(455,1160)" name="Text">
+      <a name="text" val="Rm_Shift / Rn_Add_Sub"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(1060,380)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="4"/>
+      <a name="label" val="ALU_Opcode"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="2" loc="(580,1320)" name="Multiplexer">
+      <a name="select" val="3"/>
+      <a name="width" val="3"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="0" loc="(390,1100)" name="Splitter">
+      <a name="fanout" val="1"/>
+      <a name="incoming" val="16"/>
+      <a name="appear" val="right"/>
+      <a name="bit0" val="none"/>
+      <a name="bit1" val="none"/>
+      <a name="bit2" val="none"/>
+      <a name="bit3" val="none"/>
+      <a name="bit4" val="none"/>
+      <a name="bit5" val="none"/>
+      <a name="bit6" val="none"/>
+      <a name="bit7" val="none"/>
+      <a name="bit8" val="0"/>
+      <a name="bit9" val="0"/>
+      <a name="bit10" val="0"/>
+      <a name="bit11" val="none"/>
+      <a name="bit12" val="none"/>
+      <a name="bit13" val="none"/>
+      <a name="bit14" val="none"/>
+      <a name="bit15" val="none"/>
+    </comp>
+    <comp lib="0" loc="(840,580)" name="Constant">
+      <a name="width" val="4"/>
+      <a name="value" val="0xe"/>
+    </comp>
+    <comp lib="8" loc="(585,816)" name="Text">
+      <a name="text" val="MOV"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="2" loc="(580,1450)" name="Multiplexer">
+      <a name="select" val="3"/>
+      <a name="width" val="5"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="0" loc="(840,790)" name="Constant"/>
+    <comp lib="0" loc="(700,570)" name="Constant">
+      <a name="facing" val="north"/>
+    </comp>
+    <comp lib="3" loc="(530,1610)" name="Negator">
+      <a name="width" val="32"/>
+    </comp>
+    <comp lib="0" loc="(960,1450)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="5"/>
+      <a name="label" val="Imm5"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(520,1520)" name="Constant">
+      <a name="facing" val="north"/>
+      <a name="width" val="5"/>
+      <a name="value" val="0x0"/>
+    </comp>
+    <comp lib="8" loc="(965,902)" name="Text">
+      <a name="text" val="ALU will use Imm8 instead of Rm"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(390,340)" name="Splitter">
+      <a name="facing" val="south"/>
+      <a name="fanout" val="5"/>
+      <a name="incoming" val="16"/>
+      <a name="bit0" val="none"/>
+      <a name="bit1" val="none"/>
+      <a name="bit2" val="none"/>
+      <a name="bit3" val="none"/>
+      <a name="bit4" val="none"/>
+      <a name="bit5" val="none"/>
+      <a name="bit6" val="none"/>
+      <a name="bit7" val="none"/>
+      <a name="bit8" val="none"/>
+      <a name="bit9" val="0"/>
+      <a name="bit10" val="1"/>
+      <a name="bit11" val="2"/>
+      <a name="bit12" val="3"/>
+      <a name="bit13" val="4"/>
+      <a name="bit14" val="none"/>
+      <a name="bit15" val="none"/>
+    </comp>
+    <comp lib="0" loc="(800,370)" name="Constant">
+      <a name="width" val="4"/>
+      <a name="value" val="0x4"/>
+    </comp>
+    <comp lib="8" loc="(719,1449)" name="Text">
+      <a name="text" val="Inhibit Imm5 for add/sub/move"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="8" loc="(444,1400)" name="Text">
+      <a name="text" val="Imm5"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(880,1000)" name="Constant">
+      <a name="facing" val="north"/>
+      <a name="value" val="0x0"/>
+    </comp>
+    <comp lib="8" loc="(794,299)" name="Text">
+      <a name="text" val="Select ALU Opcode for Shift/Add/Sub"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="8" loc="(438,324)" name="Text">
+      <a name="text" val="Extract lower level opcode"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="8" loc="(312,1763)" name="Text">
+      <a name="text" val="Note 2: MOV uses RSB ALU opcode with Imm8 inversed so that it is copied to output register"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="1" loc="(530,690)" name="AND Gate">
+      <a name="inputs" val="5"/>
+      <a name="negate0" val="true"/>
+      <a name="negate4" val="true"/>
+    </comp>
+    <comp lib="1" loc="(530,760)" name="AND Gate">
+      <a name="inputs" val="5"/>
+      <a name="negate0" val="true"/>
+    </comp>
+    <comp lib="1" loc="(1030,380)" name="AND Gate">
+      <a name="width" val="4"/>
+    </comp>
+    <comp lib="8" loc="(728,1335)" name="Text">
+      <a name="text" val="and add/sub Imm3"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(960,1320)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="3"/>
+      <a name="label" val="Rm"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(800,430)" name="Constant">
+      <a name="width" val="4"/>
+      <a name="value" val="0x5"/>
+    </comp>
+    <comp lib="0" loc="(840,980)" name="Constant"/>
+    <comp lib="2" loc="(930,960)" name="Multiplexer">
       <a name="select" val="3"/>
       <a name="enable" val="false"/>
+    </comp>
+    <comp lib="8" loc="(678,1071)" name="Text">
+      <a name="text" val="Select correct bits for Rd"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="8" loc="(699,1191)" name="Text">
+      <a name="text" val="Inhibit Rn selection for move"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="1" loc="(530,550)" name="AND Gate">
+      <a name="inputs" val="5"/>
+      <a name="negate0" val="true"/>
+      <a name="negate3" val="true"/>
+      <a name="negate4" val="true"/>
     </comp>
     <comp lib="8" loc="(698,1570)" name="Text">
       <a name="text" val="Inhibit Imm8 for shift/add/sub"/>
@@ -2120,40 +2095,6 @@ end TCL_Generic;
     <comp lib="8" loc="(573,685)" name="Text">
       <a name="text" val="ADD 0101"/>
       <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="1" loc="(320,340)" name="AND Gate">
-      <a name="width" val="16"/>
-    </comp>
-    <comp lib="0" loc="(1070,790)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="Carry"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="0" loc="(880,830)" name="Constant">
-      <a name="facing" val="north"/>
-      <a name="value" val="0x0"/>
-    </comp>
-    <comp lib="1" loc="(510,490)" name="AND Gate">
-      <a name="size" val="30"/>
-      <a name="inputs" val="3"/>
-      <a name="negate0" val="true"/>
-      <a name="negate2" val="true"/>
-    </comp>
-    <comp lib="1" loc="(530,690)" name="AND Gate">
-      <a name="inputs" val="5"/>
-      <a name="negate0" val="true"/>
-      <a name="negate4" val="true"/>
-    </comp>
-    <comp lib="2" loc="(580,1320)" name="Multiplexer">
-      <a name="select" val="3"/>
-      <a name="width" val="3"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="2" loc="(720,510)" name="Priority Encoder"/>
-    <comp lib="0" loc="(800,330)" name="Constant">
-      <a name="width" val="4"/>
-      <a name="value" val="0x2"/>
     </comp>
     <comp lib="0" loc="(400,1300)" name="Splitter">
       <a name="fanout" val="1"/>
@@ -2176,14 +2117,93 @@ end TCL_Generic;
       <a name="bit14" val="none"/>
       <a name="bit15" val="none"/>
     </comp>
-    <comp lib="0" loc="(840,980)" name="Constant"/>
-    <comp lib="0" loc="(470,1550)" name="Bit Extender">
-      <a name="in_width" val="3"/>
-      <a name="out_width" val="32"/>
-      <a name="type" val="zero"/>
+    <comp lib="8" loc="(453,1588)" name="Text">
+      <a name="text" val="Imm8"/>
+      <a name="font" val="SansSerif plain 12"/>
     </comp>
-    <comp lib="0" loc="(100,270)" name="Pin">
-      <a name="label" val="Enable"/>
+    <comp lib="2" loc="(580,1200)" name="Multiplexer">
+      <a name="select" val="3"/>
+      <a name="width" val="3"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="2" loc="(930,400)" name="Multiplexer">
+      <a name="select" val="3"/>
+      <a name="width" val="4"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="0" loc="(1070,960)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="Imm32_Enable"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(1070,790)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="Carry"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="8" loc="(458,1101)" name="Text">
+      <a name="text" val="Rd_MOV"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(390,1600)" name="Splitter">
+      <a name="fanout" val="1"/>
+      <a name="incoming" val="16"/>
+      <a name="appear" val="right"/>
+      <a name="bit1" val="0"/>
+      <a name="bit2" val="0"/>
+      <a name="bit3" val="0"/>
+      <a name="bit4" val="0"/>
+      <a name="bit5" val="0"/>
+      <a name="bit6" val="0"/>
+      <a name="bit7" val="0"/>
+      <a name="bit8" val="none"/>
+      <a name="bit9" val="none"/>
+      <a name="bit10" val="none"/>
+      <a name="bit11" val="none"/>
+      <a name="bit12" val="none"/>
+      <a name="bit13" val="none"/>
+      <a name="bit14" val="none"/>
+      <a name="bit15" val="none"/>
+    </comp>
+    <comp lib="0" loc="(800,390)" name="Constant">
+      <a name="width" val="4"/>
+      <a name="value" val="0x5"/>
+    </comp>
+    <comp lib="0" loc="(390,1050)" name="Splitter">
+      <a name="fanout" val="1"/>
+      <a name="incoming" val="16"/>
+      <a name="appear" val="right"/>
+      <a name="bit1" val="0"/>
+      <a name="bit2" val="0"/>
+      <a name="bit3" val="none"/>
+      <a name="bit4" val="none"/>
+      <a name="bit5" val="none"/>
+      <a name="bit6" val="none"/>
+      <a name="bit7" val="none"/>
+      <a name="bit8" val="none"/>
+      <a name="bit9" val="none"/>
+      <a name="bit10" val="none"/>
+      <a name="bit11" val="none"/>
+      <a name="bit12" val="none"/>
+      <a name="bit13" val="none"/>
+      <a name="bit14" val="none"/>
+      <a name="bit15" val="none"/>
+    </comp>
+    <comp lib="0" loc="(200,310)" name="Bit Extender">
+      <a name="in_width" val="1"/>
+    </comp>
+    <comp lib="1" loc="(510,390)" name="AND Gate">
+      <a name="size" val="30"/>
+      <a name="inputs" val="3"/>
+      <a name="negate0" val="true"/>
+      <a name="negate1" val="true"/>
+      <a name="negate2" val="true"/>
+    </comp>
+    <comp lib="0" loc="(800,470)" name="Constant">
+      <a name="width" val="4"/>
+      <a name="value" val="0x9"/>
     </comp>
     <comp lib="1" loc="(510,820)" name="AND Gate">
       <a name="size" val="30"/>
@@ -2191,29 +2211,9 @@ end TCL_Generic;
       <a name="negate1" val="true"/>
       <a name="negate2" val="true"/>
     </comp>
-    <comp lib="8" loc="(438,324)" name="Text">
-      <a name="text" val="Extract lower level opcode"/>
+    <comp lib="8" loc="(971,736)" name="Text">
+      <a name="text" val="Enable carry for SUB since it is reversed in ALU"/>
       <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(960,1450)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="5"/>
-      <a name="label" val="Imm5"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="2" loc="(580,1200)" name="Multiplexer">
-      <a name="select" val="3"/>
-      <a name="width" val="3"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="8" loc="(445,1295)" name="Text">
-      <a name="text" val="Rm_Add_Sub_register"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(800,350)" name="Constant">
-      <a name="width" val="4"/>
-      <a name="value" val="0x3"/>
     </comp>
   </circuit>
   <circuit name="Load_Store">
@@ -2242,14 +2242,14 @@ end TCL_Generic;
       <rect height="4" stroke="none" width="10" x="260" y="158"/>
       <text fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="252" y="102">RAM_Addr</text>
       <rect height="20" stroke="none" width="200" x="60" y="169"/>
-      <circ-port height="10" pin="880,90" width="10" x="265" y="135"/>
       <circ-port height="8" pin="210,520" width="8" x="46" y="96"/>
-      <circ-port height="10" pin="880,670" width="10" x="265" y="95"/>
       <circ-port height="8" pin="210,30" width="8" x="46" y="76"/>
-      <circ-port height="10" pin="880,580" width="10" x="265" y="75"/>
       <circ-port height="8" pin="210,80" width="8" x="46" y="56"/>
-      <circ-port height="10" pin="880,520" width="10" x="265" y="55"/>
       <circ-port height="10" pin="880,160" width="10" x="265" y="115"/>
+      <circ-port height="10" pin="880,520" width="10" x="265" y="55"/>
+      <circ-port height="10" pin="880,580" width="10" x="265" y="75"/>
+      <circ-port height="10" pin="880,670" width="10" x="265" y="95"/>
+      <circ-port height="10" pin="880,90" width="10" x="265" y="135"/>
       <rect fill="none" height="139" stroke="#000000" stroke-width="2" width="200" x="60" y="50"/>
       <text fill="#ffffff" font-family="Dialog" font-size="14" font-weight="bold" text-anchor="middle" x="160" y="185">Load_Store</text>
       <text fill="#404040" font-family="SansSerif" font-size="12" text-anchor="middle" x="74" y="124">Clk</text>
@@ -2323,12 +2323,11 @@ end TCL_Generic;
     <wire from="(240,30)" to="(580,30)"/>
     <wire from="(240,290)" to="(580,290)"/>
     <wire from="(400,100)" to="(470,100)"/>
-    <comp lib="1" loc="(830,160)" name="AND Gate">
-      <a name="size" val="30"/>
+    <comp lib="1" loc="(750,670)" name="AND Gate">
+      <a name="width" val="32"/>
     </comp>
-    <comp lib="0" loc="(210,80)" name="Pin">
-      <a name="width" val="16"/>
-      <a name="label" val="Instruction"/>
+    <comp lib="1" loc="(640,280)" name="AND Gate">
+      <a name="size" val="30"/>
     </comp>
     <comp lib="0" loc="(880,520)" name="Pin">
       <a name="facing" val="west"/>
@@ -2337,26 +2336,30 @@ end TCL_Generic;
       <a name="label" val="Rm"/>
       <a name="labelloc" val="east"/>
     </comp>
-    <comp lib="0" loc="(210,350)" name="Pin">
-      <a name="label" val="Reset"/>
-    </comp>
-    <comp lib="1" loc="(640,280)" name="AND Gate">
-      <a name="size" val="30"/>
-    </comp>
-    <comp lib="0" loc="(560,690)" name="Bit Extender">
-      <a name="in_width" val="1"/>
-      <a name="out_width" val="32"/>
+    <comp lib="1" loc="(850,90)" name="AND Gate">
+      <a name="inputs" val="3"/>
+      <a name="negate1" val="true"/>
     </comp>
     <comp lib="0" loc="(710,260)" name="Constant">
       <a name="facing" val="west"/>
       <a name="value" val="0x0"/>
     </comp>
-    <comp lib="1" loc="(750,670)" name="AND Gate">
-      <a name="width" val="32"/>
+    <comp lib="0" loc="(310,120)" name="Bit Extender">
+      <a name="in_width" val="1"/>
     </comp>
-    <comp lib="0" loc="(650,620)" name="Constant">
-      <a name="facing" val="south"/>
-      <a name="value" val="0x0"/>
+    <comp lib="1" loc="(400,100)" name="AND Gate">
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="4" loc="(670,270)" name="D Flip-Flop"/>
+    <comp lib="0" loc="(210,30)" name="Pin">
+      <a name="label" val="Enable"/>
+    </comp>
+    <comp lib="0" loc="(210,80)" name="Pin">
+      <a name="width" val="16"/>
+      <a name="label" val="Instruction"/>
+    </comp>
+    <comp lib="1" loc="(830,160)" name="AND Gate">
+      <a name="size" val="30"/>
     </comp>
     <comp lib="0" loc="(880,90)" name="Pin">
       <a name="facing" val="west"/>
@@ -2364,52 +2367,26 @@ end TCL_Generic;
       <a name="label" val="Store"/>
       <a name="labelloc" val="east"/>
     </comp>
-    <comp lib="1" loc="(400,100)" name="AND Gate">
-      <a name="width" val="16"/>
+    <comp lib="0" loc="(880,160)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="Load"/>
+      <a name="labelloc" val="east"/>
     </comp>
-    <comp lib="8" loc="(753,226)" name="Text">
-      <a name="text" val="Delay load and hold PC for 1 cycle for the RAM to send out requested data "/>
-      <a name="font" val="SansSerif plain 12"/>
+    <comp lib="0" loc="(650,620)" name="Constant">
+      <a name="facing" val="south"/>
+      <a name="value" val="0x0"/>
     </comp>
-    <comp lib="0" loc="(560,620)" name="Bit Extender">
+    <comp lib="1" loc="(830,400)" name="AND Gate">
+      <a name="size" val="30"/>
+      <a name="negate0" val="true"/>
+    </comp>
+    <comp lib="0" loc="(560,690)" name="Bit Extender">
+      <a name="in_width" val="1"/>
       <a name="out_width" val="32"/>
     </comp>
-    <comp lib="0" loc="(310,120)" name="Bit Extender">
-      <a name="in_width" val="1"/>
-    </comp>
-    <comp lib="0" loc="(210,320)" name="Pin">
-      <a name="label" val="Clk"/>
-    </comp>
-    <comp lib="0" loc="(880,400)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="label" val="PC_Hold"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="0" loc="(880,670)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-      <a name="label" val="RAM_Addr"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="0" loc="(210,30)" name="Pin">
-      <a name="label" val="Enable"/>
-    </comp>
-    <comp lib="0" loc="(880,580)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="3"/>
-      <a name="label" val="Rd"/>
-      <a name="labelloc" val="east"/>
-    </comp>
-    <comp lib="4" loc="(670,270)" name="D Flip-Flop"/>
     <comp lib="3" loc="(670,650)" name="Adder">
       <a name="width" val="32"/>
-    </comp>
-    <comp lib="1" loc="(850,90)" name="AND Gate">
-      <a name="inputs" val="3"/>
-      <a name="negate1" val="true"/>
     </comp>
     <comp lib="0" loc="(470,100)" name="Splitter">
       <a name="fanout" val="3"/>
@@ -2431,19 +2408,42 @@ end TCL_Generic;
       <a name="bit14" val="none"/>
       <a name="bit15" val="none"/>
     </comp>
+    <comp lib="0" loc="(880,400)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="label" val="PC_Hold"/>
+      <a name="labelloc" val="east"/>
+    </comp>
+    <comp lib="0" loc="(210,320)" name="Pin">
+      <a name="label" val="Clk"/>
+    </comp>
     <comp lib="0" loc="(210,520)" name="Pin">
       <a name="width" val="32"/>
       <a name="label" val="Stack_Pointer"/>
     </comp>
-    <comp lib="0" loc="(880,160)" name="Pin">
+    <comp lib="8" loc="(753,226)" name="Text">
+      <a name="text" val="Delay load and hold PC for 1 cycle for the RAM to send out requested data "/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(210,350)" name="Pin">
+      <a name="label" val="Reset"/>
+    </comp>
+    <comp lib="0" loc="(880,580)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
-      <a name="label" val="Load"/>
+      <a name="width" val="3"/>
+      <a name="label" val="Rd"/>
       <a name="labelloc" val="east"/>
     </comp>
-    <comp lib="1" loc="(830,400)" name="AND Gate">
-      <a name="size" val="30"/>
-      <a name="negate0" val="true"/>
+    <comp lib="0" loc="(560,620)" name="Bit Extender">
+      <a name="out_width" val="32"/>
+    </comp>
+    <comp lib="0" loc="(880,670)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+      <a name="label" val="RAM_Addr"/>
+      <a name="labelloc" val="east"/>
     </comp>
   </circuit>
   <circuit name="SP_Address">
@@ -2464,10 +2464,10 @@ end TCL_Generic;
       <text fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="325" y="83">Write_Enable</text>
       <rect height="4" stroke="none" width="10" x="330" y="78"/>
       <circ-port height="10" pin="970,390" width="10" x="335" y="55"/>
-      <circ-port height="8" pin="200,60" width="8" x="46" y="76"/>
       <circ-port height="10" pin="1050,160" width="10" x="335" y="75"/>
-      <circ-port height="8" pin="200,150" width="8" x="46" y="56"/>
       <circ-port height="8" pin="210,350" width="8" x="46" y="96"/>
+      <circ-port height="8" pin="200,150" width="8" x="46" y="56"/>
+      <circ-port height="8" pin="200,60" width="8" x="46" y="76"/>
       <text fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="327" y="64">New_Stack_Pointer</text>
       <rect height="20" stroke="none" width="270" x="60" y="110"/>
       <rect fill="none" height="80" stroke="#000000" stroke-width="2" width="270" x="60" y="50"/>
@@ -2518,8 +2518,19 @@ end TCL_Generic;
     <wire from="(790,380)" to="(870,380)"/>
     <wire from="(790,400)" to="(870,400)"/>
     <wire from="(750,390)" to="(760,390)"/>
-    <comp lib="3" loc="(770,360)" name="Adder">
+    <comp lib="0" loc="(210,350)" name="Pin">
       <a name="width" val="32"/>
+      <a name="label" val="Stack_Pointer"/>
+    </comp>
+    <comp lib="1" loc="(390,130)" name="AND Gate">
+      <a name="width" val="16"/>
+    </comp>
+    <comp lib="8" loc="(714,127)" name="Text">
+      <a name="text" val="Check miscellaneous 16-bit instructions opcode"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(200,60)" name="Pin">
+      <a name="label" val="Enable"/>
     </comp>
     <comp lib="0" loc="(970,390)" name="Pin">
       <a name="facing" val="west"/>
@@ -2528,57 +2539,16 @@ end TCL_Generic;
       <a name="label" val="New_Stack_Pointer"/>
       <a name="labelloc" val="east"/>
     </comp>
-    <comp lib="1" loc="(770,170)" name="AND Gate">
-      <a name="inputs" val="4"/>
-      <a name="negate0" val="true"/>
-      <a name="negate1" val="true"/>
-      <a name="negate2" val="true"/>
-      <a name="negate3" val="true"/>
-    </comp>
     <comp lib="8" loc="(738,314)" name="Text">
       <a name="text" val="ADD or SUB"/>
       <a name="font" val="SansSerif plain 12"/>
     </comp>
-    <comp lib="0" loc="(210,350)" name="Pin">
+    <comp lib="3" loc="(770,360)" name="Adder">
       <a name="width" val="32"/>
-      <a name="label" val="Stack_Pointer"/>
-    </comp>
-    <comp lib="0" loc="(200,60)" name="Pin">
-      <a name="label" val="Enable"/>
-    </comp>
-    <comp lib="8" loc="(326,52)" name="Text">
-      <a name="text" val="Pull output low on Enable = 0"/>
-      <a name="font" val="SansSerif plain 12"/>
-    </comp>
-    <comp lib="0" loc="(620,400)" name="Bit Extender">
-      <a name="in_width" val="7"/>
-      <a name="out_width" val="32"/>
-      <a name="type" val="zero"/>
     </comp>
     <comp lib="0" loc="(750,330)" name="Constant">
       <a name="facing" val="south"/>
       <a name="value" val="0x0"/>
-    </comp>
-    <comp lib="1" loc="(1000,160)" name="AND Gate">
-      <a name="size" val="30"/>
-    </comp>
-    <comp lib="0" loc="(760,390)" name="Constant">
-      <a name="facing" val="west"/>
-      <a name="value" val="0x0"/>
-    </comp>
-    <comp lib="0" loc="(200,150)" name="Pin">
-      <a name="width" val="16"/>
-      <a name="label" val="Instruction"/>
-    </comp>
-    <comp lib="1" loc="(390,130)" name="AND Gate">
-      <a name="width" val="16"/>
-    </comp>
-    <comp lib="2" loc="(900,390)" name="Multiplexer">
-      <a name="width" val="32"/>
-      <a name="enable" val="false"/>
-    </comp>
-    <comp lib="3" loc="(770,420)" name="Subtractor">
-      <a name="width" val="32"/>
     </comp>
     <comp lib="0" loc="(530,130)" name="Splitter">
       <a name="facing" val="south"/>
@@ -2600,12 +2570,25 @@ end TCL_Generic;
       <a name="bit14" val="none"/>
       <a name="bit15" val="none"/>
     </comp>
-    <comp lib="8" loc="(714,127)" name="Text">
-      <a name="text" val="Check miscellaneous 16-bit instructions opcode"/>
-      <a name="font" val="SansSerif plain 12"/>
+    <comp lib="0" loc="(200,150)" name="Pin">
+      <a name="width" val="16"/>
+      <a name="label" val="Instruction"/>
     </comp>
-    <comp lib="0" loc="(310,110)" name="Bit Extender">
-      <a name="in_width" val="1"/>
+    <comp lib="1" loc="(1000,160)" name="AND Gate">
+      <a name="size" val="30"/>
+    </comp>
+    <comp lib="3" loc="(770,420)" name="Subtractor">
+      <a name="width" val="32"/>
+    </comp>
+    <comp lib="0" loc="(660,150)" name="Splitter">
+      <a name="fanout" val="4"/>
+      <a name="incoming" val="4"/>
+      <a name="appear" val="right"/>
+    </comp>
+    <comp lib="0" loc="(620,400)" name="Bit Extender">
+      <a name="in_width" val="7"/>
+      <a name="out_width" val="32"/>
+      <a name="type" val="zero"/>
     </comp>
     <comp lib="0" loc="(1050,160)" name="Pin">
       <a name="facing" val="west"/>
@@ -2613,10 +2596,27 @@ end TCL_Generic;
       <a name="label" val="Write_Enable"/>
       <a name="labelloc" val="east"/>
     </comp>
-    <comp lib="0" loc="(660,150)" name="Splitter">
-      <a name="fanout" val="4"/>
-      <a name="incoming" val="4"/>
-      <a name="appear" val="right"/>
+    <comp lib="0" loc="(760,390)" name="Constant">
+      <a name="facing" val="west"/>
+      <a name="value" val="0x0"/>
+    </comp>
+    <comp lib="2" loc="(900,390)" name="Multiplexer">
+      <a name="width" val="32"/>
+      <a name="enable" val="false"/>
+    </comp>
+    <comp lib="1" loc="(770,170)" name="AND Gate">
+      <a name="inputs" val="4"/>
+      <a name="negate0" val="true"/>
+      <a name="negate1" val="true"/>
+      <a name="negate2" val="true"/>
+      <a name="negate3" val="true"/>
+    </comp>
+    <comp lib="8" loc="(326,52)" name="Text">
+      <a name="text" val="Pull output low on Enable = 0"/>
+      <a name="font" val="SansSerif plain 12"/>
+    </comp>
+    <comp lib="0" loc="(310,110)" name="Bit Extender">
+      <a name="in_width" val="1"/>
     </comp>
   </circuit>
   <circuit name="Flags_APSR">
@@ -2655,13 +2655,8 @@ end TCL_Generic;
       <a name="width" val="4"/>
       <a name="label" val="Flags_In"/>
     </comp>
-    <comp lib="0" loc="(180,350)" name="Pin">
-      <a name="label" val="Rst"/>
-    </comp>
-    <comp lib="0" loc="(450,290)" name="Constant"/>
-    <comp lib="0" loc="(190,190)" name="Pin">
+    <comp lib="1" loc="(300,230)" name="AND Gate">
       <a name="width" val="4"/>
-      <a name="label" val="Update_Mask"/>
     </comp>
     <comp lib="1" loc="(410,190)" name="OR Gate">
       <a name="width" val="4"/>
@@ -2669,8 +2664,13 @@ end TCL_Generic;
     <comp lib="0" loc="(180,310)" name="Pin">
       <a name="label" val="Clk"/>
     </comp>
-    <comp lib="1" loc="(300,230)" name="AND Gate">
+    <comp lib="0" loc="(450,290)" name="Constant"/>
+    <comp lib="0" loc="(180,350)" name="Pin">
+      <a name="label" val="Rst"/>
+    </comp>
+    <comp lib="0" loc="(190,190)" name="Pin">
       <a name="width" val="4"/>
+      <a name="label" val="Update_Mask"/>
     </comp>
     <comp lib="0" loc="(830,270)" name="Pin">
       <a name="facing" val="west"/>
