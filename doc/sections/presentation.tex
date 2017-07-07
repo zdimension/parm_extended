@@ -4,43 +4,23 @@
 
 	Le but de ce projet est de simuler le comportement d'un cortex M0 au moyen d'un logiciel de simulation électronique (logisim). L'idée est ici d'obtenir un système ayant un comportement similaire à un Cortex M0 et non une copie conforme du fait de la complexité d'un processeur réel.
 
-\subsection{Assembleur}
+\subsection{Le projet}
+	Durant ce projet nous allons implémenter notre microprocesseur en le divisant en sous bloc à savoir :
+\begin{itemize}
+	\item Partie processeur
+	\begin{itemize}
+		\item ALU
+		\item Banc de registres
+		\item Contrôleur
+	\end{itemize}
+	\item Partie logicielle
+	\begin{itemize}
+		\item Assembleur
+		\item Exportation sur FPGA
+	\end{itemize}
+\end{itemize}
 
-	Le code binaire a exécuter est obtenu par l'assemblage d'instructions issus du jeu d'instructions ARMv7 (contre un jeu ARMv6 dans le cortex M0 réel).
+\subsection{Logisim}
 
-\subsubsection{Syntaxe}
-Syntaxe UAL\\
-S: màj des drapeaux\\
-<c>: condition\\
-Rd: registre destination\\
-<imm?>: immédiat\\
-SP: registre de pointeur de pile en mémoire\\
-opcode: code de l'instruction, peut occuper jusqu'à la taille indiquée\\
-\[\]: argument optionnel\\
-
-Example:
-\begin{lstlisting}
-.LBBH:                                
-	ldr	r0, [sp, #4]
-	ldr	r1, [sp, #28]
-	cmp	r0, r1
-	bge	.LBBK
-	b	.LBBI
-.LBBI:                                
-	ldr	r0, [sp, #20]
-	movs	r1, #1
-	ands	r0, r1
-	str	r0, [sp, #36]
-	ldr	r0, [sp, #32]
-	subs	r0, r1, r0
-	str	r0, [sp, #32]
-	ldr	r0, [sp, #32]
-	ldr	r1, [sp, #36]
-	lsls	r1, r1, #1
-	adds	r0, r0, r1
-	str	r0, [sp, #52]
-	ldr	r0, [sp, #20]
-	asrs	r0, r0, #1
-	str	r0, [sp, #20]
-	b	.LBBJ
-\end{lstlisting}
+\paragraph{}
+	Logisim est un programme permettant la modélisation et la simulation de circuit logique. La modélisation du circuit ne se fait que par dessin et glisser-déposer des différents éléments électroniques.
