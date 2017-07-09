@@ -1,18 +1,29 @@
 \section{Assembleur}
 
-	Le code binaire a exécuter est obtenu par l'assemblage d'instructions issus du jeu d'instructions ARMv7 (contre un jeu ARMv6 dans le cortex M0 réel).
+\subsection{Introduction}
+
+	Le code binaire a exécuter est obtenu par l'assemblage d'instructions issus du jeu d'instructions ARMv7 (contre un jeu ARMv6 dans le Cortex-M0 réel).
+
+Le rôle de l'assembleur est de traduire un programme écrit en langage assembleur dans une représentation que le processeur saura interpréter.
+
+Ici, le langage assembleur sera l'UAL (\textit{Unified Assembler Language}) de ARM, restreint aux instructions ARMv7 implémentées.
+La représentation des instructions en sortie correspond au codage Thumb des instructions, c'est à dire uniquement sur 16-bits (voir \textit{\ref{sec:ISA}~\nameref{sec:ISA}}).
+
+Le format de sortie aura la particularité d'être un fichier texte lisible par Logisim. Les instructions Thumb devront donc être codées en hexadecimal dans un format décrit ci-après.
 
 \subsection{Syntaxe}
-Syntaxe UAL\\
-S: màj des drapeaux\\
-<c>: condition\\
-Rd: registre destination\\
-<imm?>: immédiat\\
-SP: registre de pointeur de pile en mémoire\\
-opcode: code de l'instruction, peut occuper jusqu'à la taille indiquée\\
-\[\]: argument optionnel\\
+Syntaxe UAL:\\
+\texttt{S}: màj des drapeaux\\
+\texttt{<c>}: condition\\
+\texttt{Rm} registre opérande 1\\
+\texttt{Rn}: registre opérande B\\
+\texttt{Rd}: registre destination\\
+\texttt{<immN>}: immédiat sur \texttt{N} bits\\
+\texttt{SP}: registre de pointeur de pile en mémoire\\
+\texttt{opcode}: code de l'instruction, peut occuper jusqu'à la taille indiquée\\
+\texttt{[]}: argument optionnel\\
 
-Example:
+Exemple:
 \begin{lstlisting}
 .LBBH:                                
 	ldr	r0, [sp, #4]
@@ -38,3 +49,18 @@ Example:
 	str	r0, [sp, #20]
 	b	.LBBJ
 \end{lstlisting}
+
+\subsection{Syntaxe Logisim}
+
+Voici un exemple de fichier lisible par Logisim pour remplir le contenu de la ROM:
+
+\begin{lstlisting}
+v2.0 raw
+b08c 2000 9008 21ff 9104 9000 defe 9800
+9904 4288 da08 defe 9800 9908 4081 9108
+defe 9800 1c40 9000 def0 b00c
+\end{lstlisting}
+
+On observe dont un entête \texttt{v2.0 raw}, toujours présent sur la première ligne.
+
+Sur les lignes suivantes, les instructions sont disposées par groupes de 4 caractères hexadecimaux séparés par des espaces, ce qui représente 32 bits. On a donc deux instructions par groupes. Les retours à la ligne sont optionnels.
