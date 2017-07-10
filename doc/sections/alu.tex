@@ -2,9 +2,11 @@
 
 \subsection{Description}
 
-	L'unité arithmétique et logique est l'élèment qui se charge des calculs au sein du processeur. Les ALU les plus basiques ne font que des opérations sur des entiers cependant on trouve des ALU spécialisées. Les calculs sur ces dernières vont des opérations à virgule flottante jusqu'à des calculs plus complexes tels que des racines carrées, des logarithmes, des sinus ou cosinus... Notre ALU n'effectuera que des calculs simples (addition, soustraction, multiplication, décalage) sur des entiers.
+	L'unité arithmétique et logique est l'élèment qui se charge des calculs au sein du processeur. Les ALU les plus basiques ne font que des opérations sur des entiers cependant on trouve des ALU spécialisées. Les calculs sur ces dernières vont des opérations à virgule flottante jusqu'à des calculs plus complexes tels que des racines carrées, des logarithmes, des sinus ou cosinus... Notre ALU n'effectuera que des calculs simples (addition, soustraction, multiplication, décalage) sur des entiers de 32 bits.
 
 	Une ALU comporte deux entrées amenant les données à traiter. Une troisième entrée permet de désigner le calcul à effectuer. En sortie on retrouvera le résultat de l'opération ainsi que des drapeaux. Ces drapeaux représentent une série d'état à la suite d'un calcul : un résultat négatif, un résultat nul, un débordement ou encore une retenue. 
+
+L'entrée \texttt{Shift} indique le nombre de décalage pour les opérations de décalage.
 
 
 \paragraph{Remarque:} les instructions \texttt{TST}, \texttt{CMP}, \texttt{CMN} n'enregistrent pas le résultat de l'opération. Seuls les drapeaux sont mis à jour.
@@ -21,13 +23,13 @@ Pour ces opérations en particulier, il faudra recopier l'entrée \texttt{B} sur
 \textbf{Port}		& \textbf{Taille} & \textbf{Description}\\
 \hline
 
-\texttt{A}		& \texttt{32} & Registre première opérande\\
+\texttt{A}		& \texttt{32} & Première opérande\\
 \hline
-\texttt{B}		& \texttt{32} & Registre seconde opérande\\
+\texttt{B}		& \texttt{32} & Seconde opérande\\
 \hline
-\texttt{Shift}		&  \texttt{5} & Immédiat nombre de décalage\\
+\texttt{Shift}		&  \texttt{5} & Nombre de décalage\\
 \hline
-\texttt{CarryIn}	&  \texttt{1} & Signal retenu entrente\\
+\texttt{CarryIn}	&  \texttt{1} & Retenu entrente\\
 \hline
 \texttt{Codop}		&  \texttt{4} & Code opération ALU\\
 

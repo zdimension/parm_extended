@@ -9,8 +9,8 @@
 \begin{itemize}
 	\item Partie matérielle:
 	\begin{itemize}
-		\item ALU
-		\item Banc de registres
+		\item ALU 32 bits
+		\item Banc de 8 registres
 		\item Contrôleur
 	\end{itemize}
 	\item Partie logicielle:
@@ -125,6 +125,10 @@ composant quelconque. On clique sur le sous circuit en question dans le menu ind
 place en cliquant sur la zone d'édition.
 \item Si le sous circuit avait été créé correctement, alors il devrait être représenté par un petit bloc, avec
 sur sa gauche des points bleus correspondant aux entrées et sur sa droite des points verts correspondant aux sorties.
+\item Si les sorties apparaissent en bleu et non en vert sur le schéma, vérifiez que vous avez bien affecté l'attribut
+\texttt{Sortie?} $=$ \texttt{Oui} dans les \texttt{Pin}s de sortie.
+
+\end{enumerate}
 
 \begin{figure}[H]
 \begin{center}
@@ -133,10 +137,6 @@ sur sa gauche des points bleus correspondant aux entrées et sur sa droite des p
 \end{center}
 \end{figure}
 
-\item Si les sorties apparaissent en bleu et non en vert sur le schéma, vérifiez que vous avez bien affecté l'attribut
-\texttt{Sortie?} $=$ \texttt{Oui} dans les \texttt{Pin}s de sortie.
-
-\end{enumerate}
 
 \subsubsection{Bus et séparateurs}
 
