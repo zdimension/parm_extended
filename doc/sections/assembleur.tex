@@ -24,30 +24,29 @@ Syntaxe UAL:\\
 \texttt{[]}: argument optionnel\\
 
 Exemple:
+Code C :
+\lstset{language=C}
 \begin{lstlisting}
-.LBBH:                                
-	ldr	r0, [sp, #4]
-	ldr	r1, [sp, #28]
-	cmp	r0, r1
-	bge	.LBBK
-	b	.LBBI
-.LBBI:                                
-	ldr	r0, [sp, #20]
+int main() {
+	int a,b,c;
+	a = 0;
+	b = 1;
+	c = a + b;
+}
+\end{lstlisting}
+
+Code assembleur pour le cortex M0 :
+\begin{lstlisting}
+	sub	sp, #12
+	movs	r0, #0
+	str	r0, [sp, #8]
 	movs	r1, #1
-	ands	r0, r1
-	str	r0, [sp, #36]
-	ldr	r0, [sp, #32]
-	subs	r0, r1, r0
-	str	r0, [sp, #32]
-	ldr	r0, [sp, #32]
-	ldr	r1, [sp, #36]
-	lsls	r1, r1, #1
-	adds	r0, r0, r1
-	str	r0, [sp, #52]
-	ldr	r0, [sp, #20]
-	asrs	r0, r0, #1
-	str	r0, [sp, #20]
-	b	.LBBJ
+	str	r1, [sp, #4]
+	ldr	r1, [sp, #8]
+	ldr	r2, [sp, #4]
+	adds	r1, r1, r2
+	str	r1, [sp]
+	add	sp, #12
 \end{lstlisting}
 
 \subsection{Syntaxe Logisim}
