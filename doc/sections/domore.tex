@@ -1,0 +1,38 @@
+\section{Pour aller plus loin}
+\subsection{Compilation de code C}
+Avec le jeu d'instructions de ce processeur, il est possible d'exécuté du code C compilé par \texttt{Clang}.
+Il doit cependant rester relativement simple avec une structure bien précise.
+
+\paragraph{}
+En particulier, on évitera:
+\begin{itemize}
+	\item Les appels de fonctions (\texttt{LR}, \texttt{PUSH}, \texttt{POP} non implémentés)
+	\item Les variables globales et \texttt{static} (adressage uniquement sur la pile)
+\end{itemize}
+
+On s'assurera donc:
+\begin{itemize}
+	\item D'écrire tout le code dans la fonction \texttt{main()}
+	\item De placer toutes les valeurs (y compris celles de comparaison dans les conditions) dans des variables
+	\item De déclarer toutes les variables dans le corps de la fonction \texttt{main()}
+\end{itemize}
+
+\paragraph{}
+La commande à utiliser est la suivante:
+\begin{lstlisting}
+	clang -S -target arm-none-eabi -mcpu=cortex-m0 -O0 -mfloat-abi=soft main.c
+\end{lstlisting}
+avec \texttt{main.c} le fichier source C.
+
+Cela crééra un fichier de sortie \texttt{main.s} dont il faudra extraire les instructions assembleur, 
+de la directive \texttt{.pad} exclue jusqu'à la ligne \texttt{bx lr} exclue qui correspond au retour de la fonction \texttt{main()}.
+
+\paragraph{Remarque:} \texttt{bx lr} correspond au retour à la fonction appellante, inexistante ici.
+L'instruction n'est de plus pas implémentée, il suffit donc de supprimer cette ligne.
+Si le programme contient une boucle \texttt{while (1)} principale, la fonction \texttt{main()} ne retourne pas donc l'instruction \texttt{bx lr} sera absente.
+
+\paragraph{}
+Le code assembleur extrait devra être passé à l'assembleur écrit dans le cadre du projet pour générer le fichier lisible par Logisim et pouvoir l'importer dans la ROM.
+
+
+\subsection{Entrées/Sorties}
