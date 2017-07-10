@@ -95,6 +95,9 @@ Le signal \texttt{Load} est définit à 1 de manière à toujours obtenir la don
 
 Lorsque le signal \texttt{Store} est activé, les données présentent sur l'entrée \texttt{Input} sont enregistrées dans la RAM à l'adresse \texttt{Address}.
 
+\paragraph{Remarque:} sous Logisim, le paramètre \texttt{Databus implementation} doit être défini à \texttt{Separate databus for read and write} 
+et le paramètre \texttt{Trigger} à \texttt{Flanc Montant} afin de pouvoir déployer le composant sur FPGA.
+
 \subsubsection{Interface}
 
 \subsubsubsection{Entrées}
