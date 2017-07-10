@@ -20,9 +20,34 @@
 	\end{itemize}
 \end{itemize}
 
+
+\paragraph{Spécificités de l'implémentation}
+\begin{itemize}
+	\item Pas de gestion des interruptions
+	\item Pas de gestion des appels de fonctions
+	\item Pas d'optimisation
+	\item Pas de pipeline
+	\item Pas de FPU \footnote{\textit{Floating-Point Unit}, unité de calcul en virgule flottante}
+	\item Pas de MMU \footnote{\textit{Memory Management Unit}, unité de gestion mémoire, gère la traduction des adresses virtuelles en adresses physiques au sein du processeur}
+	\item Toutes les instructions s'exécutent en 1 cycle (excepté les instructions \texttt{LDR}/\texttt{STR} en 2 cycles)
+	\item Instructions sur 16 bits
+	\item Données sur 32 bits
+	\item Adressage RAM/ROM sur 8 bits
+	\item Adressage RAM uniquement sur la pile (en utilisant le \textit{Stack Pointer})
+\end{itemize}
+
 \subsection{Logisim}
 
 Logisim est un programme permettant la modélisation et la simulation de circuit logique. La modélisation du circuit ne se fait que par dessin et glisser-déposer des différents éléments électroniques.
+
+\paragraph{Installation:} sur Ubuntu 16.04, ajouter le PPA \texttt{polytech-nice/logisim-evolution} puis installer le paquet \texttt{logisim-evolution}:
+\begin{lstlisting}
+sudo add-apt-repository ppa:polytech-nice/logisim-evolution
+sudo apt update
+sudo apt install logisim-evolution
+\end{lstlisting}
+
+\paragraph{}
 
 \textit{Cette section est un extrait du tutoriel officiel «Introduction à l’utilisation de Logisim». Pour plus d'informations, se référer à la documentation officielle.}
 \paragraph{}
