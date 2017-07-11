@@ -24,8 +24,20 @@ Syntaxe UAL:\\
 \texttt{[]}: argument optionnel\\
 
 Exemple:
+
+Nous allons partir d'un exemple très simple : 3 variables sont déclarées sur la pile, \textit{a} et \textit{b} ont une valeur qui leur est propre et nous stockons dans c le résultat de l'addition \textit{a + b}.
+\newline 
+\lstset{
+   language=C,
+   keywordstyle=\color{blue},
+   frame=single,
+   breaklines=true,
+   linewidth= 18cm,
+   xleftmargin=-0.08\textwidth,
+   postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+}
+\begin{minipage}{\linewidth}
 Code C :
-\lstset{language=C}
 \begin{lstlisting}
 int main() {
 	int a,b,c;
@@ -34,30 +46,38 @@ int main() {
 	c = a + b;
 }
 \end{lstlisting}
-
+\end{minipage}
+\lstset{
+  frame=single,
+  breaklines=true,
+  linewidth= 18cm,
+  xleftmargin=-0.08\textwidth,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+}
+\begin{center}
+\begin{minipage}{\linewidth}
 Code assembleur pour le cortex M0 :
 \begin{lstlisting}
-	sub	sp, #12
-	movs	r0, #0
-	str	r0, [sp, #8]
-	movs	r1, #1
-	str	r1, [sp, #4]
-	ldr	r1, [sp, #8]
-	ldr	r2, [sp, #4]
-	adds	r1, r1, r2
-	str	r1, [sp]
-	add	sp, #12
+sub	sp, #12 	// Agrandir la pile de 3*4 octets d'où le sp - 12
+movs	r0, #0 		// Placer dans un registre la valeur contenue dans la variable a 
+str	r0, [sp, #8]	// Stocker cette valeur dans la pile
+movs	r1, #1		// Placer dans un registre la valeur contenue dans la variable b 
+str	r1, [sp, #4]	// Stocker cette valeur dans la pile
+ldr	r1, [sp, #8]	// Charger dans le registre 1 la valeur contenue à la dernière adresse de la pile
+ldr	r2, [sp, #4]	// Charger dans le registre 2 la valeur contenue à l'avant dernière adresse de la pile
+adds	r1, r1, r2	// Additionner les valeurs des registres 1 et 2, stocker le résultat dans le registre 1
+str	r1, [sp]	// Stocker le contenu du registre 1 à l'adresse pointée par le pointeur de pile
+add	sp, #12		// Réduire la pile de 3*4 octets
 \end{lstlisting}
+\end{minipage}
+\end{center}
 
 \subsection{Syntaxe Logisim}
 
-Voici un exemple de fichier lisible par Logisim pour remplir le contenu de la ROM:
-
+Voici un exemple de fichier lisible par Logisim pour remplir le contenu de la ROM obtenu par assemblage du code assembleur ci-dessus :
 \begin{lstlisting}
 v2.0 raw
-b08c 2000 9008 21ff 9104 9000 defe 9800
-9904 4288 da08 defe 9800 9908 4081 9108
-defe 9800 1c40 9000 def0 b00c
+b08c 2000 9008 2101 9104 9908 9a04 1889 9100 b00c 
 \end{lstlisting}
 
 On observe dont un entête \texttt{v2.0 raw}, toujours présent sur la première ligne.
