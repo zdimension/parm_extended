@@ -23,6 +23,7 @@
 \usepackage{ccicons}
 \usepackage{array}
 \usepackage{listings}
+\usepackage{tocloft}
 
 \usepackage{ifluatex}
 \ifluatex
@@ -51,6 +52,16 @@
 
 %% <current page>/<total pages> footer
 \cfoot{\thepage/\pageref{LastPage}}
+
+
+
+\hypersetup{
+colorlinks=true,
+linktoc=all,
+linkcolor=black,
+urlcolor=blue,
+}
+
 
 \newcommand\image[2]{
 \directlua{
@@ -116,7 +127,7 @@ node.write(img.node(image))
 \lstset{xleftmargin=.25in}
 
 \maketitle
-\textcolor{blue}{\url{https://github.com/NassimBounouas/Stage_SI3_PeP}}
+\url{https://github.com/NassimBounouas/Stage_SI3_PeP}
 \tableofcontents
 
 \newpage
@@ -131,6 +142,7 @@ node.write(img.node(image))
 \input{sections/assembleur.tex}
 \input{sections/fpgadeploy.tex}
 \input{sections/jeuinstructions.tex}
+\input{sections/domore.tex}
 
 
 \end{document}
