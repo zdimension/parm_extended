@@ -53,6 +53,16 @@
 %% <current page>/<total pages> footer
 \cfoot{\thepage/\pageref{LastPage}}
 
+
+
+\hypersetup{
+colorlinks=true,
+linktoc=all,
+linkcolor=black,
+urlcolor=blue,
+}
+
+
 \newcommand\image[2]{
 \directlua{
 local image = img.scan({filename = "#1"})
@@ -117,7 +127,7 @@ node.write(img.node(image))
 \lstset{xleftmargin=.25in}
 
 \maketitle
-\textcolor{blue}{\url{https://github.com/NassimBounouas/Stage_SI3_PeP}}
+\url{https://github.com/NassimBounouas/Stage_SI3_PeP}
 \tableofcontents
 
 \newpage

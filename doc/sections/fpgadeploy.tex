@@ -23,7 +23,7 @@ Il sera donc possible d'observer le comportement du processeur sur du vrai maté
 sudo apt install libc6-i386 libx11-6:i386 libxext6:i386
 	\end{lstlisting}
 
-	\item Ajouter le fichier de règles pour l'accès à l'USB de la carte:
+	\item Ajouter le fichier de règles \texttt{51-usbblaster.rules} pour l'accès à l'USB de la carte, disponible à l'adresse \url{https://files.miaounyan.eu/Quartus/}:
 	\begin{lstlisting}
 sudo cp 51-usbblaster.rules /etc/udev/rules.d/
 	\end{lstlisting}
@@ -37,7 +37,7 @@ sudo udevadm control --reload
 \noindent Dans Ubuntu 16.04
 \begin{enumerate}
 	\item Télécharger \texttt{QuartusSetupWeb-13.0.1.232.run} et \texttt{cyclone\_web-13.0.232.qdz} à l'adresse: \\
-	\textcolor{blue}{\url{http://miaounyan.eu/}}
+	\url{https://files.miaounyan.eu/Quartus/}
 	\item Définir \texttt{QuartusSetupWeb-13.0.1.232.run} comme exécutable:
 		\begin{itemize}
 			\item À l'aide d'un gestionnaire de fichier graphique

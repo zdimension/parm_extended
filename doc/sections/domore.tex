@@ -36,3 +36,24 @@ Le code assembleur extrait devra être passé à l'assembleur écrit dans le cad
 
 
 \subsection{Entrées/Sorties}
+
+Pour pouvoir s'interfacer avec le monde extérieur, un système doit disposer d'entrées/sorties.
+Jusque là, notre processeur ne disposait pas d'entrées, le seul contrôle possible était d'actionner l'horloge et de forcer une remise à zéro.
+Quant aux sorties, elles étaient limitées à la visualisation du contenu des registres.
+
+\paragraph{}
+Nous souhaitons donc pouvoir dialoguer avec un ou plusieurs périphériques.
+Pour cela, nous allons mettre en place le concept de \textit{Memory-mapped I/O}, qui consiste à réserver une partie de l'espace d'adressage mémoire pour les entrées/sorties.
+
+Dans notre cas, notre RAM est adressée en 8 bits, on peut donc utiliser un 9\ieme {} bit pour dialoguer avec les entrées/sorties.
+
+Si l'adresse mémoire est strictement inférieure à 256, les instructions \texttt{LDR} et \texttt{STR} affecteront la RAM.
+
+Si l'adresse mémoire est supérieure ou égale à 256, les instructions \texttt{LDR} et \texttt{STR} affecteront un banc de registres.
+On ne crééra pas 256 registres, quelques registres sur les premières adresses seront amplement suffisant.
+
+Nos bus d'entrées/sorties pourront être extraits à partir des registres.
+Par exemple, pour dialoguer sur un bus $I^2C$, on pourra extraire les 2 bits de poids faible du registre 0 pour les connecter aux lignes \texttt{SDA} et \texttt{SDL}.
+
+\paragraph{}
+Notre processeur ne disposant pas d'interruptions, certains protocoles ne seront pas implémentables.
