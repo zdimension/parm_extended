@@ -7,4 +7,10 @@ int parm_token_stack_begin = 0;
 #define INPUT *(&parm_token_stack_begin + 1)
 #define OUTPUT *(&parm_token_stack_begin + 2)
 
+#define read_in(a) \
+*a = INPUT;
+
+#define write_out(a) \
+OUTPUT = *a;
+
 #endif
