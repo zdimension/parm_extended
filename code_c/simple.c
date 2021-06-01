@@ -5,6 +5,6 @@ void run()
   INIT();
   int a = 1 + 1;
   RES = a;
-  PRINTRES();
+  char msg[] = "Poly";
   while(1);
 }
