@@ -1,4 +1,4 @@
-#include "pins.h"
+#include "parm.h"
 
 #define OPa DIP1
 #define OPb DIP2
