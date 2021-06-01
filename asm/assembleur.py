@@ -5,6 +5,7 @@ import os
 import re
 import sys
 
+# Internal operand regexes
 regexes = [
     (r"(?:\{(R\w+)\})", r"(?P<F\1>r(?P<\1>\\d))"),
     (r"(?:\{(imm3)\})", r"(?P<F\1>#(?P<\1>&?\\d{1}))"),
@@ -14,11 +15,13 @@ regexes = [
 ]
 regexes = {re.compile(k): v for k, v in regexes}
 
+# Branch types
 conds = ["eq", "ne", "cs", "cc", "mi", "pl", "vs", "vc", "hi", "ls", "ge", "lt", "gt", "le", "al", "nv"]
 conds_alias = {"hs": "cs", "lo": "cc"}
 
 ins = {}
 
+# Instruction definitions
 for k, v in {
     # 01 - move shifted register
     "lsls {Rd}, {Rm}, {imm5}": (0b000_00, "imm5", "Rm", "Rd"),
@@ -133,6 +136,7 @@ def assemble(line, labels, pc):
         val = nval
         if type(val) == str:
             val, width = dic[val]
+            # 32-bit word addressing
             if nval.startswith("imm") and "sp" in line and not no_div_4:
                 val >>= 2
         res <<= width
