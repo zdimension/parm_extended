@@ -19,7 +19,7 @@ Hard-handled
 #define MOD(i, j) ({__DIVPROLOGUE(i, j);R2modR3;})
 
 #define SQRTFP(x) ({\
-	unsigned int t, q, b, r;\
+	p_float t, q, b, r;\
     r = x;\
     b = 0x40000000;\
     q = 0;\
@@ -41,9 +41,18 @@ Hard-handled
 #define min(a,b) (((a)<(b))?(a):(b))
 #define max(a,b) (((a)>(b))?(a):(b))
 
+#define POWFP(a, b) ({\
+	p_float r = TOFP(1);\
+	const unsigned int bi = FPTOI(b);\
+	for(unsigned int i=0;i<bi;i++) {\
+		r=MULTFP(r, a);\
+	}\
+	r;\
+})
+
 // Low-precision PI
 #define PIlp TOFP(3.140625)
 // High-precision PI
-#define PIhp ({unsigned int pi=(201 << 10); pi|=63;pi;})
+#define PIhp ({p_float pi=(201 << 10); pi|=63;pi;})
 
 #endif

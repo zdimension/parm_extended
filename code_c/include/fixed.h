@@ -1,3 +1,8 @@
+/*
+Fixed point numbers
+Can handle only positive numbers
+16 bits entire part & 16 bits decimal part
+*/
 #ifndef FIXED_H
 #define FIXED_H
 
@@ -7,12 +12,13 @@
 typedef unsigned int p_float;
 
 #define TOFP(val) ((unsigned int)((val) * (1 << 16)))
+#define FPTOI(val) ((val) >> 16)
 #define MULTFP(x, y) (((x) >> 8) * ((y) >> 8))
 #define DIVFP(x, y) (DIV(x<<8, y)<<8) //DIV((x) << 16, y)
 
 #define PRINTFP(x) do {\
-	unsigned int num = x;\
-	unsigned int tmp;\
+	p_float num = x;\
+	p_float tmp;\
 	asm(\
 		"movs r0, %[val]		\n"\
 		"lsrs %[res], r0, 16	  " : [res] "=&r" (tmp) : [val] "r" (num) : "r0");\
