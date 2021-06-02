@@ -17,7 +17,7 @@
 	.eabi_attribute	18, 4
 	.eabi_attribute	26, 2
 	.eabi_attribute	14, 0
-	.file	"tty.c"
+	.file	"fibo.c"
 	.globl	run
 	.p2align	1
 	.type	run,%function
@@ -25,83 +25,105 @@
 	.thumb_func
 run:
 	.fnstart
-	.pad	#64
-	sub	sp, #64
+	.pad	#92
+	sub	sp, #92
 	@APP
 	sub	sp, #508
 	@NO_APP
 	@APP
 	sub	sp, #452
 	@NO_APP
+	movs	r0, #0
+	str	r0, [sp, #24]
+	movs	r0, #1
+	str	r0, [sp, #20]
 	b	.LBB0_1
 .LBB0_1:
-	movs	r0, #80
-	str	r0, [sp]
+	ldr	r0, [sp, #20]
+	str	r0, [sp, #32]
 	b	.LBB0_2
 .LBB0_2:
+	ldr	r0, [sp, #72]
+	str	r0, [sp, #12]
+	ldr	r0, [sp, #12]
+	cmp	r0, #0
+	bne	.LBB0_6
 	b	.LBB0_3
 .LBB0_3:
-	movs	r0, #114
-	str	r0, [sp]
 	b	.LBB0_4
 .LBB0_4:
+	movs	r0, #48
+	str	r0, [sp, #28]
 	b	.LBB0_5
 .LBB0_5:
-	movs	r0, #111
-	str	r0, [sp]
-	b	.LBB0_6
+	b	.LBB0_18
 .LBB0_6:
+	movs	r0, #0
+	str	r0, [sp, #8]
+	str	r0, [sp, #4]
 	b	.LBB0_7
 .LBB0_7:
-	movs	r0, #106
-	str	r0, [sp]
+	ldr	r0, [sp, #4]
+	cmp	r0, #7
+	bgt	.LBB0_17
 	b	.LBB0_8
 .LBB0_8:
+	ldr	r0, [sp, #12]
+	movs	r1, #15
+	ands	r0, r1
+	str	r0, [sp]
+	ldr	r0, [sp, #12]
+	asrs	r0, r0, #4
+	str	r0, [sp, #12]
+	ldr	r0, [sp, #8]
+	cmp	r0, #0
+	bne	.LBB0_13
 	b	.LBB0_9
 .LBB0_9:
-	movs	r0, #101
-	str	r0, [sp]
+	ldr	r0, [sp]
+	cmp	r0, #0
+	beq	.LBB0_11
 	b	.LBB0_10
 .LBB0_10:
-	b	.LBB0_11
-.LBB0_11:
-	movs	r0, #116
-	str	r0, [sp]
+	movs	r0, #1
+	str	r0, [sp, #8]
 	b	.LBB0_12
+.LBB0_11:
+	b	.LBB0_16
 .LBB0_12:
 	b	.LBB0_13
 .LBB0_13:
-	movs	r0, #32
-	str	r0, [sp]
 	b	.LBB0_14
 .LBB0_14:
+	ldr	r0, [sp]
+	adds	r0, #48
+	str	r0, [sp, #28]
 	b	.LBB0_15
 .LBB0_15:
-	movs	r0, #80
-	str	r0, [sp]
 	b	.LBB0_16
 .LBB0_16:
-	b	.LBB0_17
+	ldr	r0, [sp, #4]
+	adds	r0, r0, #1
+	str	r0, [sp, #4]
+	b	.LBB0_7
 .LBB0_17:
-	movs	r0, #65
-	str	r0, [sp]
 	b	.LBB0_18
 .LBB0_18:
 	b	.LBB0_19
 .LBB0_19:
-	movs	r0, #82
-	str	r0, [sp]
+	movs	r0, #10
+	str	r0, [sp, #28]
 	b	.LBB0_20
 .LBB0_20:
-	b	.LBB0_21
-.LBB0_21:
-	movs	r0, #77
-	str	r0, [sp]
-	b	.LBB0_22
-.LBB0_22:
-	b	.LBB0_23
-.LBB0_23:
-	b	.LBB0_23
+	ldr	r0, [sp, #24]
+	ldr	r1, [sp, #20]
+	adds	r0, r0, r1
+	str	r0, [sp, #16]
+	ldr	r0, [sp, #20]
+	str	r0, [sp, #24]
+	ldr	r0, [sp, #16]
+	str	r0, [sp, #20]
+	b	.LBB0_1
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run
 	.cantunwind

@@ -17,9 +17,9 @@
 	.eabi_attribute	18, 4
 	.eabi_attribute	26, 2
 	.eabi_attribute	14, 0
-	.file	"simple.c"
+	.file	"prime.c"
 	.globl	run
-	.p2align	2
+	.p2align	1
 	.type	run,%function
 	.code	16
 	.thumb_func
@@ -34,30 +34,58 @@ run:
 	sub	sp, #452
 	@NO_APP
 	movs	r0, #2
-	str	r0, [sp, #8]
-	ldr	r0, [sp, #8]
 	str	r0, [sp, #16]
-	mov	r0, sp
-	movs	r1, #0
-	strb	r1, [r0, #4]
-	ldr	r0, .LCPI0_0
-	str	r0, [sp]
+	movs	r0, #3
+	str	r0, [sp, #8]
 	b	.LBB0_1
 .LBB0_1:
+	movs	r0, #2
+	str	r0, [sp, #4]
+	b	.LBB0_2
+.LBB0_2:
+	ldr	r0, [sp, #4]
+	muls	r0, r0, r0
+	ldr	r1, [sp, #8]
+	cmp	r0, r1
+	bhi	.LBB0_7
+	b	.LBB0_3
+.LBB0_3:
+	ldr	r0, [sp, #8]
+	ldr	r1, [sp, #4]
+	@APP
+	movs	r2, r0
+	movs	r3, r1
+	@NO_APP
+	ldr	r0, [sp, #64]
+	str	r0, [sp]
+	ldr	r0, [sp]
+	cmp	r0, #0
+	bne	.LBB0_5
+	b	.LBB0_4
+.LBB0_4:
+	b	.LBB0_8
+.LBB0_5:
+	b	.LBB0_6
+.LBB0_6:
+	ldr	r0, [sp, #4]
+	adds	r0, r0, #1
+	str	r0, [sp, #4]
+	b	.LBB0_2
+.LBB0_7:
+	ldr	r0, [sp, #8]
+	str	r0, [sp, #16]
+	b	.LBB0_8
+.LBB0_8:
+	b	.LBB0_9
+.LBB0_9:
+	ldr	r0, [sp, #8]
+	adds	r0, r0, #2
+	str	r0, [sp, #8]
 	b	.LBB0_1
-	.p2align	2
-.LCPI0_0:
-	.long	2037149520
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run
 	.cantunwind
 	.fnend
-
-	.type	.L__const.run.msg,%object
-	.section	.rodata.str1.1,"aMS",%progbits,1
-.L__const.run.msg:
-	.asciz	"Poly"
-	.size	.L__const.run.msg, 5
 
 
 	.ident	"clang version 8.0.1-9 (tags/RELEASE_801/final)"
