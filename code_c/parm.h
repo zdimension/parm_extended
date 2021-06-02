@@ -33,6 +33,4 @@ volatile int PINS[16];
 #define R2divR3		INP(12)
 #define R2modR3		INP(13)
 
-#include "utils.h"
-
 #endif

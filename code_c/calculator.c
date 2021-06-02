@@ -5,8 +5,8 @@
 #define CMD DIP3
 
 void run() {
-	INIT();
-	
+	BEGIN();
+
 	int ADD = 0;
 	int SUB = 1;
 	int MUL = 2;
@@ -22,4 +22,5 @@ void run() {
 		if (CMD == LSL)
 			RES = OPa << OPb;
 	}
+	END();
 }

@@ -1,17 +1,19 @@
-#include "pins.h"
+#include "parm.h"
+#include "utils.h"
 
 void run()
 {
-	INIT();
+	BEGIN();
 	PUTCHAR('P');
 	PUTCHAR('r');
 	PUTCHAR('o');
 	PUTCHAR('j');
 	PUTCHAR('e');
 	PUTCHAR('t');
+	PUTCHAR(' ');
 	PUTCHAR('P');
 	PUTCHAR('A');
 	PUTCHAR('R');
 	PUTCHAR('M');
-	while (1);
+	END();
 }

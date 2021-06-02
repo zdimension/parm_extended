@@ -1,4 +1,5 @@
 #include "parm.h"
+#include "math.h"
 
 void run()
 {

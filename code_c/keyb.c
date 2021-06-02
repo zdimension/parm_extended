@@ -1,11 +1,10 @@
 // Lit l'entrée clavier et affiche chaque lettre en alternant majuscules / minuscules
 
-#include "pins.h"
+#include "parm.h"
 
 void run()
 {
-	INIT();
-	
+	BEGIN();
 	int val;
 	int swap = 0;
 	while (1)
@@ -16,4 +15,5 @@ void run()
 		val &= ~(swap);
 		TTYchr = val;
 	}
+	END();
 }

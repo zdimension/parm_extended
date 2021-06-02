@@ -71,31 +71,37 @@ run:
 .LBB0_12:
 	b	.LBB0_13
 .LBB0_13:
-	movs	r0, #80
+	movs	r0, #32
 	str	r0, [sp]
 	b	.LBB0_14
 .LBB0_14:
 	b	.LBB0_15
 .LBB0_15:
-	movs	r0, #65
+	movs	r0, #80
 	str	r0, [sp]
 	b	.LBB0_16
 .LBB0_16:
 	b	.LBB0_17
 .LBB0_17:
-	movs	r0, #82
+	movs	r0, #65
 	str	r0, [sp]
 	b	.LBB0_18
 .LBB0_18:
 	b	.LBB0_19
 .LBB0_19:
-	movs	r0, #77
+	movs	r0, #82
 	str	r0, [sp]
 	b	.LBB0_20
 .LBB0_20:
 	b	.LBB0_21
 .LBB0_21:
-	b	.LBB0_21
+	movs	r0, #77
+	str	r0, [sp]
+	b	.LBB0_22
+.LBB0_22:
+	b	.LBB0_23
+.LBB0_23:
+	b	.LBB0_23
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run
 	.cantunwind
