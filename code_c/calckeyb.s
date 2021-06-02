@@ -94,7 +94,7 @@ run:
 	ldr	r0, [sp, #60]
 	ldr	r1, [sp, #64]
 	adds	r0, r1, r0
-	subs	r0, #47
+	subs	r0, #48
 	str	r0, [sp, #64]
 	b	.LBB0_5
 .LBB0_16:
@@ -169,7 +169,7 @@ run:
 	ldr	r0, [sp, #44]
 	ldr	r1, [sp, #48]
 	adds	r0, r1, r0
-	subs	r0, #47
+	subs	r0, #48
 	str	r0, [sp, #48]
 	b	.LBB0_23
 .LBB0_34:

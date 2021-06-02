@@ -77,7 +77,7 @@
 			continue;\
 		TTYchr = cur;\
 		x *= 10;\
-		x += cur - '0' + 1;\
+		x += cur - '0';\
 	}\
 	x;\
 })
