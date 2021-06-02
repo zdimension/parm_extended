@@ -1,10 +1,12 @@
 #ifndef PARM_H
 #define PARM_H
 
-#define INIT() \
+#define BEGIN() \
 asm("sub sp, #508");\
 asm("sub sp, #452");\
 volatile int PINS[16];
+
+#define END() while(1);
 
 #define PIN(n) (((volatile int*)PINS)[n])
 // for inputs, make the expression an rvalue to prevent writes
