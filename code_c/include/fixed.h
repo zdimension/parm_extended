@@ -1,6 +1,8 @@
 #ifndef FIXED_H
 #define FIXED_H
 
+#include <utils.h>
+
 #define TOFP(val) ((unsigned int)((val) * (1 << 16)))
 #define MULTFP(x, y) (((x) >> 8) * ((y) >> 8))
 #define DIVFP(x, y) DIV((x) << 8, y)

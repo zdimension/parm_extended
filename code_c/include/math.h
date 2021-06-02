@@ -41,6 +41,9 @@ Hard-handled
 #define min(a,b) (((a)<(b))?(a):(b))
 #define max(a,b) (((a)>(b))?(a):(b))
 
-#define PIFP TOFP(3.14159265)
+// Low-precision PI
+#define PIlp TOFP(3.140625)
+// High-precision PI
+#define PIhp ({unsigned int pi=(201 << 10); pi|=63;pi;})
 
 #endif
