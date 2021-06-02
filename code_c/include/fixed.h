@@ -2,10 +2,13 @@
 #define FIXED_H
 
 #include <utils.h>
+#include <math.h>
+
+typedef unsigned int p_float;
 
 #define TOFP(val) ((unsigned int)((val) * (1 << 16)))
 #define MULTFP(x, y) (((x) >> 8) * ((y) >> 8))
-#define DIVFP(x, y) DIV((x) << 8, y)
+#define DIVFP(x, y) (DIV(x<<8, y)<<8) //DIV((x) << 16, y)
 
 #define PRINTFP(x) do {\
 	unsigned int num = x;\
