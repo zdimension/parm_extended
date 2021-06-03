@@ -16,7 +16,7 @@ Hard-handled
 #define __DIVPROLOGUE(i, j) asm("movs r2, %[input_i]\nmovs r3, %[input_j]" : : [input_i] "r" (i), [input_j] "r" (j) : "r2", "r3")
 #define DIV(i, j) ({__DIVPROLOGUE(i, j);R2divR3;})
 #define DIVMOD(i, j, quot, mod) do{__DIVPROLOGUE(i, j);*quot = R2divR3;*mod = R2modR3;}while(0)
-#define MOD(i, j) ({__DIVPROLOGUE(i, j);R2modR3;})
+#define MOD(i, j) ({__DIVPROLOGUE(i, j);R2modR3;}) // Works with p_float too
 
 #define SQRTFP(x) ({\
 	p_float t, q, b, r;\
@@ -54,5 +54,10 @@ Hard-handled
 #define PIlp TOFP(3.140625)
 // High-precision PI
 #define PIhp ({p_float pi=(201 << 10); pi|=63;pi;})
+
+#define e_exp ({\
+	p_float tttmp = 248 << 2;\
+	p_float eee = (173 << 10); eee|=tttmp; eee|1;\
+})
 
 #endif
