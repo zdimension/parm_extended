@@ -12,6 +12,8 @@ void run()
   PUTCHAR('c');PUTCHAR('o');PUTCHAR('s');PUTCHAR('(');PRINTFP(x);PUTCHAR(')');PUTCHAR('=');
   p_float mycos = COSFP(x);
   PRINTFP(mycos);
+  PUTCHAR('\n');
+  PRINTFP(POWFP(mysin, TOFP(2)) + POWFP(mycos, TOFP(2))); // sin^2(x) + cos^2(x) = 1 ?
 
   PUTCHAR('\n');
 
@@ -23,5 +25,7 @@ void run()
   PUTCHAR('c');PUTCHAR('o');PUTCHAR('s');PUTCHAR('(');PRINTFP(x);PUTCHAR(')');PUTCHAR('=');
   mycos = COSFP(x);
   PRINTFP(mycos);
+  PUTCHAR('\n');
+  PRINTFP(POWFP(mysin, TOFP(2)) + POWFP(mycos, TOFP(2))); // sin^2(x) + cos^2(x) = 1 ?
   END();
 }
