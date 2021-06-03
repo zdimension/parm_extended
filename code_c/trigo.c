@@ -1,54 +1,27 @@
 #include <parm.h>
-#include <math.h>
+#include <trigo.h>
 
 void run()
 {
   BEGIN();
-  const p_float PI = PIhp;
-  const p_float PIs2 = DIVFP(PI, TOFP(2));
-  p_float x = TOFP(2.25);
-  x = MOD(x, PI);
-  if(x > PIs2)
-  {
-    x = PIs2 - (x - PIs2);
-  }
+  p_float x = TOFP(4.5);
+  PUTCHAR('s');PUTCHAR('i');PUTCHAR('n');PUTCHAR('(');PRINTFP(x);PUTCHAR(')');PUTCHAR('=');
+  p_float mysin = SINFP(x);
+  PRINTFP(mysin);
+  PUTCHAR('\n');
+  PUTCHAR('c');PUTCHAR('o');PUTCHAR('s');PUTCHAR('(');PRINTFP(x);PUTCHAR(')');PUTCHAR('=');
+  p_float mycos = COSFP(x);
+  PRINTFP(mycos);
 
-  p_float pow = x;
-  p_float fact = TOFP(1);
-  p_float s = x;
-  const unsigned int taylor_deg=11;
-  const p_float xpow2 = POWFP(x, TOFP(2));
-  for(unsigned int i = 2; i<=taylor_deg; i++)
-  {
-    pow = MULTFP(pow, xpow2);
-    fact = MULTFP(fact, TOFP(i++));
-    fact = MULTFP(fact, TOFP(i));
-    if(MOD(i-1, 4) == 0)
-    {
-      s += DIVFP(pow, fact);
-    }
-    else
-    {
-      s -= DIVFP(pow, fact);
-    }
-  }
-  PRINTFP(s);
+  PUTCHAR('\n');
 
-  /*p_float pow = MULTFP(x, MULTFP(x, x));
-  p_float fact = TOFP(6);
-  p_float s = x - DIVFP(pow, fact);
-
-  pow = MULTFP(pow, MULTFP(x, x));
-  fact = MULTFP(fact, TOFP(20));
-  s += DIVFP(pow, fact);
-
-  pow = MULTFP(pow, MULTFP(x, x));
-  fact = MULTFP(fact, TOFP(42));
-  s -= DIVFP(pow, fact);
-
-  pow = MULTFP(pow, MULTFP(x, x));
-  fact = MULTFP(fact, TOFP(72));
-  s += DIVFP(pow, fact);
-  PRINTFP(s);*/
+  x = TOFP(6.25);
+  PUTCHAR('s');PUTCHAR('i');PUTCHAR('n');PUTCHAR('(');PRINTFP(x);PUTCHAR(')');PUTCHAR('=');
+  mysin = SINFP(x);
+  PRINTFP(mysin);
+  PUTCHAR('\n');
+  PUTCHAR('c');PUTCHAR('o');PUTCHAR('s');PUTCHAR('(');PRINTFP(x);PUTCHAR(')');PUTCHAR('=');
+  mycos = COSFP(x);
+  PRINTFP(mycos);
   END();
 }
