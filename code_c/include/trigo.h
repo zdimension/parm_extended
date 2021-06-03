@@ -58,4 +58,8 @@ res_sin;\
   res_cos;\
 })
 
+#define TANFP(val) ({\
+  DIVFP(SINFP(val), COSFP(val));\
+})
+
 #endif
