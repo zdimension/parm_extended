@@ -7,16 +7,15 @@
   *
   * Sorties :
   * - int len : longueur de la chaîne lue
-  * - int cur : variable temporaire stockant le caractère lu
   */
-#define GETLINE(len, cur) while (1)	\
-	{                           	\
-		if (!KEYBeof) continue; 	\
-		PUTCHAR(cur = KEYBchr); 	\
-		if (cur == '\n') cur = 0; 	\
-		ARR_SET(len, cur);      	\
-		if (!cur) break;			\
-		len++;                  	\
+#define GETLINE(len) while (1)				\
+	{                     			      	\
+		if (!KEYBeof) continue; 			\
+		PUTCHAR(__temp1 = KEYBchr);			\
+		if (__temp1 == '\n') __temp1 = 0; 	\
+		ARR_SET(len, __temp1);     			\
+		if (!__temp1) break;				\
+		len++;                  			\
 	}       
 	
 #define CLEAR() do{PUTCHAR('\f');}while(0)

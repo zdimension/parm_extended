@@ -4,7 +4,8 @@
 #define BEGIN() \
 asm("sub sp, #508");\
 asm("sub sp, #452");\
-volatile int PINS[16];
+volatile int PINS[16];\
+unsigned int __temp1, __temp2;
 
 #define END() while(1)
 
