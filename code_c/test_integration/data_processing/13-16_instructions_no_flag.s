@@ -3,8 +3,6 @@ movs r1, #1
 movs r2, #170
 movs r3, #255
 
-@alors cmp et cmn j'ai pas compris comment ça détermine si c'est signé ou non 
-
 movs r4, #15
 orrs r4, r2
 @r4 value should be 175, AF
