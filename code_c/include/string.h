@@ -65,6 +65,39 @@ typedef unsigned int p_char;
 	}\
 } while(0)
 
+#define STRLWR() do {\
+	__temp1=0;\
+	__temp2=1;\
+	for(;__temp2; __temp1++) {\
+		ARR_GET(__temp1, __temp2);\
+		if(__temp2 < 'A' || __temp2 > 'Z') {\
+			continue;\
+		}\
+		__temp2 = __temp2 - 'A' + 'a';\
+		ARR_SET(__temp1, __temp2);\
+	}\
+}while(0)
+
+#define STRUPR() do {\
+	__temp1=0;\
+	__temp2=1;\
+	for(;__temp2; __temp1++) {\
+		ARR_GET(__temp1, __temp2);\
+		if(__temp2 < 'a' || __temp2 > 'z') {\
+			continue;\
+		}\
+		__temp2 = __temp2 - 'a' + 'A';\
+		ARR_SET(__temp1, __temp2);\
+	}\
+}while(0)
+
+#define MEMSET(c, size) do{\
+	__temp1=0;\
+	for(;__temp1 < size; __temp1++) {\
+		ARR_SET(__temp1, c);\
+	}\
+}while(0)
+
 // Interne.
 #define __LOOP_CODE(code) \
 	"	adds r6, %[p], #0	\n" \
