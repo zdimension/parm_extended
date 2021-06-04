@@ -58,10 +58,10 @@
 
 // Interne.
 #define __PRINTRES(sign, width) do {                          \
-	int x = RESbcd;                                           \
+	__temp1 = RESbcd;                                           \
 	if (width == 0)                                           \
 	{                                                         \
-		if (!x)                                               \
+		if (!__temp1)                                               \
 		{                                                     \
 			PUTCHAR('0');                                     \
 			break;                                            \
@@ -70,24 +70,24 @@
 		{                                                     \
 			PUTCHAR('-');                                     \
 			RES = -RES;                                       \
-			x = RESbcd;                                       \
+			__temp1 = RESbcd;                                       \
 		}                                                     \
 	}                                                         \
 	else                                                      \
 	{                                                         \
-		x >>= 32 - (width * 4);                               \
+		__temp1 >>= 32 - (width * 4);                               \
 	}                                                         \
-	int flag = 0;                                             \
-	for (int pos = 0; pos < (width == 0 ? 8 : width); pos++)  \
+	__temp2 = 0;                                             \
+	for (__temp3 = 0; __temp3 < (width == 0 ? 8 : width); __temp3++)  \
 	{                                                         \
-		int digit = x & 0xf;                                  \
-		x >>= 4;                                              \
-		if (width == 0 && !flag)                              \
+		__temp4 = __temp1 & 0xf;                                  \
+		__temp1 >>= 4;                                              \
+		if (width == 0 && !__temp2)                              \
 		{                                                     \
-			if (digit) flag = 1;                              \
+			if (__temp4) __temp2 = 1;                              \
 			else continue;                                    \
 		}                                                     \
-		PUTCHAR('0' + digit);                                 \
+		PUTCHAR('0' + __temp4);                                 \
 	}                                                         \
 } while(0)         
 
