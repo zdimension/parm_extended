@@ -53,6 +53,7 @@ typedef unsigned int p_char;
 	val=__temp1 - 1;\
 } while (0)
 
+// Renverse la chaîne de caractères
 #define STRREV() do {\
 	STRLEN(__temp3);\
 	__temp3-=1;\
@@ -65,6 +66,7 @@ typedef unsigned int p_char;
 	}\
 } while(0)
 
+// Passe la chaîne de caractères en minuscules
 #define STRLWR() do {\
 	__temp1=0;\
 	__temp2=1;\
@@ -78,6 +80,7 @@ typedef unsigned int p_char;
 	}\
 }while(0)
 
+// Passe la chaîne de caractères en majuscules
 #define STRUPR() do {\
 	__temp1=0;\
 	__temp2=1;\
@@ -91,6 +94,7 @@ typedef unsigned int p_char;
 	}\
 }while(0)
 
+// Réécrit les [size] premiers caractères de la chaîne de caractères en [c]
 #define MEMSET(c, size) do{\
 	__temp1=0;\
 	for(;__temp1 < size; __temp1++) {\
@@ -98,6 +102,7 @@ typedef unsigned int p_char;
 	}\
 }while(0)
 
+// Recherche la première occurence de [c] dans la chaîne et met le résultat dans val. -1 si non trouvé
 #define STRCHR(c, val) do {\
 	val=-1;\
 	__temp1=0;\
