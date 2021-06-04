@@ -63,9 +63,11 @@
 
 // PI précis à 0.01 près.
 #define PIlp TOFP(3.140625)
-// High-precision PI
+
+// PI précis à 0.0001 près. Plus lent que PIlp
 #define PIhp ({fixed_t pi=(201 << 10); pi|=63;pi;})
 
+// E précis à 0.0001 près.
 #define e_exp ({\
 	fixed_t tttmp = 248 << 2;\
 	fixed_t eee = (173 << 10); eee|=tttmp; eee|1;\
