@@ -25,8 +25,8 @@
 	.thumb_func
 run:
 	.fnstart
-	.pad	#180
-	sub	sp, #180
+	.pad	#168
+	sub	sp, #168
 	@APP
 	sub	sp, #508
 	@NO_APP
@@ -35,17 +35,9 @@ run:
 	@NO_APP
 	movs	r0, #201
 	lsls	r0, r0, #10
-	str	r0, [sp, #108]
-	ldr	r1, [sp, #108]
-	movs	r2, #63
-	orrs	r1, r2
-	str	r1, [sp, #108]
-	ldr	r1, [sp, #108]
-	str	r1, [sp, #104]
-	ldr	r1, [sp, #104]
-	str	r1, [sp, #112]
 	str	r0, [sp, #96]
 	ldr	r1, [sp, #96]
+	movs	r2, #63
 	orrs	r1, r2
 	str	r1, [sp, #96]
 	ldr	r1, [sp, #96]
@@ -66,10 +58,10 @@ run:
 	@NO_APP
 	str	r1, [sp, #80]
 	ldr	r0, [sp, #80]
-	str	r0, [sp, #120]
+	str	r0, [sp, #108]
 	b	.LBB0_2
 .LBB0_2:
-	ldr	r0, [sp, #160]
+	ldr	r0, [sp, #148]
 	str	r0, [sp, #76]
 	ldr	r0, [sp, #76]
 	asrs	r0, r0, #12
@@ -95,7 +87,7 @@ run:
 .LBB0_5:
 	ldr	r0, [sp, #64]
 	adds	r0, #48
-	str	r0, [sp, #116]
+	str	r0, [sp, #104]
 	b	.LBB0_6
 .LBB0_6:
 	b	.LBB0_7
@@ -118,16 +110,16 @@ run:
 	@NO_APP
 	str	r3, [sp, #80]
 	ldr	r0, [sp, #80]
-	str	r0, [sp, #120]
+	str	r0, [sp, #108]
 	b	.LBB0_10
 .LBB0_10:
 	movs	r0, #46
-	str	r0, [sp, #116]
+	str	r0, [sp, #104]
 	b	.LBB0_11
 .LBB0_11:
 	b	.LBB0_12
 .LBB0_12:
-	ldr	r0, [sp, #160]
+	ldr	r0, [sp, #148]
 	str	r0, [sp, #60]
 	ldr	r0, [sp, #60]
 	asrs	r0, r0, #16
@@ -153,7 +145,7 @@ run:
 .LBB0_15:
 	ldr	r0, [sp, #48]
 	adds	r0, #48
-	str	r0, [sp, #116]
+	str	r0, [sp, #104]
 	b	.LBB0_16
 .LBB0_16:
 	b	.LBB0_17
@@ -170,7 +162,7 @@ run:
 	b	.LBB0_21
 .LBB0_21:
 	movs	r0, #10
-	str	r0, [sp, #116]
+	str	r0, [sp, #104]
 	b	.LBB0_22
 .LBB0_22:
 	b	.LBB0_23
@@ -187,10 +179,10 @@ run:
 	@NO_APP
 	str	r1, [sp, #40]
 	ldr	r0, [sp, #40]
-	str	r0, [sp, #120]
+	str	r0, [sp, #108]
 	b	.LBB0_24
 .LBB0_24:
-	ldr	r0, [sp, #160]
+	ldr	r0, [sp, #148]
 	str	r0, [sp, #36]
 	ldr	r0, [sp, #36]
 	asrs	r0, r0, #12
@@ -216,7 +208,7 @@ run:
 .LBB0_27:
 	ldr	r0, [sp, #24]
 	adds	r0, #48
-	str	r0, [sp, #116]
+	str	r0, [sp, #104]
 	b	.LBB0_28
 .LBB0_28:
 	b	.LBB0_29
@@ -239,16 +231,16 @@ run:
 	@NO_APP
 	str	r3, [sp, #40]
 	ldr	r0, [sp, #40]
-	str	r0, [sp, #120]
+	str	r0, [sp, #108]
 	b	.LBB0_32
 .LBB0_32:
 	movs	r0, #46
-	str	r0, [sp, #116]
+	str	r0, [sp, #104]
 	b	.LBB0_33
 .LBB0_33:
 	b	.LBB0_34
 .LBB0_34:
-	ldr	r0, [sp, #160]
+	ldr	r0, [sp, #148]
 	str	r0, [sp, #20]
 	ldr	r0, [sp, #20]
 	asrs	r0, r0, #16
@@ -274,7 +266,7 @@ run:
 .LBB0_37:
 	ldr	r0, [sp, #8]
 	adds	r0, #48
-	str	r0, [sp, #116]
+	str	r0, [sp, #104]
 	b	.LBB0_38
 .LBB0_38:
 	b	.LBB0_39

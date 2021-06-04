@@ -4,13 +4,13 @@
 void run()
 {
   BEGIN();
-  p_float x = TOFP(4.5);
+  fixed_t x = TOFP(4.5);
   PUTCHAR('s');PUTCHAR('i');PUTCHAR('n');PUTCHAR('(');PRINTFP(x);PUTCHAR(')');PUTCHAR('=');
-  p_float mysin = SINFP(x);
+  fixed_t mysin = SINFP(x);
   PRINTFP(mysin);
   PUTCHAR('\n');
   PUTCHAR('c');PUTCHAR('o');PUTCHAR('s');PUTCHAR('(');PRINTFP(x);PUTCHAR(')');PUTCHAR('=');
-  p_float mycos = COSFP(x);
+  fixed_t mycos = COSFP(x);
   PRINTFP(mycos);
   PUTCHAR('\n');
   PRINTFP(POWFP(mysin, TOFP(2)) + POWFP(mycos, TOFP(2))); // sin^2(x) + cos^2(x) = 1 ?

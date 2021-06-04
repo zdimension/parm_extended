@@ -24,7 +24,7 @@
 
 // Calcule la racine carrée du nombre à virgule fixe spécifié.
 #define SQRTFP(x) ({\
-	p_float t, q, b, r;\
+	fixed_t t, q, b, r;\
     r = x;\
     b = 0x40000000;\
     q = 0;\
@@ -53,7 +53,7 @@
 
 // Élève un nombre à virgule fixe à la puissance (à virgule fixe) spécifiée.
 #define POWFP(a, b) ({\
-	p_float r = TOFP(1);\
+	fixed_t r = TOFP(1);\
 	const unsigned int bi = FPTOI(b);\
 	for(unsigned int i=0;i<bi;i++) {\
 		r=MULTFP(r, a);\
@@ -64,11 +64,11 @@
 // PI précis à 0.01 près.
 #define PIlp TOFP(3.140625)
 // High-precision PI
-#define PIhp ({p_float pi=(201 << 10); pi|=63;pi;})
+#define PIhp ({fixed_t pi=(201 << 10); pi|=63;pi;})
 
 #define e_exp ({\
-	p_float tttmp = 248 << 2;\
-	p_float eee = (173 << 10); eee|=tttmp; eee|1;\
+	fixed_t tttmp = 248 << 2;\
+	fixed_t eee = (173 << 10); eee|=tttmp; eee|1;\
 })
 
 #endif

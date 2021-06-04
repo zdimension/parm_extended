@@ -1,5 +1,5 @@
-#include "parm.h"
-#include "utils.h"
+#include <parm.h>
+#include <video.h>
 
 void run()
 {

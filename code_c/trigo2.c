@@ -4,9 +4,9 @@
 void run()
 {
   BEGIN();
-  p_float x = TOFP(4.5);
+  fixed_t x = TOFP(4.5);
   PUTCHAR('t');PUTCHAR('a');PUTCHAR('n');PUTCHAR('(');PRINTFP(x);PUTCHAR(')');PUTCHAR('=');
-  p_float mytan = TANFP(x);
+  fixed_t mytan = TANFP(x);
   PRINTFP(mytan);
   PUTCHAR('\n');
   x = TOFP(6.25);

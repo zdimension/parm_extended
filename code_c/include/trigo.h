@@ -11,16 +11,16 @@ Calculate trigo functions using Taylor limited development
 #define TRIGO_TAYLOR_DEG 11
 
 #define SINFP(val) ({ \
-const p_float PI = PIhp;\
-const p_float PIs2 = DIVFP(PI, TOFP(2));\
-p_float newcalcx = MOD(val, PI);\
+const fixed_t PI = PIhp;\
+const fixed_t PIs2 = DIVFP(PI, TOFP(2));\
+fixed_t newcalcx = MOD(val, PI);\
 if(newcalcx > PIs2){ \
   newcalcx = PIs2 - (newcalcx - PIs2);\
 }\
-p_float trig_pow = newcalcx;\
-p_float trig_fact = TOFP(1);\
-p_float res_sin = newcalcx;\
-const p_float xpow2 = POWFP(newcalcx, TOFP(2));\
+fixed_t trig_pow = newcalcx;\
+fixed_t trig_fact = TOFP(1);\
+fixed_t res_sin = newcalcx;\
+const fixed_t xpow2 = POWFP(newcalcx, TOFP(2));\
 for(unsigned int i = 2; i<=TRIGO_TAYLOR_DEG; i++){ \
   trig_pow = MULTFP(trig_pow, xpow2);\
   trig_fact = MULTFP(trig_fact, TOFP(i++));\
@@ -35,16 +35,16 @@ res_sin;\
 })
 
 #define COSFP(val) ({ \
-  const p_float PI = PIhp;\
-  const p_float PIs2 = DIVFP(PI, TOFP(2));\
-  p_float newcalcx = MOD(val, PI);\
+  const fixed_t PI = PIhp;\
+  const fixed_t PIs2 = DIVFP(PI, TOFP(2));\
+  fixed_t newcalcx = MOD(val, PI);\
   if(newcalcx > PIs2){ \
     newcalcx = PIs2 - (newcalcx - PIs2);\
   }\
-  p_float trig_pow = TOFP(1);\
-  p_float trig_fact = TOFP(1);\
-  p_float res_cos = TOFP(1);\
-  const p_float xpow2 = POWFP(newcalcx, TOFP(2));\
+  fixed_t trig_pow = TOFP(1);\
+  fixed_t trig_fact = TOFP(1);\
+  fixed_t res_cos = TOFP(1);\
+  const fixed_t xpow2 = POWFP(newcalcx, TOFP(2));\
   for(unsigned int i = 1; i<=TRIGO_TAYLOR_DEG; i++){ \
     trig_pow = MULTFP(trig_pow, xpow2);\
     trig_fact = MULTFP(trig_fact, TOFP(i++));\

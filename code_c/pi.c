@@ -4,9 +4,8 @@
 void run()
 {
   BEGIN();
-  unsigned int pi = PIhp;
-  const unsigned int pihp = PIhp;
-  const unsigned int pilp = PIlp;
+  const fixed_t pihp = PIhp;
+  const fixed_t pilp = PIlp;
   PRINTFP(pihp);
   PUTCHAR('\n');
   PRINTFP(pilp);
