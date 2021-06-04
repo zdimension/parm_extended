@@ -3,21 +3,26 @@
 
 #include <fixed.h>
 
-/*
-Soft-handled
-*/
+// Calcule logiciellement a / b, résultat dans c.
 #define div(a, b, c) for(int iDD=-120; iDD<=abs(a); iDD++){if(iDD*abs(b)>=abs(a)){c=(a*b<0) ? -iDD : iDD;break;}} // c=a/b
 #define divPos(a, b, c) for(int iGG=0; a-iGG>=0; iGG++){int tmp=iGG*b;int zero=0;int tmp2=a-tmp;if(tmp2-zero<=0){c=iGG;break;}}
+
+// Calcule logiciellement a % b, résultat dans c.
 #define moduloPos(a, b, c) do{int xJJ;divPos(a, b, xJJ);c=abs((xJJ*b)-a);}while(0)
 
-/*
-Hard-handled
-*/
+// Interne.
 #define __DIVPROLOGUE(i, j) asm("movs r2, %[input_i]\nmovs r3, %[input_j]" : : [input_i] "r" (i), [input_j] "r" (j) : "r2", "r3")
+
+// Calcule matériellement a / b, résultat dans c.
 #define DIV(i, j) ({__DIVPROLOGUE(i, j);R2divR3;})
+
+// Calcule matériellement a / b et a % b, résultats dans quot et mod.
 #define DIVMOD(i, j, quot, mod) do{__DIVPROLOGUE(i, j);*quot = R2divR3;*mod = R2modR3;}while(0)
+
+// Calcule matériellement a % b, résultat dans c.
 #define MOD(i, j) ({__DIVPROLOGUE(i, j);R2modR3;}) // Works with p_float too
 
+// Calcule la racine carrée du nombre à virgule fixe spécifié.
 #define SQRTFP(x) ({\
 	p_float t, q, b, r;\
     r = x;\
@@ -37,10 +42,16 @@ Hard-handled
     q >> 8;\
 })
 
+// Valeur absolue de x.
 #define abs(x) (x<0 ? (-x) : x)
+
+// Minimum de a et b.
 #define min(a,b) (((a)<(b))?(a):(b))
+
+// Maximum de a et b.
 #define max(a,b) (((a)>(b))?(a):(b))
 
+// Élève un nombre à virgule fixe à la puissance (à virgule fixe) spécifiée.
 #define POWFP(a, b) ({\
 	p_float r = TOFP(1);\
 	const unsigned int bi = FPTOI(b);\
@@ -50,7 +61,7 @@ Hard-handled
 	r;\
 })
 
-// Low-precision PI
+// PI précis à 0.01 près.
 #define PIlp TOFP(3.140625)
 // High-precision PI
 #define PIhp ({p_float pi=(201 << 10); pi|=63;pi;})
