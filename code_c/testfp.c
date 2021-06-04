@@ -6,9 +6,9 @@ void run()
 {
 	BEGIN();
 
-	unsigned int val = TOFP(3.5);
-	unsigned int val2 = TOFP(7.5);
-	unsigned int val3 = MULTFP(val, val2);
+	fixed_t val = TOFP(3.5);
+	fixed_t val2 = TOFP(7.5);
+	fixed_t val3 = MULTFP(val, val2);
 
 	PRINTFP(val);
 	PUTCHAR(' ');
@@ -26,7 +26,7 @@ void run()
 	PUTCHAR('t');
 	PUTCHAR('=');
 
-	unsigned int val4 = SQRTFP(val3);
+	fixed_t val4 = SQRTFP(val3);
 	PRINTFP(val4);
 
 	PUTCHAR('\n');
@@ -36,7 +36,7 @@ void run()
 	PUTCHAR('5');
 	PUTCHAR('=');
 
-	unsigned int threehalves = TOFP(1.5);
+	fixed_t threehalves = TOFP(1.5);
 	PRINTFP(DIVFP(val4, threehalves));
 
 	END();

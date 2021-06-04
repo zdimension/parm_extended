@@ -1,24 +1,32 @@
 /*
 Fixed point numbers
 Can handle only positive numbers
-16 bits entire part & 16 bits decimal part
+16 bits integral part & 16 bits decimal part
 */
 #ifndef FIXED_H
 #define FIXED_H
 
-#include <utils.h>
+#include <stdio.h>
 #include <math.h>
 
-typedef unsigned int p_float;
+typedef unsigned int fixed_t;
 
-#define TOFP(val) ((unsigned int)((val) * (1 << 16)))
+// Convertit un flottant en nombre à virgule fixe.
+#define TOFP(val) ((fixed_t)((val) * (1 << 16)))
+
+// Récupère la partie entière d'un nombre à virgule fixe.
 #define FPTOI(val) ((val) >> 16)
-#define MULTFP(x, y) (((x) >> 8) * ((y) >> 8))
-#define DIVFP(x, y) (DIV(x<<8, y)<<8) //DIV((x) << 16, y)
 
+// Multiplie deux nombres à virgule fixe.
+#define MULTFP(x, y) (((x) >> 8) * ((y) >> 8))
+
+// Divise deux nombres à virgule fixe.
+#define DIVFP(x, y) (DIV((x) << 8, (y)) << 8)
+
+// Affiche dans le terminal le nombre à virgule fixe spécifié.
 #define PRINTFP(x) do {\
-	p_float num = x;\
-	p_float tmp;\
+	fixed_t num = x;\
+	fixed_t tmp;\
 	asm(\
 		"movs r0, %[val]		\n"\
 		"lsrs %[res], r0, 16	  " : [res] "=&r" (tmp) : [val] "r" (num) : "r0");\

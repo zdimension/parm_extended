@@ -4,11 +4,10 @@
 void run()
 {
   BEGIN();
-  unsigned int pi = PIhp;
-  const unsigned int pihp = PIhp;
-  const unsigned int pilp = PIlp;
-  PRINTFP(pihp);
+  PRINTFP(PIhp);
   PUTCHAR('\n');
-  PRINTFP(pilp);
+  PRINTFP(PIlp);
+  PUTCHAR('\n');
+  PRINTFP(e_exp);
   END();
 }

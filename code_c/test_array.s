@@ -19,7 +19,7 @@
 	.eabi_attribute	14, 0
 	.file	"test_array.c"
 	.globl	run
-	.p2align	2
+	.p2align	1
 	.type	run,%function
 	.code	16
 	.thumb_func
@@ -37,48 +37,17 @@ run:
 	str	r0, [sp]
 	movs	r0, #1
 	str	r0, [sp, #4]
-	movs	r0, #0
+	ldr	r0, [sp, #4]
+	uxtb	r0, r0
 	str	r0, [sp, #4]
 	ldr	r0, [sp]
-	lsls	r0, r0, #12
+	lsls	r0, r0, #16
 	ldr	r1, [sp, #4]
 	orrs	r1, r0
 	str	r1, [sp, #4]
 	b	.LBB0_1
 .LBB0_1:
-	ldr	r0, [sp, #4]
-	lsrs	r1, r0, #8
-	movs	r2, #16
-	ands	r1, r2
-	lsrs	r0, r0, #12
-	ands	r0, r2
-	cmp	r1, r0
-	beq	.LBB0_3
-	b	.LBB0_2
-.LBB0_2:
-	ldr	r0, [sp, #4]
-	movs	r1, #255
-	bics	r0, r1
-	movs	r1, #1
-	lsls	r1, r1, #8
-	adds	r0, r0, r1
-	ldr	r1, [sp, #8]
-	orrs	r1, r0
-	str	r1, [sp, #8]
-	ldr	r0, [sp, #4]
-	ldr	r1, .LCPI0_0
-	ands	r0, r1
-	ldr	r1, [sp, #8]
-	orrs	r1, r0
-	str	r1, [sp, #8]
 	b	.LBB0_1
-.LBB0_3:
-	b	.LBB0_4
-.LBB0_4:
-	b	.LBB0_4
-	.p2align	2
-.LCPI0_0:
-	.long	4294963200
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run
 	.cantunwind

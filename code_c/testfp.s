@@ -665,6 +665,7 @@ run:
 	ldr	r0, [sp, #312]
 	str	r0, [sp, #56]
 	ldr	r0, [sp, #56]
+	lsls	r0, r0, #8
 	str	r0, [sp, #60]
 	ldr	r0, [sp, #60]
 	str	r0, [sp]
