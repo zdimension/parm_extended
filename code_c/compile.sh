@@ -7,5 +7,14 @@ if [ $# -eq 0 ]; then
 fi
 
 filename="$1"
-clang-8 -S -target arm-v4t-eabi -nostdlib -mcpu=cortex-m0 -mthumb -O0 -I./include ${filename} && ../asm/assembleur.py ${filename%.*}.s
-# aussi possible avec arm-none-eabi-gcc -S -mthumb -nostdlib -mtune=cortex-m0 -mcpu=cortex-m0 -fomit-frame-pointer -O0 ${filename}
+
+CPARM="-S -nostdlib -mcpu=cortex-m0 -mthumb -O0 -I./include ${filename}"
+set -e
+
+if [ $# -eq 2 ] && [ $2 = "-gcc" ]; then
+	arm-none-eabi-gcc -mtune=cortex-m0 -fomit-frame-pointer ${CPARM} ${filename}
+else
+	clang-8 -target arm-v4t-eabi ${CPARM} ${filename}
+fi
+
+../asm/assembleur.py ${filename%.*}.s
