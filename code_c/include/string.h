@@ -44,14 +44,14 @@ typedef unsigned int p_char;
 } while(0)
 
 // Calcule la longueur de la chaîne, en caractères.
-#define STRLEN() ({ \
+#define STRLEN(val) do { \
 	__temp1=0;\
 	__temp2=1;\
 	for(;__temp2;__temp1++)	{\
 		ARR_GET(__temp1, __temp2);\
 	}\
-	__temp1 - 1;\
-})
+	val=__temp1 - 1;\
+} while (0)
 
 #define STRREV() do {\
 	__temp3=STRLEN();\
@@ -81,7 +81,7 @@ typedef unsigned int p_char;
 	"	sub sp, #4			\n" \
 	"	bne 3b				\n"	\
 	"4:						\n"
-	
+
 // Interne.
 #define __LOOP_REGS "r6"
 

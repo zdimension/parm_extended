@@ -28,7 +28,7 @@ void run()
   PRINT();
   PUTCHAR('\n');
   PUTCHAR('s');PUTCHAR('i');PUTCHAR('z');PUTCHAR('e');PUTCHAR('=');
-  RES=STRLEN();
+  STRLEN(RES);
   PRINTRES();
   PUTCHAR('\n');
   PRINT();
