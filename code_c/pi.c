@@ -4,10 +4,10 @@
 void run()
 {
   BEGIN();
-  const fixed_t pihp = PIhp;
-  const fixed_t pilp = PIlp;
-  PRINTFP(pihp);
+  PRINTFP(PIhp);
   PUTCHAR('\n');
-  PRINTFP(pilp);
+  PRINTFP(PIlp);
+  PUTCHAR('\n');
+  PRINTFP(e_exp);
   END();
 }
