@@ -11,7 +11,7 @@ lsrs r5, r2, #1
 @ça devrait donner 85, 55 
 
 subs r6, r0, #5
-asrs r6, 1, r6
+asrs r6, r6, #1
 @ça devrait faire -3 ou FFFFFFFD
 
 adds r7, r6, r1 
