@@ -18,6 +18,9 @@
 	"	sub sp, #4			\n" \
 	"	bne 3b				\n"	\
 	"4:						\n"
+	
+// Interne.
+#define __LOOP_REGS "r6"
 
 /** Écrit dans un tableau. Équivalent en C à tableau[pos] = val.
   *
@@ -31,6 +34,7 @@
 		:                           		\
 		: [p] "r" (pos),          			\
 		  [v] "r" (val)           			\
+		: __LOOP_REGS						\
 	);
 
 /** Lit depuis un tableau. Équivalent en C à val = tableau[pos].
@@ -45,6 +49,7 @@
 		__LOOP_CODE("ldr %[v], [sp]	\n") 	\
 		: [v] "=&r" (val)       			\
 		: [p] "r" (pos)            			\
+		: __LOOP_REGS						\
 	);
 	
 #endif

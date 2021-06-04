@@ -11,16 +11,16 @@
 #define moduloPos(a, b, c) do{int xJJ;divPos(a, b, xJJ);c=abs((xJJ*b)-a);}while(0)
 
 // Interne.
-#define __DIVPROLOGUE(i, j) asm("movs r2, %[input_i]\nmovs r3, %[input_j]" : : [input_i] "r" (i), [input_j] "r" (j) : "r2", "r3")
+#define __DIVPROLOGUE(i, j) asm("movs r4, %[input_i]\nmovs r5, %[input_j]" : : [input_i] "r" (i), [input_j] "r" (j) : "r4", "r5")
 
 // Calcule matériellement a / b, résultat dans c.
-#define DIV(i, j) ({__DIVPROLOGUE(i, j);R2divR3;})
+#define DIV(i, j) ({__DIVPROLOGUE(i, j);R4divR5;})
 
 // Calcule matériellement a / b et a % b, résultats dans quot et mod.
-#define DIVMOD(i, j, quot, mod) do{__DIVPROLOGUE(i, j);*quot = R2divR3;*mod = R2modR3;}while(0)
+#define DIVMOD(i, j, quot, mod) do{__DIVPROLOGUE(i, j);*quot = R4divR5;*mod = R4modR5;}while(0)
 
 // Calcule matériellement a % b, résultat dans c.
-#define MOD(i, j) ({__DIVPROLOGUE(i, j);R2modR3;}) // Works with p_float too
+#define MOD(i, j) ({__DIVPROLOGUE(i, j);R4modR5;}) // Works with p_float too
 
 // Calcule la racine carrée du nombre à virgule fixe spécifié.
 #define SQRTFP(x) ({\

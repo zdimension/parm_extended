@@ -7,7 +7,7 @@ asm("sub sp, #452");\
 volatile int PINS[16];\
 unsigned int __temp1, __temp2;
 
-#define END() while(1)
+#define END() do{while(1);}while(1)
 
 #define PIN(n) (((volatile int*)PINS)[n])
 // for inputs, make the expression an rvalue to prevent writes
@@ -31,7 +31,7 @@ unsigned int __temp1, __temp2;
 #define JOYy		INP(9)
 #define RNG32		INP(10)
 #define RESbcd		INP(11)
-#define R2divR3		INP(12)
-#define R2modR3		INP(13)
+#define R4divR5		INP(12)
+#define R4modR5		INP(13)
 
 #endif
