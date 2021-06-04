@@ -18,27 +18,13 @@ void run()
   ARR_SET(i++, 'R');
   ARR_SET(i++, 'M');
   ARR_SET(i, '\0');
-  /*// A l'envers
-  for(;i>=0;i--)
-  {
-    ARR_GET(i, buf);
-    PUTCHAR(buf);
-  }
-  PUTCHAR('\n');*/
-  PRINT();
+  PRINT(); // A l'endroit
   PUTCHAR('\n');
-  PUTCHAR('s');PUTCHAR('i');PUTCHAR('z');PUTCHAR('e');PUTCHAR('=');
+  PUTCHAR('s');PUTCHAR('i');PUTCHAR('z');PUTCHAR('e');PUTCHAR('='); // strlen
   STRLEN(RES);
   PRINTRES();
   PUTCHAR('\n');
-  PRINT();
-  /*PUTCHAR('s');PUTCHAR('i');PUTCHAR('z');PUTCHAR('e');PUTCHAR('=');
-  RES=STRLEN();
-
-
-  // A l'endroit
-
-  //STRREV();
-  PRINT();*/
+  STRREV();
+  PRINT(); // A l'envers
   END();
 }

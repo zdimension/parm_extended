@@ -54,15 +54,16 @@ typedef unsigned int p_char;
 } while (0)
 
 #define STRREV() do {\
-	__temp3=STRLEN();\
-	__temp4=(__temp3 >> 1)+1;\
-	for(;__temp4 > 0; __temp4--) {\
-		ARR_GET(__temp4-1, __temp2);\
-		ARR_GET(__temp3 - (__temp4-1), __temp1);\
-		ARR_SET(__temp4-1, __temp1);\
-		ARR_SET(__temp3 - (__temp4-1), __temp2);\
+	STRLEN(__temp3);\
+	__temp3-=1;\
+	__temp4=(__temp3 >> 1);\
+	for(;__temp4 < 1000; __temp4--) {\
+		ARR_GET(__temp4, __temp2);\
+		ARR_GET(__temp3 - (__temp4), __temp1);\
+		ARR_SET(__temp4, __temp1);\
+		ARR_SET(__temp3 - (__temp4), __temp2);\
 	}\
-}) while(0)
+} while(0)
 
 // Interne.
 #define __LOOP_CODE(code) \
