@@ -17,25 +17,46 @@
 		if (!__temp1) break;				\
 		len++;                  			\
 	}       
-	
+
+// Vide le terminal.
 #define CLEAR() do{PUTCHAR('\f');}while(0)
 	
+// Interrompt l'exécution jusqu'à ce qu'une touche du clavier soit pressée
 #define WAITKEY() do{while(!KEYBeof);}while(0)
 
+// Lit l'entrée clavier.
 #define READKEY() ({WAITKEY(); KEYBchr;})
 
+// Affiche un caractère dans le terminal.
 #define PUTCHAR(x) do{TTYchr=x;}while(0)    
 
-// print RES to the TTY
-// unsigned, with fixed width (8 digits max)
+// Affiche la valeur de RES dans le terminal.
+// non signé, largeur fixe (8 chiffres)
 #define PRINTRES_FIX(width) __PRINTRES(0, width)
 
-// unsigned, automatic width
+// non signé, largeur automatique
 #define PRINTRES() __PRINTRES(0, 0)
 
-// signed, automatic width
+// signé, largeur automatique
 #define PRINTRES_SIGN() __PRINTRES(1, 0)
 
+// Lit un entier depuis l'entrée clavier.
+#define READINT() ({							\
+	int x = 0;									\
+	int cur;									\
+	while(1)									\
+	{											\
+		cur = READKEY();						\
+		if (cur == '\n') break; 				\
+		if (cur < '0' || cur > '9') continue; 	\
+		PUTCHAR(cur);							\
+		x *= 10;								\
+		x += cur - '0';							\
+	}											\
+	x;											\
+})       
+
+// Interne.
 #define __PRINTRES(sign, width) do {                          \
 	int x = RESbcd;                                           \
 	if (width == 0)                                           \
@@ -68,21 +89,6 @@
 		}                                                     \
 		PUTCHAR('0' + digit);                                 \
 	}                                                         \
-} while(0)
-
-#define READINT() ({							\
-	int x = 0;									\
-	int cur;									\
-	while(1)									\
-	{											\
-		cur = READKEY();						\
-		if (cur == '\n') break; 				\
-		if (cur < '0' || cur > '9') continue; 	\
-		PUTCHAR(cur);							\
-		x *= 10;								\
-		x += cur - '0';							\
-	}											\
-	x;											\
-})                
+} while(0)         
 
 #endif

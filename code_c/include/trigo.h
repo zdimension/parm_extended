@@ -10,6 +10,12 @@ Calculate trigo functions using Taylor limited development
 
 #define TRIGO_TAYLOR_DEG 11
 
+#define SINFP(val) __TAYLOR(val, 2)
+
+#define COSFP(val) __TAYLOR(val, 1)
+
+#define TANFP(val) DIVFP(SINFP(val), COSFP(val))
+
 // Interne.
 #define __TAYLOR(val, deg) ({ \
   const fixed_t PI = PIhp;\
@@ -31,11 +37,5 @@ Calculate trigo functions using Taylor limited development
   }\
   res;\
 })
-
-#define SINFP(val) __TAYLOR(val, 2)
-
-#define COSFP(val) __TAYLOR(val, 1)
-
-#define TANFP(val) DIVFP(SINFP(val), COSFP(val))
 
 #endif

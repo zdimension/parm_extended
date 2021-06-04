@@ -3,27 +3,6 @@
 
 typedef unsigned int p_char;
 
-// Interne.
-#define __LOOP_CODE(code) \
-	"	adds r6, %[p], #0	\n" \
-	"1:						\n" \
-	"	beq 2f				\n" \
-	"	subs r6, 1			\n" \
-	"	add sp, #4			\n" \
-	"	bne 1b				\n" \
-	"2:						\n" \
-	code						\
-	"	adds r6, %[p], #0	\n" \
-	"3:						\n" \
-	"	beq 4f				\n" \
-	"	subs r6, 1			\n" \
-	"	sub sp, #4			\n" \
-	"	bne 3b				\n"	\
-	"4:						\n"
-	
-// Interne.
-#define __LOOP_REGS "r6"
-
 /** Écrit dans un tableau. Équivalent en C à tableau[pos] = val.
   *
   * Entrées :
@@ -73,5 +52,26 @@ typedef unsigned int p_char;
 	}\
 	__temp1 - 1;\
 })
+
+// Interne.
+#define __LOOP_CODE(code) \
+	"	adds r6, %[p], #0	\n" \
+	"1:						\n" \
+	"	beq 2f				\n" \
+	"	subs r6, 1			\n" \
+	"	add sp, #4			\n" \
+	"	bne 1b				\n" \
+	"2:						\n" \
+	code						\
+	"	adds r6, %[p], #0	\n" \
+	"3:						\n" \
+	"	beq 4f				\n" \
+	"	subs r6, 1			\n" \
+	"	sub sp, #4			\n" \
+	"	bne 3b				\n"	\
+	"4:						\n"
+	
+// Interne.
+#define __LOOP_REGS "r6"
 
 #endif
