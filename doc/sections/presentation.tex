@@ -1,6 +1,6 @@
 \section{Présentation du projet}
 \subsection{Le microprocesseur ARM Cortex-M0}
-	La famille des ARM Cortex-M regroupe des processeurs 32 bits. Ils peuvent être utilisés comme microprocesseur ou microcontrôleur. On les retrouve dans diverses applications : Arduino Due,  Machine à laver, distributeur de boissons...  Les Cortex-M vise en majorité le marché de l'embarqué.
+	La famille des ARM Cortex-M regroupe des processeurs 32 bits. Ils peuvent être utilisés comme microprocesseur ou microcontrôleur. On les retrouve dans diverses applications : Arduino Due, machine à laver, distributeur de boissons... Les Cortex-M visent en majorité le marché de l'embarqué.
 
 	Le but de ce projet est de simuler le comportement d'un Cortex-M0 au moyen d'un logiciel de simulation électronique: Logisim. L'idée est ici d'obtenir un système ayant un comportement similaire à un Cortex-M0 et non une copie conforme du fait de la complexité d'un processeur réel.
 
@@ -40,18 +40,12 @@
 
 Logisim est un programme permettant la modélisation et la simulation de circuit logique. La modélisation du circuit ne se fait que par dessin et glisser-déposer des différents éléments électroniques.
 
-\paragraph{Installation:} sur Ubuntu 16.04, ajouter le PPA \texttt{polytech-nice/logisim-evolution} puis installer le paquet \texttt{logisim-evolution}:
+\paragraph{Installation:} la version de Logisim utilisé dans le cadre du projet est la 3.5.0, accessible à l'adresse \url{https://github.com/logisim-evolution/logisim-evolution/releases/tag/v3.5.0}. Sur Windows, utilisez le fichier .msi pour installer. sur Mac, utilisez le fichier .dmg. Sur Ubuntu/Debian, passez par le fichier .deb avec la commande :
 \begin{lstlisting}
-sudo add-apt-repository ppa:polytech-nice/logisim-evolution
-sudo apt update
-sudo apt install logisim-evolution
+sudo apt install gdebi
+sudo gdebi logisim-evolution_3.5.0-1_amd64.deb
 \end{lstlisting}
-Pour les autres systèmes, le code source est disponible à l'adresse: \url{https://github.com/MIAOU-Polytech/logisim-evolution}
-
-Il peut être compilé et lancé grâce à la commande:
-\begin{lstlisting}
-ant run
-\end{lstlisting}
+Pour les autres systèmes, vous pouvez lancer directement le fichier .jar sans installer.
 
 \paragraph{}
 
