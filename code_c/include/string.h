@@ -34,7 +34,7 @@ typedef unsigned int p_char;
 	);
 
 // Affiche la chaîne dans le terminal.
-#define PRINT(str) do {\
+#define PRINT() do {\
 	__temp1=0;\
 	__temp2=1;\
 	for(;__temp2;__temp1++)	{\
@@ -44,14 +44,25 @@ typedef unsigned int p_char;
 } while(0)
 
 // Calcule la longueur de la chaîne, en caractères.
-#define STRLEN(str) ({ \
+#define STRLEN(val) do { \
 	__temp1=0;\
 	__temp2=1;\
 	for(;__temp2;__temp1++)	{\
 		ARR_GET(__temp1, __temp2);\
 	}\
-	__temp1 - 1;\
-})
+	val=__temp1 - 1;\
+} while (0)
+
+#define STRREV() do {\
+	__temp3=STRLEN();\
+	__temp4=(__temp3 >> 1)+1;\
+	for(;__temp4 > 0; __temp4--) {\
+		ARR_GET(__temp4-1, __temp2);\
+		ARR_GET(__temp3 - (__temp4-1), __temp1);\
+		ARR_SET(__temp4-1, __temp1);\
+		ARR_SET(__temp3 - (__temp4-1), __temp2);\
+	}\
+}) while(0)
 
 // Interne.
 #define __LOOP_CODE(code) \
@@ -70,7 +81,7 @@ typedef unsigned int p_char;
 	"	sub sp, #4			\n" \
 	"	bne 3b				\n"	\
 	"4:						\n"
-	
+
 // Interne.
 #define __LOOP_REGS "r6"
 
