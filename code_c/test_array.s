@@ -17,58 +17,68 @@
 	.eabi_attribute	18, 4
 	.eabi_attribute	26, 2
 	.eabi_attribute	14, 0
-	.file	"crypto.c"
+	.file	"test_array.c"
 	.globl	run
-	.p2align	1
+	.p2align	2
 	.type	run,%function
 	.code	16
 	.thumb_func
 run:
 	.fnstart
-	.pad	#72
-	sub	sp, #72
+	.pad	#92
+	sub	sp, #92
 	@APP
 	sub	sp, #508
 	@NO_APP
 	@APP
 	sub	sp, #452
 	@NO_APP
+	movs	r0, #2
+	str	r0, [sp]
+	movs	r0, #1
+	str	r0, [sp, #4]
+	movs	r0, #0
+	str	r0, [sp, #4]
+	ldr	r0, [sp]
+	lsls	r0, r0, #12
+	ldr	r1, [sp, #4]
+	orrs	r1, r0
+	str	r1, [sp, #4]
 	b	.LBB0_1
 .LBB0_1:
+	ldr	r0, [sp, #4]
+	lsrs	r1, r0, #8
+	movs	r2, #16
+	ands	r1, r2
+	lsrs	r0, r0, #12
+	ands	r0, r2
+	cmp	r1, r0
+	beq	.LBB0_3
 	b	.LBB0_2
 .LBB0_2:
-	b	.LBB0_3
+	ldr	r0, [sp, #4]
+	movs	r1, #255
+	bics	r0, r1
+	movs	r1, #1
+	lsls	r1, r1, #8
+	adds	r0, r0, r1
+	ldr	r1, [sp, #8]
+	orrs	r1, r0
+	str	r1, [sp, #8]
+	ldr	r0, [sp, #4]
+	ldr	r1, .LCPI0_0
+	ands	r0, r1
+	ldr	r1, [sp, #8]
+	orrs	r1, r0
+	str	r1, [sp, #8]
+	b	.LBB0_1
 .LBB0_3:
 	b	.LBB0_4
 .LBB0_4:
-	ldr	r0, [sp, #32]
-	cmp	r0, #0
-	bne	.LBB0_6
-	b	.LBB0_5
-.LBB0_5:
 	b	.LBB0_4
-.LBB0_6:
-	b	.LBB0_7
-.LBB0_7:
-	ldr	r0, [sp, #36]
-	str	r0, [sp, #4]
-	ldr	r0, [sp, #4]
-	ldr	r1, [sp, #20]
-	adds	r0, r0, r1
-	subs	r0, #97
-	movs	r1, #26
-	@APP
-	movs	r2, r0
-	movs	r3, r1
-	@NO_APP
-	ldr	r0, [sp, #60]
-	str	r0, [sp]
-	ldr	r0, [sp]
-	adds	r0, #97
-	str	r0, [sp, #8]
-	b	.LBB0_8
-.LBB0_8:
-	b	.LBB0_1
+	.p2align	2
+.LCPI0_0:
+	.long	4294963200
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run
 	.cantunwind
