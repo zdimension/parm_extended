@@ -16,7 +16,7 @@ bics r6, r2
 @r6 value should be 17, 11
 
 mvns r7, r2
-@alors ça prend r7, en entrée et en sortie c'est pas normal
+@alors ça prend r7, en entrée et en sortie c'est pas normal, l'ALU il est cassé
 @r7 value should be -171, FFFFFF55 ??
 
 @Needs shift_add_sub_move to be implemented
