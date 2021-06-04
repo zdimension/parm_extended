@@ -4,7 +4,7 @@
 void run()
 {
   BEGIN();
-  fixed_t x = TOFP(4.5);
+  fixed_t x = TOFP(0.375);
   PUTCHAR('s');PUTCHAR('i');PUTCHAR('n');PUTCHAR('(');PRINTFP(x);PUTCHAR(')');PUTCHAR('=');
   fixed_t mysin = SINFP(x);
   PRINTFP(mysin);
