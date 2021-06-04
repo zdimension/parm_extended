@@ -54,6 +54,7 @@ typedef unsigned int p_char;
 		: __LOOP_REGS						\
 	);
 
+// Affiche la chaîne dans le terminal.
 #define PRINT(str) do {\
 	__temp1=0;\
 	__temp2=1;\
@@ -63,6 +64,7 @@ typedef unsigned int p_char;
 	}\
 } while(0)
 
+// Calcule la longueur de la chaîne, en caractères.
 #define STRLEN(str) ({ \
 	__temp1=0;\
 	__temp2=1;\
