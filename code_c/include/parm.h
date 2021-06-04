@@ -5,7 +5,7 @@
 asm("sub sp, #508");\
 asm("sub sp, #452");\
 volatile int PINS[16];\
-unsigned int __temp1, __temp2;
+unsigned int __temp1, __temp2, __temp3;
 
 #define END() do{while(1);}while(1)
 

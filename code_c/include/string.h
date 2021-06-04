@@ -1,6 +1,8 @@
 #ifndef STRING_H
 #define STRING_H
 
+typedef unsigned int p_char;
+
 // Interne.
 #define __LOOP_CODE(code) \
 	"	adds r6, %[p], #0	\n" \
@@ -43,7 +45,7 @@
   * - int pos : position (0-indexée)
   * Sorties :
   * - int val : valeur à écrire
-  */	
+  */
 #define ARR_GET(pos, val) 					\
 	asm volatile(                   		\
 		__LOOP_CODE("ldr %[v], [sp]	\n") 	\
@@ -51,5 +53,23 @@
 		: [p] "r" (pos)            			\
 		: __LOOP_REGS						\
 	);
-	
+
+#define PRINT(str) do {\
+	__temp1=0;\
+	__temp2=1;\
+	for(;__temp2;__temp1++)	{\
+		ARR_GET(__temp1, __temp2);\
+		PUTCHAR(__temp2);\
+	}\
+} while(0)
+
+#define STRLEN(str) ({ \
+	__temp1=0;\
+	__temp2=1;\
+	for(;__temp2;__temp1++)	{\
+		ARR_GET(__temp1, __temp2);\
+	}\
+	__temp1 - 1;\
+})
+
 #endif
