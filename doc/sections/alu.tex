@@ -73,7 +73,7 @@ $0100$ & \texttt{B >> Shift (arith)}		& ASR			& Retenue sortante, voir jeu d'ins
 \hline
 $0101$ & \texttt{A + B + CarryIn}		& ADC			&\\
 \hline
-$0110$ & \texttt{A – B + CarryIn – 1}		& SBC			& Retenue entrante inversée\\
+$0110$ & \texttt{B – A + CarryIn – 1}		& SBC			& Retenue entrante inversée\\
 \hline
 $0111$ & \texttt{B >> Shift (rot)}		& ROR			& Retenue sortante, voir jeu d'instruction\\
 \hline
@@ -81,7 +81,7 @@ $1000$ & \texttt{A and B}			& TST			& Résultat perdu, seuls les drapeaux sont m
 \hline
 $1001$ & \texttt{0 – A}				& RSB			& Registre Rm utilisé plutôt que Rn\\
 \hline
-$1010$ & \texttt{A – B}				& CMP			& Résultat perdu, seuls les drapeaux sont mis à jour\\
+$1010$ & \texttt{B – A}				& CMP			& Résultat perdu, seuls les drapeaux sont mis à jour\\
 \hline
 $1011$ & \texttt{A + B}				& CMN			& Résultat perdu, seuls les drapeaux sont mis à jour\\
 \hline
@@ -89,7 +89,7 @@ $1100$ & \texttt{A or B}			& ORR			&\\
 \hline
 $1101$ & \texttt{A * B}				& MUL			&\\
 \hline
-$1110$ & \texttt{A and not B}			& BIC			&\\
+$1110$ & \texttt{B and not A}			& BIC			&\\
 \hline
 $1111$ & \texttt{Not B}				& MVN			&\\
 \hline

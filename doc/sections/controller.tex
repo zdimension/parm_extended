@@ -219,7 +219,7 @@ Pour celles-ci, le registre \texttt{Rd} sera défini à \texttt{Rn} afin d'être
 
 
 \paragraph{Remarque 2:} pour les instructions \texttt{RSB} et \texttt{MUL}, les bits 3 à 5 définissent le registre \texttt{Rn}, contrairement aux autres instructions pour lesquelles ces bits définissent le registre \texttt{Rm}.
-Pour simplifier, le registre \texttt{Rm} sera utilisé pour toutes les instructions, en prenant soin de rester cohérent dans l'implémentation de l'ALU.
+Pour simplifier l'implémentation du contrôleur, on considèrera toujours que les bits 3 à 5 correspondent à \texttt{Rm} et que les bits 0 à 2 correspondent à \texttt{Rdn}. Pour \texttt{RSB}, l'ALU devra alors faire usage de l'opérande \texttt{A} (en provenance du registre \texttt{Rm}).
 
 
 \subsubsubsection{Interface}

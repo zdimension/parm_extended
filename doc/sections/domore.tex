@@ -31,6 +31,8 @@ de la directive \texttt{.pad} exclue jusqu'à la ligne \texttt{bx lr} exclue qui
 L'instruction n'est de plus pas implémentée, il suffit donc de supprimer cette ligne.
 Si le programme contient une boucle \texttt{while (1)} principale, la fonction \texttt{main()} ne retourne pas donc l'instruction \texttt{bx lr} sera absente.
 
+\paragraph{Remarque 2:} depuis la version 9 de \texttt{Clang}, l'addressage mémoire est réalisé différemment en utilisant des instructions \texttt{add <Rd>,SP,\#<imm8>} et \texttt{ldr <Rt>,<Rn>,\#<imm5>} qui ne sont pas prises en charge par l'implémentation. Il faut donc s'assurer d'utiliser une version 4 à 8 de \texttt{Clang} (paquet \texttt{clang-8} sous Ubuntu).
+
 \paragraph{}
 Le code assembleur extrait devra être passé à l'assembleur écrit dans le cadre du projet pour générer le fichier lisible par Logisim et pouvoir l'importer dans la ROM.
 
@@ -44,7 +46,6 @@ Quant aux sorties, elles étaient limitées à la visualisation du contenu des r
 \paragraph{}
 Nous souhaitons donc pouvoir dialoguer avec un ou plusieurs périphériques.
 Pour cela, nous allons mettre en place le concept de \textit{Memory-mapped I/O}, qui consiste à réserver une partie de l'espace d'adressage mémoire pour les entrées/sorties.
-
 Dans notre cas, notre RAM est adressée en 8 bits, on peut donc utiliser un 9\ieme {} bit pour dialoguer avec les entrées/sorties.
 
 Si l'adresse mémoire est strictement inférieure à 256, les instructions \texttt{LDR} et \texttt{STR} affecteront la RAM.

@@ -95,7 +95,9 @@ Le signal \texttt{Load} est définit à 1 de manière à toujours obtenir la don
 
 Lorsque le signal \texttt{Store} est activé, les données présentent sur l'entrée \texttt{Input} sont enregistrées dans la RAM à l'adresse \texttt{Address}.
 
-\paragraph{Remarque:} sous Logisim, le paramètre \texttt{Databus implementation} doit être défini à \texttt{Separate databus for read and write} 
+\paragraph{Remarque:} le jeu d'instruction ARMv7-M adresse la RAM octet par octet (1 adresse = 8 bits de données) tandis que sous Logisim, le composant RAM est adressé mot par mot (1 adresse = 32 bits de données). Cela permet de simplifier la gestion de la RAM puisqu'il est possible de charger des données directement dans les registres 32 bits du CPU.
+
+\paragraph{Remarque 2:} sous Logisim, le paramètre \texttt{Databus implementation} doit être défini à \texttt{Separate databus for read and write} 
 et le paramètre \texttt{Trigger} à \texttt{Flanc Montant} afin de pouvoir déployer le composant sur FPGA.
 
 \subsubsection{Interface}

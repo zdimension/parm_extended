@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[titlepage]{article}
 \usepackage{luatextra}
 \usepackage{polyglossia}
 \usepackage{ulem}
@@ -24,6 +24,7 @@
 \usepackage{array}
 \usepackage{listings}
 \usepackage{tocloft}
+\usepackage{etoolbox}
 
 \usepackage{ifluatex}
 \ifluatex
@@ -49,6 +50,9 @@
 
 \pagestyle{fancy}
 \fancyhead[R]{}
+
+%% Apply fancy to first page of ToC as well
+\addtocontents{toc}{\protect\thispagestyle{fancy}}
 
 %% <current page>/<total pages> footer
 \cfoot{\thepage/\pageref{LastPage}}
@@ -116,18 +120,33 @@ node.write(img.node(image))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\titlespacing*{\section}{0pt}{0.7\baselineskip}{0.7\baselineskip}
+%\titlespacing*{\section}{0pt}{0.7\baselineskip}{0.7\baselineskip}
 
-\title{Projet Principe d'éxécution des programmes}
-%\subtitle{Meow}
-\author{NassimBounouas, piernov}
-\date{\today}
+
+%% Add page number on titlepage
+\patchcmd{\titlepage}
+  {\thispagestyle{empty}}
+  {\thispagestyle{fancy}}
+  {}
+  {}
+
+\title{Projet PARM\\
+Polytech ARM-based embedded processor}
+\author{N. Bounouas, P.E. Novac, T. Niget, T. Prévost, E. Vouriot, B. Miramond\\
+Polytech Nice Sophia\\
+}
+\date{\today\\
+\vspace{10em}
+\url{https://bitbucket.org/edge-team-leat/parm_public}\\
+\vspace{15em}
+\includegraphics[scale=0.5]{pictures/polytech_nice-sophia.png}
+}
 
 \begin{document}
 \lstset{xleftmargin=.25in}
 
 \maketitle
-\url{https://github.com/NassimBounouas/Stage_SI3_PeP}
+\addtocounter{page}{1}
 \tableofcontents
 
 \newpage
