@@ -4,30 +4,16 @@
 
   <lib desc="#Wiring" name="0">
     <tool name="Splitter">
-      <a name="bit1" val="0"/>
-      <a name="bit10" val="2"/>
-      <a name="bit11" val="2"/>
-      <a name="bit12" val="3"/>
-      <a name="bit13" val="3"/>
-      <a name="bit14" val="3"/>
-      <a name="bit15" val="3"/>
-      <a name="bit2" val="0"/>
-      <a name="bit3" val="0"/>
-      <a name="bit4" val="1"/>
-      <a name="bit5" val="1"/>
-      <a name="bit6" val="1"/>
-      <a name="bit7" val="1"/>
-      <a name="bit8" val="2"/>
-      <a name="bit9" val="2"/>
+      <a name="facing" val="west"/>
       <a name="fanout" val="4"/>
-      <a name="incoming" val="16"/>
+      <a name="incoming" val="1"/>
     </tool>
     <tool name="Pin">
       <a name="facing" val="north"/>
     </tool>
     <tool name="Probe">
       <a name="facing" val="west"/>
-      <a name="radix" val="10signed"/>
+      <a name="radix" val="10unsigned"/>
     </tool>
     <tool name="Tunnel">
       <a name="facing" val="south"/>
@@ -39,8 +25,9 @@
       <a name="facing" val="north"/>
     </tool>
     <tool name="Constant">
+      <a name="facing" val="south"/>
       <a name="value" val="0x0"/>
-      <a name="width" val="16"/>
+      <a name="width" val="2"/>
     </tool>
     <tool name="Ground">
       <a name="facing" val="west"/>
@@ -268,6 +255,9 @@ end TCL_Generic;
     <a name="clabel" val=""/>
     <a name="clabelfont" val="SansSerif bold 16"/>
     <a name="clabelup" val="east"/>
+    <comp lib="0" loc="(1010,220)" name="Probe">
+      <a name="facing" val="west"/>
+    </comp>
     <comp lib="0" loc="(1020,300)" name="Tunnel">
       <a name="label" val="Store"/>
     </comp>
@@ -343,7 +333,7 @@ end TCL_Generic;
     </comp>
     <comp lib="0" loc="(1120,290)" name="Probe">
       <a name="facing" val="west"/>
-      <a name="radix" val="10unsigned"/>
+      <a name="radix" val="16"/>
     </comp>
     <comp lib="0" loc="(1120,330)" name="Tunnel">
       <a name="label" val="RAM_Out"/>
@@ -352,6 +342,10 @@ end TCL_Generic;
     <comp lib="0" loc="(1120,360)" name="Probe">
       <a name="facing" val="west"/>
       <a name="radix" val="10signed"/>
+    </comp>
+    <comp lib="0" loc="(1120,410)" name="Probe">
+      <a name="facing" val="west"/>
+      <a name="radix" val="16"/>
     </comp>
     <comp lib="0" loc="(1150,1140)" name="Tunnel">
       <a name="facing" val="north"/>
@@ -1687,23 +1681,23 @@ dc0c 9806 210f 4008 9003 9806 1100 9006
     </comp>
     <comp lib="5" loc="(1100,1110)" name="TTY"/>
     <comp lib="5" loc="(130,1030)" name="DipSwitch">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@6f8e9727"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@239c30e3"/>
       <a name="labelloc" val="south"/>
     </comp>
     <comp lib="5" loc="(140,1150)" name="Keyboard"/>
     <comp lib="5" loc="(20,1030)" name="DipSwitch">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@46c356ab"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@72c806ca"/>
       <a name="labelloc" val="south"/>
     </comp>
     <comp lib="5" loc="(240,1030)" name="DipSwitch">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@2726b6d3"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@4de18ab2"/>
       <a name="labelloc" val="south"/>
     </comp>
     <comp lib="5" loc="(360,1120)" name="Joystick">
       <a name="bits" val="5"/>
     </comp>
     <comp lib="5" loc="(450,1010)" name="DotMatrix">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@354f2674"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@e29454f"/>
       <a name="inputtype" val="row"/>
       <a name="matrixcols" val="8"/>
       <a name="matrixrows" val="4"/>
@@ -1718,39 +1712,39 @@ dc0c 9806 210f 4008 9003 9806 1100 9006
       <a name="labelloc" val="east"/>
     </comp>
     <comp lib="5" loc="(630,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@2ee3b855"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@4cf06741"/>
     </comp>
     <comp lib="5" loc="(670,1020)" name="DotMatrix">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@7249d52c"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@7ebcc643"/>
       <a name="inputtype" val="row"/>
       <a name="matrixcols" val="32"/>
       <a name="matrixrows" val="1"/>
     </comp>
     <comp lib="5" loc="(670,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@60cb6598"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@3f49773c"/>
     </comp>
     <comp lib="5" loc="(710,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@2cfb9373"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@7b8e5ea7"/>
     </comp>
     <comp lib="5" loc="(750,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@1f69a7a9"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@348bf4f8"/>
     </comp>
     <comp lib="5" loc="(770,910)" name="Button">
       <a name="facing" val="west"/>
       <a name="labelloc" val="east"/>
     </comp>
     <comp lib="5" loc="(870,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@23b5e1dd"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@2c1db2f4"/>
     </comp>
     <comp lib="5" loc="(890,910)" name="Button"/>
     <comp lib="5" loc="(910,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@1869b796"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@5819c0dc"/>
     </comp>
     <comp lib="5" loc="(950,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@68f9cfe3"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@516bd61e"/>
     </comp>
     <comp lib="5" loc="(990,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@3a7f79ba"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@3aacc4ff"/>
     </comp>
     <comp lib="8" loc="(1175,124)" name="Text">
       <a name="font" val="SansSerif plain 20"/>
@@ -1783,6 +1777,9 @@ dc0c 9806 210f 4008 9003 9806 1100 9006
     <wire from="(1010,260)" to="(1060,260)"/>
     <wire from="(1010,280)" to="(1080,280)"/>
     <wire from="(1010,300)" to="(1020,300)"/>
+    <wire from="(1010,320)" to="(1060,320)"/>
+    <wire from="(1060,320)" to="(1060,410)"/>
+    <wire from="(1060,410)" to="(1120,410)"/>
     <wire from="(1070,220)" to="(1070,240)"/>
     <wire from="(1070,220)" to="(1090,220)"/>
     <wire from="(1080,1110)" to="(1100,1110)"/>
@@ -2136,6 +2133,8 @@ dc0c 9806 210f 4008 9003 9806 1100 9006
       <circ-port height="10" pin="1000,330" width="10" x="245" y="75"/>
       <circ-port height="10" pin="1000,390" width="10" x="245" y="115"/>
       <circ-port height="10" pin="1000,450" width="10" x="245" y="95"/>
+      <circ-port height="10" pin="1000,710" width="10" x="245" y="35"/>
+      <circ-port height="10" pin="1000,770" width="10" x="245" y="135"/>
       <circ-port height="10" pin="440,110" width="10" x="75" y="15"/>
       <circ-port height="10" pin="460,90" width="10" x="95" y="15"/>
       <circ-port height="10" pin="480,70" width="10" x="115" y="15"/>
@@ -2148,33 +2147,37 @@ dc0c 9806 210f 4008 9003 9806 1100 9006
       <circ-port height="8" pin="180,360" width="8" x="46" y="56"/>
       <circ-port height="8" pin="180,390" width="8" x="46" y="76"/>
       <circ-port height="8" pin="190,160" width="8" x="46" y="96"/>
-      <rect fill="none" height="128" stroke="#000000" stroke-width="2" width="180" x="60" y="20"/>
-      <rect height="20" stroke="none" width="181" x="60" y="130"/>
+      <rect fill="none" height="150" stroke="#000000" stroke-width="2" width="180" x="60" y="20"/>
+      <rect height="20" stroke="none" width="181" x="60" y="150"/>
       <rect height="3" stroke="none" width="10" x="50" y="119"/>
       <rect height="3" stroke="none" width="10" x="50" y="99"/>
       <rect height="4" stroke="none" width="10" x="239" y="98"/>
       <rect height="4" stroke="none" width="10" x="240" y="118"/>
+      <rect height="4" stroke="none" width="10" x="240" y="138"/>
+      <rect height="4" stroke="none" width="10" x="240" y="38"/>
       <rect height="4" stroke="none" width="10" x="240" y="58"/>
       <rect height="4" stroke="none" width="10" x="241" y="78"/>
       <rect height="4" stroke="none" width="10" x="50" y="58"/>
       <rect height="4" stroke="none" width="10" x="50" y="78"/>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="230" y="104">RAM_Out</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="232" y="63">ROM_Addr</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="233" y="84">RAM_Addr</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="104">RAM_In</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="124">ROM_In</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="64">Clk</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="84">Reset</text>
-      <text dominant-baseline="central" fill="#ffffff" font-family="Dialog" font-size="14" font-weight="bold" text-anchor="middle" x="152" y="144">CPU</text>
-      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="100" y="40">R1</text>
-      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="120" y="40">R2</text>
-      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="140" y="40">R3</text>
-      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="160" y="40">R4</text>
-      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="180" y="40">R5</text>
-      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="200" y="40">R6</text>
-      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="216" y="123">Store</text>
-      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="220" y="40">R7</text>
-      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="80" y="40">R0</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="230" y="99">RAM_Out</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="232" y="139">SP</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="232" y="39">Flags</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="232" y="58">ROM_Addr</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="233" y="79">RAM_Addr</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="119">ROM_In</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="59">Clk</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="79">Reset</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="99">RAM_In</text>
+      <text dominant-baseline="central" fill="#ffffff" font-family="Dialog" font-size="14" font-weight="bold" text-anchor="middle" x="152" y="160">CPU</text>
+      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="100" y="28">R1</text>
+      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="120" y="28">R2</text>
+      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="140" y="28">R3</text>
+      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="160" y="28">R4</text>
+      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="180" y="28">R5</text>
+      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="200" y="28">R6</text>
+      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="216" y="118">Store</text>
+      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="220" y="28">R7</text>
+      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="80" y="28">R0</text>
     </appear>
     <comp lib="0" loc="(1000,270)" name="Pin">
       <a name="facing" val="west"/>
@@ -2196,6 +2199,18 @@ dc0c 9806 210f 4008 9003 9806 1100 9006
     <comp lib="0" loc="(1000,450)" name="Pin">
       <a name="facing" val="west"/>
       <a name="label" val="RAM_Out"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+    </comp>
+    <comp lib="0" loc="(1000,710)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="label" val="Flags"/>
+      <a name="output" val="true"/>
+      <a name="width" val="4"/>
+    </comp>
+    <comp lib="0" loc="(1000,770)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="label" val="SP"/>
       <a name="output" val="true"/>
       <a name="width" val="32"/>
     </comp>
@@ -2413,7 +2428,11 @@ dc0c 9806 210f 4008 9003 9806 1100 9006
     <wire from="(460,510)" to="(620,510)"/>
     <wire from="(460,530)" to="(760,530)"/>
     <wire from="(460,550)" to="(850,550)"/>
+    <wire from="(460,570)" to="(510,570)"/>
+    <wire from="(460,590)" to="(470,590)"/>
     <wire from="(460,90)" to="(460,130)"/>
+    <wire from="(470,590)" to="(470,770)"/>
+    <wire from="(470,770)" to="(1000,770)"/>
     <wire from="(480,270)" to="(480,350)"/>
     <wire from="(480,410)" to="(480,540)"/>
     <wire from="(480,540)" to="(800,540)"/>
@@ -2422,6 +2441,8 @@ dc0c 9806 210f 4008 9003 9806 1100 9006
     <wire from="(490,370)" to="(950,370)"/>
     <wire from="(500,240)" to="(500,430)"/>
     <wire from="(500,50)" to="(500,130)"/>
+    <wire from="(510,570)" to="(510,710)"/>
+    <wire from="(510,710)" to="(1000,710)"/>
     <wire from="(520,110)" to="(520,130)"/>
     <wire from="(520,220)" to="(520,430)"/>
     <wire from="(520,430)" to="(520,450)"/>

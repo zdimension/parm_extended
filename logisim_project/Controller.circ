@@ -225,17 +225,19 @@ end TCL_Generic;
       <circ-port height="10" pin="1320,410" width="10" x="215" y="195"/>
       <circ-port height="10" pin="1320,460" width="10" x="215" y="215"/>
       <circ-port height="10" pin="1320,510" width="10" x="215" y="175"/>
+      <circ-port height="10" pin="1320,550" width="10" x="215" y="315"/>
       <circ-port height="10" pin="1320,70" width="10" x="215" y="295"/>
       <circ-port height="10" pin="1320,710" width="10" x="215" y="75"/>
       <circ-port height="10" pin="1320,780" width="10" x="215" y="95"/>
       <circ-port height="10" pin="1320,820" width="10" x="215" y="115"/>
+      <circ-port height="10" pin="1320,890" width="10" x="215" y="335"/>
       <circ-port height="10" pin="1340,1160" width="10" x="215" y="55"/>
       <circ-port height="8" pin="100,530" width="8" x="46" y="116"/>
       <circ-port height="8" pin="100,570" width="8" x="46" y="76"/>
       <circ-port height="8" pin="100,610" width="8" x="46" y="96"/>
       <circ-port height="8" pin="130,230" width="8" x="46" y="56"/>
-      <rect fill="none" height="280" stroke="#000000" stroke-width="2" width="150" x="60" y="50"/>
-      <rect height="20" stroke="none" width="150" x="60" y="310"/>
+      <rect fill="none" height="320" stroke="#000000" stroke-width="2" width="150" x="60" y="50"/>
+      <rect height="20" stroke="none" width="150" x="60" y="350"/>
       <rect height="3" stroke="none" width="10" x="210" y="219"/>
       <rect height="3" stroke="none" width="10" x="210" y="59"/>
       <rect height="3" stroke="none" width="10" x="210" y="79"/>
@@ -249,31 +251,35 @@ end TCL_Generic;
       <rect height="4" stroke="none" width="10" x="210" y="238"/>
       <rect height="4" stroke="none" width="10" x="210" y="258"/>
       <rect height="4" stroke="none" width="10" x="210" y="298"/>
+      <rect height="4" stroke="none" width="10" x="210" y="318"/>
+      <rect height="4" stroke="none" width="10" x="210" y="338"/>
       <rect height="4" stroke="none" width="10" x="210" y="98"/>
       <rect height="4" stroke="none" width="10" x="211" y="278"/>
       <rect height="4" stroke="none" width="10" x="50" y="58"/>
       <rect height="4" stroke="none" width="10" x="50" y="78"/>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="204" y="102">Load</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="204" y="144">Imm32_Enable</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="204" y="64">PC</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="205" y="183">Rd</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="205" y="203">Rm</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="206" y="162">ALU_Opcode</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="206" y="223">Rn</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="206" y="302">Carry</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="207" y="244">Imm32</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="207" y="285">DP_Shift</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="208" y="265">Imm5</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="104">Reset</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="64">Inst</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="83">Clk</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="66" y="124">Flags</text>
-      <text dominant-baseline="central" fill="#404040" font-family="SansSerif" font-size="12" text-anchor="end" x="205" y="123">Store</text>
-      <text dominant-baseline="central" fill="#ffffff" font-family="Dialog" font-size="14" font-weight="bold" text-anchor="middle" x="139" y="325">Controller</text>
-      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="end" x="203" y="84">RAM_Addr</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="202" y="140">Imm32_Enable</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="202" y="60">PC</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="202" y="98">Load</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="203" y="179">Rd</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="203" y="199">Rm</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="204" y="158">ALU_Opcode</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="204" y="219">Rn</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="204" y="298">Carry</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="204" y="319">Flags</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="204" y="339">SP</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="205" y="240">Imm32</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="205" y="281">DP_Shift</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="206" y="261">Imm5</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="100">Reset</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="120">FlagsIn</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="60">Inst</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="80">Clk</text>
+      <text dominant-baseline="central" fill="#404040" font-family="SansSerif" font-size="12" text-anchor="end" x="203" y="119">Store</text>
+      <text dominant-baseline="central" fill="#ffffff" font-family="Dialog" font-size="14" font-weight="bold" text-anchor="middle" x="134" y="360">Controller</text>
+      <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="end" x="201" y="80">RAM_Addr</text>
     </appear>
     <comp lib="0" loc="(100,530)" name="Pin">
-      <a name="label" val="Flags"/>
+      <a name="label" val="FlagsIn"/>
       <a name="width" val="4"/>
     </comp>
     <comp lib="0" loc="(100,570)" name="Pin">
@@ -336,6 +342,12 @@ end TCL_Generic;
       <a name="output" val="true"/>
       <a name="width" val="3"/>
     </comp>
+    <comp lib="0" loc="(1320,550)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="label" val="Flags"/>
+      <a name="output" val="true"/>
+      <a name="width" val="4"/>
+    </comp>
     <comp lib="0" loc="(1320,70)" name="Pin">
       <a name="facing" val="west"/>
       <a name="label" val="Carry"/>
@@ -356,6 +368,12 @@ end TCL_Generic;
       <a name="facing" val="west"/>
       <a name="label" val="Store"/>
       <a name="output" val="true"/>
+    </comp>
+    <comp lib="0" loc="(1320,890)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="label" val="SP"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
     </comp>
     <comp lib="0" loc="(1340,1160)" name="Pin">
       <a name="facing" val="west"/>
@@ -559,6 +577,8 @@ end TCL_Generic;
     <wire from="(1280,460)" to="(1320,460)"/>
     <wire from="(1280,510)" to="(1320,510)"/>
     <wire from="(130,230)" to="(190,230)"/>
+    <wire from="(1310,850)" to="(1310,890)"/>
+    <wire from="(1310,890)" to="(1320,890)"/>
     <wire from="(1320,1340)" to="(1330,1340)"/>
     <wire from="(1330,1160)" to="(1330,1190)"/>
     <wire from="(1330,1160)" to="(1340,1160)"/>
@@ -594,8 +614,10 @@ end TCL_Generic;
     <wire from="(370,790)" to="(370,840)"/>
     <wire from="(370,840)" to="(590,840)"/>
     <wire from="(400,730)" to="(430,730)"/>
-    <wire from="(430,730)" to="(430,920)"/>
+    <wire from="(430,730)" to="(430,850)"/>
     <wire from="(430,730)" to="(700,730)"/>
+    <wire from="(430,850)" to="(1310,850)"/>
+    <wire from="(430,850)" to="(430,920)"/>
     <wire from="(430,920)" to="(700,920)"/>
     <wire from="(510,1160)" to="(560,1160)"/>
     <wire from="(510,1170)" to="(570,1170)"/>
@@ -672,7 +694,9 @@ end TCL_Generic;
     <wire from="(920,750)" to="(1250,750)"/>
     <wire from="(920,770)" to="(1220,770)"/>
     <wire from="(920,790)" to="(1160,790)"/>
-    <wire from="(930,530)" to="(930,650)"/>
+    <wire from="(930,530)" to="(930,550)"/>
+    <wire from="(930,550)" to="(1320,550)"/>
+    <wire from="(930,550)" to="(930,650)"/>
     <wire from="(940,1110)" to="(940,1260)"/>
     <wire from="(940,1260)" to="(1120,1260)"/>
     <wire from="(940,310)" to="(940,350)"/>
