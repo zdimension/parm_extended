@@ -1,3 +1,16 @@
+/*
+Cette bibliothèque permet de gérer précisément UNE (et une seule dans tout le programme) chaîne de caractères.
+De plus le tableau correspondant doit impérativement se trouver au sommet de la pile.
+La macro BEGIN() propose des variables __temp1, __temp2 etc... qui peuvent servir dans d'autres macros.
+Ces variables sont tout en bas dans la pile.
+Voici comment créer une chaîne de caractères:
+p_char str[15];
+int i=0;ARR_SET(i++, 'H');ARR_SET(i++, 'e');ARR_SET(i++, 'l');ARR_SET(i++, 'l');ARR_SET(i++, 'o');ARR_SET(i, '\0');
+Le reste se comporte comme la bibliothèque standard C (string.h), à ceci près que la valeur de retour est parfois passée en paramètre.
+
+(Si le registre R6 venait à être utilisé, les conséquences seraient catastrophiques...)
+*/
+
 #ifndef STRING_H
 #define STRING_H
 
