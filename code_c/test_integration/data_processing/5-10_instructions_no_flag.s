@@ -16,7 +16,7 @@ adcs r5, r1
 
 sbcs r5, r1
 sbcs r5, r1
-@r5 decimal value should be 3, 3 ???
+@r5 decimal value should be 4, 4
 
 movs r6, #170
 rors r6, r1
