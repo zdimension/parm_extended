@@ -98,6 +98,19 @@ typedef unsigned int p_char;
 	}\
 }while(0)
 
+#define STRCHR(c, val) do {\
+	val=-1;\
+	__temp1=0;\
+	__temp2=1;\
+	for(;__temp2; __temp1++) {\
+		ARR_GET(__temp1, __temp2);\
+		if(__temp2 == c) {\
+			val=__temp1;\
+			break;\
+		}\
+	}\
+}while(0)
+
 // Interne.
 #define __LOOP_CODE(code) \
 	"	adds r6, %[p], #0	\n" \

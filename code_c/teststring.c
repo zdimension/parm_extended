@@ -20,7 +20,14 @@ void run()
   ARR_SET(i++, '\n');
   ARR_SET(i, '\0');
   PRINT(); // A l'endroit
-  //PUTCHAR('\n');
+  PUTCHAR('p');PUTCHAR('o');PUTCHAR('s');PUTCHAR('(');PUTCHAR('v');PUTCHAR(')');PUTCHAR('=');
+  STRCHR('v', RES);
+  PRINTRES_SIGN();
+  PUTCHAR('\n');
+  PUTCHAR('p');PUTCHAR('o');PUTCHAR('s');PUTCHAR('(');PUTCHAR('o');PUTCHAR(')');PUTCHAR('=');
+  STRCHR('o', RES);
+  PRINTRES_SIGN();
+  PUTCHAR('\n');
   PUTCHAR('s');PUTCHAR('i');PUTCHAR('z');PUTCHAR('e');PUTCHAR('='); // strlen
   STRLEN(RES);
   PRINTRES();
