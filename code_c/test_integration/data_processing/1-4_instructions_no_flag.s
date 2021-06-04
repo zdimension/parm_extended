@@ -2,9 +2,9 @@ movs r0, #0
 movs r1, #170
 movs r2, #255
 
-movs r3, #255
+movs r3, #15
 ands r3, r1
-@r3 value should be 170, AA
+@r3 value should be 10, A
 
 movs r4, #161
 eors r4, r1

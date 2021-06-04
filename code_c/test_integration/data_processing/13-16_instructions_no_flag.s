@@ -11,9 +11,9 @@ movs r5, #45
 muls r5, r2, r5
 @r5 value should be 7650, 1DE2
 
-movs r6, #10
+movs r6, #19
 bics r6, r2
-@r6 value should be 162, A2 ??
+@r6 value should be 17, 11
 
 mvns r7, r2
 @alors ça prend r7, en entrée et en sortie c'est pas normal
