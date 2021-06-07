@@ -25,8 +25,8 @@
 	.thumb_func
 run:
 	.fnstart
-	.pad	#80
-	sub	sp, #80
+	.pad	#100
+	sub	sp, #100
 	@APP
 	sub	sp, #508
 	@NO_APP
@@ -43,52 +43,52 @@ run:
 	str	r0, [sp]
 	b	.LBB0_1
 .LBB0_1:
-	ldr	r0, [sp, #36]
+	ldr	r0, [sp, #56]
 	ldr	r1, [sp, #12]
 	cmp	r0, r1
 	bne	.LBB0_3
 	b	.LBB0_2
 .LBB0_2:
-	ldr	r0, [sp, #28]
-	ldr	r1, [sp, #32]
+	ldr	r0, [sp, #48]
+	ldr	r1, [sp, #52]
 	adds	r0, r0, r1
-	str	r0, [sp, #20]
+	str	r0, [sp, #40]
 	b	.LBB0_3
 .LBB0_3:
-	ldr	r0, [sp, #36]
+	ldr	r0, [sp, #56]
 	ldr	r1, [sp, #8]
 	cmp	r0, r1
 	bne	.LBB0_5
 	b	.LBB0_4
 .LBB0_4:
-	ldr	r0, [sp, #28]
-	ldr	r1, [sp, #32]
+	ldr	r0, [sp, #48]
+	ldr	r1, [sp, #52]
 	subs	r0, r0, r1
-	str	r0, [sp, #20]
+	str	r0, [sp, #40]
 	b	.LBB0_5
 .LBB0_5:
-	ldr	r0, [sp, #36]
+	ldr	r0, [sp, #56]
 	ldr	r1, [sp, #4]
 	cmp	r0, r1
 	bne	.LBB0_7
 	b	.LBB0_6
 .LBB0_6:
-	ldr	r0, [sp, #28]
-	ldr	r1, [sp, #32]
+	ldr	r0, [sp, #48]
+	ldr	r1, [sp, #52]
 	muls	r1, r0, r1
-	str	r1, [sp, #20]
+	str	r1, [sp, #40]
 	b	.LBB0_7
 .LBB0_7:
-	ldr	r0, [sp, #36]
+	ldr	r0, [sp, #56]
 	ldr	r1, [sp]
 	cmp	r0, r1
 	bne	.LBB0_9
 	b	.LBB0_8
 .LBB0_8:
-	ldr	r0, [sp, #28]
-	ldr	r1, [sp, #32]
+	ldr	r0, [sp, #48]
+	ldr	r1, [sp, #52]
 	lsls	r0, r1
-	str	r0, [sp, #20]
+	str	r0, [sp, #40]
 	b	.LBB0_9
 .LBB0_9:
 	b	.LBB0_1
