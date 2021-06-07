@@ -1,3 +1,8 @@
+/*
+Les 32 bits sont utilisés comme:
+[caractère 7 bits]0[position dans le parcours 7 bits]0[objectif de position 7 bits]0[valeur propagée (caractère, entier etc...) 7 bits]0
+*/
+
 #ifndef STRING2_H
 #define STRING2_H
 
@@ -53,5 +58,20 @@ typedef unsigned int p_char;
         PUTCHAR(__temp2);\
     }\
 }while(0)
+
+#define STRUPR(str) do {\
+    str[0] &= 127;\
+    while(str[0] << 24) {\
+        if((str[0] & 127) < 'z' && (str[0] & 127) > 'a') {\
+            str[0] = str[0]-'a'+'A';\
+        }\
+        str[1] = str[1] & 127;\
+        str[1] |= (((str[0] >> 8) + 1 ) & 127) << 8;\
+        asm("add sp, #4");\
+    }\
+    while((str[0] >> 8) & 127) {\
+        asm("sub sp, #4");\
+    }\
+} while(0)
 
 #endif
