@@ -6,6 +6,23 @@ Il est cependant à noter que cette implémentation est beaucoup plus lente que 
 Les 32 bits sont utilisés comme:
 [caractère 7 bits]0[position dans le parcours 7 bits]0[objectif de position 7 bits]0[valeur propagée (caractère, entier etc...) 7 bits]0
 Au début se trouve le caractère effectivement stocké.
+
+p_char str[50];
+int i=0;
+STR_SET(str, i++, 'v');
+STR_SET(str, i++, 'i');
+STR_SET(str, i++, 'v');
+STR_SET(str, i++, 'e');
+STR_SET(str, i++, ' ');
+STR_SET(str, i++, 'z');
+STR_SET(str, i++, 'o');
+STR_SET(str, i++, 'r');
+STR_SET(str, i++, 'g');
+STR_SET(str, i++, 'l');
+STR_SET(str, i++, 'u');
+STR_SET(str, i++, 'b');
+STR_SET(str, i++, '\n');
+STR_SET(str, i++, '\0');
 */
 
 #ifndef STRING2_H
@@ -15,6 +32,10 @@ Au début se trouve le caractère effectivement stocké.
 
 typedef unsigned int p_char;
 
+/*
+Affecte val à str[pos]
+O(n)
+*/
 #define STR_SET(str, pos, val) do {\
     str[0] &= 127;\
     str[0] |= pos << 16;\
@@ -34,6 +55,10 @@ typedef unsigned int p_char;
     }\
 } while(0)
 
+/*
+Récupère la valeur de str[pos]
+O(n)
+*/
 #define STR_GET(str, pos) ({\
     p_char result=0;\
     str[0] &= 127;\
@@ -55,6 +80,10 @@ typedef unsigned int p_char;
     result;\
 })
 
+/*
+Affiche str
+O(n^2)
+*/
 #define PRINT(str) do {\
     __temp1=0;\
     __temp2=1;\
@@ -64,6 +93,10 @@ typedef unsigned int p_char;
     }\
 }while(0)
 
+/*
+Passe les caractères de str en majuscules
+O(n)
+*/
 #define STRUPR(str) do {\
     str[0] &= 127;\
     while(str[0] << 24) {\
@@ -79,6 +112,10 @@ typedef unsigned int p_char;
     }\
 } while(0)
 
+/*
+Passe les caractères de str en minuscules
+O(n)
+*/
 #define STRLWR(str) do {\
     str[0] &= 127;\
     while(str[0] << 24) {\
@@ -94,6 +131,10 @@ typedef unsigned int p_char;
     }\
 } while(0)
 
+/*
+Renvoie la taille de str, \0 non compris
+O(n)
+*/
 #define STRLEN(str) ({\
     str[0] &= 127;\
     unsigned int res=0;\
@@ -111,6 +152,10 @@ typedef unsigned int p_char;
     res >> 12;\
 })
 
+/*
+Affecte c aux size premiers caarctères de str
+O(n)
+*/
 #define STR_MEMSET(str, c, size) do {\
     str[0] &= 127;\
     str[0] |= size<<16;\
@@ -129,6 +174,10 @@ typedef unsigned int p_char;
     }\
 } while(0)
 
+/*
+Renverse la chaîne str
+O(n^2)
+*/
 #define STRREV(str) do {\
     volatile unsigned int str_size=STRLEN(str);\
 	str_size-=1;\
@@ -141,6 +190,10 @@ typedef unsigned int p_char;
 	}\
 } while(0)
 
+/*
+Renvoie la position de la première occurence de c dans str, -1 si non trouvé
+O(n)
+*/
 #define STRCHR(str, c) ({\
     str[0] &= 127;\
     volatile int res=0;\
