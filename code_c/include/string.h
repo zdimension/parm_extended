@@ -24,7 +24,7 @@ typedef unsigned int p_char;
   */
 #define ARR_SET(pos, val) 					\
 	asm volatile(                   		\
-		__LOOP_CODE("str %[v], [sp]	\n") 	\
+		__LOOP_CODE("", "str %[v], [sp]") 	\
 		:                           		\
 		: [p] "r" (pos),          			\
 		  [v] "r" (val)           			\
@@ -40,7 +40,7 @@ typedef unsigned int p_char;
   */
 #define ARR_GET(pos, val) 					\
 	asm volatile(                   		\
-		__LOOP_CODE("ldr %[v], [sp]	\n") 	\
+		__LOOP_CODE("", "ldr %[v], [sp]") 	\
 		: [v] "=&r" (val)       			\
 		: [p] "r" (pos)            			\
 		: __LOOP_REGS						\
@@ -57,14 +57,29 @@ typedef unsigned int p_char;
 } while(0)
 
 // Calcule la longueur de la chaîne, en caractères.
-#define STRLEN(pos, val) do { \
-	__temp1=pos;\
-	__temp2=1;\
-	for(;__temp2;__temp1++)	{\
-		ARR_GET(__temp1, __temp2);\
-	}\
-	val=__temp1 - 1;\
-} while (0)
+#define STRLEN(val) do {\
+	asm volatile(                   \
+		"	movs r6, 0			\n" \
+		"1:						\n" \
+		"	ldr r5, [sp]		\n"	\
+		"	cmp r5, #0			\n"	\
+		"	beq 6f				\n" \
+		"	adds r6, 1			\n" \
+		"	add sp, #4			\n" \
+		"	b 1b				\n"	\
+		"6:						\n"	\
+		"	adds %[v], r6, #0	\n"	\
+		"3:						\n" \
+		"	beq 4f				\n" \
+		"	subs r6, 1			\n" \
+		"	sub sp, #4			\n" \
+		"	bne 3b				\n"	\
+		"4:						\n"	\
+		: [v] "=&r" (val)			\
+		: 							\
+		: "r6", "r5"				\
+	);								\
+}while(0)
 
 // Renverse la chaîne de caractères
 #define STRREV(pos) do {\
@@ -79,66 +94,100 @@ typedef unsigned int p_char;
 	}\
 } while(0)
 
-// Passe la chaîne de caractères en minuscules
-#define STRLWR(pos) do {\
-	__temp1=pos;\
-	__temp2=1;\
-	for(;__temp2; __temp1++) {\
-		ARR_GET(__temp1, __temp2);\
-		if(__temp2 < 'A' || __temp2 > 'Z') {\
-			continue;\
-		}\
-		__temp2 = __temp2 - 'A' + 'a';\
-		ARR_SET(__temp1, __temp2);\
-	}\
+#define __LOOP_ZERO(code) do {\
+	asm volatile(                   \
+		"	movs r6, 0			\n" \
+		"1:						\n" \
+		"	ldr r5, [sp]		\n"	\
+		"	cmp r5, #0			\n"	\
+		"	beq 6f				\n" \
+		code 					"\n" \
+		"7:						\n"	\
+		"	adds r6, 1			\n" \
+		"	add sp, #4			\n" \
+		"	b 1b				\n"	\
+		"6:						\n"	\
+		"	adds r6, #0			\n"	\
+		"3:						\n" \
+		"	beq 4f				\n" \
+		"	subs r6, 1			\n" \
+		"	sub sp, #4			\n" \
+		"	bne 3b				\n"	\
+		"4:						\n"	\
+		:: 							\
+		: "r6", "r5"				\
+	);								\
 }while(0)
+
+// Passe la chaîne de caractères en minuscules
+#define STRLWR() __LOOP_ZERO(\
+	"subs r5, 65		\n"	\
+	"cmp r5, 25			\n"	\
+	"bhi 7f				\n"	\
+	"adds r5, 97		\n"	\
+	"str r5, [sp]		\n"	\
+)
 
 // Passe la chaîne de caractères en majuscules
-#define STRUPR(pos) do {\
-	__temp1=pos;\
-	__temp2=1;\
-	for(;__temp2; __temp1++) {\
-		ARR_GET(__temp1, __temp2);\
-		if(__temp2 < 'a' || __temp2 > 'z') {\
-			continue;\
-		}\
-		__temp2 = __temp2 - 'a' + 'A';\
-		ARR_SET(__temp1, __temp2);\
-	}\
-}while(0)
+#define STRUPR() __LOOP_ZERO(\
+	"subs r5, 97		\n"	\
+	"cmp r5, 25			\n"	\
+	"bhi 7f				\n"	\
+	"adds r5, 65		\n"	\
+	"str r5, [sp]		\n"	\
+)
 
-// Réécrit les [size] premiers caractères de la chaîne de caractères en [c], à partir de pos
-#define MEMSET(pos, c, size) do{\
-	__temp1=pos;\
-	for(;__temp1 < size; __temp1++) {\
-		ARR_SET(__temp1, c);\
-	}\
-}while(0)
+// Réécrit les [size] premiers caractères de la chaîne de caractères en [c]
+#define MEMSET(c, size)				\
+	asm volatile(                   \
+		__LOOP_CODE("str %[u], [sp]", "")	\
+		:                           \
+		: [p] "r" (size),			\
+		  [u] "r" (c)			\
+		: __LOOP_REGS				\
+	);								
 
 // Recherche la première occurence de [c] dans la chaîne et met le résultat dans val. -1 si non trouvé
-#define STRCHR(pos, c, val) do {\
-	val=-1;\
-	__temp1=pos;\
-	__temp2=1;\
-	for(;__temp2; __temp1++) {\
-		ARR_GET(__temp1, __temp2);\
-		if(__temp2 == c) {\
-			val=__temp1;\
-			break;\
-		}\
-	}\
+#define STRCHR(c, val) do {\
+	asm volatile(                   \
+		"	movs r6, 0			\n" \
+		"	mvns %[v], r6		\n"	\
+		"1:						\n" \
+		"	ldr r5, [sp]		\n"	\
+		"	cmp r5, #0			\n"	\
+		"	beq 6f				\n" \
+		"	cmp r5, %[u]		\n"	\
+		"	beq 5f				\n"	\
+		"	adds r6, 1			\n" \
+		"	add sp, #4			\n" \
+		"	b 1b				\n"	\
+		"5:						\n"	\
+		"	adds %[v], r6, #0	\n"	\
+		"6:						\n"	\
+		"	adds r6, #0			\n"	\
+		"3:						\n" \
+		"	beq 4f				\n" \
+		"	subs r6, 1			\n" \
+		"	sub sp, #4			\n" \
+		"	bne 3b				\n"	\
+		"4:						\n"	\
+		: [v] "=&r" (val)			\
+		: [u] "r" (c)				\
+		: "r6", "r5"				\
+	);								\
 }while(0)
 
 // Interne.
-#define __LOOP_CODE(code) \
+#define __LOOP_CODE(code1, code2) \
 	"	adds r6, %[p], #0	\n" \
 	"1:						\n" \
 	"	beq 2f				\n" \
+	code1					"\n" \
 	"	subs r6, 1			\n" \
 	"	add sp, #4			\n" \
 	"	bne 1b				\n" \
 	"2:						\n" \
-	code						\
+	code2					"\n" \
 	"	adds r6, %[p], #0	\n" \
 	"3:						\n" \
 	"	beq 4f				\n" \
