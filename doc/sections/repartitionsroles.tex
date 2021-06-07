@@ -1,41 +1,38 @@
-\section{Organisation du travail}
+\documentclass{article}
 
-\paragraph{}
-	Afin de répartir au mieux le travail 4 ou 5 sous-tâches sont indiquées selon la taille du groupe.
+\usepackage{../parm}
+\begin{document}
 
-\subsection{ALU (Matériel)}
+    \section{Organisation du travail}
 
-\begin{itemize}
-	\item Réaliser les blocs d'opérateurs arithmétiques et logiques
-	\item Générer les flags
-\end{itemize}
+    Le projet est constitué des parties / tâches suivantes qui seront à répartir au sein du groupe.
+    Cette répartition n'est pas "gravée dans la roche", assurez-vous simplement qu'à la fin du projet il n'y ait pas de trop grandes disparités de quantité de travail effectuée par les différents membres du groupe.
 
-\subsection{Contrôleur (Matériel)}
+    Chaque partie dans la liste est accompagnée de sa difficulté approximative.
 
-\begin{itemize}
-	\item Lecture des instructions depuis la mémoire de programme 
-	\item Décodage de l'instruction et génération des signaux de commande du chemin de données
-	\item Calcul de l'adresse de la prochaine instruction
-\end{itemize}
+    \begin{itemize}
+        \item \hyperref[sec:ALU]{$\bigstar\bigstar\bigstar$ ALU (Matériel)}
+        \begin{itemize}
+            \item Réaliser les blocs d'opérateurs arithmétiques et logiques
+            \item Calculer les flags
+        \end{itemize}
+        \item \hyperref[sec:BDR]{$\bigstar$ Banc de registres (Matériel)}
+        \item \hyperref[sec:OpDec]{$\bigstar$ Contrôleur - Décodeur d'instruction (Matériel)}
+        \item \hyperref[sec:SASM]{$\bigstar\bigstar\bigstar$ Contrôleur - Shift, add, sub, mov (Matériel)}
+        \item \hyperref[sec:DataProc]{$\bigstar\bigstar\bigstar$ Contrôleur - Data Processing (Matériel)}
+        \item \hyperref[sec:FlagsAPSR]{$\bigstar\bigstar$ Contrôleur - Flags APSR (Matériel)}
+        \item \hyperref[sec:LoadStore]{$\bigstar\bigstar\bigstar$Contrôleur - Load/Store (Matériel)}
+        \item \hyperref[sec:SPAddr]{$\bigstar\bigstar$ Contrôleur - SP Address (Matériel)}
+        \item \hyperref[sec:Conditional]{$\bigstar\bigstar$ Contrôleur - Conditional (Matériel)}
+        \item \hyperref[sec:ASM]{$\bigstar\bigstar$ Assembleur (Logiciel))}
+        \begin{itemize}
+            \item Parser un fichier assembleur
+            \item Générer le fichier binaire à charger dans la mémoire d'instruction de Logisim
+        \end{itemize}
+        \item \hyperref[sec:FPGA]{$\bigstar\bigstar$ FPGA (Logiciel)}
+        \begin{itemize}
+            \item Tester le déploiement du processeur sur FPGA
+        \end{itemize}
+    \end{itemize}
 
-\subsection{Chemin de données (Matériel)}
-
-\begin{itemize}
-	\item Mouvement de registre à registre
- 	\item Lecture mémoire des données
-	\item Ecriture mémoire des données
-	\item Envoie d'adresse pour la lecture et l'écriture
-\end{itemize}
-
-\subsection{Assembleur (Logiciel)}
-
-\begin{itemize}
-	\item Parser un fichier assembleur 
-	\item Générer le fichier binaire à charger dans la mémoire d'instruction de logisim
-\end{itemize}
-
-\subsection{FPGA (Logiciel) (groupe de 5)}
-
-\begin{itemize}
-	\item Tester le déploiement du processeur sur FPGA 
-\end{itemize}
+\end{document}

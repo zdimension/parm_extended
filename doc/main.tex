@@ -1,134 +1,12 @@
 \documentclass[titlepage]{article}
-\usepackage{luatextra}
-\usepackage{polyglossia}
-\usepackage{ulem}
-\usepackage{framed}
-\usepackage{color}
-\usepackage{geometry}
-\usepackage{amsmath}
-\usepackage{unicode-math}
-\usepackage[hidelinks]{hyperref}
-\usepackage{latexsym}
-\usepackage{pdflscape}
-\usepackage{pdfpages}
-\usepackage{enumitem}
-\usepackage{titlesec}
-\usepackage{lastpage}
-\usepackage{fancyhdr}
-\usepackage{titlesec}
-\usepackage{listings}
-\usepackage{graphicx}
-\usepackage{float}
-\usepackage{pdfpages}
-\usepackage{ccicons}
-\usepackage{array}
-\usepackage{listings}
-\usepackage{tocloft}
-\usepackage{etoolbox}
-\usepackage{tabularx}
-\usepackage{ifluatex}
-\ifluatex
-  \usepackage{pdftexcmds}
-  \makeatletter
-  \let\pdfstrcmp\pdf@strcmp
-  \let\pdffilemoddate\pdf@filemoddate
-  \makeatother
-\fi
-\usepackage{svg}
-
-\setmathfont{XITSMath-Regular.otf}
-
-\setmainlanguage{french}
-\selectlanguage{french}
-\setdefaultlanguage{french}
-%%\setmainfont{Latin Modern Roman}
-\setmainfont{Roboto}
-
-\geometry{margin={1in,1in}}
-
-\setlist{nosep} %% No space between lists' items
-
-\pagestyle{fancy}
-\fancyhead[R]{}
-
-%% Apply fancy to first page of ToC as well
-\addtocontents{toc}{\protect\thispagestyle{fancy}}
-
-%% <current page>/<total pages> footer
-\cfoot{\thepage/\pageref{LastPage}}
-
-
-
-\hypersetup{
-colorlinks=true,
-linktoc=all,
-linkcolor=black,
-urlcolor=blue,
-}
-
-
-\newcommand\image[2]{
-\directlua{
-local image = img.scan({filename = "#1"})
-
-image.height = image.height * #2
-image.width  = image.width  * #2
-
-node.write(img.node(image))
-}
-}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% \subsubsubsection command definition %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\titleclass{\subsubsubsection}{straight}[\subsection]
-
-\newcounter{subsubsubsection}[subsubsection]
-\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
-\renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}} % optional; useful if paragraphs are to be numbered
-
-\titleformat{\subsubsubsection}
-  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
-\titlespacing*{\subsubsubsection}
-{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
-
-\makeatletter
-\renewcommand\paragraph{\@startsection{paragraph}{5}{\z@}%
-  {3.25ex \@plus1ex \@minus.2ex}%
-  {-1em}%
-  {\normalfont\normalsize\bfseries}}
-\renewcommand\subparagraph{\@startsection{subparagraph}{6}{\parindent}%
-  {3.25ex \@plus1ex \@minus .2ex}%
-  {-1em}%
-  {\normalfont\normalsize\bfseries}}
-\def\toclevel@subsubsubsection{4}
-\def\toclevel@paragraph{5}
-\def\toclevel@paragraph{6}
-\def\l@subsubsubsection{\@dottedtocline{4}{7em}{4.5em}}
-\def\l@paragraph{\@dottedtocline{5}{10em}{5em}}
-\def\l@subparagraph{\@dottedtocline{6}{14em}{6em}}
-\makeatother
-
-\setcounter{secnumdepth}{4}
-\setcounter{tocdepth}{4}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% end \subsubsubsection definition     %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%\titlespacing*{\section}{0pt}{0.7\baselineskip}{0.7\baselineskip}
-
-
+\usepackage{parm}
+\usepackage{standalone}
 %% Add page number on titlepage
 \patchcmd{\titlepage}
-  {\thispagestyle{empty}}
-  {\thispagestyle{fancy}}
-  {}
-  {}
+{\thispagestyle{empty}}
+{\thispagestyle{fancy}}
+{}
+{}
 
 \title{Projet PARM\\
 Polytech ARM-based embedded processor}
@@ -143,27 +21,25 @@ Polytech Nice Sophia\\
 }
 
 \begin{document}
-\lstset{xleftmargin=.25in}
 
-\maketitle
-\addtocounter{page}{1}
-\tableofcontents
 
-\newpage
+    \maketitle
+    \addtocounter{page}{1}
+    \tableofcontents
 
-\input{sections/presentation.tex}
-\input{sections/sevensegment.tex}
-\input{sections/repartitionsroles.tex}
-\input{sections/alu.tex}
-\input{sections/bancregistres.tex}
-\input{sections/controller.tex}
-\input{sections/datapath.tex}
-\input{sections/assembleur.tex}
-\input{sections/fpgadeploy.tex}
-\input{sections/jeuinstructions.tex}
-\input{sections/tests.tex}
-\input{sections/domore.tex}
+    \newpage
 
+    \input{sections/presentation.tex}
+    \input{sections/sevensegment.tex}
+    \input{sections/repartitionsroles.tex}
+    \input{sections/alu.tex}
+    \input{sections/bancregistres.tex}
+    \input{sections/controller.tex}
+    \input{sections/datapath.tex}
+    \input{sections/assembleur.tex}
+    \input{sections/fpgadeploy.tex}
+    \input{sections/jeuinstructions.tex}
+    \input{sections/domore.tex}
 
 
 \end{document}

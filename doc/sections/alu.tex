@@ -1,116 +1,128 @@
-\section{ALU}
+\documentclass{article}
 
-\subsection{Description}
+\usepackage{../parm}
+\begin{document}
 
-	L'unité arithmétique et logique est l'élèment qui se charge des calculs au sein du processeur. Les ALU les plus basiques ne font que des opérations sur des entiers cependant on trouve des ALU spécialisées. Les calculs sur ces dernières vont des opérations à virgule flottante jusqu'à des calculs plus complexes tels que des racines carrées, des logarithmes, des sinus ou cosinus... Notre ALU n'effectuera que des calculs simples (addition, soustraction, multiplication, décalage) sur des entiers de 32 bits.
+    \section{ALU}
+    \label{sec:ALU}
 
-	Une ALU comporte deux entrées amenant les données à traiter. Une troisième entrée permet de désigner le calcul à effectuer. En sortie on retrouvera le résultat de l'opération ainsi que des drapeaux. Ces drapeaux représentent une série d'état à la suite d'un calcul : un résultat négatif, un résultat nul, un débordement ou encore une retenue. 
+    \subsection{Description}
 
-L'entrée \texttt{Shift} indique le nombre de décalage pour les opérations de décalage.
+    L'unité arithmétique et logique est l'élèment qui se charge des calculs au sein du processeur.
+    Les ALU les plus basiques ne font que des opérations sur des entiers cependant on trouve des ALU spécialisées.
+    Les calculs sur ces dernières vont des opérations à virgule flottante jusqu'à des calculs plus complexes tels que des racines carrées, des logarithmes, des sinus ou cosinus... Notre ALU n'effectuera que des calculs simples (addition, soustraction, multiplication, décalage) sur des entiers de 32 bits.
 
+    Une ALU comporte deux entrées amenant les données à traiter.
+    Une troisième entrée permet de désigner le calcul à effectuer.
+    En sortie on retrouvera le résultat de l'opération ainsi que des drapeaux.
+    Ces drapeaux représentent une série d'état à la suite d'un calcul : un résultat négatif, un résultat nul, un débordement ou encore une retenue.
 
-\paragraph{Remarque:} les instructions \texttt{TST}, \texttt{CMP}, \texttt{CMN} n'enregistrent pas le résultat de l'opération. Seuls les drapeaux sont mis à jour.
-Pour ces opérations en particulier, il faudra recopier l'entrée \texttt{B} sur la sortie \texttt{S}. Le contrôleur définiera le même registre pour le registre \texttt{Rn} d'opérande B que pour le registre \texttt{Rd} de destination de la sortie S.
+    L'entrée \texttt{Shift} indique le nombre de décalage pour les opérations de décalage.
 
-\paragraph{Remarque 2:} pour l'instruction \texttt{SBC}, la retenue entrante doit être inversée (voir \textit{\ref{subsubsubsec:SBC}~\nameref{subsubsubsec:SBC}}).
+    \paragraph{Remarque:} les instructions \texttt{TST}, \texttt{CMP}, \texttt{CMN} n'enregistrent pas le résultat de l'opération.
+    Seuls les drapeaux sont mis à jour.
+    Pour ces opérations en particulier, il faudra recopier l'entrée \texttt{B} sur la sortie \texttt{S}.
+    Le contrôleur définiera le même registre pour le registre \texttt{Rn} d'opérande B que pour le registre \texttt{Rd} de destination de la sortie S.
 
-\subsection{Interface}
+    \paragraph{Remarque 2:} pour l'instruction \texttt{SBC}, la retenue entrante doit être inversée (voir \textit{\ref{subsubsubsec:SBC}~\nameref{subsubsubsec:SBC}}).
 
-\subsubsection{Entrées}
+    \subsection{Interface}
 
-\begin{tabular}{|l|r|l|}
-\hline
-\textbf{Port}		& \textbf{Taille} & \textbf{Description}\\
-\hline
+    \subsubsection{Entrées}
 
-\texttt{A}		& \texttt{32} & Première opérande\\
-\hline
-\texttt{B}		& \texttt{32} & Seconde opérande\\
-\hline
-\texttt{Shift}		&  \texttt{5} & Nombre de décalage\\
-\hline
-\texttt{CarryIn}	&  \texttt{1} & Retenu entrente\\
-\hline
-\texttt{Codop}		&  \texttt{4} & Code opération ALU\\
+    \begin{tabular}{|l|r|l|}
+        \hline
+        \textbf{Port}   & \textbf{Taille} & \textbf{Description} \\
+        \hline
 
-\hline
-\end{tabular}
+        \texttt{A}      & \texttt{32}     & Première opérande    \\
+        \hline
+        \texttt{B}      & \texttt{32}     & Seconde opérande     \\
+        \hline
+        \texttt{Shift}  & \texttt{5}      & Nombre de décalage   \\
+        \hline
+        \texttt{CarryIn} & \texttt{1}      & Retenu entrente      \\
+        \hline
+        \texttt{Codop}  & \texttt{4}      & Code opération ALU   \\
 
+        \hline
+    \end{tabular}
 
-\subsubsection{Sorties}
+    \subsubsection{Sorties}
 
-\begin{tabular}{|l|r|l|}
-\hline 
-\textbf{Port} & \textbf{Taille} & \textbf{Description}\\
-\hline
+    \begin{tabular}{|l|r|l|}
+        \hline
+        \textbf{Port}   & \textbf{Taille} & \textbf{Description}                    \\
+        \hline
 
-\texttt{S}	& \texttt{32} & Registre résultat\\
-\hline
-\texttt{Flags}	&  \texttt{4} & Registre drapeaux, ordre: \texttt{NZCV}\\
+        \texttt{S}     & \texttt{32}     & Registre résultat                       \\
+        \hline
+        \texttt{Flags} & \texttt{4}      & Registre drapeaux, ordre: \texttt{NZCV} \\
 
-\hline
-\end{tabular}
+        \hline
+    \end{tabular}
 
+    \subsection{Opérations}
+    \label{subsec:Opcodes}
+    Ces opérations de l'ALU correspondent exactement aux instructions de la catégorie \textit{Data Processing}.
+    En cas de doute, se référer à \textit{\ref{sec:ISA}~\nameref{sec:ISA}}.
 
-\subsection{Opérations}
-\label{subsec:Opcodes}
-Ces opérations de l'ALU correspondent exactement aux instructions de la catégorie \textit{Data Processing}. En cas de doute, se référer à \textit{\ref{sec:ISA}~\nameref{sec:ISA}}.
+    \begin{tabular}{|r|c|l|l|}
+        \hline
+        \textbf{Codop} & \textbf{Opération}            & \textbf{Instructions} & \textbf{Remarque}                                  \\
+        \hline
 
-\begin{tabular}{|r|c|l|l|}
-\hline
-\textbf{Codop}  & \textbf{Opération}	& \textbf{Instructions} & \textbf{Remarque}\\
-\hline
+        $0000$         & \texttt{A and B}            & AND                &                                                    \\
+        \hline
+        $0001$         & \texttt{A xor B}            & EOR                &                                                    \\
+        \hline
+        $0010$         & \texttt{B << Shift}         & LSL                & Retenue sortante, voir jeu d'instruction           \\
+        \hline
+        $0011$         & \texttt{B >> Shift}         & LSR                & Retenue sortante, voir jeu d'instruction           \\
+        \hline
+        $0100$         & \texttt{B >> Shift (arith)}  & ASR                & Retenue sortante, voir jeu d'instruction           \\
+        \hline
+        $0101$         & \texttt{A + B + CarryIn}     & ADC                &                                                    \\
+        \hline
+        $0110$         & \texttt{B – A + CarryIn – 1} & SBC                & Retenue entrante inversée                          \\
+        \hline
+        $0111$         & \texttt{B >> Shift (rot)}    & ROR                & Retenue sortante, voir jeu d'instruction           \\
+        \hline
+        $1000$         & \texttt{A and B}            & TST                & Résultat perdu, seuls les drapeaux sont mis à jour \\
+        \hline
+        $1001$         & \texttt{–A}                & RSB                & Registre Rm utilisé plutôt que Rn                  \\
+        \hline
+        $1010$         & \texttt{B – A}             & CMP                & Résultat perdu, seuls les drapeaux sont mis à jour \\
+        \hline
+        $1011$         & \texttt{A + B}             & CMN                & Résultat perdu, seuls les drapeaux sont mis à jour \\
+        \hline
+        $1100$         & \texttt{A or B}             & ORR                &                                                    \\
+        \hline
+        $1101$         & \texttt{A * B}             & MUL                &                                                    \\
+        \hline
+        $1110$         & \texttt{B and not A}        & BIC                &                                                    \\
+        \hline
+        $1111$         & \texttt{Not B}             & MVN                &                                                    \\
+        \hline
+    \end{tabular}
 
-$0000$ & \texttt{A and B}			& AND			&\\
-\hline
-$0001$ & \texttt{A xor B}			& EOR			&\\
-\hline
-$0010$ & \texttt{B << Shift}			& LSL			& Retenue sortante, voir jeu d'instruction\\
-\hline
-$0011$ & \texttt{B >> Shift}			& LSR			& Retenue sortante, voir jeu d'instruction\\
-\hline
-$0100$ & \texttt{B >> Shift (arith)}		& ASR			& Retenue sortante, voir jeu d'instruction\\
-\hline
-$0101$ & \texttt{A + B + CarryIn}		& ADC			&\\
-\hline
-$0110$ & \texttt{B – A + CarryIn – 1}		& SBC			& Retenue entrante inversée\\
-\hline
-$0111$ & \texttt{B >> Shift (rot)}		& ROR			& Retenue sortante, voir jeu d'instruction\\
-\hline
-$1000$ & \texttt{A and B}			& TST			& Résultat perdu, seuls les drapeaux sont mis à jour\\
-\hline
-$1001$ & \texttt{0 – A}				& RSB			& Registre Rm utilisé plutôt que Rn\\
-\hline
-$1010$ & \texttt{B – A}				& CMP			& Résultat perdu, seuls les drapeaux sont mis à jour\\
-\hline
-$1011$ & \texttt{A + B}				& CMN			& Résultat perdu, seuls les drapeaux sont mis à jour\\
-\hline
-$1100$ & \texttt{A or B}			& ORR			&\\
-\hline
-$1101$ & \texttt{A * B}				& MUL			&\\
-\hline
-$1110$ & \texttt{B and not A}			& BIC			&\\
-\hline
-$1111$ & \texttt{Not B}				& MVN			&\\
-\hline
-\end{tabular}
+    \subsection{Drapeaux}
 
-\subsection{Drapeaux}
+    Ces drapeaux de l'ALU correspondent exactement aux drapeaux de l'architecture ARM. En cas de doute, se référer à \textit{\ref{sec:ISA}~\nameref{sec:ISA}} et \textit{\ref{subsec:Flags}~\nameref{subsec:Flags}} .
 
-Ces drapeaux de l'ALU correspondent exactement aux drapeaux de l'architecture ARM. En cas de doute, se référer à \textit{\ref{sec:ISA}~\nameref{sec:ISA}} et \textit{\ref{subsec:Flags}~\nameref{subsec:Flags}} .
+    \begin{tabular}{|c|l|l|}
+        \hline
+        \textbf{Symbole} & \textbf{Nom}       & \textbf{Description}                                 \\
+        \hline
 
-\begin{tabular}{|c|l|l|}
-\hline
-\textbf{Symbole} & \textbf{Nom} & \textbf{Description}\\
-\hline
+        \texttt{N}      & \texttt{Negative} & Résultat négatif                                     \\
+        \hline
+        \texttt{Z}      & \texttt{Zero}    & Résultat nul                                         \\
+        \hline
+        \texttt{C}      & \texttt{CarryOut} & Retenue sortante (dépassement de capacité non-signé) \\
+        \hline
+        \texttt{V}      & \texttt{Overflow} & Dépassement de capacité signé                        \\
 
-\texttt{N}	& \texttt{Negative}	& Résultat négatif\\
-\hline
-\texttt{Z}	& \texttt{Zero}		& Résultat nul\\
-\hline
-\texttt{C}	& \texttt{CarryOut}	& Retenue sortante (dépassement de capacité non-signé)\\
-\hline
-\texttt{V}	&  \texttt{Overflow}	& Dépassement de capacité signé\\
-
-\hline
-\end{tabular}
+        \hline
+    \end{tabular}
+\end{document}
