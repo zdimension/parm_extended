@@ -1,94 +1,105 @@
-\section{Deploiement sur FPGA}
+\documentclass{article}
 
-\subsection{Introduction}
+\usepackage{../parm}
+\begin{document}
 
-Un \textit{FPGA} est un circuit logique programmable. C'est un circuit intégré qui peut être configuré pour effectuer une certaine tâche. La configuration du circuit est souvent décrite dans un langage de description de matériel, par exemple \texttt{VHDL}.
+    \section{Déploiement sur FPGA}
+    \label{sec:FPGA}
 
-Le but ici n'est pas d'écrire directement du \texttt{VHDL}, mais de le faire générer par Logisim à partir du circuit du processeur.
-Il sera donc possible d'observer le comportement du processeur sur du vrai matériel, ici la carte de développement \textit{Altera DE2} avec un FPGA \textit{Cyclone II}, et l'interfacer avec le monde extérieur.
+    \subsection{Introduction}
 
-\subsection{Installation de Quartus sur Ubuntu}
-\subsubsection{Dépendances}
-\noindent Dans Ubuntu 16.04
-\vspace{0.2em}
-\begin{enumerate}
-	\item Installer les paquets suivants:
-	\begin{itemize}
-		\item \texttt{libc6-i386}
-		\item \texttt{libx11-6:i386}
-		\item \texttt{libxext6:i386}
-	\end{itemize}
-	à l'aide de la commande
-	\begin{lstlisting}
+    Un \textit{FPGA} est un circuit logique programmable.
+    C'est un circuit intégré qui peut être configuré pour effectuer une certaine tâche.
+    La configuration du circuit est souvent décrite dans un langage de description de matériel, par exemple \texttt{VHDL}.
+
+    Le but ici n'est pas d'écrire directement du \texttt{VHDL}, mais de le faire générer par Logisim à partir du circuit du processeur.
+    Il sera donc possible d'observer le comportement du processeur sur du vrai matériel, ici la carte de développement \textit{Altera DE2} avec un FPGA \textit{Cyclone II}, et l'interfacer avec le monde extérieur.
+
+    \subsection{Installation de Quartus sur Ubuntu}
+
+    \subsubsection{Dépendances}
+    \noindent Dans Ubuntu 16.04
+    \vspace{0.2em}
+    \begin{enumerate}
+        \item Installer les paquets suivants:
+        \begin{itemize}
+            \item \texttt{libc6-i386}
+            \item \texttt{libx11-6:i386}
+            \item \texttt{libxext6:i386}
+        \end{itemize}
+        à l'aide de la commande
+        \begin{lstlisting}
 sudo apt install libc6-i386 libx11-6:i386 libxext6:i386
-	\end{lstlisting}
+        \end{lstlisting}
 
-	\item Ajouter le fichier de règles \texttt{51-usbblaster.rules} pour l'accès à l'USB de la carte, disponible à l'adresse \url{https://files.miaounyan.eu/Quartus/}:
-	\begin{lstlisting}
+        \item Ajouter le fichier de règles \texttt{51-usbblaster.rules} pour l'accès à l'USB de la carte, disponible à l'adresse \url{https://files.miaounyan.eu/Quartus/}:
+        \begin{lstlisting}
 sudo cp 51-usbblaster.rules /etc/udev/rules.d/
-	\end{lstlisting}
-	\item Recharger les règles udev
-	\begin{lstlisting}
+        \end{lstlisting}
+        \item Recharger les règles udev
+        \begin{lstlisting}
 sudo udevadm control --reload
-	\end{lstlisting}
-\end{enumerate}
+        \end{lstlisting}
+    \end{enumerate}
 
-\subsubsection{Installation}
-\noindent Dans Ubuntu 16.04
-\begin{enumerate}
-	\item Télécharger \texttt{QuartusSetupWeb-13.0.1.232.run} et \texttt{cyclone\_web-13.0.232.qdz} à l'adresse: \\
-	\url{https://files.miaounyan.eu/Quartus/}
-	\item Définir \texttt{QuartusSetupWeb-13.0.1.232.run} comme exécutable:
-		\begin{itemize}
-			\item À l'aide d'un gestionnaire de fichier graphique
-			\begin{enumerate}
-				\item Clic droit sur \texttt{QuartusSetupWeb-13.0.1.232.run}
-				\item \textit{Proprietés}
-				\item Onglet \textit{Permissions}
-				\item Cocher \textit{Autoriser l'exécution du fichier comme un programme}
-			\end{enumerate}
-\vspace{0.2em}
-			\item Ou, dans un terminal:
-			\begin{lstlisting}
+    \subsubsection{Installation}
+    \noindent Dans Ubuntu 16.04
+    \begin{enumerate}
+        \item Télécharger \texttt{QuartusSetupWeb-13.0.1.232.run} et \texttt{cyclone\_web-13.0.232.qdz} à l'adresse: \\
+        \url{https://files.miaounyan.eu/Quartus/}
+        \item Définir \texttt{QuartusSetupWeb-13.0.1.232.run} comme exécutable:
+        \begin{itemize}
+            \item À l'aide d'un gestionnaire de fichier graphique
+            \begin{enumerate}
+                \item Clic droit sur \texttt{QuartusSetupWeb-13.0.1.232.run}
+                \item \textit{Proprietés}
+                \item Onglet \textit{Permissions}
+                \item Cocher \textit{Autoriser l'exécution du fichier comme un programme}
+            \end{enumerate}
+            \vspace{0.2em}
+            \item Ou, dans un terminal:
+            \begin{lstlisting}
 chmod +x QuartusSetupWeb-13.0.1.232.run
-			\end{lstlisting}
-		\end{itemize}
-	\item Double cliquer sur \texttt{QuartusSetupWeb-13.0.1.232.run}
-	\item Suivre les étapes d'installation en s'assurant que la prise en charge des FPGA Cyclone est bien sélectionnée, et noter le chemin de destination.
-\end{enumerate}
+            \end{lstlisting}
+        \end{itemize}
+        \item Double cliquer sur \texttt{QuartusSetupWeb-13.0.1.232.run}
+        \item Suivre les étapes d'installation en s'assurant que la prise en charge des FPGA Cyclone est bien sélectionnée, et noter le chemin de destination.
+    \end{enumerate}
 
-\subsection{Configuration de Logisim}
-\noindent Dans Logisim:
-\begin{enumerate}
-	\item Dans le menu \texttt{FPGA Menu}, sélectionner \texttt{FPGA Commander}
-	\item Sélectionner \texttt{ALTERA-DE2} à la ligne \texttt{Choose target board}
-	\item Cliquer sur \texttt{Toolpath} et indiquer le dossier correspondant au chemin de destination de l'installation Quartus
-	\item Vérifier que les deux premiers boutons indiquent \texttt{VHDL} et \texttt{Download to board}. Dans le cas contraire, cliquer dessus.
-\end{enumerate}
+    \subsection{Configuration de Logisim}
+    \noindent Dans Logisim:
+    \begin{enumerate}
+        \item Dans le menu \texttt{FPGA Menu}, sélectionner \texttt{FPGA Commander}
+        \item Sélectionner \texttt{ALTERA-DE2} à la ligne \texttt{Choose target board}
+        \item Cliquer sur \texttt{Toolpath} et indiquer le dossier correspondant au chemin de destination de l'installation Quartus
+        \item Vérifier que les deux premiers boutons indiquent \texttt{VHDL} et \texttt{Download to board}.
+        Dans le cas contraire, cliquer dessus.
+    \end{enumerate}
 
-\subsection{Déploiement sur la carte}
-\begin{enumerate}
+    \subsection{Déploiement sur la carte}
+    \begin{enumerate}
         \item Brancher le cable USB à l'ordinateur et à la carte (port de gauche, noté \texttt{BLASTER})
         \item Allumer la carte
-\end{enumerate}
+    \end{enumerate}
 
-\vspace{0.2em}
-\noindent Dans VirtualBox
-\vspace{0.2em}
-\begin{enumerate}
+    \vspace{0.2em}
+    \noindent Dans VirtualBox
+    \vspace{0.2em}
+    \begin{enumerate}
         \item Cliquer sur le menu \texttt{Périphériques}
         \item Dans le sous-menu \texttt{USB}, cocher \texttt{Altera USB-Blaster}
-\end{enumerate} 
+    \end{enumerate}
 
-\noindent Dans Logisim:
-\begin{enumerate}
-	\item Ouvrir le projet
-	\item Dans le menu \texttt{FPGA Menu}, sélectionner \texttt{FPGA Commander}
-	\item Sélectionner la fréquence de l'horloge désirée à la ligne \texttt{Choose tick frequency}
-	\item Cliquer sur \texttt{Annotate}
-	\item Cliquer sur \texttt{Download}
-	\item Dans cette boîte de dialogue, cliquer sur \texttt{Load Map} et sélectionner le fichier \texttt{main-ALTERA-DE2-MAP.xml}
-	\item Assigner les entrées/sorties restantes en les sélectionnant d'abord dans la colonne de gauche puis en cliquant sur un élément (surligné en rouge) de la carte
-	\item Cliquer sur \texttt{Done}
-	\item Après avoir patienté quelques instants, confirmer le transfert sur la carte
-\end{enumerate}
+    \noindent Dans Logisim:
+    \begin{enumerate}
+        \item Ouvrir le projet
+        \item Dans le menu \texttt{FPGA Menu}, sélectionner \texttt{FPGA Commander}
+        \item Sélectionner la fréquence de l'horloge désirée à la ligne \texttt{Choose tick frequency}
+        \item Cliquer sur \texttt{Annotate}
+        \item Cliquer sur \texttt{Download}
+        \item Dans cette boîte de dialogue, cliquer sur \texttt{Load Map} et sélectionner le fichier \texttt{main-ALTERA-DE2-MAP.xml}
+        \item Assigner les entrées/sorties restantes en les sélectionnant d'abord dans la colonne de gauche puis en cliquant sur un élément (surligné en rouge) de la carte
+        \item Cliquer sur \texttt{Done}
+        \item Après avoir patienté quelques instants, confirmer le transfert sur la carte
+    \end{enumerate}
+\end{document}

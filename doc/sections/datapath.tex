@@ -1,178 +1,182 @@
-\section{Chemin de données}
+\documentclass{article}
 
-\subsection{Description}
+\usepackage{../parm}
+\begin{document}
 
-Il s'agit d'interfacer les différents composants CPU, RAM et ROM afin d'obtenir une machine fonctionelle qui puisse exécuter un programme automatiquement.
+    \section{Chemin de données}
 
-Un bouton \texttt{Reset} contrôle l'entrée \texttt{Reset} du processeur afin de remettre à zéro son état et recommencer l'exécution du programme depuis le début.
+    \subsection{Description}
 
-Un bouton \texttt{Clock} contrôle l'entrée \texttt{Clk} du processeur et de la RAM afin de contrôler manuellement l'exécution de chacun des instructions. Pour une exécution automatique et pour le déploiement sur FPGA, on utilisera le composant \texttt{Horloge} de Logisim.
+    Il s'agit d'interfacer les différents composants CPU, RAM et ROM afin d'obtenir une machine fonctionelle qui puisse exécuter un programme automatiquement.
 
+    Un bouton \texttt{Reset} contrôle l'entrée \texttt{Reset} du processeur afin de remettre à zéro son état et recommencer l'exécution du programme depuis le début.
 
-\subsection{CPU}
+    Un bouton \texttt{Clock} contrôle l'entrée \texttt{Clk} du processeur et de la RAM afin de contrôler manuellement l'exécution de chacun des instructions.
+    Pour une exécution automatique et pour le déploiement sur FPGA, on utilisera le composant \texttt{Horloge} de Logisim.
 
-\subsubsection{Description}
+    \subsection{CPU}
 
-Le processeur regroupe le contrôleur, le banc de registres et l'ALU.
+    \subsubsection{Description}
 
-À chaque coup d'horloge, l'instruction est décodée par le contrôleur, le calcul est effectué par l'ALU tandis que le banc de registres lui fournit les données et enregistre le résultat.
+    Le processeur regroupe le contrôleur, le banc de registres et l'ALU.
 
-\paragraph{}
-Lors d'une instruction \texttt{LDR}, le signal \texttt{Load} du contrôleur est activé, et la donnée en entrée du banc de registres doit être lue à partir de l'entrée \texttt{RAM\_In} plutôt qu'à partir du résultat de l'ALU.
+    À chaque coup d'horloge, l'instruction est décodée par le contrôleur, le calcul est effectué par l'ALU tandis que le banc de registres lui fournit les données et enregistre le résultat.
 
-Lors d'une instruction \texttt{STR}, le signal \texttt{Store} du contrôleur est activé et est passé à la RAM. Les données en sortie \texttt{RAM\_Out} sont fournies par la sortie \texttt{AOut} du banc de registres.
+    \paragraph{}
+    Lors d'une instruction \texttt{LDR}, le signal \texttt{Load} du contrôleur est activé, et la donnée en entrée du banc de registres doit être lue à partir de l'entrée \texttt{RAM\_In} plutôt qu'à partir du résultat de l'ALU.
 
-\paragraph{}
-Lors d'une instruction de la catégorie \textit{Shift, add, sub, mov}, le signal \texttt{DP\_Shift} du contrôleur est activé et l'immédiat \texttt{Imm5} en sortie du contrôleur est utilisé pour l'entrée \texttt{Shift} de l'ALU.
+    Lors d'une instruction \texttt{STR}, le signal \texttt{Store} du contrôleur est activé et est passé à la RAM. Les données en sortie \texttt{RAM\_Out} sont fournies par la sortie \texttt{AOut} du banc de registres.
 
-Lors d'une instruction de la catégorie \textit{Data Processing}, le signal \texttt{DP\_Shift} du contrôleur est désactivé et les 5 bits de poids faible de la sortie \texttt{AOut} sont utilisés pour l'entrée \texttt{Shift} de l'ALU.
+    \paragraph{}
+    Lors d'une instruction de la catégorie \textit{Shift, add, sub, mov}, le signal \texttt{DP\_Shift} du contrôleur est activé et l'immédiat \texttt{Imm5} en sortie du contrôleur est utilisé pour l'entrée \texttt{Shift} de l'ALU.
 
-\paragraph{}
-Lors d'une instruction \texttt{MOV} ou \texttt{ADD} et \texttt{SUB} avec immédiat, le signal \texttt{Imm32\_Enable} du contrôleur est activé
-et la donnée à l'entrée \texttt{A} de l'ALU doit être lue à partir de la sortie \texttt{Imm32} du contrôleur plutôt qu'à partir de la sortie \texttt{AOut} du banc de registres.
+    Lors d'une instruction de la catégorie \textit{Data Processing}, le signal \texttt{DP\_Shift} du contrôleur est désactivé et les 5 bits de poids faible de la sortie \texttt{AOut} sont utilisés pour l'entrée \texttt{Shift} de l'ALU.
 
-\paragraph{}
-Les sorties \texttt{Rm}, \texttt{Rn} et \texttt{Rd} du contrôleur se connectent respectivement aux entrées \texttt{RegA}, \texttt{RegB} et \texttt{RegDest} du banc de registres pour sélectionner les registres correspondant.
+    \paragraph{}
+    Lors d'une instruction \texttt{MOV} ou \texttt{ADD} et \texttt{SUB} avec immédiat, le signal \texttt{Imm32\_Enable} du contrôleur est activé
+    et la donnée à l'entrée \texttt{A} de l'ALU doit être lue à partir de la sortie \texttt{Imm32} du contrôleur plutôt qu'à partir de la sortie \texttt{AOut} du banc de registres.
 
-\paragraph{}
-Les sorties \texttt{PC} et \texttt{RAM\_Addr} se connectent respectivement aux sorties \texttt{ROM\_Addr} et \texttt{RAM\_Addr} de ce composant CPU pour sélectionner les adresses de la ROM et de la RAM.
+    \paragraph{}
+    Les sorties \texttt{Rm}, \texttt{Rn} et \texttt{Rd} du contrôleur se connectent respectivement aux entrées \texttt{RegA}, \texttt{RegB} et \texttt{RegDest} du banc de registres pour sélectionner les registres correspondant.
 
-\subsubsection{Interface}
+    \paragraph{}
+    Les sorties \texttt{PC} et \texttt{RAM\_Addr} se connectent respectivement aux sorties \texttt{ROM\_Addr} et \texttt{RAM\_Addr} de ce composant CPU pour sélectionner les adresses de la ROM et de la RAM.
 
-\subsubsubsection{Entrées}
+    \subsubsection{Interface}
 
-\begin{tabular}{|l|r|l|}
-\hline
-\textbf{Port}		& \textbf{Taille} & \textbf{Description}\\
-\hline
+    \subsubsubsection{Entrées}
 
-\texttt{RAM\_In}	& \texttt{32} & Données chargées à partir de la RAM\\
-\hline
-\texttt{ROM\_In}	& \texttt{16} & Instruction chargée à partir de la ROM\\
-\hline
-\texttt{Clk}		&  \texttt{1} & Horloge\\
-\hline
-\texttt{Reset}		&  \texttt{1} & Remise à Zero\\
+    \begin{tabular}{|l|r|l|}
+        \hline
+        \textbf{Port}   & \textbf{Taille} & \textbf{Description}                   \\
+        \hline
 
-
-\hline
-\end{tabular}
-
-\subsubsubsection{Sorties}
-
-\begin{tabular}{|l|r|l|}
-\hline 
-\textbf{Port} & \textbf{Taille} & \textbf{Description}\\
-\hline
-
-\hline
-\texttt{ROM\_Addr}		&  \texttt{8} & Adresse de la prochaine instruction\\
-\hline
-\texttt{RAM\_Addr}		&  \texttt{8} & Adresse de la donnée à lire/écrire en mémoire\\
-\hline
-\texttt{RAM\_Out}		& \texttt{32} & Donnée à écrire en mémoire\\
-\hline
-\texttt{Store}			&  \texttt{1} & Indique à la RAM de sauvegarder la donnée \texttt{RAM\_Out} à l'adresse \texttt{RAM\_Addr}\\
-\hline
-\texttt{R0-R7}			& \texttt{8\times 32} & Sortie des registres utilisées à des fins de débogage et visualisation du comportement\\
+        \texttt{RAM\_In} & \texttt{32}     & Données chargées à partir de la RAM    \\
+        \hline
+        \texttt{ROM\_In} & \texttt{16}     & Instruction chargée à partir de la ROM \\
+        \hline
+        \texttt{Clk}    & \texttt{1}      & Horloge                                \\
+        \hline
+        \texttt{Reset}  & \texttt{1}      & Remise à Zero                          \\
 
 
-\hline
-\end{tabular}
+        \hline
+    \end{tabular}
+
+    \subsubsubsection{Sorties}
+
+    \begin{tabular}{|l|r|l|}
+        \hline
+        \textbf{Port}        & \textbf{Taille}     & \textbf{Description}                                                                       \\
+        \hline
+
+        \hline
+        \texttt{ROM\_Addr} & \texttt{8}          & Adresse de la prochaine instruction                                                        \\
+        \hline
+        \texttt{RAM\_Addr} & \texttt{8}          & Adresse de la donnée à lire/écrire en mémoire                                              \\
+        \hline
+        \texttt{RAM\_Out}  & \texttt{32}         & Donnée à écrire en mémoire                                                                 \\
+        \hline
+        \texttt{Store}    & \texttt{1}          & Indique à la RAM de sauvegarder la donnée \texttt{RAM\_Out} à l'adresse \texttt{RAM\_Addr} \\
+        \hline
+        \texttt{R0-R7}    & \texttt{8\times 32} & Sortie des registres utilisées à des fins de débogage et visualisation du comportement     \\
 
 
+        \hline
+    \end{tabular}
 
-\subsection{RAM}
+    \subsection{RAM}
 
-\subsubsection{Description}
+    \subsubsection{Description}
 
-La RAM est la mémoire de données dans laquelle le programme vient stocker le contenu d'un registre ou lire une donnée pour remplir un registre.
-Synchrone, elle ne lit ou n'enregistre les données qu'au coup d'horloge suivant.
+    La RAM est la mémoire de données dans laquelle le programme vient stocker le contenu d'un registre ou lire une donnée pour remplir un registre.
+    Synchrone, elle ne lit ou n'enregistre les données qu'au coup d'horloge suivant.
 
-Elle est adressée sur 8 bits et contient des données de 32 bits.
+    Elle est adressée sur 8 bits et contient des données de 32 bits.
 
-Le signal \texttt{Load} est définit à 1 de manière à toujours obtenir la données à l'adresse \texttt{Address} sur la sortie \texttt{Data}.
+    Le signal \texttt{Load} est définit à 1 de manière à toujours obtenir la données à l'adresse \texttt{Address} sur la sortie \texttt{Data}.
 
-Lorsque le signal \texttt{Store} est activé, les données présentent sur l'entrée \texttt{Input} sont enregistrées dans la RAM à l'adresse \texttt{Address}.
+    Lorsque le signal \texttt{Store} est activé, les données présentent sur l'entrée \texttt{Input} sont enregistrées dans la RAM à l'adresse \texttt{Address}.
 
-\paragraph{Remarque:} le jeu d'instruction ARMv7-M adresse la RAM octet par octet (1 adresse = 8 bits de données) tandis que sous Logisim, le composant RAM est adressé mot par mot (1 adresse = 32 bits de données). Cela permet de simplifier la gestion de la RAM puisqu'il est possible de charger des données directement dans les registres 32 bits du CPU.
+    \paragraph{Remarque:} le jeu d'instruction ARMv7-M adresse la RAM octet par octet (1 adresse = 8 bits de données) tandis que sous Logisim, le composant RAM est adressé mot par mot (1 adresse = 32 bits de données).
+    Cela permet de simplifier la gestion de la RAM puisqu'il est possible de charger des données directement dans les registres 32 bits du CPU.
 
-\paragraph{Remarque 2:} sous Logisim, le paramètre \texttt{Databus implementation} doit être défini à \texttt{Separate databus for read and write} 
-et le paramètre \texttt{Trigger} à \texttt{Flanc Montant} afin de pouvoir déployer le composant sur FPGA.
+    \paragraph{Remarque 2:} sous Logisim, le paramètre \texttt{Databus implementation} doit être défini à \texttt{Separate databus for read and write}
+    et le paramètre \texttt{Trigger} à \texttt{Flanc Montant} afin de pouvoir déployer le composant sur FPGA.
 
-\subsubsection{Interface}
+    \subsubsection{Interface}
 
-\subsubsubsection{Entrées}
+    \subsubsubsection{Entrées}
 
-\begin{tabular}{|l|r|l|}
-\hline
-\textbf{Port}		& \textbf{Taille} & \textbf{Description}\\
-\hline
+    \begin{tabular}{|l|r|l|}
+        \hline
+        \textbf{Port}   & \textbf{Taille} & \textbf{Description}                               \\
+        \hline
 
-\texttt{Address}	&  \texttt{8} & Adresse à laquelle lire/écrire les données\\
-\hline
-\texttt{Load}		&  \texttt{1} & Lire les données au prochain coup d'horloge\\
-\hline
-\texttt{Store}		&  \texttt{1} & Enregistrer les données au prochain coup d'horloge\\
-\hline
-\texttt{Clock}		&  \texttt{1} & Horloge\\
-\hline
-\texttt{Input}		&  \texttt{32} & Données à écrire\\
-
-
-\hline
-\end{tabular}
-
-\subsubsubsection{Sorties}
-
-\begin{tabular}{|l|r|l|}
-\hline 
-\textbf{Port} & \textbf{Taille} & \textbf{Description}\\
-\hline
-\texttt{Data}		& \texttt{32} & Données lues\\
-
-\hline
-\end{tabular}
+        \texttt{Address} & \texttt{8}      & Adresse à laquelle lire/écrire les données         \\
+        \hline
+        \texttt{Load}   & \texttt{1}      & Lire les données au prochain coup d'horloge        \\
+        \hline
+        \texttt{Store}  & \texttt{1}      & Enregistrer les données au prochain coup d'horloge \\
+        \hline
+        \texttt{Clock}  & \texttt{1}      & Horloge                                            \\
+        \hline
+        \texttt{Input}  & \texttt{32}     & Données à écrire                                   \\
 
 
-\subsection{ROM}
+        \hline
+    \end{tabular}
 
-\subsubsection{Description}
+    \subsubsubsection{Sorties}
 
-La ROM est la mémoire d'instruction à partir de laquelle les instructions du programme sont lues. Elle est accessible en lecture uniquement et est asynchrone.
+    \begin{tabular}{|l|r|l|}
+        \hline
+        \textbf{Port}   & \textbf{Taille} & \textbf{Description} \\
+        \hline
+        \texttt{Data} & \texttt{32}     & Données lues         \\
 
-Elle est adressée sur 8 bits et contient des données de 16 bits (largeur d'une instruction Thumb).
+        \hline
+    \end{tabular}
 
-\paragraph{}
-Le programme, assemblé par l'assembleur, devra être chargé dans cette ROM
+    \subsection{ROM}
 
-\subsubsection{Interface}
+    \subsubsection{Description}
 
-\subsubsubsection{Entrées}
+    La ROM est la mémoire d'instruction à partir de laquelle les instructions du programme sont lues.
+    Elle est accessible en lecture uniquement et est asynchrone.
 
-\begin{tabular}{|l|r|l|}
-\hline
-\textbf{Port}		& \textbf{Taille} & \textbf{Description}\\
-\hline
+    Elle est adressée sur 8 bits et contient des données de 16 bits (largeur d'une instruction Thumb).
 
-\texttt{Address}	& \texttt{8} & Adresse de l'instruction à charger\\
+    \paragraph{}
+    Le programme, assemblé par l'assembleur, devra être chargé dans cette ROM
 
-\hline
-\end{tabular}
+    \subsubsection{Interface}
 
-\subsubsubsection{Sorties}
+    \subsubsubsection{Entrées}
 
-\begin{tabular}{|l|r|l|}
-\hline 
-\textbf{Port} & \textbf{Taille} & \textbf{Description}\\
-\hline 
+    \begin{tabular}{|l|r|l|}
+        \hline
+        \textbf{Port}   & \textbf{Taille} & \textbf{Description}               \\
+        \hline
 
-\texttt{Data}		& \texttt{16} & Instruction lue\\
+        \texttt{Address} & \texttt{8}      & Adresse de l'instruction à charger \\
 
-\hline
-\end{tabular}
+        \hline
+    \end{tabular}
 
+    \subsubsubsection{Sorties}
+
+    \begin{tabular}{|l|r|l|}
+        \hline
+        \textbf{Port}   & \textbf{Taille} & \textbf{Description} \\
+        \hline
+
+        \texttt{Data} & \texttt{16}     & Instruction lue      \\
+
+        \hline
+    \end{tabular}
 
 
 %%\subsection{Entrées/Sorties}
 
+\end{document}
