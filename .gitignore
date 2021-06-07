@@ -2,5 +2,5 @@
 code_c/draft
 /logisim_project/logisim-evolution.jar
 .idea
-
+out/
 *.gz

@@ -76,17 +76,17 @@
         \hline
         $0001$         & \texttt{A xor B}            & EOR                &                                                    \\
         \hline
-        $0010$         & \texttt{B << Shift}         & LSL                & Retenue sortante, voir jeu d'instruction           \\
+        $0010$         & \texttt{B << Shift}         & LSL                & Retenue sortante, voir jeu d'instructions           \\
         \hline
-        $0011$         & \texttt{B >> Shift}         & LSR                & Retenue sortante, voir jeu d'instruction           \\
+        $0011$         & \texttt{B >> Shift}         & LSR                & Retenue sortante, voir jeu d'instructions           \\
         \hline
-        $0100$         & \texttt{B >> Shift (arith)}  & ASR                & Retenue sortante, voir jeu d'instruction           \\
+        $0100$         & \texttt{B >> Shift (arith)}  & ASR                & Retenue sortante, voir jeu d'instructions           \\
         \hline
         $0101$         & \texttt{A + B + CarryIn}     & ADC                &                                                    \\
         \hline
         $0110$         & \texttt{B – A + CarryIn – 1} & SBC                & Retenue entrante inversée                          \\
         \hline
-        $0111$         & \texttt{B >> Shift (rot)}    & ROR                & Retenue sortante, voir jeu d'instruction           \\
+        $0111$         & \texttt{B >> Shift (rot)}    & ROR                & Retenue sortante, voir jeu d'instructions           \\
         \hline
         $1000$         & \texttt{A and B}            & TST                & Résultat perdu, seuls les drapeaux sont mis à jour \\
         \hline
@@ -102,7 +102,7 @@
         \hline
         $1110$         & \texttt{B and not A}        & BIC                &                                                    \\
         \hline
-        $1111$         & \texttt{Not B}             & MVN                &                                                    \\
+        $1111$         & \texttt{not B}             & MVN                &  Complément binaire \\
         \hline
     \end{tabular}
 
@@ -119,7 +119,7 @@
         \hline
         \texttt{Z}      & \texttt{Zero}    & Résultat nul                                         \\
         \hline
-        \texttt{C}      & \texttt{CarryOut} & Retenue sortante (dépassement de capacité non-signé) \\
+        \texttt{C}      & \texttt{CarryOut} & Retenue sortante (dépassement de capacité non-signé). \\
         \hline
         \texttt{V}      & \texttt{Overflow} & Dépassement de capacité signé                        \\
 
