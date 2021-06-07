@@ -7,8 +7,6 @@
 void run()
 {
     BEGIN();
-    //unsigned int t='a';
-    volatile unsigned int target='b';
     unsigned int result;
     p_char str[50];
     int i=0;
@@ -30,10 +28,22 @@ void run()
     /*PRINT(str);
     STRUPR(str);
     PRINT(str);
-    STRLWR(str);*/
+    STRLWR(str);
     PRINT(str);
-    STRREV(str);
+    STRREV(str);*/
     PRINT(str);
-    RES=STRLEN(str); // Check SP is ok
+    PUTCHAR('p');PUTCHAR('o');PUTCHAR('s');PUTCHAR('(');PUTCHAR('i');PUTCHAR(')');PUTCHAR('=');
+    RES=STRCHR(str, 'i');
+    PRINTRES_SIGN();
+    PUTCHAR('\n');
+    PUTCHAR('p');PUTCHAR('o');PUTCHAR('s');PUTCHAR('(');PUTCHAR('o');PUTCHAR(')');PUTCHAR('=');
+    RES=STRCHR(str, 'o');
+    PRINTRES_SIGN();
+    PUTCHAR('\n');
+    PUTCHAR('p');PUTCHAR('o');PUTCHAR('s');PUTCHAR('(');PUTCHAR('v');PUTCHAR(')');PUTCHAR('=');
+    RES=STRCHR(str, 'v');
+    PRINTRES_SIGN();
+    PUTCHAR('\n');
+    //RES=STRLEN(str);
     END();
 }
