@@ -141,4 +141,36 @@ typedef unsigned int p_char;
 	}\
 } while(0)
 
+#define STRCHR(str, c) ({\
+    str[0] &= 127;\
+    volatile int res=0;\
+    str[0] |= 127 << 24;\
+    while(str[0] << 24) {\
+        str[1] = str[1] & 127;\
+        if((str[0] & 127) == (c & 127)) {\
+            str[0] = str[0] << 8;\
+            str[0] = str[0] >> 8;\
+            str[0] |= ((str[0] >> 8) & 127) << 24;\
+            break;\
+        } else {\
+            str[1] |= 127 << 24;\
+        }\
+        str[1] |= (((str[0] >> 8) + 1 ) & 127) << 8;\
+        asm("add sp, #4");\
+    }\
+    while((str[0] >> 8) & 127) {\
+        asm("sub sp, #4");\
+        str[0] = str[0] << 8;\
+        str[0] = str[0] >> 8;\
+        str[0] |= ((str[1] >> 24) & 127) << 24;\
+    }\
+    res=str[0] >> 12;\
+    res = res >> 12;\
+    res &= 127;\
+    if(res == 127) {\
+        res = -1;\
+    }\
+    res;\
+})
+
 #endif
