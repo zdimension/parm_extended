@@ -47,6 +47,7 @@ run:
 	adds	r6, r1, #0
 .Ltmp0:
 	beq	.Ltmp1
+
 	subs	r6, #1
 	add	sp, #4
 	bne	.Ltmp0
@@ -69,6 +70,7 @@ run:
 	adds	r6, r1, #0
 .Ltmp4:
 	beq	.Ltmp5
+
 	subs	r6, #1
 	add	sp, #4
 	bne	.Ltmp4
@@ -91,6 +93,7 @@ run:
 	adds	r6, r1, #0
 .Ltmp8:
 	beq	.Ltmp9
+
 	subs	r6, #1
 	add	sp, #4
 	bne	.Ltmp8
@@ -113,6 +116,7 @@ run:
 	adds	r6, r1, #0
 .Ltmp12:
 	beq	.Ltmp13
+
 	subs	r6, #1
 	add	sp, #4
 	bne	.Ltmp12
@@ -135,6 +139,7 @@ run:
 	adds	r6, r1, #0
 .Ltmp16:
 	beq	.Ltmp17
+
 	subs	r6, #1
 	add	sp, #4
 	bne	.Ltmp16
@@ -157,6 +162,7 @@ run:
 	adds	r6, r1, #0
 .Ltmp20:
 	beq	.Ltmp21
+
 	subs	r6, #1
 	add	sp, #4
 	bne	.Ltmp20
@@ -179,6 +185,7 @@ run:
 	adds	r6, r1, #0
 .Ltmp24:
 	beq	.Ltmp25
+
 	subs	r6, #1
 	add	sp, #4
 	bne	.Ltmp24
@@ -201,6 +208,7 @@ run:
 	adds	r6, r1, #0
 .Ltmp28:
 	beq	.Ltmp29
+
 	subs	r6, #1
 	add	sp, #4
 	bne	.Ltmp28
@@ -223,6 +231,7 @@ run:
 	adds	r6, r1, #0
 .Ltmp32:
 	beq	.Ltmp33
+
 	subs	r6, #1
 	add	sp, #4
 	bne	.Ltmp32
@@ -245,6 +254,7 @@ run:
 	adds	r6, r1, #0
 .Ltmp36:
 	beq	.Ltmp37
+
 	subs	r6, #1
 	add	sp, #4
 	bne	.Ltmp36
@@ -264,6 +274,7 @@ run:
 	adds	r6, r1, #0
 .Ltmp40:
 	beq	.Ltmp41
+
 	subs	r6, #1
 	add	sp, #4
 	bne	.Ltmp40
@@ -296,6 +307,7 @@ run:
 	adds	r6, r0, #0
 .Ltmp44:
 	beq	.Ltmp45
+
 	subs	r6, #1
 	add	sp, #4
 	bne	.Ltmp44
@@ -370,102 +382,79 @@ run:
 .LBB0_22:
 	b	.LBB0_23
 .LBB0_23:
-	movs	r0, #0
-	mvns	r1, r0
-	str	r1, [sp, #92]
-	str	r0, [sp, #84]
-	movs	r0, #1
-	str	r0, [sp, #80]
-	b	.LBB0_24
-.LBB0_24:
-	ldr	r0, [sp, #80]
-	cmp	r0, #0
-	beq	.LBB0_29
-	b	.LBB0_25
-.LBB0_25:
-	ldr	r0, [sp, #84]
+	movs	r0, #118
 	@APP
-	adds	r6, r0, #0
+	movs	r6, #0
+	mvns	r1, r6
 .Ltmp48:
+	ldr	r5, [sp]
+	cmp	r5, #0
 	beq	.Ltmp49
-	subs	r6, #1
+	cmp	r5, r0
+	beq	.Ltmp50
+	adds	r6, #1
 	add	sp, #4
-	bne	.Ltmp48
-.Ltmp49:
-	ldr	r1, [sp]
-	adds	r6, r0, #0
+	b	.Ltmp48
 .Ltmp50:
-	beq	.Ltmp51
+	adds	r1, r6, #0
+.Ltmp49:
+	adds	r6, #0
+.Ltmp51:
+	beq	.Ltmp52
 	subs	r6, #1
 	sub	sp, #4
-	bne	.Ltmp50
-.Ltmp51:
+	bne	.Ltmp51
+.Ltmp52:
 
 	@NO_APP
-	str	r1, [sp, #80]
-	ldr	r0, [sp, #80]
-	cmp	r0, #118
-	bne	.LBB0_27
-	b	.LBB0_26
-.LBB0_26:
-	ldr	r0, [sp, #84]
-	str	r0, [sp, #92]
-	b	.LBB0_29
-.LBB0_27:
-	b	.LBB0_28
-.LBB0_28:
-	ldr	r0, [sp, #84]
-	adds	r0, r0, #1
-	str	r0, [sp, #84]
+	str	r1, [sp, #92]
 	b	.LBB0_24
-.LBB0_29:
-	b	.LBB0_30
-.LBB0_30:
-	b	.LBB0_31
-.LBB0_31:
+.LBB0_24:
+	b	.LBB0_25
+.LBB0_25:
 	ldr	r0, [sp, #132]
 	str	r0, [sp, #84]
 	ldr	r0, [sp, #84]
 	cmp	r0, #0
-	bne	.LBB0_35
-	b	.LBB0_32
-.LBB0_32:
-	b	.LBB0_33
-.LBB0_33:
+	bne	.LBB0_29
+	b	.LBB0_26
+.LBB0_26:
+	b	.LBB0_27
+.LBB0_27:
 	movs	r0, #48
 	str	r0, [sp, #88]
-	b	.LBB0_34
-.LBB0_34:
-	b	.LBB0_51
-.LBB0_35:
+	b	.LBB0_28
+.LBB0_28:
+	b	.LBB0_45
+.LBB0_29:
 	ldr	r0, [sp, #92]
 	cmp	r0, #0
-	bge	.LBB0_39
-	b	.LBB0_36
-.LBB0_36:
-	b	.LBB0_37
-.LBB0_37:
+	bge	.LBB0_33
+	b	.LBB0_30
+.LBB0_30:
+	b	.LBB0_31
+.LBB0_31:
 	movs	r0, #45
 	str	r0, [sp, #88]
-	b	.LBB0_38
-.LBB0_38:
+	b	.LBB0_32
+.LBB0_32:
 	ldr	r0, [sp, #92]
 	rsbs	r0, r0, #0
 	str	r0, [sp, #92]
 	ldr	r0, [sp, #132]
 	str	r0, [sp, #84]
-	b	.LBB0_39
-.LBB0_39:
+	b	.LBB0_33
+.LBB0_33:
 	movs	r0, #0
 	str	r0, [sp, #80]
 	str	r0, [sp, #76]
-	b	.LBB0_40
-.LBB0_40:
+	b	.LBB0_34
+.LBB0_34:
 	ldr	r0, [sp, #76]
 	cmp	r0, #7
-	bhi	.LBB0_50
-	b	.LBB0_41
-.LBB0_41:
+	bhi	.LBB0_44
+	b	.LBB0_35
+.LBB0_35:
 	ldr	r0, [sp, #84]
 	movs	r1, #15
 	ands	r0, r1
@@ -475,47 +464,65 @@ run:
 	str	r0, [sp, #84]
 	ldr	r0, [sp, #80]
 	cmp	r0, #0
-	bne	.LBB0_46
-	b	.LBB0_42
-.LBB0_42:
+	bne	.LBB0_40
+	b	.LBB0_36
+.LBB0_36:
 	ldr	r0, [sp, #72]
 	cmp	r0, #0
-	beq	.LBB0_44
-	b	.LBB0_43
-.LBB0_43:
+	beq	.LBB0_38
+	b	.LBB0_37
+.LBB0_37:
 	movs	r0, #1
 	str	r0, [sp, #80]
-	b	.LBB0_45
-.LBB0_44:
-	b	.LBB0_49
-.LBB0_45:
-	b	.LBB0_46
-.LBB0_46:
-	b	.LBB0_47
-.LBB0_47:
+	b	.LBB0_39
+.LBB0_38:
+	b	.LBB0_43
+.LBB0_39:
+	b	.LBB0_40
+.LBB0_40:
+	b	.LBB0_41
+.LBB0_41:
 	ldr	r0, [sp, #72]
 	adds	r0, #48
 	str	r0, [sp, #88]
-	b	.LBB0_48
-.LBB0_48:
-	b	.LBB0_49
-.LBB0_49:
+	b	.LBB0_42
+.LBB0_42:
+	b	.LBB0_43
+.LBB0_43:
 	ldr	r0, [sp, #76]
 	adds	r0, r0, #1
 	str	r0, [sp, #76]
-	b	.LBB0_40
+	b	.LBB0_34
+.LBB0_44:
+	b	.LBB0_45
+.LBB0_45:
+	b	.LBB0_46
+.LBB0_46:
+	movs	r0, #10
+	str	r0, [sp, #88]
+	b	.LBB0_47
+.LBB0_47:
+	b	.LBB0_48
+.LBB0_48:
+	movs	r0, #112
+	str	r0, [sp, #88]
+	b	.LBB0_49
+.LBB0_49:
+	b	.LBB0_50
 .LBB0_50:
+	movs	r0, #111
+	str	r0, [sp, #88]
 	b	.LBB0_51
 .LBB0_51:
 	b	.LBB0_52
 .LBB0_52:
-	movs	r0, #10
+	movs	r0, #115
 	str	r0, [sp, #88]
 	b	.LBB0_53
 .LBB0_53:
 	b	.LBB0_54
 .LBB0_54:
-	movs	r0, #112
+	movs	r0, #40
 	str	r0, [sp, #88]
 	b	.LBB0_55
 .LBB0_55:
@@ -527,132 +534,91 @@ run:
 .LBB0_57:
 	b	.LBB0_58
 .LBB0_58:
-	movs	r0, #115
+	movs	r0, #41
 	str	r0, [sp, #88]
 	b	.LBB0_59
 .LBB0_59:
 	b	.LBB0_60
 .LBB0_60:
-	movs	r0, #40
+	movs	r0, #61
 	str	r0, [sp, #88]
 	b	.LBB0_61
 .LBB0_61:
 	b	.LBB0_62
 .LBB0_62:
 	movs	r0, #111
-	str	r0, [sp, #88]
+	@APP
+	movs	r6, #0
+	mvns	r1, r6
+.Ltmp53:
+	ldr	r5, [sp]
+	cmp	r5, #0
+	beq	.Ltmp54
+	cmp	r5, r0
+	beq	.Ltmp55
+	adds	r6, #1
+	add	sp, #4
+	b	.Ltmp53
+.Ltmp55:
+	adds	r1, r6, #0
+.Ltmp54:
+	adds	r6, #0
+.Ltmp56:
+	beq	.Ltmp57
+	subs	r6, #1
+	sub	sp, #4
+	bne	.Ltmp56
+.Ltmp57:
+
+	@NO_APP
+	str	r1, [sp, #92]
 	b	.LBB0_63
 .LBB0_63:
 	b	.LBB0_64
 .LBB0_64:
-	movs	r0, #41
-	str	r0, [sp, #88]
-	b	.LBB0_65
-.LBB0_65:
-	b	.LBB0_66
-.LBB0_66:
-	movs	r0, #61
-	str	r0, [sp, #88]
-	b	.LBB0_67
-.LBB0_67:
-	b	.LBB0_68
-.LBB0_68:
-	movs	r0, #0
-	mvns	r1, r0
-	str	r1, [sp, #92]
-	str	r0, [sp, #84]
-	movs	r0, #1
-	str	r0, [sp, #80]
-	b	.LBB0_69
-.LBB0_69:
-	ldr	r0, [sp, #80]
-	cmp	r0, #0
-	beq	.LBB0_74
-	b	.LBB0_70
-.LBB0_70:
-	ldr	r0, [sp, #84]
-	@APP
-	adds	r6, r0, #0
-.Ltmp52:
-	beq	.Ltmp53
-	subs	r6, #1
-	add	sp, #4
-	bne	.Ltmp52
-.Ltmp53:
-	ldr	r1, [sp]
-	adds	r6, r0, #0
-.Ltmp54:
-	beq	.Ltmp55
-	subs	r6, #1
-	sub	sp, #4
-	bne	.Ltmp54
-.Ltmp55:
-
-	@NO_APP
-	str	r1, [sp, #80]
-	ldr	r0, [sp, #80]
-	cmp	r0, #111
-	bne	.LBB0_72
-	b	.LBB0_71
-.LBB0_71:
-	ldr	r0, [sp, #84]
-	str	r0, [sp, #92]
-	b	.LBB0_74
-.LBB0_72:
-	b	.LBB0_73
-.LBB0_73:
-	ldr	r0, [sp, #84]
-	adds	r0, r0, #1
-	str	r0, [sp, #84]
-	b	.LBB0_69
-.LBB0_74:
-	b	.LBB0_75
-.LBB0_75:
-	b	.LBB0_76
-.LBB0_76:
 	ldr	r0, [sp, #132]
 	str	r0, [sp, #84]
 	ldr	r0, [sp, #84]
 	cmp	r0, #0
-	bne	.LBB0_80
-	b	.LBB0_77
-.LBB0_77:
-	b	.LBB0_78
-.LBB0_78:
+	bne	.LBB0_68
+	b	.LBB0_65
+.LBB0_65:
+	b	.LBB0_66
+.LBB0_66:
 	movs	r0, #48
 	str	r0, [sp, #88]
-	b	.LBB0_79
-.LBB0_79:
-	b	.LBB0_96
-.LBB0_80:
+	b	.LBB0_67
+.LBB0_67:
+	b	.LBB0_84
+.LBB0_68:
 	ldr	r0, [sp, #92]
 	cmp	r0, #0
-	bge	.LBB0_84
-	b	.LBB0_81
-.LBB0_81:
-	b	.LBB0_82
-.LBB0_82:
+	bge	.LBB0_72
+	b	.LBB0_69
+.LBB0_69:
+	b	.LBB0_70
+.LBB0_70:
 	movs	r0, #45
 	str	r0, [sp, #88]
-	b	.LBB0_83
-.LBB0_83:
+	b	.LBB0_71
+.LBB0_71:
 	ldr	r0, [sp, #92]
 	rsbs	r0, r0, #0
 	str	r0, [sp, #92]
 	ldr	r0, [sp, #132]
 	str	r0, [sp, #84]
-	b	.LBB0_84
-.LBB0_84:
+	b	.LBB0_72
+.LBB0_72:
 	movs	r0, #0
 	str	r0, [sp, #80]
 	str	r0, [sp, #76]
-	b	.LBB0_85
-.LBB0_85:
+	b	.LBB0_73
+.LBB0_73:
 	ldr	r0, [sp, #76]
 	cmp	r0, #7
-	bhi	.LBB0_95
-	b	.LBB0_86
-.LBB0_86:
+	bhi	.LBB0_83
+	b	.LBB0_74
+.LBB0_74:
 	ldr	r0, [sp, #84]
 	movs	r1, #15
 	ands	r0, r1
@@ -662,146 +628,147 @@ run:
 	str	r0, [sp, #84]
 	ldr	r0, [sp, #80]
 	cmp	r0, #0
-	bne	.LBB0_91
-	b	.LBB0_87
-.LBB0_87:
+	bne	.LBB0_79
+	b	.LBB0_75
+.LBB0_75:
 	ldr	r0, [sp, #72]
 	cmp	r0, #0
-	beq	.LBB0_89
-	b	.LBB0_88
-.LBB0_88:
+	beq	.LBB0_77
+	b	.LBB0_76
+.LBB0_76:
 	movs	r0, #1
 	str	r0, [sp, #80]
-	b	.LBB0_90
-.LBB0_89:
-	b	.LBB0_94
-.LBB0_90:
-	b	.LBB0_91
-.LBB0_91:
-	b	.LBB0_92
-.LBB0_92:
+	b	.LBB0_78
+.LBB0_77:
+	b	.LBB0_82
+.LBB0_78:
+	b	.LBB0_79
+.LBB0_79:
+	b	.LBB0_80
+.LBB0_80:
 	ldr	r0, [sp, #72]
 	adds	r0, #48
 	str	r0, [sp, #88]
-	b	.LBB0_93
-.LBB0_93:
-	b	.LBB0_94
-.LBB0_94:
+	b	.LBB0_81
+.LBB0_81:
+	b	.LBB0_82
+.LBB0_82:
 	ldr	r0, [sp, #76]
 	adds	r0, r0, #1
 	str	r0, [sp, #76]
+	b	.LBB0_73
+.LBB0_83:
+	b	.LBB0_84
+.LBB0_84:
 	b	.LBB0_85
+.LBB0_85:
+	movs	r0, #10
+	str	r0, [sp, #88]
+	b	.LBB0_86
+.LBB0_86:
+	b	.LBB0_87
+.LBB0_87:
+	movs	r0, #115
+	str	r0, [sp, #88]
+	b	.LBB0_88
+.LBB0_88:
+	b	.LBB0_89
+.LBB0_89:
+	movs	r0, #105
+	str	r0, [sp, #88]
+	b	.LBB0_90
+.LBB0_90:
+	b	.LBB0_91
+.LBB0_91:
+	movs	r0, #122
+	str	r0, [sp, #88]
+	b	.LBB0_92
+.LBB0_92:
+	b	.LBB0_93
+.LBB0_93:
+	movs	r0, #101
+	str	r0, [sp, #88]
+	b	.LBB0_94
+.LBB0_94:
+	b	.LBB0_95
 .LBB0_95:
+	movs	r0, #61
+	str	r0, [sp, #88]
 	b	.LBB0_96
 .LBB0_96:
 	b	.LBB0_97
 .LBB0_97:
-	movs	r0, #10
-	str	r0, [sp, #88]
-	b	.LBB0_98
-.LBB0_98:
-	b	.LBB0_99
-.LBB0_99:
-	movs	r0, #115
-	str	r0, [sp, #88]
-	b	.LBB0_100
-.LBB0_100:
-	b	.LBB0_101
-.LBB0_101:
-	movs	r0, #105
-	str	r0, [sp, #88]
-	b	.LBB0_102
-.LBB0_102:
-	b	.LBB0_103
-.LBB0_103:
-	movs	r0, #122
-	str	r0, [sp, #88]
-	b	.LBB0_104
-.LBB0_104:
-	b	.LBB0_105
-.LBB0_105:
-	movs	r0, #101
-	str	r0, [sp, #88]
-	b	.LBB0_106
-.LBB0_106:
-	b	.LBB0_107
-.LBB0_107:
-	movs	r0, #61
-	str	r0, [sp, #88]
-	b	.LBB0_108
-.LBB0_108:
-	b	.LBB0_109
-.LBB0_109:
 	movs	r0, #0
 	str	r0, [sp, #84]
 	movs	r0, #1
 	str	r0, [sp, #80]
-	b	.LBB0_110
-.LBB0_110:
+	b	.LBB0_98
+.LBB0_98:
 	ldr	r0, [sp, #80]
 	cmp	r0, #0
-	beq	.LBB0_113
-	b	.LBB0_111
-.LBB0_111:
+	beq	.LBB0_101
+	b	.LBB0_99
+.LBB0_99:
 	ldr	r0, [sp, #84]
 	@APP
 	adds	r6, r0, #0
-.Ltmp56:
-	beq	.Ltmp57
-	subs	r6, #1
-	add	sp, #4
-	bne	.Ltmp56
-.Ltmp57:
-	ldr	r1, [sp]
-	adds	r6, r0, #0
 .Ltmp58:
 	beq	.Ltmp59
+
 	subs	r6, #1
-	sub	sp, #4
+	add	sp, #4
 	bne	.Ltmp58
 .Ltmp59:
+	ldr	r1, [sp]
+	adds	r6, r0, #0
+.Ltmp60:
+	beq	.Ltmp61
+	subs	r6, #1
+	sub	sp, #4
+	bne	.Ltmp60
+.Ltmp61:
 
 	@NO_APP
 	str	r1, [sp, #80]
-	b	.LBB0_112
-.LBB0_112:
+	b	.LBB0_100
+.LBB0_100:
 	ldr	r0, [sp, #84]
 	adds	r0, r0, #1
 	str	r0, [sp, #84]
-	b	.LBB0_110
-.LBB0_113:
+	b	.LBB0_98
+.LBB0_101:
 	ldr	r0, [sp, #84]
 	subs	r0, r0, #1
 	str	r0, [sp, #92]
-	b	.LBB0_114
-.LBB0_114:
-	b	.LBB0_115
-.LBB0_115:
+	b	.LBB0_102
+.LBB0_102:
+	b	.LBB0_103
+.LBB0_103:
 	ldr	r0, [sp, #132]
 	str	r0, [sp, #84]
 	ldr	r0, [sp, #84]
 	cmp	r0, #0
-	bne	.LBB0_119
-	b	.LBB0_116
-.LBB0_116:
-	b	.LBB0_117
-.LBB0_117:
+	bne	.LBB0_107
+	b	.LBB0_104
+.LBB0_104:
+	b	.LBB0_105
+.LBB0_105:
 	movs	r0, #48
 	str	r0, [sp, #88]
-	b	.LBB0_118
-.LBB0_118:
-	b	.LBB0_131
-.LBB0_119:
+	b	.LBB0_106
+.LBB0_106:
+	b	.LBB0_119
+.LBB0_107:
 	movs	r0, #0
 	str	r0, [sp, #80]
 	str	r0, [sp, #76]
-	b	.LBB0_120
-.LBB0_120:
+	b	.LBB0_108
+.LBB0_108:
 	ldr	r0, [sp, #76]
 	cmp	r0, #7
-	bhi	.LBB0_130
-	b	.LBB0_121
-.LBB0_121:
+	bhi	.LBB0_118
+	b	.LBB0_109
+.LBB0_109:
 	ldr	r0, [sp, #84]
 	movs	r1, #15
 	ands	r0, r1
@@ -811,89 +778,90 @@ run:
 	str	r0, [sp, #84]
 	ldr	r0, [sp, #80]
 	cmp	r0, #0
-	bne	.LBB0_126
-	b	.LBB0_122
-.LBB0_122:
+	bne	.LBB0_114
+	b	.LBB0_110
+.LBB0_110:
 	ldr	r0, [sp, #72]
 	cmp	r0, #0
-	beq	.LBB0_124
-	b	.LBB0_123
-.LBB0_123:
+	beq	.LBB0_112
+	b	.LBB0_111
+.LBB0_111:
 	movs	r0, #1
 	str	r0, [sp, #80]
-	b	.LBB0_125
-.LBB0_124:
-	b	.LBB0_129
-.LBB0_125:
-	b	.LBB0_126
-.LBB0_126:
-	b	.LBB0_127
-.LBB0_127:
+	b	.LBB0_113
+.LBB0_112:
+	b	.LBB0_117
+.LBB0_113:
+	b	.LBB0_114
+.LBB0_114:
+	b	.LBB0_115
+.LBB0_115:
 	ldr	r0, [sp, #72]
 	adds	r0, #48
 	str	r0, [sp, #88]
-	b	.LBB0_128
-.LBB0_128:
-	b	.LBB0_129
-.LBB0_129:
+	b	.LBB0_116
+.LBB0_116:
+	b	.LBB0_117
+.LBB0_117:
 	ldr	r0, [sp, #76]
 	adds	r0, r0, #1
 	str	r0, [sp, #76]
+	b	.LBB0_108
+.LBB0_118:
+	b	.LBB0_119
+.LBB0_119:
 	b	.LBB0_120
-.LBB0_130:
-	b	.LBB0_131
-.LBB0_131:
-	b	.LBB0_132
-.LBB0_132:
+.LBB0_120:
 	movs	r0, #10
 	str	r0, [sp, #88]
-	b	.LBB0_133
-.LBB0_133:
-	b	.LBB0_134
-.LBB0_134:
+	b	.LBB0_121
+.LBB0_121:
+	b	.LBB0_122
+.LBB0_122:
 	movs	r0, #0
 	str	r0, [sp, #84]
 	movs	r0, #1
 	str	r0, [sp, #80]
-	b	.LBB0_135
-.LBB0_135:
+	b	.LBB0_123
+.LBB0_123:
 	ldr	r0, [sp, #80]
 	cmp	r0, #0
-	beq	.LBB0_141
-	b	.LBB0_136
-.LBB0_136:
+	beq	.LBB0_129
+	b	.LBB0_124
+.LBB0_124:
 	ldr	r0, [sp, #84]
 	@APP
 	adds	r6, r0, #0
-.Ltmp60:
-	beq	.Ltmp61
-	subs	r6, #1
-	add	sp, #4
-	bne	.Ltmp60
-.Ltmp61:
-	ldr	r1, [sp]
-	adds	r6, r0, #0
 .Ltmp62:
 	beq	.Ltmp63
+
 	subs	r6, #1
-	sub	sp, #4
+	add	sp, #4
 	bne	.Ltmp62
 .Ltmp63:
+	ldr	r1, [sp]
+	adds	r6, r0, #0
+.Ltmp64:
+	beq	.Ltmp65
+	subs	r6, #1
+	sub	sp, #4
+	bne	.Ltmp64
+.Ltmp65:
 
 	@NO_APP
 	str	r1, [sp, #80]
 	ldr	r0, [sp, #80]
 	cmp	r0, #97
-	blo	.LBB0_138
-	b	.LBB0_137
-.LBB0_137:
+	blo	.LBB0_126
+	b	.LBB0_125
+.LBB0_125:
 	ldr	r0, [sp, #80]
 	cmp	r0, #123
-	blo	.LBB0_139
-	b	.LBB0_138
-.LBB0_138:
-	b	.LBB0_140
-.LBB0_139:
+	blo	.LBB0_127
+	b	.LBB0_126
+.LBB0_126:
+	b	.LBB0_128
+.LBB0_127:
 	ldr	r0, [sp, #80]
 	subs	r0, #32
 	str	r0, [sp, #80]
@@ -901,124 +869,127 @@ run:
 	ldr	r1, [sp, #80]
 	@APP
 	adds	r6, r0, #0
-.Ltmp64:
-	beq	.Ltmp65
-	subs	r6, #1
-	add	sp, #4
-	bne	.Ltmp64
-.Ltmp65:
-	str	r1, [sp]
-	adds	r6, r0, #0
 .Ltmp66:
 	beq	.Ltmp67
+
 	subs	r6, #1
-	sub	sp, #4
+	add	sp, #4
 	bne	.Ltmp66
 .Ltmp67:
-
-	@NO_APP
-	b	.LBB0_140
-.LBB0_140:
-	ldr	r0, [sp, #84]
-	adds	r0, r0, #1
-	str	r0, [sp, #84]
-	b	.LBB0_135
-.LBB0_141:
-	b	.LBB0_142
-.LBB0_142:
-	b	.LBB0_143
-.LBB0_143:
-	movs	r0, #0
-	str	r0, [sp, #84]
-	movs	r0, #1
-	str	r0, [sp, #80]
-	b	.LBB0_144
-.LBB0_144:
-	ldr	r0, [sp, #80]
-	cmp	r0, #0
-	beq	.LBB0_149
-	b	.LBB0_145
-.LBB0_145:
-	ldr	r0, [sp, #84]
-	@APP
+	str	r1, [sp]
 	adds	r6, r0, #0
 .Ltmp68:
 	beq	.Ltmp69
 	subs	r6, #1
-	add	sp, #4
+	sub	sp, #4
 	bne	.Ltmp68
 .Ltmp69:
-	ldr	r1, [sp]
-	adds	r6, r0, #0
-.Ltmp70:
-	beq	.Ltmp71
-	subs	r6, #1
-	sub	sp, #4
-	bne	.Ltmp70
-.Ltmp71:
 
 	@NO_APP
-	str	r1, [sp, #80]
-	b	.LBB0_146
-.LBB0_146:
-	ldr	r0, [sp, #80]
-	str	r0, [sp, #88]
-	b	.LBB0_147
-.LBB0_147:
-	b	.LBB0_148
-.LBB0_148:
+	b	.LBB0_128
+.LBB0_128:
 	ldr	r0, [sp, #84]
 	adds	r0, r0, #1
 	str	r0, [sp, #84]
-	b	.LBB0_144
-.LBB0_149:
-	b	.LBB0_150
-.LBB0_150:
-	b	.LBB0_151
-.LBB0_151:
+	b	.LBB0_123
+.LBB0_129:
+	b	.LBB0_130
+.LBB0_130:
+	b	.LBB0_131
+.LBB0_131:
 	movs	r0, #0
 	str	r0, [sp, #84]
 	movs	r0, #1
 	str	r0, [sp, #80]
-	b	.LBB0_152
-.LBB0_152:
+	b	.LBB0_132
+.LBB0_132:
 	ldr	r0, [sp, #80]
 	cmp	r0, #0
-	beq	.LBB0_158
-	b	.LBB0_153
-.LBB0_153:
+	beq	.LBB0_137
+	b	.LBB0_133
+.LBB0_133:
 	ldr	r0, [sp, #84]
 	@APP
+	adds	r6, r0, #0
+.Ltmp70:
+	beq	.Ltmp71
+
+	subs	r6, #1
+	add	sp, #4
+	bne	.Ltmp70
+.Ltmp71:
+	ldr	r1, [sp]
 	adds	r6, r0, #0
 .Ltmp72:
 	beq	.Ltmp73
 	subs	r6, #1
-	add	sp, #4
+	sub	sp, #4
 	bne	.Ltmp72
 .Ltmp73:
-	ldr	r1, [sp]
+
+	@NO_APP
+	str	r1, [sp, #80]
+	b	.LBB0_134
+.LBB0_134:
+	ldr	r0, [sp, #80]
+	str	r0, [sp, #88]
+	b	.LBB0_135
+.LBB0_135:
+	b	.LBB0_136
+.LBB0_136:
+	ldr	r0, [sp, #84]
+	adds	r0, r0, #1
+	str	r0, [sp, #84]
+	b	.LBB0_132
+.LBB0_137:
+	b	.LBB0_138
+.LBB0_138:
+	b	.LBB0_139
+.LBB0_139:
+	movs	r0, #0
+	str	r0, [sp, #84]
+	movs	r0, #1
+	str	r0, [sp, #80]
+	b	.LBB0_140
+.LBB0_140:
+	ldr	r0, [sp, #80]
+	cmp	r0, #0
+	beq	.LBB0_146
+	b	.LBB0_141
+.LBB0_141:
+	ldr	r0, [sp, #84]
+	@APP
 	adds	r6, r0, #0
 .Ltmp74:
 	beq	.Ltmp75
+
 	subs	r6, #1
-	sub	sp, #4
+	add	sp, #4
 	bne	.Ltmp74
 .Ltmp75:
+	ldr	r1, [sp]
+	adds	r6, r0, #0
+.Ltmp76:
+	beq	.Ltmp77
+	subs	r6, #1
+	sub	sp, #4
+	bne	.Ltmp76
+.Ltmp77:
 
 	@NO_APP
 	str	r1, [sp, #80]
 	ldr	r0, [sp, #80]
 	cmp	r0, #65
-	blo	.LBB0_155
-	b	.LBB0_154
-.LBB0_154:
+	blo	.LBB0_143
+	b	.LBB0_142
+.LBB0_142:
 	ldr	r0, [sp, #80]
 	cmp	r0, #91
-	blo	.LBB0_156
-	b	.LBB0_155
-.LBB0_155:
-	b	.LBB0_157
-.LBB0_156:
+	blo	.LBB0_144
+	b	.LBB0_143
+.LBB0_143:
+	b	.LBB0_145
+.LBB0_144:
 	ldr	r0, [sp, #80]
 	adds	r0, #32
 	str	r0, [sp, #80]
@@ -1026,157 +997,161 @@ run:
 	ldr	r1, [sp, #80]
 	@APP
 	adds	r6, r0, #0
-.Ltmp76:
-	beq	.Ltmp77
-	subs	r6, #1
-	add	sp, #4
-	bne	.Ltmp76
-.Ltmp77:
-	str	r1, [sp]
-	adds	r6, r0, #0
 .Ltmp78:
 	beq	.Ltmp79
+
 	subs	r6, #1
-	sub	sp, #4
+	add	sp, #4
 	bne	.Ltmp78
 .Ltmp79:
-
-	@NO_APP
-	b	.LBB0_157
-.LBB0_157:
-	ldr	r0, [sp, #84]
-	adds	r0, r0, #1
-	str	r0, [sp, #84]
-	b	.LBB0_152
-.LBB0_158:
-	b	.LBB0_159
-.LBB0_159:
-	b	.LBB0_160
-.LBB0_160:
-	movs	r0, #0
-	str	r0, [sp, #84]
-	movs	r0, #1
-	str	r0, [sp, #80]
-	b	.LBB0_161
-.LBB0_161:
-	ldr	r0, [sp, #80]
-	cmp	r0, #0
-	beq	.LBB0_166
-	b	.LBB0_162
-.LBB0_162:
-	ldr	r0, [sp, #84]
-	@APP
+	str	r1, [sp]
 	adds	r6, r0, #0
 .Ltmp80:
 	beq	.Ltmp81
 	subs	r6, #1
-	add	sp, #4
+	sub	sp, #4
 	bne	.Ltmp80
 .Ltmp81:
-	ldr	r1, [sp]
-	adds	r6, r0, #0
-.Ltmp82:
-	beq	.Ltmp83
-	subs	r6, #1
-	sub	sp, #4
-	bne	.Ltmp82
-.Ltmp83:
 
 	@NO_APP
-	str	r1, [sp, #80]
-	b	.LBB0_163
-.LBB0_163:
-	ldr	r0, [sp, #80]
-	str	r0, [sp, #88]
-	b	.LBB0_164
-.LBB0_164:
-	b	.LBB0_165
-.LBB0_165:
+	b	.LBB0_145
+.LBB0_145:
 	ldr	r0, [sp, #84]
 	adds	r0, r0, #1
 	str	r0, [sp, #84]
-	b	.LBB0_161
-.LBB0_166:
-	b	.LBB0_167
-.LBB0_167:
-	b	.LBB0_168
-.LBB0_168:
-	b	.LBB0_169
-.LBB0_169:
+	b	.LBB0_140
+.LBB0_146:
+	b	.LBB0_147
+.LBB0_147:
+	b	.LBB0_148
+.LBB0_148:
 	movs	r0, #0
 	str	r0, [sp, #84]
 	movs	r0, #1
 	str	r0, [sp, #80]
-	b	.LBB0_170
-.LBB0_170:
+	b	.LBB0_149
+.LBB0_149:
 	ldr	r0, [sp, #80]
 	cmp	r0, #0
-	beq	.LBB0_173
-	b	.LBB0_171
-.LBB0_171:
+	beq	.LBB0_154
+	b	.LBB0_150
+.LBB0_150:
 	ldr	r0, [sp, #84]
 	@APP
+	adds	r6, r0, #0
+.Ltmp82:
+	beq	.Ltmp83
+
+	subs	r6, #1
+	add	sp, #4
+	bne	.Ltmp82
+.Ltmp83:
+	ldr	r1, [sp]
 	adds	r6, r0, #0
 .Ltmp84:
 	beq	.Ltmp85
 	subs	r6, #1
-	add	sp, #4
+	sub	sp, #4
 	bne	.Ltmp84
 .Ltmp85:
-	ldr	r1, [sp]
-	adds	r6, r0, #0
-.Ltmp86:
-	beq	.Ltmp87
-	subs	r6, #1
-	sub	sp, #4
-	bne	.Ltmp86
-.Ltmp87:
 
 	@NO_APP
 	str	r1, [sp, #80]
-	b	.LBB0_172
-.LBB0_172:
+	b	.LBB0_151
+.LBB0_151:
+	ldr	r0, [sp, #80]
+	str	r0, [sp, #88]
+	b	.LBB0_152
+.LBB0_152:
+	b	.LBB0_153
+.LBB0_153:
 	ldr	r0, [sp, #84]
 	adds	r0, r0, #1
 	str	r0, [sp, #84]
-	b	.LBB0_170
-.LBB0_173:
+	b	.LBB0_149
+.LBB0_154:
+	b	.LBB0_155
+.LBB0_155:
+	b	.LBB0_156
+.LBB0_156:
+	b	.LBB0_157
+.LBB0_157:
+	movs	r0, #0
+	str	r0, [sp, #84]
+	movs	r0, #1
+	str	r0, [sp, #80]
+	b	.LBB0_158
+.LBB0_158:
+	ldr	r0, [sp, #80]
+	cmp	r0, #0
+	beq	.LBB0_161
+	b	.LBB0_159
+.LBB0_159:
+	ldr	r0, [sp, #84]
+	@APP
+	adds	r6, r0, #0
+.Ltmp86:
+	beq	.Ltmp87
+
+	subs	r6, #1
+	add	sp, #4
+	bne	.Ltmp86
+.Ltmp87:
+	ldr	r1, [sp]
+	adds	r6, r0, #0
+.Ltmp88:
+	beq	.Ltmp89
+	subs	r6, #1
+	sub	sp, #4
+	bne	.Ltmp88
+.Ltmp89:
+
+	@NO_APP
+	str	r1, [sp, #80]
+	b	.LBB0_160
+.LBB0_160:
+	ldr	r0, [sp, #84]
+	adds	r0, r0, #1
+	str	r0, [sp, #84]
+	b	.LBB0_158
+.LBB0_161:
 	ldr	r0, [sp, #84]
 	subs	r0, r0, #1
 	str	r0, [sp, #76]
-	b	.LBB0_174
-.LBB0_174:
+	b	.LBB0_162
+.LBB0_162:
 	ldr	r0, [sp, #76]
 	subs	r0, r0, #1
 	str	r0, [sp, #76]
 	ldr	r0, [sp, #76]
 	lsrs	r0, r0, #1
 	str	r0, [sp, #72]
-	b	.LBB0_175
-.LBB0_175:
+	b	.LBB0_163
+.LBB0_163:
 	ldr	r0, [sp, #72]
 	lsrs	r0, r0, #3
 	cmp	r0, #124
-	bls	.LBB0_176
-	b	.LBB0_178
-.LBB0_176:
+	bls	.LBB0_164
+	b	.LBB0_166
+.LBB0_164:
 	ldr	r0, [sp, #72]
 	@APP
 	adds	r6, r0, #0
-.Ltmp88:
-	beq	.Ltmp89
-	subs	r6, #1
-	add	sp, #4
-	bne	.Ltmp88
-.Ltmp89:
-	ldr	r1, [sp]
-	adds	r6, r0, #0
 .Ltmp90:
 	beq	.Ltmp91
+
 	subs	r6, #1
-	sub	sp, #4
+	add	sp, #4
 	bne	.Ltmp90
 .Ltmp91:
+	ldr	r1, [sp]
+	adds	r6, r0, #0
+.Ltmp92:
+	beq	.Ltmp93
+	subs	r6, #1
+	sub	sp, #4
+	bne	.Ltmp92
+.Ltmp93:
 
 	@NO_APP
 	str	r1, [sp, #80]
@@ -1185,20 +1160,21 @@ run:
 	subs	r0, r0, r1
 	@APP
 	adds	r6, r0, #0
-.Ltmp92:
-	beq	.Ltmp93
-	subs	r6, #1
-	add	sp, #4
-	bne	.Ltmp92
-.Ltmp93:
-	ldr	r1, [sp]
-	adds	r6, r0, #0
 .Ltmp94:
 	beq	.Ltmp95
+
 	subs	r6, #1
-	sub	sp, #4
+	add	sp, #4
 	bne	.Ltmp94
 .Ltmp95:
+	ldr	r1, [sp]
+	adds	r6, r0, #0
+.Ltmp96:
+	beq	.Ltmp97
+	subs	r6, #1
+	sub	sp, #4
+	bne	.Ltmp96
+.Ltmp97:
 
 	@NO_APP
 	str	r1, [sp, #84]
@@ -1206,20 +1182,21 @@ run:
 	ldr	r1, [sp, #84]
 	@APP
 	adds	r6, r0, #0
-.Ltmp96:
-	beq	.Ltmp97
-	subs	r6, #1
-	add	sp, #4
-	bne	.Ltmp96
-.Ltmp97:
-	str	r1, [sp]
-	adds	r6, r0, #0
 .Ltmp98:
 	beq	.Ltmp99
+
 	subs	r6, #1
-	sub	sp, #4
+	add	sp, #4
 	bne	.Ltmp98
 .Ltmp99:
+	str	r1, [sp]
+	adds	r6, r0, #0
+.Ltmp100:
+	beq	.Ltmp101
+	subs	r6, #1
+	sub	sp, #4
+	bne	.Ltmp100
+.Ltmp101:
 
 	@NO_APP
 	ldr	r0, [sp, #76]
@@ -1228,178 +1205,162 @@ run:
 	ldr	r1, [sp, #80]
 	@APP
 	adds	r6, r0, #0
-.Ltmp100:
-	beq	.Ltmp101
-	subs	r6, #1
-	add	sp, #4
-	bne	.Ltmp100
-.Ltmp101:
-	str	r1, [sp]
-	adds	r6, r0, #0
 .Ltmp102:
 	beq	.Ltmp103
+
 	subs	r6, #1
-	sub	sp, #4
+	add	sp, #4
 	bne	.Ltmp102
 .Ltmp103:
-
-	@NO_APP
-	b	.LBB0_177
-.LBB0_177:
-	ldr	r0, [sp, #72]
-	subs	r0, r0, #1
-	str	r0, [sp, #72]
-	b	.LBB0_175
-.LBB0_178:
-	b	.LBB0_179
-.LBB0_179:
-	b	.LBB0_180
-.LBB0_180:
-	movs	r0, #0
-	str	r0, [sp, #84]
-	movs	r0, #1
-	str	r0, [sp, #80]
-	b	.LBB0_181
-.LBB0_181:
-	ldr	r0, [sp, #80]
-	cmp	r0, #0
-	beq	.LBB0_186
-	b	.LBB0_182
-.LBB0_182:
-	ldr	r0, [sp, #84]
-	@APP
+	str	r1, [sp]
 	adds	r6, r0, #0
 .Ltmp104:
 	beq	.Ltmp105
 	subs	r6, #1
-	add	sp, #4
+	sub	sp, #4
 	bne	.Ltmp104
 .Ltmp105:
-	ldr	r1, [sp]
-	adds	r6, r0, #0
-.Ltmp106:
-	beq	.Ltmp107
-	subs	r6, #1
-	sub	sp, #4
-	bne	.Ltmp106
-.Ltmp107:
 
 	@NO_APP
-	str	r1, [sp, #80]
-	b	.LBB0_183
-.LBB0_183:
-	ldr	r0, [sp, #80]
-	str	r0, [sp, #88]
-	b	.LBB0_184
-.LBB0_184:
-	b	.LBB0_185
-.LBB0_185:
-	ldr	r0, [sp, #84]
-	adds	r0, r0, #1
-	str	r0, [sp, #84]
-	b	.LBB0_181
-.LBB0_186:
-	b	.LBB0_187
-.LBB0_187:
-	b	.LBB0_188
-.LBB0_188:
-	movs	r0, #10
-	str	r0, [sp, #88]
-	b	.LBB0_189
-.LBB0_189:
-	b	.LBB0_190
-.LBB0_190:
-	movs	r0, #0
-	str	r0, [sp, #84]
-	b	.LBB0_191
-.LBB0_191:
-	ldr	r0, [sp, #84]
-	cmp	r0, #4
-	bhi	.LBB0_194
-	b	.LBB0_192
-.LBB0_192:
-	ldr	r0, [sp, #84]
-	movs	r1, #97
-	@APP
-	adds	r6, r0, #0
-.Ltmp108:
-	beq	.Ltmp109
-	subs	r6, #1
-	add	sp, #4
-	bne	.Ltmp108
-.Ltmp109:
-	str	r1, [sp]
-	adds	r6, r0, #0
-.Ltmp110:
-	beq	.Ltmp111
-	subs	r6, #1
-	sub	sp, #4
-	bne	.Ltmp110
-.Ltmp111:
-
-	@NO_APP
-	b	.LBB0_193
-.LBB0_193:
-	ldr	r0, [sp, #84]
-	adds	r0, r0, #1
-	str	r0, [sp, #84]
-	b	.LBB0_191
-.LBB0_194:
-	b	.LBB0_195
-.LBB0_195:
-	b	.LBB0_196
-.LBB0_196:
+	b	.LBB0_165
+.LBB0_165:
+	ldr	r0, [sp, #72]
+	subs	r0, r0, #1
+	str	r0, [sp, #72]
+	b	.LBB0_163
+.LBB0_166:
+	b	.LBB0_167
+.LBB0_167:
+	b	.LBB0_168
+.LBB0_168:
 	movs	r0, #0
 	str	r0, [sp, #84]
 	movs	r0, #1
 	str	r0, [sp, #80]
-	b	.LBB0_197
-.LBB0_197:
+	b	.LBB0_169
+.LBB0_169:
 	ldr	r0, [sp, #80]
 	cmp	r0, #0
-	beq	.LBB0_202
-	b	.LBB0_198
-.LBB0_198:
+	beq	.LBB0_174
+	b	.LBB0_170
+.LBB0_170:
 	ldr	r0, [sp, #84]
 	@APP
+	adds	r6, r0, #0
+.Ltmp106:
+	beq	.Ltmp107
+
+	subs	r6, #1
+	add	sp, #4
+	bne	.Ltmp106
+.Ltmp107:
+	ldr	r1, [sp]
+	adds	r6, r0, #0
+.Ltmp108:
+	beq	.Ltmp109
+	subs	r6, #1
+	sub	sp, #4
+	bne	.Ltmp108
+.Ltmp109:
+
+	@NO_APP
+	str	r1, [sp, #80]
+	b	.LBB0_171
+.LBB0_171:
+	ldr	r0, [sp, #80]
+	str	r0, [sp, #88]
+	b	.LBB0_172
+.LBB0_172:
+	b	.LBB0_173
+.LBB0_173:
+	ldr	r0, [sp, #84]
+	adds	r0, r0, #1
+	str	r0, [sp, #84]
+	b	.LBB0_169
+.LBB0_174:
+	b	.LBB0_175
+.LBB0_175:
+	b	.LBB0_176
+.LBB0_176:
+	movs	r0, #10
+	str	r0, [sp, #88]
+	b	.LBB0_177
+.LBB0_177:
+	movs	r0, #5
+	movs	r1, #97
+	@APP
+	adds	r6, r0, #0
+.Ltmp110:
+	beq	.Ltmp111
+	str	r1, [sp]
+	subs	r6, #1
+	add	sp, #4
+	bne	.Ltmp110
+.Ltmp111:
+
 	adds	r6, r0, #0
 .Ltmp112:
 	beq	.Ltmp113
 	subs	r6, #1
-	add	sp, #4
+	sub	sp, #4
 	bne	.Ltmp112
 .Ltmp113:
-	ldr	r1, [sp]
+
+	@NO_APP
+	b	.LBB0_178
+.LBB0_178:
+	movs	r0, #0
+	str	r0, [sp, #84]
+	movs	r0, #1
+	str	r0, [sp, #80]
+	b	.LBB0_179
+.LBB0_179:
+	ldr	r0, [sp, #80]
+	cmp	r0, #0
+	beq	.LBB0_184
+	b	.LBB0_180
+.LBB0_180:
+	ldr	r0, [sp, #84]
+	@APP
 	adds	r6, r0, #0
 .Ltmp114:
 	beq	.Ltmp115
+
 	subs	r6, #1
-	sub	sp, #4
+	add	sp, #4
 	bne	.Ltmp114
 .Ltmp115:
+	ldr	r1, [sp]
+	adds	r6, r0, #0
+.Ltmp116:
+	beq	.Ltmp117
+	subs	r6, #1
+	sub	sp, #4
+	bne	.Ltmp116
+.Ltmp117:
 
 	@NO_APP
 	str	r1, [sp, #80]
-	b	.LBB0_199
-.LBB0_199:
+	b	.LBB0_181
+.LBB0_181:
 	ldr	r0, [sp, #80]
 	str	r0, [sp, #88]
-	b	.LBB0_200
-.LBB0_200:
-	b	.LBB0_201
-.LBB0_201:
+	b	.LBB0_182
+.LBB0_182:
+	b	.LBB0_183
+.LBB0_183:
 	ldr	r0, [sp, #84]
 	adds	r0, r0, #1
 	str	r0, [sp, #84]
-	b	.LBB0_197
-.LBB0_202:
-	b	.LBB0_203
-.LBB0_203:
-	b	.LBB0_204
-.LBB0_204:
-	b	.LBB0_205
-.LBB0_205:
-	b	.LBB0_205
+	b	.LBB0_179
+.LBB0_184:
+	b	.LBB0_185
+.LBB0_185:
+	b	.LBB0_186
+.LBB0_186:
+	b	.LBB0_187
+.LBB0_187:
+	b	.LBB0_187
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run
 	.cantunwind
