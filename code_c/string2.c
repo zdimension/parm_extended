@@ -30,6 +30,8 @@ void run()
     PRINT(str);
     STRUPR(str);
     PRINT(str);
+    STRLWR(str);
+    PRINT(str);
     RES=4; // Check SP is ok
     END();
 }

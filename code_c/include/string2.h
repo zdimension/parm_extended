@@ -1,6 +1,11 @@
 /*
+Cette méthode de gestion des strings a pour but de régler les limitations imposées par la précédente implémentation
+(une seule string qui doit à tout moment se trouver au sommet de la pile).
+Dans cette implémentation il n'y a pas de problème avec la pile, et on peut avoir autant de chaînes que souhaitées (chacune ne pouvant pas dépasser les 127 caractères).
+Il est cependant à noter que cette implémentation est beaucoup plus lente que la précédente.
 Les 32 bits sont utilisés comme:
 [caractère 7 bits]0[position dans le parcours 7 bits]0[objectif de position 7 bits]0[valeur propagée (caractère, entier etc...) 7 bits]0
+Au début se trouve le caractère effectivement stocké.
 */
 
 #ifndef STRING2_H
@@ -64,6 +69,21 @@ typedef unsigned int p_char;
     while(str[0] << 24) {\
         if((str[0] & 127) < 'z' && (str[0] & 127) > 'a') {\
             str[0] = str[0]-'a'+'A';\
+        }\
+        str[1] = str[1] & 127;\
+        str[1] |= (((str[0] >> 8) + 1 ) & 127) << 8;\
+        asm("add sp, #4");\
+    }\
+    while((str[0] >> 8) & 127) {\
+        asm("sub sp, #4");\
+    }\
+} while(0)
+
+#define STRLWR(str) do {\
+    str[0] &= 127;\
+    while(str[0] << 24) {\
+        if((str[0] & 127) < 'Z' && (str[0] & 127) > 'A') {\
+            str[0] = str[0]-'A'+'a';\
         }\
         str[1] = str[1] & 127;\
         str[1] |= (((str[0] >> 8) + 1 ) & 127) << 8;\
