@@ -11,7 +11,7 @@
     Ils peuvent être utilisés comme microprocesseur ou microcontrôleur.
     On les retrouve dans diverses applications : Arduino Due, machine à laver, distributeur de boissons... Les Cortex-M visent en majorité le marché de l'embarqué.
 
-    Le but de ce projet est de simuler le comportement d'un Cortex-M0 au moyen d'un logiciel de simulation électronique: Logisim.
+    Le but de ce projet est de simuler le comportement d'un Cortex-M0 au moyen d'un logiciel de simulation électronique: \texttt{Logisim}.
     L'idée est ici d'obtenir un système ayant un comportement similaire à un Cortex-M0 et non une copie conforme du fait de la complexité d'un processeur réel.
 
     \subsection{Le projet}
@@ -47,12 +47,12 @@
 
     \subsection{Logisim}
 
-    Logisim est un programme permettant la modélisation et la simulation de circuit logique.
+    \texttt{Logisim} est un programme permettant la modélisation et la simulation de circuit logique.
     La modélisation du circuit ne se fait que par dessin et glisser-déposer des différents éléments électroniques.
 
-    \paragraph{Installation:} la version de Logisim utilisé dans le cadre du projet est la 3.5.0, accessible à l'adresse \url{https://github.com/logisim-evolution/logisim-evolution/releases/tag/v3.5.0}.
+    \paragraph{Installation:} la version de \texttt{Logisim} utilisé dans le cadre du projet est la 3.5.0, accessible à l'adresse \url{https://github.com/logisim-evolution/logisim-evolution/releases/tag/v3.5.0}.
     Sur Windows, utilisez le fichier \texttt{.msi} pour installer.
-    sur Mac, utilisez le fichier \texttt{.dmg}.
+    Sur Mac, utilisez le fichier \texttt{.dmg}.
     Sur Ubuntu/Debian, passez par le fichier \texttt{.deb} avec la commande :
     \begin{lstlisting}
 sudo apt install gdebi
@@ -62,7 +62,7 @@ sudo gdebi logisim-evolution_3.5.0-1_amd64.deb
 
     \textit{Cette section est un extrait du tutoriel officiel «Introduction à l’utilisation de Logisim». Pour plus d'informations, se référer à la documentation officielle.}
 
-    Vous pouvez voir l'interface de Logisim sur la Figure  \ref{fig_logisim_description}.
+    Vous pouvez voir l'interface de \texttt{Logisim} sur la Figure  \ref{fig_logisim_description}.
 
     \begin{figure}[t]
         \begin{center}
@@ -175,7 +175,7 @@ sudo gdebi logisim-evolution_3.5.0-1_amd64.deb
         On clique sur le sous circuit en question dans le menu indiqué sur la Figure~\ref{fig_sousCircuit}, puis on le
         place en cliquant sur la zone d'édition.
         \item Si le sous circuit avait été créé correctement, alors il devrait être représenté par un petit bloc, avec
-        sur sa gauche des points bleus correspondant aux entrées et sur sa droite des points verts correspondant aux sorties.
+        sur sa gauche des points bleus correspondant aux entrées, et sur sa droite des points verts correspondant aux sorties.
         \item Si les sorties apparaissent en bleu et non en vert sur le schéma, vérifiez que vous avez bien affecté l'attribut
         \texttt{Sortie?} $=$ \texttt{Oui} dans les \texttt{Pin}s de sortie.
 
