@@ -2,9 +2,10 @@
 
 \renewcommand\tabularxcolumn[1]{m{#1}}% for vertical centering text in X column
 
-\paragraph{}
-Les tests d'intégration fournis ne se substituent pas à des tests unitaires. Leur usage est de prévenir un potentiel plantage sévère du contrôleur.
 
+Dans les fichiers .s, sont fournis des commentaires décrivant l'état (des registres et des drapeaux) obtenu en cas de succès. Les fichiers .bin sont à charger dans la ROM. \\
+
+\textbf{Jeu de tests:}\\
 
 \begin{tabularx}{\textwidth}{|l|X|X|}
 \hline 
@@ -30,3 +31,5 @@ miscellaneous/sp		&  ADD(SP plus immediate) \newline SUB(SP minus immediate) & -
 conditional/branch		&  B & CMP(register) \newline MOV(immediate) \newline RSB(immediate) \newline ADD(register)\\
 \hline
 \end{tabularx}
+
+\paragraph{Remarque:} les tests d'intégration fournis ne se substituent pas à des tests unitaires. Leur usage est de prévenir un potentiel parti dans la mauvaise direction sévère du contrôleur.
