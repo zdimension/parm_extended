@@ -27,11 +27,13 @@ void run()
     STR_SET(str, i++, 'b');*/
     STR_SET(str, i++, '\n');
     STR_SET(str, i++, '\0');
-    PRINT(str);
+    /*PRINT(str);
     STRUPR(str);
     PRINT(str);
-    STRLWR(str);
+    STRLWR(str);*/
     PRINT(str);
-    RES=4; // Check SP is ok
+    STRREV(str);
+    PRINT(str);
+    RES=STRLEN(str); // Check SP is ok
     END();
 }

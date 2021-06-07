@@ -94,4 +94,51 @@ typedef unsigned int p_char;
     }\
 } while(0)
 
+#define STRLEN(str) ({\
+    str[0] &= 127;\
+    unsigned int res=0;\
+    while(str[0] << 24) {\
+        str[1] = str[1] & 127;\
+        str[1] |= (((str[0] >> 8) + 1 ) & 127) << 8;\
+        asm("add sp, #4");\
+    }\
+    str[0] |= ((str[0] >> 8) & 127) << 24;\
+    while((str[0] >> 8) & 127) {\
+        asm("sub sp, #4");\
+        str[0] |= ((str[1] >> 24) & 127) << 24;\
+    }\
+    res = str[0] >> 12;\
+    res >> 12;\
+})
+
+#define STR_MEMSET(str, c, size) do {\
+    str[0] &= 127;\
+    str[0] |= size<<16;\
+    while(((str[0] >> 16) & 127) != ((str[0] >> 8) & 127)) {\
+        str[0] = str[0] >> 8;\
+        str[0] = str[0] << 8;\
+        str[0] |= c&127;\
+        str[1] = str[1] & 127;\
+        str[1] |= ((str[0] >> 24) & 127) << 24;\
+        str[1] |= ((str[0] >> 16) & 127) << 16;\
+        str[1] |= (((str[0] >> 8) + 1 ) & 127) << 8;\
+        asm("add sp, #4");\
+    }\
+    while((str[0] >> 8) & 127) {\
+        asm("sub sp, #4");\
+    }\
+} while(0)
+
+#define STRREV(str) do {\
+    volatile unsigned int str_size=STRLEN(str);\
+	str_size-=1;\
+	volatile unsigned int pos=(str_size >> 1);\
+	for(;pos < 1000; pos--) {\
+        p_char tmp1 = STR_GET(str, pos);\
+		p_char tmp2 = STR_GET(str, (str_size - pos));\
+        STR_SET(str, pos, tmp2);\
+        STR_SET(str, (str_size - pos), tmp1);\
+	}\
+} while(0)
+
 #endif
