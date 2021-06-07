@@ -25,8 +25,8 @@
 	.thumb_func
 run:
 	.fnstart
-	.pad	#88
-	sub	sp, #88
+	.pad	#108
+	sub	sp, #108
 	@APP
 	sub	sp, #508
 	@NO_APP
@@ -52,9 +52,9 @@ run:
 	orrs	r0, r1
 	movs	r1, #1
 	lsls	r1, r0
-	ldr	r0, [sp, #32]
+	ldr	r0, [sp, #52]
 	orrs	r0, r1
-	str	r0, [sp, #32]
+	str	r0, [sp, #52]
 	b	.LBB0_3
 .LBB0_3:
 	b	.LBB0_4
@@ -69,23 +69,23 @@ run:
 	orrs	r0, r1
 	movs	r1, #1
 	lsls	r1, r0
-	ldr	r0, [sp, #32]
+	ldr	r0, [sp, #52]
 	orrs	r0, r1
-	str	r0, [sp, #32]
+	str	r0, [sp, #52]
 	b	.LBB0_5
 .LBB0_5:
 	b	.LBB0_6
 .LBB0_6:
 	movs	r0, #1
-	str	r0, [sp, #36]
+	str	r0, [sp, #56]
 	b	.LBB0_7
 .LBB0_7:
-	ldr	r0, [sp, #48]
+	ldr	r0, [sp, #68]
 	cmp	r0, #0
 	beq	.LBB0_9
 	b	.LBB0_8
 .LBB0_8:
-	ldr	r0, [sp, #52]
+	ldr	r0, [sp, #72]
 	str	r0, [sp, #4]
 	b	.LBB0_9
 .LBB0_9:
@@ -101,9 +101,9 @@ run:
 	orrs	r0, r1
 	movs	r1, #1
 	lsls	r1, r0
-	ldr	r0, [sp, #32]
+	ldr	r0, [sp, #52]
 	bics	r0, r1
-	str	r0, [sp, #32]
+	str	r0, [sp, #52]
 	b	.LBB0_11
 .LBB0_11:
 	ldr	r0, [sp, #4]
@@ -172,18 +172,18 @@ run:
 	bne	.LBB0_31
 	b	.LBB0_24
 .LBB0_24:
-	ldr	r0, [sp, #28]
+	ldr	r0, [sp, #48]
 	adds	r0, r0, #1
-	str	r0, [sp, #28]
+	str	r0, [sp, #48]
 	b	.LBB0_25
 .LBB0_25:
 	b	.LBB0_26
 .LBB0_26:
-	ldr	r0, [sp, #64]
+	ldr	r0, [sp, #84]
 	movs	r1, #7
 	ands	r0, r1
 	str	r0, [sp, #12]
-	ldr	r0, [sp, #64]
+	ldr	r0, [sp, #84]
 	movs	r1, #3
 	ands	r0, r1
 	str	r0, [sp, #8]

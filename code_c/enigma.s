@@ -25,8 +25,12 @@
 	.thumb_func
 run:
 	.fnstart
-	.pad	#96
-	sub	sp, #96
+	.save	{r4, r5, r7, lr}
+	push	{r4, r5, r7, lr}
+	.setfp	r7, sp, #8
+	add	r7, sp, #8
+	.pad	#116
+	sub	sp, #116
 	@APP
 	sub	sp, #508
 	@NO_APP
@@ -39,7 +43,7 @@ run:
 .LBB0_1:
 	b	.LBB0_2
 .LBB0_2:
-	ldr	r0, [sp, #56]
+	ldr	r0, [sp, #76]
 	cmp	r0, #0
 	bne	.LBB0_4
 	b	.LBB0_3
@@ -48,11 +52,11 @@ run:
 .LBB0_4:
 	b	.LBB0_5
 .LBB0_5:
-	ldr	r0, [sp, #60]
+	ldr	r0, [sp, #80]
 	str	r0, [sp, #24]
 	b	.LBB0_6
 .LBB0_6:
-	ldr	r0, [sp, #44]
+	ldr	r0, [sp, #64]
 	ldr	r1, [sp, #28]
 	adds	r0, r1, r0
 	str	r0, [sp, #28]
@@ -62,7 +66,7 @@ run:
 .LBB0_8:
 	b	.LBB0_9
 .LBB0_9:
-	ldr	r0, [sp, #56]
+	ldr	r0, [sp, #76]
 	cmp	r0, #0
 	bne	.LBB0_11
 	b	.LBB0_10
@@ -71,7 +75,7 @@ run:
 .LBB0_11:
 	b	.LBB0_12
 .LBB0_12:
-	ldr	r0, [sp, #60]
+	ldr	r0, [sp, #80]
 	str	r0, [sp, #20]
 	ldr	r0, [sp, #20]
 	ldr	r1, [sp, #28]
@@ -79,17 +83,17 @@ run:
 	subs	r0, #97
 	movs	r1, #26
 	@APP
-	movs	r2, r0
-	movs	r3, r1
+	movs	r4, r0
+	movs	r5, r1
 	@NO_APP
-	ldr	r0, [sp, #84]
+	ldr	r0, [sp, #104]
 	str	r0, [sp, #16]
 	ldr	r0, [sp, #16]
 	adds	r0, #97
-	str	r0, [sp, #32]
+	str	r0, [sp, #52]
 	b	.LBB0_13
 .LBB0_13:
-	ldr	r0, [sp, #48]
+	ldr	r0, [sp, #68]
 	ldr	r1, [sp, #28]
 	adds	r0, r1, r0
 	str	r0, [sp, #28]
@@ -99,7 +103,7 @@ run:
 .LBB0_15:
 	b	.LBB0_16
 .LBB0_16:
-	ldr	r0, [sp, #56]
+	ldr	r0, [sp, #76]
 	cmp	r0, #0
 	bne	.LBB0_18
 	b	.LBB0_17
@@ -108,7 +112,7 @@ run:
 .LBB0_18:
 	b	.LBB0_19
 .LBB0_19:
-	ldr	r0, [sp, #60]
+	ldr	r0, [sp, #80]
 	str	r0, [sp, #12]
 	ldr	r0, [sp, #12]
 	ldr	r1, [sp, #28]
@@ -116,17 +120,17 @@ run:
 	subs	r0, #97
 	movs	r1, #26
 	@APP
-	movs	r2, r0
-	movs	r3, r1
+	movs	r4, r0
+	movs	r5, r1
 	@NO_APP
-	ldr	r0, [sp, #84]
+	ldr	r0, [sp, #104]
 	str	r0, [sp, #8]
 	ldr	r0, [sp, #8]
 	adds	r0, #97
-	str	r0, [sp, #32]
+	str	r0, [sp, #52]
 	b	.LBB0_20
 .LBB0_20:
-	ldr	r0, [sp, #52]
+	ldr	r0, [sp, #72]
 	ldr	r1, [sp, #28]
 	adds	r0, r1, r0
 	str	r0, [sp, #28]
@@ -136,7 +140,7 @@ run:
 .LBB0_22:
 	b	.LBB0_23
 .LBB0_23:
-	ldr	r0, [sp, #56]
+	ldr	r0, [sp, #76]
 	cmp	r0, #0
 	bne	.LBB0_25
 	b	.LBB0_24
@@ -145,7 +149,7 @@ run:
 .LBB0_25:
 	b	.LBB0_26
 .LBB0_26:
-	ldr	r0, [sp, #60]
+	ldr	r0, [sp, #80]
 	str	r0, [sp, #4]
 	ldr	r0, [sp, #4]
 	ldr	r1, [sp, #28]
@@ -153,14 +157,14 @@ run:
 	subs	r0, #97
 	movs	r1, #26
 	@APP
-	movs	r2, r0
-	movs	r3, r1
+	movs	r4, r0
+	movs	r5, r1
 	@NO_APP
-	ldr	r0, [sp, #84]
+	ldr	r0, [sp, #104]
 	str	r0, [sp]
 	ldr	r0, [sp]
 	adds	r0, #97
-	str	r0, [sp, #32]
+	str	r0, [sp, #52]
 	b	.LBB0_27
 .LBB0_27:
 	b	.LBB0_6
