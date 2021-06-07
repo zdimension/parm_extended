@@ -47,8 +47,8 @@ typedef unsigned int p_char;
 	);
 
 // Affiche la chaîne dans le terminal.
-#define PRINT() do {\
-	__temp1=0;\
+#define PRINT(pos) do {\
+	__temp1=pos;\
 	__temp2=1;\
 	for(;__temp2;__temp1++)	{\
 		ARR_GET(__temp1, __temp2);\
@@ -57,8 +57,8 @@ typedef unsigned int p_char;
 } while(0)
 
 // Calcule la longueur de la chaîne, en caractères.
-#define STRLEN(val) do { \
-	__temp1=0;\
+#define STRLEN(pos, val) do { \
+	__temp1=pos;\
 	__temp2=1;\
 	for(;__temp2;__temp1++)	{\
 		ARR_GET(__temp1, __temp2);\
@@ -67,8 +67,8 @@ typedef unsigned int p_char;
 } while (0)
 
 // Renverse la chaîne de caractères
-#define STRREV() do {\
-	STRLEN(__temp3);\
+#define STRREV(pos) do {\
+	STRLEN(pos, __temp3);\
 	__temp3-=1;\
 	__temp4=(__temp3 >> 1);\
 	for(;__temp4 < 1000; __temp4--) {\
@@ -80,8 +80,8 @@ typedef unsigned int p_char;
 } while(0)
 
 // Passe la chaîne de caractères en minuscules
-#define STRLWR() do {\
-	__temp1=0;\
+#define STRLWR(pos) do {\
+	__temp1=pos;\
 	__temp2=1;\
 	for(;__temp2; __temp1++) {\
 		ARR_GET(__temp1, __temp2);\
@@ -94,8 +94,8 @@ typedef unsigned int p_char;
 }while(0)
 
 // Passe la chaîne de caractères en majuscules
-#define STRUPR() do {\
-	__temp1=0;\
+#define STRUPR(pos) do {\
+	__temp1=pos;\
 	__temp2=1;\
 	for(;__temp2; __temp1++) {\
 		ARR_GET(__temp1, __temp2);\
