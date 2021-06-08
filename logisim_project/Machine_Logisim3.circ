@@ -1633,37 +1633,7 @@ end TCL_Generic;
       <a name="addrWidth" val="16"/>
       <a name="appearance" val="logisim_evolution"/>
       <a name="contents">addr/data: 16 16
-b0b8 b0ff b0f1 20c9 280 9024 9824 213f
-4308 9024 9824 9023 9823 9025 9825 9002
-9a02 10 c01 9122 9822 9029 9833 9021
-9821 1300 9021 2000 9020 901f 981f 2804
-dc0c 9821 210f 4008 901e 9821 1100 9021
-981e 3030 9028 981f 1c40 901f e7ed 9825
-402 c12 2164 434a 434a c13 9322 9822
-9029 202e 9028 9833 901d 981d 1400 901d
-2000 901c 901b 981b 2803 dc0c 981d 210f
-4008 901a 981d 1100 901d 981a 3030 9028
-981b 1c40 901b e7ed 200a 9028 20c9 280
-9019 9819 9001 9a01 10 c01 9118 9818
-9029 9833 9017 9817 1300 9017 2000 9016
-9015 9815 2804 dc0c 9817 210f 4008 9014
-9817 1100 9017 9814 3030 9028 9815 1c40
-9015 e7ed 9819 402 c12 2164 434a 434a
-c13 9318 9818 9029 202e 9028 9833 9013
-9813 1400 9013 2000 9012 9011 9811 2803
-dc0c 9813 210f 4008 9010 9813 1100 9013
-9810 3030 9028 9811 1c40 9011 e7ed 200a
-9028 201f 140 900e 20ad 280 900d 980e
-990d 4301 910d 980d 2101 4308 900c 980c
-900f 980f 9000 9a00 10 c01 910b 980b
-9029 9833 900a 980a 1300 900a 2000 9009
-9008 9808 2804 dc0c 980a 210f 4008 9007
-980a 1100 900a 9807 3030 9028 9808 1c40
-9008 e7ed 980f 402 c12 2164 434a 434a
-c13 930b 980b 9029 202e 9028 9833 9006
-9806 1400 9006 2000 9005 9004 9804 2803
-dc0c 9806 210f 4008 9003 9806 1100 9006
-9803 3030 9028 9804 1c40 9004 e7ed e7fd
+200a 210b 220c 9000 9900 9200
 </a>
       <a name="dataWidth" val="16"/>
       <a name="label" val="ROMa"/>
@@ -1681,23 +1651,23 @@ dc0c 9806 210f 4008 9003 9806 1100 9006
     </comp>
     <comp lib="5" loc="(1100,1110)" name="TTY"/>
     <comp lib="5" loc="(130,1030)" name="DipSwitch">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@239c30e3"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@28099ce8"/>
       <a name="labelloc" val="south"/>
     </comp>
     <comp lib="5" loc="(140,1150)" name="Keyboard"/>
     <comp lib="5" loc="(20,1030)" name="DipSwitch">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@72c806ca"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@9bdcd2c"/>
       <a name="labelloc" val="south"/>
     </comp>
     <comp lib="5" loc="(240,1030)" name="DipSwitch">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@4de18ab2"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@4c5cc671"/>
       <a name="labelloc" val="south"/>
     </comp>
     <comp lib="5" loc="(360,1120)" name="Joystick">
       <a name="bits" val="5"/>
     </comp>
     <comp lib="5" loc="(450,1010)" name="DotMatrix">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@e29454f"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@11d37622"/>
       <a name="inputtype" val="row"/>
       <a name="matrixcols" val="8"/>
       <a name="matrixrows" val="4"/>
@@ -1712,39 +1682,39 @@ dc0c 9806 210f 4008 9003 9806 1100 9006
       <a name="labelloc" val="east"/>
     </comp>
     <comp lib="5" loc="(630,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@4cf06741"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@75d9462c"/>
     </comp>
     <comp lib="5" loc="(670,1020)" name="DotMatrix">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@7ebcc643"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@12ea2116"/>
       <a name="inputtype" val="row"/>
       <a name="matrixcols" val="32"/>
       <a name="matrixrows" val="1"/>
     </comp>
     <comp lib="5" loc="(670,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@3f49773c"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@38af0274"/>
     </comp>
     <comp lib="5" loc="(710,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@7b8e5ea7"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@32470125"/>
     </comp>
     <comp lib="5" loc="(750,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@348bf4f8"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@d90d967"/>
     </comp>
     <comp lib="5" loc="(770,910)" name="Button">
       <a name="facing" val="west"/>
       <a name="labelloc" val="east"/>
     </comp>
     <comp lib="5" loc="(870,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@2c1db2f4"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@4e31bb52"/>
     </comp>
     <comp lib="5" loc="(890,910)" name="Button"/>
     <comp lib="5" loc="(910,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@5819c0dc"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@ecdbc42"/>
     </comp>
     <comp lib="5" loc="(950,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@516bd61e"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@409ca97"/>
     </comp>
     <comp lib="5" loc="(990,1110)" name="Hex Digit Display">
-      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@3aacc4ff"/>
+      <a name="Dummy" val="com.cburch.logisim.fpga.data.ComponentMapInformationContainer@f597090"/>
     </comp>
     <comp lib="8" loc="(1175,124)" name="Text">
       <a name="font" val="SansSerif plain 20"/>
@@ -2352,10 +2322,6 @@ dc0c 9806 210f 4008 9003 9806 1100 9006
       <a name="facing" val="north"/>
       <a name="radix" val="10signed"/>
     </comp>
-    <comp lib="1" loc="(310,230)" name="AND Gate">
-      <a name="negate1" val="true"/>
-      <a name="size" val="30"/>
-    </comp>
     <comp lib="10" loc="(870,480)" name="ALU">
       <a name="label" val="ALU_1"/>
     </comp>
@@ -2388,12 +2354,9 @@ dc0c 9806 210f 4008 9003 9806 1100 9006
     <wire from="(230,140)" to="(230,630)"/>
     <wire from="(230,140)" to="(310,140)"/>
     <wire from="(230,630)" to="(870,630)"/>
-    <wire from="(250,220)" to="(250,330)"/>
-    <wire from="(250,220)" to="(280,220)"/>
+    <wire from="(250,230)" to="(250,330)"/>
+    <wire from="(250,230)" to="(420,230)"/>
     <wire from="(250,330)" to="(290,330)"/>
-    <wire from="(260,240)" to="(260,260)"/>
-    <wire from="(260,240)" to="(270,240)"/>
-    <wire from="(260,260)" to="(490,260)"/>
     <wire from="(260,370)" to="(260,650)"/>
     <wire from="(260,370)" to="(290,370)"/>
     <wire from="(260,650)" to="(900,650)"/>
@@ -2402,7 +2365,6 @@ dc0c 9806 210f 4008 9003 9806 1100 9006
     <wire from="(270,350)" to="(290,350)"/>
     <wire from="(280,100)" to="(280,200)"/>
     <wire from="(280,200)" to="(350,200)"/>
-    <wire from="(310,230)" to="(420,230)"/>
     <wire from="(320,170)" to="(320,270)"/>
     <wire from="(320,270)" to="(480,270)"/>
     <wire from="(340,150)" to="(350,150)"/>
@@ -2418,7 +2380,7 @@ dc0c 9806 210f 4008 9003 9806 1100 9006
     <wire from="(460,310)" to="(950,310)"/>
     <wire from="(460,330)" to="(1000,330)"/>
     <wire from="(460,350)" to="(480,350)"/>
-    <wire from="(460,370)" to="(490,370)"/>
+    <wire from="(460,370)" to="(950,370)"/>
     <wire from="(460,390)" to="(760,390)"/>
     <wire from="(460,410)" to="(480,410)"/>
     <wire from="(460,430)" to="(500,430)"/>
@@ -2437,8 +2399,6 @@ dc0c 9806 210f 4008 9003 9806 1100 9006
     <wire from="(480,410)" to="(480,540)"/>
     <wire from="(480,540)" to="(800,540)"/>
     <wire from="(480,70)" to="(480,130)"/>
-    <wire from="(490,260)" to="(490,370)"/>
-    <wire from="(490,370)" to="(950,370)"/>
     <wire from="(500,240)" to="(500,430)"/>
     <wire from="(500,50)" to="(500,130)"/>
     <wire from="(510,570)" to="(510,710)"/>
