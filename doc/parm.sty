@@ -98,9 +98,9 @@
 
 \makeatletter
 \renewcommand\paragraph{\@startsection{paragraph}{5}{\z@}%
-  {0pt}%
-  {-1em}%
-  {\normalfont\normalsize\bfseries}}
+{0pt}%
+{-1em}%
+{\normalfont\normalsize\bfseries}}
 %\renewcommand\subparagraph{\@startsection{subparagraph}{6}{\parindent}%
 %  {3.25ex \@plus1ex \@minus .2ex}%
 %  {-1em}%
@@ -124,6 +124,37 @@
 %\titlespacing*{\section}{0pt}{0.7\baselineskip}{0.7\baselineskip}
 
 
-
-
-\lstset{xleftmargin=.25in}
+\lstdefinelanguage[ARM]{Assembler}%
+{morekeywords={lsls,lsrs,asrs,movs,adds,subs,cmp,ands,eors,adcs,sbcs,rors,
+tst,rsbs,cmn,orrs,muls,bics,mvns,negs,str,ldr,b,beq,bne,bcs,bcc,bmi,bpl,bvs,
+bvc,bhi,bls,bge,blt,bgt,ble,bal,bnv,add,sub,sp},%
+morekeywords=[2]{sp,.2byte,.4byte,.8byte,.abort,.abort,.align,.altmacro,     %
+.arch,.arch_extension,.arm,.ascii,.asciz,.balign,.bss,                  %
+.bundle_align_mode,.bundle_lock,,.bundle_unlock,.byte,.cantunwind,      %
+.cfi_endproc,,.cfi_startproc,.code,.comm,.cpu,.data,.def,.desc,.dim,    %
+.dn,.double,.eabi_attribute,.eject,.else,.elseif,.end,.endef,.endfunc,  %
+.endif,.equ,.equiv,.eqv,.err,.error,.even,.exitm,.extend,.extend.,      %
+.extern,.fail,.file,.fill,.float,.fnend,.fnstart,.force_thumb,.fpu,     %
+.func,.global,.globl,.gnu_attribute,.handlerdata,.hidden,.hword,        %
+.ident,.if,.incbin,.include,.inst,.inst.n,.inst.w,.int,.internal,.irp,  %
+.irpc,.lcomm,.ldouble,.lflags,.line,.linkonce,.list,.ln,.loc,           %
+.loc_mark_labels,.local,.long,.ltorg,.ltorg.,.macro,.movsp,.mri,        %
+.noaltmacro,.nolist,.object_arch,.octa,.offset,.org,.p2align,.packed,   %
+.pad,.personality,.personalityindex,.pool,.popsection,.previous,        %
+.print,.protected,.psize,.purgem,.pushsection,.qn,.quad,.reloc,.rept,   %
+.req,.save,.sbttl,.scl,.secrel32,.section,.set,.setfp,.short,.single,   %
+.size,.skip,.sleb128,.space,.stabd,,.stabn,,.stabs,.string,.string16,   %
+.string32,.string64,.string8,.struct,.subsection,.symver,.syntax,.tag,  %
+.text,.thumb,.thumb_func,.thumb_set,.title,.tlsdescseq,.type,.uleb128,  %
+.unreq,.unwind_raw,.val,.version,.vsave,.vtable_entry,.vtable_inherit,  %
+.warning,.weak,.weakref,.word},%
+alsoletter={.,0,1,2,3,4,5,6,7,8,9},%
+alsodigit={?},%
+sensitive=false,%
+morestring=[b]",%
+morecomment=[s]{/*}{*/},%
+morecomment=[l]@,%
+morecomment=[l]//,%
+}[keywords,comments,strings]
+\endinput
+%\lstset{xleftmargin=.25in}

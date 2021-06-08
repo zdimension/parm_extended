@@ -8,10 +8,8 @@
 
     \subsection{Description}
 
-    \paragraph{}
     Le processeur ne stocke pas le résultat d'un calcul directement en RAM, pour cela il travaille avec une mémoire rapide mais petite constituée de quelques registres (20 registres de 32 bits un dans Cortex-M0).
 
-    \paragraph{}
     Parmi les 20 registres présents dans un Cortex-M0, seuls 13 d'entre eux sont dédiés à un usage général.
     Les 7 autres ont un usage bien particulier (voir tableau suivant)
 
@@ -45,7 +43,6 @@
         \hline
     \end{tabular}
 
-    \paragraph{}
     Dans notre cas, le banc de registre ne contient que 8 registres \texttt{R0-R7} par soucis de simplicité.
     Les registres \texttt{PC} et \texttt{SP} sont implémentés dans le contrôleur.
 

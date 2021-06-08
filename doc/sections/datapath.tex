@@ -4,6 +4,7 @@
 \begin{document}
 
     \section{Chemin de données}
+    \label{sec:DataPath}
 
     \subsection{Description}
 
@@ -22,25 +23,22 @@
 
     À chaque coup d'horloge, l'instruction est décodée par le contrôleur, le calcul est effectué par l'ALU tandis que le banc de registres lui fournit les données et enregistre le résultat.
 
-    \paragraph{}
     Lors d'une instruction \texttt{LDR}, le signal \texttt{Load} du contrôleur est activé, et la donnée en entrée du banc de registres doit être lue à partir de l'entrée \texttt{RAM\_In} plutôt qu'à partir du résultat de l'ALU.
 
     Lors d'une instruction \texttt{STR}, le signal \texttt{Store} du contrôleur est activé et est passé à la RAM. Les données en sortie \texttt{RAM\_Out} sont fournies par la sortie \texttt{AOut} du banc de registres.
 
-    \paragraph{}
     Lors d'une instruction de la catégorie \textit{Shift, add, sub, mov}, le signal \texttt{DP\_Shift} du contrôleur est activé et l'immédiat \texttt{Imm5} en sortie du contrôleur est utilisé pour l'entrée \texttt{Shift} de l'ALU.
 
     Lors d'une instruction de la catégorie \textit{Data Processing}, le signal \texttt{DP\_Shift} du contrôleur est désactivé et les 5 bits de poids faible de la sortie \texttt{AOut} sont utilisés pour l'entrée \texttt{Shift} de l'ALU.
 
-    \paragraph{}
-    Lors d'une instruction \texttt{MOV} ou \texttt{ADD} et \texttt{SUB} avec immédiat, le signal \texttt{Imm32\_Enable} du contrôleur est activé
+    Lors d'une instruction \texttt{MOV} ou \texttt{ADD} / \texttt{SUB} / \texttt{CMP} avec immédiat, le signal \texttt{Imm32\_Enable} du contrôleur est activé
     et la donnée à l'entrée \texttt{A} de l'ALU doit être lue à partir de la sortie \texttt{Imm32} du contrôleur plutôt qu'à partir de la sortie \texttt{AOut} du banc de registres.
 
-    \paragraph{}
     Les sorties \texttt{Rm}, \texttt{Rn} et \texttt{Rd} du contrôleur se connectent respectivement aux entrées \texttt{RegA}, \texttt{RegB} et \texttt{RegDest} du banc de registres pour sélectionner les registres correspondant.
 
-    \paragraph{}
     Les sorties \texttt{PC} et \texttt{RAM\_Addr} se connectent respectivement aux sorties \texttt{ROM\_Addr} et \texttt{RAM\_Addr} de ce composant CPU pour sélectionner les adresses de la ROM et de la RAM.
+    
+    Les sorties \texttt{Flags} et \texttt{SP} se connectent aux broches du même nom pour communiquer ces valeurs aux afficheurs de la façade.
 
     \subsubsection{Interface}
 
@@ -80,7 +78,9 @@
         \texttt{Store}    & \texttt{1}          & Indique à la RAM de sauvegarder la donnée \texttt{RAM\_Out} à l'adresse \texttt{RAM\_Addr} \\
         \hline
         \texttt{R0-R7}    & \texttt{8\times 32} & Sortie des registres utilisées à des fins de débogage et visualisation du comportement     \\
-
+		\texttt{Flags}    & \texttt{4}          & Valeur des drapeaux, issue du contrôleur \\
+        \hline
+        \texttt{SP}    & \texttt{32}          & Valeur de SP, issue du contrôleur \\
 
         \hline
     \end{tabular}
@@ -147,7 +147,6 @@
 
     Elle est adressée sur 8 bits et contient des données de 16 bits (largeur d'une instruction Thumb).
 
-    \paragraph{}
     Le programme, assemblé par l'assembleur, devra être chargé dans cette ROM
 
     \subsubsection{Interface}

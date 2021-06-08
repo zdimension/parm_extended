@@ -12,7 +12,7 @@
 
     \subsection{Instructions à implémenter}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -25,7 +25,7 @@
     \subsubsection{Shift, add, sub, mov}
     \label{subsubsec:ShiftAddSubMov}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -54,7 +54,7 @@
 LSLS <Rd>,<Rm>,#<imm5>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -82,7 +82,7 @@ LSLS <Rd>,<Rm>,#<imm5>
 LSRS <Rd>,<Rm>,#<imm5>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -111,7 +111,7 @@ LSRS <Rd>,<Rm>,#<imm5>
 ASRS <Rd>,<Rm>,#<imm5>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -139,7 +139,7 @@ ASRS <Rd>,<Rm>,#<imm5>
 ADDS <Rd>,<Rn>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -166,7 +166,7 @@ ADDS <Rd>,<Rn>,<Rm>
 SUBS <Rd>,<Rn>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -194,7 +194,7 @@ SUBS <Rd>,<Rn>,<Rm>
 ADDS <Rd>,<Rn>,<#imm3>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -222,7 +222,7 @@ ADDS <Rd>,<Rn>,<#imm3>
 SUBS <Rd>,<Rn>,#<imm3>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -248,7 +248,7 @@ SUBS <Rd>,<Rn>,#<imm3>
 MOVS <Rd>,#<imm8>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -257,11 +257,92 @@ MOVS <Rd>,#<imm8>
         0 & 0 & 1 & \multicolumn{1}{|c}{0} & 0 & \multicolumn{3}{|c|}{Rd} & \multicolumn{8}{|c|}{imm8} \\
         \hline
     \end{tabular}
+    
+    \subsubsubsection{CMP (immediate): Compare}
+
+    \textbf{Description: }
+
+    Soustrait l'immédiat \texttt{imm8} au contenu du registre \texttt{Rn}, le résultat n'est pas écrit.\\
+    Les drapeaux suivants sont mis à jour:\\
+    \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
+    \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
+    \texttt{C = 1} en cas de dépassement de capacité lors d'une opération non signée.\\
+    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.\\
+
+    \textbf{Assembleur:} T1
+
+    \begin{lstlisting}
+CMP <Rd>,#<imm8>
+    \end{lstlisting}
+
+    \textbf{Binaire:}
+
+    \begin{tabular}{| c c c c c c c c c c c c c c c c |}
+        \hline
+        15 & 14 & 13 & \multicolumn{1}{|c}{12} & 11 & \multicolumn{1}{|c}{10} & 9 & 8 & \multicolumn{1}{|c}{7} & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+        \hline
+        0 & 0 & 1 & \multicolumn{1}{|c}{0} & 1 & \multicolumn{3}{|c|}{Rd} & \multicolumn{8}{|c|}{imm8} \\
+        \hline
+    \end{tabular}
+
+	\subsubsubsection{ADD (immediate): Add 8-bit immediate}
+
+    \textbf{Description: }
+
+    Ajoute l'immédiat \texttt{imm8} au contenu du registre \texttt{Rd}, écrit le résultat dans celui-ci.\\
+    Les drapeaux suivants sont mis à jour:\\
+    \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
+    \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
+    \texttt{C = 1} en cas de dépassement de capacité lors d'une opération non signée.\\
+    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.\\
+
+    \textbf{Assembleur:} T1
+
+    \begin{lstlisting}
+ADDS <Rd>, [<Rd>,] #<imm8>
+    \end{lstlisting}
+
+    \textbf{Binaire:}
+
+    \begin{tabular}{| c c c c c c c c c c c c c c c c |}
+        \hline
+        15 & 14 & 13 & \multicolumn{1}{|c}{12} & 11 & \multicolumn{1}{|c}{10} & 9 & 8 & \multicolumn{1}{|c}{7} & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+        \hline
+        0 & 0 & 1 & \multicolumn{1}{|c}{1} & 0 & \multicolumn{3}{|c|}{Rd} & \multicolumn{8}{|c|}{imm8} \\
+        \hline
+    \end{tabular}
+    
+    \subsubsubsection{SUB (immediate): Subtract 8-bit immediate}
+
+    \textbf{Description: }
+
+    Soustrait l'immédiat \texttt{imm8} au contenu du registre \texttt{Rd}, écrit le résultat dans celui-ci.\\
+    Les drapeaux suivants sont mis à jour:\\
+    \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
+    \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
+    \texttt{C = 1} en cas de dépassement de capacité lors d'une opération non signée.\\
+    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.\\
+
+    \textbf{Assembleur:} T1
+
+    \begin{lstlisting}
+SUBS <Rd>, [<Rd>,] #<imm8>
+    \end{lstlisting}
+
+    \textbf{Binaire:}
+
+    \begin{tabular}{| c c c c c c c c c c c c c c c c |}
+        \hline
+        15 & 14 & 13 & \multicolumn{1}{|c}{12} & 11 & \multicolumn{1}{|c}{10} & 9 & 8 & \multicolumn{1}{|c}{7} & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+        \hline
+        0 & 0 & 1 & \multicolumn{1}{|c}{1} & 1 & \multicolumn{3}{|c|}{Rd} & \multicolumn{8}{|c|}{imm8} \\
+        \hline
+    \end{tabular}
 
     \subsubsection{Data processing}
     \label{subsubsec:DataProc}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -287,7 +368,7 @@ MOVS <Rd>,#<imm8>
 ANDS <Rdn>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -314,7 +395,7 @@ ANDS <Rdn>,<Rm>
 EORS <Rdn>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -343,7 +424,7 @@ EORS <Rdn>,<Rm>
 LSLS <Rdn>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -373,7 +454,7 @@ LSLS <Rdn>,<Rm>
 LSRS <Rdn>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -402,7 +483,7 @@ LSRS <Rdn>,<Rm>
 ASRS <Rdn>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -430,7 +511,7 @@ ASRS <Rdn>,<Rm>
 ADCS <Rdn>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -458,7 +539,7 @@ ADCS <Rdn>,<Rm>
 SBCS <Rdn>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -488,7 +569,7 @@ SBCS <Rdn>,<Rm>
 RORS <Rdn>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -515,7 +596,7 @@ RORS <Rdn>,<Rm>
 TST <Rn>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -544,7 +625,7 @@ TST <Rn>,<Rm>
 RSBS <Rd>,<Rn>,#0
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -573,7 +654,7 @@ RSBS <Rd>,<Rn>,#0
 CMP <Rn>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -601,7 +682,7 @@ CMP <Rn>,<Rm>
 CMN <Rn>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -628,7 +709,7 @@ CMN <Rn>,<Rm>
 ORRS <Rdn>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -654,7 +735,7 @@ ORRS <Rdn>,<Rm>
 MULS <Rdm>,<Rn>,<Rdm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -681,7 +762,7 @@ MULS <Rdm>,<Rn>,<Rdm>
 BICS <Rdn>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -708,7 +789,7 @@ BICS <Rdn>,<Rm>
 MVNS <Rd>,<Rm>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -721,7 +802,7 @@ MVNS <Rd>,<Rm>
     \subsubsection{Load/Store}
     \label{subsubsec:LoadStore}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -744,7 +825,7 @@ MVNS <Rd>,<Rm>
 STR <Rt>,[SP,#<imm8>]
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -768,7 +849,7 @@ STR <Rt>,[SP,#<imm8>]
 LDR <Rt>,[SP{,#<imm8>}]
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -781,7 +862,7 @@ LDR <Rt>,[SP{,#<imm8>}]
     \subsubsection{Miscellaneous 16-bit instructions}
     \label{subsubsec:MiscInstr}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -804,7 +885,7 @@ LDR <Rt>,[SP{,#<imm8>}]
 ADD [SP,]SP,#<imm7>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -829,7 +910,7 @@ SUB [SP,]SP,#<imm7>
 
 
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -842,7 +923,7 @@ SUB [SP,]SP,#<imm7>
     \subsubsection{Branch}
     \label{subsubsec:Branching}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
@@ -865,7 +946,7 @@ SUB [SP,]SP,#<imm7>
 B<c> <label>
     \end{lstlisting}
 
-    \textbf{Binaire:}\\
+    \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline

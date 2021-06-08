@@ -4,23 +4,19 @@
 
 \begin{document}
 
-
     \section{Contrôleur}
 
     \subsection{Description}
 
-    \paragraph{}
     Le contrôleur ou unité de contrôle (Control unit en anglais) joue le rôle de chef d'orchestre au sein du processeur.
     Il est en charge du décodage des instructions.
-    En fonction des informations récupérées au sein de l'instruction et des différents drapeaux, le controleur va agir sur le chemin de données.
+    En fonction des informations récupérées au sein de l'instruction et des différents drapeaux, le contrôleur va agir sur le chemin de données.
 
-    \paragraph{}
     Il est responsable du choix de la source fournissant les données.
     La sortie \texttt{Load} selon si elle est à 0 ou à 1 choisira respectivement un chargement depuis l'ALU ou directement depuis la RAM.
-    Le même méchanisme est utilisé pour choisir la source du nombre de décalage, des immédiats 8 (voir tableau des sorties).
+    Le même mécanisme est utilisé pour choisir la source du nombre de décalage, des immédiats 8 (voir tableau des sorties).
 
-    \paragraph{}
-    Le contrôleur abrite de plus le compteur ordinal et l'incrèmente lorsqu'il traite une instruction.
+    Le contrôleur abrite de plus le compteur ordinal et l'incrémente lorsqu'il traite une instruction.
 
     \subsection{Interface}
 
@@ -77,7 +73,12 @@
         \texttt{Store}        & \texttt{1}      & 1 pour stocker la valeur du registre \texttt{Rm} à l'adress \texttt{RAM\_Address}                  \\
         \hline
         \texttt{PC}           & \texttt{8}      & Compteur ordinal: adresse de la prochaine instruction en ROM                                       \\
+        \hline
+\texttt{Flags}    & \texttt{4}          & Valeur des drapeaux, issue de Flags_APSR \\
+        \hline
+        \texttt{SP}    & \texttt{32}          & Valeur de SP \\
 
+        
 
         \hline
     \end{tabular}
@@ -145,7 +146,7 @@
     La sortie \texttt{Carry} force la valeur de la retenue entrante pour l'ALU. Les instructions \texttt{ADD} et \texttt{SUB} n'utilisent pas de retenue entrante.
     Elle doit être définie à 0 pour \texttt{ADD} et à 1 pour \texttt{SUB} étant donnée qu'elle est est inversée pour la soustraction dans l'ALU.
 
-    La sortie \texttt{Imm32} est utilisée pour communiquer les valeurs des immédiats de \texttt{MOV}, \texttt{ADD} et \texttt{SUB} à l'ALU. Dans ce cas, la sortie \texttt{Imm32\_Enable} doit être définie à 1.
+    La sortie \texttt{Imm32} est utilisée pour communiquer les valeurs des immédiats de \texttt{MOV}, \texttt{CMP}, \texttt{ADD} et \texttt{SUB} à l'ALU. Dans ce cas, la sortie \texttt{Imm32\_Enable} doit être définie à 1.
     Les immédiats devront être étendus de 3 ou 8 bits vers 32 bits en complétant par des zéros (ce sont des entiers non-signés).
 
     La sortie \texttt{Imm5} est utilisée en tant que valeur du nombre de décalage pour les instructions de décalage \texttt{LSL}, \texttt{LSR} et \texttt{ASR}.
@@ -433,9 +434,9 @@
     \label{sec:Conditional}
     \subsubsubsection{Description}
 
-    Le bloc conditionnel traite les instructions de branchement conditionnel (voir \textit{\ref{subsubsubsec:CondBranch}~\nameref{subsubsubsec:CondBranch}}).
+    Le bloc conditionnel traite les instructions de branchement (voir \textit{\ref{subsubsubsec:CondBranch}~\nameref{subsubsubsec:CondBranch}}).
 
-    Il vérifie la condition à l'aide des drapeaux du registre \textit{Flags APSR}, selon le tableau  \textit{\ref{subsec:CondFlags}~\nameref{subsec:CondFlags}}.
+    Il vérifie éventuellement la condition à l'aide des drapeaux du registre \textit{Flags APSR}, selon le tableau  \textit{\ref{subsec:CondFlags}~\nameref{subsec:CondFlags}}.
     Si la condition est vérifiée, la sortie \texttt{Verified} passe à 1.
 
     La sortie \texttt{Offset} correspond à l'offset qui sera ajouté au \textit{Program Counter}, en provenance de l'instruction.
@@ -488,10 +489,10 @@
     \subsubsubsection{Description}
 
     Le compteur ordinal (\textit{Program Counter}), aussi appelé pointeur d'instruction (\textit{Instruction Pointer}),
-    est un compteur 8 bits dont la valeur donne l'adresse de la prochaine instruction à exécuter.
+    est un compteur 16 bits dont la valeur donne l'adresse de la prochaine instruction à exécuter.
     Il est déjà implémenté directement dans le contrôleur.
 
-    Il s'incrémente automatiquement à chaque coup d'horloge lorsque le signal \texttt{Count} est à l'état haut.
+    Il s'incrémente automatiquement à chaque front descendant d'horloge lorsque le signal \texttt{Count} est à l'état haut.
     Le signal \texttt{PC\_Hold} sortant du sous-composant \textit{Load/Store} retarde cette incrémentation d'un cycle afin de laisser le temps à la RAM de présenter la donnée sélectionnée sur sa sortie.
     En effet, étant synchrone, elle n'agit qu'au coup d'horloge suivant.
 

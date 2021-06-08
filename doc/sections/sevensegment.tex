@@ -7,11 +7,9 @@
 
     \subsection{Introduction}
 
-    \paragraph{}
     Nous allons commencer par une prise en main de \texttt{Logisim} en réalisant un décodeur 7 segments.
     Ce type d'afficheur est un grand classique en ce qui concerne l'affichage de caractères hexadécimaux.
 
-    \paragraph{}
     Le principe de cet afficheur est très simple, En allumant plusieurs segments en même temps nous allons pouvoir représenter les caractères suivants :
     0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F.
 
@@ -20,7 +18,6 @@
         \caption{Un affichage hexadécimal par 7 segments. Merci à \href{https://twitter.com/skywodd}{@Skywodd} - \url{https://www.carnetdumaker.net/}}
     \end{figure}
 
-    \paragraph{}
     L'objectif est ici est de recevoir une information sur 4 bits (comprise entre \texttt{0b0000} et \texttt{0b1111}) et de la traduire sur 7 bits correspondant aux segments à allumer et à ceux à éteindre\footnote{\url{http://www.electronics-tutorials.ws/blog/7-segment-display-tutorial.html}}.
 
     \subsection{Table de correspondance}
@@ -76,7 +73,6 @@
 
     \subsection{Mise en place sur logisim}
 
-    \paragraph{}
     La table de vérité présentée dans la section précédente peut être utilisée pour obtenir une fonction simplifiée de chaque segment en utilisant les tables de Karnaugh\footnote{\url{https://fr.wikipedia.org/wiki/Table_de_Karnaugh}}.
     \texttt{Logisim} embarque une fonctionnalité permettant d'effectuer cette analyse de manière simplifiée.
     Pour cela il est nécessaire de lancer \texttt{Logisim} avec l'option -analyze, soit dans notre cas :
@@ -85,7 +81,6 @@
 java -Dsun.java2d.opengl=true -jar logisim-evolution.jar -analyze
     \end{lstlisting}
 
-    \paragraph{}
     En utilisant ce paramètre une option apparaît dans le menu "Projet"->"Analyser le circuit".
     Il est possible dans l'onglet "table" de remplir la table de vérité du circuit.
     Une fois le tableau complété, cliquer sur "Construire le circuit" générera le circuit correspondant.

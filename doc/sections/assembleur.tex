@@ -8,7 +8,7 @@
 
     \subsection{Introduction}
 
-    Le code binaire a exécuter est obtenu par l'assemblage d'instructions issus du jeu d'instructions ARMv7 (contre un jeu ARMv6 dans le Cortex-M0 réel).
+    Le code binaire à exécuter est obtenu par l'assemblage d'instructions issues du jeu d'instructions ARMv7 (contre un jeu ARMv6 dans le Cortex-M0 réel).
 
     Le rôle de l'assembleur est de traduire un programme écrit en langage assembleur dans une représentation que le processeur saura interpréter.
 
@@ -32,59 +32,83 @@
 
     Exemple:
 
-    Nous allons partir d'un exemple très simple : 3 variables sont déclarées sur la pile, \textit{a} et \textit{b} ont une valeur qui leur est propre et nous stockons dans c le résultat de l'addition \textit{a + b}.
+    Nous allons partir d'un exemple très simple : 3 variables sont déclarées sur la pile, \textit{a} et \textit{b} ont une valeur qui leur est propre et nous stockons dans \textit{c} le résultat de l'addition \textit{a + b}.
     \newline
     \lstset{
-        language=C,
-        keywordstyle=\color{blue},
-        frame=single,
-        breaklines=true,
-        linewidth= 18cm,
-        xleftmargin=-0.08\textwidth,
-        postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
-    }
+basicstyle=\ttfamily,
+keywordstyle=\color[rgb]{0,0,1},
+commentstyle=\color[rgb]{0.133,0.545,0.133},
+stringstyle=\color[rgb]{0.627,0.126,0.941},
+frame=single,
+tabsize=4,
+columns=fixed,
+breaklines=true,
+xleftmargin=0pt,
+postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+}
     \begin{minipage}{\linewidth}
         Code C :
-        \begin{lstlisting}
+\begin{lstlisting}[language=C]
 int main() {
-	int a,b,c;
+	int a, b, c;
 	a = 0;
 	b = 1;
 	c = a + b;
 }
-        \end{lstlisting}
+\end{lstlisting}
     \end{minipage}
-    \lstset{
-        frame=single,
-        breaklines=true,
-        linewidth= 18cm,
-        xleftmargin=-0.08\textwidth,
-        postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
-    }
-    \begin{center}
-        \begin{minipage}{\linewidth}
-            Code assembleur pour le cortex M0 :
-            \begin{lstlisting}
-sub	sp, #12 	// Agrandir la pile de 3*4 octets d'où le sp - 12
-movs	r0, #0 		// Placer dans un registre la valeur contenue dans la variable a 
-str	r0, [sp, #8]	// Stocker cette valeur dans la pile
-movs	r1, #1		// Placer dans un registre la valeur contenue dans la variable b 
-str	r1, [sp, #4]	// Stocker cette valeur dans la pile
-ldr	r1, [sp, #8]	// Charger dans le registre 1 la valeur contenue à la dernière adresse de la pile
-ldr	r2, [sp, #4]	// Charger dans le registre 2 la valeur contenue à l'avant dernière adresse de la pile
-adds	r1, r1, r2	// Additionner les valeurs des registres 1 et 2, stocker le résultat dans le registre 1
-str	r1, [sp]	// Stocker le contenu du registre 1 à l'adresse pointée par le pointeur de pile
-add	sp, #12		// Réduire la pile de 3*4 octets
+    Code assembleur pour le Cortex-M0 avec un pseudo-code C équivalent, et l'encodage correspondant :\\
+\begin{minipage}{\linewidth}
+\begin{minipage}{1cm}
+            \begin{lstlisting}[xleftmargin=0pt]
+b083
+2000
+9002
+2101
+9101
+9902
+9a01
+1889
+9100
+b003
             \end{lstlisting}
-        \end{minipage}
-    \end{center}
+  \end{minipage}\quad
+  \begin{minipage}{.39\textwidth}
+            \begin{lstlisting}[language={[ARM]{Assembler}},xleftmargin=0pt]
+sub		sp, #12
+movs	r0, #0
+str		r0, [sp, #8]
+movs	r1, #1
+str		r1, [sp, #4]
+ldr		r1, [sp, #8]
+ldr		r2, [sp, #4]
+adds	r1, r1, r2
+str		r1, [sp]
+add		sp, #12
+            \end{lstlisting}
+  \end{minipage} \quad
+  \begin{minipage}{.49\textwidth}
+    \begin{lstlisting}[language=C,xleftmargin=0pt]
+sp 		= sp - 3;
+r0 		= 0;
+sp[2] 	= r0;
+r1 		= 1;
+sp[1] 	= r1;
+r1 		= sp[2];
+r2 		= sp[1];
+r1 		= r1 + r2;
+sp[0] 	= r1;
+sp 		= sp + 3;
+            \end{lstlisting}
+  \end{minipage}
+\end{minipage}
 
     \subsection{Syntaxe Logisim}
 
     Voici un exemple de fichier lisible par Logisim pour remplir le contenu de la ROM obtenu par assemblage du code assembleur ci-dessus :
     \begin{lstlisting}
 v2.0 raw
-b08c 2000 9008 2101 9104 9908 9a04 1889 9100 b00c
+b083 2000 9002 2101 9101 9902 9a01 1889 9100 b003
     \end{lstlisting}
 
     On observe dont un entête \texttt{v2.0 raw}, toujours présent sur la première ligne.
