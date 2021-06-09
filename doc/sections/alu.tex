@@ -10,21 +10,26 @@
 
     L'unité arithmétique et logique est l'élèment qui se charge des calculs au sein du processeur.
     Les ALU les plus basiques ne font que des opérations sur des entiers cependant on trouve des ALU spécialisées.
-    Les calculs sur ces dernières vont des opérations à virgule flottante jusqu'à des calculs plus complexes tels que des racines carrées, des logarithmes, des sinus ou cosinus... Notre ALU n'effectuera que des calculs simples (addition, soustraction, multiplication, décalage) sur des entiers de 32 bits.
+    Les calculs sur ces dernières vont des opérations à virgule flottante jusqu'à des calculs plus complexes tels
+    que des racines carrées, des logarithmes, des sinus ou cosinus\ldots Notre ALU n'effectuera que des calculs simples
+    (addition, soustraction, multiplication, décalage) sur des entiers de 32 bits.
 
     Une ALU comporte deux entrées amenant les données à traiter.
     Une troisième entrée permet de désigner le calcul à effectuer.
     En sortie on retrouvera le résultat de l'opération ainsi que des drapeaux.
-    Ces drapeaux représentent une série d'état à la suite d'un calcul : un résultat négatif, un résultat nul, un débordement ou encore une retenue.
+    Ces drapeaux représentent une série d'état à la suite d'un calcul : un résultat négatif, un résultat nul, un
+    débordement ou encore une retenue.
 
     L'entrée \texttt{Shift} indique le nombre de décalage pour les opérations de décalage.
 
     \paragraph{Remarque:} les instructions \texttt{TST}, \texttt{CMP}, \texttt{CMN} n'enregistrent pas le résultat de l'opération.
     Seuls les drapeaux sont mis à jour.
     Pour ces opérations en particulier, il faudra recopier l'entrée \texttt{B} sur la sortie \texttt{S}.
-    Le contrôleur définira le même registre pour le registre \texttt{Rn} d'opérande B que pour le registre \texttt{Rd} de destination de la sortie S.
+    Le contrôleur définira le même registre pour le registre \texttt{Rn} d'opérande B que pour le registre \texttt{Rd}
+    de destination de la sortie S.
 
-    \paragraph{Remarque 2:} pour l'instruction \texttt{SBC}, la retenue entrante doit être inversée (voir \textit{\ref{subsubsubsec:SBC}~\nameref{subsubsubsec:SBC}}).
+    \paragraph{Remarque 2:} pour l'instruction \texttt{SBC}, la retenue entrante doit être inversée
+    (voir \textit{\ref{subsubsubsec:SBC}~\nameref{subsubsubsec:SBC}}).
 
     \subsection{Interface}
 
@@ -32,18 +37,18 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}   & \textbf{Taille} & \textbf{Description} \\
+        \textbf{Port}    & \textbf{Taille} & \textbf{Description} \\
         \hline
 
-        \texttt{A}      & \texttt{32}     & Première opérande    \\
+        \texttt{A}       & \texttt{32}     & Première opérande    \\
         \hline
-        \texttt{B}      & \texttt{32}     & Seconde opérande     \\
+        \texttt{B}       & \texttt{32}     & Seconde opérande     \\
         \hline
-        \texttt{Shift}  & \texttt{5}      & Nombre de décalage   \\
+        \texttt{Shift}   & \texttt{5}      & Nombre de décalage   \\
         \hline
         \texttt{CarryIn} & \texttt{1}      & Retenu entrente      \\
         \hline
-        \texttt{Codop}  & \texttt{4}      & Code opération ALU   \\
+        \texttt{Codop}   & \texttt{4}      & Code opération ALU   \\
 
         \hline
     \end{tabular}
@@ -52,7 +57,7 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}   & \textbf{Taille} & \textbf{Description}                    \\
+        \textbf{Port}  & \textbf{Taille} & \textbf{Description}                    \\
         \hline
 
         \texttt{S}     & \texttt{32}     & Registre résultat                       \\
@@ -69,40 +74,40 @@
 
     \begin{tabular}{|r|c|l|l|}
         \hline
-        \textbf{Codop} & \textbf{Opération}            & \textbf{Instructions} & \textbf{Remarque}                                  \\
+        \textbf{Codop} & \textbf{Opération}           & \textbf{Instructions} & \textbf{Remarque}                                  \\
         \hline
 
-        $0000$         & \texttt{A and B}            & AND                &                                                    \\
+        $0000$         & \texttt{A and B}             & AND                   &                                                    \\
         \hline
-        $0001$         & \texttt{A xor B}            & EOR                &                                                    \\
+        $0001$         & \texttt{A xor B}             & EOR                   &                                                    \\
         \hline
-        $0010$         & \texttt{B << Shift}         & LSL                & Retenue sortante, voir jeu d'instructions           \\
+        $0010$         & \texttt{B << Shift}          & LSL                   & Retenue sortante, voir jeu d'instructions          \\
         \hline
-        $0011$         & \texttt{B >> Shift}         & LSR                & Retenue sortante, voir jeu d'instructions           \\
+        $0011$         & \texttt{B >> Shift}          & LSR                   & Retenue sortante, voir jeu d'instructions          \\
         \hline
-        $0100$         & \texttt{B >> Shift (arith)}  & ASR                & Retenue sortante, voir jeu d'instructions           \\
+        $0100$         & \texttt{B >> Shift (arith)}  & ASR                   & Retenue sortante, voir jeu d'instructions          \\
         \hline
-        $0101$         & \texttt{A + B + CarryIn}     & ADC                &                                                    \\
+        $0101$         & \texttt{A + B + CarryIn}     & ADC                   &                                                    \\
         \hline
-        $0110$         & \texttt{B – A + CarryIn – 1} & SBC                & Retenue entrante inversée                          \\
+        $0110$         & \texttt{B – A + CarryIn – 1} & SBC                   & Retenue entrante inversée                          \\
         \hline
-        $0111$         & \texttt{B >> Shift (rot)}    & ROR                & Retenue sortante, voir jeu d'instructions           \\
+        $0111$         & \texttt{B >> Shift (rot)}    & ROR                   & Retenue sortante, voir jeu d'instructions          \\
         \hline
-        $1000$         & \texttt{A and B}            & TST                & Résultat perdu, seuls les drapeaux sont mis à jour \\
+        $1000$         & \texttt{A and B}             & TST                   & Résultat perdu, seuls les drapeaux sont mis à jour \\
         \hline
-        $1001$         & \texttt{–A}                & RSB                & Registre Rm utilisé plutôt que Rn                  \\
+        $1001$         & \texttt{–A}                  & RSB                   & Registre Rm utilisé plutôt que Rn                  \\
         \hline
-        $1010$         & \texttt{B – A}             & CMP                & Résultat perdu, seuls les drapeaux sont mis à jour \\
+        $1010$         & \texttt{B – A}               & CMP                   & Résultat perdu, seuls les drapeaux sont mis à jour \\
         \hline
-        $1011$         & \texttt{A + B}             & CMN                & Résultat perdu, seuls les drapeaux sont mis à jour \\
+        $1011$         & \texttt{A + B}               & CMN                   & Résultat perdu, seuls les drapeaux sont mis à jour \\
         \hline
-        $1100$         & \texttt{A or B}             & ORR                &                                                    \\
+        $1100$         & \texttt{A or B}              & ORR                   &                                                    \\
         \hline
-        $1101$         & \texttt{A * B}             & MUL                &                                                    \\
+        $1101$         & \texttt{A * B}               & MUL                   &                                                    \\
         \hline
-        $1110$         & \texttt{B and not A}        & BIC                &                                                    \\
+        $1110$         & \texttt{B and not A}         & BIC                   &                                                    \\
         \hline
-        $1111$         & \texttt{not B}             & MVN                &  Complément binaire \\
+        $1111$         & \texttt{not B}               & MVN                   & Complément binaire                                 \\
         \hline
     \end{tabular}
 
@@ -112,16 +117,16 @@
 
     \begin{tabular}{|c|l|l|}
         \hline
-        \textbf{Symbole} & \textbf{Nom}       & \textbf{Description}                                 \\
+        \textbf{Symbole} & \textbf{Nom}      & \textbf{Description}                                  \\
         \hline
 
-        \texttt{N}      & \texttt{Negative} & Résultat négatif                                     \\
+        \texttt{N}       & \texttt{Negative} & Résultat négatif                                      \\
         \hline
-        \texttt{Z}      & \texttt{Zero}    & Résultat nul                                         \\
+        \texttt{Z}       & \texttt{Zero}     & Résultat nul                                          \\
         \hline
-        \texttt{C}      & \texttt{CarryOut} & Retenue sortante (dépassement de capacité non-signé). \\
+        \texttt{C}       & \texttt{CarryOut} & Retenue sortante (dépassement de capacité non-signé). \\
         \hline
-        \texttt{V}      & \texttt{Overflow} & Dépassement de capacité signé                        \\
+        \texttt{V}       & \texttt{Overflow} & Dépassement de capacité signé                         \\
 
         \hline
     \end{tabular}

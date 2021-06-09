@@ -37,7 +37,7 @@
     Les sorties \texttt{Rm}, \texttt{Rn} et \texttt{Rd} du contrôleur se connectent respectivement aux entrées \texttt{RegA}, \texttt{RegB} et \texttt{RegDest} du banc de registres pour sélectionner les registres correspondant.
 
     Les sorties \texttt{PC} et \texttt{RAM\_Addr} se connectent respectivement aux sorties \texttt{ROM\_Addr} et \texttt{RAM\_Addr} de ce composant CPU pour sélectionner les adresses de la ROM et de la RAM.
-    
+
     Les sorties \texttt{Flags} et \texttt{SP} se connectent aux broches du même nom pour communiquer ces valeurs aux afficheurs de la façade.
 
     \subsubsection{Interface}
@@ -46,16 +46,16 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}   & \textbf{Taille} & \textbf{Description}                   \\
+        \textbf{Port}    & \textbf{Taille} & \textbf{Description}                   \\
         \hline
 
         \texttt{RAM\_In} & \texttt{32}     & Données chargées à partir de la RAM    \\
         \hline
         \texttt{ROM\_In} & \texttt{16}     & Instruction chargée à partir de la ROM \\
         \hline
-        \texttt{Clk}    & \texttt{1}      & Horloge                                \\
+        \texttt{Clk}     & \texttt{1}      & Horloge                                \\
         \hline
-        \texttt{Reset}  & \texttt{1}      & Remise à Zero                          \\
+        \texttt{Reset}   & \texttt{1}      & Remise à Zero                          \\
 
 
         \hline
@@ -65,7 +65,7 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}        & \textbf{Taille}     & \textbf{Description}                                                                       \\
+        \textbf{Port}      & \textbf{Taille}     & \textbf{Description}                                                                       \\
         \hline
 
         \hline
@@ -75,12 +75,12 @@
         \hline
         \texttt{RAM\_Out}  & \texttt{32}         & Donnée à écrire en mémoire                                                                 \\
         \hline
-        \texttt{Store}    & \texttt{1}          & Indique à la RAM de sauvegarder la donnée \texttt{RAM\_Out} à l'adresse \texttt{RAM\_Addr} \\
+        \texttt{Store}     & \texttt{1}          & Indique à la RAM de sauvegarder la donnée \texttt{RAM\_Out} à l'adresse \texttt{RAM\_Addr} \\
         \hline
-        \texttt{R0-R7}    & \texttt{8\times 32} & Sortie des registres utilisées à des fins de débogage et visualisation du comportement     \\
-		\texttt{Flags}    & \texttt{4}          & Valeur des drapeaux, issue du contrôleur \\
+        \texttt{R0-R7}     & \texttt{8\times 32} & Sortie des registres utilisées à des fins de débogage et visualisation du comportement     \\
+        \texttt{Flags}   & \texttt{4}          & Valeur des drapeaux, issue du contrôleur                                                   \\
         \hline
-        \texttt{SP}    & \texttt{32}          & Valeur de SP, issue du contrôleur \\
+        \texttt{SP}        & \texttt{32}         & Valeur de SP, issue du contrôleur                                                          \\
 
         \hline
     \end{tabular}
@@ -110,18 +110,18 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}   & \textbf{Taille} & \textbf{Description}                               \\
+        \textbf{Port}    & \textbf{Taille} & \textbf{Description}                               \\
         \hline
 
         \texttt{Address} & \texttt{8}      & Adresse à laquelle lire/écrire les données         \\
         \hline
-        \texttt{Load}   & \texttt{1}      & Lire les données au prochain coup d'horloge        \\
+        \texttt{Load}    & \texttt{1}      & Lire les données au prochain coup d'horloge        \\
         \hline
-        \texttt{Store}  & \texttt{1}      & Enregistrer les données au prochain coup d'horloge \\
+        \texttt{Store}   & \texttt{1}      & Enregistrer les données au prochain coup d'horloge \\
         \hline
-        \texttt{Clock}  & \texttt{1}      & Horloge                                            \\
+        \texttt{Clock}   & \texttt{1}      & Horloge                                            \\
         \hline
-        \texttt{Input}  & \texttt{32}     & Données à écrire                                   \\
+        \texttt{Input}   & \texttt{32}     & Données à écrire                                   \\
 
 
         \hline
@@ -131,7 +131,7 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}   & \textbf{Taille} & \textbf{Description} \\
+        \textbf{Port} & \textbf{Taille} & \textbf{Description} \\
         \hline
         \texttt{Data} & \texttt{32}     & Données lues         \\
 
@@ -155,7 +155,7 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}   & \textbf{Taille} & \textbf{Description}               \\
+        \textbf{Port}    & \textbf{Taille} & \textbf{Description}               \\
         \hline
 
         \texttt{Address} & \texttt{8}      & Adresse de l'instruction à charger \\
@@ -167,7 +167,7 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}   & \textbf{Taille} & \textbf{Description} \\
+        \textbf{Port} & \textbf{Taille} & \textbf{Description} \\
         \hline
 
         \texttt{Data} & \texttt{16}     & Instruction lue      \\

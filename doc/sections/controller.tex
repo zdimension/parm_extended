@@ -1,7 +1,7 @@
 \documentclass{article}
 
 \usepackage{../parm}
-
+\usepackage{tikz-timing}
 \begin{document}
 
     \section{Contrôleur}
@@ -44,42 +44,40 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}           & \textbf{Taille} & \textbf{Description}                                                                               \\
+        \textbf{Port}          & \textbf{Taille} & \textbf{Description}                                                                               \\
         \hline
 
         \hline
-        \texttt{Carry}        & \texttt{1}      & Retenue sortante (provenant des drapeaux) à destination de l'ALU                                   \\
+        \texttt{Carry}         & \texttt{1}      & Retenue sortante (provenant des drapeaux) à destination de l'ALU                                   \\
         \hline
-        \texttt{DP\_Shift}     & \texttt{1}      & Provenance du nombre de décalages: 0 pour registre A, 1 pour Imm5                                  \\
+        \texttt{DP\_Shift}     & \texttt{1}      & Provenance du nombre de décalage: 0 pour registre A, 1 pour Imm5                                  \\
         \hline
         \texttt{Imm32\_Enable} & \texttt{1}      & Provenance de la donnée A: 0 pour registre, 1 pour Imm32                                           \\
         \hline
-        \texttt{Imm5}         & \texttt{5}      & Nombre de décalage pour les instructions de décalage de la catégorie \textit{Shift, add, sub, mov} \\
+        \texttt{Imm5}          & \texttt{5}      & Nombre de décalage pour les instructions de décalage de la catégorie \textit{Shift, add, sub, mov} \\
         \hline
-        \texttt{Imm32}        & \texttt{8}      & Valeur pour les instructions \texttt{MOV}, \texttt{ADD (immediate)} et \texttt{SUB (immediate)}    \\
+        \texttt{Imm32}         & \texttt{8}      & Valeur pour les instructions \texttt{MOV}, \texttt{CMP}, \texttt{ADD} et \texttt{SUB}    \\
         \hline
         \texttt{ALU\_Opcode}   & \texttt{4}      & Code opération à destination de l'ALU                                                              \\
         \hline
-        \texttt{Rm}           & \texttt{3}      & Séléction du registre pour lecture de l'opérande A                                                 \\
+        \texttt{Rm}            & \texttt{3}      & Séléction du registre pour lecture de l'opérande A                                                 \\
         \hline
-        \texttt{Rn}           & \texttt{3}      & Sélection du registre pour lecture de l'opérande B                                                 \\
+        \texttt{Rn}            & \texttt{3}      & Sélection du registre pour lecture de l'opérande B                                                 \\
         \hline
-        \texttt{Rd}           & \texttt{3}      & Sélection du registre pour enregistrement du résultat                                              \\
+        \texttt{Rd}            & \texttt{3}      & Sélection du registre pour enregistrement du résultat                                              \\
         \hline
         \texttt{RAM\_Addr}     & \texttt{32}     & Adresse mémoire des instructions \textit{Load/Store}                                               \\
         \hline
-        \texttt{Load}         & \texttt{1}      & Provenance des données en entrée du banc de registre                                               \\
+        \texttt{Load}          & \texttt{1}      & Provenance des données en entrée du banc de registre                                               \\
         \hline
-        \texttt{Store}        & \texttt{1}      & 1 pour stocker la valeur du registre \texttt{Rm} à l'adress \texttt{RAM\_Address}                  \\
+        \texttt{Store}         & \texttt{1}      & 1 pour stocker la valeur du registre \texttt{Rm} à l'adresse \texttt{RAM\_Address}                  \\
         \hline
-        \texttt{PC}           & \texttt{8}      & Compteur ordinal: adresse de la prochaine instruction en ROM                                       \\
+        \texttt{PC}            & \texttt{16}      & Compteur ordinal: adresse de la prochaine instruction en ROM                                       \\
         \hline
-\texttt{Flags}    & \texttt{4}          & Valeur des drapeaux, issue de Flags_APSR \\
+        \texttt{Flags}         & \texttt{4}      & Valeur des drapeaux issue de Flags APSR                \\
         \hline
-        \texttt{SP}    & \texttt{32}          & Valeur de SP \\
-
         
-
+        \texttt{SP}            & \texttt{32}     & Valeur de SP                                                                                       \\
         \hline
     \end{tabular}
 
@@ -116,18 +114,18 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}              & \textbf{Taille} & \textbf{Description}                         \\
+        \textbf{Port}             & \textbf{Taille} & \textbf{Description}                         \\
         \hline
 
-        \texttt{Shift}          & \texttt{1}      & Active le bloc \textit{Shift, add, sub, mov} \\
+        \texttt{Shift}            & \texttt{1}      & Active le bloc \textit{Shift, add, sub, mov} \\
         \hline
         \texttt{Data\_Processing} & \texttt{1}      & Active le bloc \textit{Data Processing}      \\
         \hline
-        \texttt{Load\_Store}     & \texttt{1}      & Active le bloc \textit{Load/Store}           \\
+        \texttt{Load\_Store}      & \texttt{1}      & Active le bloc \textit{Load/Store}           \\
         \hline
-        \texttt{SP\_Address}     & \texttt{1}      & Active le bloc \textit{SP Address}           \\
+        \texttt{SP\_Address}      & \texttt{1}      & Active le bloc \textit{SP Address}           \\
         \hline
-        \texttt{Branch}         & \texttt{1}      & Active le bloc \textit{Conditional}          \\
+        \texttt{Branch}           & \texttt{1}      & Active le bloc \textit{Conditional}          \\
 
         \hline
     \end{tabular}
@@ -168,12 +166,12 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}       & \textbf{Taille} & \textbf{Description}                                   \\
+        \textbf{Port}        & \textbf{Taille} & \textbf{Description}                                \\
         \hline
 
-        \texttt{Instruction} & \texttt{16}     & Instruction \textit{Shift, add, sub, mov} à décoder    \\
+        \texttt{Instruction} & \texttt{16}     & Instruction \textit{Shift, add, sub, mov} à décoder \\
         \hline
-        \texttt{Enable}     & \texttt{1}      & Active le composant.
+        \texttt{Enable} & \texttt{1} & Active le composant.
         Si 0, les sortie sont forcées à 0 \\
 
 
@@ -185,26 +183,26 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}                 & \textbf{Taille} & \textbf{Description}                                                         \\
+        \textbf{Port}                & \textbf{Taille} & \textbf{Description}                                                         \\
         \hline
 
-        \texttt{ALU\_Opcode}        & \texttt{4}      & Code opération à destination de l'ALU                                        \\
+        \texttt{ALU\_Opcode}         & \texttt{4}      & Code opération à destination de l'ALU                                        \\
         \hline
-        \texttt{Rm}                & \texttt{3}      & Sélection du registre opérande A                                             \\
+        \texttt{Rm}                  & \texttt{3}      & Sélection du registre opérande A                                             \\
         \hline
-        \texttt{Rn}                & \texttt{3}      & Sélection du registre opérande B                                             \\
+        \texttt{Rn}                  & \texttt{3}      & Sélection du registre opérande B                                             \\
         \hline
-        \texttt{Rd}                & \texttt{3}      & Sélection du registre résultat                                               \\
+        \texttt{Rd}                  & \texttt{3}      & Sélection du registre résultat                                               \\
         \hline
         \texttt{Flags\_Update\_Mask} & \texttt{4}      & Masque de mise à jour des drapeaux à destination du bloc \textit{Flags APSR} \\
         \hline
-        \texttt{Carry}             & \texttt{1}      & Valeur à utiliser en tant que retenue entrante pour l'ALU                    \\
+        \texttt{Carry}               & \texttt{1}      & Valeur à utiliser en tant que retenue entrante pour l'ALU                    \\
         \hline
-        \texttt{Imm32\_Enable}      & \texttt{1}      & Indique au processeur d'utiliser la sortie Imm32 à la place du registre Rm   \\
+        \texttt{Imm32\_Enable}       & \texttt{1}      & Indique au processeur d'utiliser la sortie Imm32 à la place du registre Rm   \\
         \hline
-        \texttt{Imm5}              & \texttt{5}      & Nombre de décalage à destination de l'ALU                                    \\
+        \texttt{Imm5}                & \texttt{5}      & Nombre de décalage à destination de l'ALU                                    \\
         \hline
-        \texttt{Imm32}             & \texttt{32}     & Valeur à utiliser en tant qu'opérande A de l'ALU                             \\
+        \texttt{Imm32}               & \texttt{32}     & Valeur à utiliser en tant qu'opérande A de l'ALU                             \\
 
         \hline
     \end{tabular}
@@ -236,12 +234,12 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}       & \textbf{Taille} & \textbf{Description}                                   \\
+        \textbf{Port}        & \textbf{Taille} & \textbf{Description}                           \\
         \hline
 
-        \texttt{Instruction} & \texttt{16}     & Instruction \textit{Data Processing} à décoder         \\
+        \texttt{Instruction} & \texttt{16}     & Instruction \textit{Data Processing} à décoder \\
         \hline
-        \texttt{Enable}     & \texttt{1}      & Active le composant.
+        \texttt{Enable} & \texttt{1} & Active le composant.
         Si 0, les sortie sont forcées à 0 \\
 
 
@@ -253,16 +251,16 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}                 & \textbf{Taille} & \textbf{Description}                                                         \\
+        \textbf{Port}                & \textbf{Taille} & \textbf{Description}                                                         \\
         \hline
 
-        \texttt{ALU\_Opcode}        & \texttt{4}      & Code opération à destination de l'ALU                                        \\
+        \texttt{ALU\_Opcode}         & \texttt{4}      & Code opération à destination de l'ALU                                        \\
         \hline
-        \texttt{Rm}                & \texttt{3}      & Sélection du registre opérande A                                             \\
+        \texttt{Rm}                  & \texttt{3}      & Sélection du registre opérande A                                             \\
         \hline
-        \texttt{Rn}                & \texttt{3}      & Sélection du registre opérande B                                             \\
+        \texttt{Rn}                  & \texttt{3}      & Sélection du registre opérande B                                             \\
         \hline
-        \texttt{Rd}                & \texttt{3}      & Sélection du registre résultat                                               \\
+        \texttt{Rd}                  & \texttt{3}      & Sélection du registre résultat                                               \\
         \hline
         \texttt{Flags\_Update\_Mask} & \texttt{4}      & Masque de mise à jour des drapeaux à destination du bloc \textit{Flags APSR} \\
 
@@ -285,16 +283,16 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}        & \textbf{Taille} & \textbf{Description}                                                      \\
+        \textbf{Port}         & \textbf{Taille} & \textbf{Description}                                                      \\
         \hline
 
         \texttt{Flags\_In}    & \texttt{4}      & Nouveaux drapeaux générés par l'instruction courante, ordre \texttt{NZCV} \\
         \hline
         \texttt{Update\_Mask} & \texttt{4}      & Masque d'enregistrement des drapeaux, ordre \texttt{NZCV}                 \\
         \hline
-        \texttt{Clk}         & \texttt{1}      & Horloge                                                                   \\
+        \texttt{Clk}          & \texttt{1}      & Horloge                                                                   \\
         \hline
-        \texttt{Reset}       & \texttt{1}      & Remise à zéro                                                             \\
+        \texttt{Reset}        & \texttt{1}      & Remise à zéro                                                             \\
 
 
         \hline
@@ -305,7 +303,7 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}        & \textbf{Taille} & \textbf{Description}                                               \\
+        \textbf{Port}       & \textbf{Taille} & \textbf{Description}                                               \\
         \hline
 
         \texttt{Flags\_Out} & \texttt{4}      & Drapeaux générés par l'instruction précédente, ordre \texttt{NZCV} \\
@@ -329,13 +327,52 @@
     La donnée sera disponible au cycle suivant.
 
     La sortie \texttt{PC\_Hold} retarde l'incrémentation du \textit{Program Counter} d'un coup d'horloge.
-    La RAM étant synchrone, elle a besoin d'un cycle pour traiter l'opération de lecture/écriture.
+    La RAM étant synchrone, elle a besoin d'un cycle pour traiter l'opération de lecture.
     La donnée lue n'est donc pas disponible immédiatement, et le processeur ne peut pas commencer à exécuter l'instruction suivante.
     La sortie \texttt{Load} devra donc elle aussi être retardée d'un cycle.
 
     Si l'entrée \texttt{Enable} est à 0, les sorties sont forcées à 0.
 
     \paragraph{Astuce:} utiliser une bascule D pour activer \texttt{PC\_Hold} et retarder \texttt{Load}.
+    
+	Pour vous aider, voici un chronogramme du comportement attendu : \\
+    
+\definecolor{bgblue}{rgb}{0.41961,0.80784,0.80784}%
+\definecolor{bgred}{rgb}{1,0.61569,0.61569}%
+\definecolor{fgblue}{rgb}{0,0,0.6}%
+\definecolor{fgred}{rgb}{0.6,0,0}%
+	\begin{tikztimingtable}[
+    timing/slope=0,         % no slope
+    timing/coldist=2pt,     % column distance
+    xscale=4.05,yscale=1.1, % scale diagrams
+    semithick               % set line width
+  ]
+  \scriptsize clock     & 7{C}                              \\
+  Load                     &          LLHHLLH       \\
+  PC\_Hold &          HHLLHHL       \\
+  Store                     & [fgred]  HHHHHHH                  \\
+\extracode
+ \makeatletter
+ \begin{pgfonlayer}{background}
+  % Draw shaded backgrounds
+  \shade [right color=bgblue,left color=white]
+     (7,-4.45) rectangle (-2,-0.6);
+  \shade [right color=bgred,left color=white]
+     (7,-6.8) rectangle (-2,-4.6);
+  % Add background grid lines
+  \begin{scope}[gray,semitransparent,semithick]
+    \horlines{}
+    \foreach \x in {1,...,6}
+      \draw (\x,1) -- (\x,-6.8);
+    % similar: \vertlines{1,...,6}
+  \end{scope}
+  % Add labels
+  \node [anchor=south east,inner sep=0pt]
+    at (7,-4.45) {\tiny instruction LDR};
+  \node [anchor=south east,inner sep=0pt,fgred]
+    at (7,-6.8) {\tiny instruction STR};
+ \end{pgfonlayer}
+\end{tikztimingtable}
 
     \subsubsubsection{Interface}
 
@@ -343,19 +380,19 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}          & \textbf{Taille} & \textbf{Description}                                   \\
+        \textbf{Port}           & \textbf{Taille} & \textbf{Description}                                 \\
         \hline
 
-        \texttt{Instruction}    & \texttt{16}     & Instruction de lecture/écriture en mémoire à décoder   \\
+        \texttt{Instruction}    & \texttt{16}     & Instruction de lecture/écriture en mémoire à décoder \\
         \hline
-        \texttt{Enable}        & \texttt{1}      & Active le composant.
+        \texttt{Enable} & \texttt{1} & Active le composant.
         Si 0, les sortie sont forcées à 0 \\
         \hline
-        \texttt{Stack\_Pointer} & \texttt{32}     & Valeur courante du pointeur de pile                    \\
+        \texttt{Stack\_Pointer} & \texttt{32}     & Valeur courante du pointeur de pile                  \\
         \hline
-        \texttt{Clk}           & \texttt{1}      & Horloge                                                \\
+        \texttt{Clk}            & \texttt{1}      & Horloge                                              \\
         \hline
-        \texttt{Reset}         & \texttt{1}      & Remise à zéro                                          \\
+        \texttt{Reset}          & \texttt{1}      & Remise à zéro                                        \\
 
 
         \hline
@@ -366,18 +403,18 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}       & \textbf{Taille} & \textbf{Description}                                    \\
+        \textbf{Port}      & \textbf{Taille} & \textbf{Description}                                    \\
         \hline
 
-        \texttt{Store}    & \texttt{1}      & Informe d'une opération d'écriture                      \\
+        \texttt{Store}     & \texttt{1}      & Informe d'une opération d'écriture                      \\
         \hline
-        \texttt{Load}     & \texttt{1}      & Informe d'une opération de lecture                      \\
+        \texttt{Load}      & \texttt{1}      & Informe d'une opération de lecture                      \\
         \hline
         \texttt{PC\_Hold}  & \texttt{1}      & Retarde l'incrémentation du compteur ordinal d'un cycle \\
         \hline
-        \texttt{Rm}       & \texttt{3}      & Registre de provenance de la donnée écrite en mémoire   \\
+        \texttt{Rm}        & \texttt{3}      & Registre de provenance de la donnée écrite en mémoire   \\
         \hline
-        \texttt{Rd}       & \texttt{3}      & Registre de destination de la donnée lue en mémoire     \\
+        \texttt{Rd}        & \texttt{3}      & Registre de destination de la donnée lue en mémoire     \\
         \hline
         \texttt{RAM\_Addr} & \texttt{32}     & Adresse mémoire à laquelle effectuer les opérations     \\
 
@@ -401,13 +438,13 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}          & \textbf{Taille} & \textbf{Description}                                     \\
+        \textbf{Port}           & \textbf{Taille} & \textbf{Description}                                     \\
         \hline
 
         \texttt{Instruction}    & \texttt{16}     & Instruction de mise à jour du pointeur de pile à décoder \\
         \hline
-        \texttt{Enable}        & \texttt{1}      & Active le composant.
-        Si 0, les sortie sont forcées à 0   \\
+        \texttt{Enable} & \texttt{1} & Active le composant.
+        Si 0, les sortie sont forcées à 0 \\
         \hline
         \texttt{Stack\_Pointer} & \texttt{32}     & Valeur courante du pointeur de pile                      \\
 
@@ -419,11 +456,11 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}                 & \textbf{Taille} & \textbf{Description}                                                                        \\
+        \textbf{Port}                & \textbf{Taille} & \textbf{Description}                                                                        \\
         \hline
 
         \hline
-        \texttt{Write\_Enable}      & \texttt{1}      & Le registre du pointeur de pile sera mis à jour avec la valeur \texttt{New\_Stack\_Pointer} \\
+        \texttt{Write\_Enable}       & \texttt{1}      & Le registre du pointeur de pile sera mis à jour avec la valeur \texttt{New\_Stack\_Pointer} \\
         \hline
         \texttt{New\_Stack\_Pointer} & \texttt{32}     & Nouvelle valeur du pointeur de pile                                                         \\
 
@@ -449,21 +486,21 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}       & \textbf{Taille} & \textbf{Description}                                   \\
+        \textbf{Port}        & \textbf{Taille} & \textbf{Description}                              \\
         \hline
 
-        \texttt{Instruction} & \texttt{16}     & Instruction du branchement conditionnel à décoder      \\
+        \texttt{Instruction} & \texttt{16}     & Instruction du branchement conditionnel à décoder \\
         \hline
-        \texttt{Enable}     & \texttt{1}      & Active le composant.
+        \texttt{Enable} & \texttt{1} & Active le composant.
         Si 0, les sortie sont forcées à 0 \\
         \hline
-        \texttt{N}          & \texttt{1}      & Drapeau négatif                                        \\
+        \texttt{N}           & \texttt{1}      & Drapeau négatif                                   \\
         \hline
-        \texttt{Z}          & \texttt{1}      & Drapeau nul                                            \\
+        \texttt{Z}           & \texttt{1}      & Drapeau nul                                       \\
         \hline
-        \texttt{C}          & \texttt{1}      & Drapeau retenue                                        \\
+        \texttt{C}           & \texttt{1}      & Drapeau retenue                                   \\
         \hline
-        \texttt{V}          & \texttt{1}      & Drapeau dépassement de capacité                        \\
+        \texttt{V}           & \texttt{1}      & Drapeau dépassement de capacité                   \\
 
 
         \hline
@@ -474,12 +511,12 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}      & \textbf{Taille} & \textbf{Description}                                               \\
+        \textbf{Port}     & \textbf{Taille} & \textbf{Description}                                               \\
 
         \hline
         \texttt{Verified} & \texttt{1}      & La condition est vérifiée                                          \\
         \hline
-        \texttt{Offset}  & \texttt{8}      & Offset à appliquer au Program Counter si la condition est vérifiée \\
+        \texttt{Offset}   & \texttt{8}      & Offset à appliquer au Program Counter si la condition est vérifiée \\
 
         \hline
     \end{tabular}
@@ -509,21 +546,21 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}   & \textbf{Taille} & \textbf{Description}                                            \\
+        \textbf{Port}  & \textbf{Taille} & \textbf{Description}                                            \\
         \hline
 
-        \texttt{Data}   & \texttt{8}      & Valeur du compteur à définir si \texttt{Load} est à l'état haut \\
+        \texttt{Data}  & \texttt{8}      & Valeur du compteur à définir si \texttt{Load} est à l'état haut \\
         \hline
-        \texttt{Count}  & \texttt{1}      & Active l'incrémentation automatique du compteur                 \\
+        \texttt{Count} & \texttt{1}      & Active l'incrémentation automatique du compteur                 \\
         \hline
-        \texttt{UpDown} & \texttt{1}      & 0: décrémente, 1: incrémente.
-        Forcé à 1.                        \\
+        \texttt{UpDown} & \texttt{1} & 0: décrémente, 1: incrémente.
+        Forcé à 1. \\
         \hline
-        \texttt{Load}   & \texttt{1}      & Charge la valeur à partir de l'entrée \texttt{Data}             \\
+        \texttt{Load}  & \texttt{1}      & Charge la valeur à partir de l'entrée \texttt{Data}             \\
         \hline
-        \texttt{Clk}    & \texttt{1}      & Horloge                                                         \\
+        \texttt{Clk}   & \texttt{1}      & Horloge                                                         \\
         \hline
-        \texttt{Clear}  & \texttt{1}      & Remise à Zero                                                   \\
+        \texttt{Clear} & \texttt{1}      & Remise à Zero                                                   \\
         \hline
 
 
@@ -535,13 +572,13 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}     & \textbf{Taille} & \textbf{Description}                                          \\
+        \textbf{Port}   & \textbf{Taille} & \textbf{Description}                \\
         \hline
 
         \hline
-        \texttt{Output} & \texttt{8}      & Valeur courante du compteur ordinal                           \\
+        \texttt{Output} & \texttt{8}      & Valeur courante du compteur ordinal \\
         \hline
-        \texttt{Carry}  & \texttt{1}      & 1 si le compteur atteint sa valeur maximale.
+        \texttt{Carry} & \texttt{1} & 1 si le compteur atteint sa valeur maximale.
         Non utilisé ici. \\
 
         \hline
@@ -593,7 +630,7 @@
 
     \begin{tabular}{|l|r|l|}
         \hline
-        \textbf{Port}     & \textbf{Taille} & \textbf{Description}                \\
+        \textbf{Port}   & \textbf{Taille} & \textbf{Description}                \\
         \hline
 
         \hline

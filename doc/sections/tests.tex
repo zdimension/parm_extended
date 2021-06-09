@@ -15,10 +15,10 @@
 
     \begin{tabularx}{\textwidth}{|l|X|X|}
         \hline
-        \textbf{Fichier}                                  & \textbf{Instructions testées}                                                                                                     & \textbf{Instructions prérequises}                                                    \\
+        \textbf{Fichier}                               & \textbf{Instructions testées}                                                                                                     & \textbf{Instructions prérequises}                                                    \\
         \hline
 
-        shift{\_}add{\_}sub{\_}mov/1-4{\_}instructions  & LSL(immediate) \newline LSR(immediate) \newline ASR(immediate) \newline ADD(register) \newline SUB(immediate) & -\\
+        shift{\_}add{\_}sub{\_}mov/1-4{\_}instructions & LSL(immediate) \newline LSR(immediate) \newline ASR(immediate) \newline ADD(register) \newline SUB(immediate) & -\\
         \hline
         shift{\_}add{\_}sub{\_}mov/5-8{\_}instructions & SUB(register) \newline ADD(immediate) \newline MOV(immediate) & -\\
         \hline
@@ -26,15 +26,15 @@
         \hline
         data{\_}processing/5-10{\_}instructions        & ASR(register) \newline ADC(register) \newline SBC(register) \newline ROR(register) \newline TST(register) \newline RSB(immediate) & MOV(immediate)\\
         \hline
-        data{\_}processing/11-12{\_}instructions       & CMP(register) \newline CMN(register)  & MOV(immediate)\newline RSB(immediate) \newline LSR(register)\\
+        data{\_}processing/11-12{\_}instructions       & CMP(register) \newline CMN(register)                                                                                              & MOV(immediate)\newline RSB(immediate) \newline LSR(register)                         \\
         \hline
         data{\_}processing/13-16{\_}instructions       & ORR(register) \newline MUL \newline BIC(register) \newline MVN(register) & MOV(immediate)\\
         \hline
-        load{\_}store/load{\_}store                     & STR(immediate) \newline LDR(immediate)                                                                                            & ADD(SP plus immediate) \newline SUB(SP minus immediate) \newline MOV(immediate)      \\
+        load{\_}store/load{\_}store                    & STR(immediate) \newline LDR(immediate)                                                                                            & ADD(SP plus immediate) \newline SUB(SP minus immediate) \newline MOV(immediate)      \\
         \hline
-        miscellaneous/sp                                & ADD(SP plus immediate) \newline SUB(SP minus immediate)                                                                           & -                                                                                    \\
+        miscellaneous/sp                               & ADD(SP plus immediate) \newline SUB(SP minus immediate)                                                                           & -                                                                                    \\
         \hline
-        conditional/branch                              & B                                                                                                                                 & CMP(register) \newline MOV(immediate) \newline RSB(immediate) \newline ADD(register) \\
+        conditional/branch                             & B                                                                                                                                 & CMP(register) \newline MOV(immediate) \newline RSB(immediate) \newline ADD(register) \\
         \hline
     \end{tabularx}
 

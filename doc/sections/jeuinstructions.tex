@@ -6,7 +6,7 @@
     \section{Jeu d'instructions (Instruction Set Architecture)}
     \label{sec:ISA}
 
-    Toutes les informations présentes dans cette section proviennent directement du manuel de référence de l'achitecture ARMv7-M (\textit{ARM v7-M Architecture Reference Manual}).
+    Toutes les informations présentes dans cette section proviennent directement du manuel de référence de l'architecture ARMv7-M (\textit{ARM v7-M Architecture Reference Manual}).
     Elles ont été traduites et réorganisées pour en faciliter la lecture.
     En cas de doute, ou pour en savoir plus, les pages du manuel sont indiquées entre parenthèses.
 
@@ -46,7 +46,7 @@
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = Rm<0 - shift>} avec shift le nombre de décalage.
-    Autrement dit, \texttt{C} est égal au dernier bit sortant.\\
+    Autrement dit, \texttt{C} est égal au dernier bit sortant.
 
     \textbf{Assembleur:} T1
 
@@ -74,7 +74,7 @@ LSLS <Rd>,<Rm>,#<imm5>
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = Rm<shift - 1>} avec shift le nombre de décalage.
-    Autrement dit, \texttt{C} est égal au dernier bit sortant.\\
+    Autrement dit, \texttt{C} est égal au dernier bit sortant.
 
     \textbf{Assembleur:} T1
 
@@ -103,7 +103,7 @@ LSRS <Rd>,<Rm>,#<imm5>
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = Rm<shift - 1>} avec shift le nombre de décalage.
-    Autrement dit, \texttt{C} est égal au dernier bit sortant.\\
+    Autrement dit, \texttt{C} est égal au dernier bit sortant.
 
     \textbf{Assembleur:} T1
 
@@ -131,7 +131,7 @@ ASRS <Rd>,<Rm>,#<imm5>
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = 1} en cas de dépassement de capacité lors d'une opération non signée.\\
-    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.\\
+    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.
 
     \textbf{Assembleur:} T1
 
@@ -158,7 +158,7 @@ ADDS <Rd>,<Rn>,<Rm>
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = 1} en cas de dépassement de capacité lors d'une opération non signée.\\
-    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.\\
+    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.
 
     \textbf{Assembleur:} T1
 
@@ -186,7 +186,7 @@ SUBS <Rd>,<Rn>,<Rm>
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = 1} en cas de dépassement de capacité lors d'une opération non signée.\\
-    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.\\
+    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.
 
     \textbf{Assembleur:} T1
 
@@ -214,7 +214,7 @@ ADDS <Rd>,<Rn>,<#imm3>
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = 1} en cas de dépassement de capacité lors d'une opération non signée.\\
-    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.\\
+    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.
 
     \textbf{Assembleur:} T1
 
@@ -240,7 +240,7 @@ SUBS <Rd>,<Rn>,#<imm3>
     Écrit l'immédiat \texttt{imm8} dans le registre \texttt{Rd}.\\
     Les drapeaux suivants sont mis à jour:\\
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
-    \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
+    \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.
 
     \textbf{Assembleur:} T1
 
@@ -257,8 +257,8 @@ MOVS <Rd>,#<imm8>
         0 & 0 & 1 & \multicolumn{1}{|c}{0} & 0 & \multicolumn{3}{|c|}{Rd} & \multicolumn{8}{|c|}{imm8} \\
         \hline
     \end{tabular}
-    
-    \subsubsubsection{CMP (immediate): Compare}
+
+    \subsubsubsection{CMP (immediate): Compare (p. 223)}
 
     \textbf{Description: }
 
@@ -267,7 +267,7 @@ MOVS <Rd>,#<imm8>
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = 1} en cas de dépassement de capacité lors d'une opération non signée.\\
-    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.\\
+    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.
 
     \textbf{Assembleur:} T1
 
@@ -285,21 +285,21 @@ CMP <Rd>,#<imm8>
         \hline
     \end{tabular}
 
-	\subsubsubsection{ADD (immediate): Add 8-bit immediate}
+    \subsubsubsection{ADD (immediate): Add 8-bit immediate (p. 190)}
 
     \textbf{Description: }
 
-    Ajoute l'immédiat \texttt{imm8} au contenu du registre \texttt{Rd}, écrit le résultat dans celui-ci.\\
+    Ajoute l'immédiat \texttt{imm8} au contenu du registre \texttt{Rdn}, écrit le résultat dans celui-ci.\\
     Les drapeaux suivants sont mis à jour:\\
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = 1} en cas de dépassement de capacité lors d'une opération non signée.\\
-    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.\\
+    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.
 
-    \textbf{Assembleur:} T1
+    \textbf{Assembleur:} T2
 
     \begin{lstlisting}
-ADDS <Rd>, [<Rd>,] #<imm8>
+ADDS <Rdn>, [<Rdn>,] #<imm8>
     \end{lstlisting}
 
     \textbf{Binaire:}
@@ -311,22 +311,22 @@ ADDS <Rd>, [<Rd>,] #<imm8>
         0 & 0 & 1 & \multicolumn{1}{|c}{1} & 0 & \multicolumn{3}{|c|}{Rd} & \multicolumn{8}{|c|}{imm8} \\
         \hline
     \end{tabular}
-    
-    \subsubsubsection{SUB (immediate): Subtract 8-bit immediate}
+
+    \subsubsubsection{SUB (immediate): Subtract 8-bit immediate (p. 402)}
 
     \textbf{Description: }
 
-    Soustrait l'immédiat \texttt{imm8} au contenu du registre \texttt{Rd}, écrit le résultat dans celui-ci.\\
+    Soustrait l'immédiat \texttt{imm8} au contenu du registre \texttt{Rdn}, écrit le résultat dans celui-ci.\\
     Les drapeaux suivants sont mis à jour:\\
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = 1} en cas de dépassement de capacité lors d'une opération non signée.\\
-    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.\\
+    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.
 
-    \textbf{Assembleur:} T1
+    \textbf{Assembleur:} T2
 
     \begin{lstlisting}
-SUBS <Rd>, [<Rd>,] #<imm8>
+SUBS <Rdn>, [<Rdn>,] #<imm8>
     \end{lstlisting}
 
     \textbf{Binaire:}
@@ -360,7 +360,7 @@ SUBS <Rd>, [<Rd>,] #<imm8>
     Les drapeaux suivants sont mis à jour:\\
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
-    \texttt{C = 0}\\
+    \texttt{C = 0}
 
     \textbf{Assembleur:} T1
 
@@ -387,7 +387,7 @@ ANDS <Rdn>,<Rm>
     Les drapeaux suivants sont mis à jour:\\
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
-    \texttt{C = 0}\\
+    \texttt{C = 0}
 
     \textbf{Assembleur:} T1
 
@@ -416,7 +416,7 @@ EORS <Rdn>,<Rm>
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = Rn<0 - shift>} avec shift le nombre de décalage.
-    Autrement dit, \texttt{C} est égal au dernier bit sortant.\\
+    Autrement dit, \texttt{C} est égal au dernier bit sortant.
 
     \textbf{Assembleur:} T1
 
@@ -446,7 +446,7 @@ LSLS <Rdn>,<Rm>
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = Rn<shift - 1>} avec shift le nombre de décalage.
-    Autrement dit, \texttt{C} est égal au dernier bit sortant.\\
+    Autrement dit, \texttt{C} est égal au dernier bit sortant.
 
     \textbf{Assembleur:} T1
 
@@ -475,7 +475,7 @@ LSRS <Rdn>,<Rm>
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = Rn<shift - 1>} avec shift le nombre de décalage.
-    Autrement dit, \texttt{C} est égal au dernier bit sortant.\\
+    Autrement dit, \texttt{C} est égal au dernier bit sortant.
 
     \textbf{Assembleur:} T1
 
@@ -503,7 +503,7 @@ ASRS <Rdn>,<Rm>
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = 1} en cas de dépassement de capacité lors d'une opération non signée.\\
-    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.\\
+    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.
 
     \textbf{Assembleur:} T1
 
@@ -531,7 +531,7 @@ ADCS <Rdn>,<Rm>
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = 1} en cas de dépassement de capacité lors d'une opération non signée.\\
-    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.\\
+    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.
 
     \textbf{Assembleur:} T1
 
@@ -561,7 +561,7 @@ SBCS <Rdn>,<Rm>
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = résultat<31>}.
-    Autrement dit, \texttt{C} est égal au dernier bit sortant.\\
+    Autrement dit, \texttt{C} est égal au dernier bit sortant.
 
     \textbf{Assembleur:} T1
 
@@ -588,7 +588,7 @@ RORS <Rdn>,<Rm>
     Les drapeaux suivants sont mis à jour:\\
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
-    \texttt{C = 0}\\
+    \texttt{C = 0}
 
     \textbf{Assembleur:} T1
 
@@ -617,7 +617,7 @@ TST <Rn>,<Rm>
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = 0}.\\
-    \texttt{V = 0}.\\
+    \texttt{V = 0}.
 
     \textbf{Assembleur:} T1
 
@@ -646,7 +646,7 @@ RSBS <Rd>,<Rn>,#0
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = 1} en cas de dépassement de capacité lors d'une opération non signée.\\
-    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.\\
+    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.
 
     \textbf{Assembleur:} T1
 
@@ -674,7 +674,7 @@ CMP <Rn>,<Rm>
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
     \texttt{C = 1} en cas de dépassement de capacité lors d'une opération non signée.\\
-    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.\\
+    \texttt{V = 1} en cas de dépassement de capacité lors d'une opération signée.
 
     \textbf{Assembleur:} T1
 
@@ -701,7 +701,7 @@ CMN <Rn>,<Rm>
     Les drapeaux suivants sont mis à jour:\\
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
-    \texttt{C = 0}.\\
+    \texttt{C = 0}.
 
     \textbf{Assembleur:} T1
 
@@ -727,7 +727,7 @@ ORRS <Rdn>,<Rm>
     Multiplie le contenu du registre \texttt{Rn} avec le contenu du registre \texttt{Rdm}, écrit les 32 bits de poids faible du résultat dans le registre \texttt{Rdm}.\\
     Les drapeaux suivants sont mis à jour:\\
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
-    \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
+    \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.
 
     \textbf{Assembleur:} T1
 
@@ -754,7 +754,7 @@ MULS <Rdm>,<Rn>,<Rdm>
     Les drapeaux suivants sont mis à jour:\\
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
-    \texttt{C = 0}.\\
+    \texttt{C = 0}.
 
     \textbf{Assembleur:} T1
 
@@ -781,7 +781,7 @@ BICS <Rdn>,<Rm>
     Les drapeaux suivants sont mis à jour:\\
     \texttt{N = 1} si \texttt{résultat < 0}, \texttt{N = 0} sinon.\\
     \texttt{Z = 1} si \texttt{résultat = 0}, \texttt{Z = 0} sinon.\\
-    \texttt{C = 0}.\\
+    \texttt{C = 0}.
 
     \textbf{Assembleur:} T1
 
@@ -817,7 +817,7 @@ MVNS <Rd>,<Rm>
     \textbf{Description: }
 
     Écrit un mot de 32 bits contenu dans le registre \texttt{Rt} à l'adresse mémoire spécifiée.\\
-    L'adresse mémoire est calculée à partir du contenu du registre \texttt{SP} plus l'immédiat \texttt{imm8}.\\
+    L'adresse mémoire est calculée à partir du contenu du registre \texttt{SP} plus l'immédiat \texttt{imm8} divisé par 4.
 
     \textbf{Assembleur:} T2
 
@@ -831,7 +831,7 @@ STR <Rt>,[SP,#<imm8>]
         \hline
         15 & 14 & 13 & 12 & \multicolumn{1}{|c}{11} & \multicolumn{1}{|c}{10} & 9 & 8 & \multicolumn{1}{|c}{7} & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
         \hline
-        1 & 0 & 0 & 1 & \multicolumn{1}{|c}{0} & \multicolumn{3}{|c}{Rt} & \multicolumn{8}{|c|}{imm8} \\
+        1 & 0 & 0 & 1 & \multicolumn{1}{|c}{0} & \multicolumn{3}{|c}{Rt} & \multicolumn{8}{|c|}{imm8 / 4} \\
         \hline
     \end{tabular}
 
@@ -841,7 +841,7 @@ STR <Rt>,[SP,#<imm8>]
     \textbf{Description: }
 
     Charge un mot de 32 bits contenu à l'adresse mémoire spécifiée, écrit le résultat dans le registre \texttt{Rt}.\\
-    L'adresse mémoire est calculée à partir du contenu du registre \texttt{SP} plus l'immédiat \texttt{imm8}.\\
+    L'adresse mémoire est calculée à partir du contenu du registre \texttt{SP} plus l'immédiat \texttt{imm8} divisé par 4.
 
     \textbf{Assembleur:} T2
 
@@ -855,7 +855,7 @@ LDR <Rt>,[SP{,#<imm8>}]
         \hline
         15 & 14 & 13 & 12 & \multicolumn{1}{|c}{11} & \multicolumn{1}{|c}{10} & 9 & 8 & \multicolumn{1}{|c}{7} & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
         \hline
-        1 & 0 & 0 & 1 & \multicolumn{1}{|c}{1} & \multicolumn{3}{|c}{Rt} & \multicolumn{8}{|c|}{imm8} \\
+        1 & 0 & 0 & 1 & \multicolumn{1}{|c}{1} & \multicolumn{3}{|c}{Rt} & \multicolumn{8}{|c|}{imm8 / 4} \\
         \hline
     \end{tabular}
 
@@ -876,7 +876,7 @@ LDR <Rt>,[SP{,#<imm8>}]
 
     \textbf{Description: }
 
-    Ajoute un immédiat à la valeur du registre \texttt{SP}, écrit le résultat dans le registre \texttt{SP}.
+    Ajoute l'immédiat \texttt{imm7} divisé par 4 à la valeur du registre \texttt{SP}, écrit le résultat dans le registre \texttt{SP}.
     Les drapeaux ne sont pas mis à jour.
 
     \textbf{Assembleur:} T2
@@ -891,7 +891,7 @@ ADD [SP,]SP,#<imm7>
         \hline
         15 & 14 & 13 & 12 & \multicolumn{1}{|c}{11} & 10 & 9 & 8 & \multicolumn{1}{|c}{7} & \multicolumn{1}{|c}{6} & 5 & 4 & 3 & 2 & 1 & 0 \\
         \hline
-        1 & 0 & 1 & 1 & \multicolumn{1}{|c}{0} & 0 & 0 & 0 & \multicolumn{1}{|c}{0} & \multicolumn{7}{|c|}{imm7} \\
+        1 & 0 & 1 & 1 & \multicolumn{1}{|c}{0} & 0 & 0 & 0 & \multicolumn{1}{|c}{0} & \multicolumn{7}{|c|}{imm7 / 4} \\
         \hline
     \end{tabular}
 
@@ -899,7 +899,7 @@ ADD [SP,]SP,#<imm7>
 
     \textbf{Description: }
 
-    Soustrait un immédiat à la valeur du registre \texttt{SP}, écrit le résultat dans le registre \texttt{SP}.
+    Soustrait l'immédiat \texttt{imm7} divisé par 4 à la valeur du registre \texttt{SP}, écrit le résultat dans le registre \texttt{SP}.
     Les drapeaux ne sont pas mis à jour.
 
     \textbf{Assembleur:} T1
@@ -908,37 +908,27 @@ ADD [SP,]SP,#<imm7>
 SUB [SP,]SP,#<imm7>
     \end{lstlisting}
 
-
-
     \textbf{Binaire:}
 
     \begin{tabular}{| c c c c c c c c c c c c c c c c |}
         \hline
         15 & 14 & 13 & 12 & \multicolumn{1}{|c}{11} & 10 & 9 & 8 & \multicolumn{1}{|c}{7} & \multicolumn{1}{|c}{6} & 5 & 4 & 3 & 2 & 1 & 0 \\
         \hline
-        1 & 0 & 1 & 1 & \multicolumn{1}{|c}{0} & 0 & 0 & 0 & \multicolumn{1}{|c}{1} & \multicolumn{7}{|c|}{imm7} \\
+        1 & 0 & 1 & 1 & \multicolumn{1}{|c}{0} & 0 & 0 & 0 & \multicolumn{1}{|c}{1} & \multicolumn{7}{|c|}{imm7 / 4} \\
         \hline
     \end{tabular}
 
     \subsubsection{Branch}
     \label{subsubsec:Branching}
 
-    \textbf{Binaire:}
-
-    \begin{tabular}{| c c c c c c c c c c c c c c c c |}
-        \hline
-        15 & 14 & 13 & 12 & \multicolumn{1}{|c}{11} & 10 & 9 & 8 & \multicolumn{1}{|c}{7} & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
-        \hline
-        1 & 1 & 0 & 1 & \multicolumn{4}{|c}{opcode} & \multicolumn{8}{|c|}{} \\
-        \hline
-    \end{tabular}
+    Dans le code assembleur, les instructions de branchement ont pour opérande des étiquettes, pointant vers d'autres endroits dans le code. Lors de l'encodage, la valeur de l'immédiat (imm8 ou imm11) doit être égale à $N_{cible} - N_{source} - 3$, où N représente le numéro de l'instruction dans le programme (indexée à 0). Cette valeur peut être négative (si on veut sauter à une instruction présente plus tôt dans le programme) et sera donc encodée comme valeur signée en complément à 2.
 
     \subsubsubsection{B: Conditional Branch (p. 205)}
     \label{subsubsubsec:CondBranch}
 
     \textbf{Description: }
 
-    Continue l'exécution à partir de l'étiquette \texttt{label} si la condition \texttt{<c>} est vérifiée.\\
+    Continue l'exécution à partir de l'étiquette \texttt{label} si la condition \texttt{<c>} est vérifiée.
 
     \textbf{Assembleur:} T1
 
@@ -956,6 +946,31 @@ B<c> <label>
         \hline
     \end{tabular}
 
+    \subsubsubsection{B: Unconditional Branch (p. 205)}
+    \label{subsubsubsec:CondBranch}
+
+    %\textbf{Remarque : } Cette instruction est \textbf{optionnelle} dans le cadre du projet, en effet, un branchement inconditionnel peut être effectué via l'instruction \texttt{B<c>} et la condition \texttt{1110}, mais dans ce cas il ne sera pas possible d'effectuer des sauts de plus de 128 instructions. Ainsi, si vous ne supportez pas l'instruction \texttt{B}, certains programmes d'exemple ne fonctionneront pas. Si vous décidez de ne pas implémenter cette instruction, faites en sorte que votre assembleur lise \texttt{B label} comme \texttt{BAL label}.
+
+    \textbf{Description: }
+
+    Continue l'exécution à partir de l'étiquette \texttt{label}.
+
+    \textbf{Assembleur:} T2
+
+    \begin{lstlisting}
+B <label>
+    \end{lstlisting}
+
+    \textbf{Binaire:}
+
+    \begin{tabular}{| c c c c c c c c c c c c c c c c |}
+        \hline
+        15 & 14 & 13 & 12 & 11 & \multicolumn{1}{|c}{10} & 9 & 8 & 7 & 6 & 5 & 4 & 3 & 2 & 1 & 0 \\
+        \hline
+        1 & 1 & 1 & 0 & 0 & \multicolumn{11}{|c|}{imm11} \\
+        \hline
+    \end{tabular}
+
     \subsection{Conditions (p. 178)}
     \label{subsec:CondFlags}
 
@@ -967,9 +982,9 @@ B<c> <label>
         \hline
         0001          & NE               & différence                     & Z == 0            \\
         \hline
-        0010          & CS               & retenue                        & C == 1            \\
+        0010          & CS ou HS         & retenue                        & C == 1            \\
         \hline
-        0011          & CC               & pas de retenue                 & C == 0            \\
+        0011          & CC ou LO         & pas de retenue                 & C == 0            \\
         \hline
         0100          & MI               & négatif                        & N == 1            \\
         \hline
@@ -991,9 +1006,11 @@ B<c> <label>
         \hline
         1101          & LE               & inférieur ou égal (signé)      & Z == 1 ou N != V  \\
         \hline
-        1110          & aucun ou AL      & toujours vrai                  &                   \\
+        1110          & AL             & toujours vrai                  &                   \\
         \hline
     \end{tabular}
+
+    \textbf{Remarque :} Par complétude, vous pouvez considérer que la condition 1111 correspond à "toujours faux". En réalité, cette condition n'est jamais utilisée, mais lors de la réalisation de circuits il est déconseillé de laisser des entrées non reliées.
 
     \subsection{Drapeaux (p. 31)}
     \label{subsec:Flags}

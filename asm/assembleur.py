@@ -153,8 +153,10 @@ fo = open(os.path.splitext(fn)[0] + ".bin", "w")
 rlbl = re.compile(r"^([.\w]+)\s*:")
 labels = {}
 lines = [l.lower() for l in fp.readlines()]
+lines = [l[:l.index("@")]  if "@" in l else l for l in lines]
+lines = [l.strip() for l in lines]
 ignored_lines = [i for i, l in enumerate(lines[:-1])
-                 if l.startswith("\tb\t") and lines[i + 1] == f"{l[3:-1]}:\n"]  # fix for clang's redundant jumps
+                 if l.startswith("b\t") and lines[i + 1] == f"{l[2:]}:"]  # fix for clang's redundant jumps
 instrs = []
 for i, line in enumerate(lines):
     if not no_optim:
@@ -162,8 +164,6 @@ for i, line in enumerate(lines):
             continue
         if "add\tr7, sp" in line or "push\t{" in line:  # fix for clang's frame pointer creation
             continue
-    if "@" in line:
-        line = line[:line.index("@")]
     while line := line.strip():
         if m := rlbl.match(line):  # line is a label
             labels[m.group(1)] = len(instrs)
