@@ -58,7 +58,11 @@
 sudo apt install gdebi
 sudo gdebi logisim-evolution_3.5.0-1_amd64.deb
     \end{lstlisting}
-    Pour les autres systèmes, vous pouvez lancer directement le fichier .jar sans installer.
+    Pour les autres systèmes, vous pouvez lancer directement le fichier .jar sans installer. La commande à utiliser est :
+    
+    \begin{lstlisting}[language=bash]
+java -Dsun.java2d.opengl=true -jar logisim-evolution.jar
+    \end{lstlisting} 
 
     \textit{Cette section est un extrait du tutoriel officiel «Introduction à l’utilisation de Logisim». Pour plus d'informations, se référer à la documentation officielle.}
 

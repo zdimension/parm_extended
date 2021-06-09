@@ -924,7 +924,6 @@ SUB [SP,]SP,#<imm7>
     Dans le code assembleur, les instructions de branchement ont pour opérande des étiquettes, pointant vers d'autres endroits dans le code. Lors de l'encodage, la valeur de l'immédiat (imm8 ou imm11) doit être égale à $N_{cible} - N_{source} - 3$, où N représente le numéro de l'instruction dans le programme (indexée à 0). Cette valeur peut être négative (si on veut sauter à une instruction présente plus tôt dans le programme) et sera donc encodée comme valeur signée en complément à 2.
 
     \subsubsubsection{B: Conditional Branch (p. 205)}
-    \label{subsubsubsec:CondBranch}
 
     \textbf{Description: }
 
@@ -947,7 +946,6 @@ B<c> <label>
     \end{tabular}
 
     \subsubsubsection{B: Unconditional Branch (p. 205)}
-    \label{subsubsubsec:CondBranch}
 
     %\textbf{Remarque : } Cette instruction est \textbf{optionnelle} dans le cadre du projet, en effet, un branchement inconditionnel peut être effectué via l'instruction \texttt{B<c>} et la condition \texttt{1110}, mais dans ce cas il ne sera pas possible d'effectuer des sauts de plus de 128 instructions. Ainsi, si vous ne supportez pas l'instruction \texttt{B}, certains programmes d'exemple ne fonctionneront pas. Si vous décidez de ne pas implémenter cette instruction, faites en sorte que votre assembleur lise \texttt{B label} comme \texttt{BAL label}.
 
