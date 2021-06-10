@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-/** Lit une chaîne depuis le clavier.
+/** Lit une chaîne depuis le clavier. Voir string.h pour l'usage des chaînes.
   *
   * Sorties :
   * - int len : longueur de la chaîne lue
@@ -57,38 +57,38 @@
 })       
 
 // Interne.
-#define __PRINTRES(sign, width) do {                          \
-	__temp1 = RESbcd;                                           \
-	if (width == 0)                                           \
-	{                                                         \
+#define __PRINTRES(sign, width) do {                          		\
+	__temp1 = RESbcd;                                          		\
+	if (width == 0)                                           		\
+	{                                                         		\
 		if (!__temp1)                                               \
-		{                                                     \
-			PUTCHAR('0');                                     \
-			break;                                            \
-		}                                                     \
-		if (sign && RES < 0)                                  \
-		{                                                     \
-			PUTCHAR('-');                                     \
-			RES = -RES;                                       \
+		{                                                     		\
+			PUTCHAR('0');                                     		\
+			break;                                            		\
+		}                                                     		\
+		if (sign && RES < 0)                                  		\
+		{                                                     		\
+			PUTCHAR('-');                                     		\
+			RES = -RES;                                       		\
 			__temp1 = RESbcd;                                       \
-		}                                                     \
-	}                                                         \
-	else                                                      \
-	{                                                         \
+		}                                                     		\
+	}                                                         		\
+	else                                                      		\
+	{                                                         		\
 		__temp1 >>= 32 - (width * 4);                               \
-	}                                                         \
-	__temp2 = 0;                                             \
-	for (__temp3 = 0; __temp3 < (width == 0 ? 8 : width); __temp3++)  \
-	{                                                         \
-		__temp4 = __temp1 & 0xf;                                  \
+	}                                                         		\
+	__temp2 = 0;                                             		\
+	for (__temp3 = 0; __temp3 < (width == 0 ? 8 : width); __temp3++)\
+	{                                                        	 	\
+		__temp4 = __temp1 & 0xf;                                  	\
 		__temp1 >>= 4;                                              \
-		if (width == 0 && !__temp2)                              \
-		{                                                     \
-			if (__temp4) __temp2 = 1;                              \
-			else continue;                                    \
-		}                                                     \
-		PUTCHAR('0' + __temp4);                                 \
-	}                                                         \
+		if (width == 0 && !__temp2)                              	\
+		{                                                     		\
+			if (__temp4) __temp2 = 1;                              	\
+			else continue;                                    		\
+		}                                                     		\
+		PUTCHAR('0' + __temp4);                                 	\
+	}                                                         		\
 } while(0)         
 
 #endif
