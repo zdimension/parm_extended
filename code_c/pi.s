@@ -118,8 +118,8 @@ run:
 .LBB0_12:
 	ldr	r0, [sp, #120]
 	str	r0, [sp, #72]
-	add	r0, sp, #72
-	ldrh	r0, [r0, #2]
+	ldr	r0, [sp, #72]
+	lsrs	r0, r0, #16
 	str	r0, [sp, #72]
 	movs	r0, #0
 	str	r0, [sp, #68]
@@ -239,8 +239,8 @@ run:
 .LBB0_34:
 	ldr	r0, [sp, #120]
 	str	r0, [sp, #72]
-	add	r0, sp, #72
-	ldrh	r0, [r0, #2]
+	ldr	r0, [sp, #72]
+	lsrs	r0, r0, #16
 	str	r0, [sp, #72]
 	movs	r0, #0
 	str	r0, [sp, #68]
@@ -373,8 +373,8 @@ run:
 .LBB0_56:
 	ldr	r0, [sp, #120]
 	str	r0, [sp, #72]
-	add	r0, sp, #72
-	ldrh	r0, [r0, #2]
+	ldr	r0, [sp, #72]
+	lsrs	r0, r0, #16
 	str	r0, [sp, #72]
 	movs	r0, #0
 	str	r0, [sp, #68]

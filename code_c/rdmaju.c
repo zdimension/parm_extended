@@ -7,13 +7,12 @@ void run()
 {
 	BEGIN();
 	
-	int cur;
 	int len = 0;
 	int outp;
 	int i;
 	int x[10];
 	
-	GETLINE(len, cur);
+	GETLINE(len);
 	
 	TTYchr = '-';
 	TTYchr = '>';

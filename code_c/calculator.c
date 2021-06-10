@@ -4,7 +4,8 @@
 #define OPb DIP2
 #define CMD DIP3
 
-void run() {
+void run() 
+{
 	BEGIN();
 
 	int ADD = 0;
@@ -12,7 +13,8 @@ void run() {
 	int MUL = 2;
 	int LSL = 3;
 
-	while (1) {
+	while (1) 
+	{
 		if (CMD == ADD)
 			RES = OPa + OPb;
 		if (CMD == SUB)
@@ -22,5 +24,4 @@ void run() {
 		if (CMD == LSL)
 			RES = OPa << OPb;
 	}
-	END();
 }

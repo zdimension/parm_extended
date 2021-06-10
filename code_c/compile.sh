@@ -17,4 +17,4 @@ else
 	clang-8 -target arm-v4t-eabi ${CPARM} ${filename}
 fi
 
-../asm/assembleur.py ${filename%.*}.s
+../asm/assembleur.py -O0 ${filename%.*}.s

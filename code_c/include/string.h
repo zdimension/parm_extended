@@ -80,8 +80,8 @@ typedef unsigned int p_char;
 }while(0)
 
 // Renverse la chaîne de caractères
-#define STRREV(pos) do {\
-	STRLEN(pos, __temp3);\
+#define STRREV() do {\
+	STRLEN(__temp3);\
 	__temp3-=1;\
 	__temp4=(__temp3 >> 1);\
 	for(;__temp4 < 1000; __temp4--) {\

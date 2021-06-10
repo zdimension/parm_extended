@@ -25,8 +25,8 @@
 	.thumb_func
 run:
 	.fnstart
-	.pad	#64
-	sub	sp, #64
+	.pad	#84
+	sub	sp, #84
 	@APP
 	sub	sp, #508
 	@NO_APP
@@ -35,83 +35,85 @@ run:
 	@NO_APP
 	b	.LBB0_1
 .LBB0_1:
-	ldr	r0, [sp, #8]
+	ldr	r0, [sp, #28]
 	movs	r1, #32
 	orrs	r0, r1
-	str	r0, [sp, #8]
+	str	r0, [sp, #28]
 	b	.LBB0_2
 .LBB0_2:
 	b	.LBB0_3
 .LBB0_3:
-	ldr	r0, [sp, #8]
+	ldr	r0, [sp, #28]
 	movs	r1, #4
 	orrs	r0, r1
-	str	r0, [sp, #8]
+	str	r0, [sp, #28]
 	b	.LBB0_4
 .LBB0_4:
 	b	.LBB0_5
 .LBB0_5:
-	ldr	r0, [sp, #8]
+	ldr	r0, [sp, #28]
 	movs	r1, #1
 	lsls	r1, r1, #22
 	orrs	r0, r1
-	str	r0, [sp, #8]
+	str	r0, [sp, #28]
 	b	.LBB0_6
 .LBB0_6:
 	b	.LBB0_7
 .LBB0_7:
-	ldr	r0, [sp, #8]
+	ldr	r0, [sp, #28]
 	movs	r1, #1
 	lsls	r1, r1, #29
 	orrs	r0, r1
-	str	r0, [sp, #8]
+	str	r0, [sp, #28]
 	b	.LBB0_8
 .LBB0_8:
 	b	.LBB0_9
 .LBB0_9:
-	ldr	r0, [sp, #8]
+	ldr	r0, [sp, #28]
 	movs	r1, #1
 	lsls	r1, r1, #28
 	orrs	r0, r1
-	str	r0, [sp, #8]
+	str	r0, [sp, #28]
 	b	.LBB0_10
 .LBB0_10:
 	b	.LBB0_11
 .LBB0_11:
-	ldr	r0, [sp, #8]
+	ldr	r0, [sp, #28]
 	movs	r1, #1
 	lsls	r1, r1, #27
 	orrs	r0, r1
-	str	r0, [sp, #8]
+	str	r0, [sp, #28]
 	b	.LBB0_12
 .LBB0_12:
 	b	.LBB0_13
 .LBB0_13:
-	ldr	r0, [sp, #8]
+	ldr	r0, [sp, #28]
 	movs	r1, #1
 	lsls	r1, r1, #26
 	orrs	r0, r1
-	str	r0, [sp, #8]
+	str	r0, [sp, #28]
 	b	.LBB0_14
 .LBB0_14:
 	b	.LBB0_15
 .LBB0_15:
-	ldr	r0, [sp, #8]
+	ldr	r0, [sp, #28]
 	movs	r1, #1
 	lsls	r1, r1, #17
 	orrs	r0, r1
-	str	r0, [sp, #8]
+	str	r0, [sp, #28]
 	b	.LBB0_16
 .LBB0_16:
 	b	.LBB0_17
 .LBB0_17:
 	movs	r0, #1
-	str	r0, [sp, #12]
+	str	r0, [sp, #32]
 	b	.LBB0_18
 .LBB0_18:
 	b	.LBB0_19
 .LBB0_19:
-	b	.LBB0_19
+	b	.LBB0_20
+.LBB0_20:
+	b	.LBB0_20
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run
 	.cantunwind

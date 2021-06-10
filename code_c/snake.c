@@ -17,20 +17,18 @@ void run()
 		SCRUPD();
 
 		if (KEYBeof)
-		{
 			key = KEYBchr;
-		}
 
 		PIXCLR(x, y);
 
 		if (key == 'q')
-		x--;
+			x--;
 		else if (key == 'd')
-		x++;
+			x++;
 		else if (key == 'z')
-		y--;
+			y--;
 		else if (key == 's')
-		y++;
+			y++;
 
 		x &= 7;
 		y &= 3;

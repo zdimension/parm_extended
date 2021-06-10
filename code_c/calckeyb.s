@@ -471,20 +471,24 @@ run:
 .LBB0_106:
 	b	.LBB0_107
 .LBB0_107:
-	ldr	r0, [sp, #104]
-	cmp	r0, #0
-	bne	.LBB0_109
 	b	.LBB0_108
 .LBB0_108:
-	b	.LBB0_107
+	ldr	r0, [sp, #104]
+	cmp	r0, #0
+	bne	.LBB0_110
+	b	.LBB0_109
 .LBB0_109:
-	b	.LBB0_110
+	b	.LBB0_108
 .LBB0_110:
-	movs	r0, #1
-	str	r0, [sp, #96]
 	b	.LBB0_111
 .LBB0_111:
-	b	.LBB0_111
+	b	.LBB0_112
+.LBB0_112:
+	movs	r0, #1
+	str	r0, [sp, #96]
+	b	.LBB0_113
+.LBB0_113:
+	b	.LBB0_113
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run
 	.cantunwind

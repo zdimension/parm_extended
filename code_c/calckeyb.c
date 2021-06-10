@@ -28,35 +28,36 @@ void run()
 	PUTCHAR('^');
 
 	int choice;
-	read:
-		choice = READKEY();
+read:
+	choice = READKEY();
 
-	switch(choice) {
-		case '+':
+	switch(choice) 
+	{
+	case '+':
 		RES = a + b;
 		break;
-		case '-':
+	case '-':
 		RES = a - b;
 		break;
-		case '*':
+	case '*':
 		RES = a * b;
 		break;
-		case '/':
+	case '/':
 		RES = DIV(a, b);
 		break;
-		case '%':
+	case '%':
 		RES = MOD(a, b);
 		break;
-		case '&':
+	case '&':
 		RES = a & b;
 		break;
-		case '|':
+	case '|':
 		RES = a | b;
 		break;
-		case '^':
+	case '^':
 		RES = a ^ b;
 		break;
-		default:
+	default:
 		goto read;
 	}
 
@@ -65,7 +66,7 @@ void run()
 	PUTCHAR('=');
 	PRINTRES_SIGN();
 
-	while (!KEYBeof);
+	WAITKEY();
 
 	RESET();
 }

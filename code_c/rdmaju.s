@@ -25,8 +25,12 @@
 	.thumb_func
 run:
 	.fnstart
-	.pad	#120
-	sub	sp, #120
+	.save	{r5, r6, r7, lr}
+	push	{r5, r6, r7, lr}
+	.setfp	r7, sp, #8
+	add	r7, sp, #8
+	.pad	#136
+	sub	sp, #136
 	@APP
 	sub	sp, #508
 	@NO_APP
@@ -37,7 +41,7 @@ run:
 	str	r0, [sp, #48]
 	b	.LBB0_1
 .LBB0_1:
-	ldr	r0, [sp, #80]
+	ldr	r0, [sp, #96]
 	cmp	r0, #0
 	bne	.LBB0_3
 	b	.LBB0_2
@@ -46,26 +50,27 @@ run:
 .LBB0_3:
 	b	.LBB0_4
 .LBB0_4:
-	ldr	r0, [sp, #84]
-	str	r0, [sp, #52]
-	str	r0, [sp, #56]
+	ldr	r0, [sp, #100]
+	str	r0, [sp, #68]
+	str	r0, [sp, #72]
 	b	.LBB0_5
 .LBB0_5:
-	ldr	r0, [sp, #52]
+	ldr	r0, [sp, #68]
 	cmp	r0, #10
 	bne	.LBB0_7
 	b	.LBB0_6
 .LBB0_6:
 	movs	r0, #0
-	str	r0, [sp, #52]
+	str	r0, [sp, #68]
 	b	.LBB0_7
 .LBB0_7:
 	ldr	r0, [sp, #48]
-	ldr	r1, [sp, #52]
+	ldr	r1, [sp, #68]
 	@APP
 	adds	r6, r0, #0
 .Ltmp0:
 	beq	.Ltmp1
+
 	subs	r6, #1
 	add	sp, #4
 	bne	.Ltmp0
@@ -80,7 +85,7 @@ run:
 .Ltmp3:
 
 	@NO_APP
-	ldr	r0, [sp, #52]
+	ldr	r0, [sp, #68]
 	cmp	r0, #0
 	bne	.LBB0_9
 	b	.LBB0_8
@@ -93,11 +98,11 @@ run:
 	b	.LBB0_1
 .LBB0_10:
 	movs	r0, #45
-	str	r0, [sp, #56]
+	str	r0, [sp, #72]
 	movs	r0, #62
-	str	r0, [sp, #56]
+	str	r0, [sp, #72]
 	movs	r0, #32
-	str	r0, [sp, #56]
+	str	r0, [sp, #72]
 	movs	r0, #0
 	str	r0, [sp, #40]
 	b	.LBB0_11
@@ -113,6 +118,7 @@ run:
 	adds	r6, r0, #0
 .Ltmp4:
 	beq	.Ltmp5
+
 	subs	r6, #1
 	add	sp, #4
 	bne	.Ltmp4
@@ -131,7 +137,7 @@ run:
 	ldr	r0, [sp, #44]
 	movs	r1, #32
 	bics	r0, r1
-	str	r0, [sp, #56]
+	str	r0, [sp, #72]
 	b	.LBB0_13
 .LBB0_13:
 	ldr	r0, [sp, #40]
@@ -141,7 +147,9 @@ run:
 .LBB0_14:
 	b	.LBB0_15
 .LBB0_15:
-	b	.LBB0_15
+	b	.LBB0_16
+.LBB0_16:
+	b	.LBB0_16
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run
 	.cantunwind

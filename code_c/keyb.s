@@ -25,8 +25,8 @@
 	.thumb_func
 run:
 	.fnstart
-	.pad	#72
-	sub	sp, #72
+	.pad	#92
+	sub	sp, #92
 	@APP
 	sub	sp, #508
 	@NO_APP
@@ -37,14 +37,14 @@ run:
 	str	r0, [sp]
 	b	.LBB0_1
 .LBB0_1:
-	ldr	r0, [sp, #32]
+	ldr	r0, [sp, #52]
 	cmp	r0, #0
 	bne	.LBB0_3
 	b	.LBB0_2
 .LBB0_2:
 	b	.LBB0_1
 .LBB0_3:
-	ldr	r0, [sp, #36]
+	ldr	r0, [sp, #56]
 	str	r0, [sp, #4]
 	ldr	r0, [sp]
 	movs	r1, #32
@@ -55,7 +55,7 @@ run:
 	bics	r1, r0
 	str	r1, [sp, #4]
 	ldr	r0, [sp, #4]
-	str	r0, [sp, #8]
+	str	r0, [sp, #28]
 	b	.LBB0_1
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run

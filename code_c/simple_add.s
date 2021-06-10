@@ -25,8 +25,8 @@
 	.thumb_func
 run:
 	.fnstart
-	.pad	#76
-	sub	sp, #76
+	.pad	#96
+	sub	sp, #96
 	@APP
 	sub	sp, #508
 	@NO_APP
@@ -42,10 +42,12 @@ run:
 	adds	r0, r0, r1
 	str	r0, [sp]
 	ldr	r0, [sp]
-	str	r0, [sp, #16]
+	str	r0, [sp, #36]
 	b	.LBB0_1
 .LBB0_1:
-	b	.LBB0_1
+	b	.LBB0_2
+.LBB0_2:
+	b	.LBB0_2
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run
 	.cantunwind

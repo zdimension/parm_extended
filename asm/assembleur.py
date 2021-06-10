@@ -162,8 +162,8 @@ for i, line in enumerate(lines):
     if not no_optim:
         if i in ignored_lines:
             continue
-        if "add\tr7, sp" in line or "push\t{" in line:  # fix for clang's frame pointer creation
-            continue
+    if "add\tr7, sp" in line or "push\t{" in line:  # fix for clang's frame pointer creation
+        continue
     while line := line.strip():
         if m := rlbl.match(line):  # line is a label
             labels[m.group(1)] = len(instrs)

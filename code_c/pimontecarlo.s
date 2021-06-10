@@ -25,8 +25,12 @@
 	.thumb_func
 run:
 	.fnstart
-	.pad	#120
-	sub	sp, #120
+	.save	{r4, r5, r7, lr}
+	push	{r4, r5, r7, lr}
+	.setfp	r7, sp, #8
+	add	r7, sp, #8
+	.pad	#124
+	sub	sp, #124
 	@APP
 	sub	sp, #508
 	@NO_APP
@@ -34,24 +38,24 @@ run:
 	sub	sp, #452
 	@NO_APP
 	movs	r0, #10
-	str	r0, [sp, #52]
+	str	r0, [sp, #36]
 	movs	r0, #1
 	lsls	r0, r0, #15
-	str	r0, [sp, #48]
-	ldr	r0, [sp, #48]
-	str	r0, [sp, #44]
-	ldr	r0, [sp, #44]
-	muls	r0, r0, r0
-	str	r0, [sp, #44]
-	movs	r0, #0
-	str	r0, [sp, #40]
-	ldr	r1, [sp, #48]
-	subs	r1, r1, #1
-	str	r1, [sp, #36]
 	str	r0, [sp, #32]
+	ldr	r0, [sp, #32]
+	str	r0, [sp, #28]
+	ldr	r0, [sp, #28]
+	muls	r0, r0, r0
+	str	r0, [sp, #28]
+	movs	r0, #0
+	str	r0, [sp, #24]
+	ldr	r1, [sp, #32]
+	subs	r1, r1, #1
+	str	r1, [sp, #20]
+	str	r0, [sp, #16]
 	b	.LBB0_1
 .LBB0_1:
-	ldr	r0, [sp, #32]
+	ldr	r0, [sp, #16]
 	cmp	r0, #9
 	bhi	.LBB0_8
 	b	.LBB0_2
@@ -59,59 +63,59 @@ run:
 	b	.LBB0_3
 .LBB0_3:
 	movs	r0, #46
-	str	r0, [sp, #56]
+	str	r0, [sp, #60]
 	b	.LBB0_4
 .LBB0_4:
-	ldr	r0, [sp, #96]
-	ldr	r1, [sp, #36]
+	ldr	r0, [sp, #100]
+	ldr	r1, [sp, #20]
 	ands	r0, r1
-	str	r0, [sp, #28]
-	ldr	r0, [sp, #96]
-	ldr	r1, [sp, #36]
+	str	r0, [sp, #12]
+	ldr	r0, [sp, #100]
+	ldr	r1, [sp, #20]
 	ands	r0, r1
-	str	r0, [sp, #24]
-	ldr	r0, [sp, #28]
+	str	r0, [sp, #8]
+	ldr	r0, [sp, #12]
 	muls	r0, r0, r0
-	ldr	r1, [sp, #24]
+	ldr	r1, [sp, #8]
 	muls	r1, r1, r1
 	adds	r0, r0, r1
-	ldr	r1, [sp, #44]
+	ldr	r1, [sp, #28]
 	cmp	r0, r1
 	bhs	.LBB0_6
 	b	.LBB0_5
 .LBB0_5:
-	ldr	r0, [sp, #40]
+	ldr	r0, [sp, #24]
 	adds	r0, r0, #1
-	str	r0, [sp, #40]
+	str	r0, [sp, #24]
 	b	.LBB0_6
 .LBB0_6:
 	b	.LBB0_7
 .LBB0_7:
-	ldr	r0, [sp, #32]
+	ldr	r0, [sp, #16]
 	adds	r0, r0, #1
-	str	r0, [sp, #32]
+	str	r0, [sp, #16]
 	b	.LBB0_1
 .LBB0_8:
-	ldr	r0, [sp, #40]
+	ldr	r0, [sp, #24]
 	movs	r1, #125
 	lsls	r1, r1, #5
 	muls	r1, r0, r1
 	movs	r0, #10
 	@APP
-	movs	r2, r1
-	movs	r3, r0
+	movs	r4, r1
+	movs	r5, r0
 	@NO_APP
-	ldr	r0, [sp, #104]
-	str	r0, [sp, #16]
-	ldr	r0, [sp, #16]
-	str	r0, [sp, #20]
-	ldr	r0, [sp, #20]
-	str	r0, [sp, #60]
+	ldr	r0, [sp, #108]
+	str	r0, [sp]
+	ldr	r0, [sp]
+	str	r0, [sp, #4]
+	ldr	r0, [sp, #4]
+	str	r0, [sp, #64]
 	b	.LBB0_9
 .LBB0_9:
-	ldr	r0, [sp, #100]
-	str	r0, [sp, #12]
-	ldr	r0, [sp, #12]
+	ldr	r0, [sp, #104]
+	str	r0, [sp, #56]
+	ldr	r0, [sp, #56]
 	cmp	r0, #0
 	bne	.LBB0_13
 	b	.LBB0_10
@@ -119,40 +123,40 @@ run:
 	b	.LBB0_11
 .LBB0_11:
 	movs	r0, #48
-	str	r0, [sp, #56]
+	str	r0, [sp, #60]
 	b	.LBB0_12
 .LBB0_12:
 	b	.LBB0_25
 .LBB0_13:
 	movs	r0, #0
-	str	r0, [sp, #8]
-	str	r0, [sp, #4]
+	str	r0, [sp, #52]
+	str	r0, [sp, #48]
 	b	.LBB0_14
 .LBB0_14:
-	ldr	r0, [sp, #4]
+	ldr	r0, [sp, #48]
 	cmp	r0, #7
-	bgt	.LBB0_24
+	bhi	.LBB0_24
 	b	.LBB0_15
 .LBB0_15:
-	ldr	r0, [sp, #12]
+	ldr	r0, [sp, #56]
 	movs	r1, #15
 	ands	r0, r1
-	str	r0, [sp]
-	ldr	r0, [sp, #12]
-	asrs	r0, r0, #4
-	str	r0, [sp, #12]
-	ldr	r0, [sp, #8]
+	str	r0, [sp, #44]
+	ldr	r0, [sp, #56]
+	lsrs	r0, r0, #4
+	str	r0, [sp, #56]
+	ldr	r0, [sp, #52]
 	cmp	r0, #0
 	bne	.LBB0_20
 	b	.LBB0_16
 .LBB0_16:
-	ldr	r0, [sp]
+	ldr	r0, [sp, #44]
 	cmp	r0, #0
 	beq	.LBB0_18
 	b	.LBB0_17
 .LBB0_17:
 	movs	r0, #1
-	str	r0, [sp, #8]
+	str	r0, [sp, #52]
 	b	.LBB0_19
 .LBB0_18:
 	b	.LBB0_23
@@ -161,23 +165,25 @@ run:
 .LBB0_20:
 	b	.LBB0_21
 .LBB0_21:
-	ldr	r0, [sp]
+	ldr	r0, [sp, #44]
 	adds	r0, #48
-	str	r0, [sp, #56]
+	str	r0, [sp, #60]
 	b	.LBB0_22
 .LBB0_22:
 	b	.LBB0_23
 .LBB0_23:
-	ldr	r0, [sp, #4]
+	ldr	r0, [sp, #48]
 	adds	r0, r0, #1
-	str	r0, [sp, #4]
+	str	r0, [sp, #48]
 	b	.LBB0_14
 .LBB0_24:
 	b	.LBB0_25
 .LBB0_25:
 	b	.LBB0_26
 .LBB0_26:
-	b	.LBB0_26
+	b	.LBB0_27
+.LBB0_27:
+	b	.LBB0_27
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run
 	.cantunwind

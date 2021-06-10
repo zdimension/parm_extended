@@ -25,8 +25,12 @@
 	.thumb_func
 run:
 	.fnstart
-	.pad	#84
-	sub	sp, #84
+	.save	{r4, r5, r7, lr}
+	push	{r4, r5, r7, lr}
+	.setfp	r7, sp, #8
+	add	r7, sp, #8
+	.pad	#104
+	sub	sp, #104
 	@APP
 	sub	sp, #508
 	@NO_APP
@@ -59,15 +63,15 @@ run:
 	adds	r0, r1, r0
 	ldr	r1, [sp, #12]
 	@APP
-	movs	r2, r0
-	movs	r3, r1
+	movs	r4, r0
+	movs	r5, r1
 	@NO_APP
-	ldr	r0, [sp, #72]
+	ldr	r0, [sp, #92]
 	str	r0, [sp]
 	ldr	r0, [sp]
 	str	r0, [sp, #4]
 	ldr	r0, [sp, #4]
-	str	r0, [sp, #24]
+	str	r0, [sp, #44]
 	b	.LBB0_1
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run
