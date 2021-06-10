@@ -155,10 +155,10 @@
     <a name="clabelup" val="east"/>
     <appear>
       <circ-anchor facing="north" height="6" width="6" x="117" y="197"/>
+      <circ-port height="10" pin="1120,280" width="10" x="115" y="215"/>
       <circ-port height="10" pin="1120,440" width="10" x="145" y="195"/>
-      <circ-port height="10" pin="930,280" width="10" x="115" y="215"/>
-      <circ-port height="8" pin="210,420" width="8" x="96" y="206"/>
       <circ-port height="8" pin="230,340" width="8" x="86" y="196"/>
+      <circ-port height="8" pin="230,420" width="8" x="96" y="206"/>
       <circ-port height="8" pin="240,100" width="8" x="86" y="176"/>
       <circ-port height="8" pin="240,200" width="8" x="146" y="176"/>
       <circ-port height="8" pin="240,270" width="8" x="76" y="186"/>
@@ -184,14 +184,17 @@
       <a name="fanout" val="4"/>
       <a name="incoming" val="4"/>
     </comp>
+    <comp lib="0" loc="(1120,280)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="label" val="S"/>
+      <a name="output" val="true"/>
+      <a name="width" val="32"/>
+    </comp>
     <comp lib="0" loc="(1120,440)" name="Pin">
       <a name="facing" val="west"/>
       <a name="label" val="Flags"/>
       <a name="output" val="true"/>
       <a name="width" val="4"/>
-    </comp>
-    <comp lib="0" loc="(210,420)" name="Pin">
-      <a name="label" val="CarryIn"/>
     </comp>
     <comp lib="0" loc="(230,340)" name="Pin">
       <a name="label" val="Codop"/>
@@ -209,6 +212,9 @@
       <a name="bit3" val="none"/>
       <a name="fanout" val="1"/>
       <a name="incoming" val="4"/>
+    </comp>
+    <comp lib="0" loc="(230,420)" name="Pin">
+      <a name="label" val="CarryIn"/>
     </comp>
     <comp lib="0" loc="(240,100)" name="Pin">
       <a name="label" val="A"/>
@@ -420,12 +426,6 @@
       <a name="label" val="A"/>
       <a name="width" val="32"/>
     </comp>
-    <comp lib="0" loc="(930,280)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="label" val="S"/>
-      <a name="output" val="true"/>
-      <a name="width" val="32"/>
-    </comp>
     <comp lib="0" loc="(930,440)" name="Tunnel">
       <a name="label" val="Z"/>
     </comp>
@@ -596,11 +596,11 @@
     <wire from="(1090,500)" to="(1090,510)"/>
     <wire from="(1090,510)" to="(1100,510)"/>
     <wire from="(1110,440)" to="(1120,440)"/>
-    <wire from="(210,390)" to="(210,420)"/>
-    <wire from="(210,390)" to="(260,390)"/>
-    <wire from="(210,420)" to="(210,450)"/>
-    <wire from="(210,450)" to="(250,450)"/>
     <wire from="(230,340)" to="(230,360)"/>
+    <wire from="(230,390)" to="(230,420)"/>
+    <wire from="(230,390)" to="(260,390)"/>
+    <wire from="(230,420)" to="(230,450)"/>
+    <wire from="(230,450)" to="(250,450)"/>
     <wire from="(250,370)" to="(250,430)"/>
     <wire from="(250,370)" to="(260,370)"/>
     <wire from="(250,430)" to="(260,430)"/>
@@ -815,7 +815,7 @@
     <wire from="(910,440)" to="(920,440)"/>
     <wire from="(910,620)" to="(910,630)"/>
     <wire from="(910,620)" to="(920,620)"/>
-    <wire from="(920,280)" to="(930,280)"/>
+    <wire from="(920,280)" to="(1120,280)"/>
     <wire from="(920,440)" to="(920,460)"/>
     <wire from="(920,440)" to="(930,440)"/>
     <wire from="(920,460)" to="(1090,460)"/>

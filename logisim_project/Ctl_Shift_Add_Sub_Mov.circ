@@ -211,14 +211,14 @@ end TCL_Generic;
     <appear>
       <circ-anchor facing="east" height="6" width="6" x="267" y="97"/>
       <circ-port height="10" pin="670,170" width="10" x="265" y="195"/>
+      <circ-port height="10" pin="670,240" width="10" x="265" y="35"/>
+      <circ-port height="10" pin="670,290" width="10" x="265" y="55"/>
       <circ-port height="10" pin="670,360" width="10" x="265" y="135"/>
       <circ-port height="10" pin="670,420" width="10" x="265" y="155"/>
       <circ-port height="10" pin="670,480" width="10" x="265" y="175"/>
       <circ-port height="10" pin="670,540" width="10" x="265" y="75"/>
       <circ-port height="10" pin="670,610" width="10" x="265" y="95"/>
       <circ-port height="10" pin="670,710" width="10" x="265" y="115"/>
-      <circ-port height="10" pin="690,240" width="10" x="265" y="35"/>
-      <circ-port height="10" pin="690,290" width="10" x="265" y="55"/>
       <circ-port height="8" pin="190,150" width="8" x="46" y="36"/>
       <circ-port height="8" pin="600,120" width="8" x="46" y="56"/>
       <rect fill="none" height="200" stroke="#000000" stroke-width="2" width="200" x="60" y="30"/>
@@ -636,6 +636,16 @@ end TCL_Generic;
       <a name="output" val="true"/>
       <a name="width" val="4"/>
     </comp>
+    <comp lib="0" loc="(670,240)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="label" val="Carry"/>
+      <a name="output" val="true"/>
+    </comp>
+    <comp lib="0" loc="(670,290)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="label" val="Imm32_Enable"/>
+      <a name="output" val="true"/>
+    </comp>
     <comp lib="0" loc="(670,360)" name="Pin">
       <a name="facing" val="west"/>
       <a name="label" val="Rm"/>
@@ -671,16 +681,6 @@ end TCL_Generic;
       <a name="label" val="ALU_Opcode"/>
       <a name="output" val="true"/>
       <a name="width" val="4"/>
-    </comp>
-    <comp lib="0" loc="(690,240)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="label" val="Carry"/>
-      <a name="output" val="true"/>
-    </comp>
-    <comp lib="0" loc="(690,290)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="label" val="Imm32_Enable"/>
-      <a name="output" val="true"/>
     </comp>
     <comp lib="1" loc="(260,170)" name="AND Gate">
       <a name="size" val="30"/>
@@ -739,10 +739,10 @@ end TCL_Generic;
       <a name="control" val="left"/>
       <a name="width" val="4"/>
     </comp>
-    <comp lib="1" loc="(680,240)" name="AND Gate">
+    <comp lib="1" loc="(660,240)" name="AND Gate">
       <a name="size" val="30"/>
     </comp>
-    <comp lib="1" loc="(680,290)" name="AND Gate">
+    <comp lib="1" loc="(660,290)" name="AND Gate">
       <a name="size" val="30"/>
     </comp>
     <comp lib="2" loc="(430,760)" name="Multiplexer">
@@ -823,7 +823,7 @@ end TCL_Generic;
       <a name="font" val="SansSerif plain 12"/>
       <a name="text" val="SUB"/>
     </comp>
-    <comp lib="8" loc="(504,95)" name="Text">
+    <comp lib="8" loc="(474,93)" name="Text">
       <a name="font" val="SansSerif plain 12"/>
       <a name="text" val="Pull output low on Enable = 0"/>
     </comp>
@@ -831,11 +831,11 @@ end TCL_Generic;
       <a name="font" val="SansSerif plain 12"/>
       <a name="text" val="only ADD and SUB use Rm"/>
     </comp>
-    <comp lib="8" loc="(906,248)" name="Text">
+    <comp lib="8" loc="(886,248)" name="Text">
       <a name="font" val="SansSerif plain 12"/>
       <a name="text" val="Enable carry for SUB since it is reversed in ALU"/>
     </comp>
-    <comp lib="8" loc="(959,295)" name="Text">
+    <comp lib="8" loc="(939,295)" name="Text">
       <a name="font" val="SansSerif plain 12"/>
       <a name="text" val="ALU will use Imm32 instead of Rm"/>
     </comp>
@@ -950,7 +950,7 @@ end TCL_Generic;
     <wire from="(520,140)" to="(530,140)"/>
     <wire from="(520,160)" to="(520,190)"/>
     <wire from="(520,160)" to="(530,160)"/>
-    <wire from="(530,300)" to="(650,300)"/>
+    <wire from="(530,300)" to="(630,300)"/>
     <wire from="(530,480)" to="(620,480)"/>
     <wire from="(530,610)" to="(620,610)"/>
     <wire from="(540,240)" to="(550,240)"/>
@@ -958,14 +958,14 @@ end TCL_Generic;
     <wire from="(540,260)" to="(550,260)"/>
     <wire from="(540,710)" to="(620,710)"/>
     <wire from="(550,170)" to="(620,170)"/>
-    <wire from="(590,250)" to="(650,250)"/>
+    <wire from="(590,250)" to="(630,250)"/>
     <wire from="(600,120)" to="(600,150)"/>
     <wire from="(600,150)" to="(600,230)"/>
     <wire from="(600,150)" to="(630,150)"/>
     <wire from="(600,230)" to="(600,280)"/>
-    <wire from="(600,230)" to="(650,230)"/>
+    <wire from="(600,230)" to="(630,230)"/>
     <wire from="(600,280)" to="(600,340)"/>
-    <wire from="(600,280)" to="(650,280)"/>
+    <wire from="(600,280)" to="(630,280)"/>
     <wire from="(600,340)" to="(600,400)"/>
     <wire from="(600,340)" to="(630,340)"/>
     <wire from="(600,400)" to="(600,460)"/>
@@ -992,13 +992,13 @@ end TCL_Generic;
     <wire from="(640,610)" to="(660,610)"/>
     <wire from="(640,710)" to="(660,710)"/>
     <wire from="(660,170)" to="(670,170)"/>
+    <wire from="(660,240)" to="(670,240)"/>
+    <wire from="(660,290)" to="(670,290)"/>
     <wire from="(660,360)" to="(670,360)"/>
     <wire from="(660,420)" to="(670,420)"/>
     <wire from="(660,480)" to="(670,480)"/>
     <wire from="(660,540)" to="(670,540)"/>
     <wire from="(660,610)" to="(670,610)"/>
     <wire from="(660,710)" to="(670,710)"/>
-    <wire from="(680,240)" to="(690,240)"/>
-    <wire from="(680,290)" to="(690,290)"/>
   </circuit>
 </project>

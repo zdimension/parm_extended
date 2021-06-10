@@ -1633,7 +1633,38 @@ end TCL_Generic;
       <a name="addrWidth" val="16"/>
       <a name="appearance" val="logisim_evolution"/>
       <a name="contents">addr/data: 16 16
-200a 210b 220c 9000 9900 9200
+b0a4 b0ff b0f1 2041 9014 203d 9014 2000
+900c 981a 2800 d1ff e7fa 981b 900a 980a
+900b 980b 280a d1ff e011 980b 2830 db01
+980b 283a dbff e7eb 980b 9014 980c 210a
+4341 910c 980b 990c 1808 3830 900c e7df
+980c 9009 9809 900e 200a 9014 2042 9014
+203d 9014 2000 9008 981a 2800 d1ff e7fa
+981b 9006 9806 9007 9807 280a d1ff e011
+9807 2830 db01 9807 283a dbff e7eb 9807
+9014 9808 210a 4341 9108 9807 9908 1808
+3830 9008 e7df 9808 9005 9805 900d 200a
+9014 202b 9014 202d 9014 202a 9014 202f
+9014 2025 9014 2026 9014 207c 9014 205e
+9014 981a 2800 d1ff e7fa 981b 9003 9803
+9004 9804 2825 9000 d02c 9800 2826 d032
+9800 282a d018 9800 282b d00b 9800 282d
+d00d 9800 282f d014 9800 285e d02d 9800
+287c d025 e02e 980e 990d 1840 9015 e02a
+980e 990d 1a40 9015 e025 980e 990d 4341
+9115 e020 980e 990d 4 d 9820 9002
+9802 9015 e017 980e 990d 4 d 9821
+9001 9801 9015 e00e 980e 990d 4008 9015
+e009 980e 990d 4308 9015 e004 980e 990d
+4048 9015 e7ff e7ab 200a 9014 2052 9014
+203d 9014 981f 9013 9813 2800 d101 2030
+9014 e026 9815 2800 da05 202d 9014 9815
+4240 9015 981f 9013 2000 9012 9011 9811
+2807 d816 9813 210f 4008 9010 9813 900
+9013 9812 2800 d105 9810 2800 d001 2001
+9012 e7ff e001 9810 3030 9014 9811 1c40
+9011 e7e3 981a 2800 d1ff e7fa 2001 9018
+e7fd
 </a>
       <a name="dataWidth" val="16"/>
       <a name="label" val="ROMa"/>
@@ -1727,6 +1758,14 @@ end TCL_Generic;
     <comp lib="8" loc="(267,1383)" name="Text">
       <a name="font" val="SansSerif plain 20"/>
       <a name="text" val="Sorties"/>
+    </comp>
+    <comp lib="8" loc="(667,889)" name="Text">
+      <a name="font" val="SansSerif plain 20"/>
+      <a name="text" val="Reprendre après un point d'arrêt"/>
+    </comp>
+    <comp lib="8" loc="(921,888)" name="Text">
+      <a name="font" val="SansSerif plain 20"/>
+      <a name="text" val="Tic d'horloge"/>
     </comp>
     <comp lib="8" loc="(999,1470)" name="Text">
       <a name="font" val="SansSerif plain 20"/>

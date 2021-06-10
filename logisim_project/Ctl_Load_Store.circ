@@ -216,9 +216,9 @@ end TCL_Generic;
       <circ-port height="10" pin="590,290" width="10" x="265" y="75"/>
       <circ-port height="10" pin="590,350" width="10" x="265" y="95"/>
       <circ-port height="10" pin="590,90" width="10" x="265" y="135"/>
+      <circ-port height="8" pin="200,360" width="8" x="46" y="96"/>
       <circ-port height="8" pin="200,70" width="8" x="46" y="56"/>
       <circ-port height="8" pin="310,180" width="8" x="46" y="116"/>
-      <circ-port height="8" pin="340,360" width="8" x="46" y="96"/>
       <circ-port height="8" pin="350,260" width="8" x="46" y="136"/>
       <circ-port height="8" pin="530,70" width="8" x="46" y="76"/>
       <rect fill="none" height="141" stroke="#000000" stroke-width="2" width="200" x="60" y="50"/>
@@ -247,6 +247,10 @@ end TCL_Generic;
       <text dominant-baseline="central" fill="#404040" font-family="SansSerif" font-size="12" text-anchor="middle" x="82" y="144">Reset</text>
       <text dominant-baseline="central" fill="#ffffff" font-family="Dialog" font-size="14" font-weight="bold" text-anchor="middle" x="160" y="186">Load_Store</text>
     </appear>
+    <comp lib="0" loc="(200,360)" name="Pin">
+      <a name="label" val="Stack_Pointer"/>
+      <a name="width" val="32"/>
+    </comp>
     <comp lib="0" loc="(200,70)" name="Pin">
       <a name="label" val="Instruction"/>
       <a name="pull" val="down"/>
@@ -275,10 +279,6 @@ end TCL_Generic;
     </comp>
     <comp lib="0" loc="(310,180)" name="Pin">
       <a name="label" val="Clk"/>
-    </comp>
-    <comp lib="0" loc="(340,360)" name="Pin">
-      <a name="label" val="Stack_Pointer"/>
-      <a name="width" val="32"/>
     </comp>
     <comp lib="0" loc="(350,260)" name="Pin">
       <a name="facing" val="west"/>
@@ -390,6 +390,7 @@ end TCL_Generic;
       <a name="font" val="SansSerif plain 12"/>
       <a name="text" val="Delay load and hold PC for 1 cycle for the RAM to send out requested data "/>
     </comp>
+    <wire from="(200,360)" to="(460,360)"/>
     <wire from="(220,100)" to="(220,290)"/>
     <wire from="(220,290)" to="(320,290)"/>
     <wire from="(220,80)" to="(240,80)"/>
@@ -406,7 +407,6 @@ end TCL_Generic;
     <wire from="(340,190)" to="(340,200)"/>
     <wire from="(340,230)" to="(340,260)"/>
     <wire from="(340,260)" to="(350,260)"/>
-    <wire from="(340,360)" to="(460,360)"/>
     <wire from="(350,240)" to="(430,240)"/>
     <wire from="(360,290)" to="(380,290)"/>
     <wire from="(370,140)" to="(380,140)"/>

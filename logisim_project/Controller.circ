@@ -511,7 +511,7 @@ end TCL_Generic;
     </comp>
     <comp lib="8" loc="(966,1037)" name="Text">
       <a name="font" val="SansSerif plain 12"/>
-      <a name="text" val="and does an additionnal prefect operation"/>
+      <a name="text" val="and does an additional prefetch operation"/>
     </comp>
     <comp lib="8" loc="(983,1022)" name="Text">
       <a name="font" val="SansSerif plain 12"/>

@@ -250,15 +250,16 @@ end TCL_Generic;
       <a name="showInTab" val="true"/>
       <a name="width" val="4"/>
     </comp>
-    <wire from="(210,100)" to="(210,130)"/>
-    <wire from="(210,130)" to="(310,130)"/>
+    <wire from="(210,100)" to="(230,100)"/>
     <wire from="(210,140)" to="(450,140)"/>
     <wire from="(210,180)" to="(480,180)"/>
     <wire from="(210,60)" to="(250,60)"/>
+    <wire from="(230,100)" to="(230,130)"/>
+    <wire from="(230,130)" to="(310,130)"/>
     <wire from="(250,100)" to="(290,100)"/>
     <wire from="(250,60)" to="(250,100)"/>
-    <wire from="(270,50)" to="(270,70)"/>
-    <wire from="(270,50)" to="(530,50)"/>
+    <wire from="(270,40)" to="(270,70)"/>
+    <wire from="(270,40)" to="(530,40)"/>
     <wire from="(270,70)" to="(310,70)"/>
     <wire from="(290,100)" to="(290,110)"/>
     <wire from="(290,110)" to="(310,110)"/>
@@ -274,6 +275,6 @@ end TCL_Generic;
     <wire from="(480,160)" to="(480,180)"/>
     <wire from="(510,100)" to="(530,100)"/>
     <wire from="(530,100)" to="(560,100)"/>
-    <wire from="(530,50)" to="(530,100)"/>
+    <wire from="(530,40)" to="(530,100)"/>
   </circuit>
 </project>
