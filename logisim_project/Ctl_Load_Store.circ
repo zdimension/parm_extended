@@ -210,42 +210,39 @@ end TCL_Generic;
     <a name="clabelup" val="east"/>
     <appear>
       <circ-anchor facing="east" height="6" width="6" x="267" y="57"/>
-      <circ-port height="10" pin="590,130" width="10" x="265" y="115"/>
-      <circ-port height="10" pin="590,180" width="10" x="265" y="155"/>
-      <circ-port height="10" pin="590,230" width="10" x="265" y="55"/>
-      <circ-port height="10" pin="590,290" width="10" x="265" y="75"/>
-      <circ-port height="10" pin="590,350" width="10" x="265" y="95"/>
-      <circ-port height="10" pin="590,90" width="10" x="265" y="135"/>
+      <circ-port height="10" pin="590,130" width="10" x="265" y="95"/>
+      <circ-port height="10" pin="590,180" width="10" x="265" y="135"/>
+      <circ-port height="10" pin="590,250" width="10" x="265" y="55"/>
+      <circ-port height="10" pin="590,350" width="10" x="265" y="75"/>
+      <circ-port height="10" pin="590,90" width="10" x="265" y="115"/>
       <circ-port height="8" pin="200,360" width="8" x="46" y="96"/>
       <circ-port height="8" pin="200,70" width="8" x="46" y="56"/>
       <circ-port height="8" pin="310,180" width="8" x="46" y="116"/>
       <circ-port height="8" pin="350,260" width="8" x="46" y="136"/>
       <circ-port height="8" pin="530,70" width="8" x="46" y="76"/>
-      <rect fill="none" height="141" stroke="#000000" stroke-width="2" width="200" x="60" y="50"/>
-      <rect height="20" stroke="none" width="200" x="60" y="171"/>
+      <rect fill="none" height="130" stroke="#000000" stroke-width="2" width="200" x="60" y="50"/>
+      <rect height="20" stroke="none" width="200" x="60" y="160"/>
       <rect height="3" stroke="none" width="10" x="260" y="59"/>
       <rect height="3" stroke="none" width="10" x="50" y="59"/>
+      <rect height="4" stroke="none" width="10" x="260" y="118"/>
       <rect height="4" stroke="none" width="10" x="260" y="138"/>
-      <rect height="4" stroke="none" width="10" x="260" y="158"/>
-      <rect height="4" stroke="none" width="10" x="260" y="78"/>
-      <rect height="4" stroke="none" width="10" x="261" y="118"/>
+      <rect height="4" stroke="none" width="10" x="261" y="78"/>
       <rect height="4" stroke="none" width="10" x="261" y="98"/>
       <rect height="4" stroke="none" width="10" x="50" y="118"/>
       <rect height="4" stroke="none" width="10" x="50" y="138"/>
       <rect height="4" stroke="none" width="10" x="50" y="78"/>
       <rect height="4" stroke="none" width="10" x="50" y="98"/>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="252" y="83">Rd</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="253" y="123">Load</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="253" y="144">Store</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="254" y="64">Rm</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="255" y="102">RAM_Addr</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="104">Stack_Pointer</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="84">Enable</text>
-      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="66" y="65">Instruction</text>
-      <text dominant-baseline="central" fill="#404040" font-family="SansSerif" font-size="12" text-anchor="middle" x="229" y="163">PC_Hold</text>
-      <text dominant-baseline="central" fill="#404040" font-family="SansSerif" font-size="12" text-anchor="middle" x="74" y="124">Clk</text>
-      <text dominant-baseline="central" fill="#404040" font-family="SansSerif" font-size="12" text-anchor="middle" x="82" y="144">Reset</text>
-      <text dominant-baseline="central" fill="#ffffff" font-family="Dialog" font-size="14" font-weight="bold" text-anchor="middle" x="160" y="186">Load_Store</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="253" y="120">Store</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="253" y="99">Load</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="254" y="60">Rmd</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="end" x="255" y="78">RAM_Addr</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="100">Stack_Pointer</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="65" y="80">Enable</text>
+      <text dominant-baseline="central" fill="#404040" font-family="Dialog" font-size="12" text-anchor="start" x="66" y="61">Instruction</text>
+      <text dominant-baseline="central" fill="#404040" font-family="SansSerif" font-size="12" text-anchor="middle" x="229" y="139">PC_Hold</text>
+      <text dominant-baseline="central" fill="#404040" font-family="SansSerif" font-size="12" text-anchor="middle" x="74" y="120">Clk</text>
+      <text dominant-baseline="central" fill="#404040" font-family="SansSerif" font-size="12" text-anchor="middle" x="82" y="140">Reset</text>
+      <text dominant-baseline="central" fill="#ffffff" font-family="Dialog" font-size="14" font-weight="bold" text-anchor="middle" x="159" y="170">Load_Store</text>
     </appear>
     <comp lib="0" loc="(200,360)" name="Pin">
       <a name="label" val="Stack_Pointer"/>
@@ -295,10 +292,7 @@ end TCL_Generic;
       <a name="facing" val="south"/>
       <a name="label" val="Enable"/>
     </comp>
-    <comp lib="0" loc="(580,230)" name="Pull Resistor">
-      <a name="facing" val="north"/>
-    </comp>
-    <comp lib="0" loc="(580,290)" name="Pull Resistor">
+    <comp lib="0" loc="(580,250)" name="Pull Resistor">
       <a name="facing" val="north"/>
     </comp>
     <comp lib="0" loc="(580,350)" name="Pull Resistor">
@@ -314,15 +308,9 @@ end TCL_Generic;
       <a name="label" val="PC_Hold"/>
       <a name="output" val="true"/>
     </comp>
-    <comp lib="0" loc="(590,230)" name="Pin">
+    <comp lib="0" loc="(590,250)" name="Pin">
       <a name="facing" val="west"/>
-      <a name="label" val="Rm"/>
-      <a name="output" val="true"/>
-      <a name="width" val="3"/>
-    </comp>
-    <comp lib="0" loc="(590,290)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="label" val="Rd"/>
+      <a name="label" val="Rmd"/>
       <a name="output" val="true"/>
       <a name="width" val="3"/>
     </comp>
@@ -351,11 +339,7 @@ end TCL_Generic;
     <comp lib="1" loc="(510,190)" name="AND Gate">
       <a name="size" val="30"/>
     </comp>
-    <comp lib="1" loc="(560,230)" name="Controlled Buffer">
-      <a name="control" val="left"/>
-      <a name="width" val="3"/>
-    </comp>
-    <comp lib="1" loc="(560,290)" name="Controlled Buffer">
+    <comp lib="1" loc="(560,250)" name="Controlled Buffer">
       <a name="control" val="left"/>
       <a name="width" val="3"/>
     </comp>
@@ -374,11 +358,6 @@ end TCL_Generic;
       <a name="negate0" val="true"/>
       <a name="size" val="30"/>
     </comp>
-    <comp lib="2" loc="(440,260)" name="Demultiplexer">
-      <a name="enable" val="false"/>
-      <a name="selloc" val="tr"/>
-      <a name="width" val="3"/>
-    </comp>
     <comp lib="3" loc="(500,350)" name="Adder">
       <a name="width" val="32"/>
     </comp>
@@ -394,7 +373,7 @@ end TCL_Generic;
     <wire from="(220,100)" to="(220,290)"/>
     <wire from="(220,290)" to="(320,290)"/>
     <wire from="(220,80)" to="(240,80)"/>
-    <wire from="(220,90)" to="(410,90)"/>
+    <wire from="(220,90)" to="(450,90)"/>
     <wire from="(240,150)" to="(240,260)"/>
     <wire from="(240,150)" to="(280,150)"/>
     <wire from="(240,260)" to="(330,260)"/>
@@ -415,20 +394,13 @@ end TCL_Generic;
     <wire from="(380,140)" to="(550,140)"/>
     <wire from="(380,290)" to="(380,340)"/>
     <wire from="(380,340)" to="(460,340)"/>
-    <wire from="(410,260)" to="(440,260)"/>
-    <wire from="(410,90)" to="(410,260)"/>
     <wire from="(430,220)" to="(430,240)"/>
     <wire from="(430,220)" to="(530,220)"/>
-    <wire from="(460,200)" to="(460,240)"/>
+    <wire from="(450,250)" to="(540,250)"/>
+    <wire from="(450,90)" to="(450,250)"/>
     <wire from="(460,200)" to="(480,200)"/>
     <wire from="(460,80)" to="(460,200)"/>
     <wire from="(460,80)" to="(510,80)"/>
-    <wire from="(470,250)" to="(490,250)"/>
-    <wire from="(470,270)" to="(490,270)"/>
-    <wire from="(490,230)" to="(490,250)"/>
-    <wire from="(490,230)" to="(540,230)"/>
-    <wire from="(490,270)" to="(490,290)"/>
-    <wire from="(490,290)" to="(540,290)"/>
     <wire from="(500,350)" to="(540,350)"/>
     <wire from="(510,130)" to="(550,130)"/>
     <wire from="(510,190)" to="(550,190)"/>
@@ -438,25 +410,20 @@ end TCL_Generic;
     <wire from="(530,100)" to="(550,100)"/>
     <wire from="(530,120)" to="(530,170)"/>
     <wire from="(530,120)" to="(550,120)"/>
-    <wire from="(530,170)" to="(530,210)"/>
+    <wire from="(530,170)" to="(530,220)"/>
     <wire from="(530,170)" to="(550,170)"/>
-    <wire from="(530,210)" to="(530,220)"/>
-    <wire from="(530,210)" to="(550,210)"/>
-    <wire from="(530,220)" to="(530,270)"/>
-    <wire from="(530,270)" to="(530,330)"/>
-    <wire from="(530,270)" to="(550,270)"/>
+    <wire from="(530,220)" to="(530,230)"/>
+    <wire from="(530,230)" to="(530,330)"/>
+    <wire from="(530,230)" to="(550,230)"/>
     <wire from="(530,330)" to="(550,330)"/>
     <wire from="(530,70)" to="(530,100)"/>
-    <wire from="(550,210)" to="(550,220)"/>
-    <wire from="(550,270)" to="(550,280)"/>
+    <wire from="(550,230)" to="(550,240)"/>
     <wire from="(550,330)" to="(550,340)"/>
-    <wire from="(560,230)" to="(580,230)"/>
-    <wire from="(560,290)" to="(580,290)"/>
+    <wire from="(560,250)" to="(580,250)"/>
     <wire from="(560,350)" to="(580,350)"/>
     <wire from="(580,130)" to="(590,130)"/>
     <wire from="(580,180)" to="(590,180)"/>
-    <wire from="(580,230)" to="(590,230)"/>
-    <wire from="(580,290)" to="(590,290)"/>
+    <wire from="(580,250)" to="(590,250)"/>
     <wire from="(580,350)" to="(590,350)"/>
     <wire from="(580,90)" to="(590,90)"/>
   </circuit>
