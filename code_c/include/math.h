@@ -14,13 +14,13 @@
 #define __DIVPROLOGUE(i, j) asm("movs r4, %[input_i]\nmovs r5, %[input_j]" : : [input_i] "r" (i), [input_j] "r" (j) : "r4", "r5")
 
 // Calcule matériellement a / b, résultat dans c.
-#define DIV(i, j) ({__DIVPROLOGUE(i, j);R4divR5;})
+#define DIV(a, b) ({__DIVPROLOGUE(a, b);R4divR5;})
 
 // Calcule matériellement a / b et a % b, résultats dans quot et mod.
-#define DIVMOD(i, j, quot, mod) do{__DIVPROLOGUE(i, j);*quot = R4divR5;*mod = R4modR5;}while(0)
+#define DIVMOD(a, b, quot, mod) do{__DIVPROLOGUE(a, b);*quot = R4divR5;*mod = R4modR5;}while(0)
 
 // Calcule matériellement a % b, résultat dans c.
-#define MOD(i, j) ({__DIVPROLOGUE(i, j);R4modR5;}) // Works with p_float too
+#define MOD(a, b) ({__DIVPROLOGUE(a, b);R4modR5;}) // Works with p_float too
 
 // Calcule la racine carrée du nombre à virgule fixe spécifié.
 #define SQRTFP(x) ({\

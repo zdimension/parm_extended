@@ -7,8 +7,6 @@ Voici comment créer une chaîne de caractères:
 p_char str[15];
 int i=0;ARR_SET(i++, 'H');ARR_SET(i++, 'e');ARR_SET(i++, 'l');ARR_SET(i++, 'l');ARR_SET(i++, 'o');ARR_SET(i, '\0');
 Le reste se comporte comme la bibliothèque standard C (string.h), à ceci près que la valeur de retour est parfois passée en paramètre.
-
-(Si le registre R6 venait à être utilisé, les conséquences seraient catastrophiques...)
 */
 
 #ifndef STRING_H

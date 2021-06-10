@@ -1,26 +1,25 @@
 /*
 Cette méthode de gestion des strings a pour but de régler les limitations imposées par la précédente implémentation
 (une seule string qui doit à tout moment se trouver au sommet de la pile).
-Dans cette implémentation il n'y a pas de problème avec la pile, et on peut avoir autant de chaînes que souhaitées (chacune ne pouvant pas dépasser les 127 caractères).
+Dans cette implémentation il n'y a pas de problème avec la pile, et on peut avoir autant de chaînes que souhaité (chacune ne pouvant pas dépasser les 127 caractères).
 Il est cependant à noter que cette implémentation est beaucoup plus lente que la précédente.
 Les 32 bits sont utilisés comme:
 [caractère 7 bits]0[position dans le parcours 7 bits]0[objectif de position 7 bits]0[valeur propagée (caractère, entier etc...) 7 bits]0
 Au début se trouve le caractère effectivement stocké.
 
 p_char str[50];
-int i=0;
-STR_SET(str, i++, 'v');
-STR_SET(str, i++, 'i');
-STR_SET(str, i++, 'v');
-STR_SET(str, i++, 'e');
-STR_SET(str, i++, ' ');
-STR_SET(str, i++, 'z');
-STR_SET(str, i++, 'o');
+int i = 0;
+STR_SET(str, i++, 'p');
 STR_SET(str, i++, 'r');
-STR_SET(str, i++, 'g');
-STR_SET(str, i++, 'l');
-STR_SET(str, i++, 'u');
-STR_SET(str, i++, 'b');
+STR_SET(str, i++, 'o');
+STR_SET(str, i++, 'j');
+STR_SET(str, i++, 'e');
+STR_SET(str, i++, 't');
+STR_SET(str, i++, ' ');
+STR_SET(str, i++, 'p');
+STR_SET(str, i++, 'a');
+STR_SET(str, i++, 'r');
+STR_SET(str, i++, 'm');
 STR_SET(str, i++, '\n');
 STR_SET(str, i++, '\0');
 */
@@ -153,7 +152,7 @@ O(n)
 })
 
 /*
-Affecte c aux size premiers caarctères de str
+Affecte c aux size premiers caractères de str
 O(n)
 */
 #define STR_MEMSET(str, c, size) do {\

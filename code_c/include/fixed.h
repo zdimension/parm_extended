@@ -1,8 +1,7 @@
 /*
-Fixed point numbers
-Can handle only positive numbers
-16 bits integral part & 16 bits decimal part
+Nombres décimaux en virgule fixe en 16.16
 */
+
 #ifndef FIXED_H
 #define FIXED_H
 
@@ -11,7 +10,7 @@ Can handle only positive numbers
 
 typedef unsigned int fixed_t;
 
-// Convertit un flottant en nombre à virgule fixe.
+// Convertit un litéral flottant en nombre à virgule fixe.
 #define TOFP(val) ((fixed_t)((val) * (1 << 16)))
 
 // Récupère la partie entière d'un nombre à virgule fixe.

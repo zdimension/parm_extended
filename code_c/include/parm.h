@@ -1,6 +1,10 @@
 #ifndef PARM_H
 #define PARM_H
 
+// 16 MMIO pins
+// -> shift page by 256-16 = 240
+// sub sp takes value * 4, < 512
+// 240 * 4 = 960 = 508 + 452
 #define BEGIN() \
 asm("sub sp, #508");\
 asm("sub sp, #452");\
