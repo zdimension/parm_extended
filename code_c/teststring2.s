@@ -17,7 +17,7 @@
 	.eabi_attribute	18, 4
 	.eabi_attribute	26, 2
 	.eabi_attribute	14, 0
-	.file	"string2.c"
+	.file	"teststring2.c"
 	.globl	run
 	.p2align	1
 	.type	run,%function
