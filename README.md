@@ -4,6 +4,19 @@ Voir la documentation en PDF dans le dossier `doc`.
 
 ## En-têtes C
 
+| Programme | Description |
+|-|-|
+| crypto | Cryptographie |
+| fixed | Nombres décimaux à virgule fixe |
+| math | Outils mathématiques |
+| parm | En-tête principale |
+| stdio | Entrées/sorties textuelles (clavier, terminal) |
+| string | Implémentation basique de chaînes |
+| string2 | Autre implémentation basique de chaînes |
+| trigo | Fonctions trigonométriques (séries de Taylor) |
+| utils | Outils de débogage |
+| video | Écran matriciel |
+
 ## Programmes fournis en exemple
 
 ### Programmes C
