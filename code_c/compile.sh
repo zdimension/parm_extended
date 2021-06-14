@@ -14,7 +14,7 @@ set -e
 if [ $# -eq 2 ] && [ $2 = "-gcc" ]; then
 	arm-none-eabi-gcc -mtune=cortex-m0 -fomit-frame-pointer ${CPARM} ${filename}
 else
-	clang-8 -target arm-v4t-eabi ${CPARM} ${filename}
+	clang-8 -target arm-none-eabi ${CPARM} ${filename}
 fi
 
 ../asm/assembleur.py -O0 ${filename%.*}.s

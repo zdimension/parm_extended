@@ -37,7 +37,7 @@ run:
 	@APP
 	sub	sp, #452
 	@NO_APP
-	movs	r0, #10
+	movs	r0, #20
 	str	r0, [sp, #36]
 	movs	r0, #1
 	lsls	r0, r0, #15
@@ -56,7 +56,7 @@ run:
 	b	.LBB0_1
 .LBB0_1:
 	ldr	r0, [sp, #16]
-	cmp	r0, #9
+	cmp	r0, #19
 	bhi	.LBB0_8
 	b	.LBB0_2
 .LBB0_2:
@@ -100,7 +100,7 @@ run:
 	movs	r1, #125
 	lsls	r1, r1, #5
 	muls	r1, r0, r1
-	movs	r0, #10
+	movs	r0, #20
 	@APP
 	movs	r4, r1
 	movs	r5, r0

@@ -44,53 +44,77 @@ run:
 	ldr	r0, [sp, #40]
 	cmp	r0, #5
 	ble	.LBB0_2
-	b	.LBB0_44
+	b	.LBB0_56
 .LBB0_2:
 	b	.LBB0_3
 .LBB0_3:
-	movs	r0, #101
-	str	r0, [sp, #72]
 	b	.LBB0_4
 .LBB0_4:
 	b	.LBB0_5
 .LBB0_5:
-	movs	r0, #120
-	str	r0, [sp, #72]
 	b	.LBB0_6
 .LBB0_6:
 	b	.LBB0_7
 .LBB0_7:
-	movs	r0, #112
-	str	r0, [sp, #72]
 	b	.LBB0_8
 .LBB0_8:
 	b	.LBB0_9
 .LBB0_9:
-	movs	r0, #40
+	movs	r0, #101
 	str	r0, [sp, #72]
 	b	.LBB0_10
 .LBB0_10:
 	b	.LBB0_11
 .LBB0_11:
-	ldr	r0, [sp, #40]
-	adds	r0, #48
+	movs	r0, #120
 	str	r0, [sp, #72]
 	b	.LBB0_12
 .LBB0_12:
 	b	.LBB0_13
 .LBB0_13:
-	movs	r0, #41
-	str	r0, [sp, #72]
 	b	.LBB0_14
 .LBB0_14:
+	movs	r0, #112
+	str	r0, [sp, #72]
 	b	.LBB0_15
 .LBB0_15:
-	movs	r0, #61
-	str	r0, [sp, #72]
 	b	.LBB0_16
 .LBB0_16:
 	b	.LBB0_17
 .LBB0_17:
+	movs	r0, #40
+	str	r0, [sp, #72]
+	b	.LBB0_18
+.LBB0_18:
+	b	.LBB0_19
+.LBB0_19:
+	b	.LBB0_20
+.LBB0_20:
+	ldr	r0, [sp, #40]
+	adds	r0, #48
+	str	r0, [sp, #72]
+	b	.LBB0_21
+.LBB0_21:
+	b	.LBB0_22
+.LBB0_22:
+	b	.LBB0_23
+.LBB0_23:
+	movs	r0, #41
+	str	r0, [sp, #72]
+	b	.LBB0_24
+.LBB0_24:
+	b	.LBB0_25
+.LBB0_25:
+	b	.LBB0_26
+.LBB0_26:
+	movs	r0, #61
+	str	r0, [sp, #72]
+	b	.LBB0_27
+.LBB0_27:
+	b	.LBB0_28
+.LBB0_28:
+	b	.LBB0_29
+.LBB0_29:
 	movs	r0, #1
 	lsls	r0, r0, #16
 	str	r0, [sp, #32]
@@ -99,14 +123,14 @@ run:
 	str	r0, [sp, #28]
 	movs	r0, #0
 	str	r0, [sp, #24]
-	b	.LBB0_18
-.LBB0_18:
+	b	.LBB0_30
+.LBB0_30:
 	ldr	r0, [sp, #24]
 	ldr	r1, [sp, #28]
 	cmp	r0, r1
-	bhs	.LBB0_21
-	b	.LBB0_19
-.LBB0_19:
+	bhs	.LBB0_33
+	b	.LBB0_31
+.LBB0_31:
 	ldr	r0, [sp, #32]
 	lsrs	r0, r0, #8
 	movs	r1, #31
@@ -127,13 +151,13 @@ run:
 	lsrs	r1, r1, #8
 	muls	r1, r0, r1
 	str	r1, [sp, #32]
-	b	.LBB0_20
-.LBB0_20:
+	b	.LBB0_32
+.LBB0_32:
 	ldr	r0, [sp, #24]
 	adds	r0, r0, #1
 	str	r0, [sp, #24]
-	b	.LBB0_18
-.LBB0_21:
+	b	.LBB0_30
+.LBB0_33:
 	ldr	r0, [sp, #32]
 	str	r0, [sp, #8]
 	ldr	r0, [sp, #8]
@@ -148,8 +172,8 @@ run:
 	str	r1, [sp, #4]
 	ldr	r0, [sp, #4]
 	str	r0, [sp, #76]
-	b	.LBB0_22
-.LBB0_22:
+	b	.LBB0_34
+.LBB0_34:
 	ldr	r0, [sp, #116]
 	str	r0, [sp, #68]
 	ldr	r0, [sp, #68]
@@ -158,13 +182,13 @@ run:
 	movs	r0, #0
 	str	r0, [sp, #64]
 	str	r0, [sp, #60]
-	b	.LBB0_23
-.LBB0_23:
+	b	.LBB0_35
+.LBB0_35:
 	ldr	r0, [sp, #60]
 	cmp	r0, #4
-	bhi	.LBB0_28
-	b	.LBB0_24
-.LBB0_24:
+	bhi	.LBB0_40
+	b	.LBB0_36
+.LBB0_36:
 	ldr	r0, [sp, #68]
 	movs	r1, #15
 	ands	r0, r1
@@ -172,22 +196,22 @@ run:
 	ldr	r0, [sp, #68]
 	lsrs	r0, r0, #4
 	str	r0, [sp, #68]
-	b	.LBB0_25
-.LBB0_25:
+	b	.LBB0_37
+.LBB0_37:
 	ldr	r0, [sp, #56]
 	adds	r0, #48
 	str	r0, [sp, #72]
-	b	.LBB0_26
-.LBB0_26:
-	b	.LBB0_27
-.LBB0_27:
+	b	.LBB0_38
+.LBB0_38:
+	b	.LBB0_39
+.LBB0_39:
 	ldr	r0, [sp, #60]
 	adds	r0, r0, #1
 	str	r0, [sp, #60]
-	b	.LBB0_23
-.LBB0_28:
-	b	.LBB0_29
-.LBB0_29:
+	b	.LBB0_35
+.LBB0_40:
+	b	.LBB0_41
+.LBB0_41:
 	ldr	r0, [sp, #36]
 	@APP
 	lsls	r2, r0, #16
@@ -200,14 +224,14 @@ run:
 	str	r3, [sp, #4]
 	ldr	r0, [sp, #4]
 	str	r0, [sp, #76]
-	b	.LBB0_30
-.LBB0_30:
+	b	.LBB0_42
+.LBB0_42:
 	movs	r0, #46
 	str	r0, [sp, #72]
-	b	.LBB0_31
-.LBB0_31:
-	b	.LBB0_32
-.LBB0_32:
+	b	.LBB0_43
+.LBB0_43:
+	b	.LBB0_44
+.LBB0_44:
 	ldr	r0, [sp, #116]
 	str	r0, [sp, #68]
 	ldr	r0, [sp, #68]
@@ -216,13 +240,13 @@ run:
 	movs	r0, #0
 	str	r0, [sp, #64]
 	str	r0, [sp, #60]
-	b	.LBB0_33
-.LBB0_33:
+	b	.LBB0_45
+.LBB0_45:
 	ldr	r0, [sp, #60]
 	cmp	r0, #3
-	bhi	.LBB0_38
-	b	.LBB0_34
-.LBB0_34:
+	bhi	.LBB0_50
+	b	.LBB0_46
+.LBB0_46:
 	ldr	r0, [sp, #68]
 	movs	r1, #15
 	ands	r0, r1
@@ -230,32 +254,32 @@ run:
 	ldr	r0, [sp, #68]
 	lsrs	r0, r0, #4
 	str	r0, [sp, #68]
-	b	.LBB0_35
-.LBB0_35:
+	b	.LBB0_47
+.LBB0_47:
 	ldr	r0, [sp, #56]
 	adds	r0, #48
 	str	r0, [sp, #72]
-	b	.LBB0_36
-.LBB0_36:
-	b	.LBB0_37
-.LBB0_37:
+	b	.LBB0_48
+.LBB0_48:
+	b	.LBB0_49
+.LBB0_49:
 	ldr	r0, [sp, #60]
 	adds	r0, r0, #1
 	str	r0, [sp, #60]
-	b	.LBB0_33
-.LBB0_38:
-	b	.LBB0_39
-.LBB0_39:
-	b	.LBB0_40
-.LBB0_40:
-	b	.LBB0_41
-.LBB0_41:
+	b	.LBB0_45
+.LBB0_50:
+	b	.LBB0_51
+.LBB0_51:
+	b	.LBB0_52
+.LBB0_52:
+	b	.LBB0_53
+.LBB0_53:
 	movs	r0, #10
 	str	r0, [sp, #72]
-	b	.LBB0_42
-.LBB0_42:
-	b	.LBB0_43
-.LBB0_43:
+	b	.LBB0_54
+.LBB0_54:
+	b	.LBB0_55
+.LBB0_55:
 	ldr	r0, [sp, #40]
 	adds	r0, r0, #1
 	str	r0, [sp, #40]
@@ -264,12 +288,12 @@ run:
 	adds	r0, r1, r0
 	str	r0, [sp, #44]
 	b	.LBB0_1
-.LBB0_44:
-	b	.LBB0_45
-.LBB0_45:
-	b	.LBB0_46
-.LBB0_46:
-	b	.LBB0_46
+.LBB0_56:
+	b	.LBB0_57
+.LBB0_57:
+	b	.LBB0_58
+.LBB0_58:
+	b	.LBB0_58
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run
 	.cantunwind

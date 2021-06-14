@@ -7,7 +7,7 @@
 void run()
 {
 	BEGIN();
-	const unsigned int N = 10;
+	const unsigned int N = 20;
 	unsigned int R = 1 << 15;
 	unsigned int r2 = R;
 	r2 *= r2;

@@ -17,11 +17,11 @@ void run()
 	{
 		if (CMD == ADD)
 			RES = OPa + OPb;
-		if (CMD == SUB)
+		else if (CMD == SUB)
 			RES = OPa - OPb;
-		if (CMD == MUL)
+		else if (CMD == MUL)
 			RES = OPa * OPb;
-		if (CMD == LSL)
+		else if (CMD == LSL)
 			RES = OPa << OPb;
 	}
 }

@@ -9,7 +9,7 @@ void run()
 	int cur = 0;
 	for (int i = 0; i <= 5; i++, cur += val)
 	{
-		PUTCHAR('e');PUTCHAR('x');PUTCHAR('p');PUTCHAR('(');PUTCHAR('0'+i);PUTCHAR(')');PUTCHAR('=');
+		PUTCHAR('e','x','p','(','0'+i,')','=');
 		PRINTFP(POWFP(e_exp, cur));
 		PUTCHAR('\n');
 	}

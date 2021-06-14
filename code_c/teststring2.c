@@ -30,15 +30,15 @@ void run()
     PRINT(str);
     STRREV(str);
     PRINT(str);
-    PUTCHAR('p');PUTCHAR('o');PUTCHAR('s');PUTCHAR('(');PUTCHAR('i');PUTCHAR(')');PUTCHAR('=');
+    PUTCHAR('p','o','s','(','i',')','=');
     RES=STRCHR(str, 'i');
     PRINTRES_SIGN();
     PUTCHAR('\n');
-    PUTCHAR('p');PUTCHAR('o');PUTCHAR('s');PUTCHAR('(');PUTCHAR('o');PUTCHAR(')');PUTCHAR('=');
+    PUTCHAR('p','o','s','(','o',')','=');
     RES=STRCHR(str, 'o');
     PRINTRES_SIGN();
     PUTCHAR('\n');
-    PUTCHAR('p');PUTCHAR('o');PUTCHAR('s');PUTCHAR('(');PUTCHAR('v');PUTCHAR(')');PUTCHAR('=');
+    PUTCHAR('p','o','s','(','v',')','=');
     RES=STRCHR(str, 'v');
     PRINTRES_SIGN();
     PUTCHAR('\n');

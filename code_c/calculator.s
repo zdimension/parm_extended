@@ -53,7 +53,7 @@ run:
 	ldr	r1, [sp, #52]
 	adds	r0, r0, r1
 	str	r0, [sp, #40]
-	b	.LBB0_3
+	b	.LBB0_12
 .LBB0_3:
 	ldr	r0, [sp, #56]
 	ldr	r1, [sp, #8]
@@ -65,7 +65,7 @@ run:
 	ldr	r1, [sp, #52]
 	subs	r0, r0, r1
 	str	r0, [sp, #40]
-	b	.LBB0_5
+	b	.LBB0_11
 .LBB0_5:
 	ldr	r0, [sp, #56]
 	ldr	r1, [sp, #4]
@@ -77,7 +77,7 @@ run:
 	ldr	r1, [sp, #52]
 	muls	r1, r0, r1
 	str	r1, [sp, #40]
-	b	.LBB0_7
+	b	.LBB0_10
 .LBB0_7:
 	ldr	r0, [sp, #56]
 	ldr	r1, [sp]
@@ -91,6 +91,12 @@ run:
 	str	r0, [sp, #40]
 	b	.LBB0_9
 .LBB0_9:
+	b	.LBB0_10
+.LBB0_10:
+	b	.LBB0_11
+.LBB0_11:
+	b	.LBB0_12
+.LBB0_12:
 	b	.LBB0_1
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run

@@ -8,24 +8,15 @@ void run()
 
 	int a, b;
 
-	PUTCHAR('A');
-	PUTCHAR('=');
+	PUTCHAR('A','=');
 	a = READINT();
 	PUTCHAR('\n');
 
-	PUTCHAR('B');
-	PUTCHAR('=');
+	PUTCHAR('B','=');
 	b = READINT();
 	PUTCHAR('\n');
 
-	PUTCHAR('+');
-	PUTCHAR('-');
-	PUTCHAR('*');
-	PUTCHAR('/');
-	PUTCHAR('%');
-	PUTCHAR('&');
-	PUTCHAR('|');
-	PUTCHAR('^');
+	PUTCHAR('+','-','*','/','%','&','|','^');
 
 	int choice;
 read:
@@ -61,9 +52,7 @@ read:
 		goto read;
 	}
 
-	PUTCHAR('\n');
-	PUTCHAR('R');
-	PUTCHAR('=');
+	PUTCHAR('\n','R','=');
 	PRINTRES_SIGN();
 
 	WAITKEY();

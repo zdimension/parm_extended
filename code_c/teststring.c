@@ -20,15 +20,15 @@ void run()
 	ARR_SET(i++, '\n');
 	ARR_SET(i, '\0');
 	PRINT(0);
-	PUTCHAR('p');PUTCHAR('o');PUTCHAR('s');PUTCHAR('(');PUTCHAR('v');PUTCHAR(')');PUTCHAR('=');
+	PUTCHAR('p','o','s','(','v',')','=');
 	STRCHR('v', RES);
 	PRINTRES_SIGN();
 	PUTCHAR('\n');
-	PUTCHAR('p');PUTCHAR('o');PUTCHAR('s');PUTCHAR('(');PUTCHAR('o');PUTCHAR(')');PUTCHAR('=');
+	PUTCHAR('p','o','s','(','o',')','=');
 	STRCHR('o', RES);
 	PRINTRES_SIGN();
 	PUTCHAR('\n');
-	PUTCHAR('s');PUTCHAR('i');PUTCHAR('z');PUTCHAR('e');PUTCHAR('='); // strlen
+	PUTCHAR('s','i','z','e','='); // strlen
 	STRLEN(RES);
 	PRINTRES();
 	PUTCHAR('\n');

@@ -14,9 +14,7 @@ void run()
 	
 	GETLINE(len);
 	
-	TTYchr = '-';
-	TTYchr = '>';
-	TTYchr = ' ';
+	PUTCHAR('-','>',' ');
 	
 	for (i = 0; i < len; i++)
 	{

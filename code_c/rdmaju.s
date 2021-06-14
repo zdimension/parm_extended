@@ -97,22 +97,42 @@ run:
 	str	r0, [sp, #48]
 	b	.LBB0_1
 .LBB0_10:
-	movs	r0, #45
-	str	r0, [sp, #72]
-	movs	r0, #62
-	str	r0, [sp, #72]
-	movs	r0, #32
-	str	r0, [sp, #72]
-	movs	r0, #0
-	str	r0, [sp, #40]
 	b	.LBB0_11
 .LBB0_11:
+	b	.LBB0_12
+.LBB0_12:
+	b	.LBB0_13
+.LBB0_13:
+	movs	r0, #45
+	str	r0, [sp, #72]
+	b	.LBB0_14
+.LBB0_14:
+	b	.LBB0_15
+.LBB0_15:
+	movs	r0, #62
+	str	r0, [sp, #72]
+	b	.LBB0_16
+.LBB0_16:
+	b	.LBB0_17
+.LBB0_17:
+	b	.LBB0_18
+.LBB0_18:
+	movs	r0, #32
+	str	r0, [sp, #72]
+	b	.LBB0_19
+.LBB0_19:
+	b	.LBB0_20
+.LBB0_20:
+	movs	r0, #0
+	str	r0, [sp, #40]
+	b	.LBB0_21
+.LBB0_21:
 	ldr	r0, [sp, #40]
 	ldr	r1, [sp, #48]
 	cmp	r0, r1
-	bge	.LBB0_14
-	b	.LBB0_12
-.LBB0_12:
+	bge	.LBB0_24
+	b	.LBB0_22
+.LBB0_22:
 	ldr	r0, [sp, #40]
 	@APP
 	adds	r6, r0, #0
@@ -138,18 +158,18 @@ run:
 	movs	r1, #32
 	bics	r0, r1
 	str	r0, [sp, #72]
-	b	.LBB0_13
-.LBB0_13:
+	b	.LBB0_23
+.LBB0_23:
 	ldr	r0, [sp, #40]
 	adds	r0, r0, #1
 	str	r0, [sp, #40]
-	b	.LBB0_11
-.LBB0_14:
-	b	.LBB0_15
-.LBB0_15:
-	b	.LBB0_16
-.LBB0_16:
-	b	.LBB0_16
+	b	.LBB0_21
+.LBB0_24:
+	b	.LBB0_25
+.LBB0_25:
+	b	.LBB0_26
+.LBB0_26:
+	b	.LBB0_26
 .Lfunc_end0:
 	.size	run, .Lfunc_end0-run
 	.cantunwind
