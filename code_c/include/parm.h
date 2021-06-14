@@ -24,11 +24,13 @@ volatile unsigned int __temp1, __temp2, __temp3, __temp4, __temp5;
 #define OUT(n) (PIN(n))
 
 // Affiche un caractère sur le terminal. Contient le dernier caractère affiché
+// Utiliser les macros PUTCHAR et CLEAR définies dans stdio.h
 #define TTYchr	 	PIN(0)
 
 // Registre d'usage général relié à des afficheurs décimaux
 #define RES 		PIN(1)
 
+// Utiliser les macros définies dans video.h
 // Buffer de l'écran matriciel (4 lignes par 8 colonnes)
 #define SCRbuf		PIN(2)
 
@@ -45,6 +47,7 @@ volatile unsigned int __temp1, __temp2, __temp3, __temp4, __temp5;
 #define DIP2 		INP(4)
 #define DIP3 		INP(5)
 
+// Utiliser les macros WAITKEY, READKEY et GETLINE définies dans stdio.h
 // Contient 1 s'il y a des caractères dans le buffer du clavier
 #define KEYBeof		INP(6)
 // Retire le premier caractère du buffer du clavier et le renvoie 
@@ -63,6 +66,7 @@ volatile unsigned int __temp1, __temp2, __temp3, __temp4, __temp5;
 // 123456 devient 0x00123456
 #define RESbcd		INP(11)
 
+// Utiliser les macros DIV, DIVMOD et MOD définies dans math.h
 // Quotient et modulo de R4 et R5
 #define R4divR5		INP(12)
 #define R4modR5		INP(13)
