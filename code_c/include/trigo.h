@@ -1,5 +1,6 @@
 /*
 Implémentation des fonctions trigonométriques usuelles par leurs séries de Taylor.
+(Special thanks to Noelle Stolfi)
 */
 
 #ifndef TRIGO_H
