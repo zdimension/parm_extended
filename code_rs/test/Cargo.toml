@@ -1,0 +1,28 @@
+[package]
+name = "test"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+parm = { path = "../parm" }
+
+[[bin]]
+name = "calculator"
+path = "src/calculator.rs"
+
+[[bin]]
+name = "calckeyb"
+path = "src/calckeyb.rs"
+
+[[bin]]
+name = "testfp"
+path = "src/testfp.rs"
+
+[profile.dev]
+panic = "abort"
+opt-level = "z"
+
+[profile.release]
+panic = "abort"
+opt-level = "z"
+

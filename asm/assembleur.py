@@ -8,8 +8,8 @@ import sys
 # Internal operand regexes
 regexes = [
 	(r"(?:\{(R\w+)\})", r"(?P<F\1>r(?P<\1>\\d))"),
-	(r"(?:\{(imm3)\})", r"(?P<F\1>#(?P<\1>&?\\d{1}))"),
-	(r"(?:\{(imm[hw]?\d)\})", r"(?P<F\1>#(?P<\1>&?\\d+))"),
+	(r"(?:\{(imm3)\})", r"(?P<F\1>#(?P<\1>-?&?\\d{1}))"),
+	(r"(?:\{(imm[hw]?\d)\})", r"(?P<F\1>#(?P<\1>-?&?\\d+))"),
 	(r"\{cond\}", r"(?P<cond>(?:[a-z]{2}))"),
 	(r"\{label(\d+)\}", r"(?P<label\1>[\.\\w]+)")
 ]
@@ -52,7 +52,7 @@ for k, v in {
 	"cmp {Rn}, {Rm}": (0b010000_1010, "Rm", "Rn"),
 	"cmn {Rn}, {Rm}": (0b010000_1011, "Rm", "Rn"),
 	"orrs {Rdn}, ({Rdn_}, )?{Rm}": (0b010000_1100, "Rm", "Rdn"),
-	"muls {Rdm}, {Rn}, {Rdm_}": (0b010000_1101, "Rn", "Rdm"),
+	"muls {Rdm}, {Rn}(, {Rdm_})?": (0b010000_1101, "Rn", "Rdm"),
 	"bics {Rdn}, ({Rdn_}, )?{Rm}": (0b010000_1110, "Rm", "Rdn"),
 	"mvns {Rd}, {Rm}": (0b010000_1111, "Rm", "Rd"),
 	"negs {Rd}, {Rn}": "rsbs {Rd}, {Rn}, #0",
@@ -73,8 +73,8 @@ for k, v in {
 	"ldsb {Rd}, [{Rb}, {Ro}]":	(0b0101_0_1_1, "Ro", "Rb", "Rd"),
 	"ldsh {Rd}, [{Rb}, {Ro}]":	(0b0101_1_1_1, "Ro", "Rb", "Rd"),
 	# 09 - load/store with immediate offset
-	"str {Rd}, [{Rb}(?:, {immw5})?]":	(0b011_0_0, "immw5", "Rb", "Rd"),
-	"ldr {Rd}, [{Rb}(?:, {immw5})?]":	(0b011_0_1, "immw5", "Rb", "Rd"),
+	"str {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_0_0, "imm5", "Rb", "Rd"),
+	"ldr {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_0_1, "imm5", "Rb", "Rd"),
 	"strb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_0, "imm5", "Rb", "Rd"),
 	"ldrb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_1, "imm5", "Rb", "Rd"),
 	# 10 - load/store halfword
@@ -87,6 +87,8 @@ for k, v in {
 	"add {Rd}, pc, {immw8}": (0b1010_0, "Rd", "immw8"),
 	"add {Rd}, sp, {immw8}": (0b1010_1, "Rd", "immw8"),
 	"mov {Rd}, sp": "add {Rd}, sp, #0",
+	# xx - uxtb
+	"uxtb {Rd}, {Rm}": (0b1011_0010_11, "Rm", "Rd"),
 	# 13 - add offset to Stack Pointer
 	"add (sp, )?sp, {immw7}": (0b1011_0000_0, "immw7"),
 	"sub (sp, )?sp, {immw7}": (0b1011_0000_1, "immw7"),
@@ -101,7 +103,9 @@ for k, v in {
 	# 18 - unconditional branch
 	"b {label11}": (0b11100, "label11"),
 	# 19 - long branch with link
-	"bl {label11}": (0b1111_0, "label11") # todo, long branch
+	"bl {label11}": (0b1111_0, "label11"), # todo, long branch
+	
+	"nop ": "lsls r0, r0, #0"
 }.items():
 	k = k.replace("[", "\\[").replace("]", "\\]")
 	for rg, sub in regexes.items():
@@ -117,7 +121,9 @@ def assemble(line, labels, pc):
 	try:
 		instr, args = line.split(None, 1)
 	except:
-		raise Exception(f"Invalid line: {line}")
+		instr, args = line.strip(), ""
+	if instr.endswith(".w") or instr.endswith(".n"):
+		instr = instr[:-2]
 	oline = line = instr + " " + ", ".join(map(str.strip, filter(bool, args.split(","))))
 	found = False
 	while not found:
@@ -143,8 +149,8 @@ def assemble(line, labels, pc):
 			width = int(kw)
 			dic[k] = (0 if v is None else (int(v[1:], 16) if v[0] == "&" else int(v)), width)
 			valmax = 2 ** (width + fac)
-			if not (0 <= dic[k][0] < valmax):
-				raise Exception(f"Immediate value out of bounds: {v}, should be >= 0 and < {valmax}")
+			if not ((-valmax // 2) <= dic[k][0] < valmax):
+				raise Exception(f"Immediate value out of bounds: {v}, should be >= 0 and < {valmax} or >= {-valmax // 2} and < {valmax // 2 - 1}")
 		elif v is not None:
 			if k[0] == "R":
 				dic[k] = (int(v), 3)
@@ -192,9 +198,12 @@ fn = sys.argv[-1]
 fp = open(fn, "r")
 fo = open(os.path.splitext(fn)[0] + ".bin", "w")
 rlbl = re.compile(r"^([.\w]+)\s*:")
+pushpop = re.compile(r"^(push|pop)\s*{\s*(\w+(?:\s*,\s*\w+)*)}$")
+uxtb = re.compile(r"^uxtb\s+(\w+)\s*,\s*(\w+)$")
 labels = {}
 lines = [l.lower() for l in fp.readlines()]
 lines = [l[:l.index("@")]  if "@" in l else l for l in lines]
+lines = [l[:l.index(";")]  if ";" in l else l for l in lines]
 lines = [l.strip() for l in lines]
 ignored_lines = [i for i, l in enumerate(lines[:-1])
 				 if l.startswith("b\t") and lines[i + 1] == f"{l[2:]}:"]  # fix for clang's redundant jumps
@@ -203,12 +212,28 @@ for i, line in enumerate(lines):
 	if not no_optim:
 		if i in ignored_lines:
 			continue
-	if "push\t{" in line:  # fix for clang's frame pointer creation
-		continue
 	while line := line.strip():
 		if m := rlbl.match(line):  # line is a label
 			labels[m.group(1)] = len(instrs)
 			line = line[line.index(":") + 1:]
+		elif m := pushpop.match(line):
+			regs = sorted(map(str.strip, m.group(2).split(",")))
+			if m.group(1) == "push":
+				if instrs[-1][1] == 0:
+					break
+				for reg in reversed(regs):
+					instrs.append((i + 1, instrs[-1][1] + instrs[-1][4], f"sub sp, #4", None, 1))
+					instrs.append((i + 1, instrs[-1][1] + instrs[-1][4], f"str {reg}, [sp]", None, 1))
+			else:
+				for reg in regs:
+					instrs.append((i + 1, instrs[-1][1] + instrs[-1][4], f"ldr {reg}, [sp]", None, 1))
+					instrs.append((i + 1, instrs[-1][1] + instrs[-1][4], f"add sp, #4", None, 1))
+			break
+		elif m := uxtb.match(line):
+			dest, src = m.groups()
+			instrs.append((i + 1, instrs[-1][1] + instrs[-1][4], f"lsls {dest}, {src}, #24", None, 1))
+			instrs.append((i + 1, instrs[-1][1] + instrs[-1][4], f"lsrs {dest}, {dest}, #24", None, 1))
+			break
 		else:
 			val = None
 			if line.startswith(".asciz"):
