@@ -10,25 +10,20 @@ pub mod control;
 pub mod math;
 pub mod fixed;
 
-#[macro_export]
-macro_rules! parm_setup {
-	() => {
-		#[link_section = ".start"]
-		#[export_name="_start"]
-		pub fn _start(){
-			let main: unsafe fn() -> () = main;
+#[link_section = ".start"]
+#[export_name="_start"]
+pub fn _start() -> ! {
+	let main: unsafe fn() -> () = crate::main;
 
-			unsafe {
-				core::arch::asm!(r#"
+	unsafe {
+		core::arch::asm!(r#"
 					sub sp, #508
 					sub sp, #508
 					sub sp, #8
 				"#);
-				main();
-			}
-			loop {}
-		}
+		main();
 	}
+	loop {}
 }
 
 use core::panic::PanicInfo;

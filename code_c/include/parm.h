@@ -8,8 +8,7 @@
 
 // Prologue
 #define BEGIN() \
-asm("sub sp, #508");\
-asm("sub sp, #452");\
+asm("sub sp, #0");\
 volatile int PINS[16];\
 volatile unsigned int __temp1, __temp2, __temp3, __temp4, __temp5;
 

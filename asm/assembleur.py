@@ -4,14 +4,19 @@
 import os
 import re
 import sys
+from collections import OrderedDict
 
 # Internal operand regexes
+regexes_regs = [
+	(r"(?:\{(R\w+)\})", r"(?P<F\1>r(?P<\1>[0-7]))"),
+	(r"(?:\{(H\w+)\})", r"(?P<F\1>(?P<\1>r([89]|1[0-5])|pc))"),
+]
 regexes = [
-	(r"(?:\{(R\w+)\})", r"(?P<F\1>r(?P<\1>\\d))"),
-	(r"(?:\{(imm3)\})", r"(?P<F\1>#(?P<\1>-?&?\\d{1}))"),
-	(r"(?:\{(imm[hw]?\d)\})", r"(?P<F\1>#(?P<\1>-?&?\\d+))"),
+	*regexes_regs,
+	(r"(?:\{(imm3)\})", r"(?P<F\1>#(?P<\1>-?\\d{1}))"),
+	(r"(?:\{(imm[hwp]?\d)\})", r"(?P<F\1>#?(?P<\1>[A-Fa-f0-9-x]+|[\.\\w]+))"),
 	(r"\{cond\}", r"(?P<cond>(?:[a-z]{2}))"),
-	(r"\{label(\d+)\}", r"(?P<label\1>[\.\\w]+)")
+	(r"\{label(\d+)\}", r"(?P<Flabel\1>(?P<label\1>[\.\\w#]+))")
 ]
 regexes = {re.compile(k): v for k, v in regexes}
 
@@ -27,7 +32,7 @@ for k, v in {
 	"lsls {Rd}, {Rm}, {imm5}": (0b000_00, "imm5", "Rm", "Rd"),
 	"lsrs {Rd}, {Rm}, {imm5}": (0b000_01, "imm5", "Rm", "Rd"),
 	"asrs {Rd}, {Rm}, {imm5}": (0b000_10, "imm5", "Rm", "Rd"),
-	"movs? {Rd}, {Rm}": "lsls {Rd}, {Rm}, #0",
+	"movs {Rd}, {Rm}": "lsls {Rd}, {Rm}, #0",
 	# 02 - add/subtract
 	"adds {Rd}, {Rn}, {Rm}": (0b000_11_00, "Rm", "Rn", "Rd"),
 	"subs {Rd}, {Rn}, {Rm}": (0b000_11_01, "Rm", "Rn", "Rd"),
@@ -57,10 +62,13 @@ for k, v in {
 	"mvns {Rd}, {Rm}": (0b010000_1111, "Rm", "Rd"),
 	"negs {Rd}, {Rn}": "rsbs {Rd}, {Rn}, #0",
 	# 05 - Hi register operations/branch exchange
+	"mov {Rd}, {Rs}": (0b010001_10_0_0, "Rs", "Rd"),
+	"mov {Hd}, {Rs}": (0b010001_10_1_0, "Rs", "Hd"), # todo: only pc supported
+	"mov {Rd}, {Hs}": (0b010001_10_0_1, "Hs", "Rd"),
 	# todo, 010001
-	"bx lr": (0b010001_11_0_1_110_000,),
+	"bx lr":          (0b010001_11_0_1_110_000,),
 	# 06 - PC-relative load
-	"ldr {Rd}, [pc(?:, {immw8})]":	(0b01001, "Rd", "immw8"),
+	"ldr {Rd}, [pc(?:, {immp8})?]":	(0b01001, "Rd", "immp8"),
 	"ldr {Rd}, {label8}": (0b01001, "Rd", "label8"),
 	# 07 - load/store with register offset
 	"str {Rd}, [{Rb}, {Ro}]": 	(0b0101_0_0_0, "Ro", "Rb", "Rd"),
@@ -70,13 +78,13 @@ for k, v in {
 	# 08 - load/store sign-extended byte/halfword
 	"strh {Rd}, [{Rb}, {Ro}]":	(0b0101_0_0_1, "Ro", "Rb", "Rd"),
 	"ldrh {Rd}, [{Rb}, {Ro}]":	(0b0101_1_0_1, "Ro", "Rb", "Rd"),
-	"ldsb {Rd}, [{Rb}, {Ro}]":	(0b0101_0_1_1, "Ro", "Rb", "Rd"),
-	"ldsh {Rd}, [{Rb}, {Ro}]":	(0b0101_1_1_1, "Ro", "Rb", "Rd"),
+	"ldrsb {Rd}, [{Rb}, {Ro}]":	(0b0101_0_1_1, "Ro", "Rb", "Rd"),
+	"ldrsh {Rd}, [{Rb}, {Ro}]":	(0b0101_1_1_1, "Ro", "Rb", "Rd"),
 	# 09 - load/store with immediate offset
 	"str {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_0_0, "imm5", "Rb", "Rd"),
 	"ldr {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_0_1, "imm5", "Rb", "Rd"),
 	"strb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_0, "imm5", "Rb", "Rd"),
-	"ldrb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_1, "imm5", "Rb", "Rd"),
+	#"ldrb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_1, "imm5", "Rb", "Rd"),
 	# 10 - load/store halfword
 	"strh {Rd}, [{Rb}(?:, {immh5})?]":	(0b1000_0, "immh5", "Rb", "Rd"),
 	"ldrh {Rd}, [{Rb}(?:, {immh5})?]":	(0b1000_1, "immh5", "Rb", "Rd"),
@@ -98,6 +106,7 @@ for k, v in {
 	# todo, 1100
 	# 16 - conditional branch
 	"b({cond}) {label8}": (0b1101, "cond", "label8"),
+	"udf #254": (0b1101, 0b1110, 0b1111_1110),
 	# 17 - software interrupt
 	"swi {imm8}": (0b1101_1111, "imm8"),
 	# 18 - unconditional branch
@@ -105,7 +114,8 @@ for k, v in {
 	# 19 - long branch with link
 	"bl {label11}": (0b1111_0, "label11"), # todo, long branch
 	
-	"nop ": "lsls r0, r0, #0"
+	"nop ": "lsls r0, r0, #0",
+	"adr {Rd}, {label8}": (0b1010_0, "Rd", "label8")
 }.items():
 	k = k.replace("[", "\\[").replace("]", "\\]")
 	for rg, sub in regexes.items():
@@ -115,39 +125,30 @@ for k, v in {
 log = []
 jumps = []
 immshift = {"h": 1, "w": 2}
+hi_regs = {"sp": 13, "lr": 14, "pc": 15}
 
-
-def assemble(line, labels, pc):
-	try:
-		instr, args = line.split(None, 1)
-	except:
-		instr, args = line.strip(), ""
-	if instr.endswith(".w") or instr.endswith(".n"):
-		instr = instr[:-2]
-	oline = line = instr + " " + ", ".join(map(str.strip, filter(bool, args.split(","))))
-	found = False
-	while not found:
-		for i, output in ins.items():
-			m = i.match(line)
-			if m:
-				if type(output) == str:
-					for c, rep in m.groupdict().items():
-						if c[0] == "F":
-							output = output.replace(f"{{{c[1:]}}}", rep)
-					line = output
-				else:
-					found = True
-				break
-		else:
-			raise Exception(f"Invalid instruction: {oline}")
+def parse_imm(s):
+	if not s:
+		return 0
+	return eval(s.replace(".", ""), {k.replace(".", ""): v for k, v in labels.items()})
+		
+		
+def try_assemble(m, instr, output, line):
 	dic = m.groupdict()
 	for k, v in dic.items():
 		if k.startswith("imm"):
+			if v is not None and any(re.match(r.replace("\\1", "test"), v) for _, r in regexes_regs):
+				return None
 			fac = 0
-			if (fac := immshift.get((kw := k[3:])[0], 0)) != 0:
+			kw = k[3:]
+			off = 0
+			if (fac := immshift.get(kw[0], 0)) != 0:
+				kw = kw[1:]
+			elif kw[0] == "p":
+				off = -1
 				kw = kw[1:]
 			width = int(kw)
-			dic[k] = (0 if v is None else (int(v[1:], 16) if v[0] == "&" else int(v)), width)
+			dic[k] = (parse_imm(v) + off, width)
 			valmax = 2 ** (width + fac)
 			if not ((-valmax // 2) <= dic[k][0] < valmax):
 				raise Exception(f"Immediate value out of bounds: {v}, should be >= 0 and < {valmax} or >= {-valmax // 2} and < {valmax // 2 - 1}")
@@ -156,6 +157,10 @@ def assemble(line, labels, pc):
 				dic[k] = (int(v), 3)
 				if not (0 <= dic[k][0] <= 7):
 					raise Exception(f"Invalid register: {v}, should be between r0 and r7")
+			elif k[0] == "H":
+				dic[k] = ((hi_regs.get(v, None) or int(v)) - 8, 3)
+				if not (0 <= dic[k][0] <= 7):
+					raise Exception(f"Invalid register: {v}, should be between r8 and r15")
 			elif k == "cond":
 				try:
 					dic[k] = (conds.index(conds_alias.get(v, v)), 4)
@@ -190,7 +195,39 @@ def assemble(line, labels, pc):
 		if width != 0:
 			val &= 2 ** width - 1
 		res += val
-	return (res,), f"{pc * 2:04x} │ {res:04x} │ {line:20} │ {', '.join(f'{k}={v[0] if v else str()}' for k, v in dic.items() if k[0] != 'F'):25}"
+	return ((pc, res, line, ', '.join(f'{k}={v[0] if v else str()}' for k, v in dic.items() if k[0] != 'F')),)
+
+def assemble(line, labels, pc):
+	try:
+		instr, args = line.split(None, 1)
+	except:
+		instr, args = line.strip(), ""
+	if instr.endswith(".w") or instr.endswith(".n"):
+		instr = instr[:-2]
+	if instr in ("@long", "@word"):
+		n = parse_imm(args)
+		lo, hi = n & 0xFFFF, n >> 16
+		return (pc, lo, "." + instr[1:], n), (pc+1, hi, "." + instr[1:], n)
+	if instr == "@asciz":
+		return [(pc+i, ch, ".asciz", args) for i, ch in enumerate(args[1:-1].encode("utf-8") + b"\0")]
+	oline = line = instr + " " + ", ".join(map(str.strip, filter(bool, args.split(","))))
+	found = False
+	while not found:
+		for i, output in ins.items():
+			m = i.match(line)
+			if m:
+				if type(output) == str:
+					for c, rep in m.groupdict().items():
+						if c[0] == "F":
+							output = output.replace(f"{{{c[1:]}}}", rep)
+					line = output
+					break
+				else:
+					if (res := try_assemble(m, instr, output, line)) is not None:
+						return res
+		else:
+			raise Exception(f"Invalid instruction: {oline}")
+
 
 
 no_optim = [param in sys.argv for param in ("-O0",)]
@@ -200,6 +237,7 @@ fo = open(os.path.splitext(fn)[0] + ".bin", "w")
 rlbl = re.compile(r"^([.\w]+)\s*:")
 pushpop = re.compile(r"^(push|pop)\s*{\s*(\w+(?:\s*,\s*\w+)*)}$")
 uxtb = re.compile(r"^uxtb\s+(\w+)\s*,\s*(\w+)$")
+ldrb = re.compile(r"^ldrb\s+(\w+)\s*,\s*(.+)$")
 labels = {}
 lines = [l.lower() for l in fp.readlines()]
 lines = [l[:l.index("@")]  if "@" in l else l for l in lines]
@@ -208,60 +246,76 @@ lines = [l.strip() for l in lines]
 ignored_lines = [i for i, l in enumerate(lines[:-1])
 				 if l.startswith("b\t") and lines[i + 1] == f"{l[2:]}:"]  # fix for clang's redundant jumps
 instrs = [(-1, 0, "b run", None, 1)]
+def add_instr(line, val=None, size=1):
+	instrs.append((i + 1, current_pc(), line, val, size))
+def current_pc():
+	return instrs[-1][1] + instrs[-1][4]
 for i, line in enumerate(lines):
 	if not no_optim:
 		if i in ignored_lines:
 			continue
 	while line := line.strip():
 		if m := rlbl.match(line):  # line is a label
-			labels[m.group(1)] = len(instrs)
+			labels[m.group(1)] = current_pc()
 			line = line[line.index(":") + 1:]
 		elif m := pushpop.match(line):
 			regs = sorted(map(str.strip, m.group(2).split(",")))
 			if m.group(1) == "push":
 				if instrs[-1][1] == 0:
 					break
-				for reg in reversed(regs):
-					instrs.append((i + 1, instrs[-1][1] + instrs[-1][4], f"sub sp, #4", None, 1))
-					instrs.append((i + 1, instrs[-1][1] + instrs[-1][4], f"str {reg}, [sp]", None, 1))
-			else:
 				for reg in regs:
-					instrs.append((i + 1, instrs[-1][1] + instrs[-1][4], f"ldr {reg}, [sp]", None, 1))
-					instrs.append((i + 1, instrs[-1][1] + instrs[-1][4], f"add sp, #4", None, 1))
+					add_instr(f"sub sp, #4")
+					if reg == "lr":
+						pass # i'm gonna pretend i didn't see that
+					else:
+						add_instr(f"str {reg}, [sp]")
+			else:
+				for reg in reversed(regs):
+					if reg == "pc":
+						add_instr(f"add sp, #4")
+						add_instr(f"bx lr") # let's just assume we only pop lr to pc, it'll maybe break someday
+					else:
+						add_instr(f"ldr {reg}, [sp]")
+						add_instr(f"add sp, #4")
 			break
 		elif m := uxtb.match(line):
 			dest, src = m.groups()
-			instrs.append((i + 1, instrs[-1][1] + instrs[-1][4], f"lsls {dest}, {src}, #24", None, 1))
-			instrs.append((i + 1, instrs[-1][1] + instrs[-1][4], f"lsrs {dest}, {dest}, #24", None, 1))
+			add_instr(f"lsls {dest}, {src}, #24")
+			add_instr(f"lsrs {dest}, {dest}, #24")
+			break
+		elif m := ldrb.match(line):
+			rd, rest = m.groups()
+			add_instr(f"ldr {rd}, {rest}")
+			add_instr(f"lsls {rd}, {rd}, #24")
+			add_instr(f"lsrs {rd}, {rd}, #24")
 			break
 		else:
 			val = None
 			if line.startswith(".asciz"):
-				val = line.split(None, 1)[1][1:-1].encode("utf-8")
-				size = len(val)
+				s = line.split(None, 1)[1][1:-1]
+				add_instr("@" + line[1:], size=len(s)+1)
+			elif line.startswith(".word") | line.startswith(".long"):
+				add_instr("@" + line[1:], size=2)
 			elif line[0] != ".":
-				size = 1
+				add_instr(line)
 			else:
 				break
-			instrs.append((i + 1, instrs[-1][1] + instrs[-1][4], line, val, size))
 			break
 columns = f"║  PC  │  OP  │ {'Instruction':^20} │ {'Arguments':^25} ║"
 sep = "╠" + "".join("═╪"[c == "│"] for c in columns[1:-1]) + "╣"
-data = []
+out = []
+def statline(pc, val, code, data):
+	return f"{pc * 2:04x} │ {val:04x} │ {code:20} │ {str(data):25}"
 for i, pc, line, val, size in instrs:
 	try:
-		if type(val) == bytes:
-			opc, stat = val, f"{pc * 2:04x} │      │ {line.split(None, 1)[0]:20} │ {val.decode('utf-8'):25}"
-		elif line[0] == ".":
-			pass
-		else:
-			opc, stat = assemble(line, labels, pc)
-		data.extend(opc)
-		log.append("║ " + stat + " ║")
+		if line[0] == ".":
+			continue
+		for pc, val, code, data in assemble(line, labels, pc):
+			out.append(val)
+			log.append("║ " + statline(pc, val, code, data) + " ║")
 	except Exception as e:
 		print(f"Build error on line {i}: {line}")
-		print(e)
-		exit()
+		raise
 print("╔" + "".join("═╤"[c == "│"] for c in columns[1:-1]) + "╗")
 print(columns)
 print(sep)
@@ -290,6 +344,6 @@ print(columns)
 print("╚" + "".join("═╧"[c == "│"] for c in columns[1:-1]) + "╝")
 
 fo.write("v2.0 raw\n")
-for word in data:
+for word in out:
 	fo.write(f"{word:04x} ")
 fo.write("\n")

@@ -1,46 +1,123 @@
-run:
-   0:	push	{r5, r6, r7, lr}
-   2:	add	r7, sp, #8
-   4:	sub	sp, #508	; 0x1fc
-   6:	sub	sp, #508	; 0x1fc
-   8:	sub	sp, #8
-   a:	movs	r0, #14
-   c:	mvns	r1, r0
-   e:	movs	r0, #3
-  10:	str	r1, [sp, #4]
-  12:	str	r0, [r1, #0]
-  14:	movs	r0, #15
-  16:	mvns	r1, r0
-  18:	movs	r2, #4
-  1a:	mvns	r4, r2
-  1c:	ldr	r5, [r4, #0]
-  1e:	lsrs	r6, r5, #12
-  20:	movs	r5, #5
-  22:	cmp	r5, #0
-  24:	beq.n	34 
-  26:	lsrs	r3, r6, #4
-  28:	ands	r6, r0
-  2a:	adds	r6, #48	; 0x30
-  2c:	str	r6, [r1, #0]
-  2e:	subs	r5, r5, #1
-  30:	mov	r6, r3
-  32:	b.n	22 
-  34:	movs	r3, #46	; 0x2e
-  36:	str	r3, [r1, #0]
-  38:	ldr	r3, [pc, #28]	; (58 
-  3a:	ldr	r5, [sp, #4]
-  3c:	str	r3, [r5, #0]
-  3e:	ldr	r3, [r4, #0]
-  40:	lsrs	r3, r3, #16
-  42:	cmp	r2, #0
-  44:	beq.n	54 
-  46:	lsrs	r4, r3, #4
-  48:	ands	r3, r0
-  4a:	adds	r3, #48	; 0x30
-  4c:	str	r3, [r1, #0]
-  4e:	subs	r2, r2, #1
-  50:	mov	r3, r4
-  52:	b.n	42 
-  54:	b.n	54 
-  56:	nop			; (mov r8, r8)
-  58:	.word	0x13880000
+run: b _start
+	.text
+	.syntax unified
+	.eabi_attribute	67, "2.09"
+	.eabi_attribute	6, 12
+	.eabi_attribute	7, 77
+	.eabi_attribute	8, 0
+	.eabi_attribute	9, 1
+	.eabi_attribute	34, 0
+	.eabi_attribute	17, 1
+	.eabi_attribute	20, 1
+	.eabi_attribute	21, 0
+	.eabi_attribute	23, 3
+	.eabi_attribute	24, 1
+	.eabi_attribute	25, 1
+	.eabi_attribute	38, 1
+	.eabi_attribute	14, 0
+	.file	"testfp.adc4391d-cgu.0"
+	.section	.start,"ax",%progbits
+	.globl	_start
+	.p2align	2
+	.type	_start,%function
+	.code	16
+	.thumb_func
+_start:
+	.fnstart
+	.save	{r7, lr}
+	push	{r7, lr}
+	.setfp	r7, sp
+	add	r7, sp, #0
+	@APP
+
+	sub	sp, #508
+	sub	sp, #508
+	sub	sp, #8
+
+	@NO_APP
+	movs	r0, #15
+	mvns	r1, r0
+	movs	r2, #14
+	mvns	r2, r2
+	movs	r3, #8
+	mvns	r3, r3
+.LBB0_1:
+	movs	r5, #9
+	mvns	r5, r5
+	ldr	r5, [r5]
+	cmp	r5, #0
+	beq	.LBB0_1
+	ldr	r5, [r3]
+	movs	r6, #1
+	str	r6, [r2, #4]
+	subs	r5, #65
+	cmp	r5, #3
+	bhi	.LBB0_4
+	lsls	r5, r5, #2
+	ldr	r4, .LCPI0_0
+	ldr	r5, [r4, r5]
+	b	.LBB0_5
+.LBB0_4:
+	movs	r5, #0
+.LBB0_5:
+	str	r5, [r2]
+	ldr	r6, [r3, #4]
+	cmp	r6, #0
+	beq	.LBB0_9
+.LBB0_6:
+	mov	r5, r6
+	lsls	r4, r6, #28
+	lsrs	r6, r6, #4
+	cmp	r4, #0
+	beq	.LBB0_6
+	b	.LBB0_8
+.LBB0_7:
+	lsrs	r4, r5, #4
+	ands	r5, r0
+	adds	r5, #48
+	str	r5, [r1]
+	mov	r5, r4
+.LBB0_8:
+	cmp	r5, #0
+	bne	.LBB0_7
+	b	.LBB0_1
+.LBB0_9:
+	movs	r5, #48
+	str	r5, [r1]
+	b	.LBB0_1
+	.p2align	2
+.LCPI0_0:
+	.long	.Lswitch.table._start
+.Lfunc_end0:
+	.size	_start, .Lfunc_end0-_start
+	.cantunwind
+	.fnend
+
+	.section	.text.rust_begin_unwind,"ax",%progbits
+	.hidden	rust_begin_unwind
+	.globl	rust_begin_unwind
+	.p2align	1
+	.type	rust_begin_unwind,%function
+	.code	16
+	.thumb_func
+rust_begin_unwind:
+	.fnstart
+.LBB1_1:
+	b	.LBB1_1
+.Lfunc_end1:
+	.size	rust_begin_unwind, .Lfunc_end1-rust_begin_unwind
+	.cantunwind
+	.fnend
+
+	.type	.Lswitch.table._start,%object
+	.section	.rodata.cst16,"aM",%progbits,16
+	.p2align	2
+.Lswitch.table._start:
+	.long	2
+	.long	3
+	.long	5
+	.long	8
+	.size	.Lswitch.table._start, 16
+
+	.section	".note.GNU-stack","",%progbits
+	.eabi_attribute	30, 4

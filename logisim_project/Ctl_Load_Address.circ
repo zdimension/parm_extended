@@ -122,7 +122,7 @@
     <comp lib="0" loc="(270,380)" name="Pin">
       <a name="appearance" val="classic"/>
       <a name="label" val="Program_Counter"/>
-      <a name="width" val="16"/>
+      <a name="width" val="32"/>
     </comp>
     <comp lib="0" loc="(270,510)" name="Pin">
       <a name="appearance" val="classic"/>
@@ -157,11 +157,6 @@
       <a name="facing" val="west"/>
       <a name="label" val="Imm32_Enable"/>
       <a name="output" val="true"/>
-    </comp>
-    <comp lib="0" loc="(360,480)" name="Bit Extender">
-      <a name="in_width" val="16"/>
-      <a name="out_width" val="32"/>
-      <a name="type" val="zero"/>
     </comp>
     <comp lib="0" loc="(370,330)" name="Pin">
       <a name="appearance" val="classic"/>
@@ -227,7 +222,7 @@
     <wire from="(290,240)" to="(290,300)"/>
     <wire from="(290,240)" to="(310,240)"/>
     <wire from="(290,380)" to="(290,480)"/>
-    <wire from="(290,480)" to="(320,480)"/>
+    <wire from="(290,480)" to="(400,480)"/>
     <wire from="(300,310)" to="(320,310)"/>
     <wire from="(310,210)" to="(310,240)"/>
     <wire from="(310,210)" to="(610,210)"/>
@@ -238,7 +233,6 @@
     <wire from="(350,330)" to="(370,330)"/>
     <wire from="(350,340)" to="(350,350)"/>
     <wire from="(350,350)" to="(420,350)"/>
-    <wire from="(360,480)" to="(400,480)"/>
     <wire from="(400,480)" to="(400,490)"/>
     <wire from="(400,490)" to="(430,490)"/>
     <wire from="(410,280)" to="(470,280)"/>
