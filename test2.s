@@ -1,15 +1,14 @@
 run:
-	movs r2, #3
-	adr	r4, .LJTI0_0
-	ldr	r4, [r4, r2]
-	movs r3, #4
-	movs r3, #4
-	movs r3, #4
-	movs r3, #4
-	movs r3, #4
-.LJTI0_0:
-	.long	6
-	.long	9
-	.long	12
-	.long	15
-	.long 18
+	movs r0, #0
+	movs r0, #1
+	movs r0, #2
+	b l1
+	movs r0, #3
+
+	movs r0, #4
+	movs r0, #5
+	movs r0, #6
+l1:
+	movs r0, #7
+	movs r0, #8
+	movs r0, #9

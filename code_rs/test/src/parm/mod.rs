@@ -11,7 +11,7 @@ pub mod math;
 pub mod fixed;
 
 #[link_section = ".start"]
-#[export_name="_start"]
+#[export_name="run"]
 pub fn _start() -> ! {
 	let main: unsafe fn() -> () = crate::main;
 

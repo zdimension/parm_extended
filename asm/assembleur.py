@@ -16,7 +16,7 @@ regexes = [
 	(r"(?:\{(imm3)\})", r"(?P<F\1>#(?P<\1>-?\\d{1}))"),
 	(r"(?:\{(imm[hwp]?\d)\})", r"(?P<F\1>#?(?P<\1>[A-Fa-f0-9-x]+|[\.\\w]+))"),
 	(r"\{cond\}", r"(?P<cond>(?:[a-z]{2}))"),
-	(r"\{label(\d+)\}", r"(?P<Flabel\1>(?P<label\1>[\.\\w#]+))")
+	(r"\{(label[hwp]?\d+)\}", r"(?P<F\1>(?P<\1>[\.\\w#]+))")
 ]
 regexes = {re.compile(k): v for k, v in regexes}
 
@@ -68,8 +68,8 @@ for k, v in {
 	# todo, 010001
 	"bx lr":          (0b010001_11_0_1_110_000,),
 	# 06 - PC-relative load
-	"ldr {Rd}, [pc(?:, {immp8})?]":	(0b01001, "Rd", "immp8"),
-	"ldr {Rd}, {label8}": (0b01001, "Rd", "label8"),
+	"ldr {Rd}, [pc(?:, {immw8})?]":	(0b01001, "Rd", "immw8"),
+	"ldr {Rd}, {labelp8}": (0b01001, "Rd", "labelp8"),
 	# 07 - load/store with register offset
 	"str {Rd}, [{Rb}, {Ro}]": 	(0b0101_0_0_0, "Ro", "Rb", "Rd"),
 	"strb {Rd}, [{Rb}, {Ro}]": 	(0b0101_0_1_0, "Ro", "Rb", "Rd"),
@@ -81,8 +81,8 @@ for k, v in {
 	"ldrsb {Rd}, [{Rb}, {Ro}]":	(0b0101_0_1_1, "Ro", "Rb", "Rd"),
 	"ldrsh {Rd}, [{Rb}, {Ro}]":	(0b0101_1_1_1, "Ro", "Rb", "Rd"),
 	# 09 - load/store with immediate offset
-	"str {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_0_0, "imm5", "Rb", "Rd"),
-	"ldr {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_0_1, "imm5", "Rb", "Rd"),
+	"str {Rd}, [{Rb}(?:, {immw5})?]":	(0b011_0_0, "immw5", "Rb", "Rd"),
+	"ldr {Rd}, [{Rb}(?:, {immw5})?]":	(0b011_0_1, "immw5", "Rb", "Rd"),
 	"strb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_0, "imm5", "Rb", "Rd"),
 	#"ldrb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_1, "imm5", "Rb", "Rd"),
 	# 10 - load/store halfword
@@ -115,7 +115,7 @@ for k, v in {
 	"bl {label11}": (0b1111_0, "label11"), # todo, long branch
 	
 	"nop ": "lsls r0, r0, #0",
-	"adr {Rd}, {label8}": (0b1010_0, "Rd", "label8")
+	"adr {Rd}, {labelp8}": (0b1010_0, "Rd", "labelp8")
 }.items():
 	k = k.replace("[", "\\[").replace("]", "\\]")
 	for rg, sub in regexes.items():
@@ -124,15 +124,17 @@ for k, v in {
 
 log = []
 jumps = []
-immshift = {"h": 1, "w": 2}
+immshift = {"h": 1, "w": 2, "p": 2}
 hi_regs = {"sp": 13, "lr": 14, "pc": 15}
-
+bname = {1: "halfword", 2: "word"}
 def parse_imm(s):
 	if not s:
 		return 0
-	return eval(s.replace(".", ""), {k.replace(".", ""): v for k, v in labels.items()})
-		
-		
+	return eval(s.replace(".", ""), {k.replace(".", ""): 2*v for k, v in labels.items()})
+def check_align(val, sh):
+	if (val & ((1 << sh) - 1)) != 0:
+		raise Exception(f"Value {val} must be {bname[sh]}-aligned")
+	return val >> sh
 def try_assemble(m, instr, output, line):
 	dic = m.groupdict()
 	for k, v in dic.items():
@@ -144,9 +146,8 @@ def try_assemble(m, instr, output, line):
 			off = 0
 			if (fac := immshift.get(kw[0], 0)) != 0:
 				kw = kw[1:]
-			elif kw[0] == "p":
-				off = -1
-				kw = kw[1:]
+			if k[3] == "p":
+				off = -8
 			width = int(kw)
 			dic[k] = (parse_imm(v) + off, width)
 			valmax = 2 ** (width + fac)
@@ -167,10 +168,21 @@ def try_assemble(m, instr, output, line):
 				except ValueError:
 					raise Exception(f"Invalid condition: {v}")
 			elif k.startswith("label"):
-				width = int(k[5:])
+				kw = k[5:]
+				if kw[0] == "p":
+					pcrel = True
+					kw = kw[1:]
+				else:
+					pcrel = False
+				width = int(kw)
 				try:
 					cond = instr[0] == "b"
-					dic[k] = (labels[v] - pc - (3 if cond else 0), width)
+					if pcrel:
+						val = labels[v] - ((pc + 2) & ~1)
+						val = check_align(2 * val, 2)
+					else:
+						val = (labels[v] - pc - (2 if cond else 0))
+					dic[k] = (val, width)
 					if not (abs(dic[k][0]) < 2 ** (width - 1)):
 						raise Exception(
 							f"Jump too wide : {labels[v]} is {dic[k][0]} which does not fit in {width} bits")
@@ -190,7 +202,8 @@ def try_assemble(m, instr, output, line):
 			val, width = dic[val]
 			# 32-bit word addressing
 			if nval.startswith("imm"):
-				val >>= immshift.get(nval[3], 0)
+				sh = immshift.get(nval[3], 0)
+				val = check_align(val, sh)
 		res <<= width
 		if width != 0:
 			val &= 2 ** width - 1
@@ -238,6 +251,7 @@ rlbl = re.compile(r"^([.\w]+)\s*:")
 pushpop = re.compile(r"^(push|pop)\s*{\s*(\w+(?:\s*,\s*\w+)*)}$")
 uxtb = re.compile(r"^uxtb\s+(\w+)\s*,\s*(\w+)$")
 ldrb = re.compile(r"^ldrb\s+(\w+)\s*,\s*(.+)$")
+p2align = re.compile(r"^.p2align\s+(\d+)$")
 labels = {}
 lines = [l.lower() for l in fp.readlines()]
 lines = [l[:l.index("@")]  if "@" in l else l for l in lines]
@@ -245,7 +259,8 @@ lines = [l[:l.index(";")]  if ";" in l else l for l in lines]
 lines = [l.strip() for l in lines]
 ignored_lines = [i for i, l in enumerate(lines[:-1])
 				 if l.startswith("b\t") and lines[i + 1] == f"{l[2:]}:"]  # fix for clang's redundant jumps
-instrs = [(-1, 0, "b run", None, 1)]
+#instrs = [(-1, 0, "b run", None, 1)]
+instrs = [(-1, 0, ".start", None, 0)]
 def add_instr(line, val=None, size=1):
 	instrs.append((i + 1, current_pc(), line, val, size))
 def current_pc():
@@ -283,6 +298,16 @@ for i, line in enumerate(lines):
 			add_instr(f"lsls {dest}, {src}, #24")
 			add_instr(f"lsrs {dest}, {dest}, #24")
 			break
+		elif m := p2align.match(line):
+			val = int(m.group(1))
+			if val > 1:
+				off = val - 1
+				num = 1 << off
+				align = current_pc() & (num - 1)
+				if align:
+					for i in range(num - align):
+						add_instr(f".p2align {val}", 0, 1)
+			break
 		elif m := ldrb.match(line):
 			rd, rest = m.groups()
 			add_instr(f"ldr {rd}, {rest}")
@@ -308,6 +333,9 @@ def statline(pc, val, code, data):
 	return f"{pc * 2:04x} │ {val:04x} │ {code:20} │ {str(data):25}"
 for i, pc, line, val, size in instrs:
 	try:
+		if val is not None:
+			out.append(val)
+			log.append("║ " + statline(pc, val, line, "") + " ║")
 		if line[0] == ".":
 			continue
 		for pc, val, code, data in assemble(line, labels, pc):
@@ -345,5 +373,5 @@ print("╚" + "".join("═╧"[c == "│"] for c in columns[1:-1]) + "╝")
 
 fo.write("v2.0 raw\n")
 for word in out:
-	fo.write(f"{word:04x} ")
+	fo.write(f"{word&0xff:02x} {word>>8:02x} ")
 fo.write("\n")

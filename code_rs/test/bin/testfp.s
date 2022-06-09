@@ -1,4 +1,3 @@
-run: b _start
 	.text
 	.syntax unified
 	.eabi_attribute	67, "2.09"
@@ -17,12 +16,12 @@ run: b _start
 	.eabi_attribute	14, 0
 	.file	"testfp.adc4391d-cgu.0"
 	.section	.start,"ax",%progbits
-	.globl	_start
+	.globl	run
 	.p2align	2
-	.type	_start,%function
+	.type	run,%function
 	.code	16
 	.thumb_func
-_start:
+run:
 	.fnstart
 	.save	{r7, lr}
 	push	{r7, lr}
@@ -47,9 +46,9 @@ _start:
 	ldr	r5, [r5]
 	cmp	r5, #0
 	beq	.LBB0_1
+	movs	r5, #1
+	str	r5, [r2, #4]
 	ldr	r5, [r3]
-	movs	r6, #1
-	str	r6, [r2, #4]
 	subs	r5, #65
 	cmp	r5, #3
 	bhi	.LBB0_4
@@ -87,9 +86,9 @@ _start:
 	b	.LBB0_1
 	.p2align	2
 .LCPI0_0:
-	.long	.Lswitch.table._start
+	.long	.Lswitch.table.run
 .Lfunc_end0:
-	.size	_start, .Lfunc_end0-_start
+	.size	run, .Lfunc_end0-run
 	.cantunwind
 	.fnend
 
@@ -109,15 +108,15 @@ rust_begin_unwind:
 	.cantunwind
 	.fnend
 
-	.type	.Lswitch.table._start,%object
+	.type	.Lswitch.table.run,%object
 	.section	.rodata.cst16,"aM",%progbits,16
 	.p2align	2
-.Lswitch.table._start:
+.Lswitch.table.run:
 	.long	2
 	.long	3
 	.long	5
 	.long	8
-	.size	.Lswitch.table._start, 16
+	.size	.Lswitch.table.run, 16
 
 	.section	".note.GNU-stack","",%progbits
 	.eabi_attribute	30, 4

@@ -7,7 +7,7 @@ MEMORY
   RAM : ORIGIN = 0x00010000, LENGTH = 64K
 }
 
-ENTRY(_start)
+ENTRY(run)
 
 SECTIONS
 {

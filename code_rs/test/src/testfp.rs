@@ -11,8 +11,8 @@ mod parm;
 unsafe fn main() {
     loop {
         wait_key();
-        let key = KEYBchr.read();
         breakpoint();
+        let key = KEYBchr.read();
         RES.write(match key {
             65 => 2,
             66 => 3,
