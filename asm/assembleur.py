@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # Tom Niget - 2020
 
+import math
 import os
 import re
 import sys
@@ -62,6 +63,9 @@ for k, v in {
 	"mvns {Rd}, {Rm}": (0b010000_1111, "Rm", "Rd"),
 	"negs {Rd}, {Rn}": "rsbs {Rd}, {Rn}, #0",
 	# 05 - Hi register operations/branch exchange
+	"add {Rd}, {Hs}": (0b010001_00_0_1, "Hs", "Rd"),
+	"add {Hd}, {Rs}": (0b010001_00_1_0, "Rs", "Hd"), # todo: only pc supported
+	
 	"mov {Rd}, {Rs}": (0b010001_10_0_0, "Rs", "Rd"),
 	"mov {Hd}, {Rs}": (0b010001_10_1_0, "Rs", "Hd"), # todo: only pc supported
 	"mov {Rd}, {Hs}": (0b010001_10_0_1, "Hs", "Rd"),
@@ -76,7 +80,7 @@ for k, v in {
 	"ldr {Rd}, [{Rb}, {Ro}]": 	(0b0101_1_0_0, "Ro", "Rb", "Rd"),
 	"ldrb {Rd}, [{Rb}, {Ro}]": 	(0b0101_1_1_0, "Ro", "Rb", "Rd"),
 	# 08 - load/store sign-extended byte/halfword
-	"strh {Rd}, [{Rb}, {Ro}]":	(0b0101_0_0_1, "Ro", "Rb", "Rd"),
+	#"strh {Rd}, [{Rb}, {Ro}]":	(0b0101_0_0_1, "Ro", "Rb", "Rd"),
 	"ldrh {Rd}, [{Rb}, {Ro}]":	(0b0101_1_0_1, "Ro", "Rb", "Rd"),
 	"ldrsb {Rd}, [{Rb}, {Ro}]":	(0b0101_0_1_1, "Ro", "Rb", "Rd"),
 	"ldrsh {Rd}, [{Rb}, {Ro}]":	(0b0101_1_1_1, "Ro", "Rb", "Rd"),
@@ -84,22 +88,26 @@ for k, v in {
 	"str {Rd}, [{Rb}(?:, {immw5})?]":	(0b011_0_0, "immw5", "Rb", "Rd"),
 	"ldr {Rd}, [{Rb}(?:, {immw5})?]":	(0b011_0_1, "immw5", "Rb", "Rd"),
 	"strb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_0, "imm5", "Rb", "Rd"),
-	#"ldrb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_1, "imm5", "Rb", "Rd"),
+	"ldrb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_1, "imm5", "Rb", "Rd"),
 	# 10 - load/store halfword
-	"strh {Rd}, [{Rb}(?:, {immh5})?]":	(0b1000_0, "immh5", "Rb", "Rd"),
+	#"strh {Rd}, [{Rb}(?:, {immh5})?]":	(0b1000_0, "immh5", "Rb", "Rd"),
 	"ldrh {Rd}, [{Rb}(?:, {immh5})?]":	(0b1000_1, "immh5", "Rb", "Rd"),
 	# 11 - SP-relative load/store
 	"str {Rt}, [sp(?:, {immw8})?]": (0b1001_0, "Rt", "immw8"),
 	"ldr {Rt}, [sp(?:, {immw8})?]": (0b1001_1, "Rt", "immw8"),
 	# 12 - load address
 	"add {Rd}, pc, {immw8}": (0b1010_0, "Rd", "immw8"),
+	"adr {Rd}, {labelp8}": (0b1010_0, "Rd", "labelp8"),
 	"add {Rd}, sp, {immw8}": (0b1010_1, "Rd", "immw8"),
 	"mov {Rd}, sp": "add {Rd}, sp, #0",
-	# xx - uxtb
-	"uxtb {Rd}, {Rm}": (0b1011_0010_11, "Rm", "Rd"),
 	# 13 - add offset to Stack Pointer
 	"add (sp, )?sp, {immw7}": (0b1011_0000_0, "immw7"),
 	"sub (sp, )?sp, {immw7}": (0b1011_0000_1, "immw7"),
+	# xx - uxtb
+	"sxth {Rd}, {Rm}": (0b1011_0010_00, "Rm", "Rd"),
+	"sxtb {Rd}, {Rm}": (0b1011_0010_01, "Rm", "Rd"),
+	"uxth {Rd}, {Rm}": (0b1011_0010_10, "Rm", "Rd"),
+	"uxtb {Rd}, {Rm}": (0b1011_0010_11, "Rm", "Rd"),
 	# 14 - push/pop registers
 	# todo, 1011x10x
 	# 15 - multiple load/store
@@ -114,13 +122,13 @@ for k, v in {
 	# 19 - long branch with link
 	"bl {label11}": (0b1111_0, "label11"), # todo, long branch
 	
-	"nop ": "lsls r0, r0, #0",
-	"adr {Rd}, {labelp8}": (0b1010_0, "Rd", "labelp8")
+	"nop ": "mov r0, r0",
+	
 }.items():
 	k = k.replace("[", "\\[").replace("]", "\\]")
 	for rg, sub in regexes.items():
 		k = rg.sub(sub, k)
-	ins[re.compile(f"^{k}$")] = v
+	ins[re.compile(f"^{k}$", re.IGNORECASE)] = v
 
 log = []
 jumps = []
@@ -130,7 +138,10 @@ bname = {1: "halfword", 2: "word"}
 def parse_imm(s):
 	if not s:
 		return 0
-	return eval(s.replace(".", ""), {k.replace(".", ""): 2*v for k, v in labels.items()})
+	res = eval(s.replace(".", ""), {k.replace(".", ""): 2*v for k, v in labels.items()})
+	if type(res) == float and res != (res := int(res)):
+		raise Exception(s)
+	return res
 def check_align(val, sh):
 	if (val & ((1 << sh) - 1)) != 0:
 		raise Exception(f"Value {val} must be {bname[sh]}-aligned")
@@ -176,7 +187,7 @@ def try_assemble(m, instr, output, line):
 					pcrel = False
 				width = int(kw)
 				try:
-					cond = instr[0] == "b"
+					cond = instr[0].lower() == "b"
 					if pcrel:
 						val = labels[v] - ((pc + 2) & ~1)
 						val = check_align(2 * val, 2)
@@ -215,15 +226,25 @@ def assemble(line, labels, pc):
 		instr, args = line.split(None, 1)
 	except:
 		instr, args = line.strip(), ""
-	if instr.endswith(".w") or instr.endswith(".n"):
+	if instr.lower().endswith(".w") or instr.lower().endswith(".n"):
 		instr = instr[:-2]
-	if instr in ("@long", "@word"):
-		n = parse_imm(args)
-		lo, hi = n & 0xFFFF, n >> 16
-		return (pc, lo, "." + instr[1:], n), (pc+1, hi, "." + instr[1:], n)
-	if instr == "@asciz":
-		return [(pc+i, ch, ".asciz", args) for i, ch in enumerate(args[1:-1].encode("utf-8") + b"\0")]
 	oline = line = instr + " " + ", ".join(map(str.strip, filter(bool, args.split(","))))
+	if instr[0] == "@":
+		dl = "." + line[1:]
+		if instr.lower() in ("@long", "@word"):
+			n = parse_imm(args)
+			lo, hi = n & 0xFFFF, n >> 16
+			return (pc, lo, dl, n), (pc+1, hi, dl, n)
+		if instr.lower() == "@bytes":
+			first, second = map(parse_imm, args.split(","))
+			return (pc, (second << 8) | first, dl, f"{first}, {second}"),
+		if instr.lower().startswith("@asci"):
+			bytes = args[1:-1].encode("utf-8")
+			if instr[5].lower() == "z":
+				bytes += b"\0"
+			if len(bytes) % 2 == 1:
+				bytes += b"\0"
+			return [(pc+i, ch1 | (ch2 << 8), dl, f"{ch1} {ch2}") for i, (ch1, ch2) in enumerate(zip(bytes[::2], bytes[1::2]))]
 	found = False
 	while not found:
 		for i, output in ins.items():
@@ -248,56 +269,71 @@ fn = sys.argv[-1]
 fp = open(fn, "r")
 fo = open(os.path.splitext(fn)[0] + ".bin", "w")
 rlbl = re.compile(r"^([.\w]+)\s*:")
-pushpop = re.compile(r"^(push|pop)\s*{\s*(\w+(?:\s*,\s*\w+)*)}$")
-uxtb = re.compile(r"^uxtb\s+(\w+)\s*,\s*(\w+)$")
-ldrb = re.compile(r"^ldrb\s+(\w+)\s*,\s*(.+)$")
-p2align = re.compile(r"^.p2align\s+(\d+)$")
+pushpop = re.compile(r"^(push|pop)\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
+uxtb = re.compile(r"^uxtb\s+(\w+)\s*,\s*(\w+)$", re.IGNORECASE)
+sxtb = re.compile(r"^sxtb\s+(\w+)\s*,\s*(\w+)$", re.IGNORECASE)
+ldrb = re.compile(r"^ldrb\s+(\w+)\s*,\s*(.+)$", re.IGNORECASE)
+p2align = re.compile(r"^.p2align\s+(\d+)$", re.IGNORECASE)
 labels = {}
-lines = [l.lower() for l in fp.readlines()]
+lines = list(fp.readlines())
 lines = [l[:l.index("@")]  if "@" in l else l for l in lines]
 lines = [l[:l.index(";")]  if ";" in l else l for l in lines]
 lines = [l.strip() for l in lines]
 ignored_lines = [i for i, l in enumerate(lines[:-1])
-				 if l.startswith("b\t") and lines[i + 1] == f"{l[2:]}:"]  # fix for clang's redundant jumps
-#instrs = [(-1, 0, "b run", None, 1)]
-instrs = [(-1, 0, ".start", None, 0)]
+				 if l.lower().startswith("b\t") and lines[i + 1] == f"{l[2:]}:"]  # fix for clang's redundant jumps
+instrs = [(-1, 0, "b run", None, 1)]
+#instrs = [(-1, 0, ".start", None, 0)]
 def add_instr(line, val=None, size=1):
 	instrs.append((i + 1, current_pc(), line, val, size))
 def current_pc():
 	return instrs[-1][1] + instrs[-1][4]
+byte_val = None
 for i, line in enumerate(lines):
 	if not no_optim:
 		if i in ignored_lines:
 			continue
 	while line := line.strip():
+		if byte_val is not None:
+			if line.lower().startswith(".byte"):
+				byte_val2 = line.split(None, 1)[1]
+				add_instr(f"@bytes {byte_val}, {byte_val2}", None, 1)
+				byte_val = None
+				break
+			else:
+				raise Exception("Odd number of .byte!")
 		if m := rlbl.match(line):  # line is a label
 			labels[m.group(1)] = current_pc()
 			line = line[line.index(":") + 1:]
 		elif m := pushpop.match(line):
 			regs = sorted(map(str.strip, m.group(2).split(",")))
-			if m.group(1) == "push":
+			if m.group(1).lower() == "push":
 				if instrs[-1][1] == 0:
-					break
+					pass
 				for reg in regs:
 					add_instr(f"sub sp, #4")
-					if reg == "lr":
+					if reg.lower() == "lr":
 						pass # i'm gonna pretend i didn't see that
 					else:
 						add_instr(f"str {reg}, [sp]")
 			else:
 				for reg in reversed(regs):
-					if reg == "pc":
+					if reg.lower() == "pc":
 						add_instr(f"add sp, #4")
 						add_instr(f"bx lr") # let's just assume we only pop lr to pc, it'll maybe break someday
 					else:
 						add_instr(f"ldr {reg}, [sp]")
 						add_instr(f"add sp, #4")
 			break
-		elif m := uxtb.match(line):
-			dest, src = m.groups()
-			add_instr(f"lsls {dest}, {src}, #24")
-			add_instr(f"lsrs {dest}, {dest}, #24")
-			break
+		#elif m := uxtb.match(line):
+		#	dest, src = m.groups()
+		#	add_instr(f"lsls {dest}, {src}, #24")
+		#	add_instr(f"lsrs {dest}, {dest}, #24")
+		#	break
+		#elif m := sxtb.match(line):
+		#	dest, src = m.groups()
+		#	add_instr(f"lsls {dest}, {src}, #24")
+		#	add_instr(f"asrs {dest}, {dest}, #24")
+		#	break
 		elif m := p2align.match(line):
 			val = int(m.group(1))
 			if val > 1:
@@ -306,47 +342,50 @@ for i, line in enumerate(lines):
 				align = current_pc() & (num - 1)
 				if align:
 					for i in range(num - align):
-						add_instr(f".p2align {val}", 0, 1)
-			break
-		elif m := ldrb.match(line):
-			rd, rest = m.groups()
-			add_instr(f"ldr {rd}, {rest}")
-			add_instr(f"lsls {rd}, {rd}, #24")
-			add_instr(f"lsrs {rd}, {rd}, #24")
+						add_instr(f".p2align {val}", 0x4600, 1)
 			break
 		else:
 			val = None
-			if line.startswith(".asciz"):
+			if line.lower().startswith(".asci"):
 				s = line.split(None, 1)[1][1:-1]
-				add_instr("@" + line[1:], size=len(s)+1)
-			elif line.startswith(".word") | line.startswith(".long"):
+				utf = s.encode("utf-8")
+				l = len(s.encode("utf-8"))+1*(line[5]=="z")
+				l += l%2
+				add_instr("@" + line[1:], size=l//2)
+			elif line.lower().startswith(".word") or line.lower().startswith(".long"):
 				add_instr("@" + line[1:], size=2)
+			elif line.lower().startswith(".byte"):
+				byte_val = line.split(None, 1)[1]
 			elif line[0] != ".":
 				add_instr(line)
 			else:
 				break
 			break
-columns = f"║  PC  │  OP  │ {'Instruction':^20} │ {'Arguments':^25} ║"
-sep = "╠" + "".join("═╪"[c == "│"] for c in columns[1:-1]) + "╣"
 out = []
-def statline(pc, val, code, data):
-	return f"{pc * 2:04x} │ {val:04x} │ {code:20} │ {str(data):25}"
 for i, pc, line, val, size in instrs:
 	try:
 		if val is not None:
 			out.append(val)
-			log.append("║ " + statline(pc, val, line, "") + " ║")
-		if line[0] == ".":
+			log.append((pc, val, line, ""))
+		elif line[0] == ".":
 			continue
-		for pc, val, code, data in assemble(line, labels, pc):
-			out.append(val)
-			log.append("║ " + statline(pc, val, code, data) + " ║")
+		else:
+			for pc, val, code, data in assemble(line, labels, pc):
+				out.append(val)
+				log.append((pc, val, code, data))
 	except Exception as e:
 		print(f"Build error on line {i}: {line}")
 		raise
+width_instr = max(len(d[2]) for d in log)
+width_args = max(len(str(d[3])) for d in log)
+columns = f"║  PC  │  OP  │ {'Instruction':^{width_instr}} │ {'Arguments':^{width_args}} ║"
+sep = "╠" + "".join("═╪"[c == "│"] for c in columns[1:-1]) + "╣"
+def statline(pc, val, code, data):
+	return f"{pc * 2:04x} │ {val:04x} │ {code:{width_instr}} │ {str(data):{width_args}}"
 print("╔" + "".join("═╤"[c == "│"] for c in columns[1:-1]) + "╗")
 print(columns)
 print(sep)
+log = ["║ " + statline(*args) + " ║" for args in log]
 
 
 def subst(s, i, c):

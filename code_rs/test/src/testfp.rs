@@ -1,47 +1,43 @@
 #![no_main]
 #![no_std]
 
-use crate::parm::control::breakpoint;
-use crate::parm::keyb::{read_key, wait_key};
-use crate::parm::mmio::{DIP1, KEYBchr, RES};
-use crate::parm::tty::{print_char, print_res};
+use crate::parm::keyb::read_key;
+use crate::parm::mmio::{DIP1, DIP2, RES};
 
 mod parm;
 
-unsafe fn main() {
+fn main() {
     loop {
-        wait_key();
-        breakpoint();
-        let key = KEYBchr.read();
-        RES.write(match key {
-            65 => 2,
-            66 => 3,
-            67 => 5,
-            68 => 8,
-            _ => 0
-        });
-        print_res(false);
-
+       /* let a = DIP1.read() + 12;
+        let b = DIP2.read() + 34;
+        RES.write(match read_key() {
+            b'0' => a + b,
+            b'1' => a - b,
+            b'2' => a * b,
+            b'3' => a & b,
+            _ => 123
+        });*/
+        let a = DIP1.read();
+        let b = DIP2.read();
+        RES.write(a / b);
     }
-    /*let s = "ABCDEFG";
-    let p = s.as_ptr();
-    for i in 0..7 {
-        print_char(*p.offset(i));
-    }*/
-    /*loop {
-        let key = read_key();
-        print_char(key);
-    }*/
-
-    //let val = 3.5.into();
-    /*let val2 = 7.5.into();
-    let val3 = val * val2;*/
-
-    //print_fp(val);
-    /*print!(' ' '*' ' ');
-    print_fp(val2);
-    println!('=');
-    print_fp(val3);*/
 }
+/*
+01001		word
+0101100		word
+0101110		byte
+0101101		half
+0101011		byte signed
+0101111		half signed
+01101		word
+01111		byte
+10001		half
 
-// type Racisme = Noir | Blanc ;;
+inputs =
+abcdefg
+
+byte =
+   (~a && b && ~c && d && e && f && ~g)
+|| (~a && b && ~c && d && ~e && f && g)
+|| (~a && b && c && d && e)
+ */

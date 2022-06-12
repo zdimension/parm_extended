@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project source="3.5.0" version="1.0">
-  This file is intended to be loaded by Logisim-evolution (https://github.com/reds-heig/logisim-evolution).
+<project source="3.7.2" version="1.0">
+  This file is intended to be loaded by Logisim-evolution v3.7.2(https://github.com/logisim-evolution/).
 
   <lib desc="#Wiring" name="0">
     <tool name="Splitter">
@@ -9,9 +9,11 @@
       <a name="incoming" val="1"/>
     </tool>
     <tool name="Pin">
+      <a name="appearance" val="classic"/>
       <a name="facing" val="north"/>
     </tool>
     <tool name="Probe">
+      <a name="appearance" val="classic"/>
       <a name="facing" val="west"/>
       <a name="radix" val="10unsigned"/>
     </tool>
@@ -47,54 +49,10 @@
     <tool name="OR Gate">
       <a name="size" val="30"/>
     </tool>
-    <tool name="PLA">
-      <a name="table" val=""/>
-    </tool>
   </lib>
-  <lib desc="#Plexers" name="2">
-    <tool name="Multiplexer">
-      <a name="enable" val="false"/>
-    </tool>
-    <tool name="Demultiplexer">
-      <a name="enable" val="false"/>
-    </tool>
-  </lib>
+  <lib desc="#Plexers" name="2"/>
   <lib desc="#Arithmetic" name="3"/>
-  <lib desc="#Memory" name="4">
-    <tool name="D Flip-Flop">
-      <a name="appearance" val="logisim_evolution"/>
-    </tool>
-    <tool name="T Flip-Flop">
-      <a name="appearance" val="logisim_evolution"/>
-    </tool>
-    <tool name="J-K Flip-Flop">
-      <a name="appearance" val="logisim_evolution"/>
-    </tool>
-    <tool name="S-R Flip-Flop">
-      <a name="appearance" val="logisim_evolution"/>
-    </tool>
-    <tool name="Register">
-      <a name="appearance" val="logisim_evolution"/>
-    </tool>
-    <tool name="Counter">
-      <a name="appearance" val="logisim_evolution"/>
-    </tool>
-    <tool name="Shift Register">
-      <a name="appearance" val="logisim_evolution"/>
-    </tool>
-    <tool name="Random">
-      <a name="appearance" val="logisim_evolution"/>
-    </tool>
-    <tool name="RAM">
-      <a name="appearance" val="logisim_evolution"/>
-    </tool>
-    <tool name="ROM">
-      <a name="appearance" val="logisim_evolution"/>
-      <a name="contents">addr/data: 8 8
-0
-</a>
-    </tool>
-  </lib>
+  <lib desc="#Memory" name="4"/>
   <lib desc="#I/O" name="5"/>
   <lib desc="#HDL-IP" name="6">
     <tool name="VHDL Entity">
@@ -161,9 +119,6 @@ end TCL_Generic;
   <lib desc="#Base" name="8">
     <tool name="Text Tool">
       <a name="font" val="SansSerif plain 12"/>
-      <a name="halign" val="center"/>
-      <a name="text" val=""/>
-      <a name="valign" val="base"/>
     </tool>
   </lib>
   <lib desc="#BFH-Praktika" name="9"/>
@@ -183,16 +138,10 @@ end TCL_Generic;
     <tool lib="8" name="Edit Tool"/>
     <tool lib="8" name="Text Tool">
       <a name="font" val="SansSerif plain 12"/>
-      <a name="halign" val="center"/>
-      <a name="text" val=""/>
-      <a name="valign" val="base"/>
     </tool>
     <sep/>
+    <tool lib="0" name="Pin"/>
     <tool lib="0" name="Pin">
-      <a name="appearance" val="NewPins"/>
-    </tool>
-    <tool lib="0" name="Pin">
-      <a name="appearance" val="NewPins"/>
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
     </tool>
@@ -203,20 +152,8 @@ end TCL_Generic;
   <circuit name="Data_Processing">
     <a name="appearance" val="custom"/>
     <a name="circuit" val="Data_Processing"/>
-    <a name="circuitnamedboxfixedsize" val="false"/>
-    <a name="circuitvhdlpath" val=""/>
-    <a name="clabel" val=""/>
-    <a name="clabelfont" val="SansSerif bold 16"/>
-    <a name="clabelup" val="east"/>
+    <a name="simulationFrequency" val="2048000.0"/>
     <appear>
-      <circ-anchor facing="east" height="6" width="6" x="267" y="57"/>
-      <circ-port height="10" pin="530,150" width="10" x="265" y="95"/>
-      <circ-port height="10" pin="530,210" width="10" x="265" y="75"/>
-      <circ-port height="10" pin="530,270" width="10" x="265" y="55"/>
-      <circ-port height="10" pin="530,330" width="10" x="265" y="135"/>
-      <circ-port height="10" pin="530,90" width="10" x="265" y="115"/>
-      <circ-port height="8" pin="210,130" width="8" x="46" y="56"/>
-      <circ-port height="8" pin="470,70" width="8" x="46" y="76"/>
       <polyline fill="none" points="58,80 52,80" stroke="#000000" stroke-width="4"/>
       <rect fill="none" height="120" stroke="#000000" stroke-width="2" width="200" x="60" y="50"/>
       <rect height="20" stroke="none" width="200" x="61" y="150"/>
@@ -234,8 +171,17 @@ end TCL_Generic;
       <text dominant-baseline="central" fill="#ffffff" font-family="Dialog" font-size="14" font-weight="bold" text-anchor="middle" x="161" y="164">Data_Processing</text>
       <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="196" y="143">Flags_Update_Mask</text>
       <text dominant-baseline="central" font-family="SansSerif" font-size="12" text-anchor="middle" x="85" y="84">Enable</text>
+      <circ-anchor facing="east" height="6" width="6" x="267" y="57"/>
+      <circ-port height="10" pin="530,150" width="10" x="265" y="95"/>
+      <circ-port height="10" pin="530,210" width="10" x="265" y="75"/>
+      <circ-port height="10" pin="530,270" width="10" x="265" y="55"/>
+      <circ-port height="10" pin="530,330" width="10" x="265" y="135"/>
+      <circ-port height="10" pin="530,90" width="10" x="265" y="115"/>
+      <circ-port height="8" pin="210,130" width="8" x="46" y="56"/>
+      <circ-port height="8" pin="470,70" width="8" x="46" y="76"/>
     </appear>
     <comp lib="0" loc="(210,130)" name="Pin">
+      <a name="appearance" val="classic"/>
       <a name="label" val="Instruction"/>
       <a name="width" val="16"/>
     </comp>
@@ -302,14 +248,12 @@ end TCL_Generic;
       <a name="fanout" val="1"/>
       <a name="incoming" val="16"/>
     </comp>
+    <comp lib="0" loc="(260,210)" name="Splitter">
+      <a name="fanout" val="4"/>
+      <a name="incoming" val="4"/>
+    </comp>
     <comp lib="0" loc="(260,270)" name="Ground">
       <a name="facing" val="north"/>
-    </comp>
-    <comp lib="0" loc="(280,200)" name="Splitter">
-      <a name="bit2" val="none"/>
-      <a name="bit3" val="2"/>
-      <a name="fanout" val="3"/>
-      <a name="incoming" val="4"/>
     </comp>
     <comp lib="0" loc="(340,310)" name="Splitter">
       <a name="appear" val="center"/>
@@ -332,6 +276,7 @@ end TCL_Generic;
       <a name="incoming" val="4"/>
     </comp>
     <comp lib="0" loc="(470,70)" name="Pin">
+      <a name="appearance" val="classic"/>
       <a name="facing" val="south"/>
       <a name="label" val="Enable"/>
     </comp>
@@ -351,37 +296,42 @@ end TCL_Generic;
       <a name="facing" val="north"/>
     </comp>
     <comp lib="0" loc="(530,150)" name="Pin">
+      <a name="appearance" val="classic"/>
       <a name="facing" val="west"/>
       <a name="label" val="Rn"/>
       <a name="output" val="true"/>
       <a name="width" val="3"/>
     </comp>
     <comp lib="0" loc="(530,210)" name="Pin">
+      <a name="appearance" val="classic"/>
       <a name="facing" val="west"/>
       <a name="label" val="Rm"/>
       <a name="output" val="true"/>
       <a name="width" val="3"/>
     </comp>
     <comp lib="0" loc="(530,270)" name="Pin">
+      <a name="appearance" val="classic"/>
       <a name="facing" val="west"/>
       <a name="label" val="ALU_Opcode"/>
       <a name="output" val="true"/>
       <a name="width" val="4"/>
     </comp>
     <comp lib="0" loc="(530,330)" name="Pin">
+      <a name="appearance" val="classic"/>
       <a name="facing" val="west"/>
       <a name="label" val="Flags_Update_Mask"/>
       <a name="output" val="true"/>
       <a name="width" val="4"/>
     </comp>
     <comp lib="0" loc="(530,90)" name="Pin">
+      <a name="appearance" val="classic"/>
       <a name="facing" val="west"/>
       <a name="label" val="Rd"/>
       <a name="output" val="true"/>
       <a name="width" val="3"/>
     </comp>
-    <comp lib="1" loc="(340,180)" name="AND Gate">
-      <a name="inputs" val="3"/>
+    <comp lib="1" loc="(330,190)" name="AND Gate">
+      <a name="inputs" val="4"/>
       <a name="negate1" val="true"/>
       <a name="size" val="30"/>
     </comp>
@@ -412,16 +362,13 @@ end TCL_Generic;
       <a name="width" val="3"/>
     </comp>
     <comp lib="2" loc="(310,360)" name="Multiplexer">
-      <a name="enable" val="false"/>
       <a name="select" val="4"/>
       <a name="selloc" val="tr"/>
     </comp>
     <comp lib="2" loc="(450,150)" name="Multiplexer">
-      <a name="enable" val="false"/>
       <a name="width" val="3"/>
     </comp>
     <comp lib="2" loc="(450,210)" name="Multiplexer">
-      <a name="enable" val="false"/>
       <a name="selloc" val="tr"/>
       <a name="width" val="3"/>
     </comp>
@@ -474,6 +421,7 @@ end TCL_Generic;
     <wire from="(240,380)" to="(240,390)"/>
     <wire from="(240,380)" to="(270,380)"/>
     <wire from="(240,390)" to="(270,390)"/>
+    <wire from="(260,210)" to="(280,210)"/>
     <wire from="(260,270)" to="(260,280)"/>
     <wire from="(260,280)" to="(260,290)"/>
     <wire from="(260,280)" to="(270,280)"/>
@@ -499,16 +447,23 @@ end TCL_Generic;
     <wire from="(270,160)" to="(400,160)"/>
     <wire from="(270,240)" to="(280,240)"/>
     <wire from="(270,90)" to="(400,90)"/>
-    <wire from="(280,200)" to="(280,240)"/>
+    <wire from="(280,170)" to="(300,170)"/>
+    <wire from="(280,180)" to="(290,180)"/>
+    <wire from="(280,190)" to="(300,190)"/>
+    <wire from="(280,200)" to="(290,200)"/>
+    <wire from="(280,210)" to="(280,240)"/>
     <wire from="(280,240)" to="(290,240)"/>
+    <wire from="(290,200)" to="(290,210)"/>
+    <wire from="(290,210)" to="(300,210)"/>
     <wire from="(290,240)" to="(290,280)"/>
     <wire from="(290,240)" to="(330,240)"/>
-    <wire from="(300,170)" to="(310,170)"/>
-    <wire from="(300,190)" to="(310,190)"/>
+    <wire from="(300,190)" to="(300,200)"/>
     <wire from="(310,360)" to="(400,360)"/>
+    <wire from="(330,190)" to="(340,190)"/>
     <wire from="(330,240)" to="(330,310)"/>
     <wire from="(330,240)" to="(450,240)"/>
     <wire from="(330,310)" to="(340,310)"/>
+    <wire from="(340,180)" to="(340,190)"/>
     <wire from="(340,180)" to="(350,180)"/>
     <wire from="(350,180)" to="(350,290)"/>
     <wire from="(350,180)" to="(430,180)"/>
