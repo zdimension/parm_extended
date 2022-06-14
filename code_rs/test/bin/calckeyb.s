@@ -27,14 +27,13 @@ __aeabi_uidiv:
 	push	{r4, r5, r7, lr}
 	.setfp	r7, sp, #8
 	add	r7, sp, #8
+	movs	r2, #15
+	mvns	r2, r2
 	mov	r4, r0
 	mov	r5, r1
 	@APP
-	movs	r6, r4
+	ldr	r0, [r2]
 	@NO_APP
-	movs	r0, #3
-	mvns	r0, r0
-	ldr	r0, [r0]
 	pop	{r4, r5, r7, pc}
 .Lfunc_end0:
 	.size	__aeabi_uidiv, .Lfunc_end0-__aeabi_uidiv
@@ -49,7 +48,7 @@ __aeabi_uidiv:
 	.thumb_func
 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E:
 	.fnstart
-	movs	r2, #15
+	movs	r2, #63
 	mvns	r2, r2
 	movs	r3, #0
 	ldr	r4, .LCPI1_0
@@ -93,11 +92,10 @@ _ZN4core9panicking5panic17h1ad3ed8b8184cb53E:
 run:
 	.fnstart
 	.save	{r7, lr}
-	push	{r7, lr}
-	.setfp	r7, sp
-	add	r7, sp, #0
-	.pad	#32
-	sub	sp, #32
+	.pad	#24
+	push	{r1, r2, r3, r4, r5, r6, r7, lr}
+	.setfp	r7, sp, #24
+	add	r7, sp, #24
 	@APP
 
 	sub	sp, #508
@@ -105,111 +103,105 @@ run:
 	sub	sp, #8
 
 	@NO_APP
-	movs	r0, #15
-	mvns	r0, r0
-	movs	r1, #0
-	ldr	r2, .LCPI2_0
+	movs	r0, #63
+	mvns	r6, r0
+	movs	r0, #0
+	ldr	r1, .LCPI2_0
 .LBB2_1:
-	cmp	r1, #4
+	cmp	r0, #4
 	beq	.LBB2_3
-	ldrb	r3, [r2, r1]
-	str	r3, [r0]
-	adds	r1, r1, #1
+	ldrb	r2, [r1, r0]
+	str	r2, [r6]
+	adds	r0, r0, #1
 	b	.LBB2_1
 .LBB2_3:
-	movs	r1, #9
-	mvns	r6, r1
-	movs	r1, #8
-	mvns	r4, r1
-	movs	r5, #0
+	movs	r4, #0
 .LBB2_4:
-	ldr	r1, [r6]
-	cmp	r1, #0
+	ldr	r0, [r6, #24]
+	cmp	r0, #0
 	beq	.LBB2_4
-	ldr	r1, [r4]
-	uxtb	r2, r1
-	cmp	r2, #10
+	ldr	r0, [r6, #28]
+	uxtb	r1, r0
+	cmp	r1, #10
 	beq	.LBB2_8
-	mov	r3, r2
-	subs	r3, #48
-	cmp	r3, #9
+	mov	r2, r1
+	subs	r2, #48
+	cmp	r2, #9
 	bhi	.LBB2_4
-	str	r2, [r0]
-	movs	r2, #10
-	muls	r2, r5, r2
-	adds	r1, #208
-	uxtb	r1, r1
-	adds	r5, r1, r2
+	str	r1, [r6]
+	movs	r1, #10
+	muls	r1, r4, r1
+	adds	r0, #208
+	uxtb	r0, r0
+	adds	r4, r0, r1
 	b	.LBB2_4
 .LBB2_8:
-	movs	r3, #10
-	movs	r1, #0
-	ldr	r2, .LCPI2_1
+	movs	r2, #10
+	movs	r0, #0
+	ldr	r1, .LCPI2_1
 .LBB2_9:
-	str	r3, [r0]
-	cmp	r1, #4
+	str	r2, [r6]
+	cmp	r0, #4
 	beq	.LBB2_11
-	ldrb	r3, [r2, r1]
-	adds	r1, r1, #1
+	ldrb	r2, [r1, r0]
+	adds	r0, r0, #1
 	b	.LBB2_9
 .LBB2_11:
-	str	r5, [sp, #24]
 	movs	r5, #0
 .LBB2_12:
-	ldr	r1, [r6]
-	cmp	r1, #0
+	ldr	r0, [r6, #24]
+	cmp	r0, #0
 	beq	.LBB2_12
-	ldr	r1, [r4]
-	uxtb	r2, r1
-	cmp	r2, #10
+	ldr	r0, [r6, #28]
+	uxtb	r1, r0
+	cmp	r1, #10
 	beq	.LBB2_16
-	mov	r3, r2
-	subs	r3, #48
-	cmp	r3, #9
+	mov	r2, r1
+	subs	r2, #48
+	cmp	r2, #9
 	bhi	.LBB2_12
-	str	r2, [r0]
-	movs	r2, #10
-	muls	r2, r5, r2
-	adds	r1, #208
-	uxtb	r1, r1
-	adds	r5, r1, r2
+	str	r1, [r6]
+	movs	r1, #10
+	muls	r1, r5, r1
+	adds	r0, #208
+	uxtb	r0, r0
+	adds	r5, r0, r1
 	b	.LBB2_12
 .LBB2_16:
-	movs	r3, #10
-	movs	r1, #0
-	ldr	r2, .LCPI2_2
+	movs	r2, #10
+	movs	r0, #0
+	ldr	r1, .LCPI2_2
 .LBB2_17:
-	str	r3, [r0]
-	cmp	r1, #8
+	str	r2, [r6]
+	cmp	r0, #8
 	beq	.LBB2_19
-	ldrb	r3, [r2, r1]
-	adds	r1, r1, #1
+	ldrb	r2, [r1, r0]
+	adds	r0, r0, #1
 	b	.LBB2_17
 .LBB2_19:
-	movs	r1, #10
-	str	r1, [r0]
-	ldr	r0, [sp, #24]
-	adds	r2, r5, r0
-	subs	r1, r0, r5
-	str	r1, [sp, #20]
-	mov	r1, r0
-	muls	r1, r5, r1
-	str	r1, [sp, #16]
-	mov	r1, r5
-	ands	r1, r0
-	str	r1, [sp, #12]
-	mov	r1, r5
-	orrs	r1, r0
-	str	r1, [sp, #28]
+	movs	r0, #10
+	str	r0, [r6]
+	adds	r2, r5, r4
+	subs	r0, r4, r5
+	str	r0, [sp, #16]
+	mov	r0, r4
+	muls	r0, r5, r0
+	str	r0, [sp, #12]
+	mov	r0, r5
+	ands	r0, r4
+	str	r0, [sp, #8]
+	mov	r0, r5
+	orrs	r0, r4
+	str	r0, [sp, #20]
 	mov	r3, r5
-	eors	r3, r0
-	str	r2, [sp, #8]
-	str	r3, [sp, #4]
+	eors	r3, r4
+	str	r2, [sp, #4]
+	str	r3, [sp]
 .LBB2_20:
-	ldr	r0, [r6]
+	ldr	r0, [r6, #24]
 	cmp	r0, #0
 	beq	.LBB2_20
-	ldr	r0, [r4]
+	ldr	r0, [r6, #28]
 	uxtb	r1, r0
 	mov	r0, r1
 	subs	r0, #38
@@ -235,14 +227,14 @@ run:
 .LBB2_24:
 	b	.LBB2_20
 .LBB2_25:
-	ldr	r0, [sp, #12]
+	ldr	r0, [sp, #8]
 	b	.LBB2_33
 .LBB2_26:
 	cmp	r1, #94
 	mov	r0, r3
 	beq	.LBB2_33
 	cmp	r1, #124
-	ldr	r0, [sp, #28]
+	ldr	r0, [sp, #20]
 	beq	.LBB2_33
 	cmp	r1, #10
 	bne	.LBB2_20
@@ -250,21 +242,19 @@ run:
 .LBB2_29:
 	cmp	r5, #0
 	beq	.LBB2_34
-	ldr	r0, [sp, #24]
+	mov	r0, r4
 	mov	r1, r5
 	bl	__aeabi_uidiv
-	ldr	r3, [sp, #4]
-	ldr	r2, [sp, #8]
+	ldr	r3, [sp]
+	ldr	r2, [sp, #4]
 	b	.LBB2_33
 .LBB2_31:
-	ldr	r0, [sp, #16]
+	ldr	r0, [sp, #12]
 	b	.LBB2_33
 .LBB2_32:
-	ldr	r0, [sp, #20]
+	ldr	r0, [sp, #16]
 .LBB2_33:
-	movs	r1, #14
-	mvns	r1, r1
-	str	r0, [r1]
+	str	r0, [r6, #4]
 	b	.LBB2_20
 .LBB2_34:
 	ldr	r0, .LCPI2_3
@@ -272,10 +262,8 @@ run:
 	bl	_ZN4core9panicking5panic17h1ad3ed8b8184cb53E
 	.inst.n	0xdefe
 .LBB2_35:
-	movs	r0, #11
-	mvns	r0, r0
-	movs	r1, #1
-	str	r1, [r0]
+	movs	r0, #1
+	str	r0, [r6, #16]
 	.inst.n	0xdefe
 	.p2align	2
 .LCPI2_0:

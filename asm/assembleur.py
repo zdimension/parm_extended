@@ -69,8 +69,11 @@ for k, v in {
 	"mov {Rd}, {Rs}": (0b010001_10_0_0, "Rs", "Rd"),
 	"mov {Hd}, {Rs}": (0b010001_10_1_0, "Rs", "Hd"), # todo: only pc supported
 	"mov {Rd}, {Hs}": (0b010001_10_0_1, "Hs", "Rd"),
-	# todo, 010001
-	"bx lr":          (0b010001_11_0_1_110_000,),
+	"bx lr":          (0b010001_11_0_1110_000,), # todo other than lr
+	#"bx {Rm}":		  (0b010001_11_0_0, "Rm", "000"),
+	#"bx {Hm}":		  (0b010001_11_0_1, "Hm", "000"),
+	"blx {Rm}":		  (0b010001_11_1_0, "Rm", "000"),
+	"blx {Hm}":		  (0b010001_11_1_1, "Hm", "000"),
 	# 06 - PC-relative load
 	"ldr {Rd}, [pc(?:, {immw8})?]":	(0b01001, "Rd", "immw8"),
 	"ldr {Rd}, {labelp8}": (0b01001, "Rd", "labelp8"),
@@ -120,7 +123,7 @@ for k, v in {
 	# 18 - unconditional branch
 	"b {label11}": (0b11100, "label11"),
 	# 19 - long branch with link
-	"bl {label11}": (0b1111_0, "label11"), # todo, long branch
+	"blx? {label11}": (0b1111_0, "label11"), # todo, long branch
 	
 	"nop ": "mov r0, r0",
 	
@@ -210,11 +213,15 @@ def try_assemble(m, instr, output, line):
 		width = 0
 		val = nval
 		if type(val) == str:
-			val, width = dic[val]
-			# 32-bit word addressing
-			if nval.startswith("imm"):
-				sh = immshift.get(nval[3], 0)
-				val = check_align(val, sh)
+			if val not in dic:
+				width = len(val)
+				val = int(val, 2)
+			else:
+				val, width = dic[val]
+				# 32-bit word addressing
+				if nval.startswith("imm"):
+					sh = immshift.get(nval[3], 0)
+					val = check_align(val, sh)
 		res <<= width
 		if width != 0:
 			val &= 2 ** width - 1
@@ -246,6 +253,7 @@ def assemble(line, labels, pc):
 				bytes += b"\0"
 			return [(pc+i, ch1 | (ch2 << 8), dl, f"{ch1} {ch2}") for i, (ch1, ch2) in enumerate(zip(bytes[::2], bytes[1::2]))]
 	found = False
+	exc = None
 	while not found:
 		for i, output in ins.items():
 			m = i.match(line)
@@ -257,10 +265,13 @@ def assemble(line, labels, pc):
 					line = output
 					break
 				else:
-					if (res := try_assemble(m, instr, output, line)) is not None:
-						return res
+					try:
+						if (res := try_assemble(m, instr, output, line)) is not None:
+							return res
+					except Exception as e:
+						exc = e
 		else:
-			raise Exception(f"Invalid instruction: {oline}")
+			raise exc or Exception(f"Invalid instruction: {oline}")
 
 
 

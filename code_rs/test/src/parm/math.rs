@@ -10,7 +10,7 @@ macro_rules! __div_prologue__ {
         in(reg) $a,
         in(reg) $b);*/
         unsafe {
-            core::arch::asm!("movs r6, r4",
+            core::arch::asm!("nop",
                 in("r4") $a,
                 in("r5") $b);
         }
@@ -22,26 +22,50 @@ pub fn __aeabi_uidiv(a: u32, b: u32) -> u32 {
     div(a, b)
 }
 
-#[export_name="_ZN4core9panicking5panic17h1ad3ed8b8184cb53E"]
-pub fn panic_handler(expr: &'static str) -> ! {
-    println!("PANIC:", expr);
-    loop {}
-}
-
 #[inline(always)]
 pub fn div(a: u32, b: u32) -> u32 {
-    __div_prologue__!(a, b);
-    R4divR5.read()
+    let mut res;
+    unsafe {
+        core::arch::asm!("ldr {res}, [{addr}]",
+            addr = in(reg) R4divR5.address(),
+            res = out(reg) res,
+            in("r4") a,
+            in("r5") b,
+        )
+    }
+    res
 }
 
 #[inline(always)]
 pub fn r#mod(a: u32, b: u32) -> u32 {
-    __div_prologue__!(a, b);
-    R4modR5.read()
+    let mut res;
+    unsafe {
+        core::arch::asm!("ldr {res}, [{addr}]",
+            addr = in(reg) R4modR5.address(),
+            res = out(reg) res,
+            in("r4") a,
+            in("r5") b,
+        )
+    }
+    res
 }
 
 #[inline(always)]
 pub fn divmod(a: u32, b: u32) -> (u32, u32) {
-    __div_prologue__!(a, b);
-    (R4divR5.read(), R4modR5.read())
+    let mut div;
+    let mut rem;
+    unsafe {
+        core::arch::asm!(r#"
+            ldr {res1}, [{addr1}]
+            ldr {res2}, [{addr2}]
+            "#,
+            addr1 = in(reg) R4divR5.address(),
+            addr2 = in(reg) R4modR5.address(),
+            res1 = out(reg) div,
+            res2 = out(reg) rem,
+            in("r4") a,
+            in("r5") b,
+        );
+    }
+    (div, rem)
 }

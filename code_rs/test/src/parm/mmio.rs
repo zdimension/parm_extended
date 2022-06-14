@@ -1,9 +1,9 @@
-const MMIO_BASE: u32 = -16i32 as _;
+const MMIO_BASE: *mut u32 = -64i32 as _;
 
 #[inline(always)]
 const fn mmio(pin: u8) -> *mut u32 {
 	match pin {
-		0..=15 => (MMIO_BASE + pin as u32) as *mut u32,
+		0..=15 => unsafe { MMIO_BASE.offset(pin as isize) },
 		_ => panic!("Invalid pin")
 	}
 }
@@ -14,6 +14,8 @@ impl ReadPin {
 	pub fn read(&self) -> u32 {
 		unsafe { core::ptr::read_volatile(mmio(self.0)) }
 	}
+	#[inline(always)]
+	pub fn address(&self) -> *mut u32 { mmio(self.0) }
 }
 
 pub struct ReadWritePin(u8);
@@ -27,6 +29,9 @@ impl ReadWritePin {
 	pub fn write(&self, val: u32) {
 		WritePin(self.0).write(val);
 	}
+
+	#[inline(always)]
+	pub fn address(&self) -> *mut u32 { mmio(self.0) }
 }
 
 pub struct WritePin(u8);
@@ -35,6 +40,9 @@ impl WritePin {
 	pub fn write(&self, val: u32) {
 		unsafe { core::ptr::write_volatile(mmio(self.0), val); }
 	}
+
+	#[inline(always)]
+	pub fn address(&self) -> *mut u32 { mmio(self.0) }
 }
 
 macro_rules! pins {
