@@ -197,7 +197,7 @@ def try_assemble(m, instr, output, line):
 					else:
 						val = (labels[v] - pc - (2 if cond else 0))
 					dic[k] = (val, width)
-					if not (abs(dic[k][0]) < 2 ** (width - 1)):
+					if not (abs(dic[k][0]) < 2 ** (width - (not pcrel))):
 						raise Exception(
 							f"Jump too wide : {labels[v]} is {dic[k][0]} which does not fit in {width} bits")
 					jumps.append((pc, labels[v]))
@@ -246,7 +246,7 @@ def assemble(line, labels, pc):
 			first, second = map(parse_imm, args.split(","))
 			return (pc, (second << 8) | first, dl, f"{first}, {second}"),
 		if instr.lower().startswith("@asci"):
-			bytes = args[1:-1].encode("utf-8")
+			bytes = eval(args).encode("utf-8")
 			if instr[5].lower() == "z":
 				bytes += b"\0"
 			if len(bytes) % 2 == 1:
@@ -306,12 +306,13 @@ for i, line in enumerate(lines):
 	while line := line.strip():
 		if byte_val is not None:
 			if line.lower().startswith(".byte"):
-				byte_val2 = line.split(None, 1)[1]
-				add_instr(f"@bytes {byte_val}, {byte_val2}", None, 1)
-				byte_val = None
-				break
+				skip, byte_val2 = True, line.split(None, 1)[1]
 			else:
-				raise Exception("Odd number of .byte!")
+				skip, byte_val2 = False, 0
+			add_instr(f"@bytes {byte_val}, {byte_val2}", None, 1)
+			byte_val = None
+			if skip:
+				break
 		if m := rlbl.match(line):  # line is a label
 			labels[m.group(1)] = current_pc()
 			line = line[line.index(":") + 1:]
@@ -358,7 +359,7 @@ for i, line in enumerate(lines):
 		else:
 			val = None
 			if line.lower().startswith(".asci"):
-				s = line.split(None, 1)[1][1:-1]
+				s = eval(line.split(None, 1)[1])
 				utf = s.encode("utf-8")
 				l = len(s.encode("utf-8"))+1*(line[5]=="z")
 				l += l%2

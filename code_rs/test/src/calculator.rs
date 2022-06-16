@@ -1,10 +1,9 @@
 #![no_main]
 #![no_std]
 
-use parm::mmio::{DIP1, DIP2, DIP3, RES};
-use parm::parm_setup;
+use crate::parm::mmio::{DIP1, DIP2, DIP3, RES};
 
-parm_setup!();
+mod parm;
 
 fn main() {
     loop {
@@ -14,7 +13,7 @@ fn main() {
             1 => a - b,
             2 => a * b,
             3 => a << b,
-            _ => loop {}
+            _ => continue,
         });
     }
 }

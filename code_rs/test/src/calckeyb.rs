@@ -2,8 +2,8 @@
 #![no_std]
 
 use crate::parm::control::reset;
-use crate::parm::keyb::{read_key, wait_key};
-use crate::parm::math;
+use crate::parm::keyb::read_key;
+
 use crate::parm::mmio::RES;
 use crate::parm::tty::read_int;
 
@@ -24,12 +24,12 @@ fn main() {
             b'-' => a - b,
             b'*' => a * b,
             b'/' => a / b,
-           //b'%' => math::r#mod(a, b),
+            //b'%' => math::r#mod(a, b),
             b'&' => a & b,
             b'|' => a | b,
             b'^' => a ^ b,
             b'\n' => reset(),
-            _ => continue
+            _ => continue,
         };
         RES.write(res);
     }

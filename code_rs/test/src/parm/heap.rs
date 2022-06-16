@@ -1,4 +1,3 @@
-use core::ptr;
 use crate::parm::panic;
 
 pub const HEAP_START: usize = 0x10000;
@@ -41,8 +40,8 @@ const fn blocks_to_allocate(size: usize) -> usize {
 }
 
 const HEAP_FREEP: *mut *mut BlockHeader = HEAP_START as _;
-const HEAP_BASE: *mut BlockHeader = unsafe { HEAP_START as usize + 4 } as _;
-const HEAP_FIRST: *mut BlockHeader = unsafe { HEAP_START as usize + 12 } as _;
+const HEAP_BASE: *mut BlockHeader = (HEAP_START as usize + 4) as _;
+const HEAP_FIRST: *mut BlockHeader = (HEAP_START as usize + 12) as _;
 
 pub fn init() {
     unsafe {
@@ -88,7 +87,7 @@ pub fn free(ptr: *mut u32) {
     unsafe {
         let mut header = BlockHeader::from_block(ptr);
         *ptr = 0xabababab;
-        *ptr.add(2*(*header).size() - 3) = 0xcdcdcdcd;
+        *ptr.add(2 * (*header).size() - 3) = 0xcdcdcdcd;
         let mut prevp = *HEAP_FREEP;
         let mut p = *HEAP_FREEP;
         while p < header {
