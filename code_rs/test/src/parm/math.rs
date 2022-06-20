@@ -1,7 +1,7 @@
-use crate::parm::mmio::{R4divR5, R4modR5, RESbcd, RES};
+use crate::parm::mmio::{RESbcd, RES, R2modR3, R2divR3};
 use crate::parm::tty::print_char;
-use crate::parm::{math, tty};
-use crate::{print, println};
+use crate::parm::{tty};
+use crate::{print};
 use core::ops::{Add, AddAssign, Div, Mul, MulAssign, Neg, Rem, Sub, SubAssign};
 
 #[export_name = "__aeabi_uidiv"]
@@ -14,10 +14,10 @@ pub fn div(a: u32, b: u32) -> u32 {
     let mut res;
     unsafe {
         core::arch::asm!("ldr {res}, [{addr}]",
-            addr = in(reg) R4divR5.address(),
+            addr = in(reg) R2divR3.address(),
             res = out(reg) res,
-            in("r4") a,
-            in("r5") b,
+            in("r2") a,
+            in("r3") b,
         )
     }
     res
@@ -28,10 +28,10 @@ pub fn r#mod(a: u32, b: u32) -> u32 {
     let mut res;
     unsafe {
         core::arch::asm!("ldr {res}, [{addr}]",
-            addr = in(reg) R4modR5.address(),
+            addr = in(reg) R2modR3.address(),
             res = out(reg) res,
-            in("r4") a,
-            in("r5") b,
+            in("r2") a,
+            in("r3") b,
         )
     }
     res
@@ -46,12 +46,12 @@ pub fn divmod(a: u32, b: u32) -> (u32, u32) {
             ldr {res1}, [{addr1}]
             ldr {res2}, [{addr2}]
             "#,
-            addr1 = in(reg) R4divR5.address(),
-            addr2 = in(reg) R4modR5.address(),
+            addr1 = in(reg) R2divR3.address(),
+            addr2 = in(reg) R2modR3.address(),
             res1 = out(reg) div,
             res2 = out(reg) rem,
-            in("r4") a,
-            in("r5") b,
+            in("r2") a,
+            in("r3") b,
         );
     }
     (div, rem)
@@ -280,7 +280,6 @@ impl Neg for fp32 {
     }
 }
 
-#[inline(always)]
 pub fn print_fp(x: fp32) {
     let x = if x < fp32(0) {
         print_char('-');

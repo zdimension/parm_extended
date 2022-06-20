@@ -106,7 +106,6 @@ pub fn clear() {
     print_char(12);
 }
 
-#[inline(always)]
 pub fn read_int() -> u32 {
     let mut res = 0;
     loop {

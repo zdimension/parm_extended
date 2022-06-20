@@ -33,6 +33,11 @@ pub fn panic(expr: &'static str) -> ! {
     loop {}
 }
 
+#[export_name = "_ZN4core9panicking5panic17h0889907c7e7272d5E"]
+pub fn panic2(expr: &'static str) -> ! {
+    panic(expr)
+}
+
 core::arch::global_asm!(
     r#"
 _ZN4core6result13unwrap_failed17ha24f234727605fe4E:

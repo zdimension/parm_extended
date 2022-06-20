@@ -1,6 +1,12 @@
+pub mod vec;
+
 use crate::parm::panic;
 use core::alloc::{GlobalAlloc, Layout};
-use crate::println;
+
+use core::{ptr};
+
+
+
 
 pub const HEAP_START: usize = 0x10000;
 
@@ -74,7 +80,6 @@ pub fn init() {
     }
 }
 
-#[inline(always)]
 pub fn malloc(size: usize) -> *mut u32 {
     let blocks = blocks_to_allocate(size);
     unsafe {
@@ -84,7 +89,7 @@ pub fn malloc(size: usize) -> *mut u32 {
             let newprevp = p;
             p = (*p).next;
             if p == *HEAP_FREEP {
-                panic("out of memory");
+                return ptr::null_mut();
             }
             prevp = newprevp;
         }
@@ -101,7 +106,6 @@ pub fn malloc(size: usize) -> *mut u32 {
     }
 }
 
-#[inline(always)]
 pub fn free(ptr: *mut u32) {
     unsafe {
         let mut header = BlockHeader::from_block(ptr);
@@ -129,7 +133,6 @@ pub fn free(ptr: *mut u32) {
     }
 }
 
-#[inline(always)]
 pub fn realloc(ptr: *mut u32, size: usize) -> *mut u32 {
     if ptr.is_null() {
         return malloc(size);
@@ -169,7 +172,6 @@ pub fn realloc(ptr: *mut u32, size: usize) -> *mut u32 {
     }
 }
 
-#[inline(always)]
 pub fn calloc(size: usize) -> *mut u32 {
     let ptr = malloc(size);
     let size = ((size + 3) & !3) >> 2;
@@ -262,3 +264,6 @@ extern "C" fn __aeabi_memclr(dest: *mut u8, n: usize) {
         unsafe { *dest.add(i) = 0 }
     }
 }
+
+static GLOBAL: HeapAllocator = HeapAllocator;
+

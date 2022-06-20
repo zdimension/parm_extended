@@ -93,6 +93,6 @@ pins! {
     JOYy => 9(in),
     RNG32 => 10(in),
     RESbcd => 11(in),
-    R4divR5 => 12(in),
-    R4modR5 => 13(in)
+    R2divR3 => 12(in),
+    R2modR3 => 13(in)
 }

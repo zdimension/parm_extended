@@ -12,14 +12,10 @@ pub fn update() {
 
 #[inline(always)]
 pub fn pixel_set(x: u8, y: u8) {
-    let mut v = SCRbuf.read();
-    v |= bit_value(x, y);
-    SCRbuf.write(v);
+    SCRbuf.write(SCRbuf.read() | bit_value(x, y));
 }
 
 #[inline(always)]
 pub fn pixel_clear(x: u8, y: u8) {
-    let mut v = SCRbuf.read();
-    v &= !bit_value(x, y);
-    SCRbuf.write(v);
+    SCRbuf.write(SCRbuf.read() & !bit_value(x, y));
 }

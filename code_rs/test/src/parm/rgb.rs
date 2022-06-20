@@ -13,11 +13,11 @@ impl Color24bpp {
 #[inline(always)]
 pub fn pixel_set(x: u8, y: u8, color: Color24bpp) {
     unsafe {
-        core::arch::asm!("str r3, [{addr}]",
+        core::arch::asm!("str r1, [{addr}]",
             addr = in(reg) RGBpix.address(),
-            in("r3") color.0,
-            in("r4") x,
-            in("r5") y,
+            in("r1") color.0,
+            in("r2") x,
+            in("r3") y,
         )
     }
 }
