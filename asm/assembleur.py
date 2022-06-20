@@ -17,7 +17,7 @@ regexes = [
 	(r"(?:\{(imm3)\})", r"(?P<F\1>#(?P<\1>-?\\d{1}))"),
 	(r"(?:\{(imm[hwp]?\d)\})", r"(?P<F\1>#?(?P<\1>[A-Fa-f0-9-x]+|[\.\\w]+))"),
 	(r"\{cond\}", r"(?P<cond>(?:[a-z]{2}))"),
-	(r"\{(label[hwp]?\d+)\}", r"(?P<F\1>(?P<\1>[\.\\w#]+))")
+	(r"\{(label[hwp]?\d+)\}", r"(?P<F\1>(?P<\1>[\.\\w$#]+))")
 ]
 regexes = {re.compile(k): v for k, v in regexes}
 
@@ -227,7 +227,8 @@ def try_assemble(m, instr, output, line):
 			val &= 2 ** width - 1
 		res += val
 	return ((pc, res, line, ', '.join(f'{k}={v[0] if v else str()}' for k, v in dic.items() if k[0] != 'F')),)
-
+def truncate(line, width=35):
+	return (line[:width-3] + '...') if len(line) > width-3 else line
 def assemble(line, labels, pc):
 	try:
 		instr, args = line.split(None, 1)
@@ -251,7 +252,7 @@ def assemble(line, labels, pc):
 				bytes += b"\0"
 			if len(bytes) % 2 == 1:
 				bytes += b"\0"
-			return [(pc+i, ch1 | (ch2 << 8), dl, f"{ch1} {ch2}") for i, (ch1, ch2) in enumerate(zip(bytes[::2], bytes[1::2]))]
+			return [(pc+i, ch1 | (ch2 << 8), truncate(dl), f"{ch1} {ch2}") for i, (ch1, ch2) in enumerate(zip(bytes[::2], bytes[1::2]))]
 	found = False
 	exc = None
 	while not found:
@@ -279,16 +280,17 @@ no_optim = [param in sys.argv for param in ("-O0",)]
 fn = sys.argv[-1]
 fp = open(fn, "r")
 fo = open(os.path.splitext(fn)[0] + ".bin", "w")
-rlbl = re.compile(r"^([.\w]+)\s*:")
+rlbl = re.compile(r"^([.\w$]+)\s*:")
 pushpop = re.compile(r"^(push|pop)\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
-uxtb = re.compile(r"^uxtb\s+(\w+)\s*,\s*(\w+)$", re.IGNORECASE)
-sxtb = re.compile(r"^sxtb\s+(\w+)\s*,\s*(\w+)$", re.IGNORECASE)
-ldrb = re.compile(r"^ldrb\s+(\w+)\s*,\s*(.+)$", re.IGNORECASE)
+stmbang = re.compile(r"^stm\s+(r\d)!,\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
+ldmbang = re.compile(r"^ldm\s+(r\d)!,\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
+instn = re.compile(r"^.inst.n\s+(.*)$", re.IGNORECASE)
 p2align = re.compile(r"^.p2align\s+(\d+)$", re.IGNORECASE)
 labels = {}
 lines = list(fp.readlines())
-lines = [l[:l.index("@")]  if "@" in l else l for l in lines]
-lines = [l[:l.index(";")]  if ";" in l else l for l in lines]
+lines = [l for l in lines if l.strip() not in {"@APP", "@NO_APP"}]
+#lines = [l[:l.index("@")]  if "@" in l else l for l in lines]
+#lines = [l[:l.index(";")]  if ";" in l else l for l in lines]
 lines = [l.strip() for l in lines]
 ignored_lines = [i for i, l in enumerate(lines[:-1])
 				 if l.lower().startswith("b\t") and lines[i + 1] == f"{l[2:]}:"]  # fix for clang's redundant jumps
@@ -299,80 +301,93 @@ def add_instr(line, val=None, size=1):
 def current_pc():
 	return instrs[-1][1] + instrs[-1][4]
 byte_val = None
-for i, line in enumerate(lines):
-	if not no_optim:
-		if i in ignored_lines:
-			continue
-	while line := line.strip():
-		if byte_val is not None:
-			if line.lower().startswith(".byte"):
-				skip, byte_val2 = True, line.split(None, 1)[1]
-			else:
-				skip, byte_val2 = False, 0
-			add_instr(f"@bytes {byte_val}, {byte_val2}", None, 1)
-			byte_val = None
-			if skip:
+try:
+	for i, line in enumerate(lines):
+		if not no_optim:
+			if i in ignored_lines:
+				continue
+		while line := line.strip():
+			if byte_val is not None:
+				if line.lower().startswith(".byte"):
+					skip, byte_val2 = True, line.split(None, 1)[1]
+				else:
+					skip, byte_val2 = False, 0
+				add_instr(f"@bytes {byte_val}, {byte_val2}", None, 1)
+				byte_val = None
+				if skip:
+					break
+			if m := rlbl.match(line):  # line is a label
+				labels[m.group(1)] = current_pc()
+				line = line[line.index(":") + 1:]
+			elif m := instn.match(line):
+				inst = m.group(1)
+				val = eval(inst)
+				if not (0 <= val <= 0xffff):
+					raise Exception(".inst.n operand must fit in 16 bits")
+				add_instr(f".inst.n {inst}", val, 1)
 				break
-		if m := rlbl.match(line):  # line is a label
-			labels[m.group(1)] = current_pc()
-			line = line[line.index(":") + 1:]
-		elif m := pushpop.match(line):
-			regs = sorted(map(str.strip, m.group(2).split(",")))
-			if m.group(1).lower() == "push":
-				if instrs[-1][1] == 0:
-					pass
-				for reg in regs:
-					add_instr(f"sub sp, #4")
-					if reg.lower() == "lr":
-						pass # i'm gonna pretend i didn't see that
-					else:
-						add_instr(f"str {reg}, [sp]")
-			else:
-				for reg in reversed(regs):
-					if reg.lower() == "pc":
-						add_instr(f"add sp, #4")
-						add_instr(f"bx lr") # let's just assume we only pop lr to pc, it'll maybe break someday
-					else:
-						add_instr(f"ldr {reg}, [sp]")
-						add_instr(f"add sp, #4")
-			break
-		#elif m := uxtb.match(line):
-		#	dest, src = m.groups()
-		#	add_instr(f"lsls {dest}, {src}, #24")
-		#	add_instr(f"lsrs {dest}, {dest}, #24")
-		#	break
-		#elif m := sxtb.match(line):
-		#	dest, src = m.groups()
-		#	add_instr(f"lsls {dest}, {src}, #24")
-		#	add_instr(f"asrs {dest}, {dest}, #24")
-		#	break
-		elif m := p2align.match(line):
-			val = int(m.group(1))
-			if val > 1:
-				off = val - 1
-				num = 1 << off
-				align = current_pc() & (num - 1)
-				if align:
-					for i in range(num - align):
-						add_instr(f".p2align {val}", 0x4600, 1)
-			break
-		else:
-			val = None
-			if line.lower().startswith(".asci"):
-				s = eval(line.split(None, 1)[1])
-				utf = s.encode("utf-8")
-				l = len(s.encode("utf-8"))+1*(line[5]=="z")
-				l += l%2
-				add_instr("@" + line[1:], size=l//2)
-			elif line.lower().startswith(".word") or line.lower().startswith(".long"):
-				add_instr("@" + line[1:], size=2)
-			elif line.lower().startswith(".byte"):
-				byte_val = line.split(None, 1)[1]
-			elif line[0] != ".":
-				add_instr(line)
-			else:
+			elif m := pushpop.match(line):
+				regs = sorted(map(str.strip, m.group(2).split(",")))
+				if m.group(1).lower() == "push":
+					if instrs[-1][1] == 0:
+						pass
+					for reg in regs:
+						add_instr(f"sub sp, #4")
+						if reg.lower() == "lr":
+							pass # i'm gonna pretend i didn't see that
+						else:
+							add_instr(f"str {reg}, [sp]")
+				else:
+					for reg in reversed(regs):
+						if reg.lower() == "pc":
+							add_instr(f"add sp, #4")
+							add_instr(f"bx lr") # let's just assume we only pop lr to pc, it'll maybe break someday
+						else:
+							add_instr(f"ldr {reg}, [sp]")
+							add_instr(f"add sp, #4")
 				break
-			break
+			elif m := stmbang.match(line):
+				addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
+				for r in regs:
+					add_instr(f"str {r}, [{addr}]")
+					add_instr(f"adds {addr}, #4")
+				break
+			elif m := ldmbang.match(line):
+				addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
+				for r in regs:
+					add_instr(f"ldr {r}, [{addr}]")
+					add_instr(f"adds {addr}, #4")
+				break
+			elif m := p2align.match(line):
+				val = int(m.group(1))
+				if val > 1:
+					off = val - 1
+					num = 1 << off
+					align = current_pc() & (num - 1)
+					if align:
+						for i in range(num - align):
+							add_instr(f".p2align {val}", 0x4600, 1)
+				break
+			else:
+				val = None
+				if line.lower().startswith(".asci"):
+					s = eval(line.split(None, 1)[1])
+					utf = s.encode("utf-8")
+					l = len(s.encode("utf-8"))+1*(line[5]=="z")
+					l += l%2
+					add_instr("@" + line[1:], size=l//2)
+				elif line.lower().startswith(".word") or line.lower().startswith(".long"):
+					add_instr("@" + line[1:], size=2)
+				elif line.lower().startswith(".byte"):
+					byte_val = line.split(None, 1)[1]
+				elif line[0] != ".":
+					add_instr(line)
+				else:
+					break
+				break
+except:
+	print(i + 1, line)
+	raise
 out = []
 for i, pc, line, val, size in instrs:
 	try:

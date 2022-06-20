@@ -83,6 +83,7 @@ pins! {
     SCRupd => 3(out),
     RESETpin => 4(out),
     BREAKpin => 5(out),
+    RGBpix => 6(out),
     DIP1 => 3(in),
     DIP2 => 4(in),
     DIP3 => 5(in),

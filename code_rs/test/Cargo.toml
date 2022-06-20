@@ -17,6 +17,14 @@ path = "src/calckeyb.rs"
 name = "testfp"
 path = "src/testfp.rs"
 
+[[bin]]
+name = "testrgb"
+path = "src/testrgb.rs"
+
+[[bin]]
+name = "testdyn"
+path = "src/testdyn.rs"
+
 [profile.dev]
 panic = "abort"
 opt-level = "z"

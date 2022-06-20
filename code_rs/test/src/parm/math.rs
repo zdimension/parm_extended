@@ -1,8 +1,8 @@
-use crate::parm::mmio::{R4divR5, R4modR5, RES, RESbcd};
+use crate::parm::mmio::{R4divR5, R4modR5, RESbcd, RES};
 use crate::parm::tty::print_char;
 use crate::parm::{math, tty};
-use core::ops::{Add, AddAssign, Div, Mul, MulAssign, Neg, Rem, Sub, SubAssign};
 use crate::{print, println};
+use core::ops::{Add, AddAssign, Div, Mul, MulAssign, Neg, Rem, Sub, SubAssign};
 
 #[export_name = "__aeabi_uidiv"]
 pub fn __aeabi_uidiv(a: u32, b: u32) -> u32 {
@@ -152,9 +152,9 @@ impl fp32 {
     #[inline(always)]
     pub fn sin(self) -> fp32 {
         if self.0 < 0 {
-            -taylor_series(self.abs(), 2)
+            -taylor_series(-self, 2)
         } else {
-            taylor_series(self.abs(), 2)
+            taylor_series(self, 2)
         }
     }
 }
@@ -166,11 +166,7 @@ fn taylor_series(value: fp32, n: i32) -> fp32 {
     } else {
         fp32::PI - newcalcx
     };
-    let mut trig_pow = if n == 2 {
-        newcalcx
-    } else {
-        fp32::from(1)
-    };
+    let mut trig_pow = if n == 2 { newcalcx } else { fp32::from(1) };
     let mut trig_fact = fp32::from(1);
     let mut res = trig_pow;
     let xpow2 = newcalcx * newcalcx;
@@ -188,7 +184,11 @@ fn taylor_series(value: fp32, n: i32) -> fp32 {
         i += 2;
         sign = -sign;
     }
-    res
+    if value > fp32::PI {
+        -res
+    } else {
+        res
+    }
 }
 
 impl Add<fp32> for fp32 {

@@ -39,6 +39,14 @@ impl Display for u32 {
     }
 }
 
+impl Display for usize {
+    #[inline(always)]
+    fn write(self) {
+        RES.write(self as u32);
+        print_res(false);
+    }
+}
+
 impl Display for i32 {
     #[inline(always)]
     fn write(self) {

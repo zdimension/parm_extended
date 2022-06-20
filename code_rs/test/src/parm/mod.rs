@@ -5,6 +5,7 @@ pub mod heap;
 pub mod keyb;
 pub mod math;
 pub mod mmio;
+pub mod rgb;
 pub mod screen;
 pub mod tty;
 
@@ -30,6 +31,42 @@ pub fn _start() -> ! {
 pub fn panic(expr: &'static str) -> ! {
     println!("PANIC:", expr);
     loop {}
+}
+
+core::arch::global_asm!(
+    r#"
+_ZN4core6result13unwrap_failed17ha24f234727605fe4E:
+    b unwrap_failed
+"#
+);
+
+#[export_name = "unwrap_failed"]
+pub fn unwrap_failed() -> ! {
+    panic("unwrap_failed");
+}
+
+core::arch::global_asm!(
+    r#"
+_ZN4core9panicking18panic_bounds_check17h6f55fa0d21c94988E:
+    b panic_bounds_check
+"#
+);
+
+#[export_name = "panic_bounds_check"]
+fn panic_bounds_check() -> ! {
+    panic("index out of bounds")
+}
+
+core::arch::global_asm!(
+    r#"
+_ZN4core9panicking9panic_fmt17hfd9f87229ac2f2baE:
+    b panic_fmt
+"#
+);
+
+#[export_name = "panic_fmt"]
+fn panic_fmt() -> ! {
+    panic("panic_fmt")
 }
 
 use crate::println;
