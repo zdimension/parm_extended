@@ -6,7 +6,8 @@ import os
 import re
 import sys
 from collections import OrderedDict
-
+class AsmException(Exception):
+	pass
 # Internal operand regexes
 regexes_regs = [
 	(r"(?:\{(R\w+)\})", r"(?P<F\1>r(?P<\1>[0-7]))"),
@@ -17,7 +18,8 @@ regexes = [
 	(r"(?:\{(imm3)\})", r"(?P<F\1>#(?P<\1>-?\\d{1}))"),
 	(r"(?:\{(imm[hwp]?\d)\})", r"(?P<F\1>#?(?P<\1>[A-Fa-f0-9-x]+|[\.\\w]+))"),
 	(r"\{cond\}", r"(?P<cond>(?:[a-z]{2}))"),
-	(r"\{(label[hwp]?\d+)\}", r"(?P<F\1>(?P<\1>[\.\\w$#]+))")
+	(r"\{(label[hwp]?\d+)\}", r"(?P<F\1>(?P<\1>[\.\\w$#]+))"),
+	(r"\{(reglist)\}", r"\{(?P<\1>[^\}]+)\}")
 ]
 regexes = {re.compile(k): v for k, v in regexes}
 
@@ -112,6 +114,8 @@ for k, v in {
 	"uxth {Rd}, {Rm}": (0b1011_0010_10, "Rm", "Rd"),
 	"uxtb {Rd}, {Rm}": (0b1011_0010_11, "Rm", "Rd"),
 	# 14 - push/pop registers
+	"push {reglist}": (0b1011_0_10, "reglist"),
+	"pop {reglist}": (0b1011_1_10, "reglist"),
 	# todo, 1011x10x
 	# 15 - multiple load/store
 	# todo, 1100
@@ -143,11 +147,11 @@ def parse_imm(s):
 		return 0
 	res = eval(s.replace(".", ""), {k.replace(".", ""): 2*v for k, v in labels.items()})
 	if type(res) == float and res != (res := int(res)):
-		raise Exception(s)
+		raise AsmException(s)
 	return res
 def check_align(val, sh):
 	if (val & ((1 << sh) - 1)) != 0:
-		raise Exception(f"Value {val} must be {bname[sh]}-aligned")
+		raise AsmException(f"Value {val} must be {bname[sh]}-aligned")
 	return val >> sh
 def try_assemble(m, instr, output, line):
 	dic = m.groupdict()
@@ -166,21 +170,36 @@ def try_assemble(m, instr, output, line):
 			dic[k] = (parse_imm(v) + off, width)
 			valmax = 2 ** (width + fac)
 			if not ((-valmax // 2) <= dic[k][0] < valmax):
-				raise Exception(f"Immediate value out of bounds: {v}, should be >= 0 and < {valmax} or >= {-valmax // 2} and < {valmax // 2 - 1}")
+				raise AsmException(f"Immediate value out of bounds: {v}, should be >= 0 and < {valmax} or >= {-valmax // 2} and < {valmax // 2 - 1}")
 		elif v is not None:
 			if k[0] == "R":
 				dic[k] = (int(v), 3)
 				if not (0 <= dic[k][0] <= 7):
-					raise Exception(f"Invalid register: {v}, should be between r0 and r7")
+					raise AsmException(f"Invalid register: {v}, should be between r0 and r7")
 			elif k[0] == "H":
 				dic[k] = ((hi_regs.get(v, None) or int(v)) - 8, 3)
 				if not (0 <= dic[k][0] <= 7):
-					raise Exception(f"Invalid register: {v}, should be between r8 and r15")
+					raise AsmException(f"Invalid register: {v}, should be between r8 and r15")
 			elif k == "cond":
 				try:
 					dic[k] = (conds.index(conds_alias.get(v, v)), 4)
-				except ValueError:
-					raise Exception(f"Invalid condition: {v}")
+				except ValueError as e:
+					raise AsmException(f"Invalid condition: {v}") from e
+			elif k == "reglist":
+				try:
+					rl = set(map(str.strip, v.split(",")))
+					additional = {"push": "lr", "pop": "pc"}.get(instr)
+					bits = 0
+					if additional and additional in rl:
+						bits |= (1 << 8)
+						rl -= {additional}
+					for reg in rl:
+						if reg[0] != "r" or not (0 <= (num := int(reg[1:])) <= 7):
+							raise AsmException(f"Invalid register in reglist: {reg}")
+						bits |= (1 << num)
+					dic["reglist"] = (bits, 9)
+				except Exception as e:
+					raise AsmException(f"Invalid register list: {v}") from e
 			elif k.startswith("label"):
 				kw = k[5:]
 				if kw[0] == "p":
@@ -202,12 +221,12 @@ def try_assemble(m, instr, output, line):
 							f"Jump too wide : {labels[v]} is {dic[k][0]} which does not fit in {width} bits")
 					jumps.append((pc, labels[v]))
 				except KeyError:
-					raise Exception(f"Invalid label: {v} (available: {', '.join(labels.keys())})")
+					raise AsmException(f"Invalid label: {v} (available: {', '.join(labels.keys())})")
 	for k, v in dic.items():
 		if k[-1] == "_":
 			other = dic[k[:-1]]
 			if v is not None and v != other:
-				raise Exception(f"{k[:-1]} must have the same value for both parameters (has {other[0]}, {v[0]})")
+				raise AsmException(f"{k[:-1]} must have the same value for both parameters (has {other[0]}, {v[0]})")
 	res = 0
 	for nval in output:
 		width = 0
@@ -272,7 +291,7 @@ def assemble(line, labels, pc):
 					except Exception as e:
 						exc = e
 		else:
-			raise exc or Exception(f"Invalid instruction: {oline}")
+			raise exc or AsmException(f"Invalid instruction: {oline}")
 
 
 
@@ -326,7 +345,7 @@ try:
 					raise Exception(".inst.n operand must fit in 16 bits")
 				add_instr(f".inst.n {inst}", val, 1)
 				break
-			elif m := pushpop.match(line):
+			elif False and (m := pushpop.match(line)):
 				regs = sorted(map(str.strip, m.group(2).split(",")))
 				if m.group(1).lower() == "push":
 					if instrs[-1][1] == 0:
@@ -334,14 +353,15 @@ try:
 					for reg in regs:
 						add_instr(f"sub sp, #4")
 						if reg.lower() == "lr":
-							pass # i'm gonna pretend i didn't see that
+							add_instr("push {lr}")
 						else:
 							add_instr(f"str {reg}, [sp]")
 				else:
 					for reg in reversed(regs):
 						if reg.lower() == "pc":
 							add_instr(f"add sp, #4")
-							add_instr(f"bx lr") # let's just assume we only pop lr to pc, it'll maybe break someday
+							add_instr("pop {pc}")
+							#add_instr(f"bx lr") # let's just assume we only pop lr to pc, it'll maybe break someday
 						else:
 							add_instr(f"ldr {reg}, [sp]")
 							add_instr(f"add sp, #4")
