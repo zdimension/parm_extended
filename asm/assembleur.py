@@ -127,7 +127,7 @@ for k, v in {
 	# 18 - unconditional branch
 	"b {label11}": (0b11100, "label11"),
 	# 19 - long branch with link
-	"blx? {label11}": (0b1111_0, "label11"), # todo, long branch
+	#"blx? {label11}": (0b1111_0, "label11"), # todo, long branch
 	
 	"nop ": "mov r0, r0",
 	
@@ -267,6 +267,13 @@ def assemble(line, labels, pc):
 		if instr.lower() == "@bytes":
 			first, second = map(parse_imm, args.split(","))
 			return (pc, (second << 8) | first, dl, f"{first}, {second}"),
+		if instr.lower().startswith("@bl"):
+			n = parse_imm(args) // 2 - pc - 1
+			if instr[3] == "1":
+				val = (0b1111_0 << 11) | ((n >> 11) & 0b111_1111_1111)
+			else:
+				val = (0b1111_1 << 11) | (n & 0b111_1111_1111)
+			return (pc, val, dl, args),
 		if instr.lower().startswith("@asci"):
 			bytes = eval(args).encode("utf-8")
 			if instr[5].lower() == "z":
@@ -297,14 +304,16 @@ def assemble(line, labels, pc):
 
 
 
-no_optim = [param in sys.argv for param in ("-O0",)]
-fn = sys.argv[-1]
+no_optim, quiet = [param in sys.argv for param in ("-O0","-q")]
+fn = sys.argv[1]
 fp = open(fn, "r")
 fo = open(os.path.splitext(fn)[0] + ".bin", "w")
 rlbl = re.compile(r"^([.\w$]+)\s*:")
 pushpop = re.compile(r"^(push|pop)\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
-stmbang = re.compile(r"^stm\s+(r\d)!,\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
-ldmbang = re.compile(r"^ldm\s+(r\d)!,\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
+stmbang = re.compile(r"^stm\s+(r\d)!\s*,\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
+ldmbang = re.compile(r"^ldm\s+(r\d)!\s*,\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
+ldm = re.compile(r"^ldm\s+(r\d),\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
+bl = re.compile(r"^blx?\s+(.*)$", re.IGNORECASE)
 instn = re.compile(r"^.inst.n\s+(.*)$", re.IGNORECASE)
 p2align = re.compile(r"^.p2align\s+(\d+)$", re.IGNORECASE)
 labels = {}
@@ -347,26 +356,9 @@ try:
 					raise Exception(".inst.n operand must fit in 16 bits")
 				add_instr(f".inst.n {inst}", val, 1)
 				break
-			elif False and (m := pushpop.match(line)):
-				regs = sorted(map(str.strip, m.group(2).split(",")))
-				if m.group(1).lower() == "push":
-					if instrs[-1][1] == 0:
-						pass
-					for reg in regs:
-						add_instr(f"sub sp, #4")
-						if reg.lower() == "lr":
-							add_instr("push {lr}")
-						else:
-							add_instr(f"str {reg}, [sp]")
-				else:
-					for reg in reversed(regs):
-						if reg.lower() == "pc":
-							add_instr(f"add sp, #4")
-							add_instr("pop {pc}")
-							#add_instr(f"bx lr") # let's just assume we only pop lr to pc, it'll maybe break someday
-						else:
-							add_instr(f"ldr {reg}, [sp]")
-							add_instr(f"add sp, #4")
+			elif m := bl.match(line):
+				add_instr(f"@bl1 {m.group(1)}")
+				add_instr(f"@bl2 {m.group(1)}")
 				break
 			elif m := stmbang.match(line):
 				addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
@@ -379,6 +371,11 @@ try:
 				for r in regs:
 					add_instr(f"ldr {r}, [{addr}]")
 					add_instr(f"adds {addr}, #4")
+				break
+			elif m := ldm.match(line):
+				addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
+				for i, r in enumerate(regs):
+					add_instr(f"ldr {r}, [{addr}, #{4 * i}]")
 				break
 			elif m := p2align.match(line):
 				val = int(m.group(1))
@@ -425,39 +422,40 @@ for i, pc, line, val, size in instrs:
 	except Exception as e:
 		print(f"Build error on line {i}: {line}")
 		raise
-width_instr = max(len(d[2]) for d in log)
-width_args = max(len(str(d[3])) for d in log)
-columns = f"║  PC  │  OP  │ {'Instruction':^{width_instr}} │ {'Arguments':^{width_args}} ║"
-sep = "╠" + "".join("═╪"[c == "│"] for c in columns[1:-1]) + "╣"
-def statline(pc, val, code, data):
-	return f"{pc * 2:04x} │ {val:04x} │ {code:{width_instr}} │ {str(data):{width_args}}"
-print("╔" + "".join("═╤"[c == "│"] for c in columns[1:-1]) + "╗")
-print(columns)
-print(sep)
-log = ["║ " + statline(*args) + " ║" for args in log]
+if not quiet:
+	width_instr = max(len(d[2]) for d in log)
+	width_args = max(len(str(d[3])) for d in log)
+	columns = f"║  PC  │  OP  │ {'Instruction':^{width_instr}} │ {'Arguments':^{width_args}} ║"
+	sep = "╠" + "".join("═╪"[c == "│"] for c in columns[1:-1]) + "╣"
+	def statline(pc, val, code, data):
+		return f"{pc * 2:04x} │ {val:04x} │ {code:{width_instr}} │ {str(data):{width_args}}"
+	print("╔" + "".join("═╤"[c == "│"] for c in columns[1:-1]) + "╗")
+	print(columns)
+	print(sep)
+	log = ["║ " + statline(*args) + " ║" for args in log]
 
 
-def subst(s, i, c):
-	if len(s) < i:
-		s = s.ljust(i)
-	return s[:i] + c + s[i + len(c):]
+	def subst(s, i, c):
+		if len(s) < i:
+			s = s.ljust(i)
+		return s[:i] + c + s[i + len(c):]
 
 
-root = len(columns) + 1
-for depth, (src, dst) in enumerate(jumps):
-	dsh = "─" * 3
-	step = 1 if dst >= src else -1
-	start, end = ("╮", "╯")[::step]
-	pos = ((max((len(l) for l in log[min(src, dst):max(src, dst)]), default=root) - root + 1) // 6) * (len(dsh) + 3)
-	log[src] = subst(log[src], root + pos, ">" + dsh + start)
-	for i in range(src + step, dst, step):
-		log[i] = subst(log[i], root + pos + len(dsh) + 1, "│")
-	log[dst] = subst(log[dst], root + pos, "<" + dsh + end)
-for line in log:
-	print(line)
-print(sep)
-print(columns)
-print("╚" + "".join("═╧"[c == "│"] for c in columns[1:-1]) + "╝")
+	root = len(columns) + 1
+	for depth, (src, dst) in enumerate(jumps):
+		dsh = "─" * 3
+		step = 1 if dst >= src else -1
+		start, end = ("╮", "╯")[::step]
+		pos = ((max((len(l) for l in log[min(src, dst):max(src, dst)]), default=root) - root + 1) // 6) * (len(dsh) + 3)
+		log[src] = subst(log[src], root + pos, ">" + dsh + start)
+		for i in range(src + step, dst, step):
+			log[i] = subst(log[i], root + pos + len(dsh) + 1, "│")
+		log[dst] = subst(log[dst], root + pos, "<" + dsh + end)
+	for line in log:
+		print(line)
+	print(sep)
+	print(columns)
+	print("╚" + "".join("═╧"[c == "│"] for c in columns[1:-1]) + "╝")
 
 fo.write("v2.0 raw\n")
 for word in out:

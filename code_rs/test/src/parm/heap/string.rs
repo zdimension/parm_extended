@@ -1,8 +1,13 @@
-use core::ops::{Deref, DerefMut};
+use core::iter::Copied;
 use crate::parm::heap::vec::Vec;
+use core::ops::{Deref, DerefMut};
+use core::slice::Iter;
+use core::str::Chars;
 
-use crate::parm::tty::{Display, print_char};
+use crate::parm::tty::{print_char, Display};
+use crate::print;
 
+#[derive(Clone)]
 pub struct String {
     vec: Vec<char>,
 }
@@ -10,9 +15,7 @@ pub struct String {
 impl String {
     #[inline(always)]
     pub fn new() -> String {
-        String {
-            vec: Vec::new(),
-        }
+        String { vec: Vec::new() }
     }
 
     #[inline(always)]
@@ -32,7 +35,7 @@ impl String {
         }
     }
 
-   /* #[inline(always)]
+    /* #[inline(always)]
     pub fn as_str(&self) -> &str {
         self
     }
@@ -88,6 +91,11 @@ impl String {
             vec: Vec::with_capacity(capacity),
         }
     }
+
+    #[inline(always)]
+    pub fn clear(&mut self) {
+        self.vec.clear();
+    }
 }
 
 impl From<&[u8]> for String {
@@ -95,20 +103,46 @@ impl From<&[u8]> for String {
     fn from(s: &[u8]) -> String {
         let mut res = Vec::with_capacity(s.len());
         for (i, val) in s.into_iter().enumerate() {
-            unsafe { res.raw_set(i, *val as char); }
+            unsafe {
+                res.raw_set(i, *val as char);
+            }
         }
-        unsafe { String::from_utf32_unchecked(res) }
+        unsafe {
+            res.set_len(s.len());
+            String::from_utf32_unchecked(res)
+        }
     }
 }
 
 impl From<&str> for String {
-    #[inline]
+    #[inline(never)]
     fn from(s: &str) -> String {
         let mut res = Vec::with_capacity(s.len());
         for (i, val) in s.chars().enumerate() {
-            unsafe { res.raw_set(i, val); }
+            unsafe {
+                res.raw_set(i, val);
+            }
         }
-        unsafe { String::from_utf32_unchecked(res) }
+        unsafe {
+            res.set_len(s.len());
+            String::from_utf32_unchecked(res)
+        }
+    }
+}
+
+impl From<&[char]> for String {
+    #[inline]
+    fn from(s: &[char]) -> String {
+        let mut res = Vec::with_capacity(s.len());
+        for (i, val) in s.iter().enumerate() {
+            unsafe {
+                res.raw_set(i, *val);
+            }
+        }
+        unsafe {
+            res.set_len(s.len());
+            String::from_utf32_unchecked(res)
+        }
     }
 }
 
@@ -165,7 +199,7 @@ pub trait Parse {
     fn parse<F: FromStr>(&self) -> Result<F, F::Err>;
 }
 
-impl Parse for &[char] {
+impl Parse for [char] {
     fn parse<F: FromStr>(&self) -> Result<F, F::Err> {
         F::from_str(self)
     }
@@ -175,7 +209,7 @@ impl FromStr for u32 {
     type Err = ();
     fn from_str(s: &[char]) -> Result<Self, Self::Err> {
         let mut res = 0;
-        for ch in s.iter() {
+        for ch in s {
             if let Some(digit) = ch.to_digit(10) {
                 res = res * 10 + digit as u32;
             } else {
@@ -188,7 +222,8 @@ impl FromStr for u32 {
 
 pub trait StrLike: Sized {
     fn find_char(&self, ch: char) -> Option<usize>;
-    //fn split_at(&self, idx: usize) -> (Self, Self);
+    fn starts_with_str(&self, s: &str) -> bool;
+    fn trim(&self) -> Self;
 }
 
 impl StrLike for &[char] {
@@ -197,12 +232,63 @@ impl StrLike for &[char] {
         self.iter().position(|&c| c == ch)
     }
 
-    /*#[inline(always)]
-    fn split_at(&self, mid: usize) -> (Self, Self) {
-        if mid < self.len() {
-            unsafe { (self.get_unchecked(0..mid), self.get_unchecked(mid..self.len())) }
-        } else {
-            panic("split_at: index out of bounds");
+    #[inline(always)]
+    fn starts_with_str(&self, s: &str) -> bool {
+        self.len() >= s.len() && self.iter().copied().take(s.len()).eq(s.chars())
+    }
+
+    fn trim(&self) -> Self {
+        let mut i = 0;
+        let mut j = self.len();
+        let ptr = self.as_ptr();
+        while i < j && unsafe { *ptr.add(i) }.is_ascii_whitespace() {
+            i += 1;
         }
-    }*/
+        while j > i && unsafe { *ptr.add(j - 1) }.is_ascii_whitespace() {
+            j -= 1;
+        }
+        unsafe { self.get_unchecked(i..j) }
+    }
+}
+
+pub trait ToString {
+    fn to_string(&self) -> String;
+}
+
+impl ToString for [char] {
+    #[inline(always)]
+    fn to_string(&self) -> String {
+        String::from(self)
+    }
+}
+
+pub trait CharSeq<'a> {
+    type Iter: Iterator<Item = char>;
+
+    fn to_chars(&self) -> Self::Iter;
+    fn len(&self) -> usize;
+}
+
+impl<'a> CharSeq<'a> for &'a [char] {
+    type Iter = Copied<Iter<'a, char>>;
+
+    fn to_chars(&self) -> Self::Iter {
+        self.iter().copied()
+    }
+
+    fn len(&self) -> usize {
+        (self as Self).len()
+    }
+}
+
+impl<'a> CharSeq<'a> for &'a str {
+    type Iter = Chars<'a>;
+
+    fn to_chars(&self) -> Self::Iter {
+        self.chars()
+    }
+
+    fn len(&self) -> usize {
+        (self as Self).len()
+    }
 }

@@ -1,6 +1,6 @@
+use crate::parm::heap::string::String;
 use crate::parm::mmio::{RESbcd, RES};
 use crate::parm::{keyb, mmio};
-use crate::parm::heap::string::String;
 
 #[macro_export]
 macro_rules! print {
@@ -9,7 +9,6 @@ macro_rules! print {
     };
     ($b:expr, $($args:tt)*) => {
         $crate::print!($b);
-        $crate::parm::tty::print_char(' ');
         $crate::print!($($args)*);
     };
 }
@@ -70,6 +69,16 @@ impl Display for char {
     }
 }
 
+impl<T> Display for &T
+where
+    T: Display,
+{
+    #[inline(always)]
+    fn write(&self) {
+        (**self).write();
+    }
+}
+
 #[inline(always)]
 pub fn print_internal<T: Display>(item: &T) {
     item.write();
@@ -84,10 +93,21 @@ pub trait AsciiEncodable {
     fn ascii_encode(self) -> u8;
 }
 
+pub trait CharLike {
+    fn to_char(self) -> char;
+}
+
 impl AsciiEncodable for u8 {
     #[inline(always)]
     fn ascii_encode(self) -> u8 {
         self
+    }
+}
+
+impl CharLike for u8 {
+    #[inline(always)]
+    fn to_char(self) -> char {
+        self as char
     }
 }
 
@@ -102,6 +122,13 @@ impl AsciiEncodable for char {
     }
 }
 
+impl CharLike for char {
+    #[inline(always)]
+    fn to_char(self) -> char {
+        self
+    }
+}
+
 #[inline(always)]
 pub fn clear() {
     print_char(12);
@@ -110,14 +137,14 @@ pub fn clear() {
 pub fn read_int() -> u32 {
     let mut res = 0;
     loop {
-        let c = keyb::read_key();
-        if c == b'\n' {
+        let c = keyb::read_char();
+        if c == '\n' {
             print_char('\n');
             break res;
         }
-        if c >= b'0' && c <= b'9' {
+        if c >= '0' && c <= '9' {
             print_char(c);
-            res = res * 10 + (c - b'0') as u32;
+            res = res * 10 + (c as u32 - '0' as u32);
         }
     }
 }
@@ -166,14 +193,15 @@ pub fn print_res_fixed(_sign: bool, width: u32) {
     }
 }
 
+#[inline(never)]
 pub fn read_line(res: &mut String) {
     loop {
-        let c = keyb::read_key();
-        if c == b'\n' {
+        let c = keyb::read_char();
+        if c == '\n' {
             print_char('\n');
             break;
         }
         print_char(c);
-        res.push(c as char);
+        res.push(c);
     }
 }

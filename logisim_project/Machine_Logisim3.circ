@@ -188,8 +188,8 @@ end TCL_Generic;
       <a name="facing" val="east"/>
     </tool>
   </lib>
-  <lib desc="file#Controller.circ" name="13"/>
-  <lib desc="file#BancDeRegistres.circ" name="14"/>
+  <lib desc="file#BancDeRegistres.circ" name="13"/>
+  <lib desc="file#Controller.circ" name="14"/>
   <main name="Facade"/>
   <options>
     <a name="gateUndefined" val="ignore"/>
@@ -294,7 +294,7 @@ end TCL_Generic;
       <a name="label" val="TTY_Upd"/>
     </comp>
     <comp lib="0" loc="(1180,1410)" name="Tunnel">
-      <a name="facing" val="south"/>
+      <a name="facing" val="east"/>
       <a name="label" val="TTY_Char"/>
       <a name="width" val="7"/>
     </comp>
@@ -2241,115 +2241,9 @@ end TCL_Generic;
       <a name="addrWidth" val="16"/>
       <a name="appearance" val="logisim_evolution"/>
       <a name="contents">addr/data: 16 8
-86 e0 d5 e0 dc e0 e3 e0
-b0 b5 2 af 1 21 9 4
-b 68 c0 1d c4 8 62 1c
-1d 46 19 46 28 46 2d 68
-a5 42 7 d8 45 68 9d 42
-1 46 f7 d1 8 48 d 21
-a2 f0 fe de 95 42 1 d1
-43 68 6 e0 ab 1a d4 0
-3 51 3 19 44 68 5c 60
-2 60 4b 60 8 30 b0 bd
-e0 2 0 0 f0 b5 3 af
-16 49 1 60 1 46 8 39
-a 68 d3 0 1b 18 c 3b
-13 4c 1c 60 1 23 1b 4
-1d 68 2b 46 2c 46 8d 42
-2 d2 65 68 23 46 f9 e7
-1d 68 ee 0 9e 19 8e 42
-4 d0 59 60 0 1f 4 60
-8 68 2 e0 a8 18 18 60
-19 46 c2 0 8b 18 4a 68
-9a 42 0 d0 f0 bd 13 68
-18 18 8 60 50 68 48 60
-f0 bd 0 46 4*ab 4*cd 80 b5
-0 af 1 48 6 21 58 f0
-fe de ee 2 0 0 80 b5
-0 af 1 48 d 21 50 f0
-fe de f4 2 0 0 0 2a
-5 d0 b 78 3 70 52 1e
-49 1c 40 1c f7 e7 70 47
-0 29 4 d0 0 22 2 70
-49 1e 40 1c f8 e7 70 47
-d0 b5 2 af f 22 d4 43
-2 46 b 46 20 68 d0 bd
-0 46 f8 b5 4 af ff b0
-ff b0 82 b0 11 48 11 49
-81 60 0 21 1 60 2 46
-8 32 42 60 2 1f 10 60
-c0 60 3 91 2 91 4 20
-1 90 1 ac b 49 b 4d
-20 46 a8 47 b 49 20 46
-a8 47 a 49 20 46 a8 47
-3b 20 c0 43 1 99 1 60
-1 22 2 61 88 47 fe de
-0 46 4 0 1 0 fe 7f
-0 0 3b 20 c0 43 e4 1
-0 0 7b 21 1 60 fe e7
-0 0 3f 22 d2 43 0 23
-9 4c 6 2b 3 d0 e5 5c
-15 60 5b 1c f9 e7 20 23
-13 60 0 29 4 d0 3 78
-13 60 49 1e 40 1c f8 e7
-a 20 10 60 fe e7 2 3
-0 0 80 b5 0 af e4 f7
-fe de 80 b5 0 af 1 48
-d 21 de f7 fe de 8 3
-0 0 80 b5 0 af 1 48
-13 21 d6 f7 fe de 16 3
-0 0 80 b5 0 af 1 48
-9 21 ce f7 fe de 2a 3
-0 0 fe e7 0 46 f0 b5
-3 af 8d b0 e 46 4 46
-40 68 a3 68 83 42 1e d1
-0 2b 1e d0 d9 0 5c d4
-58 0 5 91 c9 8 4 91
-49 1c 25 68 2a 46 8 3a
-6 92 12 68 91 42 48 d0
-2 90 3 93 14 d2 50 1a
-ca 0 6 9b 98 50 98 18
-2a 1f 12 68 42 60 19 60
-8 30 10 f7 37 e0 25 68
-39 e0 4 20 1d 46 e4 f6
-2b 46 5 46 1 20 30 e0
-1 96 d0 0 6 9b 1e 18
-1 20 0 4 0 68 3 46
-b3 42 3 d0 5b 68 83 42
-fa d1 d e0 30 68 80 18
-4 9b 98 42 8 d9 8e 1a
-f0 0 8 38 c9 f6 6 99
-8 68 80 19 8 60 11 e0
-5 98 c2 f6 6 46 6 98
-0 68 40 0 40 1e 0 21
-0 28 4 d0 6a 58 72 50
-40 1e 9 1d f8 e7 28 46
-d9 f6 35 46 1 9e 3 9b
-2 98 25 60 60 60 98 0
-2e 50 58 1c a0 60 d b0
-f0 bd 0 20 c 90 5 49
-b 91 a 90 9 90 1 20
-8 90 3 48 7 90 7 a8
-3 49 99 f6 fe de e0 2
-0 0 58 3 0 0 60 3
-0 0 6f 75 74 20 6f 66
-20 6d 65 6d 6f 72 79 0
-75 6e 77 69 6e 64 75 6e
-6b 6e 6f 77 6e 20 70 61
-6e 69 63 0 50 41 4e 49
-43 3a 75 6e 77 72 61 70
-5f 66 61 69 6c 65 64 0
-69 6e 64 65 78 20 6f 75
-74 20 6f 66 20 62 6f 75
-6e 64 73 0 70 61 6e 69
-63 5f 66 6d 74 0 73 72
-63 2f 74 65 73 74 64 79
-6e 2e 72 73 41 6c 6c 6f
-63 61 74 69 6f 6e 20 74
-6f 6f 20 6c 61 72 67 65
-0 46 42 3 0 0 14 0
-0 0 34 3 0 0 e 0
-0 0 36 0 0 0 9
+ff e7 4 e0 1 20 9 23
+9 23 70 47 9 23 ff f7
+fa ff 9 23
 </a>
       <a name="label" val="ROMa"/>
       <a name="labelvisible" val="true"/>
@@ -2387,7 +2281,10 @@ b 91 a 90 9 90 1 20
     <comp lib="5" loc="(110,1460)" name="DipSwitch">
       <a name="labelloc" val="south"/>
     </comp>
-    <comp lib="5" loc="(1190,1540)" name="TTY"/>
+    <comp lib="5" loc="(1190,1540)" name="TTY">
+      <a name="cols" val="50"/>
+      <a name="rows" val="20"/>
+    </comp>
     <comp lib="5" loc="(220,1460)" name="DipSwitch">
       <a name="labelloc" val="south"/>
     </comp>
@@ -2429,6 +2326,7 @@ b 91 a 90 9 90 1 20
     <comp lib="5" loc="(840,1540)" name="Hex Digit Display"/>
     <comp lib="5" loc="(890,920)" name="RGB Video">
       <a name="color" val="565 RGB (16 bit)"/>
+      <a name="cursor" val="No Cursor"/>
       <a name="height" val="32"/>
       <a name="scale" val="4"/>
       <a name="width" val="32"/>
@@ -3337,11 +3235,11 @@ b 91 a 90 9 90 1 20
     <comp lib="12" loc="(1150,480)" name="ALU">
       <a name="label" val="ALU_1"/>
     </comp>
-    <comp lib="13" loc="(460,310)" name="Controller">
-      <a name="label" val="Controller_1"/>
-    </comp>
-    <comp lib="14" loc="(990,140)" name="BancRegistre">
+    <comp lib="13" loc="(990,140)" name="BancRegistre">
       <a name="label" val="Regs_1"/>
+    </comp>
+    <comp lib="14" loc="(460,310)" name="Controller">
+      <a name="label" val="Controller_1"/>
     </comp>
     <comp lib="2" loc="(1090,420)" name="Multiplexer">
       <a name="selloc" val="tr"/>

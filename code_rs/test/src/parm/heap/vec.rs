@@ -1,12 +1,13 @@
-use core::marker::PhantomData;
-use core::{cmp, mem, ptr, slice};
+use crate::parm::heap::{GLOBAL, malloc, realloc};
+use crate::parm::panic;
 use core::alloc::{GlobalAlloc, Layout};
+use core::marker::PhantomData;
 use core::mem::{ManuallyDrop, MaybeUninit};
 use core::ops::{Deref, DerefMut};
 use core::ptr::NonNull;
-use crate::parm::heap::GLOBAL;
-use crate::parm::panic;
+use core::{cmp, mem, ptr, slice};
 
+#[repr(C)]
 pub struct Vec<T> {
     ptr: NonNull<T>,
     cap: usize,
@@ -20,7 +21,7 @@ impl<T> Vec<T> {
     }
 
     #[inline(always)]
-    pub(crate) fn capacity(&self) -> usize {
+    pub fn capacity(&self) -> usize {
         self.cap
     }
 
@@ -46,7 +47,11 @@ impl<T> Vec<T> {
     #[inline(always)]
     pub fn with_capacity(cap: usize) -> Self {
         unsafe {
-            Self::from_raw_parts(GLOBAL.alloc(Layout::array::<T>(cap).unwrap_unchecked()) as _, 0, cap)
+            Self::from_raw_parts(
+                malloc(cap * mem::size_of::<T>()) as _,
+                0,
+                cap,
+            )
         }
     }
 
@@ -57,6 +62,13 @@ impl<T> Vec<T> {
         }
 
         unsafe {
+            self.push_unchecked(elem);
+        }
+    }
+
+    #[inline(always)]
+    pub fn push_unchecked(&mut self, elem: T) {
+        unsafe {
             ptr::write(self.ptr().add(self.len), elem);
         }
 
@@ -65,7 +77,7 @@ impl<T> Vec<T> {
     }
 
     #[inline(always)]
-    pub(crate) unsafe fn raw_set(&mut self, i: usize, elem: T) {
+    pub unsafe fn raw_set(&mut self, i: usize, elem: T) {
         ptr::write(self.ptr().add(i), elem);
     }
 
@@ -151,10 +163,7 @@ impl<T> Vec<T> {
     #[inline(always)]
     pub fn reserve(&mut self, additional: usize) {
         #[cold]
-        fn do_reserve_and_handle<T>(
-            slf: &mut Vec<T>,
-            additional: usize,
-        ) {
+        fn do_reserve_and_handle<T>(slf: &mut Vec<T>, additional: usize) {
             slf.grow_amortized(additional);
         }
 
@@ -163,13 +172,19 @@ impl<T> Vec<T> {
         }
     }
 
+    #[inline(never)]
     fn grow_amortized(&mut self, additional: usize) {
         // since we set the capacity to usize::MAX when T has size 0,
         // getting to here necessarily means the Vec is overfull.
-        assert_ne!(mem::size_of::<T>(), 0, "capacity overflow");
+        //assert_ne!(mem::size_of::<T>(), 0, "capacity overflow");
 
         let (new_cap, new_layout) = if self.cap == 0 {
-            unsafe { (additional, Layout::array::<T>(additional).unwrap_unchecked()) }
+            unsafe {
+                (
+                    additional,
+                    additional * mem::size_of::<T>(),
+                )
+            }
         } else {
             // This can't overflow because we ensure self.cap <= isize::MAX.
             let new_cap = cmp::max(self.cap + additional, 2 * self.cap);
@@ -177,22 +192,22 @@ impl<T> Vec<T> {
             // `Layout::array` checks that the number of bytes is <= usize::MAX,
             // but this is redundant since old_layout.size() <= isize::MAX,
             // so the `unwrap` should never fail.
-            let new_layout = unsafe { Layout::array::<T>(new_cap).unwrap_unchecked() };
+            let new_layout = new_cap * mem::size_of::<T>();
             (new_cap, new_layout)
         };
 
         // Ensure that the new allocation doesn't exceed `isize::MAX` bytes.
-        assert!(
+        /*assert!(
             new_layout.size() <= isize::MAX as usize,
             "Allocation too large"
-        );
+        );*/
 
         let new_ptr = if self.cap == 0 {
-            unsafe { GLOBAL.alloc(new_layout) }
+            unsafe { malloc(new_layout) }
         } else {
             let old_layout = unsafe { Layout::array::<T>(self.cap).unwrap_unchecked() };
-            let old_ptr = self.ptr.as_ptr() as *mut u8;
-            unsafe { GLOBAL.realloc(old_ptr, old_layout, new_layout.size()) }
+            let old_ptr = self.ptr.as_ptr() as *mut u32;
+            unsafe { realloc(old_ptr, new_layout) }
         };
 
         // If allocation fails, `new_ptr` will be null, in which case we abort.
@@ -202,6 +217,33 @@ impl<T> Vec<T> {
     #[inline(always)]
     pub unsafe fn set_len(&mut self, len: usize) {
         self.len = len;
+    }
+
+    #[inline(always)]
+    pub fn clear(&mut self) {
+        self.truncate(0);
+    }
+
+    #[inline(always)]
+    pub fn truncate(&mut self, len: usize) {
+        unsafe {
+            if len > self.len {
+                return;
+            }
+            let remaining_len = self.len - len;
+            let s = ptr::slice_from_raw_parts_mut(self.as_mut_ptr().add(len), remaining_len);
+            self.len = len;
+            ptr::drop_in_place(s);
+        }
+    }
+}
+
+impl<T: Clone> Clone for Vec<T> {
+    #[inline(always)]
+    fn clone(&self) -> Self {
+        let mut new_vec = Vec::with_capacity(self.len);
+        new_vec.extend_from_slice(self);
+        new_vec
     }
 }
 
@@ -214,7 +256,9 @@ impl<T: Clone> Vec<T> {
         }
 
         for i in 0..other.len() {
-            unsafe { self.raw_set(i, other[i].clone()); }
+            unsafe {
+                self.raw_set(i, other[i].clone());
+            }
         }
 
         self.len = new_len;
@@ -271,10 +315,7 @@ impl<T> IntoIterator for Vec<T> {
             let buf = ptr::read(&self);
             mem::forget(self);
 
-            IntoIter {
-                iter,
-                _buf: buf,
-            }
+            IntoIter { iter, _buf: buf }
         }
     }
 }

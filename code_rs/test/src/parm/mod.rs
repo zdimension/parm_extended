@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+#![allow(named_asm_labels)]
 
 pub mod control;
 pub mod heap;
@@ -28,49 +29,44 @@ pub fn _start() -> ! {
 }
 
 #[export_name = "_ZN4core9panicking5panic17h1ad3ed8b8184cb53E"]
+#[inline(always)]
 pub fn panic(expr: &'static str) -> ! {
     println!("PANIC:", expr);
     loop {}
 }
 
-#[export_name = "_ZN4core9panicking5panic17h0889907c7e7272d5E"]
+#[no_mangle]
 pub fn panic2(expr: &'static str) -> ! {
+    unsafe {
+        core::arch::asm!("_ZN4core9panicking5panic17h0889907c7e7272d5E:");
+    }
     panic(expr)
 }
 
-core::arch::global_asm!(
-    r#"
-_ZN4core6result13unwrap_failed17ha24f234727605fe4E:
-    b unwrap_failed
-"#
-);
-
 #[export_name = "unwrap_failed"]
+#[inline(always)]
 pub fn unwrap_failed() -> ! {
+    unsafe {
+        core::arch::asm!("_ZN4core6result13unwrap_failed17ha24f234727605fe4E:");
+    }
     panic("unwrap_failed");
 }
 
-core::arch::global_asm!(
-    r#"
-_ZN4core9panicking18panic_bounds_check17h6f55fa0d21c94988E:
-    b panic_bounds_check
-"#
-);
-
 #[export_name = "panic_bounds_check"]
+#[inline(always)]
 fn panic_bounds_check() -> ! {
+    unsafe {
+        core::arch::asm!("_ZN4core9panicking18panic_bounds_check17h6f55fa0d21c94988E:");
+    }
     panic("index out of bounds")
 }
 
-core::arch::global_asm!(
-    r#"
-_ZN4core9panicking9panic_fmt17hfd9f87229ac2f2baE:
-    b panic_fmt
-"#
-);
-
 #[export_name = "panic_fmt"]
+#[inline(always)]
 fn panic_fmt() -> ! {
+    unsafe {
+        core::arch::asm!("_ZN4core9panicking9panic_fmt17hfd9f87229ac2f2baE:");
+    }
     panic("panic_fmt")
 }
 
@@ -79,5 +75,6 @@ use core::panic::PanicInfo;
 
 #[panic_handler]
 fn handler(_info: &PanicInfo) -> ! {
+    println!("handler");
     loop {}
 }

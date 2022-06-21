@@ -40,5 +40,5 @@ else
   cat $ASM >bin/$NAME.s
 
   pushd bin
-  ../../../asm/assembleur.py $NAME.s
+  ../../../asm/assembleur.py $NAME.s $2
 fi

@@ -1,7 +1,7 @@
-use crate::parm::mmio::{RESbcd, RES, R2modR3, R2divR3};
+use crate::parm::mmio::{R2divR3, R2modR3, RESbcd, RES};
+use crate::parm::tty;
 use crate::parm::tty::print_char;
-use crate::parm::{tty};
-use crate::{print};
+use crate::print;
 use core::ops::{Add, AddAssign, Div, Mul, MulAssign, Neg, Rem, Sub, SubAssign};
 
 #[export_name = "__aeabi_uidiv"]
@@ -308,3 +308,35 @@ impl tty::Display for fp32 {
         print_fp(*self);
     }
 }
+
+core::arch::global_asm!(r#"
+__aeabi_lmul:
+
+	push	{{r4, lr}}
+	muls	r1, r2
+	muls	r3, r0
+	adds	r1, r3
+
+	lsrs	r3, r0, #16
+	lsrs	r4, r2, #16
+	muls	r3, r4
+	adds	r1, r3
+
+	lsrs	r3, r0, #16
+	uxth	r0, r0
+	uxth	r2, r2
+	muls	r3, r2
+	muls	r4, r0
+	muls	r0, r2
+
+	movs	r2, #0
+	adds	r3, r4
+	adcs	r2, r2
+	lsls	r2, #16
+	adds	r1, r2
+
+	lsls	r2, r3, #16
+	lsrs	r3, #16
+	adds	r0, r2
+	adcs	r1, r3
+	pop	{{r4, pc}}"#);

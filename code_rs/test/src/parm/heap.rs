@@ -1,10 +1,10 @@
-pub mod vec;
 pub mod string;
+pub mod vec;
 
 use crate::parm::panic;
 use core::alloc::{GlobalAlloc, Layout};
 
-use core::{ptr};
+use core::ptr;
 
 pub const HEAP_START: usize = 0x10000;
 
@@ -104,69 +104,66 @@ pub fn malloc(size: usize) -> *mut u32 {
     }
 }
 
-pub fn free(ptr: *mut u32) {
-    unsafe {
-        let mut header = BlockHeader::from_block(ptr);
-        *ptr = 0xabababab;
-        *ptr.add(2 * (*header).size - 3) = 0xcdcdcdcd;
-        let mut prevp = *HEAP_FREEP;
-        let mut p = *HEAP_FREEP;
-        while p < header {
-            prevp = p;
-            p = (*p).next;
-        }
-
-        if (*prevp).end() == header {
-            (*prevp).size += (*header).size;
-            header = prevp;
-        } else {
-            (*prevp).next = header;
-            (*header).next = p;
-        }
-
-        if (*header).next == (*header).end() {
-            (*header).size += (*(*header).next).size;
-            (*header).next = (*(*header).next).next;
-        }
-    }
+pub unsafe fn free(_ptr: *mut u32) {
+    return; // who's gonna stop me?
+    // let mut header = BlockHeader::from_block(ptr);
+    // *ptr = 0xabababab;
+    // *ptr.add(2 * (*header).size - 3) = 0xcdcdcdcd;
+    // let mut prevp = *HEAP_FREEP;
+    // let mut p = *HEAP_FREEP;
+    // while p < header {
+    //     prevp = p;
+    //     p = (*p).next;
+    // }
+    //
+    // if (*prevp).end() == header {
+    //     (*prevp).size += (*header).size;
+    //     header = prevp;
+    // } else {
+    //     (*prevp).next = header;
+    //     (*header).next = p;
+    // }
+    //
+    // if (*header).next == (*header).end() {
+    //     (*header).size += (*(*header).next).size;
+    //     (*header).next = (*(*header).next).next;
+    // }
 }
 
-pub fn realloc(ptr: *mut u32, size: usize) -> *mut u32 {
+pub unsafe fn realloc(ptr: *mut u32, size: usize) -> *mut u32 {
     if ptr.is_null() {
         return malloc(size);
     }
 
     let blocks = blocks_to_allocate(size);
-    unsafe {
-        let mut header = BlockHeader::from_block(ptr);
+    let mut header = BlockHeader::from_block(ptr);
 
-        if blocks == (*header).size {
-            return ptr;
-        }
+    if blocks == (*header).size {
+        return ptr;
+    }
 
-        if blocks < (*header).size {
-            let mut next = header.add(blocks);
-            (*next).next = (*header).next;
-            (*next).size = (*header).size - blocks;
-            (*header).size = blocks;
-            free((*next).data());
-            return ptr;
-        }
+    if blocks < (*header).size {
+        let mut next = header.add(blocks);
+        (*next).next = (*header).next;
+        (*next).size = (*header).size - blocks;
+        (*header).size = blocks;
+        free((*next).data());
+        return ptr;
+    }
 
-        let end = (*header).end();
-        if is_free(end) && (*end).size + (*header).size >= blocks {
-            let diff = blocks - (*header).size;
-            malloc((diff - 1) * HEADER_SIZE);
-            (*header).size += diff;
-            ptr
-        } else {
-            let newptr = malloc(size);
-            for p in 0..(2 * (*header).size - 1) {
-                *newptr.add(p) = *ptr.add(p);
-            }
-            free(ptr);
-            newptr
+    let end = (*header).end();
+    if is_free(end) && (*end).size + (*header).size >= blocks {
+        let diff = blocks - (*header).size;
+        malloc((diff - 1) * HEADER_SIZE);
+        (*header).size += diff;
+        ptr
+    } else {
+        let newptr = malloc(size);
+        for p in 0..(2 * (*header).size - 1) {
+            *newptr.add(p) = *ptr.add(p);
         }
+        free(ptr);
+        newptr
     }
 }
 
@@ -211,10 +208,10 @@ fn alloc_error_handler(_layout: core::alloc::Layout) -> ! {
     panic("allocation error")
 }
 
-#[export_name = "__aeabi_unwind_cpp_pr0"]
+/*#[export_name = "__aeabi_unwind_cpp_pr0"]
 pub extern "C" fn __aeabi_unwind_cpp_pr0() {
     panic("unwind")
-}
+}*/
 
 #[cfg(feature = "alloc_error_handler")]
 core::arch::global_asm!(
@@ -249,19 +246,39 @@ fn __rust_dealloc(ptr: *mut u8, _size: usize, _align: usize) {
     free(ptr as _);
 }
 
-#[export_name = "__aeabi_memcpy"]
-extern "C" fn __aeabi_memcpy(dest: *mut u8, src: *const u8, n: usize) {
+#[no_mangle]
+extern "C" fn __aeabi_memcpy(dest: *mut u32, src: *const u32, n: usize) {
+    let n = n >> 2;
     for i in 0..n {
-        unsafe { *dest.add(i) = *src.add(i) }
+        unsafe { *dest.add(i) = *src.add(i); }
     }
 }
 
-#[export_name = "__aeabi_memclr"]
-extern "C" fn __aeabi_memclr(dest: *mut u8, n: usize) {
-    for i in 0..n {
+#[no_mangle]
+extern "C" fn __aeabi_memclr(dest: *mut u32, n: usize) {
+    let n = n >> 2;
+    for i in 0..n  {
         unsafe { *dest.add(i) = 0 }
     }
 }
 
-static GLOBAL: HeapAllocator = HeapAllocator;
+#[no_mangle]
+extern "C" fn __aeabi_memclr4(dest: *mut u32, n: usize) {
+    __aeabi_memclr(dest, n)
+}
 
+#[no_mangle]
+extern "C" fn __aeabi_memmove4(dest: *mut u32, src: *const u32, n: usize) {
+    let n = n >> 2;
+    if (dest as *const u32) < src {
+        for i in 0..n {
+            unsafe { *dest.add(i) = *src.add(i) }
+        }
+    } else {
+        for i in (0..n).rev() {
+            unsafe { *dest.add(i) = *src.add(i) }
+        }
+    }
+}
+
+static GLOBAL: HeapAllocator = HeapAllocator;

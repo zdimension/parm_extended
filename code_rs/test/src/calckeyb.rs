@@ -19,7 +19,7 @@ fn main() {
     println!("+-*/%&|^");
     loop {
         let choice = read_key();
-        let res = match choice {
+        let res = match choice as u8 {
             b'+' => a + b,
             b'-' => a - b,
             b'*' => a * b,
