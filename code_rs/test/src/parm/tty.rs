@@ -1,10 +1,11 @@
 use crate::parm::mmio::{RESbcd, RES};
 use crate::parm::{keyb, mmio};
+use crate::parm::heap::string::String;
 
 #[macro_export]
 macro_rules! print {
     ($b:expr) => {
-        $crate::parm::tty::print_internal($b);
+        $crate::parm::tty::print_internal(&$b);
     };
     ($b:expr, $($args:tt)*) => {
         $crate::print!($b);
@@ -28,49 +29,49 @@ macro_rules! println {
 }
 
 pub trait Display {
-    fn write(self);
+    fn write(&self);
 }
 
 impl Display for u32 {
     #[inline(always)]
-    fn write(self) {
-        RES.write(self);
+    fn write(&self) {
+        RES.write(*self);
         print_res(false);
     }
 }
 
 impl Display for usize {
     #[inline(always)]
-    fn write(self) {
-        RES.write(self as u32);
+    fn write(&self) {
+        RES.write(*self as u32);
         print_res(false);
     }
 }
 
 impl Display for i32 {
     #[inline(always)]
-    fn write(self) {
-        RES.write(self as u32);
+    fn write(&self) {
+        RES.write(*self as u32);
         print_res(true);
     }
 }
 
 impl Display for &str {
     #[inline(always)]
-    fn write(self) {
+    fn write(&self) {
         self.bytes().for_each(print_char);
     }
 }
 
 impl Display for char {
     #[inline(always)]
-    fn write(self) {
-        print_char(self as u32 as u8);
+    fn write(&self) {
+        print_char(*self as u32 as u8);
     }
 }
 
 #[inline(always)]
-pub fn print_internal<T: Display>(item: T) {
+pub fn print_internal<T: Display>(item: &T) {
     item.write();
 }
 
@@ -162,5 +163,17 @@ pub fn print_res_fixed(_sign: bool, width: u32) {
         let digit = bcd & 0xf;
         bcd >>= 4;
         print_char(digit as u8 + b'0');
+    }
+}
+
+pub fn read_line(res: &mut String) {
+    loop {
+        let c = keyb::read_key();
+        if c == b'\n' {
+            print_char('\n');
+            break;
+        }
+        print_char(c);
+        res.push(c as char);
     }
 }

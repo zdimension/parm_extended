@@ -1,70 +1,36 @@
 use core::marker::PhantomData;
-use core::{mem, ptr, slice};
+use core::{cmp, mem, ptr, slice};
 use core::alloc::{GlobalAlloc, Layout};
+use core::mem::{ManuallyDrop, MaybeUninit};
 use core::ops::{Deref, DerefMut};
 use core::ptr::NonNull;
 use crate::parm::heap::GLOBAL;
 use crate::parm::panic;
 
-pub struct Vec {
-    ptr: NonNull<u32>,
+pub struct Vec<T> {
+    ptr: NonNull<T>,
     cap: usize,
     len: usize,
 }
 
-fn check_ptr(new_ptr: *mut u32) -> NonNull<u32> {
-    match NonNull::new(new_ptr as *mut u32) {
-        Some(p) => p,
-        None => panic("alloc error"),
-    }
-}
-
-impl Vec {
+impl<T> Vec<T> {
     #[inline(always)]
-    pub fn ptr(&self) -> *mut u32 {
+    pub fn ptr(&self) -> *mut T {
         self.ptr.as_ptr()
     }
 
     #[inline(always)]
-    fn cap(&self) -> usize {
+    pub(crate) fn capacity(&self) -> usize {
         self.cap
     }
 
-    fn grow(&mut self) {
-        // since we set the capacity to usize::MAX when T has size 0,
-        // getting to here necessarily means the Vec is overfull.
-        assert!(mem::size_of::<u32>() != 0, "capacity overflow");
-
-        let (new_cap, new_layout) = if self.cap == 0 {
-            unsafe { (1, Layout::array::<u32>(1).unwrap_unchecked()) }
-        } else {
-            // This can't overflow because we ensure self.cap <= isize::MAX.
-            let new_cap = 2 * self.cap;
-
-            // `Layout::array` checks that the number of bytes is <= usize::MAX,
-            // but this is redundant since old_layout.size() <= isize::MAX,
-            // so the `unwrap` should never fail.
-            let new_layout = unsafe { Layout::array::<u32>(new_cap).unwrap_unchecked() };
-            (new_cap, new_layout)
+    #[inline(always)]
+    fn set_ptr_and_cap<U>(&mut self, ptr: *mut U, cap: usize) {
+        self.ptr = match NonNull::new(ptr as *mut T) {
+            Some(p) => p,
+            None => panic("alloc error"),
         };
-
-        // Ensure that the new allocation doesn't exceed `isize::MAX` bytes.
-        assert!(
-            new_layout.size() <= isize::MAX as usize,
-            "Allocation too large"
-        );
-
-        let new_ptr = if self.cap == 0 {
-            unsafe { GLOBAL.alloc(new_layout) }
-        } else {
-            let old_layout = unsafe { Layout::array::<u32>(self.cap).unwrap_unchecked() };
-            let old_ptr = self.ptr.as_ptr() as *mut u8;
-            unsafe { GLOBAL.realloc(old_ptr, old_layout, new_layout.size()) }
-        };
-
-        // If allocation fails, `new_ptr` will be null, in which case we abort.
-        self.ptr = check_ptr(new_ptr as _);
-        self.cap = new_cap;
+        self.cap = cap;
     }
 
     #[inline(always)]
@@ -79,16 +45,15 @@ impl Vec {
 
     #[inline(always)]
     pub fn with_capacity(cap: usize) -> Self {
-        Vec {
-            ptr: check_ptr(unsafe { GLOBAL.alloc(Layout::array::<u32>(cap).unwrap_unchecked()) } as _),
-            cap,
-            len: 0,
+        unsafe {
+            Self::from_raw_parts(GLOBAL.alloc(Layout::array::<T>(cap).unwrap_unchecked()) as _, 0, cap)
         }
     }
 
-    pub fn push(&mut self, elem: u32) {
-        if self.len == self.cap() {
-            self.grow();
+    #[inline(always)]
+    pub fn push(&mut self, elem: T) {
+        if self.len == self.capacity() {
+            self.grow_amortized(1);
         }
 
         unsafe {
@@ -100,7 +65,12 @@ impl Vec {
     }
 
     #[inline(always)]
-    pub fn pop(&mut self) -> Option<u32> {
+    pub(crate) unsafe fn raw_set(&mut self, i: usize, elem: T) {
+        ptr::write(self.ptr().add(i), elem);
+    }
+
+    #[inline(always)]
+    pub fn pop(&mut self) -> Option<T> {
         if self.len == 0 {
             None
         } else {
@@ -110,10 +80,10 @@ impl Vec {
     }
 
     #[inline(always)]
-    pub fn insert(&mut self, index: usize, elem: u32) {
+    pub fn insert(&mut self, index: usize, elem: T) {
         assert!(index <= self.len, "index out of bounds");
-        if self.cap() == self.len {
-            self.grow();
+        if self.capacity() == self.len {
+            self.grow_amortized(1);
         }
 
         unsafe {
@@ -128,7 +98,7 @@ impl Vec {
     }
 
     #[inline(always)]
-    pub fn remove(&mut self, index: usize) -> u32 {
+    pub fn remove(&mut self, index: usize) -> T {
         assert!(index < self.len, "index out of bounds");
         unsafe {
             self.len -= 1;
@@ -143,7 +113,7 @@ impl Vec {
     }
 
     #[inline(always)]
-    pub fn drain(&mut self) -> Drain {
+    pub fn drain(&mut self) -> Drain<T> {
         unsafe {
             let iter = RawValIter::new(&self);
 
@@ -153,57 +123,156 @@ impl Vec {
             self.len = 0;
 
             Drain {
-                iter: iter,
+                iter,
                 vec: PhantomData,
             }
         }
     }
+
+    #[inline(always)]
+    pub unsafe fn from_raw_parts(ptr: *mut T, length: usize, capacity: usize) -> Self {
+        let mut res = MaybeUninit::<Self>::uninit();
+        (*(res.as_mut_ptr())).len = length;
+        (*(res.as_mut_ptr())).set_ptr_and_cap(ptr, capacity);
+        res.assume_init()
+    }
+
+    #[inline(always)]
+    pub fn into_raw_parts(self) -> (*mut T, usize, usize) {
+        let mut me = ManuallyDrop::new(self);
+        (me.as_mut_ptr(), me.len(), me.capacity())
+    }
+
+    #[inline(always)]
+    fn needs_to_grow(&self, len: usize, additional: usize) -> bool {
+        additional > self.capacity().wrapping_sub(len)
+    }
+
+    #[inline(always)]
+    pub fn reserve(&mut self, additional: usize) {
+        #[cold]
+        fn do_reserve_and_handle<T>(
+            slf: &mut Vec<T>,
+            additional: usize,
+        ) {
+            slf.grow_amortized(additional);
+        }
+
+        if self.needs_to_grow(self.len, additional) {
+            do_reserve_and_handle(self, additional);
+        }
+    }
+
+    fn grow_amortized(&mut self, additional: usize) {
+        // since we set the capacity to usize::MAX when T has size 0,
+        // getting to here necessarily means the Vec is overfull.
+        assert_ne!(mem::size_of::<T>(), 0, "capacity overflow");
+
+        let (new_cap, new_layout) = if self.cap == 0 {
+            unsafe { (additional, Layout::array::<T>(additional).unwrap_unchecked()) }
+        } else {
+            // This can't overflow because we ensure self.cap <= isize::MAX.
+            let new_cap = cmp::max(self.cap + additional, 2 * self.cap);
+
+            // `Layout::array` checks that the number of bytes is <= usize::MAX,
+            // but this is redundant since old_layout.size() <= isize::MAX,
+            // so the `unwrap` should never fail.
+            let new_layout = unsafe { Layout::array::<T>(new_cap).unwrap_unchecked() };
+            (new_cap, new_layout)
+        };
+
+        // Ensure that the new allocation doesn't exceed `isize::MAX` bytes.
+        assert!(
+            new_layout.size() <= isize::MAX as usize,
+            "Allocation too large"
+        );
+
+        let new_ptr = if self.cap == 0 {
+            unsafe { GLOBAL.alloc(new_layout) }
+        } else {
+            let old_layout = unsafe { Layout::array::<T>(self.cap).unwrap_unchecked() };
+            let old_ptr = self.ptr.as_ptr() as *mut u8;
+            unsafe { GLOBAL.realloc(old_ptr, old_layout, new_layout.size()) }
+        };
+
+        // If allocation fails, `new_ptr` will be null, in which case we abort.
+        self.set_ptr_and_cap(new_ptr, new_cap);
+    }
+
+    #[inline(always)]
+    pub unsafe fn set_len(&mut self, len: usize) {
+        self.len = len;
+    }
 }
 
-impl Drop for Vec {
+impl<T: Clone> Vec<T> {
+    #[inline(always)]
+    pub fn extend_from_slice(&mut self, other: &[T]) {
+        let new_len = self.len + other.len();
+        if new_len > self.capacity() {
+            self.grow_amortized(other.len());
+        }
+
+        for i in 0..other.len() {
+            unsafe { self.raw_set(i, other[i].clone()); }
+        }
+
+        self.len = new_len;
+    }
+}
+
+impl<T: Clone> From<&[T]> for Vec<T> {
+    fn from(slice: &[T]) -> Self {
+        let mut vec = Vec::with_capacity(slice.len());
+        vec.extend_from_slice(slice);
+        vec
+    }
+}
+
+impl<T> Drop for Vec<T> {
     #[inline(always)]
     fn drop(&mut self) {
         while let Some(_) = self.pop() {}
-        let elem_size = mem::size_of::<u32>();
+        let elem_size = mem::size_of::<T>();
 
         if self.cap != 0 && elem_size != 0 {
             unsafe {
                 GLOBAL.dealloc(
                     self.ptr.as_ptr() as *mut u8,
-                    Layout::array::<u32>(self.cap).unwrap_unchecked(),
+                    Layout::array::<T>(self.cap).unwrap_unchecked(),
                 );
             }
         }
     }
 }
 
-impl Deref for Vec {
-    type Target = [u32];
+impl<T> Deref for Vec<T> {
+    type Target = [T];
     #[inline(always)]
-    fn deref(&self) -> &[u32] {
+    fn deref(&self) -> &[T] {
         unsafe { slice::from_raw_parts(self.ptr(), self.len) }
     }
 }
 
-impl DerefMut for Vec {
+impl<T> DerefMut for Vec<T> {
     #[inline(always)]
-    fn deref_mut(&mut self) -> &mut [u32] {
+    fn deref_mut(&mut self) -> &mut [T] {
         unsafe { slice::from_raw_parts_mut(self.ptr(), self.len) }
     }
 }
 
-impl IntoIterator for Vec {
-    type Item = u32;
-    type IntoIter = IntoIter<u32>;
+impl<T> IntoIterator for Vec<T> {
+    type Item = T;
+    type IntoIter = IntoIter<T>;
     #[inline(always)]
-    fn into_iter(self) -> IntoIter<u32> {
+    fn into_iter(self) -> IntoIter<T> {
         unsafe {
             let iter = RawValIter::new(&self);
             let buf = ptr::read(&self);
             mem::forget(self);
 
             IntoIter {
-                iter: iter,
+                iter,
                 _buf: buf,
             }
         }
@@ -280,7 +349,7 @@ impl<T> DoubleEndedIterator for RawValIter<T> {
 }
 
 pub struct IntoIter<T> {
-    _buf: Vec, // we don't actually care about this. Just need it to live.
+    _buf: Vec<T>, // we don't actually care about this. Just need it to live.
     iter: RawValIter<T>,
 }
 
@@ -310,15 +379,15 @@ impl<T> Drop for IntoIter<T> {
     }
 }
 
-pub struct Drain<'a> {
-    vec: PhantomData<&'a mut Vec>,
-    iter: RawValIter<u32>,
+pub struct Drain<'a, T> {
+    vec: PhantomData<&'a mut Vec<T>>,
+    iter: RawValIter<T>,
 }
 
-impl<'a> Iterator for Drain<'a> {
-    type Item = u32;
+impl<'a, T> Iterator for Drain<'a, T> {
+    type Item = T;
     #[inline(always)]
-    fn next(&mut self) -> Option<u32> {
+    fn next(&mut self) -> Option<T> {
         self.iter.next()
     }
     #[inline(always)]
@@ -327,14 +396,14 @@ impl<'a> Iterator for Drain<'a> {
     }
 }
 
-impl<'a> DoubleEndedIterator for Drain<'a> {
+impl<'a, T> DoubleEndedIterator for Drain<'a, T> {
     #[inline(always)]
-    fn next_back(&mut self) -> Option<u32> {
+    fn next_back(&mut self) -> Option<T> {
         self.iter.next_back()
     }
 }
 
-impl<'a> Drop for Drain<'a> {
+impl<'a, T> Drop for Drain<'a, T> {
     #[inline(always)]
     fn drop(&mut self) {
         // pre-drain the iter
@@ -363,13 +432,13 @@ macro_rules! vec {
     );
     (@c ($count:expr) ($(($i:expr, $y:expr))*)) => (
         {
-            let v = $crate::parm::heap::vec::Vec::with_capacity($count);
-            let ptr = v.ptr();
+            let mut v = $crate::parm::heap::vec::Vec::with_capacity($count);
             $(
                 unsafe {
-                    ptr.add($i).write($y);
+                    v.raw_set($i, $y);
                 }
             )*
+            unsafe { v.set_len($count); }
             v
         }
     );

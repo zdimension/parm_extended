@@ -1,6 +1,8 @@
 #![no_main]
 #![no_std]
 
+extern crate alloc;
+
 use crate::parm::rgb::{pixel_set, Color24bpp};
 
 mod parm;

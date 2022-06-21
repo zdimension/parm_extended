@@ -304,7 +304,7 @@ pub fn print_fp(x: fp32) {
 
 impl tty::Display for fp32 {
     #[inline(always)]
-    fn write(self) {
-        print_fp(self);
+    fn write(&self) {
+        print_fp(*self);
     }
 }

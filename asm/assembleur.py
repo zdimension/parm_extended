@@ -142,10 +142,12 @@ jumps = []
 immshift = {"h": 1, "w": 2, "p": 2}
 hi_regs = {"sp": 13, "lr": 14, "pc": 15}
 bname = {1: "halfword", 2: "word"}
+def sanitize(s):
+	return s.replace(".", "_DOT_").replace("$", "_DOL_")
 def parse_imm(s):
 	if not s:
 		return 0
-	res = eval(s.replace(".", ""), {k.replace(".", ""): 2*v for k, v in labels.items()})
+	res = eval(sanitize(s), {sanitize(k): 2*v for k, v in labels.items()})
 	if type(res) == float and res != (res := int(res)):
 		raise AsmException(s)
 	return res

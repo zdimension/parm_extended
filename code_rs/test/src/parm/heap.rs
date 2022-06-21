@@ -1,12 +1,10 @@
 pub mod vec;
+pub mod string;
 
 use crate::parm::panic;
 use core::alloc::{GlobalAlloc, Layout};
 
 use core::{ptr};
-
-
-
 
 pub const HEAP_START: usize = 0x10000;
 
