@@ -78,30 +78,28 @@ pub fn init() {
     }
 }
 
-pub fn malloc(size: usize) -> *mut u32 {
+pub unsafe fn malloc(size: usize) -> *mut u32 {
     let blocks = blocks_to_allocate(size);
-    unsafe {
-        let mut prevp = *HEAP_FREEP;
-        let mut p = *HEAP_FREEP;
-        while (*p).size < blocks {
-            let newprevp = p;
-            p = (*p).next;
-            if p == *HEAP_FREEP {
-                return ptr::null_mut();
-            }
-            prevp = newprevp;
+    let mut prevp = *HEAP_FREEP;
+    let mut p = *HEAP_FREEP;
+    while (*p).size < blocks {
+        let newprevp = p;
+        p = (*p).next;
+        if p == *HEAP_FREEP {
+            return ptr::null_mut();
         }
-        if (*p).size == blocks {
-            (*prevp).next = (*p).next;
-        } else {
-            let next = p.add(blocks);
-            (*next).next = (*p).next;
-            (*next).size = (*p).size - blocks;
-            (*p).size = blocks;
-            (*prevp).next = next;
-        }
-        p.add(1) as _
+        prevp = newprevp;
     }
+    if (*p).size == blocks {
+        (*prevp).next = (*p).next;
+    } else {
+        let next = p.add(blocks);
+        (*next).next = (*p).next;
+        (*next).size = (*p).size - blocks;
+        (*p).size = blocks;
+        (*prevp).next = next;
+    }
+    p.add(1) as _
 }
 
 pub unsafe fn free(_ptr: *mut u32) {
@@ -167,13 +165,11 @@ pub unsafe fn realloc(ptr: *mut u32, size: usize) -> *mut u32 {
     }
 }
 
-pub fn calloc(size: usize) -> *mut u32 {
+pub unsafe fn calloc(size: usize) -> *mut u32 {
     let ptr = malloc(size);
     let size = ((size + 3) & !3) >> 2;
-    unsafe {
-        for p in 0..size {
-            *ptr.add(p) = 0;
-        }
+    for p in 0..size {
+        *ptr.add(p) = 0;
     }
     ptr
 }
@@ -182,23 +178,23 @@ pub struct HeapAllocator;
 
 unsafe impl GlobalAlloc for HeapAllocator {
     #[inline(always)]
-    unsafe fn alloc(&self, layout: core::alloc::Layout) -> *mut u8 {
+    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         malloc(layout.size()) as _
     }
 
     #[inline(always)]
-    unsafe fn dealloc(&self, ptr: *mut u8, _layout: core::alloc::Layout) {
+    unsafe fn dealloc(&self, ptr: *mut u8, _layout: Layout) {
         free(ptr as _);
+    }
+
+    #[inline(always)]
+    unsafe fn alloc_zeroed(&self, layout: Layout) -> *mut u8 {
+        calloc(layout.size()) as _
     }
 
     #[inline(always)]
     unsafe fn realloc(&self, ptr: *mut u8, _layout: Layout, new_size: usize) -> *mut u8 {
         realloc(ptr as _, new_size) as _
-    }
-
-    #[inline(always)]
-    unsafe fn alloc_zeroed(&self, layout: core::alloc::Layout) -> *mut u8 {
-        calloc(layout.size()) as _
     }
 }
 
@@ -248,7 +244,7 @@ fn __rust_dealloc(ptr: *mut u8, _size: usize, _align: usize) {
 
 #[no_mangle]
 extern "C" fn __aeabi_memcpy(dest: *mut u32, src: *const u32, n: usize) {
-    let n = n >> 2;
+    let n = (n + 3) >> 2;
     for i in 0..n {
         unsafe { *dest.add(i) = *src.add(i); }
     }
@@ -256,7 +252,7 @@ extern "C" fn __aeabi_memcpy(dest: *mut u32, src: *const u32, n: usize) {
 
 #[no_mangle]
 extern "C" fn __aeabi_memclr(dest: *mut u32, n: usize) {
-    let n = n >> 2;
+    let n = (n + 3) >> 2;
     for i in 0..n  {
         unsafe { *dest.add(i) = 0 }
     }
@@ -269,7 +265,7 @@ extern "C" fn __aeabi_memclr4(dest: *mut u32, n: usize) {
 
 #[no_mangle]
 extern "C" fn __aeabi_memmove4(dest: *mut u32, src: *const u32, n: usize) {
-    let n = n >> 2;
+    let n = (n + 3) >> 2;
     if (dest as *const u32) < src {
         for i in 0..n {
             unsafe { *dest.add(i) = *src.add(i) }

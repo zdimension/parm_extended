@@ -5,8 +5,9 @@ use core::slice::Iter;
 use core::str::Chars;
 
 use crate::parm::tty::{print_char, Display};
-use crate::print;
 
+
+#[repr(transparent)]
 #[derive(Clone)]
 pub struct String {
     vec: Vec<char>,

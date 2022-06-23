@@ -1,15 +1,15 @@
 #![no_main]
 #![no_std]
 
-use core::iter::{Copied, Peekable};
-use core::slice::Iter;
+use core::iter::{Peekable};
+
 use crate::parm::heap::string::{CharSeq, Parse};
 use crate::parm::heap::string::StrLike;
 use crate::parm::heap::string::ToString;
 use crate::parm::heap::string::{FromStr, String};
 use crate::parm::heap::vec::Vec;
 use crate::parm::panic;
-use crate::parm::tty::{read_line, Display, clear, read_int, print_char, AsciiEncodable, CharLike};
+use crate::parm::tty::{read_line, Display, clear, read_int, print_char};
 
 mod parm;
 
@@ -18,11 +18,31 @@ struct Instruction {
     content: InstructionKind,
 }
 
+#[repr(transparent)]
+#[derive(Clone, Copy)]
+struct Variable(u32);
+
+impl Variable {
+    #[inline(always)]
+    pub const fn get_name(&self) -> char {
+        (self.0 + 'A' as u32) as u8 as char
+    }
+}
+
+impl Display for Variable {
+    #[inline(always)]
+    fn write(&self) {
+        print_char(self.get_name());
+    }
+}
+
 #[repr(u32)]
 enum InstructionKind {
     Print(Expression),
     ClearScreen,
-    Input { prompt: String, variable: u8 }
+    Input { prompt: String, variable: Variable },
+    Goto(usize),
+    Let { variable: Variable, value: Expression },
 }
 
 #[repr(u32)]
@@ -36,7 +56,7 @@ enum Operator {
 
 impl Operator {
     #[inline(always)]
-    pub fn precedence(&self) -> u32 {
+    pub const fn precedence(&self) -> u32 {
         match self {
             Operator::Add => 1,
             Operator::Sub => 1,
@@ -64,7 +84,7 @@ impl Operator {
 enum Token {
     Operator(Operator),
     Literal(Value),
-    Variable(u32),
+    Variable(Variable),
 }
 
 /// Expression in RPN format
@@ -73,6 +93,18 @@ struct Expression(Vec<Token>);
 impl Display for Expression {
     fn write(&self) {
         show(&self.0);
+    }
+}
+
+impl FromStr for Variable {
+    type Err = ();
+
+    fn from_str(s: &[char]) -> Result<Self, Self::Err> {
+        if s.len() != 1 {
+            Err(())
+        } else {
+            Ok(Variable(s[0].to_ascii_uppercase() as u32 - 'A' as u32))
+        }
     }
 }
 
@@ -91,6 +123,15 @@ impl FromStr for Expression {
 enum Value {
     Number(u32),
     String(String),
+}
+
+impl Value {
+    fn expect_number(&self) -> Result<u32, ()> {
+        match self {
+            Value::Number(n) => Ok(*n),
+            _ => Err(()),
+        }
+    }
 }
 
 impl Display for Value {
@@ -158,8 +199,8 @@ fn tokenize<'a>(code: impl CharSeq<'a>) -> Vec<Token> {
             '/' => Token::Operator(Operator::Div),
             '"' => Token::Literal(Value::String(read_string(&mut iter))),
             '0'..='9' => Token::Literal(Value::Number(read_number(ch, &mut iter))),
-            'A'..='Z' => Token::Variable(ch as u32 - 'A' as u32),
-            'a'..='z' => Token::Variable(ch as u32 - 'a' as u32),
+            'A'..='Z' => Token::Variable(Variable(ch as u32 - 'A' as u32)),
+            'a'..='z' => Token::Variable(Variable(ch as u32 - 'a' as u32)),
             ' ' => continue,
             _ => {
                 println!("Invalid character: ", ch);
@@ -185,7 +226,7 @@ fn shunting_yard(tokens: Vec<Token>) -> Vec<Token> {
     let mut stack = Vec::with_capacity(tokens.len());
     for token in tokens.into_iter() {
         match token {
-            Token::Literal(_) | Token::Variable(_) => output.push_unchecked(token),
+            Token::Literal(_) | Token::Variable(_) => unsafe { output.push_unchecked(token) },
             Token::Operator(o) => {
                 while let Some(&Token::Operator(op)) = stack.last() {
                     if op.precedence() >= o.precedence() {
@@ -194,12 +235,12 @@ fn shunting_yard(tokens: Vec<Token>) -> Vec<Token> {
                         break;
                     }
                 }
-                stack.push_unchecked(token);
+                unsafe { stack.push_unchecked(token); }
             }
         }
     }
     while let Some(token) = stack.pop() {
-        output.push_unchecked(token);
+        unsafe { output.push_unchecked(token); }
     }
     output
 }
@@ -248,7 +289,7 @@ fn main() {
     /*let s = String::from("Bonjour");
     loop{}*/
     let mut program: Vec<Instruction> = Vec::with_capacity(10);
-    let last = 0;
+    let mut last = 0;
     let mut line = String::with_capacity(32);
     loop {
         print!("> ");
@@ -258,7 +299,12 @@ fn main() {
             show_program(&program);
             continue;
         } else if starts_with_ci(&line, "RUN") {
-            run_program(&program);
+            for instr in program.iter() {
+                println!("l", instr);
+            }
+            if let Err(_) = run_program(&program) {
+                println!("Error");
+            }
             continue;
         }
         let space = match line.as_chars().find_char(' ') {
@@ -280,24 +326,36 @@ fn main() {
         let idata = Instruction {
             line_no: line_no as usize,
             content: match instr.parse() {
-                Ok(instr) => instr,
+                Ok(instr) => {
+                    println!('h', instr);
+                    instr },
                 Err(_) => {
                     println!("Invalid instruction");
                     continue;
                 }
             },
         };
+        println!('i', idata.content);
         if line_no > last {
             program.push(idata);
+            last = line_no;
         } else {
-            println!("not impl");
-            continue;
+            let insert = program
+                .iter()
+                .enumerate()
+                .find(|(_, i)| i.line_no >= line_no as usize);
+            let (index, instr) = unsafe { insert.unwrap_unchecked() }; // there must be one
+            if instr.line_no == line_no as usize {
+                unsafe { program.raw_set(index, idata); }
+            } else {
+                program.insert(index, idata);
+            }
         }
     }
 }
 
 #[inline(always)]
-fn starts_with_ci(s: &[char], needle: &str) -> bool {
+fn starts_with_ci(s: &[char], needle: &'static str) -> bool {
     s.len() >= needle.len()
         && unsafe { s.get_unchecked(0..needle.len()) }
             .iter()
@@ -311,13 +369,7 @@ impl FromStr for InstructionKind {
     fn from_str(s: &[char]) -> Result<Self, Self::Err> {
         #[inline(never)]
         fn parse_print(content: &[char]) -> Result<InstructionKind, ()> {
-            let expr = match content.parse() {
-                Ok(expr) => expr,
-                Err(_) => {
-                    println!("Invalid expression");
-                    return Err(());
-                }
-            };
+            let expr = content.parse().map_err(|_| println!("Invalid expression"))?;
             Ok(InstructionKind::Print(expr))
         }
         #[inline(never)]
@@ -331,8 +383,29 @@ impl FromStr for InstructionKind {
             };
             Ok(InstructionKind::Input {
                 prompt: prompt.to_string(),
-                variable: variable[0].to_ascii_uppercase() as u32 as u8 - b'A',
+                variable: variable.parse().map_err(|_| println!("Invalid variable"))?,
             })
+        }
+        #[inline(never)]
+        fn parse_let(args: &[char]) -> Result<InstructionKind, ()> {
+            let equal = args.find_char('=').ok_or(())?;
+            let (variable, value) = unsafe {
+                (
+                    args.get_unchecked(0..1),
+                    args.get_unchecked(equal + 1..args.len()).trim(),
+                )
+            };
+            let xl = InstructionKind::Let {
+                variable: variable.parse().map_err(|_| println!("Invalid variable"))?,
+                value: value.parse().map_err(|_| println!("Invalid expression"))?,
+            };
+            println!("l", xl);
+            Ok(xl)
+        }
+        #[inline(never)]
+        fn parse_goto(args: &[char]) -> Result<InstructionKind, ()> {
+            let line_no: u32 = args.parse().map_err(|_| println!("Invalid line no"))?;
+            Ok(InstructionKind::Goto(line_no as usize))
         }
 
         if starts_with_ci(s, "PRINT") {
@@ -341,8 +414,11 @@ impl FromStr for InstructionKind {
             Ok(InstructionKind::ClearScreen)
         } else if starts_with_ci(s, "INPUT") {
             parse_input(unsafe { s.get_unchecked(5..).trim() })
-        }
-        else {
+        } else if starts_with_ci(s, "GOTO") {
+            parse_goto(unsafe { s.get_unchecked(4..).trim() })
+        } else if starts_with_ci(s, "LET") {
+            parse_let(unsafe { s.get_unchecked(3..).trim() })
+        } else {
             Err(())
         }
     }
@@ -366,8 +442,14 @@ impl Display for InstructionKind {
                 print!("CLS");
             },
             InstructionKind::Input { prompt, variable } => {
-                print!("INPUT ", prompt, ", ", *variable as u32);
-            }
+                print!("INPUT \"", prompt, "\", ", variable);
+            },
+            InstructionKind::Goto(line) => {
+                print!("GOTO ", line);
+            },
+            InstructionKind::Let { variable, value } => {
+                print!("LET ", variable, " = ", value);
+            },
         }
     }
 }
@@ -383,13 +465,23 @@ impl ProgramContext {
         }
     }
 
+    #[inline(always)]
+    fn get_variable(&self, variable: &Variable) -> u32 {
+        self.variables[variable.0 as usize]
+    }
+
+    #[inline(always)]
+    fn set_variable(&mut self, variable: &Variable, value: u32) {
+        self.variables[variable.0 as usize] = value;
+    }
+
     #[inline(never)]
     fn eval(&self, e: &Expression) -> Value {
         let mut stack = Vec::with_capacity(e.0.len());
         for item in e.0.iter() {
             match item {
                 Token::Literal(v) => stack.push(v.clone()),
-                Token::Variable(v) => stack.push(Value::Number(self.variables[*v as usize])),
+                Token::Variable(v) => stack.push(Value::Number(self.get_variable(v))),
                 Token::Operator(op) => {
                     let a = match stack.pop() {
                         Some(a) => a,
@@ -415,10 +507,13 @@ impl ProgramContext {
 }
 
 #[inline(never)]
-fn run_program(code: &Vec<Instruction>) {
+fn run_program(code: &Vec<Instruction>) -> Result<(), ()> {
     let mut ctx = ProgramContext::new();
-    for Instruction { line_no, content } in code.iter() {
-        match content {
+    let mut idx = 0;
+    while idx < code.len() {
+        let instr = unsafe { code.get_unchecked(idx) };
+        println!("l", instr);
+        match &instr.content {
             InstructionKind::Print(s) => {
                 println!(ctx.eval(s));
             },
@@ -427,8 +522,24 @@ fn run_program(code: &Vec<Instruction>) {
             },
             InstructionKind::Input { prompt, variable } => {
                 print!(prompt, "? ");
-                ctx.variables[*variable as usize] = read_int();
-            }
+                ctx.set_variable(variable, read_int());
+            },
+            InstructionKind::Goto(line) => {
+                idx = match code.iter().enumerate().find(|(_, i)| i.line_no >= *line) {
+                    Some((i, _)) => i,
+                    None => {
+                        break;
+                    }
+                };
+                continue;
+            },
+            InstructionKind::Let { variable, value } => {
+                ctx.set_variable(variable,  ctx.eval(value).expect_number().map_err(|_| {
+                    println!("Variables are integers");
+                })?);
+            },
         }
+        idx += 1;
     }
+    Ok(())
 }

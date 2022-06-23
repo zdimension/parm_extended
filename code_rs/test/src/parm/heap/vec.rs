@@ -67,10 +67,8 @@ impl<T> Vec<T> {
     }
 
     #[inline(always)]
-    pub fn push_unchecked(&mut self, elem: T) {
-        unsafe {
-            ptr::write(self.ptr().add(self.len), elem);
-        }
+    pub unsafe fn push_unchecked(&mut self, elem: T) {
+        ptr::write(self.ptr().add(self.len), elem);
 
         // Can't overflow, we'll OOM first.
         self.len += 1;
@@ -179,12 +177,10 @@ impl<T> Vec<T> {
         //assert_ne!(mem::size_of::<T>(), 0, "capacity overflow");
 
         let (new_cap, new_layout) = if self.cap == 0 {
-            unsafe {
-                (
-                    additional,
-                    additional * mem::size_of::<T>(),
-                )
-            }
+            (
+                additional,
+                additional * mem::size_of::<T>(),
+            )
         } else {
             // This can't overflow because we ensure self.cap <= isize::MAX.
             let new_cap = cmp::max(self.cap + additional, 2 * self.cap);
@@ -205,7 +201,7 @@ impl<T> Vec<T> {
         let new_ptr = if self.cap == 0 {
             unsafe { malloc(new_layout) }
         } else {
-            let old_layout = unsafe { Layout::array::<T>(self.cap).unwrap_unchecked() };
+            let _old_layout = unsafe { Layout::array::<T>(self.cap).unwrap_unchecked() };
             let old_ptr = self.ptr.as_ptr() as *mut u32;
             unsafe { realloc(old_ptr, new_layout) }
         };

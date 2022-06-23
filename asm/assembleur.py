@@ -81,7 +81,7 @@ for k, v in {
 	"ldr {Rd}, {labelp8}": (0b01001, "Rd", "labelp8"),
 	# 07 - load/store with register offset
 	"str {Rd}, [{Rb}, {Ro}]": 	(0b0101_0_0_0, "Ro", "Rb", "Rd"),
-	"strb {Rd}, [{Rb}, {Ro}]": 	(0b0101_0_1_0, "Ro", "Rb", "Rd"),
+	#"strb {Rd}, [{Rb}, {Ro}]": 	(0b0101_0_1_0, "Ro", "Rb", "Rd"),
 	"ldr {Rd}, [{Rb}, {Ro}]": 	(0b0101_1_0_0, "Ro", "Rb", "Rd"),
 	"ldrb {Rd}, [{Rb}, {Ro}]": 	(0b0101_1_1_0, "Ro", "Rb", "Rd"),
 	# 08 - load/store sign-extended byte/halfword
@@ -92,7 +92,7 @@ for k, v in {
 	# 09 - load/store with immediate offset
 	"str {Rd}, [{Rb}(?:, {immw5})?]":	(0b011_0_0, "immw5", "Rb", "Rd"),
 	"ldr {Rd}, [{Rb}(?:, {immw5})?]":	(0b011_0_1, "immw5", "Rb", "Rd"),
-	"strb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_0, "imm5", "Rb", "Rd"),
+	#"strb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_0, "imm5", "Rb", "Rd"),
 	"ldrb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_1, "imm5", "Rb", "Rd"),
 	# 10 - load/store halfword
 	#"strh {Rd}, [{Rb}(?:, {immh5})?]":	(0b1000_0, "immh5", "Rb", "Rd"),
@@ -268,12 +268,13 @@ def assemble(line, labels, pc):
 			first, second = map(parse_imm, args.split(","))
 			return (pc, (second << 8) | first, dl, f"{first}, {second}"),
 		if instr.lower().startswith("@bl"):
-			n = parse_imm(args) // 2 - pc - 1
-			if instr[3] == "1":
+			first = instr[3] == "1"
+			n = parse_imm(args) // 2 - (pc + (2 if first else 0)) - 1
+			if first:
 				val = (0b1111_0 << 11) | ((n >> 11) & 0b111_1111_1111)
 			else:
 				val = (0b1111_1 << 11) | (n & 0b111_1111_1111)
-			return (pc, val, dl, args),
+			return (pc, val, dl, n),
 		if instr.lower().startswith("@asci"):
 			bytes = eval(args).encode("utf-8")
 			if instr[5].lower() == "z":

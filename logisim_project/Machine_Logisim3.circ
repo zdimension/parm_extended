@@ -4,17 +4,33 @@
 
   <lib desc="#Wiring" name="0">
     <tool name="Splitter">
+      <a name="bit1" val="0"/>
+      <a name="bit10" val="1"/>
+      <a name="bit11" val="2"/>
+      <a name="bit12" val="2"/>
+      <a name="bit13" val="2"/>
+      <a name="bit14" val="2"/>
+      <a name="bit15" val="2"/>
+      <a name="bit2" val="0"/>
+      <a name="bit3" val="0"/>
+      <a name="bit4" val="0"/>
+      <a name="bit5" val="0"/>
+      <a name="bit6" val="1"/>
+      <a name="bit7" val="1"/>
+      <a name="bit8" val="1"/>
+      <a name="bit9" val="1"/>
       <a name="facing" val="west"/>
-      <a name="fanout" val="4"/>
-      <a name="incoming" val="1"/>
+      <a name="fanout" val="3"/>
+      <a name="incoming" val="16"/>
     </tool>
     <tool name="Pin">
       <a name="appearance" val="classic"/>
-      <a name="facing" val="north"/>
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
     </tool>
     <tool name="Probe">
       <a name="appearance" val="classic"/>
-      <a name="facing" val="north"/>
+      <a name="facing" val="west"/>
       <a name="radix" val="10unsigned"/>
     </tool>
     <tool name="Tunnel">
@@ -27,9 +43,8 @@
       <a name="facing" val="north"/>
     </tool>
     <tool name="Constant">
-      <a name="facing" val="south"/>
-      <a name="value" val="0x0"/>
-      <a name="width" val="2"/>
+      <a name="value" val="0x9"/>
+      <a name="width" val="4"/>
     </tool>
     <tool name="Power">
       <a name="facing" val="west"/>
@@ -50,10 +65,11 @@
       <a name="size" val="20"/>
     </tool>
     <tool name="AND Gate">
+      <a name="inputs" val="6"/>
       <a name="size" val="30"/>
     </tool>
     <tool name="OR Gate">
-      <a name="inputs" val="4"/>
+      <a name="size" val="30"/>
     </tool>
     <tool name="XOR Gate">
       <a name="size" val="30"/>
@@ -64,15 +80,11 @@
     </tool>
   </lib>
   <lib desc="#Plexers" name="2">
-    <tool name="Multiplexer">
-      <a name="select" val="4"/>
-    </tool>
     <tool name="Decoder">
       <a name="select" val="3"/>
     </tool>
     <tool name="BitSelector">
-      <a name="group" val="3"/>
-      <a name="width" val="32"/>
+      <a name="width" val="4"/>
     </tool>
   </lib>
   <lib desc="#Arithmetic" name="3">
@@ -103,11 +115,7 @@
       <a name="width" val="32"/>
     </tool>
   </lib>
-  <lib desc="#Memory" name="4">
-    <tool name="Register">
-      <a name="width" val="32"/>
-    </tool>
-  </lib>
+  <lib desc="#Memory" name="4"/>
   <lib desc="#I/O" name="5">
     <tool name="DipSwitch">
       <a name="number" val="32"/>
@@ -183,12 +191,12 @@ end TCL_Generic;
   <lib desc="#BFH-Praktika" name="9"/>
   <lib desc="#Input/Output-Extra" name="10"/>
   <lib desc="#TTL" name="11"/>
-  <lib desc="file#ALU.circ" name="12">
+  <lib desc="file#BancDeRegistres.circ" name="12"/>
+  <lib desc="file#ALU.circ" name="13">
     <tool name="ALU">
       <a name="facing" val="east"/>
     </tool>
   </lib>
-  <lib desc="file#BancDeRegistres.circ" name="13"/>
   <lib desc="file#Controller.circ" name="14"/>
   <main name="Facade"/>
   <options>
@@ -345,6 +353,10 @@ end TCL_Generic;
       <a name="facing" val="north"/>
       <a name="label" val="Reset"/>
     </comp>
+    <comp lib="0" loc="(1240,1660)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="label" val="KEYB_Read"/>
+    </comp>
     <comp lib="0" loc="(1240,180)" name="Probe">
       <a name="appearance" val="classic"/>
       <a name="facing" val="south"/>
@@ -365,6 +377,10 @@ end TCL_Generic;
       <a name="label" val="R7"/>
       <a name="width" val="32"/>
     </comp>
+    <comp lib="0" loc="(1280,1630)" name="Tunnel">
+      <a name="facing" val="east"/>
+      <a name="label" val="Clk"/>
+    </comp>
     <comp lib="0" loc="(1280,2010)" name="Pull Resistor"/>
     <comp lib="0" loc="(1290,2110)" name="Tunnel">
       <a name="facing" val="north"/>
@@ -382,6 +398,10 @@ end TCL_Generic;
     <comp lib="0" loc="(1310,330)" name="Tunnel">
       <a name="label" val="Store"/>
     </comp>
+    <comp lib="0" loc="(1330,1660)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="label" val="Reset"/>
+    </comp>
     <comp lib="0" loc="(1370,1820)" name="Tunnel">
       <a name="facing" val="south"/>
       <a name="label" val="MMIO_En"/>
@@ -395,6 +415,10 @@ end TCL_Generic;
     <comp lib="0" loc="(140,120)" name="Tunnel">
       <a name="facing" val="north"/>
       <a name="label" val="Toggle"/>
+    </comp>
+    <comp lib="0" loc="(1400,1660)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="label" val="KEYB_Eof"/>
     </comp>
     <comp lib="0" loc="(1400,250)" name="Tunnel">
       <a name="label" val="CODE_Addr"/>
@@ -422,6 +446,11 @@ end TCL_Generic;
       <a name="appearance" val="classic"/>
       <a name="facing" val="west"/>
       <a name="radix" val="16"/>
+    </comp>
+    <comp lib="0" loc="(1490,1660)" name="Tunnel">
+      <a name="facing" val="north"/>
+      <a name="label" val="KEYB_Char"/>
+      <a name="width" val="7"/>
     </comp>
     <comp lib="0" loc="(150,180)" name="Tunnel">
       <a name="facing" val="east"/>
@@ -494,10 +523,6 @@ end TCL_Generic;
       <a name="appearance" val="classic"/>
       <a name="facing" val="west"/>
       <a name="radix" val="10unsigned"/>
-    </comp>
-    <comp lib="0" loc="(180,1610)" name="Tunnel">
-      <a name="facing" val="north"/>
-      <a name="label" val="KEYB_Read"/>
     </comp>
     <comp lib="0" loc="(190,390)" name="Bit Extender">
       <a name="in_width" val="30"/>
@@ -581,10 +606,6 @@ end TCL_Generic;
       <a name="fanout" val="1"/>
       <a name="incoming" val="32"/>
     </comp>
-    <comp lib="0" loc="(220,1580)" name="Tunnel">
-      <a name="facing" val="east"/>
-      <a name="label" val="Clk"/>
-    </comp>
     <comp lib="0" loc="(240,130)" name="Constant">
       <a name="value" val="0xffffffc"/>
       <a name="width" val="28"/>
@@ -640,10 +661,6 @@ end TCL_Generic;
       <a name="facing" val="south"/>
       <a name="fanout" val="8"/>
       <a name="incoming" val="8"/>
-    </comp>
-    <comp lib="0" loc="(270,1610)" name="Tunnel">
-      <a name="facing" val="north"/>
-      <a name="label" val="Reset"/>
     </comp>
     <comp lib="0" loc="(270,1810)" name="Tunnel">
       <a name="facing" val="south"/>
@@ -759,10 +776,6 @@ end TCL_Generic;
     </comp>
     <comp lib="0" loc="(320,80)" name="Splitter">
       <a name="facing" val="west"/>
-    </comp>
-    <comp lib="0" loc="(340,1610)" name="Tunnel">
-      <a name="facing" val="north"/>
-      <a name="label" val="KEYB_Eof"/>
     </comp>
     <comp lib="0" loc="(340,1940)" name="Tunnel">
       <a name="facing" val="south"/>
@@ -953,11 +966,6 @@ end TCL_Generic;
       <a name="fanout" val="1"/>
       <a name="incoming" val="32"/>
     </comp>
-    <comp lib="0" loc="(430,1610)" name="Tunnel">
-      <a name="facing" val="north"/>
-      <a name="label" val="KEYB_Char"/>
-      <a name="width" val="7"/>
-    </comp>
     <comp lib="0" loc="(440,2270)" name="Splitter">
       <a name="appear" val="center"/>
       <a name="bit1" val="none"/>
@@ -1104,14 +1112,6 @@ end TCL_Generic;
       <a name="bit9" val="none"/>
       <a name="fanout" val="1"/>
       <a name="incoming" val="32"/>
-    </comp>
-    <comp lib="0" loc="(470,1540)" name="Tunnel">
-      <a name="label" val="JOY_X"/>
-      <a name="width" val="5"/>
-    </comp>
-    <comp lib="0" loc="(470,1570)" name="Tunnel">
-      <a name="label" val="JOY_Y"/>
-      <a name="width" val="5"/>
     </comp>
     <comp lib="0" loc="(490,1090)" name="Tunnel">
       <a name="facing" val="north"/>
@@ -1304,6 +1304,14 @@ end TCL_Generic;
       <a name="facing" val="east"/>
       <a name="label" val="MEM_Addr"/>
       <a name="width" val="32"/>
+    </comp>
+    <comp lib="0" loc="(550,1510)" name="Tunnel">
+      <a name="label" val="JOY_X"/>
+      <a name="width" val="5"/>
+    </comp>
+    <comp lib="0" loc="(550,1540)" name="Tunnel">
+      <a name="label" val="JOY_Y"/>
+      <a name="width" val="5"/>
     </comp>
     <comp lib="0" loc="(570,1930)" name="Tunnel">
       <a name="facing" val="south"/>
@@ -2241,9 +2249,829 @@ end TCL_Generic;
       <a name="addrWidth" val="16"/>
       <a name="appearance" val="logisim_evolution"/>
       <a name="contents">addr/data: 16 8
-ff e7 4 e0 1 20 9 23
-9 23 70 47 9 23 ff f7
-fa ff 9 23
+ae e2 10 b5 51 43 43 43
+c9 18 3 c 14 c 63 43
+c9 18 3 c 80 b2 92 b2
+53 43 44 43 50 43 0 22
+1b 19 52 41 12 4 89 18
+1a 4 1b c 80 18 59 41
+10 bd d0 b5 2 af 1 68
+0 29 f d0 42 68 c1 68
+8b 0 9a 18 12 1f 0 29
+8 d0 49 1e c1 60 13 1f
+11 24 24 4 12 68 a2 42
+1a 46 f4 d1 d0 bd 80 b5
+0 af 1 68 1 29 2 d1
+0 1d ff f7 e2 ff 80 bd
+80 b5 0 af 1 68 2 29
+1 d0 ff f7 da ff 80 bd
+f0 b5 3 af 87 b0 4 46
+86 68 14 20 70 43 21 68
+45 18 14 3d 2 a8 0 1d
+1 90 0 2e e d0 76 1e
+a6 60 2 a8 14 22 29 46
+0 f0 e6 f9 2 98 3 28
+c d0 2 a8 ff f7 d3 ff
+14 3d ee e7 0 20 1 99
+8 60 48 60 88 60 c8 60
+3 20 2 90 2 a8 ff f7
+c6 ff 7 b0 f0 bd f0 b5
+3 af 1 46 2 68 40 68
+82 42 6 d0 50 1c 8 60
+10 78 43 b2 0 2b 3 d4
+f0 bd 11 20 0 4 f0 bd
+93 1c b 60 55 78 3f 24
+25 40 1f 23 3 40 df 28
+11 d9 d6 1c e 60 96 78
+26 40 ad 1 ad 19 f0 28
+c d3 10 1d 8 60 d0 78
+20 40 a9 1 8 18 59 7
+c9 a 40 18 f0 bd 98 1
+40 19 f0 bd 18 3 28 18
+f0 bd b0 b5 2 af 2 46
+8b 0 0 20 1 46 0 2b
+a d0 14 68 30 3c 9 2c
+5 d8 a 25 4d 43 61 19
+1b 1f 12 1d f3 e7 1 20
+b0 bd 0 46 f8 b5 4 af
+4 68 41 68 0 20 15 4b
+0 94 81 42 a d0 25 68
+9 3d 17 2d 7 d8 1 26
+ae 40 1e 42 3 d0 24 1d
+40 1c f2 e7 8 46 88 42
+4 46 0 d3 c 46 8d 0
+0 9a ad 18 2d 1f 81 42
+9 d9 2e 68 9 3e 17 2e
+6 d8 1 22 b2 40 1a 42
+2 d0 49 1e f2 e7 21 46
+9 1a 80 0 0 9a 10 18
+f8 bd 0 46 1b 0 80 0
+b0 b5 2 af 4 46 40 68
+0 28 9 d0 45 1c 40 0
+85 42 0 d8 5 46 29 1
+20 68 0 f0 e7 f8 3 e0
+10 20 0 f0 c1 f8 1 25
+0 28 4 d0 20 60 4 34
+25 60 4 34 b0 bd 3f 20
+c0 43 0 21 8 4a 6 29
+3 d0 53 5c 3 60 49 1c
+f9 e7 0 21 5 4a b 29
+3 d0 53 5c 3 60 49 1c
+f9 e7 a 21 1 60 fe e7
+68 18 0 0 3a 18 0 0
+b0 b5 2 af d 46 4 46
+40 68 0 28 9 d0 45 19
+40 0 85 42 0 d8 5 46
+a9 0 20 68 0 f0 b2 f8
+2 e0 a8 0 0 f0 8c f8
+0 28 4 d0 20 60 4 34
+25 60 4 34 b0 bd 3f 20
+c0 43 0 21 8 4a 6 29
+3 d0 53 5c 3 60 49 1c
+f9 e7 0 21 5 4a b 29
+3 d0 53 5c 3 60 49 1c
+f9 e7 a 21 1 60 fe e7
+68 18 0 0 3a 18 0 0
+b0 b5 2 af 4 46 40 68
+0 28 a d0 45 1c 40 0
+85 42 0 d8 5 46 18 21
+69 43 20 68 0 f0 7e f8
+3 e0 18 20 0 f0 58 f8
+1 25 0 28 4 d0 20 60
+4 34 25 60 4 34 b0 bd
+3f 20 c0 43 0 21 9 4a
+6 29 3 d0 53 5c 3 60
+49 1c f9 e7 0 21 6 4a
+b 29 3 d0 53 5c 3 60
+49 1c f9 e7 a 21 1 60
+fe e7 0 46 68 18 0 0
+3a 18 0 0 b0 b5 2 af
+4 46 40 68 0 28 a d0
+45 1c 40 0 85 42 0 d8
+5 46 14 21 69 43 20 68
+0 f0 48 f8 3 e0 14 20
+0 f0 22 f8 1 25 0 28
+4 d0 20 60 4 34 25 60
+4 34 b0 bd 3f 20 c0 43
+0 21 9 4a 6 29 3 d0
+53 5c 3 60 49 1c f9 e7
+0 21 6 4a b 29 3 d0
+53 5c 3 60 49 1c f9 e7
+a 21 1 60 fe e7 0 46
+68 18 0 0 3a 18 0 0
+b0 b5 2 af 1 21 9 4
+b 68 c0 1d c4 8 62 1c
+1d 46 19 46 28 46 2d 68
+a5 42 5 d8 45 68 9d 42
+1 46 f7 d1 0 20 b0 bd
+95 42 1 d1 43 68 6 e0
+ab 1a d4 0 3 51 3 19
+44 68 5c 60 2 60 4b 60
+8 30 b0 bd fe b5 6 af
+0 28 12 d0 4 46 5 46
+8 3d 2a 68 c8 1d c0 8
+43 1c 93 42 d d0 e d2
+d0 1a d9 0 68 50 68 18
+21 1f 9 68 41 60 2b 60
+3 e0 8 46 ff f7 c4 ff
+4 46 20 46 fe bd 2 90
+1 93 d0 0 2e 18 1 20
+0 4 0 68 3 46 b3 42
+3 d0 5b 68 83 42 fa d1
+e e0 30 68 80 18 2 9b
+98 42 9 d9 1 98 86 1a
+f0 0 8 38 ff f7 a8 ff
+28 68 80 19 28 60 e0 e7
+8 46 ff f7 a1 ff 29 68
+49 0 49 1e 0 22 0 29
+d6 d0 a3 58 83 50 49 1e
+12 1d f8 e7 3f 20 c0 43
+0 21 9 4a 6 29 3 d0
+53 5c 3 60 49 1c f9 e7
+0 21 6 4a d 29 3 d0
+53 5c 3 60 49 1c f9 e7
+a 21 1 60 fe e7 0 46
+68 18 0 0 5a 18 0 0
+92 8 0 2a 5 d0 b 68
+4 31 3 60 4 30 52 1e
+f7 e7 70 47 89 8 0 29
+4 d0 0 22 2 60 4 30
+49 1e f8 e7 70 47 80 b5
+0 af ff f7 f3 ff 80 bd
+92 8 88 42 7 d2 0 2a
+11 d0 b 68 4 31 3 60
+4 30 52 1e f7 e7 93 0
+1b 1f c9 18 c0 18 0 2a
+5 d0 b 68 3 60 9 1f
+0 1f 52 1e f7 e7 70 47
+d0 b5 2 af f 22 d4 43
+2 46 b 46 20 68 d0 bd
+3f 20 c0 43 c1 6a 0 29
+f d0 2 46 38 32 b 7
+8 d1 52 1c 9 9 fa e7
+f 23 b 40 30 33 3 60
+52 1c 9 9 0 2a f7 d1
+70 47 30 21 1 60 70 47
+f8 b5 4 af 4 46 3f 20
+0 90 c5 43 a8 69 0 28
+fc d0 ee 69 a 2e 14 d0
+30 a 1 d0 0 98 0 e0
+f0 b2 28 60 61 68 a0 68
+88 42 4 d1 1 21 20 46
+ff f7 72 fe a0 68 81 0
+22 68 56 50 40 1c a0 60
+e4 e7 a 20 28 60 f8 bd
+80 b5 0 af 98 b0 ff b0
+ff b0 82 b0 9c 48 9d 49
+81 60 0 24 4 60 1 46
+8 31 41 60 1 1f 8 60
+c0 60 f0 20 ff f7 f4 fe
+0 28 0 d1 ff e0 1 94
+a 94 a 21 3 91 9 91
+0 90 8 90 80 20 ff f7
+e7 fe 3f 21 cc 43 0 28
+0 d1 5 e1 20 21 6 91
+c 91 b 90 11 20 0 4
+7 90 8b 4a 4 94 0 20
+2 28 3 d0 11 5c 21 60
+40 1c f9 e7 0 24 d 94
+b a8 ff f7 a1 ff d 98
+b 9d 4 28 5 90 23 d3
+82 48 13 90 0 1d 14 90
+10 2c 12 d0 2e 59 30 46
+61 38 1a 28 2 d2 f6 b2
+6 98 46 40 13 a8 ff f7
+6a fd 7 99 88 42 2 d0
+24 1d 86 42 ec d0 5 98
+a e0 13 a8 ff f7 5f fd
+7 99 88 42 5 98 3 d1
+8 a8 0 f0 59 fb 25 e0
+3 28 26 d3 70 48 13 90
+c0 1c 14 90 0 24 c 2c
+12 d0 2e 59 30 46 61 38
+1a 28 2 d2 f6 b2 6 98
+46 40 13 a8 ff f7 43 fd
+7 99 88 42 2 d0 24 1d
+86 42 ec d0 5 98 c e0
+13 a8 ff f7 38 fd 7 99
+88 42 5 98 5 d1 8 a8
+1 f0 18 f8 4 9c 5c 4a
+a1 e7 80 0 0 24 26 46
+a0 42 5 d0 29 59 20 29
+b d0 24 1d 76 1c f7 e7
+0 20 4 9c 59 4a c 28
+27 d0 11 5c 21 60 40 1c
+f9 e7 28 46 31 46 ff f7
+48 fd 0 28 8 d0 0 20
+4 9c 50 4a f 28 18 d0
+11 5c 21 60 40 1c f9 e7
+2 91 f0 43 5 99 42 18
+28 19 1 1d 13 a8 0 f0
+71 fb 13 98 4 28 c d1
+0 20 4 9c 46 4a 13 28
+3 d0 11 5c 21 60 40 1c
+f9 e7 3 98 20 60 3e 4a
+65 e7 e a8 13 a9 14 22
+ff f7 be fe 2 98 0 28
+4 9c 17 d0 13 a8 e a9
+14 22 ff f7 b5 fe 9 98
+1 9d 85 42 0 99 4 d1
+8 a8 ff f7 bd fd 8 99
+a 9d 18 20 68 43 0 91
+8 18 2 99 1 60 4 30
+13 a9 19 e0 8 99 8 68
+0 28 1d d0 9 98 1 9d
+a8 42 4 d1 8 a8 ff f7
+a7 fd 8 99 a 9d 18 22
+6a 43 8 46 18 30 e 46
+ff f7 a6 fe 0 21 0 96
+30 46 1 60 4 30 e a9
+14 22 ff f7 85 fe 6d 1c
+1 95 a 95 1c 4a 22 e7
+0 22 0 91 8 46 2 60
+4 30 e a9 14 22 ff f7
+77 fe 17 4a 17 e7 3f 20
+c0 43 0 21 1a 4a 6 29
+3 d0 53 5c 3 60 49 1c
+f9 e7 0 21 17 4a b 29
+3 d0 53 5c 3 60 49 1c
+f9 e7 a 21 1 60 fe e7
+0 20 11 49 6 28 3 d0
+a 5c 22 60 40 1c f9 e7
+0 20 e 49 b 28 3 d0
+a 5c 22 60 40 1c f9 e7
+3 98 20 60 fe e7 0 46
+4 0 1 0 fe 7f 0 0
+c0 18 0 0 c2 18 0 0
+c6 18 0 0 ca 18 0 0
+da 18 0 0 ee 18 0 0
+68 18 0 0 3a 18 0 0
+3f 22 d2 43 0 23 8 4c
+6 2b 7 d0 e5 5c 15 60
+5b 1c f9 e7 3 78 13 60
+49 1e 40 1c 0 29 f9 d1
+a 20 10 60 fe e7 0 46
+68 18 0 0 80 b5 0 af
+3f 22 d2 43 0 23 8 4c
+6 2b 7 d0 e5 5c 15 60
+5b 1c f9 e7 3 78 13 60
+49 1e 40 1c 0 29 f9 d1
+a 20 10 60 fe e7 0 46
+68 18 0 0 80 b5 0 af
+3f 20 c0 43 0 21 9 4a
+6 29 3 d0 53 5c 3 60
+49 1c f9 e7 0 21 6 4a
+d 29 3 d0 53 5c 3 60
+49 1c f9 e7 a 21 1 60
+fe e7 0 46 68 18 0 0
+6e 18 0 0 80 b5 0 af
+3f 20 c0 43 0 21 9 4a
+6 29 3 d0 53 5c 3 60
+49 1c f9 e7 0 21 6 4a
+13 29 3 d0 53 5c 3 60
+49 1c f9 e7 a 21 1 60
+fe e7 0 46 68 18 0 0
+46 18 0 0 80 b5 0 af
+3f 20 c0 43 0 21 9 4a
+6 29 3 d0 53 5c 3 60
+49 1c f9 e7 0 21 6 4a
+9 29 3 d0 53 5c 3 60
+49 1c f9 e7 a 21 1 60
+fe e7 0 46 68 18 0 0
+7c 18 0 0 3f 20 c0 43
+0 21 5 4a 7 29 3 d0
+53 5c 3 60 49 1c f9 e7
+a 21 1 60 fe e7 0 46
+86 18 0 0 b0 b5 2 af
+3f 22 d1 43 3 68 0 2b
+e d0 43 68 c0 68 80 0
+0 28 d d0 1c 68 4 33
+25 a 1 d0 14 46 0 e0
+e4 b2 c 60 0 1f f3 e7
+40 68 48 60 ff f7 c4 fd
+b0 bd 0 46 f8 b5 4 af
+3f 21 cd 43 7b 21 29 60
+81 68 14 26 4e 43 0 68
+4 1d 0 2e 16 d0 20 1f
+0 68 0 28 5 d0 1 28
+9 d1 20 46 ff f7 ce ff
+9 e0 20 68 80 0 7 49
+8 58 28 60 3 e0 20 68
+68 60 ff f7 a1 fd 14 3e
+14 34 e6 e7 7d 20 28 60
+f8 bd 0 46 a0 19 0 0
+f0 b5 3 af a1 b0 4 46
+88 68 14 25 5 95 10 90
+45 43 f 91 e 68 28 46
+ff f7 ce fc 0 28 0 d1
+e3 e0 0 21 4 90 20 60
+10 98 60 60 9 91 a1 60
+28 46 ff f7 c1 fc 0 28
+0 d1 eb e0 10 99 12 91
+75 19 11 90 1 90 f 98
+40 68 18 95 16 91 15 90
+14 96 1 98 8 30 2 90
+9 98 c 90 a 94 3 95
+ae 42 0 d1 eb e0 30 68
+34 46 14 34 3 28 0 d1
+e8 e0 6 94 71 68 b 91
+8 36 19 a9 32 46 13 68
+4 32 14 68 4 32 15 68
+4 32 b 60 4 31 c 60
+4 31 d 60 4 31 0 28
+27 d0 1c a9 a 46 33 68
+4 36 34 68 4 36 35 68
+4 36 13 60 4 32 14 60
+4 32 15 60 4 32 5 9a
+c 9d 6a 43 4 9b 98 50
+98 18 b 9a 42 60 8 30
+a 68 4 31 b 68 4 31
+c 68 4 31 2 60 4 30
+3 60 4 30 4 60 4 30
+6d 1c a 98 c 95 85 60
+7c e0 5 99 8 46 9 9e
+70 43 2 9a 12 18 8 46
+c 99 48 43 4 99 8 18
+f 90 b 9c a1 0 83 48
+40 18 7 90 11 46 0 25
+8 95 b 46 1c 3b ae 42
+8 9a 0 d0 1a 46 10 95
+ae 42 44 d0 15 68 0 2d
+41 d1 52 68 92 0 79 48
+82 58 7 98 5 68 aa 42
+39 d3 18 68 d 90 b 46
+18 3b e 91 1c a9 d 46
+18 68 4 33 1a 68 4 33
+1c 68 4 33 1e 68 4 33
+28 60 4 35 2a 60 4 35
+2c 60 4 35 2e 60 4 35
+f 9e 30 46 d 9a 2 60
+4 30 a 68 4 31 b 68
+4 31 c 68 4 31 d 68
+4 31 2 60 4 30 3 60
+4 30 4 60 4 30 5 60
+4 30 b 9c c 98 10 9d
+40 19 40 1c a 99 88 60
+e 99 14 39 14 36 f 96
+9 9e 6d 1c b1 e7 8 1f
+4 60 8 46 8 38 c 46
+0 21 1 60 19 a8 1 68
+4 30 2 68 4 30 3 68
+4 30 21 60 4 34 22 60
+4 34 23 60 4 34 c 98
+10 99 40 18 c 90 70 1a
+40 1c 9 90 6 9e 3 9d
+3a e7 3f 20 c0 43 0 21
+49 4a 6 29 3 d0 53 5c
+3 60 49 1c f9 e7 0 21
+46 4a b 29 3 d0 53 5c
+3 60 49 1c f9 e7 a 21
+1 60 fe e7 3f 20 c0 43
+0 21 3f 4a 6 29 3 d0
+53 5c 3 60 49 1c f9 e7
+0 21 3c 4a b 29 3 d0
+53 5c 3 60 49 1c f9 e7
+a 21 1 60 fe e7 17 95
+2c 46 0 e0 17 94 9 98
+13 90 1c a8 6 1d 17 98
+ac 42 d d0 1c a8 14 22
+21 46 ff f7 31 fc 1c 98
+14 34 3 28 d d0 1c a8
+ff f7 1d fa 20 46 ef e7
+0 21 31 60 71 60 b1 60
+f1 60 17 90 3 20 1c 90
+0 e0 17 94 1c a8 ff f7
+e fa 14 a8 ff f7 1c fa
+1 20 9 9b c4 1a 5 99
+8 46 c 9d 68 43 4 9a
+16 18 59 43 1 98 41 18
+14 39 6a 1c 1c a8 0 1d
+f 90 25 46 1 2d 16 d0
+10 92 1c a8 14 22 c 46
+ff f7 fe fb 1c 98 3 28
+16 d0 14 22 30 46 21 46
+ff f7 e fc a 98 10 9a
+82 60 14 3c 6d 1c 14 36
+52 1c 21 46 e6 e7 0 20
+f 99 8 60 48 60 88 60
+c8 60 3 21 1c 91 3 e0
+3f 20 c0 43 3f 30 68 43
+13 90 1c a8 ff f7 cf f9
+11 a8 ff f7 dd f9 21 b0
+f0 bd 0 46 b0 19 0 0
+68 18 0 0 3a 18 0 0
+fe b5 6 af 81 68 18 22
+4a 43 6 68 b0 18 1 90
+3f 20 2 90 c5 43 1 98
+86 42 54 d0 34 46 30 68
+68 60 ff f7 f5 fb 20 20
+28 60 18 36 60 68 0 46
+78 44 0 79 40 0 87 44
+1 2a 9 32 0 20 6 28
+35 d0 25 49 9 5c 29 60
+40 1c f8 e7 0 20 6 28
+4 d0 1e 49 9 5c 29 60
+40 1c f8 e7 a0 68 21 69
+89 0 0 29 9 d0 2 68
+4 30 13 a 1 d0 2 9a
+0 e0 d2 b2 2a 60 9 1f
+f3 e7 0 20 2 28 4 d0
+13 49 9 5c 29 60 40 1c
+f8 e7 20 7d 15 e0 0 20
+10 4a 3 28 14 d0 11 5c
+29 60 40 1c f9 e7 0 20
+5 28 9 d0 8 49 9 5c
+29 60 40 1c f8 e7 8 34
+20 46 ff f7 eb fd 3 e0
+a0 68 68 60 ff f7 a8 fb
+a 20 28 60 a7 e7 fe bd
+30 19 0 0 36 19 0 0
+3c 19 0 0 0 19 0 0
+3e 19 0 0 f0 b5 3 af
+87 b0 e 46 2 90 11 20
+0 4 4 90 5 2a 3 92
+32 d3 73 48 5 90 40 1d
+6 90 30 46 14 30 1 90
+0 25 14 2d 12 d0 74 59
+20 46 61 38 1a 28 2 d2
+e0 b2 20 24 44 40 5 a8
+ff f7 71 f9 4 99 88 42
+2 d0 2d 1d 84 42 ec d0
+3 9a 15 e0 5 a8 ff f7
+66 f9 4 99 88 42 3 9a
+e d1 1 98 5 90 50 1f
+6 90 5 a8 ff f7 a2 f9
+2 46 b 46 2 98 11 46
+1a 46 0 f0 bf f8 9d e0
+3 2a 24 d3 59 48 5 90
+c0 1c 6 90 0 25 c 2d
+12 d0 74 59 20 46 61 38
+1a 28 2 d2 e0 b2 20 24
+44 40 5 a8 ff f7 3f f9
+4 99 88 42 2 d0 2d 1d
+84 42 ec d0 3 9a a e0
+5 a8 ff f7 34 f9 4 99
+88 42 3 9a 3 d1 1 20
+2 99 8 60 76 e0 5 2a
+32 d3 47 48 5 90 40 1d
+6 90 30 46 14 30 1 90
+0 25 14 2d 12 d0 74 59
+20 46 61 38 1a 28 2 d2
+e0 b2 20 24 44 40 5 a8
+ff f7 15 f9 4 99 88 42
+2 d0 2d 1d 84 42 ec d0
+3 9a 15 e0 5 a8 ff f7
+a f9 4 99 88 42 3 9a
+e d1 1 98 5 90 50 1f
+6 90 5 a8 ff f7 46 f9
+2 46 b 46 2 98 11 46
+1a 46 0 f0 91 f9 41 e0
+4 2a 37 d3 2d 48 5 90
+0 1d 6 90 30 46 10 30
+1 90 0 25 10 2d 11 d0
+74 59 20 46 61 38 1a 28
+2 d2 e0 b2 20 24 44 40
+5 a8 ff f7 e0 f8 4 99
+88 42 1f d0 2d 1d 84 42
+ec d0 1b e0 5 a8 ff f7
+d6 f8 4 99 88 42 3 98
+14 d1 1 99 5 91 0 1f
+6 90 5 a8 ff f7 12 f9
+ff f7 fb f8 0 28 20 d0
+3f 20 c0 43 0 21 16 4a
+f 29 d d0 53 5c 3 60
+49 1c f9 e7 0 20 4 21
+2 9a 11 60 50 60 90 60
+d0 60 10 61 7 b0 f0 bd
+0 21 a 22 2 60 4 20
+2 9a 10 60 4 32 11 60
+4 32 11 60 51 60 91 60
+f0 e7 3 20 2 9a 10 60
+4 32 11 60 4 32 e9 e7
+fa 18 0 0 0 19 0 0
+4 19 0 0 a 19 0 0
+ca 18 0 0 f0 b5 3 af
+91 b0 0 90 0 26 d 96
+c 96 4 20 3 90 b 90
+90 0 a 46 b 18 8b 4d
+2c 46 4 93 ac 42 5 d0
+11 20 0 4 84 42 20 46
+5 d1 cc e0 9a 42 0 d1
+c9 e0 10 68 4 32 20 28
+2c 46 ef d0 6 92 1 46
+2a 39 5 29 9 d8 0 46
+79 44 9 79 49 0 8f 44
+2 2c 5a 30 5a 32 2 21
+2e e0 22 28 53 d1 20 20
+ff f7 ae f9 0 28 0 d1
+8a e0 8 21 f 91 e 90
+0 21 4 9b 6 9a 10 91
+9a 42 67 d0 35 46 14 46
+26 68 4 34 22 2e 63 d0
+f 9a 91 42 6 d1 e a8
+1 21 ff f7 f5 f8 4 9b
+e 98 10 99 8a 0 86 50
+49 1c 22 46 2e 46 67 4d
+e5 e7 0 21 2c 46 5 91
+5 e0 1 21 0 e0 3 21
+0 20 5 90 2c 46 6 9a
+6 91 c 98 86 42 8 d1
+b a8 16 46 ff f7 42 f9
+32 46 4 9b b 98 3 90
+d 9e 14 20 70 43 3 99
+35 46 1e 46 5 9b b 50
+33 46 2e 46 8 18 6 99
+41 60 7 99 81 60 2 99
+c1 60 1 99 1 61 6e 1c
+d 96 50 4d 8a e7 1 46
+30 39 9 29 11 d8 7 91
+6 9a 9a 42 29 d0 10 46
+4 68 4 30 21 46 30 39
+9 29 28 d8 a 22 7 9c
+62 43 89 18 7 91 2 46
+ef e7 1 46 41 39 2 22
+1a 29 5 92 be d3 1 46
+61 39 1a 29 2c 46 6 9a
+ba d3 2e e0 1a 46 2 e0
+12 1d 2e 46 3b 4d 10 98
+1 90 f 98 2 90 e 98
+7 90 1 21 2c 46 5 91
+aa e7 6c 1e 0 21 1 20
+5 90 1a 46 3 e0 12 1d
+0 21 1 20 5 90 9f e7
+3f 20 c0 43 0 21 30 4a
+6 29 3 d0 53 5c 3 60
+49 1c f9 e7 0 21 2d 4a
+b 29 3 d0 53 5c 3 60
+49 1c f9 e7 a 21 1 60
+fe e7 3f 21 c9 43 0 22
+27 4b 13 2a 3 d0 9c 5c
+c 60 52 1c f9 e7 c0 b2
+8 60 a 20 8 60 b a8
+e a9 a 46 3 68 4 30
+4 68 4 30 5 68 4 30
+13 60 4 32 14 60 4 32
+15 60 4 32 8 a8 ff f7
+f fc 8 98 0 28 11 d0
+0 9d 28 1d 8 a9 a 68
+4 31 b 68 4 31 c 68
+4 31 2 60 4 30 3 60
+4 30 4 60 4 30 0 20
+28 60 15 e0 3f 20 c0 43
+0 21 e 4a 12 29 3 d0
+53 5c 3 60 49 1c f9 e7
+0 21 a 22 2 60 4 20
+0 9a 10 60 4 32 11 60
+4 32 11 60 51 60 91 60
+11 b0 f0 bd 1 0 11 0
+68 18 0 0 3a 18 0 0
+9e 18 0 0 e 19 0 0
+f0 b5 3 af 89 b0 93 0
+0 24 d 46 0 2b 6 d0
+2e 68 2c 2e d d0 1b 1f
+64 1c 2d 1d f6 e7 0 22
+4 21 1 60 4 30 2 60
+4 30 2 60 42 60 82 60
+37 e0 3 90 a3 1e 6 93
+9 1d 5 91 e0 43 80 18
+4 90 5 a8 fe f7 8a ff
+6 46 c 46 4 98 8 90
+28 1d 7 90 7 a8 fe f7
+81 ff 1 90 4 91 2 94
+a5 0 28 46 ff f7 80 f8
+0 28 1c d0 0 21 3 9b
+8d 42 3 d0 72 58 42 50
+9 1d f9 e7 4 99 0 29
+26 d0 1 99 9 68 2 22
+1a 60 58 60 2 98 98 60
+d8 60 8 46 61 38 1a 28
+1 d2 20 20 41 40 41 39
+19 74 9 b0 f0 bd 3f 20
+c0 43 0 21 c 4a 6 29
+3 d0 53 5c 3 60 49 1c
+f9 e7 0 21 9 4a b 29
+3 d0 53 5c 3 60 49 1c
+f9 e7 a 21 1 60 fe e7
+0 20 2 4a 1 46 ff f7
+df fa fe de 20 19 0 0
+68 18 0 0 3a 18 0 0
+f0 b5 3 af 95 b0 4 91
+0 90 15 68 94 68 20 1
+ff f7 36 f8 0 28 0 d1
+e3 e0 0 23 c 93 9 90
+a 90 b 94 14 20 60 43
+2c 18 11 a8 0 1d 2 90
+d a8 0 1d 3 90 1 94
+a5 42 0 d1 e6 e0 28 68
+2e 46 14 36 0 28 1c d0
+2 28 0 d0 92 e0 68 68
+19 28 0 d9 90 e1 80 0
+4 99 d 58 b 98 83 42
+5 d1 a a8 fe f7 38 ff
+a 98 9 90 c 9b 18 1
+0 21 9 9a 11 50 10 18
+45 60 5b 1c c 93 35 46
+da e7 6 96 7 95 0 2b
+0 d1 d1 e0 59 1e a 1
+a 9d a8 58 2 28 0 d1
+ca e0 8 93 aa 18 12 1d
+3 9b 9 95 14 68 4 32
+15 68 4 32 16 68 4 32
+1c 60 4 33 1d 60 4 33
+1e 60 4 33 9 9b d 90
+0 29 0 d1 c9 e0 8 99
+8c 1e c 94 22 1 99 58
+2 29 0 d1 c1 e0 8 94
+9a 18 12 1d 2 9b 14 68
+4 32 15 68 4 32 16 68
+4 32 1c 60 4 33 1d 60
+4 33 1e 60 4 33 11 91
+8 43 0 d0 cd e0 7 98
+40 68 1 9c 5 9a 8 9e
+5 92 0 46 78 44 0 79
+40 0 87 44 1 5 9 d
+e 98 12 99 d 18 f e0
+12 98 e 99 d 1a b e0
+e 98 12 9d 45 43 7 e0
+12 99 0 29 0 d1 24 e1
+e 98 ff f7 55 f8 5 46
+b 98 86 42 5 d1 a a8
+fe f7 c6 fe a 98 9 90
+c 9e 30 1 0 21 9 9a
+11 50 10 18 45 60 75 1c
+c 95 11 a8 fe f7 ed fd
+d a8 fe f7 ea fd 2b 46
+6 9d 61 e7 68 68 0 28
+19 d0 8 93 2e 69 b0 0
+fe f7 7e ff 0 28 0 d1
+e1 e0 7 95 ad 68 5 96
+31 46 2 46 6 46 0 29
+5 d0 2b 68 4 35 13 60
+4 32 49 1e f7 e7 1 22
+8 9b 7 9d 1 e0 ae 68
+0 22 b 98 83 42 7 d1
+a a8 9 96 16 46 fe f7
+8b fe 32 46 9 9e c 9b
+14 35 18 1 a 99 a 50
+9 91 8 18 46 60 5 99
+81 60 c1 60 5b 1c c 93
+2a e7 3f 20 c0 43 0 21
+6a 4a 6 29 3 d0 53 5c
+3 60 49 1c f9 e7 0 21
+67 4a b 29 3 d0 53 5c
+3 60 49 1c f9 e7 a 21
+1 60 fe e7 0 2b 5 d0
+5e 1e 31 1 a 98 42 58
+2 2a 53 d1 3f 20 c0 43
+0 21 5c 4a 6 29 2d d0
+53 5c 3 60 49 1c f9 e7
+3f 20 c0 43 0 21 57 4a
+6 29 3 d0 53 5c 3 60
+49 1c f9 e7 0 21 59 4a
+13 29 3 d0 53 5c 3 60
+49 1c f9 e7 a 21 1 60
+fe e7 3f 20 c0 43 0 21
+4c 4a 6 29 3 d0 53 5c
+3 60 49 1c f9 e7 0 21
+4d 4a 13 29 3 d0 53 5c
+3 60 49 1c f9 e7 a 21
+1 60 fe e7 0 21 4a 4a
+b 29 3 d0 53 5c 3 60
+49 1c f9 e7 a 21 1 60
+fe e7 3f 20 c0 43 0 21
+3c 4a 6 29 3 d0 53 5c
+3 60 49 1c f9 e7 0 21
+3a 4a 10 29 3 d0 53 5c
+3 60 49 1c f9 e7 a 21
+1 60 fe e7 0 9d 2a 60
+4 35 41 18 9 1d 8 93
+a 68 4 31 b 68 4 31
+c 68 4 31 2a 60 4 35
+2b 60 4 35 2c 60 4 35
+32 46 8 99 9 1 46 18
+20 3e 11 a8 0 1d 8 90
+0 2a 1c d0 9 92 11 a8
+31 46 a 68 4 31 b 68
+4 31 c 68 4 31 d 68
+4 31 2 60 4 30 3 60
+4 30 4 60 4 30 5 60
+4 30 11 98 2 28 d d0
+11 a8 fe f7 29 fd 9 9a
+52 1e 10 3e e0 e7 0 20
+8 99 8 60 48 60 88 60
+2 20 11 90 11 a8 fe f7
+1b fd 15 b0 f0 bd 3f 20
+c0 43 0 21 f 4a 6 29
+3 d0 53 5c 3 60 49 1c
+f9 e7 0 21 c 4a b 29
+3 d0 53 5c 3 60 49 1c
+f9 e7 a 21 1 60 fe e7
+1a 21 5 4a ff f7 18 f9
+fe de 7 48 19 21 7 4a
+ff f7 de f8 fe de 0 46
+44 19 0 0 68 18 0 0
+3a 18 0 0 8e 18 0 0
+20 18 0 0 c 18 0 0
+56 19 0 0 6a 19 0 0
+7e 19 0 0 f0 b5 3 af
+a3 b0 4 46 5 a8 68 21
+fe f7 f5 fe a0 68 25 68
+0 28 29 46 1 d0 29 46
+18 31 0 28 2a 46 0 d1
+2 46 2 91 18 21 41 43
+4 91 68 18 1 90 3f 20
+3 90 c4 43 18 3d 0 2a
+61 d0 50 68 78 44 0 79
+40 0 87 44 e 1c 1f 1
+90 68 4 99 2a 46 0 29
+5 d0 18 39 93 69 18 32
+83 42 f8 d3 eb e7 0 22
+e9 e7 8 32 1f ae 5 a9
+30 46 ff f7 ed fd 30 46
+ff f7 8 f9 30 46 fe f7
+88 fc a 20 0 e0 c 20
+20 60 30 e0 90 68 11 69
+89 0 0 29 b d0 2e 46
+3 68 4 30 1d a 1 d0
+3 9b 0 e0 db b2 35 46
+23 60 9 1f f1 e7 0 20
+18 4b 2 28 3 d0 19 5c
+21 60 40 1c f9 e7 0 21
+a0 69 0 28 fc d0 e0 69
+a 28 8 d0 3 46 30 3b
+9 2b f5 d8 20 60 a 20
+48 43 19 18 f0 e7 a 20
+20 60 10 7d 1a 28 10 d2
+80 0 5 aa 11 50 2 98
+1 99 88 42 1 d0 2 46
+0 e0 0 22 88 42 0 d0
+18 30 2 90 9b e7 23 b0
+f0 bd 1a 21 2 4a ff f7
+77 f8 fe de 8a 19 0 0
+8c 19 0 0 2f 72 75 73
+74 63 2f 61 36 62 38 63
+36 39 35 34 38 32 39 36
+36 39 61 35 63 34 66 61
+33 32 30 63 33 65 36 31
+33 32 65 64 66 30 34 66
+63 66 63 2f 6c 69 62 72
+61 72 79 2f 63 6f 72 65
+2f 73 72 63 2f 6f 70 73
+2f 61 72 69 74 68 2e 72
+73 0 0 46 bc 17 0 0
+4d 0 0 0 c3 bb 1 0
+0 1 5*0 46 61 74 74 65
+6d 70 74 20 74 6f 20 64
+69 76 69 64 65 20 62 79
+20 7a 65 72 6f 0 61 6c
+6c 6f 63 20 65 72 72 6f
+72 0 69 6e 64 65 78 20
+6f 75 74 20 6f 66 20 62
+6f 75 6e 64 73 0 75 6e
+6b 6e 6f 77 6e 20 70 61
+6e 69 63 0 50 41 4e 49
+43 3a 75 6e 77 72 61 70
+5f 66 61 69 6c 65 64 0
+70 61 6e 69 63 5f 66 6d
+74 0 68 61 6e 64 6c 65
+72 0 69 6e 76 61 6c 69
+64 20 6f 70 65 72 61 6e
+64 73 49 6e 76 61 6c 69
+64 20 63 68 61 72 61 63
+74 65 72 3a 20 0 73 72
+63 2f 74 65 73 74 64 79
+6e 2e 72 73 3e 20 4c 49
+53 54 52 55 4e 0 49 6e
+76 61 6c 69 64 20 6c 69
+6e 65 20 6e 6f 0 49 6e
+76 61 6c 69 64 20 69 6e
+73 74 72 75 63 74 69 6f
+6e 0 53 79 6e 74 61 78
+20 65 72 72 6f 72 50 52
+49 4e 54 0 43 4c 53 0
+49 4e 50 55 54 0 47 4f
+54 4f 49 6e 76 61 6c 69
+64 20 65 78 70 72 65 73
+73 69 6f 6e b2 18 0 0
+e 0 0 0 57 1 0 0
+1b 0 0 0 47 4f 54 4f
+20 0 49 4e 50 55 54 20
+2c 20 50 52 49 4e 54 20
+b2 18 0 0 e 0 0 0
+c2 9c 1 0 0 40 4*0 73
+74 61 63 6b 20 75 6e 64
+65 72 66 6c 6f 77 20 28
+62 29 0 73 74 61 63 6b
+20 75 6e 64 65 72 66 6c
+6f 77 20 28 61 29 0 45
+6d 70 74 79 20 73 74 61
+63 6b 0 3f 20 b2 18 0
+0 e 0 0 0 c3 84 1
+0 0 11 5*0 46 2b 0 0
+0 2d 0 0 0 2a 0 0
+0 2f 0 0 0 1 0 0
+0 1 0 0 0 2 0 0
+0 2
 </a>
       <a name="label" val="ROMa"/>
       <a name="labelvisible" val="true"/>
@@ -2285,14 +3113,16 @@ fa ff 9 23
       <a name="cols" val="50"/>
       <a name="rows" val="20"/>
     </comp>
+    <comp lib="5" loc="(1290,1630)" name="Keyboard">
+      <a name="buflen" val="128"/>
+    </comp>
     <comp lib="5" loc="(220,1460)" name="DipSwitch">
       <a name="labelloc" val="south"/>
     </comp>
-    <comp lib="5" loc="(230,1580)" name="Keyboard"/>
     <comp lib="5" loc="(330,1460)" name="DipSwitch">
       <a name="labelloc" val="south"/>
     </comp>
-    <comp lib="5" loc="(450,1550)" name="Joystick">
+    <comp lib="5" loc="(530,1520)" name="Joystick">
       <a name="bits" val="5"/>
     </comp>
     <comp lib="5" loc="(540,1440)" name="DotMatrix">
@@ -2442,6 +3272,8 @@ fa ff 9 23
     <wire from="(1220,200)" to="(1220,230)"/>
     <wire from="(1220,90)" to="(1220,200)"/>
     <wire from="(1240,1560)" to="(1240,1570)"/>
+    <wire from="(1240,1650)" to="(1240,1660)"/>
+    <wire from="(1240,1650)" to="(1300,1650)"/>
     <wire from="(1240,180)" to="(1240,230)"/>
     <wire from="(1240,1880)" to="(1240,1940)"/>
     <wire from="(1240,1880)" to="(1250,1880)"/>
@@ -2450,6 +3282,7 @@ fa ff 9 23
     <wire from="(1260,160)" to="(1260,230)"/>
     <wire from="(1260,2020)" to="(1280,2020)"/>
     <wire from="(1260,90)" to="(1260,160)"/>
+    <wire from="(1280,1630)" to="(1290,1630)"/>
     <wire from="(1280,2010)" to="(1280,2020)"/>
     <wire from="(1280,2020)" to="(1290,2020)"/>
     <wire from="(1290,2020)" to="(1290,2110)"/>
@@ -2463,8 +3296,12 @@ fa ff 9 23
     <wire from="(130,50)" to="(140,50)"/>
     <wire from="(130,70)" to="(130,80)"/>
     <wire from="(130,70)" to="(140,70)"/>
+    <wire from="(1300,1640)" to="(1300,1650)"/>
     <wire from="(1300,1820)" to="(1300,1830)"/>
     <wire from="(1300,1830)" to="(1320,1830)"/>
+    <wire from="(1310,1640)" to="(1310,1650)"/>
+    <wire from="(1310,1650)" to="(1330,1650)"/>
+    <wire from="(1330,1650)" to="(1330,1660)"/>
     <wire from="(1330,1870)" to="(1330,1940)"/>
     <wire from="(1340,1830)" to="(1340,1840)"/>
     <wire from="(1340,1830)" to="(1370,1830)"/>
@@ -2488,6 +3325,12 @@ fa ff 9 23
     <wire from="(1370,320)" to="(1400,320)"/>
     <wire from="(140,100)" to="(140,120)"/>
     <wire from="(140,100)" to="(150,100)"/>
+    <wire from="(1400,1650)" to="(1400,1660)"/>
+    <wire from="(1400,1650)" to="(1420,1650)"/>
+    <wire from="(1420,1640)" to="(1420,1650)"/>
+    <wire from="(1430,1640)" to="(1430,1650)"/>
+    <wire from="(1430,1650)" to="(1490,1650)"/>
+    <wire from="(1490,1650)" to="(1490,1660)"/>
     <wire from="(150,180)" to="(180,180)"/>
     <wire from="(150,80)" to="(150,100)"/>
     <wire from="(1510,190)" to="(1510,210)"/>
@@ -2499,8 +3342,6 @@ fa ff 9 23
     <wire from="(170,450)" to="(190,450)"/>
     <wire from="(170,520)" to="(180,520)"/>
     <wire from="(170,60)" to="(180,60)"/>
-    <wire from="(180,1600)" to="(180,1610)"/>
-    <wire from="(180,1600)" to="(240,1600)"/>
     <wire from="(180,1950)" to="(180,1990)"/>
     <wire from="(180,1950)" to="(240,1950)"/>
     <wire from="(180,470)" to="(180,520)"/>
@@ -2522,15 +3363,11 @@ fa ff 9 23
     <wire from="(210,2040)" to="(260,2040)"/>
     <wire from="(210,2050)" to="(250,2050)"/>
     <wire from="(220,110)" to="(250,110)"/>
-    <wire from="(220,1580)" to="(230,1580)"/>
     <wire from="(220,60)" to="(250,60)"/>
     <wire from="(230,1820)" to="(230,1830)"/>
     <wire from="(240,130)" to="(250,130)"/>
-    <wire from="(240,1590)" to="(240,1600)"/>
     <wire from="(240,1860)" to="(240,1950)"/>
     <wire from="(240,80)" to="(250,80)"/>
-    <wire from="(250,1590)" to="(250,1600)"/>
-    <wire from="(250,1600)" to="(270,1600)"/>
     <wire from="(250,1820)" to="(250,1830)"/>
     <wire from="(250,1820)" to="(270,1820)"/>
     <wire from="(250,1880)" to="(250,1960)"/>
@@ -2541,7 +3378,6 @@ fa ff 9 23
     <wire from="(260,2460)" to="(430,2460)"/>
     <wire from="(270,1430)" to="(270,1440)"/>
     <wire from="(270,1430)" to="(290,1430)"/>
-    <wire from="(270,1600)" to="(270,1610)"/>
     <wire from="(270,1810)" to="(270,1820)"/>
     <wire from="(270,190)" to="(300,190)"/>
     <wire from="(270,2030)" to="(270,2350)"/>
@@ -2587,8 +3423,6 @@ fa ff 9 23
     <wire from="(320,80)" to="(330,80)"/>
     <wire from="(330,80)" to="(330,210)"/>
     <wire from="(330,80)" to="(370,80)"/>
-    <wire from="(340,1600)" to="(340,1610)"/>
-    <wire from="(340,1600)" to="(360,1600)"/>
     <wire from="(340,1940)" to="(340,1980)"/>
     <wire from="(340,1980)" to="(340,2100)"/>
     <wire from="(340,1980)" to="(420,1980)"/>
@@ -2604,7 +3438,6 @@ fa ff 9 23
     <wire from="(340,2480)" to="(430,2480)"/>
     <wire from="(340,2610)" to="(420,2610)"/>
     <wire from="(350,230)" to="(360,230)"/>
-    <wire from="(360,1590)" to="(360,1600)"/>
     <wire from="(360,1870)" to="(360,1940)"/>
     <wire from="(360,1940)" to="(360,2060)"/>
     <wire from="(360,1940)" to="(400,1940)"/>
@@ -2623,8 +3456,6 @@ fa ff 9 23
     <wire from="(360,2570)" to="(430,2570)"/>
     <wire from="(360,270)" to="(380,270)"/>
     <wire from="(370,100)" to="(370,160)"/>
-    <wire from="(370,1590)" to="(370,1600)"/>
-    <wire from="(370,1600)" to="(430,1600)"/>
     <wire from="(380,100)" to="(380,140)"/>
     <wire from="(380,1430)" to="(380,1440)"/>
     <wire from="(380,1430)" to="(400,1430)"/>
@@ -2646,7 +3477,6 @@ fa ff 9 23
     <wire from="(420,2610)" to="(420,2640)"/>
     <wire from="(420,2610)" to="(430,2610)"/>
     <wire from="(420,2640)" to="(520,2640)"/>
-    <wire from="(430,1600)" to="(430,1610)"/>
     <wire from="(430,380)" to="(430,400)"/>
     <wire from="(430,380)" to="(540,380)"/>
     <wire from="(430,400)" to="(430,430)"/>
@@ -2655,12 +3485,6 @@ fa ff 9 23
     <wire from="(430,430)" to="(460,430)"/>
     <wire from="(430,460)" to="(430,470)"/>
     <wire from="(430,460)" to="(460,460)"/>
-    <wire from="(450,1550)" to="(460,1550)"/>
-    <wire from="(450,1560)" to="(460,1560)"/>
-    <wire from="(460,1540)" to="(460,1550)"/>
-    <wire from="(460,1540)" to="(470,1540)"/>
-    <wire from="(460,1560)" to="(460,1570)"/>
-    <wire from="(460,1570)" to="(470,1570)"/>
     <wire from="(460,2120)" to="(460,2130)"/>
     <wire from="(460,2230)" to="(460,2240)"/>
     <wire from="(460,2240)" to="(560,2240)"/>
@@ -2693,10 +3517,16 @@ fa ff 9 23
     <wire from="(520,400)" to="(550,400)"/>
     <wire from="(520,430)" to="(530,430)"/>
     <wire from="(520,460)" to="(540,460)"/>
+    <wire from="(530,1520)" to="(540,1520)"/>
+    <wire from="(530,1530)" to="(540,1530)"/>
     <wire from="(530,2210)" to="(530,2250)"/>
     <wire from="(530,410)" to="(530,430)"/>
     <wire from="(530,410)" to="(550,410)"/>
     <wire from="(530,640)" to="(550,640)"/>
+    <wire from="(540,1510)" to="(540,1520)"/>
+    <wire from="(540,1510)" to="(550,1510)"/>
+    <wire from="(540,1530)" to="(540,1540)"/>
+    <wire from="(540,1540)" to="(550,1540)"/>
     <wire from="(540,380)" to="(540,390)"/>
     <wire from="(540,390)" to="(550,390)"/>
     <wire from="(540,420)" to="(540,460)"/>
@@ -3232,11 +4062,11 @@ fa ff 9 23
       <a name="radix" val="16"/>
       <a name="width" val="32"/>
     </comp>
-    <comp lib="12" loc="(1150,480)" name="ALU">
-      <a name="label" val="ALU_1"/>
-    </comp>
-    <comp lib="13" loc="(990,140)" name="BancRegistre">
+    <comp lib="12" loc="(990,140)" name="BancRegistre">
       <a name="label" val="Regs_1"/>
+    </comp>
+    <comp lib="13" loc="(1150,480)" name="ALU">
+      <a name="label" val="ALU_1"/>
     </comp>
     <comp lib="14" loc="(460,310)" name="Controller">
       <a name="label" val="Controller_1"/>
