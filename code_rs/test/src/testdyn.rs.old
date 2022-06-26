@@ -1,6 +1,5 @@
 #![no_main]
 #![no_std]
-#![feature(min_specialization)]
 
 use core::iter::{Peekable};
 
@@ -10,7 +9,7 @@ use crate::parm::heap::string::ToString;
 use crate::parm::heap::string::{FromStr, String};
 use crate::parm::heap::vec::Vec;
 use crate::parm::panic;
-use crate::parm::tty::{read_line, Display, clear, read_int, DisplayTarget};
+use crate::parm::tty::{read_line, Display, clear, read_int, print_char};
 
 mod parm;
 
@@ -32,8 +31,8 @@ impl Variable {
 
 impl Display for Variable {
     #[inline(always)]
-    fn write(&self, target: &mut impl DisplayTarget) {
-        target.print_char(self.get_name());
+    fn write(&self) {
+        print_char(self.get_name());
     }
 }
 
@@ -88,66 +87,12 @@ enum Token {
     Variable(Variable),
 }
 
+/// Expression in RPN format
 struct Expression(Vec<Token>);
 
-struct RpnEvaluator<'v, T, V: RpnVisitor<Output = T>> {
-    stack: Vec<T>,
-    visitor: &'v V
-}
-
-impl<'v, T, V: RpnVisitor<Output = T>> RpnEvaluator<'v, T, V> {
-    #[inline(always)]
-    fn new(visitor: &'v V) -> Self {
-        RpnEvaluator {
-            stack: Vec::new(),
-            visitor,
-        }
-    }
-
-    #[inline(never)]
-    fn visit(&mut self, e: &Expression) -> T {
-        for item in e.0.iter() {
-            let new = match item {
-                Token::Literal(v) => self.visitor.visit_literal(v),
-                Token::Variable(v) => self.visitor.visit_variable(v),
-                Token::Operator(op) => {
-                    let a = match self.stack.pop() {
-                        Some(a) => a,
-                        None => {
-                            panic("stack underflow (a)");
-                        }
-                    };
-                    let b = match self.stack.pop() {
-                        Some(b) => b,
-                        None => {
-                            panic("stack underflow (b)");
-                        }
-                    };
-                    self.visitor.visit_operator(op, &a, &b)
-                },
-            };
-            self.stack.push(new);
-        }
-        match self.stack.pop() {
-            Some(v) => v,
-            None => panic("Empty stack"),
-        }
-    }
-}
-
-trait RpnVisitor {
-    type Output;
-
-    fn visit_literal(&self, l: &Value) -> Self::Output;
-
-    fn visit_variable(&self, v: &Variable) -> Self::Output;
-
-    fn visit_operator(&self, o: &Operator, a: &Self::Output, b: &Self::Output) -> Self::Output;
-}
-
 impl Display for Expression {
-    fn write(&self, target: &mut impl DisplayTarget) {
-        target.print_slice(RpnEvaluator::new(&RpnStringifier).visit(self).as_chars())
+    fn write(&self) {
+        show(&self.0);
     }
 }
 
@@ -190,27 +135,27 @@ impl Value {
 }
 
 impl Display for Value {
-    fn write(&self, target: &mut impl DisplayTarget) {
+    fn write(&self) {
         match self {
-            Value::Number(n) => n.write(target),
-            Value::String(s) => s.write(target),
+            Value::Number(n) => n.write(),
+            Value::String(s) => s.write(),
         }
     }
 }
 
 impl Display for Token {
-    fn write(&self, target: &mut impl DisplayTarget) {
+    fn write(&self) {
         match self {
-            Token::Literal(v) => v.write(target),
-            Token::Variable(v) => v.write(target),
-            Token::Operator(o) => o.write(target),
+            Token::Literal(v) => v.write(),
+            Token::Variable(v) => v.write(),
+            Token::Operator(o) => o.write(),
         }
     }
 }
 
 impl Display for Operator {
-    fn write(&self, target: &mut impl DisplayTarget) {
-        target.print_char(match self {
+    fn write(&self) {
+        print_char(match self {
             Operator::Add => '+',
             Operator::Sub => '-',
             Operator::Mul => '*',
@@ -267,6 +212,15 @@ fn tokenize<'a>(code: impl CharSeq<'a>) -> Vec<Token> {
 }
 
 #[inline(never)]
+fn show(t: &Vec<Token>) {
+    print!('{');
+    for t in t.iter() {
+        t.write();
+    }
+    print!('}');
+}
+
+#[inline(never)]
 fn shunting_yard(tokens: Vec<Token>) -> Vec<Token> {
     let mut output = Vec::with_capacity(tokens.len());
     let mut stack = Vec::with_capacity(tokens.len());
@@ -300,7 +254,40 @@ fn show_program(code: &Vec<Instruction>) {
 
 fn main() {
     parm::heap::init();
+    /*let mut x = Vec::new();
+    x.push(1);
+    x.push(1);
+    for _ in 0..10 {
+        x.push(x[x.len() - 1] + x[x.len() - 2]);
+    }
+    println!("OK");
+    for i in x {
+        println!(i);
+    }*/
 
+    /*let tokens = tokenize("1+2*3");
+    print!('2');*/
+    /*let tokens = vec![
+        Token::Literal(Value::Number(1)),
+        Token::Operator(Operator::Add),
+        Token::Literal(Value::Number(2)),
+        Token::Operator(Operator::Mul),
+        Token::Literal(Value::Number(3)),
+    ];
+    let tokens = shunting_yard(tokens);
+    show(&tokens);*/
+    /*struct Point(u32, u32);
+    let coords = vec![Point(0, 0), Point(0, 1), Point(1, 0), Point(1, 1)];
+    println!("OK");
+    for item in coords {
+        println!("x", item.0, "y", item.1);
+    }*/
+    /*let x = vec![0x43c0_203b, 0x6001_217b, 0xe7fe];
+    let ptr = x.ptr();
+    let as_fn: extern "C" fn() -> ! = unsafe { mem::transmute(ptr) };
+    as_fn();*/
+    /*let s = String::from("Bonjour");
+    loop{}*/
     let mut program: Vec<Instruction> = Vec::with_capacity(10);
     let mut last = 0;
     let mut line = String::with_capacity(32);
@@ -312,6 +299,9 @@ fn main() {
             show_program(&program);
             continue;
         } else if starts_with_ci(&line, "RUN") {
+            for instr in program.iter() {
+                println!("l", instr);
+            }
             if let Err(_) = run_program(&program) {
                 println!("Error");
             }
@@ -336,13 +326,20 @@ fn main() {
         let idata = Instruction {
             line_no: line_no as usize,
             content: match instr.parse() {
-                Ok(instr) => instr,
+                Ok(instr) => {
+                    println!('h', instr);
+                    println!('H', unsafe { &*(&instr as *const InstructionKind) });
+                    println!('h', instr);
+                    println!('H', unsafe { &*(&instr as *const InstructionKind) });
+                    instr
+                },
                 Err(_) => {
                     println!("Invalid instruction");
                     continue;
                 }
             },
         };
+        println!('i', idata.content);
         if line_no > last {
             program.push(idata);
             last = line_no;
@@ -365,9 +362,9 @@ fn main() {
 fn starts_with_ci(s: &[char], needle: &'static str) -> bool {
     s.len() >= needle.len()
         && unsafe { s.get_unchecked(0..needle.len()) }
-        .iter()
-        .map(|c| c.to_ascii_uppercase())
-        .eq(needle.to_chars_fast())
+            .iter()
+            .map(|c| c.to_ascii_uppercase())
+            .eq(needle.chars())
 }
 
 impl FromStr for InstructionKind {
@@ -406,6 +403,7 @@ impl FromStr for InstructionKind {
                 variable: variable.parse().map_err(|_| println!("Invalid variable"))?,
                 value: value.parse().map_err(|_| println!("Invalid expression"))?,
             };
+            println!("l", xl);
             Ok(xl)
         }
         #[inline(never)]
@@ -432,29 +430,29 @@ impl FromStr for InstructionKind {
 
 impl Display for Instruction {
     #[inline(always)]
-    fn write(&self, target: &mut impl DisplayTarget) {
-        print!(self.line_no, ' ', self.content, => target);
+    fn write(&self) {
+        print!(self.line_no, ' ', self.content);
     }
 }
 
 impl Display for InstructionKind {
     #[inline(always)]
-    fn write(&self, target: &mut impl DisplayTarget) {
+    fn write(&self) {
         match self {
             InstructionKind::Print(s) => {
-                print!("PRINT ", s, => target);
+                print!("PRINT ", s, "");
             },
             InstructionKind::ClearScreen => {
-                print!("CLS", => target);
+                print!("CLS");
             },
             InstructionKind::Input { prompt, variable } => {
-                print!("INPUT \"", prompt, "\", ", variable, => target);
+                print!("INPUT \"", prompt, "\", ", variable);
             },
             InstructionKind::Goto(line) => {
-                print!("GOTO ", line, => target);
+                print!("GOTO ", line);
             },
             InstructionKind::Let { variable, value } => {
-                print!("LET ", variable, " = ", value, => target);
+                print!("LET ", variable, " = ", value);
             },
         }
     }
@@ -483,34 +481,42 @@ impl ProgramContext {
 
     #[inline(never)]
     fn eval(&self, e: &Expression) -> Value {
-        RpnEvaluator::new(self).visit(e)
+        let mut stack = Vec::with_capacity(e.0.len());
+        for item in e.0.iter() {
+            match item {
+                Token::Literal(v) => stack.push(v.clone()),
+                Token::Variable(v) => stack.push(Value::Number(self.get_variable(v))),
+                Token::Operator(op) => {
+                    let a = match stack.pop() {
+                        Some(a) => a,
+                        None => {
+                            panic("stack underflow (a)");
+                        }
+                    };
+                    let b = match stack.pop() {
+                        Some(b) => b,
+                        None => {
+                            panic("stack underflow (b)");
+                        }
+                    };
+                    stack.push(op.eval(&a, &b));
+                }
+            }
+        }
+        match stack.pop() {
+            Some(v) => v,
+            None => panic("Empty stack"),
+        }
     }
 }
 
-impl RpnVisitor for ProgramContext {
-    type Output = Value;
-
-    #[inline(always)]
-    fn visit_literal(&self, l: &Value) -> Value {
-        l.clone()
-    }
-
-    #[inline(always)]
-    fn visit_variable(&self, v: &Variable) -> Value {
-        Value::Number(self.get_variable(v))
-    }
-
-    #[inline(always)]
-    fn visit_operator(&self, o: &Operator, a: &Value, b: &Value) -> Value {
-        o.eval(a, b)
-    }
-}
-
+#[inline(never)]
 fn run_program(code: &Vec<Instruction>) -> Result<(), ()> {
     let mut ctx = ProgramContext::new();
     let mut idx = 0;
     while idx < code.len() {
         let instr = unsafe { code.get_unchecked(idx) };
+        println!("l", instr);
         match &instr.content {
             InstructionKind::Print(s) => {
                 println!(ctx.eval(s));
@@ -540,27 +546,4 @@ fn run_program(code: &Vec<Instruction>) -> Result<(), ()> {
         idx += 1;
     }
     Ok(())
-}
-
-struct RpnStringifier;
-
-impl RpnVisitor for RpnStringifier {
-    type Output = String;
-
-    #[inline(always)]
-    fn visit_literal(&self, l: &Value) -> Self::Output {
-        l.to_string()
-    }
-
-    #[inline(always)]
-    fn visit_variable(&self, v: &Variable) -> Self::Output {
-        v.to_string()
-    }
-
-    #[inline(always)]
-    fn visit_operator(&self, o: &Operator, a: &Self::Output, b: &Self::Output) -> Self::Output {
-        let mut res = String::with_capacity(a.len() + b.len() + 5);
-        print!('(', b, o, a, ')', => &mut res);
-        res
-    }
 }

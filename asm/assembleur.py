@@ -423,42 +423,45 @@ for i, pc, line, val, size in instrs:
 	except Exception as e:
 		print(f"Build error on line {i}: {line}")
 		raise
-if not quiet:
-	width_instr = max(len(d[2]) for d in log)
-	width_args = max(len(str(d[3])) for d in log)
-	columns = f"║  PC  │  OP  │ {'Instruction':^{width_instr}} │ {'Arguments':^{width_args}} ║"
-	sep = "╠" + "".join("═╪"[c == "│"] for c in columns[1:-1]) + "╣"
-	def statline(pc, val, code, data):
-		return f"{pc * 2:04x} │ {val:04x} │ {code:{width_instr}} │ {str(data):{width_args}}"
-	print("╔" + "".join("═╤"[c == "│"] for c in columns[1:-1]) + "╗")
-	print(columns)
-	print(sep)
-	log = ["║ " + statline(*args) + " ║" for args in log]
+if quiet:
+	sys.stdout = open(os.path.splitext(fn)[0] + ".log", "w")
+width_instr = max(len(d[2]) for d in log)
+width_args = max(len(str(d[3])) for d in log)
+columns = f"║  PC  │  OP  │ {'Instruction':^{width_instr}} │ {'Arguments':^{width_args}} ║"
+sep = "╠" + "".join("═╪"[c == "│"] for c in columns[1:-1]) + "╣"
+def statline(pc, val, code, data):
+	return f"{pc * 2:04x} │ {val:04x} │ {code:{width_instr}} │ {str(data):{width_args}}"
+print("╔" + "".join("═╤"[c == "│"] for c in columns[1:-1]) + "╗")
+print(columns)
+print(sep)
+log = ["║ " + statline(*args) + " ║" for args in log]
 
 
-	def subst(s, i, c):
-		if len(s) < i:
-			s = s.ljust(i)
-		return s[:i] + c + s[i + len(c):]
+def subst(s, i, c):
+	if len(s) < i:
+		s = s.ljust(i)
+	return s[:i] + c + s[i + len(c):]
 
 
-	root = len(columns) + 1
-	for depth, (src, dst) in enumerate(jumps):
-		dsh = "─" * 3
-		step = 1 if dst >= src else -1
-		start, end = ("╮", "╯")[::step]
-		pos = ((max((len(l) for l in log[min(src, dst):max(src, dst)]), default=root) - root + 1) // 6) * (len(dsh) + 3)
-		log[src] = subst(log[src], root + pos, ">" + dsh + start)
-		for i in range(src + step, dst, step):
-			log[i] = subst(log[i], root + pos + len(dsh) + 1, "│")
-		log[dst] = subst(log[dst], root + pos, "<" + dsh + end)
-	for line in log:
-		print(line)
-	print(sep)
-	print(columns)
-	print("╚" + "".join("═╧"[c == "│"] for c in columns[1:-1]) + "╝")
+root = len(columns) + 1
+for depth, (src, dst) in enumerate(jumps):
+	dsh = "─" * 3
+	step = 1 if dst >= src else -1
+	start, end = ("╮", "╯")[::step]
+	pos = ((max((len(l) for l in log[min(src, dst):max(src, dst)]), default=root) - root + 1) // 6) * (len(dsh) + 3)
+	log[src] = subst(log[src], root + pos, ">" + dsh + start)
+	for i in range(src + step, dst, step):
+		log[i] = subst(log[i], root + pos + len(dsh) + 1, "│")
+	log[dst] = subst(log[dst], root + pos, "<" + dsh + end)
+for line in log:
+	print(line)
+print(sep)
+print(columns)
+print("╚" + "".join("═╧"[c == "│"] for c in columns[1:-1]) + "╝")
 
-fo.write("v2.0 raw\n")
-for word in out:
-	fo.write(f"{word&0xff:02x} {word>>8:02x} ")
-fo.write("\n")
+with open(os.path.splitext(fn)[0] + ".bin", "w") as fo:
+	fo.write("v2.0 raw\n")
+	for word in out:
+		fo.write(f"{word&0xff:02x} {word>>8:02x} ")
+	fo.write("\n")
+	

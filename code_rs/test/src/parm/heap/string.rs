@@ -1,10 +1,10 @@
-use core::iter::Copied;
+use core::iter::{Copied, Map};
 use crate::parm::heap::vec::Vec;
 use core::ops::{Deref, DerefMut};
 use core::slice::Iter;
 use core::str::Chars;
 
-use crate::parm::tty::{print_char, Display};
+use crate::parm::tty::{AsciiEncodable, Display, DisplayTarget};
 
 
 #[repr(transparent)]
@@ -149,22 +149,22 @@ impl From<&[char]> for String {
 
 impl Display for String {
     #[inline(always)]
-    fn write(&self) {
-        self.vec.iter().for_each(|c| print_char(*c));
+    fn write(&self, target: &mut impl DisplayTarget) {
+        target.print_slice(self);
     }
 }
 
 impl Display for [char] {
     #[inline(always)]
-    fn write(&self) {
-        self.iter().for_each(|c| print_char(*c));
+    fn write(&self, target: &mut impl DisplayTarget) {
+        target.print_slice(self);
     }
 }
 
 impl Display for &[char] {
     #[inline(always)]
-    fn write(&self) {
-        self.iter().for_each(|c| print_char(*c));
+    fn write(&self, target: &mut impl DisplayTarget) {
+        target.print_slice(self);
     }
 }
 
@@ -265,15 +265,22 @@ impl ToString for [char] {
 
 pub trait CharSeq<'a> {
     type Iter: Iterator<Item = char>;
+    type IterFast: Iterator<Item = char>;
 
     fn to_chars(&self) -> Self::Iter;
+    fn to_chars_fast(&self) -> Self::IterFast;
     fn len(&self) -> usize;
 }
 
 impl<'a> CharSeq<'a> for &'a [char] {
     type Iter = Copied<Iter<'a, char>>;
+    type IterFast = Copied<Iter<'a, char>>;
 
     fn to_chars(&self) -> Self::Iter {
+        self.iter().copied()
+    }
+
+    fn to_chars_fast(&self) -> Self::IterFast {
         self.iter().copied()
     }
 
@@ -284,12 +291,66 @@ impl<'a> CharSeq<'a> for &'a [char] {
 
 impl<'a> CharSeq<'a> for &'a str {
     type Iter = Chars<'a>;
+    type IterFast = Map<Iter<'a, u8>, fn(&u8) -> char>;
 
     fn to_chars(&self) -> Self::Iter {
         self.chars()
     }
 
+    fn to_chars_fast(&self) -> Self::IterFast {
+        self.as_bytes().iter().map(|&b| b as char)
+    }
+
     fn len(&self) -> usize {
         (self as Self).len()
+    }
+}
+
+struct StringTarget<'a>(&'a mut String);
+
+impl DisplayTarget for String {
+    #[inline(always)]
+    fn print_char(&mut self, c: impl AsciiEncodable) {
+        self.push(c.ascii_encode() as char);
+    }
+
+    #[inline(always)]
+    fn print_slice(&mut self, s: &[char]) {
+        self.vec.extend_from_slice(s);
+    }
+
+    #[inline(always)]
+    fn print_rust_str(&mut self, s: &str) {
+        self.vec.reserve(s.len());
+        for c in s.chars() {
+            unsafe { self.vec.push_unchecked(c); }
+        }
+    }
+}
+
+impl<T: Display + ?Sized> ToString for T {
+    // A common guideline is to not inline generic functions. However,
+    // removing `#[inline]` from this method causes non-negligible regressions.
+    // See <https://github.com/rust-lang/rust/pull/74852>, the last attempt
+    // to try to remove it.
+    #[inline]
+    default fn to_string(&self) -> String {
+        let mut buf = String::with_capacity(5);
+        self.write(&mut buf);
+        buf
+    }
+}
+
+impl ToString for String {
+    #[inline(always)]
+    fn to_string(&self) -> String {
+        self.clone()
+    }
+}
+
+impl ToString for str {
+    #[inline(always)]
+    fn to_string(&self) -> String {
+        String::from(self)
     }
 }

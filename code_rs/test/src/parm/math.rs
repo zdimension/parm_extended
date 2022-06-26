@@ -1,6 +1,6 @@
 use crate::parm::mmio::{R2divR3, R2modR3, RESbcd, RES};
 use crate::parm::tty;
-use crate::parm::tty::print_char;
+use crate::parm::tty::DisplayTarget;
 use crate::print;
 use core::ops::{Add, AddAssign, Div, Mul, MulAssign, Neg, Rem, Sub, SubAssign};
 
@@ -280,32 +280,32 @@ impl Neg for fp32 {
     }
 }
 
-pub fn print_fp(x: fp32) {
+pub fn print_fp(x: fp32, target: &mut impl DisplayTarget) {
     let x = if x < fp32(0) {
-        print_char('-');
+        target.print_char('-');
         -x
     } else {
         x
     };
-    print!(x.integer_part() as u32);
-    print_char('.');
+    print!(x.integer_part() as u32, => target);
+    target.print_char('.');
     if x.fractional_part() == 0 {
-        print_char('0');
+        target.print_char('0');
     } else {
         RES.write((x.fractional_part() * 10000) >> 16);
         let mut bcd = RESbcd.read() >> 16;
         while bcd != 0 {
             let digit = bcd & 0xf;
             bcd >>= 4;
-            print_char(digit as u8 + b'0');
+            target.print_char(digit as u8 + b'0');
         }
     }
 }
 
 impl tty::Display for fp32 {
     #[inline(always)]
-    fn write(&self) {
-        print_fp(*self);
+    fn write(&self, target: &mut impl DisplayTarget) {
+        print_fp(*self, target);
     }
 }
 

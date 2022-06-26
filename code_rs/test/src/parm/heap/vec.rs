@@ -251,13 +251,9 @@ impl<T: Clone> Vec<T> {
             self.grow_amortized(other.len());
         }
 
-        for i in 0..other.len() {
-            unsafe {
-                self.raw_set(i, other[i].clone());
-            }
+        for item in other {
+            unsafe { self.push_unchecked(item.clone()); }
         }
-
-        self.len = new_len;
     }
 }
 
