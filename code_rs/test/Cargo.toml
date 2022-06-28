@@ -25,6 +25,10 @@ path = "src/testrgb.rs"
 name = "testdyn"
 path = "src/testdyn.rs"
 
+[[bin]]
+name = "basic"
+path = "src/basic.rs"
+
 [profile.dev]
 panic = "abort"
 opt-level = "z"

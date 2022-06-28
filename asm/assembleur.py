@@ -74,8 +74,8 @@ for k, v in {
 	"bx lr":          (0b010001_11_0_1110_000,), # todo other than lr
 	#"bx {Rm}":		  (0b010001_11_0_0, "Rm", "000"),
 	#"bx {Hm}":		  (0b010001_11_0_1, "Hm", "000"),
-	"blx {Rm}":		  (0b010001_11_1_0, "Rm", "000"),
-	"blx {Hm}":		  (0b010001_11_1_1, "Hm", "000"),
+	"blx? {Rm}":		  (0b010001_11_1_0, "Rm", "000"),
+	"blx? {Hm}":		  (0b010001_11_1_1, "Hm", "000"),
 	# 06 - PC-relative load
 	"ldr {Rd}, [pc(?:, {immw8})?]":	(0b01001, "Rd", "immw8"),
 	"ldr {Rd}, {labelp8}": (0b01001, "Rd", "labelp8"),
@@ -314,7 +314,7 @@ pushpop = re.compile(r"^(push|pop)\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
 stmbang = re.compile(r"^stm\s+(r\d)!\s*,\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
 ldmbang = re.compile(r"^ldm\s+(r\d)!\s*,\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
 ldm = re.compile(r"^ldm\s+(r\d),\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
-bl = re.compile(r"^blx?\s+(.*)$", re.IGNORECASE)
+bl = re.compile(r"^blx?\s+((?!r).*)$", re.IGNORECASE)
 instn = re.compile(r"^.inst.n\s+(.*)$", re.IGNORECASE)
 p2align = re.compile(r"^.p2align\s+(\d+)$", re.IGNORECASE)
 labels = {}

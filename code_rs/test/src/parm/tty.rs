@@ -1,3 +1,4 @@
+use core::hint::unreachable_unchecked;
 use crate::parm::heap::string::String;
 use crate::parm::mmio::{RESbcd, RES};
 use crate::parm::{keyb, mmio};
@@ -228,6 +229,25 @@ pub fn print_res_fixed(_sign: bool, width: u32, target: &mut impl DisplayTarget)
         let digit = bcd & 0xf;
         bcd >>= 4;
         target.print_char(digit as u8 + b'0');
+    }
+}
+
+pub fn print_hex(val: u32, width: u32, target: &mut impl DisplayTarget) {
+    let width_bits = 4 * width;
+    let mut val = val << (32 - width_bits);
+    for _ in 0..width {
+        let digit = (val >> 28) & 0xf;
+        target.print_char(match digit as u8 {
+            0..=9 => digit as u8 + b'0',
+            10 => b'a',
+            11 => b'b',
+            12 => b'c',
+            13 => b'd',
+            14 => b'e',
+            15 => b'f',
+            _ => unsafe { unreachable_unchecked() },
+        });
+        val <<= 4;
     }
 }
 
