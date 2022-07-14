@@ -3,16 +3,16 @@
 #![feature(min_specialization)]
 
 use core::arch::asm;
-use core::iter::{Peekable};
-use crate::parm::control::breakpoint;
+use core::iter::Peekable;
 
+use crate::parm::control::breakpoint;
 use crate::parm::heap::string::{CharSeq, Parse};
+use crate::parm::heap::string::{FromStr, String};
 use crate::parm::heap::string::StrLike;
 use crate::parm::heap::string::ToString;
-use crate::parm::heap::string::{FromStr, String};
 use crate::parm::heap::vec::Vec;
 use crate::parm::panic;
-use crate::parm::tty::{read_line, Display, clear, read_int, DisplayTarget, Tty, get_tty, print_hex, print_char};
+use crate::parm::tty::{clear, Display, DisplayTarget, get_tty, print_char, print_hex, read_int, read_line, Tty};
 
 mod parm;
 
@@ -55,16 +55,17 @@ enum Operator {
     Sub,
     Mul,
     Div,
+    Eq,
+    NotEq,
 }
 
 impl Operator {
     #[inline(always)]
     pub const fn precedence(&self) -> u32 {
         match self {
-            Operator::Add => 1,
-            Operator::Sub => 1,
-            Operator::Mul => 2,
-            Operator::Div => 2,
+            Operator::Eq | Operator::NotEq => 0,
+            Operator::Add | Operator::Sub => 1,
+            Operator::Mul | Operator::Div => 2,
         }
     }
 
@@ -76,8 +77,10 @@ impl Operator {
                     Operator::Sub => Value::Number(a - b),
                     Operator::Mul => Value::Number(a * b),
                     Operator::Div => Value::Number(a / b),
+                    Operator::Eq => Value::Number(if a == b { 1 } else { 0 }),
+                    Operator::NotEq => Value::Number(if a != b { 1 } else { 0 }),
                 }
-            },
+            }
             _ => panic("invalid operands"),
         }
     }
@@ -92,12 +95,12 @@ enum Token {
 
 struct Expression(Vec<Token>);
 
-struct RpnEvaluator<'v, T, V: RpnVisitor<Output = T>> {
+struct RpnEvaluator<'v, T, V: RpnVisitor<Output=T>> {
     stack: Vec<T>,
-    visitor: &'v V
+    visitor: &'v V,
 }
 
-impl<'v, T, V: RpnVisitor<Output = T>> RpnEvaluator<'v, T, V> {
+impl<'v, T, V: RpnVisitor<Output=T>> RpnEvaluator<'v, T, V> {
     #[inline(always)]
     fn new(visitor: &'v V) -> Self {
         RpnEvaluator {
@@ -126,7 +129,7 @@ impl<'v, T, V: RpnVisitor<Output = T>> RpnEvaluator<'v, T, V> {
                         }
                     };
                     self.visitor.visit_operator(op, &a, &b)
-                },
+                }
             };
             self.stack.push(new);
         }
@@ -169,7 +172,7 @@ impl FromStr for Expression {
     type Err = ();
 
     fn from_str(s: &[char]) -> Result<Self, Self::Err> {
-        let tokens = tokenize(s);
+        let tokens = tokenize(s)?;
         let rpn = shunting_yard(tokens);
         Ok(Expression(rpn))
     }
@@ -212,16 +215,18 @@ impl Display for Token {
 
 impl Display for Operator {
     fn write(&self, target: &mut impl DisplayTarget) {
-        target.print_char(match self {
-            Operator::Add => '+',
-            Operator::Sub => '-',
-            Operator::Mul => '*',
-            Operator::Div => '/',
-        });
+        match self {
+            Operator::Add => target.print_char('+'),
+            Operator::Sub => target.print_char('-'),
+            Operator::Mul => target.print_char('*'),
+            Operator::Div => target.print_char('/'),
+            Operator::Eq => target.print_char('='),
+            Operator::NotEq => target.print_rust_str("!=")
+        }
     }
 }
 
-fn read_number<T: Iterator<Item = char>>(initial: char, iter: &mut Peekable<T>) -> u32 {
+fn read_number<T: Iterator<Item=char>>(initial: char, iter: &mut Peekable<T>) -> u32 {
     let mut number = initial as u32 - '0' as u32;
     while let Some(&ch) = iter.peek() {
         if ch.is_ascii_digit() {
@@ -234,7 +239,7 @@ fn read_number<T: Iterator<Item = char>>(initial: char, iter: &mut Peekable<T>) 
     number
 }
 
-fn read_string<T: Iterator<Item = char>>(iter: &mut Peekable<T>) -> String {
+fn read_string<T: Iterator<Item=char>>(iter: &mut Peekable<T>) -> String {
     let mut string = String::with_capacity(8);
     while let Some(ch) = iter.next() {
         if ch == '"' {
@@ -245,7 +250,7 @@ fn read_string<T: Iterator<Item = char>>(iter: &mut Peekable<T>) -> String {
     string
 }
 
-fn tokenize<'a>(code: impl CharSeq<'a>) -> Vec<Token> {
+fn tokenize<'a>(code: impl CharSeq<'a>) -> Result<Vec<Token>, ()> {
     let mut tokens = Vec::new();
     let mut iter = code.to_chars().peekable();
     while let Some(ch) = iter.next() {
@@ -254,6 +259,11 @@ fn tokenize<'a>(code: impl CharSeq<'a>) -> Vec<Token> {
             '-' => Token::Operator(Operator::Sub),
             '*' => Token::Operator(Operator::Mul),
             '/' => Token::Operator(Operator::Div),
+            '=' => Token::Operator(Operator::Eq),
+            '!' if matches!(iter.peek(), Some('=')) => {
+                iter.next();
+                Token::Operator(Operator::NotEq)
+            }
             '"' => Token::Literal(Value::String(read_string(&mut iter))),
             '0'..='9' => Token::Literal(Value::Number(read_number(ch, &mut iter))),
             'A'..='Z' => Token::Variable(Variable(ch as u32 - 'A' as u32)),
@@ -261,11 +271,11 @@ fn tokenize<'a>(code: impl CharSeq<'a>) -> Vec<Token> {
             ' ' => continue,
             _ => {
                 println!("Invalid character: ", ch);
-                break;
+                return Err(());
             }
         });
     }
-    tokens
+    Ok(tokens)
 }
 
 #[inline(never)]
@@ -294,8 +304,8 @@ fn shunting_yard(tokens: Vec<Token>) -> Vec<Token> {
 }
 
 #[inline(never)]
-fn show_program(code: &Vec<Instruction>) {
-    for i in code.iter() {
+fn show_program(code: &Program) {
+    for i in code.0.iter() {
         println!(i);
     }
 }
@@ -303,9 +313,10 @@ fn show_program(code: &Vec<Instruction>) {
 fn main() {
     parm::heap::init();
 
-    let mut program: Vec<Instruction> = Vec::with_capacity(10);
+    let mut program = Program(Vec::with_capacity(10));
     let mut last = 0;
     let mut line = String::with_capacity(32);
+    let mut asm: Option<Assembly> = None;
     loop {
         print!("> ");
         line.clear();
@@ -314,13 +325,23 @@ fn main() {
             show_program(&program);
             continue;
         } else if starts_with_ci(&line, "RUN") {
-            if let Err(_) = run_program(&program) {
+            if let Err(_) = program.run() {
                 println!("Error");
             }
             continue;
+        } else if starts_with_ci(&line, "ASMRUN") {
+            match &asm {
+                Some(a) => a.run(),
+                None => println!("Must assemble")
+            }
+            continue;
         } else if starts_with_ci(&line, "ASM") {
-            if let Err(_) = assemble_program(&program) {
-                println!("Error");
+            match program.assemble() {
+                Ok(a) => {
+                    println!(a);
+                    asm = Some(a);
+                }
+                Err(_) => println!("Error")
             }
             continue;
         }
@@ -350,19 +371,20 @@ fn main() {
                 }
             },
         };
+        asm = None;
         if line_no > last {
-            program.push(idata);
+            program.0.push(idata);
             last = line_no;
         } else {
-            let insert = program
+            let insert = program.0
                 .iter()
                 .enumerate()
                 .find(|(_, i)| i.line_no >= line_no as usize);
             let (index, instr) = unsafe { insert.unwrap_unchecked() }; // there must be one
             if instr.line_no == line_no as usize {
-                unsafe { program.raw_set(index, idata); }
+                unsafe { program.0.raw_set(index, idata); }
             } else {
-                program.insert(index, idata);
+                program.0.insert(index, idata);
             }
         }
     }
@@ -391,7 +413,7 @@ impl FromStr for InstructionKind {
             let comma = args.find_char(',').ok_or(())?;
             let (prompt, variable) = unsafe {
                 (
-                    args.get_unchecked(1..comma-1).trim(),
+                    args.get_unchecked(1..comma - 1).trim(),
                     args.get_unchecked(comma + 1..args.len()).trim(),
                 )
             };
@@ -450,19 +472,19 @@ impl Display for InstructionKind {
         match self {
             InstructionKind::Print(s) => {
                 print!("PRINT ", s, => target);
-            },
+            }
             InstructionKind::ClearScreen => {
                 print!("CLS", => target);
-            },
+            }
             InstructionKind::Input { prompt, variable } => {
                 print!("INPUT \"", prompt, "\", ", variable, => target);
-            },
+            }
             InstructionKind::Goto(line) => {
                 print!("GOTO ", line, => target);
-            },
+            }
             InstructionKind::Let { variable, value } => {
                 print!("LET ", variable, " = ", value, => target);
-            },
+            }
         }
     }
 }
@@ -513,41 +535,6 @@ impl RpnVisitor for ProgramContext {
     }
 }
 
-fn run_program(code: &Vec<Instruction>) -> Result<(), ()> {
-    let mut ctx = ProgramContext::new();
-    let mut idx = 0;
-    while idx < code.len() {
-        let instr = unsafe { code.get_unchecked(idx) };
-        match &instr.content {
-            InstructionKind::Print(s) => {
-                println!(ctx.eval(s));
-            },
-            InstructionKind::ClearScreen => {
-                clear();
-            },
-            InstructionKind::Input { prompt, variable } => {
-                print!(prompt, "? ");
-                ctx.set_variable(variable, read_int());
-            },
-            InstructionKind::Goto(line) => {
-                idx = match code.iter().enumerate().find(|(_, i)| i.line_no >= *line) {
-                    Some((i, _)) => i,
-                    None => {
-                        break;
-                    }
-                };
-                continue;
-            },
-            InstructionKind::Let { variable, value } => {
-                ctx.set_variable(variable,  ctx.eval(value).expect_number().map_err(|_| {
-                    println!("Variables are integers");
-                })?);
-            },
-        }
-        idx += 1;
-    }
-    Ok(())
-}
 
 struct RpnStringifier;
 
@@ -564,7 +551,7 @@ impl RpnVisitor for RpnStringifier {
         v.to_string()
     }
 
-    #[inline(always)]
+    #[inline(never)]
     fn visit_operator(&self, o: &Operator, a: &Self::Output, b: &Self::Output) -> Self::Output {
         let mut res = String::with_capacity(a.len() + b.len() + 5);
         print!('(', b, o, a, ')', => &mut res);
@@ -572,67 +559,260 @@ impl RpnVisitor for RpnStringifier {
     }
 }
 
-#[inline(never)]
-fn assemble_program(code: &Vec<Instruction>) -> Result<(), ()> {
-    const NOP: u16 = 0x4600;
+struct Program(Vec<Instruction>);
 
-    const fn i(instr1: u16, instr2: u16) -> u32 {
-        (instr2 as u32) << 16 | (instr1 as u32)
+impl Program {
+    fn find_by_line(&self, line_no: usize) -> Option<usize> {
+        match self.0.iter().enumerate().find(|(_, i)| i.line_no >= line_no) {
+            Some((i, _)) => Some(i),
+            None => None
+        }
     }
 
-    let mut assembly = Vec::<u32>::with_capacity(code.len());
-
-    let mut write_instr = |i1, i2| {
-        unsafe { assembly.push_unchecked(i(i1, i2)); }
-    };
-
-    unsafe {
-        // allocate variables
-        write_instr(
-            NOP, // push {lr}
-            0xb0e8, // sub sp, 26*4
-        );
-
-        for instr in code.iter() {
+    fn run(&self) -> Result<(), ()> {
+        let mut ctx = ProgramContext::new();
+        let mut idx = 0;
+        while idx < self.0.len() {
+            let instr = unsafe { self.0.get_unchecked(idx) };
             match &instr.content {
-                InstructionKind::Print(expr) => {
+                InstructionKind::Print(s) => {
+                    println!(ctx.eval(s));
                 }
                 InstructionKind::ClearScreen => {
-                    write_instr(
-                        0x203f, // movs r0, #63
-                        0x43c0, // mvns r0, r0
-                    );
-                    write_instr(
-                        0x210c, // movs r1, #12
-                        0x6001, // str r1, [r0]
-                    ); // bx lr
+                    clear();
+                }
+                InstructionKind::Input { prompt, variable } => {
+                    print!(prompt, "? ");
+                    ctx.set_variable(variable, read_int());
+                }
+                InstructionKind::Goto(line) => {
+                    idx = match self.find_by_line(*line) {
+                        Some(i) => i,
+                        None => break
+                    };
+                    continue;
+                }
+                InstructionKind::Let { variable, value } => {
+                    ctx.set_variable(variable, ctx.eval(value).expect_number().map_err(|_| {
+                        println!("Variables are integers");
+                    })?);
+                }
+            }
+            idx += 1;
+        }
+        Ok(())
+    }
+
+    #[inline(never)]
+    fn assemble(&self) -> Result<Assembly, ()> {
+        const NOP: u16 = 0x4600;
+
+        const fn i(instr1: u16, instr2: u16) -> u32 {
+            (instr2 as u32) << 16 | (instr1 as u32)
+        }
+
+        struct Assembler {
+            code: Vec<u32>,
+            leftover: Option<u32>, // sorry, strh is not supported so I have to store a full word
+            instr_starts: Vec<usize>,
+            relocations: Vec<Relocation>,
+        }
+
+        struct Relocation(usize, RelocationType);
+
+        enum RelocationType {
+            Goto(usize)
+        }
+
+        impl Assembler {
+            #[inline(always)]
+            fn new(capacity: usize) -> Self {
+                Assembler {
+                    code: Vec::with_capacity(capacity),
+                    leftover: None,
+                    instr_starts: Vec::with_capacity(capacity),
+                    relocations: Vec::new(),
+                }
+            }
+
+            #[inline(always)]
+            fn start_line(&mut self) {
+                unsafe { self.instr_starts.push(self.instr_count()); }
+            }
+
+            #[inline(always)]
+            fn instr(&mut self, instr: u16) {
+                if let Some(l) = self.leftover {
+                    self.code.push(i(l as u16, instr));
+                    self.leftover = None;
+                } else {
+                    self.leftover = Some(instr as u32);
+                }
+            }
+
+            #[inline(always)]
+            fn reloc(&mut self, reloc: RelocationType) {
+                self.relocations.push(Relocation(self.instr_count(), reloc));
+                self.instr(0);
+            }
+
+            #[inline(always)]
+            fn instr_count(&self) -> usize {
+                self.code.len() * 2 + if self.leftover.is_some() { 1 } else { 0 }
+            }
+
+            #[inline(always)]
+            fn finalize(mut self) -> Assembly {
+                if let Some(l) = self.leftover {
+                    self.code.push(i(l as u16, NOP));
+                }
+
+                #[inline(always)]
+                fn set_at(code: &mut Vec<u32>, pos: usize, instr: u16) {
+                    let arr_pos = pos >> 1;
+                    let rem = pos & 1;
+                    let r = &mut code[arr_pos];
+                    let old = *r;
+                    *r = if rem == 0 {
+                        (old & 0xFFFF0000) | (instr as u32)
+                    } else {
+                        (old & 0x0000FFFF) | (instr as u32) << 16
+                    };
+                }
+
+                for Relocation(i, r) in self.relocations.iter() {
+                    match r {
+                        RelocationType::Goto(line) => {
+                            let line_start = self.instr_starts[*line];
+                            let delta = line_start - i - 1;
+                            set_at(&mut self.code, *i, 0xe000 | (delta as u16 & 0b00000_11111111111));
+                        }
+                    }
+                }
+                Assembly(self.code)
+            }
+
+            /// evaluates an expression.
+            /// result in r1
+            #[inline(never)]
+            fn write_expr(&mut self, expr: &Expression) {
+                self.instr(0xa800); // mov r0, sp
+
+                for item in expr.0.iter() {
+                    match item {
+                        Token::Operator(op) => {
+                            self.instr(0x9900); // ldr r1, [sp]
+                            self.instr(0x9a01); // ldr r2, [sp, #4]
+                            self.instr(0xb001); // add sp, #4
+                            match op {
+                                Operator::Add => self.instr(0x1889), // adds r1, r2
+                                Operator::Sub => self.instr(0x1a89), // subs r1, r2
+                                Operator::Mul => self.instr(0x4351), // muls r1, r2
+                                Operator::Div => unimplemented!(),
+                                Operator::Eq => unimplemented!(),
+                                Operator::NotEq => {
+                                    self.instr(0x1a89); // subs r1, r2
+                                    self.instr(0x1e4a); // subs r2, r1, #1
+                                    self.instr(0x4191); // sbcs r1, r2
+                                }
+                            }
+                            self.instr(0x9100); // str r1, [sp]
+                        }
+                        Token::Literal(val) => {
+                            self.instr(0xb081); // sub sp, #4
+                            match val {
+                                Value::Number(small @ 0..=255) => {
+                                    self.instr(0x2100 | *small as u16); // mov r1, #small
+                                }
+                                Value::Number(bignum) => {
+                                    unimplemented!();
+                                }
+                                Value::String(_) => { unimplemented!(); }
+                            }
+                            self.instr(0x9100); // str r1, [sp]
+                        }
+                        Token::Variable(Variable(id)) => {
+                            self.instr(0xb081); // sub sp, #4
+                            self.instr(0x6801 | ((*id as u16) << 6)); // ldr r1, [r0, #id*4]
+                            self.instr(0x9100); // str r1, [sp]
+                        }
+                    }
+                }
+
+                self.instr(0x9900); // ldr r1, [sp]
+                self.instr(0xb001); // add sp, #4
+            }
+        }
+
+        let code = &self.0;
+        let mut asm = Assembler::new(code.len());
+
+        // allocate variables
+        asm.instr(0xb0e8); // sub sp, 26*4
+
+        for instr in code.iter() {
+            asm.start_line();
+            match &instr.content {
+                InstructionKind::Print(expr) => {
+                    asm.write_expr(expr);
+                    asm.instr(0x223b); // movs r2, #59
+                    asm.instr(0x43d2); // mvns r2, r2
+                    asm.instr(0x6011); // str r1, [r2]
+                }
+                InstructionKind::ClearScreen => {
+                    asm.instr(0x223f); // movs r2, #63
+                    asm.instr(0x43d2); // mvns r2, r2
+                    asm.instr(0x210c); // movs r1, #12
+                    asm.instr(0x6011); // str r1, [r2]
                 }
                 InstructionKind::Input { .. } => {}
-                InstructionKind::Goto(_) => {}
-                InstructionKind::Let { .. } => {}
+                InstructionKind::Goto(line) => {
+                    match self.find_by_line(*line) {
+                        Some(i) => {
+                            asm.reloc(RelocationType::Goto(i));
+                        }
+                        None => {
+                            asm.instr(0x4770); // bx lr
+                        }
+                    }
+                }
+                InstructionKind::Let { variable, value } => {
+                    asm.write_expr(value);
+                    asm.instr(0x6001 | ((variable.0 as u16) << 6)); // str r1, [r0, #id*4]
+                }
             }
         }
 
         // free variables
-        write_instr(
-            0xb068, // add sp, 26*4
-            0x4770, // pop {pc}
-        );
-    }
+        asm.instr(0xb068); // add sp, 26*4
+        asm.instr(0x4770); // bx lr
 
-    for val in assembly.iter() {
-        print_hex(val & 0xffff, 4, get_tty());
-        print_char(' ');
-        print_hex(val >> 16, 4, get_tty());
+        let asm = asm.finalize();
+
+        Ok(asm)
+    }
+}
+
+struct Assembly(Vec<u32>);
+
+impl Display for Assembly {
+    fn write(&self, target: &mut impl DisplayTarget) {
+        for val in self.0.iter() {
+            print_hex(val & 0xffff, 4, target);
+            target.print_char(' ');
+            print_hex(val >> 16, 4, target);
+            target.print_char('\n');
+        }
+    }
+}
+
+impl Assembly {
+    fn run(&self) {
+        let ptr = self.0.ptr();
+        let as_fn: extern "C" fn() -> () = unsafe {
+            core::mem::transmute(ptr)
+        };
+        as_fn();
         print_char('\n');
     }
-
-    let ptr = assembly.ptr();
-    let as_fn: extern "C" fn () -> () = unsafe {
-        core::mem::transmute(ptr)
-    };
-    as_fn();
-    print_char('\n');
-    breakpoint();
-    Ok(())
 }

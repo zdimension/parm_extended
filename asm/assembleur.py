@@ -228,7 +228,7 @@ def try_assemble(m, instr, output, line):
 		if k[-1] == "_":
 			other = dic[k[:-1]]
 			if v is not None and v != other:
-				raise AsmException(f"{k[:-1]} must have the same value for both parameters (has {other[0]}, {v[0]})")
+				raise AsmException(f"{k[:-1]} must have the same value for both parameters (has {other}, {v})")
 	res = 0
 	for nval in output:
 		width = 0
@@ -269,7 +269,7 @@ def assemble(line, labels, pc):
 			return (pc, (second << 8) | first, dl, f"{first}, {second}"),
 		if instr.lower().startswith("@bl"):
 			first = instr[3] == "1"
-			n = parse_imm(args) // 2 - (pc + (2 if first else 0)) - 1
+			n = parse_imm(args) // 2 - (pc + (1 if first else 0)) - 1
 			if first:
 				val = (0b1111_0 << 11) | ((n >> 11) & 0b111_1111_1111)
 			else:
@@ -319,13 +319,12 @@ instn = re.compile(r"^.inst.n\s+(.*)$", re.IGNORECASE)
 p2align = re.compile(r"^.p2align\s+(\d+)$", re.IGNORECASE)
 labels = {}
 lines = list(fp.readlines())
-lines = [l for l in lines if l.strip() not in {"@APP", "@NO_APP"}]
 #lines = [l[:l.index("@")]  if "@" in l else l for l in lines]
 #lines = [l[:l.index(";")]  if ";" in l else l for l in lines]
 lines = [l.strip() for l in lines]
 ignored_lines = [i for i, l in enumerate(lines[:-1])
 				 if l.lower().startswith("b\t") and lines[i + 1] == f"{l[2:]}:"]  # fix for clang's redundant jumps
-instrs = [(-1, 0, "b run", None, 1)]
+instrs = [(-1, 0, "@bl1 run", None, 1), (-1, 1, "@bl2 run", None, 1)]
 #instrs = [(-1, 0, ".start", None, 0)]
 def add_instr(line, val=None, size=1):
 	instrs.append((i + 1, current_pc(), line, val, size))
@@ -337,6 +336,8 @@ try:
 		if not no_optim:
 			if i in ignored_lines:
 				continue
+		if line in {"@APP", "@NO_APP"}:
+			continue
 		while line := line.strip():
 			if byte_val is not None:
 				if line.lower().startswith(".byte"):
@@ -375,8 +376,8 @@ try:
 				break
 			elif m := ldm.match(line):
 				addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
-				for i, r in enumerate(regs):
-					add_instr(f"ldr {r}, [{addr}, #{4 * i}]")
+				for k, r in enumerate(regs):
+					add_instr(f"ldr {r}, [{addr}, #{4 * k}]")
 				break
 			elif m := p2align.match(line):
 				val = int(m.group(1))
@@ -385,7 +386,7 @@ try:
 					num = 1 << off
 					align = current_pc() & (num - 1)
 					if align:
-						for i in range(num - align):
+						for _ in range(num - align):
 							add_instr(f".p2align {val}", 0x4600, 1)
 				break
 			else:

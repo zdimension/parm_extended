@@ -1,11 +1,9 @@
+
+
 run:
-movs r0, #0
-movs r7, #12
-blx r7
-movs r3, #14
-.p2align 2
-label:
-movs r1, #12
-movs r2, #13
-bx lr
-movs r3, #15
+movs r0, #5
+movs r1, #40
+
+subs    r1, r1, r2
+        subs    r2, r1, #1
+        sbcs    r1, r2
