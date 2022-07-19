@@ -6,6 +6,7 @@ use core::arch::asm;
 use core::iter::Peekable;
 
 use crate::parm::control::breakpoint;
+use crate::parm::heap::malloc;
 use crate::parm::heap::string::{CharSeq, Parse};
 use crate::parm::heap::string::{FromStr, String};
 use crate::parm::heap::string::StrLike;
@@ -321,6 +322,7 @@ fn main() {
         print!("> ");
         line.clear();
         read_line(&mut line);
+        println!("input=", line);
         if starts_with_ci(&line, "LIST") {
             show_program(&program);
             continue;
@@ -390,7 +392,6 @@ fn main() {
     }
 }
 
-#[inline(always)]
 fn starts_with_ci(s: &[char], needle: &'static str) -> bool {
     s.len() >= needle.len()
         && unsafe { s.get_unchecked(0..needle.len()) }
@@ -401,14 +402,14 @@ fn starts_with_ci(s: &[char], needle: &'static str) -> bool {
 
 impl FromStr for InstructionKind {
     type Err = ();
-    #[inline(never)]
+    //#[inline(never)]
     fn from_str(s: &[char]) -> Result<Self, Self::Err> {
-        #[inline(never)]
+        //#[inline(never)]
         fn parse_print(content: &[char]) -> Result<InstructionKind, ()> {
             let expr = content.parse().map_err(|_| println!("Invalid expression"))?;
             Ok(InstructionKind::Print(expr))
         }
-        #[inline(never)]
+        //#[inline(never)]
         fn parse_input(args: &[char]) -> Result<InstructionKind, ()> {
             let comma = args.find_char(',').ok_or(())?;
             let (prompt, variable) = unsafe {
@@ -422,7 +423,7 @@ impl FromStr for InstructionKind {
                 variable: variable.parse().map_err(|_| println!("Invalid variable"))?,
             })
         }
-        #[inline(never)]
+        //#[inline(never)]
         fn parse_let(args: &[char]) -> Result<InstructionKind, ()> {
             let equal = args.find_char('=').ok_or(())?;
             let (variable, value) = unsafe {
@@ -437,7 +438,7 @@ impl FromStr for InstructionKind {
             };
             Ok(xl)
         }
-        #[inline(never)]
+        //#[inline(never)]
         fn parse_goto(args: &[char]) -> Result<InstructionKind, ()> {
             let line_no: u32 = args.parse().map_err(|_| println!("Invalid line no"))?;
             Ok(InstructionKind::Goto(line_no as usize))

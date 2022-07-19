@@ -108,6 +108,17 @@ impl Display for char {
     }
 }
 
+impl Display for bool {
+    #[inline(always)]
+    fn write(&self, target: &mut impl DisplayTarget) {
+        if *self {
+            target.print_rust_str("true");
+        } else {
+            target.print_rust_str("false");
+        }
+    }
+}
+
 impl<T> Display for &T
 where
     T: Display,

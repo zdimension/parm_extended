@@ -1,3 +1,4 @@
+#![feature(specialization)]
 #![no_main]
 #![no_std]
 

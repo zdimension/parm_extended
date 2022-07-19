@@ -9,6 +9,21 @@ pub fn __aeabi_uidiv(a: u32, b: u32) -> u32 {
     div(a, b)
 }
 
+#[repr(C)]
+pub struct DivMod {
+    quotient: u32,
+    remainder: u32,
+}
+
+#[export_name = "__aeabi_uidivmod"]
+pub fn __aeabi_uidivmod(a: u32, b: u32) -> DivMod {
+    let divmod = divmod(a, b);
+    DivMod {
+        quotient: divmod.0,
+        remainder: divmod.1,
+    }
+}
+
 #[inline(always)]
 pub fn div(a: u32, b: u32) -> u32 {
     let mut res;

@@ -11,7 +11,7 @@ class AsmException(Exception):
 # Internal operand regexes
 regexes_regs = [
 	(r"(?:\{(R\w+)\})", r"(?P<F\1>r(?P<\1>[0-7]))"),
-	(r"(?:\{(H\w+)\})", r"(?P<F\1>(?P<\1>r([89]|1[0-5])|pc))"),
+	(r"(?:\{(H\w+)\})", r"(?P<F\1>(?P<\1>r([89]|1[0-5])|sp|lr|pc))"),
 ]
 regexes = [
 	*regexes_regs,
@@ -66,14 +66,14 @@ for k, v in {
 	"negs {Rd}, {Rn}": "rsbs {Rd}, {Rn}, #0",
 	# 05 - Hi register operations/branch exchange
 	"add {Rd}, {Hs}": (0b010001_00_0_1, "Hs", "Rd"),
-	"add {Hd}, {Rs}": (0b010001_00_1_0, "Rs", "Hd"), # todo: only pc supported
+	"add {Hd}, {Rs}": (0b010001_00_1_0, "Rs", "Hd"),
 	
 	"mov {Rd}, {Rs}": (0b010001_10_0_0, "Rs", "Rd"),
-	"mov {Hd}, {Rs}": (0b010001_10_1_0, "Rs", "Hd"), # todo: only pc supported
 	"mov {Rd}, {Hs}": (0b010001_10_0_1, "Hs", "Rd"),
-	"bx lr":          (0b010001_11_0_1110_000,), # todo other than lr
-	#"bx {Rm}":		  (0b010001_11_0_0, "Rm", "000"),
-	#"bx {Hm}":		  (0b010001_11_0_1, "Hm", "000"),
+	"mov {Hd}, {Rs}": (0b010001_10_1_0, "Rs", "Hd"),
+	"mov {Hd}, {Hs}": (0b010001_10_1_1, "Hs", "Hd"),
+	"bx {Rm}":		  (0b010001_11_0_0, "Rm", "000"),
+	"bx {Hm}":		  (0b010001_11_0_1, "Hm", "000"),
 	"blx? {Rm}":		  (0b010001_11_1_0, "Rm", "000"),
 	"blx? {Hm}":		  (0b010001_11_1_1, "Hm", "000"),
 	# 06 - PC-relative load
@@ -179,7 +179,7 @@ def try_assemble(m, instr, output, line):
 				if not (0 <= dic[k][0] <= 7):
 					raise AsmException(f"Invalid register: {v}, should be between r0 and r7")
 			elif k[0] == "H":
-				dic[k] = ((hi_regs.get(v, None) or int(v)) - 8, 3)
+				dic[k] = ((hi_regs.get(v, None) or int(v[1:])) - 8, 3)
 				if not (0 <= dic[k][0] <= 7):
 					raise AsmException(f"Invalid register: {v}, should be between r8 and r15")
 			elif k == "cond":
@@ -274,7 +274,8 @@ def assemble(line, labels, pc):
 				val = (0b1111_0 << 11) | ((n >> 11) & 0b111_1111_1111)
 			else:
 				val = (0b1111_1 << 11) | (n & 0b111_1111_1111)
-			return (pc, val, dl, n),
+				jumps.append((pc, parse_imm(args)//2))
+			return (pc, val, dl, f"{n} ({2*n:x})"),
 		if instr.lower().startswith("@asci"):
 			bytes = eval(args).encode("utf-8")
 			if instr[5].lower() == "z":
@@ -305,7 +306,7 @@ def assemble(line, labels, pc):
 
 
 
-no_optim, quiet = [param in sys.argv for param in ("-O0","-q")]
+no_optim, quiet, nobranch = [param in sys.argv for param in ("-O0","-q","-b")]
 fn = sys.argv[1]
 fp = open(fn, "r")
 fo = open(os.path.splitext(fn)[0] + ".bin", "w")
@@ -324,7 +325,7 @@ lines = list(fp.readlines())
 lines = [l.strip() for l in lines]
 ignored_lines = [i for i, l in enumerate(lines[:-1])
 				 if l.lower().startswith("b\t") and lines[i + 1] == f"{l[2:]}:"]  # fix for clang's redundant jumps
-instrs = [(-1, 0, "@bl1 run", None, 1), (-1, 1, "@bl2 run", None, 1)]
+instrs = [(-1, 0, ".nobranchstart", None, 0)] if nobranch else [(-1, 0, "@bl1 run", None, 1), (-1, 1, "@bl2 run", None, 1)]
 #instrs = [(-1, 0, ".start", None, 0)]
 def add_instr(line, val=None, size=1):
 	instrs.append((i + 1, current_pc(), line, val, size))
@@ -361,6 +362,34 @@ try:
 			elif m := bl.match(line):
 				add_instr(f"@bl1 {m.group(1)}")
 				add_instr(f"@bl2 {m.group(1)}")
+				break
+			elif m := pushpop.match(line):
+				regs = sorted(map(str.strip, m.group(2).split(",")))
+				add_instr("mov r12, r7")
+				if m.group(1).lower() == "push":
+					if instrs[-1][1] == 0:
+						pass
+					for reg in regs:
+						add_instr(f"sub sp, #4")
+						if reg.lower() == "lr":
+							#add_instr("push {lr}")
+							add_instr("mov r7, lr")
+							add_instr("str r7, [sp]")
+						else:
+							add_instr(f"str {reg}, [sp]")
+				else:
+					for reg in reversed(regs):
+						if reg.lower() == "pc":
+							add_instr("ldr r7, [sp]")
+							add_instr("mov r11, r7")
+							add_instr("mov r7, r12")
+							add_instr(f"add sp, #4")
+							add_instr("mov pc, r11")
+							#add_instr(f"bx lr") # let's just assume we only pop lr to pc, it'll maybe break someday
+						else:
+							add_instr(f"ldr {reg}, [sp]")
+							add_instr(f"add sp, #4")
+				add_instr("mov r7, r12")
 				break
 			elif m := stmbang.match(line):
 				addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
@@ -465,4 +494,6 @@ with open(os.path.splitext(fn)[0] + ".bin", "w") as fo:
 	for word in out:
 		fo.write(f"{word&0xff:02x} {word>>8:02x} ")
 	fo.write("\n")
-	
+with open(os.path.splitext(fn)[0] + ".raw", "wb") as fo:
+	for word in out:
+		fo.write(bytes([word & 0xff, word >> 8]))

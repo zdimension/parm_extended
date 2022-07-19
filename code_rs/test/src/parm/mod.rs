@@ -18,9 +18,10 @@ pub fn _start() -> ! {
     unsafe {
         core::arch::asm!(
             r#"
-					sub sp, #508
-					sub sp, #508
-					sub sp, #8
+					movs r0, #1
+					lsls r0, r0, #20
+					mov sp, r0
+					movs r0, #0
 				"#
         );
         main();
@@ -39,6 +40,7 @@ pub fn panic(expr: &'static str) -> ! {
 pub fn panic2(expr: &'static str) -> ! {
     unsafe {
         core::arch::asm!("_ZN4core9panicking5panic17h0889907c7e7272d5E:");
+        core::arch::asm!("_ZN4core9panicking5panic17h54febf44e809a353E:");
     }
     panic(expr)
 }
@@ -57,6 +59,7 @@ pub fn unwrap_failed() -> ! {
 fn panic_bounds_check() -> ! {
     unsafe {
         core::arch::asm!("_ZN4core9panicking18panic_bounds_check17h6f55fa0d21c94988E:");
+        core::arch::asm!("_ZN4core9panicking18panic_bounds_check17h2c8069d2b705747bE:");
     }
     panic("index out of bounds")
 }
@@ -66,6 +69,7 @@ fn panic_bounds_check() -> ! {
 fn panic_fmt() -> ! {
     unsafe {
         core::arch::asm!("_ZN4core9panicking9panic_fmt17hfd9f87229ac2f2baE:");
+        core::arch::asm!("_ZN4core9panicking9panic_fmt17hd67f4882cc9312fdE:");
     }
     panic("panic_fmt")
 }
