@@ -104,28 +104,28 @@ pub unsafe fn malloc(size: usize) -> *mut u32 {
 
 pub unsafe fn free(_ptr: *mut u32) {
     return; // who's gonna stop me?
-    // let mut header = BlockHeader::from_block(ptr);
-    // *ptr = 0xabababab;
-    // *ptr.add(2 * (*header).size - 3) = 0xcdcdcdcd;
-    // let mut prevp = *HEAP_FREEP;
-    // let mut p = *HEAP_FREEP;
-    // while p < header {
-    //     prevp = p;
-    //     p = (*p).next;
-    // }
-    //
-    // if (*prevp).end() == header {
-    //     (*prevp).size += (*header).size;
-    //     header = prevp;
-    // } else {
-    //     (*prevp).next = header;
-    //     (*header).next = p;
-    // }
-    //
-    // if (*header).next == (*header).end() {
-    //     (*header).size += (*(*header).next).size;
-    //     (*header).next = (*(*header).next).next;
-    // }
+            // let mut header = BlockHeader::from_block(ptr);
+            // *ptr = 0xabababab;
+            // *ptr.add(2 * (*header).size - 3) = 0xcdcdcdcd;
+            // let mut prevp = *HEAP_FREEP;
+            // let mut p = *HEAP_FREEP;
+            // while p < header {
+            //     prevp = p;
+            //     p = (*p).next;
+            // }
+            //
+            // if (*prevp).end() == header {
+            //     (*prevp).size += (*header).size;
+            //     header = prevp;
+            // } else {
+            //     (*prevp).next = header;
+            //     (*header).next = p;
+            // }
+            //
+            // if (*header).next == (*header).end() {
+            //     (*header).size += (*(*header).next).size;
+            //     (*header).next = (*(*header).next).next;
+            // }
 }
 
 pub unsafe fn realloc(ptr: *mut u32, size: usize) -> *mut u32 {
@@ -246,14 +246,16 @@ fn __rust_dealloc(ptr: *mut u8, _size: usize, _align: usize) {
 extern "C" fn __aeabi_memcpy(dest: *mut u32, src: *const u32, n: usize) {
     let n = (n + 3) >> 2;
     for i in 0..n {
-        unsafe { *dest.add(i) = *src.add(i); }
+        unsafe {
+            *dest.add(i) = *src.add(i);
+        }
     }
 }
 
 #[no_mangle]
 extern "C" fn __aeabi_memclr(dest: *mut u32, n: usize) {
     let n = (n + 3) >> 2;
-    for i in 0..n  {
+    for i in 0..n {
         unsafe { *dest.add(i) = 0 }
     }
 }

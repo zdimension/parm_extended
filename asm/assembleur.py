@@ -65,37 +65,38 @@ for k, v in {
 	"mvns {Rd}, {Rm}": (0b010000_1111, "Rm", "Rd"),
 	"negs {Rd}, {Rn}": "rsbs {Rd}, {Rn}, #0",
 	# 05 - Hi register operations/branch exchange
+	"add {Rd}, {Rs}": (0b010001_00_0_0, "Rs", "Rd"),
 	"add {Rd}, {Hs}": (0b010001_00_0_1, "Hs", "Rd"),
 	"add {Hd}, {Rs}": (0b010001_00_1_0, "Rs", "Hd"),
-	
+	"add {Hd}, {Hs}": (0b010001_00_1_1, "Rs", "Hd"),
 	"mov {Rd}, {Rs}": (0b010001_10_0_0, "Rs", "Rd"),
 	"mov {Rd}, {Hs}": (0b010001_10_0_1, "Hs", "Rd"),
 	"mov {Hd}, {Rs}": (0b010001_10_1_0, "Rs", "Hd"),
 	"mov {Hd}, {Hs}": (0b010001_10_1_1, "Hs", "Hd"),
 	"bx {Rm}":		  (0b010001_11_0_0, "Rm", "000"),
 	"bx {Hm}":		  (0b010001_11_0_1, "Hm", "000"),
-	"blx? {Rm}":		  (0b010001_11_1_0, "Rm", "000"),
-	"blx? {Hm}":		  (0b010001_11_1_1, "Hm", "000"),
+	"blx? {Rm}":	  (0b010001_11_1_0, "Rm", "000"),
+	"blx? {Hm}":	  (0b010001_11_1_1, "Hm", "000"),
 	# 06 - PC-relative load
 	"ldr {Rd}, [pc(?:, {immw8})?]":	(0b01001, "Rd", "immw8"),
 	"ldr {Rd}, {labelp8}": (0b01001, "Rd", "labelp8"),
 	# 07 - load/store with register offset
 	"str {Rd}, [{Rb}, {Ro}]": 	(0b0101_0_0_0, "Ro", "Rb", "Rd"),
-	#"strb {Rd}, [{Rb}, {Ro}]": 	(0b0101_0_1_0, "Ro", "Rb", "Rd"),
+	"strb {Rd}, [{Rb}, {Ro}]": 	(0b0101_0_1_0, "Ro", "Rb", "Rd"),
 	"ldr {Rd}, [{Rb}, {Ro}]": 	(0b0101_1_0_0, "Ro", "Rb", "Rd"),
 	"ldrb {Rd}, [{Rb}, {Ro}]": 	(0b0101_1_1_0, "Ro", "Rb", "Rd"),
 	# 08 - load/store sign-extended byte/halfword
-	#"strh {Rd}, [{Rb}, {Ro}]":	(0b0101_0_0_1, "Ro", "Rb", "Rd"),
+	"strh {Rd}, [{Rb}, {Ro}]":	(0b0101_0_0_1, "Ro", "Rb", "Rd"),
 	"ldrh {Rd}, [{Rb}, {Ro}]":	(0b0101_1_0_1, "Ro", "Rb", "Rd"),
 	"ldrsb {Rd}, [{Rb}, {Ro}]":	(0b0101_0_1_1, "Ro", "Rb", "Rd"),
 	"ldrsh {Rd}, [{Rb}, {Ro}]":	(0b0101_1_1_1, "Ro", "Rb", "Rd"),
 	# 09 - load/store with immediate offset
 	"str {Rd}, [{Rb}(?:, {immw5})?]":	(0b011_0_0, "immw5", "Rb", "Rd"),
 	"ldr {Rd}, [{Rb}(?:, {immw5})?]":	(0b011_0_1, "immw5", "Rb", "Rd"),
-	#"strb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_0, "imm5", "Rb", "Rd"),
+	"strb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_0, "imm5", "Rb", "Rd"),
 	"ldrb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_1, "imm5", "Rb", "Rd"),
 	# 10 - load/store halfword
-	#"strh {Rd}, [{Rb}(?:, {immh5})?]":	(0b1000_0, "immh5", "Rb", "Rd"),
+	"strh {Rd}, [{Rb}(?:, {immh5})?]":	(0b1000_0, "immh5", "Rb", "Rd"),
 	"ldrh {Rd}, [{Rb}(?:, {immh5})?]":	(0b1000_1, "immh5", "Rb", "Rd"),
 	# 11 - SP-relative load/store
 	"str {Rt}, [sp(?:, {immw8})?]": (0b1001_0, "Rt", "immw8"),
@@ -364,32 +365,29 @@ try:
 				add_instr(f"@bl2 {m.group(1)}")
 				break
 			elif m := pushpop.match(line):
-				regs = sorted(map(str.strip, m.group(2).split(",")))
-				add_instr("mov r12, r7")
+				regs = sorted(hi_regs.get(x, None) or int(x[1:]) for x in map(str.strip, m.group(2).split(",")))
 				if m.group(1).lower() == "push":
-					if instrs[-1][1] == 0:
-						pass
-					for reg in regs:
-						add_instr(f"sub sp, #4")
-						if reg.lower() == "lr":
-							#add_instr("push {lr}")
-							add_instr("mov r7, lr")
-							add_instr("str r7, [sp]")
-						else:
-							add_instr(f"str {reg}, [sp]")
-				else:
-					for reg in reversed(regs):
-						if reg.lower() == "pc":
-							add_instr("ldr r7, [sp]")
+					add_instr(f"sub sp, #{len(regs) * 4}")
+					for i, reg in enumerate(regs):
+						if reg >= 8:
 							add_instr("mov r11, r7")
-							add_instr("mov r7, r12")
-							add_instr(f"add sp, #4")
-							add_instr("mov pc, r11")
-							#add_instr(f"bx lr") # let's just assume we only pop lr to pc, it'll maybe break someday
+							add_instr(f"mov r7, r{reg}")
+							add_instr(f"str r7, [sp, #{i * 4}]")
+							add_instr("mov r7, r11")
 						else:
-							add_instr(f"ldr {reg}, [sp]")
-							add_instr(f"add sp, #4")
-				add_instr("mov r7, r12")
+							add_instr(f"str r{reg}, [sp, #{i * 4}]")
+				else:
+					for i, reg in enumerate(regs):
+						if reg >= 8:
+							add_instr("mov r11, r7")
+							add_instr(f"ldr r7, [sp, #{i * 4}]")
+							if reg == 15:
+								add_instr(f"add sp, #{len(regs) * 4}")
+							add_instr(f"mov r{reg}, r7")
+							add_instr("mov r7, r11")
+						else:
+							add_instr(f"ldr r{reg}, [sp, #{i * 4}]")
+					add_instr(f"add sp, #{len(regs) * 4}")
 				break
 			elif m := stmbang.match(line):
 				addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
@@ -420,19 +418,32 @@ try:
 				break
 			else:
 				val = None
-				if line.lower().startswith(".asci"):
+				fpart = line.split(None, 1)[0].lower()
+				if fpart.startswith(".asci"):
 					s = eval(line.split(None, 1)[1])
 					utf = s.encode("utf-8")
 					l = len(s.encode("utf-8"))+1*(line[5]=="z")
 					l += l%2
 					add_instr("@" + line[1:], size=l//2)
-				elif line.lower().startswith(".word") or line.lower().startswith(".long"):
+				elif fpart in (".word", ".long"):
 					add_instr("@" + line[1:], size=2)
-				elif line.lower().startswith(".byte"):
+				elif fpart == ".byte":
 					byte_val = line.split(None, 1)[1]
+				elif fpart == ".zero":
+					args = line.split(None, 1)[1]
+					if "," in args:
+						cnt, val = map(int, args.split(","))
+					else:
+						cnt, val = int(args), 0
+					for n in range((cnt - 1) // 2):
+						add_instr(f"@bytes {val}, {val}", None, 1)
+					add_instr(f"@bytes {val}, {val if cnt % 2 == 0 else 0}", None, 1)
 				elif line[0] != ".":
 					add_instr(line)
+				elif fpart in (".text", ".syntax", ".section", ".type", ".eabi_attribute", ".code", ".file", ".thumb_func", ".fnstart", ".save", ".setfp", ".size", ".cantunwind", ".fnend", ".pad", ".globl", ".hidden"):
+					pass
 				else:
+					raise Exception("Invalid directive: " + fpart)
 					break
 				break
 except:

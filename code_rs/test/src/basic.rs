@@ -1,19 +1,22 @@
 #![no_main]
 #![no_std]
 #![feature(min_specialization)]
+#![feature(generic_associated_types)]
 
-use core::arch::asm;
 use core::iter::Peekable;
-
 use crate::parm::control::breakpoint;
-use crate::parm::heap::malloc;
-use crate::parm::heap::string::{CharSeq, Parse};
-use crate::parm::heap::string::{FromStr, String};
+
+
 use crate::parm::heap::string::StrLike;
 use crate::parm::heap::string::ToString;
+use crate::parm::heap::string::{CharSeq, Parse};
+use crate::parm::heap::string::{FromStr, String};
 use crate::parm::heap::vec::Vec;
+use crate::parm::mmio::RES;
 use crate::parm::panic;
-use crate::parm::tty::{clear, Display, DisplayTarget, get_tty, print_char, print_hex, read_int, read_line, Tty};
+use crate::parm::tty::{
+    clear, print_char, print_hex, read_int, read_line, Display, DisplayTarget,
+};
 
 mod parm;
 
@@ -44,9 +47,15 @@ impl Display for Variable {
 enum InstructionKind {
     Print(Expression),
     ClearScreen,
-    Input { prompt: String, variable: Variable },
+    Input {
+        prompt: String,
+        variable: Variable,
+    },
     Goto(usize),
-    Let { variable: Variable, value: Expression },
+    Let {
+        variable: Variable,
+        value: Expression,
+    },
 }
 
 #[repr(u32)]
@@ -70,18 +79,17 @@ impl Operator {
         }
     }
 
+    #[inline(never)]
     pub fn eval(&self, a: &Value, b: &Value) -> Value {
         match (a, b) {
-            (Value::Number(a), Value::Number(b)) => {
-                match self {
-                    Operator::Add => Value::Number(a + b),
-                    Operator::Sub => Value::Number(a - b),
-                    Operator::Mul => Value::Number(a * b),
-                    Operator::Div => Value::Number(a / b),
-                    Operator::Eq => Value::Number(if a == b { 1 } else { 0 }),
-                    Operator::NotEq => Value::Number(if a != b { 1 } else { 0 }),
-                }
-            }
+            (Value::Number(a), Value::Number(b)) => match self {
+                Operator::Add => Value::Number(a + b),
+                Operator::Sub => Value::Number(a - b),
+                Operator::Mul => Value::Number(a * b),
+                Operator::Div => Value::Number(a / b),
+                Operator::Eq => Value::Number(if a == b { 1 } else { 0 }),
+                Operator::NotEq => Value::Number(if a != b { 1 } else { 0 }),
+            },
             _ => panic("invalid operands"),
         }
     }
@@ -96,12 +104,12 @@ enum Token {
 
 struct Expression(Vec<Token>);
 
-struct RpnEvaluator<'v, T, V: RpnVisitor<Output=T>> {
+struct RpnEvaluator<'v, T, V: RpnVisitor<Output = T>> {
     stack: Vec<T>,
     visitor: &'v V,
 }
 
-impl<'v, T, V: RpnVisitor<Output=T>> RpnEvaluator<'v, T, V> {
+impl<'v, T, V: RpnVisitor<Output = T>> RpnEvaluator<'v, T, V> {
     #[inline(always)]
     fn new(visitor: &'v V) -> Self {
         RpnEvaluator {
@@ -111,28 +119,33 @@ impl<'v, T, V: RpnVisitor<Output=T>> RpnEvaluator<'v, T, V> {
     }
 
     #[inline(never)]
+    fn visit_token(&mut self, item: &Token) -> T {
+        match item {
+            Token::Literal(v) => self.visitor.visit_literal(v),
+            Token::Variable(v) => self.visitor.visit_variable(v),
+            Token::Operator(op) => {
+                let a = match self.stack.pop() {
+                    Some(a) => a,
+                    None => {
+                        panic("stack underflow (a)");
+                    }
+                };
+                let b = match self.stack.pop() {
+                    Some(b) => b,
+                    None => {
+                        panic("stack underflow (b)");
+                    }
+                };
+                self.visitor.visit_operator(op, &a, &b)
+            }
+        }
+    }
+
+    #[inline(never)]
     fn visit(&mut self, e: &Expression) -> T {
         for item in e.0.iter() {
-            let new = match item {
-                Token::Literal(v) => self.visitor.visit_literal(v),
-                Token::Variable(v) => self.visitor.visit_variable(v),
-                Token::Operator(op) => {
-                    let a = match self.stack.pop() {
-                        Some(a) => a,
-                        None => {
-                            panic("stack underflow (a)");
-                        }
-                    };
-                    let b = match self.stack.pop() {
-                        Some(b) => b,
-                        None => {
-                            panic("stack underflow (b)");
-                        }
-                    };
-                    self.visitor.visit_operator(op, &a, &b)
-                }
-            };
-            self.stack.push(new);
+            let result = self.visit_token(item);
+            self.stack.push(result);
         }
         match self.stack.pop() {
             Some(v) => v,
@@ -222,12 +235,12 @@ impl Display for Operator {
             Operator::Mul => target.print_char('*'),
             Operator::Div => target.print_char('/'),
             Operator::Eq => target.print_char('='),
-            Operator::NotEq => target.print_rust_str("!=")
+            Operator::NotEq => target.print_rust_str("!="),
         }
     }
 }
 
-fn read_number<T: Iterator<Item=char>>(initial: char, iter: &mut Peekable<T>) -> u32 {
+fn read_number<T: Iterator<Item = char>>(initial: char, iter: &mut Peekable<T>) -> u32 {
     let mut number = initial as u32 - '0' as u32;
     while let Some(&ch) = iter.peek() {
         if ch.is_ascii_digit() {
@@ -240,7 +253,7 @@ fn read_number<T: Iterator<Item=char>>(initial: char, iter: &mut Peekable<T>) ->
     number
 }
 
-fn read_string<T: Iterator<Item=char>>(iter: &mut Peekable<T>) -> String {
+fn read_string<T: Iterator<Item = char>>(iter: &mut Peekable<T>) -> String {
     let mut string = String::with_capacity(8);
     while let Some(ch) = iter.next() {
         if ch == '"' {
@@ -253,7 +266,8 @@ fn read_string<T: Iterator<Item=char>>(iter: &mut Peekable<T>) -> String {
 
 fn tokenize<'a>(code: impl CharSeq<'a>) -> Result<Vec<Token>, ()> {
     let mut tokens = Vec::new();
-    let mut iter = code.to_chars().peekable();
+    let x = code.to_chars();
+    let mut iter = x.peekable();
     while let Some(ch) = iter.next() {
         tokens.push(match ch {
             '+' => Token::Operator(Operator::Add),
@@ -283,23 +297,36 @@ fn tokenize<'a>(code: impl CharSeq<'a>) -> Result<Vec<Token>, ()> {
 fn shunting_yard(tokens: Vec<Token>) -> Vec<Token> {
     let mut output = Vec::with_capacity(tokens.len());
     let mut stack = Vec::with_capacity(tokens.len());
-    for token in tokens.into_iter() {
+
+    #[inline(never)]
+    fn process_token(token: Token, output: &mut Vec<Token>, stack: &mut Vec<Token>) {
         match token {
             Token::Literal(_) | Token::Variable(_) => unsafe { output.push_unchecked(token) },
             Token::Operator(o) => {
                 while let Some(&Token::Operator(op)) = stack.last() {
                     if op.precedence() >= o.precedence() {
-                        unsafe { output.push_unchecked(stack.pop().unwrap_unchecked()); }
+                        unsafe {
+                            output.push_unchecked(stack.pop().unwrap_unchecked());
+                        }
                     } else {
                         break;
                     }
                 }
-                unsafe { stack.push_unchecked(token); }
+                unsafe {
+                    stack.push_unchecked(token);
+                }
             }
         }
     }
+
+    for token in tokens.into_iter() {
+        process_token(token, &mut output, &mut stack);
+    }
+
     while let Some(token) = stack.pop() {
-        unsafe { output.push_unchecked(token); }
+        unsafe {
+            output.push_unchecked(token);
+        }
     }
     output
 }
@@ -322,28 +349,27 @@ fn main() {
         print!("> ");
         line.clear();
         read_line(&mut line);
-        println!("input=", line);
-        if starts_with_ci(&line, "LIST") {
+        if line.starts_with_ignore_case("LIST") {
             show_program(&program);
             continue;
-        } else if starts_with_ci(&line, "RUN") {
+        } else if line.starts_with_ignore_case("RUN") {
             if let Err(_) = program.run() {
                 println!("Error");
             }
             continue;
-        } else if starts_with_ci(&line, "ASMRUN") {
+        } else if line.starts_with_ignore_case("ASMRUN") {
             match &asm {
                 Some(a) => a.run(),
-                None => println!("Must assemble")
+                None => println!("Must assemble"),
             }
             continue;
-        } else if starts_with_ci(&line, "ASM") {
+        } else if line.starts_with_ignore_case("ASM") {
             match program.assemble() {
                 Ok(a) => {
                     println!(a);
                     asm = Some(a);
                 }
-                Err(_) => println!("Error")
+                Err(_) => println!("Error"),
             }
             continue;
         }
@@ -363,53 +389,61 @@ fn main() {
                 continue;
             }
         };
-        let idata = Instruction {
-            line_no: line_no as usize,
-            content: match instr.parse() {
-                Ok(instr) => instr,
-                Err(_) => {
-                    println!("Invalid instruction");
-                    continue;
-                }
-            },
-        };
         asm = None;
-        if line_no > last {
-            program.0.push(idata);
-            last = line_no;
-        } else {
-            let insert = program.0
-                .iter()
-                .enumerate()
-                .find(|(_, i)| i.line_no >= line_no as usize);
-            let (index, instr) = unsafe { insert.unwrap_unchecked() }; // there must be one
-            if instr.line_no == line_no as usize {
-                unsafe { program.0.raw_set(index, idata); }
-            } else {
-                program.0.insert(index, idata);
-            }
-        }
+        process_instruction(&mut program, &mut last, instr, line_no);
     }
 }
 
-fn starts_with_ci(s: &[char], needle: &'static str) -> bool {
-    s.len() >= needle.len()
-        && unsafe { s.get_unchecked(0..needle.len()) }
+
+#[inline(never)]
+fn process_instruction(program: &mut Program, last: &mut u32, instr: &[char], line_no: u32) {
+    let idata = Instruction {
+        line_no: line_no as usize,
+        content: match instr.parse() {
+            Ok(instr) => instr,
+            Err(_) => {
+                println!("Invalid instruction");
+                return;
+            }
+        },
+    };
+    if line_no > *last {
+        program.0.push(idata);
+        *last = line_no;
+    } else {
+        insert_instruction(program, line_no, idata);
+    }
+}
+
+#[inline(never)]
+fn insert_instruction(program: &mut Program, line_no: u32, idata: Instruction) {
+    let insert = program
+        .0
         .iter()
-        .map(|c| c.to_ascii_uppercase())
-        .eq(needle.to_chars_fast())
+        .enumerate()
+        .find(|(_, i)| i.line_no >= line_no as usize);
+    let (index, instr) = unsafe { insert.unwrap_unchecked() }; // there must be one
+    if instr.line_no == line_no as usize {
+        unsafe {
+            program.0.raw_set(index, idata);
+        }
+    } else {
+        program.0.insert(index, idata);
+    }
 }
 
 impl FromStr for InstructionKind {
     type Err = ();
-    //#[inline(never)]
+    #[inline(never)]
     fn from_str(s: &[char]) -> Result<Self, Self::Err> {
-        //#[inline(never)]
+        #[inline(never)]
         fn parse_print(content: &[char]) -> Result<InstructionKind, ()> {
-            let expr = content.parse().map_err(|_| println!("Invalid expression"))?;
+            let expr = content
+                .parse()
+                .map_err(|_| println!("Print: Invalid expression"))?;
             Ok(InstructionKind::Print(expr))
         }
-        //#[inline(never)]
+        #[inline(never)]
         fn parse_input(args: &[char]) -> Result<InstructionKind, ()> {
             let comma = args.find_char(',').ok_or(())?;
             let (prompt, variable) = unsafe {
@@ -420,10 +454,10 @@ impl FromStr for InstructionKind {
             };
             Ok(InstructionKind::Input {
                 prompt: prompt.to_string(),
-                variable: variable.parse().map_err(|_| println!("Invalid variable"))?,
+                variable: variable.parse().map_err(|_| println!("Input: Invalid variable"))?,
             })
         }
-        //#[inline(never)]
+        #[inline(never)]
         fn parse_let(args: &[char]) -> Result<InstructionKind, ()> {
             let equal = args.find_char('=').ok_or(())?;
             let (variable, value) = unsafe {
@@ -433,26 +467,28 @@ impl FromStr for InstructionKind {
                 )
             };
             let xl = InstructionKind::Let {
-                variable: variable.parse().map_err(|_| println!("Invalid variable"))?,
-                value: value.parse().map_err(|_| println!("Invalid expression"))?,
+                variable: variable.parse().map_err(|_| println!("Let: Invalid variable"))?,
+                value: value.parse().map_err(|_| println!("Let: Invalid expression"))?,
             };
             Ok(xl)
         }
-        //#[inline(never)]
+        #[inline(never)]
         fn parse_goto(args: &[char]) -> Result<InstructionKind, ()> {
-            let line_no: u32 = args.parse().map_err(|_| println!("Invalid line no"))?;
+            let line_no: u32 = args.parse().map_err(|_| println!("Goto: Invalid line no"))?;
             Ok(InstructionKind::Goto(line_no as usize))
         }
 
-        if starts_with_ci(s, "PRINT") {
+        println!("i", s, "=", s.starts_with_ignore_case("PRINT"));
+        //breakpoint();
+        if s.starts_with_ignore_case("PRINT") {
             parse_print(unsafe { s.get_unchecked(5..).trim() })
-        } else if starts_with_ci(s, "CLS") {
+        } else if s.starts_with_ignore_case("CLS") {
             Ok(InstructionKind::ClearScreen)
-        } else if starts_with_ci(s, "INPUT") {
+        } else if s.starts_with_ignore_case("INPUT") {
             parse_input(unsafe { s.get_unchecked(5..).trim() })
-        } else if starts_with_ci(s, "GOTO") {
+        } else if s.starts_with_ignore_case("GOTO") {
             parse_goto(unsafe { s.get_unchecked(4..).trim() })
-        } else if starts_with_ci(s, "LET") {
+        } else if s.starts_with_ignore_case("LET") {
             parse_let(unsafe { s.get_unchecked(3..).trim() })
         } else {
             Err(())
@@ -496,9 +532,7 @@ struct ProgramContext {
 
 impl ProgramContext {
     fn new() -> Self {
-        ProgramContext {
-            variables: [0; 26],
-        }
+        ProgramContext { variables: [0; 26] }
     }
 
     #[inline(always)]
@@ -520,34 +554,28 @@ impl ProgramContext {
 impl RpnVisitor for ProgramContext {
     type Output = Value;
 
-    #[inline(always)]
     fn visit_literal(&self, l: &Value) -> Value {
         l.clone()
     }
 
-    #[inline(always)]
     fn visit_variable(&self, v: &Variable) -> Value {
         Value::Number(self.get_variable(v))
     }
 
-    #[inline(always)]
     fn visit_operator(&self, o: &Operator, a: &Value, b: &Value) -> Value {
         o.eval(a, b)
     }
 }
-
 
 struct RpnStringifier;
 
 impl RpnVisitor for RpnStringifier {
     type Output = String;
 
-    #[inline(always)]
     fn visit_literal(&self, l: &Value) -> Self::Output {
         l.to_string()
     }
 
-    #[inline(always)]
     fn visit_variable(&self, v: &Variable) -> Self::Output {
         v.to_string()
     }
@@ -564,9 +592,14 @@ struct Program(Vec<Instruction>);
 
 impl Program {
     fn find_by_line(&self, line_no: usize) -> Option<usize> {
-        match self.0.iter().enumerate().find(|(_, i)| i.line_no >= line_no) {
+        match self
+            .0
+            .iter()
+            .enumerate()
+            .find(|(_, i)| i.line_no >= line_no)
+        {
             Some((i, _)) => Some(i),
-            None => None
+            None => None,
         }
     }
 
@@ -589,14 +622,17 @@ impl Program {
                 InstructionKind::Goto(line) => {
                     idx = match self.find_by_line(*line) {
                         Some(i) => i,
-                        None => break
+                        None => break,
                     };
                     continue;
                 }
                 InstructionKind::Let { variable, value } => {
-                    ctx.set_variable(variable, ctx.eval(value).expect_number().map_err(|_| {
-                        println!("Variables are integers");
-                    })?);
+                    ctx.set_variable(
+                        variable,
+                        ctx.eval(value).expect_number().map_err(|_| {
+                            println!("Variables are integers");
+                        })?,
+                    );
                 }
             }
             idx += 1;
@@ -622,7 +658,7 @@ impl Program {
         struct Relocation(usize, RelocationType);
 
         enum RelocationType {
-            Goto(usize)
+            Goto(usize),
         }
 
         impl Assembler {
@@ -638,7 +674,9 @@ impl Program {
 
             #[inline(always)]
             fn start_line(&mut self) {
-                unsafe { self.instr_starts.push(self.instr_count()); }
+                unsafe {
+                    self.instr_starts.push(self.instr_count());
+                }
             }
 
             #[inline(always)]
@@ -686,7 +724,11 @@ impl Program {
                         RelocationType::Goto(line) => {
                             let line_start = self.instr_starts[*line];
                             let delta = line_start - i - 1;
-                            set_at(&mut self.code, *i, 0xe000 | (delta as u16 & 0b00000_11111111111));
+                            set_at(
+                                &mut self.code,
+                                *i,
+                                0xe000 | (delta as u16 & 0b00000_11111111111),
+                            );
                         }
                     }
                 }
@@ -725,10 +767,12 @@ impl Program {
                                 Value::Number(small @ 0..=255) => {
                                     self.instr(0x2100 | *small as u16); // mov r1, #small
                                 }
-                                Value::Number(bignum) => {
+                                Value::Number(_bignum) => {
                                     unimplemented!();
                                 }
-                                Value::String(_) => { unimplemented!(); }
+                                Value::String(_) => {
+                                    unimplemented!();
+                                }
                             }
                             self.instr(0x9100); // str r1, [sp]
                         }
@@ -810,9 +854,7 @@ impl Display for Assembly {
 impl Assembly {
     fn run(&self) {
         let ptr = self.0.ptr();
-        let as_fn: extern "C" fn() -> () = unsafe {
-            core::mem::transmute(ptr)
-        };
+        let as_fn: extern "C" fn() -> () = unsafe { core::mem::transmute(ptr) };
         as_fn();
         print_char('\n');
     }

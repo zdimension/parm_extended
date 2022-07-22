@@ -22,7 +22,7 @@ if [[ "$*" == *"--disasm"* ]]; then
   ../../../asm/assembleur.py $NAME.s
   arm-none-eabi-objcopy -O binary --only-section=.data ../$BIN >(od -An -x >>$NAME.bin)
 else
-  RUSTC_ARGS="--emit asm -C relocation-model=static"
+  RUSTC_ARGS="--emit asm -C relocation-model=static -v"
   if [ -z $NAME ]; then
     cargo rustc --release -- $RUSTC_ARGS
     NAME=$(basename $(pwd))

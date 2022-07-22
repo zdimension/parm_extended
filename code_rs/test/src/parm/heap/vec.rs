@@ -1,4 +1,4 @@
-use crate::parm::heap::{GLOBAL, malloc, realloc};
+use crate::parm::heap::{malloc, realloc, GLOBAL};
 use crate::parm::panic;
 use core::alloc::{GlobalAlloc, Layout};
 use core::marker::PhantomData;
@@ -6,6 +6,9 @@ use core::mem::{ManuallyDrop, MaybeUninit};
 use core::ops::{Deref, DerefMut};
 use core::ptr::NonNull;
 use core::{cmp, mem, ptr, slice};
+use crate::parm::heap::string::String;
+use crate::parm::tty::Display;
+use crate::print;
 
 #[repr(C)]
 pub struct Vec<T> {
@@ -44,18 +47,10 @@ impl<T> Vec<T> {
         }
     }
 
-    #[inline(always)]
     pub fn with_capacity(cap: usize) -> Self {
-        unsafe {
-            Self::from_raw_parts(
-                malloc(cap * mem::size_of::<T>()) as _,
-                0,
-                cap,
-            )
-        }
+        unsafe { Self::from_raw_parts(malloc(cap * mem::size_of::<T>()) as _, 0, cap) }
     }
 
-    #[inline(always)]
     pub fn push(&mut self, elem: T) {
         if self.len == self.capacity() {
             self.grow_amortized(1);
@@ -79,7 +74,6 @@ impl<T> Vec<T> {
         ptr::write(self.ptr().add(i), elem);
     }
 
-    #[inline(always)]
     pub fn pop(&mut self) -> Option<T> {
         if self.len == 0 {
             None
@@ -89,7 +83,6 @@ impl<T> Vec<T> {
         }
     }
 
-    #[inline(always)]
     pub fn insert(&mut self, index: usize, elem: T) {
         assert!(index <= self.len, "index out of bounds");
         if self.capacity() == self.len {
@@ -107,7 +100,6 @@ impl<T> Vec<T> {
         }
     }
 
-    #[inline(always)]
     pub fn remove(&mut self, index: usize) -> T {
         assert!(index < self.len, "index out of bounds");
         unsafe {
@@ -177,10 +169,7 @@ impl<T> Vec<T> {
         //assert_ne!(mem::size_of::<T>(), 0, "capacity overflow");
 
         let (new_cap, new_layout) = if self.cap == 0 {
-            (
-                additional,
-                additional * mem::size_of::<T>(),
-            )
+            (additional, additional * mem::size_of::<T>())
         } else {
             // This can't overflow because we ensure self.cap <= isize::MAX.
             let new_cap = cmp::max(self.cap + additional, 2 * self.cap);
@@ -234,6 +223,19 @@ impl<T> Vec<T> {
     }
 }
 
+impl<T: Display> Vec<T> {
+    pub fn join(&self, sep: char) -> String {
+        let mut s = String::new();
+        for i in 0..self.len {
+            if i != 0 {
+                s.push(sep);
+            }
+            print!(self[i], => &mut s);
+        }
+        s
+    }
+}
+
 impl<T: Clone> Clone for Vec<T> {
     #[inline(always)]
     fn clone(&self) -> Self {
@@ -252,7 +254,9 @@ impl<T: Clone> Vec<T> {
         }
 
         for item in other {
-            unsafe { self.push_unchecked(item.clone()); }
+            unsafe {
+                self.push_unchecked(item.clone());
+            }
         }
     }
 }

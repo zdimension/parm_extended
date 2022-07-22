@@ -1,11 +1,11 @@
-use core::iter::{Copied, Map};
 use crate::parm::heap::vec::Vec;
+use core::iter::{Copied, Map, Take};
 use core::ops::{Deref, DerefMut};
 use core::slice::Iter;
-use core::str::Chars;
+use core::str::{Bytes, Chars};
 
 use crate::parm::tty::{AsciiEncodable, Display, DisplayTarget};
-
+use crate::{print, println};
 
 #[repr(transparent)]
 #[derive(Clone)]
@@ -64,6 +64,11 @@ impl String {
     #[inline(always)]
     pub fn push(&mut self, ch: char) {
         self.vec.push(ch);
+    }
+    
+    #[inline(always)]
+    pub fn push_str(&mut self, s: &[char]) {
+        self.vec.extend_from_slice(s);
     }
 
     #[inline(always)]
@@ -263,25 +268,42 @@ impl ToString for [char] {
     }
 }
 
-pub trait CharSeq<'a> {
-    type Iter: Iterator<Item = char>;
-    type IterFast: Iterator<Item = char>;
+pub trait CharSeq<'a>: Sized {
+    type Iter<'i>: Iterator<Item = char> where Self: 'i;
+    type IterTake<'i>: Iterator<Item = char> where Self: 'i;
 
-    fn to_chars(&self) -> Self::Iter;
-    fn to_chars_fast(&self) -> Self::IterFast;
+    fn to_chars<'i>(&'i self) -> Self::Iter<'i>;
+    fn take<'i>(&'i self, n: usize) -> Self::IterTake<'i>;
     fn len(&self) -> usize;
+
+    fn eq_case_sensitive<'c>(&self, other: impl CharSeq<'c>) -> bool {
+        self.len() == other.len() && self.to_chars().eq(other.to_chars())
+    }
+
+    fn eq_ignore_case<'c>(&self, other: impl CharSeq<'c>) -> bool {
+        self.len() == other.len() &&
+            self.to_chars().map(|c| c.to_ascii_uppercase())
+                .eq(other.to_chars().map(|c| c.to_ascii_uppercase()))
+    }
+
+    fn starts_with_ignore_case<'c>(&self, needle: impl CharSeq<'c>) -> bool {
+        self.len() >= needle.len()
+            && self.take(needle.len())
+            .map(|c| c.to_ascii_uppercase())
+            .eq(needle.to_chars())
+    }
 }
 
 impl<'a> CharSeq<'a> for &'a [char] {
-    type Iter = Copied<Iter<'a, char>>;
-    type IterFast = Copied<Iter<'a, char>>;
+    type Iter<'i> = Copied<Iter<'i, char>> where Self: 'i;
+    type IterTake<'i> = Copied<Iter<'i, char>> where Self: 'i;
 
-    fn to_chars(&self) -> Self::Iter {
+    fn to_chars<'i>(&'i self) -> Self::Iter<'i> {
         self.iter().copied()
     }
 
-    fn to_chars_fast(&self) -> Self::IterFast {
-        self.iter().copied()
+    fn take<'i>(&'i self, n: usize) -> Self::Iter<'i> {
+        unsafe { self.get_unchecked(0..n) }.iter().copied()
     }
 
     fn len(&self) -> usize {
@@ -289,16 +311,74 @@ impl<'a> CharSeq<'a> for &'a [char] {
     }
 }
 
-impl<'a> CharSeq<'a> for &'a str {
-    type Iter = Chars<'a>;
-    type IterFast = Map<Iter<'a, u8>, fn(&u8) -> char>;
+impl<'a, const N: usize> CharSeq<'a> for [char; N] {
+    type Iter<'i> = Copied<Iter<'i, char>> where Self: 'i;
+    type IterTake<'i> = Copied<Iter<'i, char>> where Self: 'i;
 
-    fn to_chars(&self) -> Self::Iter {
-        self.chars()
+    fn to_chars<'i>(&'i self) -> Self::Iter<'i> {
+        self.iter().copied()
     }
 
-    fn to_chars_fast(&self) -> Self::IterFast {
-        self.as_bytes().iter().map(|&b| b as char)
+    fn take<'i>(&'i self, n: usize) -> Self::Iter<'i> {
+        unsafe { self.get_unchecked(0..n) }.iter().copied()
+    }
+
+    fn len(&self) -> usize {
+        N
+    }
+}
+
+impl<'a> CharSeq<'a> for String {
+    type Iter<'i> = Copied<Iter<'i, char>> where Self: 'i;
+    type IterTake<'i> = Copied<Iter<'i, char>> where Self: 'i;
+
+    fn to_chars<'i>(&'i self) -> Self::Iter<'i> {
+        self.iter().copied()
+    }
+
+    fn take<'i>(&'i self, n: usize) -> Self::IterTake<'i> {
+        unsafe { self.get_unchecked(0..n) }.iter().copied()
+    }
+
+    fn len(&self) -> usize {
+        self.vec.len()
+    }
+}
+/*
+impl<'a, 'b, T> CharSeq<'a> for &'a T where T: CharSeq<'a> {
+    type Iter = T::Iter;
+
+    fn to_chars(&self) -> Self::Iter {
+        (**self).to_chars()
+    }
+
+    fn len(&self) -> usize {
+        (**self).len()
+    }
+}*/
+/*
+impl<'a> CharSeq<'a> for &'a String {
+    type Iter = Copied<Iter<'a, char>>;
+
+    fn to_chars(&self) -> Self::Iter {
+        self.iter().copied()
+    }
+
+    fn len(&self) -> usize {
+        self.vec.len()
+    }
+}
+*/
+impl<'a> CharSeq<'a> for &'a str {
+    type Iter<'i> = Map<Bytes<'i>, fn(u8) -> char> where Self: 'i;
+    type IterTake<'i> = Map<Take<Bytes<'i>>, fn(u8) -> char> where Self: 'i;
+
+    fn to_chars<'i>(&'i self) -> Self::Iter<'i> {
+        self.bytes().map(|b| b as char)
+    }
+
+    fn take<'i>(&'i self, n: usize) -> Self::IterTake<'i> {
+        self.bytes().take(n).map(|b| b as char)
     }
 
     fn len(&self) -> usize {
@@ -323,7 +403,9 @@ impl DisplayTarget for String {
     fn print_rust_str(&mut self, s: &str) {
         self.vec.reserve(s.len());
         for c in s.chars() {
-            unsafe { self.vec.push_unchecked(c); }
+            unsafe {
+                self.vec.push_unchecked(c);
+            }
         }
     }
 }
@@ -354,3 +436,18 @@ impl ToString for str {
         String::from(self)
     }
 }
+
+/*
+Rust:
+pub trait CharSeq<'a>: Sized {
+    type Iter<'i>: Iterator<Item = char> where Self: 'i;
+
+    fn to_chars<'i>(&'i self) -> Self::Iter<'i>;
+}
+
+C++:
+template <typename T>
+concept bool CharSeq =
+    requires(T t) {
+
+ */

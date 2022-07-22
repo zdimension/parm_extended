@@ -3,5 +3,14 @@
 version = 3
 
 [[package]]
+name = "indoc"
+version = "1.0.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "05a0bd019339e5d968b37855180087b7b9d512c5046fbd244cf8c95687927d6e"
+
+[[package]]
 name = "test"
 version = "0.1.0"
+dependencies = [
+ "indoc",
+]

@@ -19,7 +19,7 @@ pub enum ColorSimple {
     Cyan,
     Magenta,
     Orange,
-    Pink
+    Pink,
 }
 
 impl ColorEncodable for ColorSimple {
@@ -54,5 +54,7 @@ impl ColorEncodable for Color15bpp {
 
 #[inline(always)]
 pub fn set_pixel(x: usize, y: usize, color: impl ColorEncodable) {
-    unsafe { *VRAM.add((y * WIDTH + x)) = color.encode(); }
+    unsafe {
+        *VRAM.add(y * WIDTH + x) = color.encode();
+    }
 }

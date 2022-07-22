@@ -324,7 +324,8 @@ impl tty::Display for fp32 {
     }
 }
 
-core::arch::global_asm!(r#"
+core::arch::global_asm!(
+    r#"
 __aeabi_lmul:
 
 	push	{{r4, lr}}
@@ -354,4 +355,5 @@ __aeabi_lmul:
 	lsrs	r3, #16
 	adds	r0, r2
 	adcs	r1, r3
-	pop	{{r4, pc}}"#);
+	pop	{{r4, pc}}"#
+);

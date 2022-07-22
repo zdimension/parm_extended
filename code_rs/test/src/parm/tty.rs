@@ -1,7 +1,7 @@
-use core::hint::unreachable_unchecked;
 use crate::parm::heap::string::String;
 use crate::parm::mmio::{RESbcd, RES};
 use crate::parm::{keyb, mmio};
+use core::hint::unreachable_unchecked;
 
 #[macro_export]
 macro_rules! print {
@@ -29,7 +29,7 @@ macro_rules! println {
 
     ($($c:expr),* $(,)? $(=> $target:expr)?) => {
         {
-            $crate::print!($($c),* $(=> $target)?);
+            $crate::print!($($c),* $(, => $target)?);
             $crate::println!($(=> $target)?);
         }
     };
@@ -87,6 +87,14 @@ impl Display for usize {
 }
 
 impl Display for i32 {
+    #[inline(always)]
+    fn write(&self, target: &mut impl DisplayTarget) {
+        RES.write(*self as u32);
+        print_res(true, target);
+    }
+}
+
+impl Display for u16 {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         RES.write(*self as u32);
@@ -184,6 +192,7 @@ pub fn clear() {
     print_char(12);
 }
 
+#[inline(never)]
 pub fn read_int() -> u32 {
     let mut res = 0;
     loop {
@@ -199,6 +208,7 @@ pub fn read_int() -> u32 {
     }
 }
 
+#[inline(never)]
 pub fn print_res(sign: bool, target: &mut impl DisplayTarget) {
     let mut bcd = RESbcd.read();
 

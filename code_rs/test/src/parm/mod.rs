@@ -6,8 +6,8 @@ pub mod heap;
 pub mod keyb;
 pub mod math;
 pub mod mmio;
-pub mod rgb;
 pub mod screen;
+pub mod telnet;
 pub mod tty;
 
 #[link_section = ".start"]
@@ -30,7 +30,6 @@ pub fn _start() -> ! {
 }
 
 #[export_name = "_ZN4core9panicking5panic17h1ad3ed8b8184cb53E"]
-#[inline(always)]
 pub fn panic(expr: &'static str) -> ! {
     println!("PANIC:", expr);
     loop {}
@@ -72,6 +71,15 @@ fn panic_fmt() -> ! {
         core::arch::asm!("_ZN4core9panicking9panic_fmt17hd67f4882cc9312fdE:");
     }
     panic("panic_fmt")
+}
+
+#[export_name = "slicee_end_index_len_fail"]
+fn slice_end_index_len_fail(_index: usize, _len: usize) -> ! {
+    unsafe {
+        core::arch::asm!("_ZN4core5slice5index24slice_end_index_len_fail17h3d35c3c0c04c4afeE:");
+        core::arch::asm!("_ZN4core5slice5index26slice_start_index_len_fail17ha77bf5041ae3f134E:");
+    }
+    panic("slice index out of bounds");
 }
 
 use crate::println;

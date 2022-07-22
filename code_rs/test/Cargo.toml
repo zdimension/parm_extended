@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+indoc = "1.0.6"
 
 [[bin]]
 name = "calculator"
@@ -28,6 +29,10 @@ path = "src/testdyn.rs"
 [[bin]]
 name = "basic"
 path = "src/basic.rs"
+
+[[bin]]
+name = "plotter"
+path = "src/plotter.rs"
 
 [profile.dev]
 panic = "abort"
