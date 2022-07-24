@@ -342,6 +342,19 @@ fn show_program(code: &Program) {
 fn main() {
     parm::heap::init();
 
+    let mut line = String::with_capacity(32);
+    loop {
+        print!("> ");
+        line.clear();
+        read_line(&mut line);
+        if line.starts_with_ignore_case("LIST") {
+            println!("ok");
+            break;
+        } else {
+            println!("fail");
+        }
+    }
+
     let mut program = Program(Vec::with_capacity(10));
     let mut last = 0;
     let mut line = String::with_capacity(32);
@@ -479,6 +492,8 @@ impl FromStr for InstructionKind {
             Ok(InstructionKind::Goto(line_no as usize))
         }
 
+        println!("i", s, "=", s.starts_with_ignore_case("PRINT"));
+        //breakpoint();
         if s.starts_with_ignore_case("PRINT") {
             parse_print(unsafe { s.get_unchecked(5..).trim() })
         } else if s.starts_with_ignore_case("CLS") {

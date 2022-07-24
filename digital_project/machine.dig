@@ -12,7 +12,7 @@
         </entry>
         <entry>
           <string>Frequency</string>
-          <int>500</int>
+          <int>50000</int>
         </entry>
       </elementAttributes>
       <pos x="20" y="20"/>
@@ -490,7 +490,7 @@
         </entry>
         <entry>
           <string>lastDataFile</string>
-          <file>D:\Documents\GitHub\parm_extended\code_rs\test\bin\basic.raw</file>
+          <file>D:\Documents\GitHub\parm_extended\code_rs\test\bin\testdyn.raw</file>
         </entry>
         <entry>
           <string>autoReload</string>

@@ -3,6 +3,7 @@
 #![feature(min_specialization)]
 #![feature(associated_type_defaults)]
 #![feature(iter_order_by)]
+#![feature(generic_associated_types)]
 
 mod parm;
 
@@ -18,7 +19,7 @@ use crate::parm::tty::{Display, DisplayTarget};
 use indoc::indoc;
 
 struct WebApp {
-    logs: Vec<String>
+    logs: Vec<(String, u16)>
 }
 
 impl WebApp {
@@ -29,26 +30,18 @@ impl WebApp {
     }
 
     #[inline(never)]
-    fn process_req(&mut self, req: String) -> Result<(), ()> {
-        let space = match req.as_chars().find_char(' ') {
-            Some(pos) if pos < req.len() => pos,
-            _ => {
-                return Err(());
-            }
-        };
-        let verb = req[..space].parse()?;
-        let rest = &req[space + 1..];
-        let url = match rest.find_char(' ') {
-            Some(pos) => &rest[..pos],
-            None => rest,
-        };
+    fn process_req(&mut self, req: HttpRequest) -> Result<(), ()> {
+        let HttpRequestStart { verb, url } = &req.start;
+        let mut log = String::with_capacity(64);
+        print!(verb, ' ', url, " from ", => &mut log);
+        if let Some(val) = req.get_header(HttpHeaderType::UserAgent) {
+            print!(val, => &mut log);
+        } else {
+            print!("<unknown>", => &mut log);
+        }
 
-        let mut log = String::with_capacity(req.len());
-
-        print!(verb, ' ', url, => &mut log);
-        self.logs.push(log);
-
-        let resp = self.get_response(verb, url);
+        let resp = self.get_response(*verb, &url);
+        self.logs.push((log, resp.code));
 
         print!("HTTP/1.1 ", resp.code, " OK\r\n", => get_telnet());
         print!("content-type: ", resp.content_type, "\r\n", => get_telnet());
@@ -75,17 +68,16 @@ impl WebApp {
                             Request history:
                             <ul>
                             "#});
-                        for log in self.logs.iter() {
-                            print!("<li>", log, "</li>", => &mut body);
+                        for (log, code) in self.logs.iter() {
+                            print!("<li>", log, "<ul><li>", code, "</li></ul></li>", => &mut body);
                         }
                         print!("</ul>", => &mut body);
 
-                        let r = HttpResponse {
+                        HttpResponse {
                             code: 200,
                             body,
                             content_type: "text/html",
-                        };
-                        r
+                        }
                     },
                     _ => HttpResponse {
                         code: 404,
@@ -103,25 +95,34 @@ impl WebApp {
     }
 }
 
+fn strip_cr(mut s: String) -> String {
+    if s.ends_with(&['\r']) {
+        s.pop();
+    }
+    s
+}
+
+#[inline(never)]
 fn read_req() -> Result<HttpRequest, &'static str> {
     let line = read_line();
-    println!("a");
     let start = match line.parse() {
         Ok(h) => h,
         Err(s) => {
             return Err(s);
         }
     };
-    return Err("bbb");
     let mut headers = Vec::new();
     loop {
-        let line = read_line();
-        if line[0] == '\r' {
+        let line = strip_cr(read_line());
+        if line.is_empty() {
             break;
         }
         match line.parse() {
             Ok(h) => headers.push(h),
-            Err(()) => {
+            Err(HttpHeaderParseError::UnknownHeaderType) => {
+                continue;
+            },
+            Err(_) => {
                 return Err("Invalid header");
             }
         }
@@ -141,78 +142,18 @@ fn main() {
         let req = match read_req() {
             Ok(req) => req,
             Err(e) => {
-                println!(e as *const _ as *const () as usize);
-                println!(e);
                 flush_all();
+                println!("Error: ", e);
                 continue;
             }
         };
 
         println!("Received:");
-        println!(req);/*
+        println!(req);
 
-        let mut req = String::with_capacity(64);
-        let last = '\0';
-
-        let req = read_all_string();
-        println!("received");
-        println!(&req[..req.as_chars().find_char('\r').unwrap_or(req.len())]);
         println!("*** end *** ");
         if let Err(()) = app.process_req(req) {
             println!("Error");
-        }*/
-    }
-}
-
-enum HttpVerb {
-    Get,
-    Post,
-}
-
-impl Display for HttpVerb {
-    fn write(&self, target: &mut impl DisplayTarget) {
-        target.print_rust_str(match self {
-            HttpVerb::Get => "GET",
-            HttpVerb::Post => "POST",
-        });
-    }
-}
-
-fn eq_by<J, I, F>(mut t: J, other: I, mut eq: F) -> bool
-    where
-        J: Sized + Iterator,
-        I: IntoIterator,
-        F: FnMut(J::Item, I::Item) -> bool,
-{
-    let mut other = other.into_iter();
-
-    loop {
-        let x = match t.next() {
-            None => return other.next().is_none(),
-            Some(val) => val,
-        };
-
-        let y = match other.next() {
-            None => return false,
-            Some(val) => val,
-        };
-
-        if !eq(x, y) {
-            return false;
-        }
-    }
-}
-
-impl FromStr for HttpVerb {
-    type Err = ();
-    #[inline(never)]
-    fn from_str(s: &[char]) -> Result<Self, Self::Err> {
-        if s.eq_case_sensitive("GET".to_fast()) {
-            Ok(HttpVerb::Get)
-        } else if s.eq_case_sensitive("POST".to_fast()) {
-            Ok(HttpVerb::Post)
-        } else {
-            Err(())
         }
     }
 }
@@ -220,6 +161,12 @@ impl FromStr for HttpVerb {
 struct HttpRequest {
     start: HttpRequestStart,
     headers: Vec<HttpHeader>
+}
+
+impl HttpRequest {
+    pub fn get_header(&self, name: HttpHeaderType) -> Option<&[char]> {
+        self.headers.iter().find(|h| h.ty == name).map(|h| h.value.as_chars())
+    }
 }
 
 impl Display for HttpRequest {
@@ -264,51 +211,82 @@ impl Display for HttpRequestStart {
     }
 }
 
-enum HttpHeaderType {
-    ContentType,
-    ContentLength,
-}
-
-impl FromStr for HttpHeaderType {
-    type Err = ();
-    fn from_str(s: &[char]) -> Result<Self, Self::Err> {
-        if s.eq_ignore_case("Content-Type") {
-            Ok(HttpHeaderType::ContentType)
-        } else if s.eq_ignore_case("Content-Length") {
-            Ok(HttpHeaderType::ContentLength)
-        } else {
-            Err(())
+macro_rules! string_enum {
+    ($ename: ident, [$($name:ident: $value:literal),* $(,)?]) => {
+        #[derive(Clone, Copy, PartialEq, Eq)]
+        enum $ename {
+            $(
+                $name,
+            )*
         }
-    }
+
+        impl FromStr for $ename {
+            type Err = ();
+            fn from_str(s: &[char]) -> Result<Self, Self::Err> {
+                if false {
+                    unreachable!()
+                } $(
+                    else if s.eq_ignore_case($value) {
+                        Ok($ename::$name)
+                    }
+                )*
+                else {
+                    Err(())
+                }
+            }
+        }
+
+        impl Display for $ename {
+            fn write(&self, target: &mut impl DisplayTarget) {
+                target.print_rust_str(match self {
+                    $(
+                        $ename::$name => $value,
+                    )*
+                })
+            }
+        }
+    };
 }
 
-impl Display for HttpHeaderType {
-    fn write(&self, target: &mut impl DisplayTarget) {
-        use HttpHeaderType::*;
-        target.print_rust_str(match self {
-            ContentType => "Content-Type",
-            ContentLength => "Content-Length",
-        })
-    }
-}
+string_enum!(HttpVerb, [
+    Get: "GET",
+    Post: "POST",
+]);
+
+string_enum!(HttpHeaderType, [
+    ContentType: "Content-Type",
+    ContentLength: "Content-Length",
+    Accept: "Accept",
+    UserAgent: "User-Agent",
+    Host: "Host",
+]);
 
 struct HttpHeader {
     ty: HttpHeaderType,
     value: String,
 }
 
+enum HttpHeaderParseError {
+    InvalidSyntax,
+    UnknownHeaderType,
+    NoHeaderValue,
+}
+
 impl FromStr for HttpHeader {
-    type Err = ();
+    type Err = HttpHeaderParseError;
     fn from_str(header: &[char]) -> Result<Self, Self::Err> {
         let colon = match header.find_char(':') {
             Some(pos) if pos < header.len() => pos,
             _ => {
-                return Err(());
+                return Err(HttpHeaderParseError::InvalidSyntax);
             }
         };
         let name = &header[..colon];
-        let value = &header[colon + 1..];
-        let ty = name.parse()?;
+        let value = (&header[colon + 1..]).trim();
+        if value.is_empty() {
+            return Err(HttpHeaderParseError::NoHeaderValue);
+        }
+        let ty = name.trim().parse().map_err(|_| HttpHeaderParseError::UnknownHeaderType)?;
         Ok(HttpHeader {
             ty,
             value: String::from(value),

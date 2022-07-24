@@ -36,7 +36,6 @@ path = "src/plotter.rs"
 
 [profile.dev]
 panic = "abort"
-opt-level = "z"
 
 [profile.release]
 panic = "abort"

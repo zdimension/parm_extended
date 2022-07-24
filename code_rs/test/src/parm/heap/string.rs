@@ -65,6 +65,11 @@ impl String {
     pub fn push(&mut self, ch: char) {
         self.vec.push(ch);
     }
+
+    #[inline(always)]
+    pub fn pop(&mut self) -> Option<char> {
+        self.vec.pop()
+    }
     
     #[inline(always)]
     pub fn push_str(&mut self, s: &[char]) {
@@ -290,7 +295,7 @@ pub trait CharSeq<'a>: Sized {
         self.len() >= needle.len()
             && self.take(needle.len())
             .map(|c| c.to_ascii_uppercase())
-            .eq(needle.to_chars())
+            .eq(needle.to_chars().map(|c| c.to_ascii_uppercase()))
     }
 }
 
