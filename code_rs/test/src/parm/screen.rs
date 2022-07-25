@@ -6,7 +6,7 @@ const VRAM: *mut u32 = 0x100_0000 as *mut u32;
 pub const WIDTH: usize = 320;
 pub const HEIGHT: usize = 240;
 
-pub trait ColorEncodable {
+pub trait ColorEncodable : Copy {
     fn encode(&self) -> u32;
 }
 

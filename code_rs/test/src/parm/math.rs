@@ -1,7 +1,7 @@
 use crate::parm::mmio::{R2divR3, R2modR3, RESbcd, RES};
 use crate::parm::tty;
 use crate::parm::tty::DisplayTarget;
-use crate::print;
+use crate::{print, println};
 use core::ops::{Add, AddAssign, Div, Mul, MulAssign, Neg, Rem, Sub, SubAssign};
 
 #[export_name = "__aeabi_uidiv"]
@@ -113,13 +113,16 @@ impl fp32 {
     pub const TAU: Self = fp32(411775);
 
     #[inline(always)]
+    pub const fn from_raw(val: i32) -> Self { Self(val) }
+
+    #[inline(always)]
     pub const fn integer_part(self) -> i32 {
         self.0 >> 16
     }
 
     #[inline(always)]
-    pub const fn fractional_part(self) -> u32 {
-        (self.0 & 0xFFFF) as u32
+    pub const fn fractional_part(self) -> fp32 {
+        fp32(self.0 & 0xFFFF)
     }
 
     #[inline(always)]
@@ -171,6 +174,16 @@ impl fp32 {
         } else {
             taylor_series(self, 2)
         }
+    }
+
+    #[inline(always)]
+    pub fn recip(self) -> fp32 {
+        fp32(2 * (((1 << 31 - 1) / (self.0 as u32)) as i32))
+    }
+
+    #[inline(always)]
+    pub fn get_raw_data(self) -> i32 {
+        self.0
     }
 }
 
@@ -304,10 +317,10 @@ pub fn print_fp(x: fp32, target: &mut impl DisplayTarget) {
     };
     print!(x.integer_part() as u32, => target);
     target.print_char('.');
-    if x.fractional_part() == 0 {
+    if x.fractional_part().get_raw_data() == 0 {
         target.print_char('0');
     } else {
-        RES.write((x.fractional_part() * 10000) >> 16);
+        RES.write((x.fractional_part().get_raw_data() as u32 * 10000) >> 16);
         let mut bcd = RESbcd.read() >> 16;
         while bcd != 0 {
             let digit = bcd & 0xf;

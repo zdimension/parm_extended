@@ -41,4 +41,5 @@ else
 
   pushd bin
   ../../../asm/assembleur.py $NAME.s $2
+  cp $NAME.raw digital_out.raw
 fi

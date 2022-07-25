@@ -48,6 +48,7 @@ pub fn panic2(expr: &'static str) -> ! {
     unsafe {
         core::arch::asm!("_ZN4core9panicking5panic17h0889907c7e7272d5E:");
         core::arch::asm!("_ZN4core9panicking5panic17h54febf44e809a353E:");
+        core::arch::asm!("_ZN4core9panicking5panic17h17dc07c17ae86e0aE:");
     }
     panic(expr)
 }
@@ -67,6 +68,7 @@ fn panic_bounds_check() -> ! {
     unsafe {
         core::arch::asm!("_ZN4core9panicking18panic_bounds_check17h6f55fa0d21c94988E:");
         core::arch::asm!("_ZN4core9panicking18panic_bounds_check17h2c8069d2b705747bE:");
+        core::arch::asm!("_ZN4core9panicking18panic_bounds_check17h4951c2fcb20aa965E:");
     }
     panic("index out of bounds")
 }
@@ -77,6 +79,7 @@ fn panic_fmt() -> ! {
     unsafe {
         core::arch::asm!("_ZN4core9panicking9panic_fmt17hfd9f87229ac2f2baE:");
         core::arch::asm!("_ZN4core9panicking9panic_fmt17hd67f4882cc9312fdE:");
+        core::arch::asm!("_ZN4core9panicking9panic_fmt17hc90555fcc536d9d7E:");
     }
     panic("panic_fmt")
 }

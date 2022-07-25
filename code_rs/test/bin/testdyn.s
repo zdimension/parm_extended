@@ -15,7 +15,7 @@
 	.eabi_attribute	38, 1
 	.eabi_attribute	14, 0
 	.code	16
-	.file	"testdyn.895c61d9-cgu.0"
+	.file	"testdyn.9e27ff09-cgu.0"
 
 
 __aeabi_lmul:
@@ -300,12 +300,12 @@ __aeabi_uidivmod:
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN7testdyn4parm3tty9print_res17h76c3213863c05f9eE,"ax",%progbits
+	.section	.text._ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E,"ax",%progbits
 	.p2align	1
-	.type	_ZN7testdyn4parm3tty9print_res17h76c3213863c05f9eE,%function
+	.type	_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E,%function
 	.code	16
 	.thumb_func
-_ZN7testdyn4parm3tty9print_res17h76c3213863c05f9eE:
+_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E:
 	.fnstart
 	movs	r0, #255
 	mvns	r0, r0
@@ -336,7 +336,7 @@ _ZN7testdyn4parm3tty9print_res17h76c3213863c05f9eE:
 	str	r1, [r0]
 	bx	lr
 .Lfunc_end8:
-	.size	_ZN7testdyn4parm3tty9print_res17h76c3213863c05f9eE, .Lfunc_end8-_ZN7testdyn4parm3tty9print_res17h76c3213863c05f9eE
+	.size	_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E, .Lfunc_end8-_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E
 	.cantunwind
 	.fnend
 
@@ -751,7 +751,7 @@ run:
 	b	.LBB9_64
 .LBB9_66:
 	str	r4, [r5, #4]
-	bl	_ZN7testdyn4parm3tty9print_res17h76c3213863c05f9eE
+	bl	_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E
 	movs	r0, #10
 	str	r0, [r5]
 	cmp	r4, #0
@@ -887,7 +887,7 @@ run:
 	ldr	r2, .LCPI9_9
 	mov	r1, r0
 .LBB9_99:
-	bl	_ZN4core9panicking18panic_bounds_check17h2c8069d2b705747bE
+	bl	_ZN4core9panicking18panic_bounds_check17h4951c2fcb20aa965E
 	.inst.n	0xdefe
 .LBB9_100:
 	movs	r1, #5
@@ -917,7 +917,7 @@ run:
 	b	.LBB9_105
 .LBB9_107:
 	str	r0, [r5, #4]
-	bl	_ZN7testdyn4parm3tty9print_res17h76c3213863c05f9eE
+	bl	_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E
 	movs	r0, #0
 	ldr	r1, .LCPI9_17
 .LBB9_108:
@@ -958,7 +958,7 @@ run:
 .LBB9_118:
 	uxtb	r0, r3
 	str	r0, [r5, #4]
-	bl	_ZN7testdyn4parm3tty9print_res17h76c3213863c05f9eE
+	bl	_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E
 	movs	r0, #10
 	str	r0, [r5]
 	ldr	r0, .LCPI9_5
