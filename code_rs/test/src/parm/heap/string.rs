@@ -70,7 +70,7 @@ impl String {
     pub fn pop(&mut self) -> Option<char> {
         self.vec.pop()
     }
-    
+
     #[inline(always)]
     pub fn push_str(&mut self, s: &[char]) {
         self.vec.extend_from_slice(s);
@@ -274,8 +274,12 @@ impl ToString for [char] {
 }
 
 pub trait CharSeq<'a>: Sized {
-    type Iter<'i>: Iterator<Item = char> where Self: 'i;
-    type IterTake<'i>: Iterator<Item = char> where Self: 'i;
+    type Iter<'i>: Iterator<Item = char>
+    where
+        Self: 'i;
+    type IterTake<'i>: Iterator<Item = char>
+    where
+        Self: 'i;
 
     fn to_chars<'i>(&'i self) -> Self::Iter<'i>;
     fn take<'i>(&'i self, n: usize) -> Self::IterTake<'i>;
@@ -286,16 +290,19 @@ pub trait CharSeq<'a>: Sized {
     }
 
     fn eq_ignore_case<'c>(&self, other: impl CharSeq<'c>) -> bool {
-        self.len() == other.len() &&
-            self.to_chars().map(|c| c.to_ascii_uppercase())
+        self.len() == other.len()
+            && self
+                .to_chars()
+                .map(|c| c.to_ascii_uppercase())
                 .eq(other.to_chars().map(|c| c.to_ascii_uppercase()))
     }
 
     fn starts_with_ignore_case<'c>(&self, needle: impl CharSeq<'c>) -> bool {
         self.len() >= needle.len()
-            && self.take(needle.len())
-            .map(|c| c.to_ascii_uppercase())
-            .eq(needle.to_chars().map(|c| c.to_ascii_uppercase()))
+            && self
+                .take(needle.len())
+                .map(|c| c.to_ascii_uppercase())
+                .eq(needle.to_chars().map(|c| c.to_ascii_uppercase()))
     }
 }
 

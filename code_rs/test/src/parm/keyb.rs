@@ -15,3 +15,12 @@ pub fn read_key() -> u32 {
 pub fn read_char() -> char {
     unsafe { char::from_u32_unchecked(read_key()) }
 }
+
+#[inline(always)]
+pub fn read() -> Option<u32> {
+    if KEYBeof.read() != 0 {
+        Some(KEYBchr.read())
+    } else {
+        None
+    }
+}

@@ -265,6 +265,9 @@ def assemble(line, labels, pc):
 			n = parse_imm(args)
 			lo, hi = n & 0xFFFF, n >> 16
 			return (pc, lo, dl, n), (pc+1, hi, dl, n)
+		if instr.lower() == "@short":
+			n = parse_imm(args)
+			return (pc, n, dl, n),
 		if instr.lower() == "@bytes":
 			first, second = map(parse_imm, args.split(","))
 			return (pc, (second << 8) | first, dl, f"{first}, {second}"),
@@ -427,6 +430,8 @@ try:
 					add_instr("@" + line[1:], size=l//2)
 				elif fpart in (".word", ".long"):
 					add_instr("@" + line[1:], size=2)
+				elif fpart in (".short",):
+					add_instr("@" + line[1:], size=1)
 				elif fpart == ".byte":
 					byte_val = line.split(None, 1)[1]
 				elif fpart == ".zero":
@@ -440,7 +445,7 @@ try:
 					add_instr(f"@bytes {val}, {val if cnt % 2 == 0 else 0}", None, 1)
 				elif line[0] != ".":
 					add_instr(line)
-				elif fpart in (".text", ".syntax", ".section", ".type", ".eabi_attribute", ".code", ".file", ".thumb_func", ".fnstart", ".save", ".setfp", ".size", ".cantunwind", ".fnend", ".pad", ".globl", ".hidden"):
+				elif fpart in (".text", ".syntax", ".section", ".type", ".eabi_attribute", ".code", ".file", ".thumb_func", ".fnstart", ".save", ".setfp", ".size", ".cantunwind", ".fnend", ".pad", ".globl", ".hidden", ".set"):
 					pass
 				else:
 					raise Exception("Invalid directive: " + fpart)

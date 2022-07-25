@@ -1,4 +1,3 @@
-
 use crate::parm::heap::string::String;
 use crate::parm::heap::vec::Vec;
 use crate::parm::mmio::{TELNETavail, TELNETdata};
@@ -14,6 +13,7 @@ pub fn send(data: u8) {
     TELNETdata.write(data as u32);
 }
 
+#[inline(always)]
 pub fn data_available() -> bool {
     TELNETavail.read() != 0
 }
@@ -23,6 +23,15 @@ pub fn read_blocking() -> u8 {
         continue;
     }
     TELNETdata.read() as u8
+}
+
+#[inline(always)]
+pub fn read() -> Option<u8> {
+    if data_available() {
+        Some(TELNETdata.read() as u8)
+    } else {
+        None
+    }
 }
 
 pub fn read_all_as<T>(conv: fn(u8) -> T, stop: fn(u8) -> bool) -> Vec<T> {

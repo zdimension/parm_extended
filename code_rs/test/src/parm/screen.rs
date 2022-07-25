@@ -1,3 +1,6 @@
+use crate::parm::mmio::DISPbuf;
+use core::ops::Not;
+
 const VRAM: *mut u32 = 0x100_0000 as *mut u32;
 
 pub const WIDTH: usize = 320;
@@ -28,6 +31,7 @@ impl ColorEncodable for ColorSimple {
     }
 }
 
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub struct ColorGrayscale(pub u8);
 
 impl ColorEncodable for ColorGrayscale {
@@ -36,6 +40,7 @@ impl ColorEncodable for ColorGrayscale {
     }
 }
 
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub struct Color6bpp(pub u8, pub u8, pub u8);
 
 impl ColorEncodable for Color6bpp {
@@ -44,7 +49,12 @@ impl ColorEncodable for Color6bpp {
     }
 }
 
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub struct Color15bpp(pub u8, pub u8, pub u8);
+
+pub const fn rgb32(r: u8, g: u8, b: u8) -> Color15bpp {
+    Color15bpp(r >> 3, g >> 3, b >> 3)
+}
 
 impl ColorEncodable for Color15bpp {
     fn encode(&self) -> u32 {
@@ -57,4 +67,64 @@ pub fn set_pixel(x: usize, y: usize, color: impl ColorEncodable) {
     unsafe {
         *VRAM.add(y * WIDTH + x) = color.encode();
     }
+}
+
+#[inline(always)]
+pub fn clear(color: impl ColorEncodable) {
+    unsafe {
+        for i in 0..WIDTH * HEIGHT {
+            *VRAM.add(i) = color.encode();
+        }
+    }
+}
+
+#[inline(always)]
+pub fn set_pixel_buf(b: Buffer, x: usize, y: usize, color: impl ColorEncodable) {
+    unsafe {
+        *VRAM.add(b.get_offset() + y * WIDTH + x) = color.encode();
+    }
+}
+
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub enum Buffer {
+    Front,
+    Back,
+}
+
+impl Buffer {
+    pub fn get_offset(self) -> usize {
+        match self {
+            Buffer::Front => 0,
+            Buffer::Back => WIDTH * HEIGHT,
+        }
+    }
+}
+
+impl Not for Buffer {
+    type Output = Buffer;
+
+    fn not(self) -> Self::Output {
+        match self {
+            Buffer::Front => Buffer::Back,
+            Buffer::Back => Buffer::Front,
+        }
+    }
+}
+
+#[inline(always)]
+pub fn get_buf() -> Buffer {
+    match unsafe { DISPbuf.read() } {
+        0 => Buffer::Front,
+        _ => Buffer::Back,
+    }
+}
+
+#[inline(always)]
+pub fn set_buf(buf: Buffer) {
+    DISPbuf.write(buf as u32);
+}
+
+#[inline(always)]
+pub fn flip_buf() {
+    set_buf(Buffer::not(get_buf()));
 }

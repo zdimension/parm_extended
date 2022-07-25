@@ -1,14 +1,14 @@
+use crate::parm::heap::string::String;
 use crate::parm::heap::{malloc, realloc, GLOBAL};
 use crate::parm::panic;
+use crate::parm::tty::Display;
+use crate::print;
 use core::alloc::{GlobalAlloc, Layout};
 use core::marker::PhantomData;
 use core::mem::{ManuallyDrop, MaybeUninit};
 use core::ops::{Deref, DerefMut};
 use core::ptr::NonNull;
 use core::{cmp, mem, ptr, slice};
-use crate::parm::heap::string::String;
-use crate::parm::tty::Display;
-use crate::print;
 
 #[repr(C)]
 pub struct Vec<T> {

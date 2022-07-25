@@ -244,8 +244,16 @@ fn __rust_dealloc(ptr: *mut u8, _size: usize, _align: usize) {
 
 #[no_mangle]
 extern "C" fn __aeabi_memcpy(dest: *mut u32, src: *const u32, n: usize) {
-    let n = (n + 3) >> 2;
+    let rem = n % 4;
+    let n = n - rem;
     for i in 0..n {
+        unsafe {
+            *dest.add(i) = *src.add(i);
+        }
+    }
+    let dest = unsafe { dest.add(n) } as *mut u8;
+    let src = unsafe { src.add(n) } as *const u8;
+    for i in 0..rem {
         unsafe {
             *dest.add(i) = *src.add(i);
         }
@@ -254,14 +262,28 @@ extern "C" fn __aeabi_memcpy(dest: *mut u32, src: *const u32, n: usize) {
 
 #[no_mangle]
 extern "C" fn __aeabi_memclr(dest: *mut u32, n: usize) {
-    let n = (n + 3) >> 2;
+    let rem = n % 4;
+    let n = n - rem;
     for i in 0..n {
-        unsafe { *dest.add(i) = 0 }
+        unsafe {
+            *dest.add(i) = 0;
+        }
+    }
+    let ptr = unsafe { dest.add(n) } as *mut u8;
+    for i in 0..rem {
+        unsafe {
+            *ptr.add(i) = 0;
+        }
     }
 }
 
 #[no_mangle]
 extern "C" fn __aeabi_memclr4(dest: *mut u32, n: usize) {
+    __aeabi_memclr(dest, n)
+}
+
+#[no_mangle]
+extern "C" fn __aeabi_memclr8(dest: *mut u32, n: usize) {
     __aeabi_memclr(dest, n)
 }
 

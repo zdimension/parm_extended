@@ -88,5 +88,6 @@ pins! {
     RNG32 => 10(in),
     RESbcd => 11(in),
     R2divR3 => 12(in),
-    R2modR3 => 13(in)
+    R2modR3 => 13(in),
+    DISPbuf => 14(inout)
 }

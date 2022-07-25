@@ -4,9 +4,8 @@
 #![feature(generic_associated_types)]
 #![feature(iter_order_by)]
 
-use core::iter::Peekable;
 use crate::parm::control::breakpoint;
-
+use core::iter::Peekable;
 
 use crate::parm::heap::string::StrLike;
 use crate::parm::heap::string::ToString;
@@ -15,9 +14,7 @@ use crate::parm::heap::string::{FromStr, String};
 use crate::parm::heap::vec::Vec;
 use crate::parm::mmio::RES;
 use crate::parm::panic;
-use crate::parm::tty::{
-    clear, print_char, print_hex, read_int, read_line, Display, DisplayTarget,
-};
+use crate::parm::tty::{clear, print_char, print_hex, read_int, read_line, Display, DisplayTarget};
 
 mod parm;
 
@@ -395,7 +392,6 @@ fn main() {
     }
 }
 
-
 #[inline(never)]
 fn process_instruction(program: &mut Program, last: &mut u32, instr: &[char], line_no: u32) {
     let idata = Instruction {
@@ -455,7 +451,9 @@ impl FromStr for InstructionKind {
             };
             Ok(InstructionKind::Input {
                 prompt: prompt.to_string(),
-                variable: variable.parse().map_err(|_| println!("Input: Invalid variable"))?,
+                variable: variable
+                    .parse()
+                    .map_err(|_| println!("Input: Invalid variable"))?,
             })
         }
         #[inline(never)]
@@ -468,14 +466,20 @@ impl FromStr for InstructionKind {
                 )
             };
             let xl = InstructionKind::Let {
-                variable: variable.parse().map_err(|_| println!("Let: Invalid variable"))?,
-                value: value.parse().map_err(|_| println!("Let: Invalid expression"))?,
+                variable: variable
+                    .parse()
+                    .map_err(|_| println!("Let: Invalid variable"))?,
+                value: value
+                    .parse()
+                    .map_err(|_| println!("Let: Invalid expression"))?,
             };
             Ok(xl)
         }
         #[inline(never)]
         fn parse_goto(args: &[char]) -> Result<InstructionKind, ()> {
-            let line_no: u32 = args.parse().map_err(|_| println!("Goto: Invalid line no"))?;
+            let line_no: u32 = args
+                .parse()
+                .map_err(|_| println!("Goto: Invalid line no"))?;
             Ok(InstructionKind::Goto(line_no as usize))
         }
 

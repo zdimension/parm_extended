@@ -34,6 +34,14 @@ path = "src/basic.rs"
 name = "plotter"
 path = "src/plotter.rs"
 
+[[bin]]
+name = "parmweb"
+path = "src/parmweb.rs"
+
+[[bin]]
+name = "simpletelnet"
+path = "src/simpletelnet.rs"
+
 [profile.dev]
 panic = "abort"
 

@@ -36,6 +36,14 @@ pub fn panic(expr: &'static str) -> ! {
 }
 
 #[no_mangle]
+pub fn expect_failed(msg: &'static str) -> ! {
+    unsafe {
+        core::arch::asm!("_ZN4core6option13expect_failed17h8c305cb9ee051e3fE:");
+    }
+    panic(msg)
+}
+
+#[no_mangle]
 pub fn panic2(expr: &'static str) -> ! {
     unsafe {
         core::arch::asm!("_ZN4core9panicking5panic17h0889907c7e7272d5E:");
