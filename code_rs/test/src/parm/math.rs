@@ -10,17 +10,26 @@ pub fn __aeabi_uidiv(a: u32, b: u32) -> u32 {
 }
 
 #[repr(C)]
-pub struct DivMod {
-    quotient: u32,
-    remainder: u32,
+pub struct DivMod<T> {
+    quotient: T,
+    remainder: T,
 }
 
 #[export_name = "__aeabi_uidivmod"]
-pub fn __aeabi_uidivmod(a: u32, b: u32) -> DivMod {
+pub fn __aeabi_uidivmod(a: u32, b: u32) -> DivMod<u32> {
     let divmod = divmod(a, b);
     DivMod {
         quotient: divmod.0,
         remainder: divmod.1,
+    }
+}
+
+#[export_name = "__aeabi_idivmod"]
+pub fn __aeabi_idivmod(a: i32, b: i32) -> DivMod<i32> {
+    let divmod = divmod(a as u32, b as u32);
+    DivMod {
+        quotient: divmod.0 as i32,
+        remainder: divmod.1 as i32,
     }
 }
 
@@ -113,7 +122,9 @@ impl fp32 {
     pub const TAU: Self = fp32(411775);
 
     #[inline(always)]
-    pub const fn from_raw(val: i32) -> Self { Self(val) }
+    pub const fn from_raw(val: i32) -> Self {
+        Self(val)
+    }
 
     #[inline(always)]
     pub const fn integer_part(self) -> i32 {
@@ -159,7 +170,7 @@ impl fp32 {
 
     #[inline(always)]
     pub fn cos(self) -> fp32 {
-        taylor_series(self.abs(), 1)
+        (self + fp32::PI / 2).sin()
     }
 
     #[inline(always)]
@@ -170,10 +181,40 @@ impl fp32 {
     #[inline(always)]
     pub fn sin(self) -> fp32 {
         if self.0 < 0 {
-            -taylor_series(-self, 2)
-        } else {
-            taylor_series(self, 2)
+            return -fp32::sin(-self);
         }
+
+        if self >= 2 * fp32::PI {
+            return fp32::sin(self % (2 * fp32::PI));
+        }
+
+        if self >= fp32::PI {
+            return -fp32::sin(self - fp32::PI);
+        }
+
+        if self > fp32::FRAC_PI_2 {
+            return fp32::sin(fp32::PI - self);
+        }
+
+        let mut trig_pow = self;
+        let mut trig_fact = fp32::from(1);
+        let mut res = trig_pow;
+        let xpow2 = self * self;
+        let mut sign = -1;
+        let mut i = 2;
+        loop {
+            trig_pow *= xpow2;
+            trig_fact *= fp32::from(i);
+            trig_fact *= fp32::from(i + 1);
+            let diff = sign * (trig_pow / trig_fact);
+            if diff.0 == 0 {
+                break;
+            }
+            res += diff;
+            i += 2;
+            sign = -sign;
+        }
+        res
     }
 
     #[inline(always)]
@@ -184,38 +225,6 @@ impl fp32 {
     #[inline(always)]
     pub fn get_raw_data(self) -> i32 {
         self.0
-    }
-}
-
-fn taylor_series(value: fp32, n: i32) -> fp32 {
-    let newcalcx = value % fp32::PI;
-    let newcalcx = if newcalcx < fp32::FRAC_PI_2 {
-        newcalcx
-    } else {
-        fp32::PI - newcalcx
-    };
-    let mut trig_pow = if n == 2 { newcalcx } else { fp32::from(1) };
-    let mut trig_fact = fp32::from(1);
-    let mut res = trig_pow;
-    let xpow2 = newcalcx * newcalcx;
-    let mut sign = -1;
-    let mut i = n;
-    loop {
-        trig_pow *= xpow2;
-        trig_fact *= fp32::from(i);
-        trig_fact *= fp32::from(i + 1);
-        let diff = sign * (trig_pow / trig_fact);
-        if diff.0 == 0 {
-            break;
-        }
-        res += diff;
-        i += 2;
-        sign = -sign;
-    }
-    if value > fp32::PI {
-        -res
-    } else {
-        res
     }
 }
 
@@ -297,7 +306,8 @@ impl Div<fp32> for fp32 {
 impl Rem<fp32> for fp32 {
     type Output = fp32;
     fn rem(self, rhs: fp32) -> Self::Output {
-        fp32(r#mod(self.0 as u32, rhs.0 as u32) as i32)
+        fp32(self.0 % rhs.0)
+        //fp32(r#mod(self.0 as u32, rhs.0 as u32) as i32)
     }
 }
 

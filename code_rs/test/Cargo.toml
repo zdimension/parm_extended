@@ -39,6 +39,10 @@ name = "parmweb"
 path = "src/parmweb.rs"
 
 [[bin]]
+name = "telnet_video"
+path = "src/telnet_video.rs"
+
+[[bin]]
 name = "simpletelnet"
 path = "src/simpletelnet.rs"
 

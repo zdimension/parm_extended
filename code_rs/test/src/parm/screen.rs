@@ -3,10 +3,10 @@ use core::ops::Not;
 
 const VRAM: *mut u32 = 0x100_0000 as *mut u32;
 
-pub const WIDTH: usize = 320;
-pub const HEIGHT: usize = 240;
+pub const WIDTH: isize = 320;
+pub const HEIGHT: isize = 240;
 
-pub trait ColorEncodable : Copy {
+pub trait ColorEncodable: Copy {
     fn encode(&self) -> u32;
 }
 
@@ -63,9 +63,16 @@ impl ColorEncodable for Color15bpp {
 }
 
 #[inline(always)]
-pub fn set_pixel(x: usize, y: usize, color: impl ColorEncodable) {
+pub fn set_pixel(x: isize, y: isize, color: impl ColorEncodable) {
     unsafe {
-        *VRAM.add(y * WIDTH + x) = color.encode();
+        *VRAM.offset(y * WIDTH + x) = color.encode();
+    }
+}
+
+#[inline(always)]
+pub fn set_pixel_checked(x: isize, y: isize, color: impl ColorEncodable) {
+    if x >= 0 && x < WIDTH as isize && y >= 0 && y < HEIGHT as isize {
+        set_pixel(x, y, color);
     }
 }
 
@@ -73,15 +80,15 @@ pub fn set_pixel(x: usize, y: usize, color: impl ColorEncodable) {
 pub fn clear(color: impl ColorEncodable) {
     unsafe {
         for i in 0..WIDTH * HEIGHT {
-            *VRAM.add(i) = color.encode();
+            *VRAM.offset(i) = color.encode();
         }
     }
 }
 
 #[inline(always)]
-pub fn set_pixel_buf(b: Buffer, x: usize, y: usize, color: impl ColorEncodable) {
+pub fn set_pixel_buf(b: Buffer, x: isize, y: isize, color: impl ColorEncodable) {
     unsafe {
-        *VRAM.add(b.get_offset() + y * WIDTH + x) = color.encode();
+        *VRAM.offset(b.get_offset() + y * WIDTH + x) = color.encode();
     }
 }
 
@@ -92,7 +99,7 @@ pub enum Buffer {
 }
 
 impl Buffer {
-    pub fn get_offset(self) -> usize {
+    pub fn get_offset(self) -> isize {
         match self {
             Buffer::Front => 0,
             Buffer::Back => WIDTH * HEIGHT,
@@ -127,4 +134,124 @@ pub fn set_buf(buf: Buffer) {
 #[inline(always)]
 pub fn flip_buf() {
     set_buf(Buffer::not(get_buf()));
+}
+
+/*
+void myLine(SURFACE* surface, int x, int y, int x2, int y2) {
+   	bool yLonger=false;
+	int shortLen=y2-y;
+	int longLen=x2-x;
+	if (abs(shortLen)>abs(longLen)) {
+		int swap=shortLen;
+		shortLen=longLen;
+		longLen=swap;
+		yLonger=true;
+	}
+	int decInc;
+	if (longLen==0) decInc=0;
+	else decInc = (shortLen << 8) / longLen;
+
+	if (yLonger) {
+		if (longLen>0) {
+			longLen+=y;
+			for (int j=0x80+(x<<8);y<=longLen;++y) {
+				myPixel(surface,j >> 8,y);
+				j+=decInc;
+			}
+			return;
+		}
+		longLen+=y;
+		for (int j=0x80+(x<<8);y>=longLen;--y) {
+			myPixel(surface,j >> 8,y);
+			j-=decInc;
+		}
+		return;
+	}
+
+	if (longLen>0) {
+		longLen+=x;
+		for (int j=0x80+(y<<8);x<=longLen;++x) {
+			myPixel(surface,x,j >> 8);
+			j+=decInc;
+		}
+		return;
+	}
+	longLen+=x;
+	for (int j=0x80+(y<<8);x>=longLen;--x) {
+		myPixel(surface,x,j >> 8);
+		j-=decInc;
+	}
+
+}
+
+void mySquare(SURFACE* surface,int x, int y, int x2, int y2) {
+	myLine(surface,x,y,x2,y2);
+	myLine(surface,x2,y2,x2+(y-y2),y2+(x2-x));
+	myLine(surface,x,y,x+(y-y2),y+(x2-x));
+	myLine(surface,x+(y-y2),y+(x2-x),x2+(y-y2),y2+(x2-x));
+}
+
+
+void myRect(SURFACE* surface, int x, int y, int x2, int y2) {
+	myLine(surface,x,y,x2,y);
+	myLine(surface,x2,y,x2,y2);
+	myLine(surface,x2,y2,x,y2);
+	myLine(surface,x,y2,x,y);
+}
+ */
+
+pub fn line(mut x: isize, mut y: isize, x2: isize, y2: isize, color: impl ColorEncodable) {
+    let mut yLonger = false;
+    let mut shortLen = y2 - y;
+    let mut longLen = x2 - x;
+    if shortLen.abs() > longLen.abs() {
+        let swap = shortLen;
+        shortLen = longLen;
+        longLen = swap;
+        yLonger = true;
+    }
+    let decInc;
+    if longLen == 0 {
+        decInc = 0;
+    } else {
+        decInc = (((shortLen) << 8) / longLen);
+    }
+    if yLonger {
+        if longLen > 0 {
+            longLen += y;
+            let mut j = 0x80 + (x << 8);
+            while y <= longLen {
+                set_pixel_checked(j >> 8, y, color);
+                j += decInc;
+                y += 1;
+            }
+            return;
+        }
+        longLen += y;
+        let mut j = 0x80 + (x << 8);
+        while y >= longLen {
+            set_pixel_checked(j >> 8, y, color);
+            j -= decInc;
+            y -= 1;
+        }
+        return;
+    }
+
+    if longLen > 0 {
+        longLen += x;
+        let mut j = 0x80 + (y << 8);
+        while x <= longLen {
+            set_pixel_checked(x, j >> 8, color);
+            j += decInc;
+            x += 1;
+        }
+        return;
+    }
+    longLen += x;
+    let mut j = 0x80 + (y << 8);
+    while x >= longLen {
+        set_pixel_checked(x, j >> 8, color);
+        j -= decInc;
+        x -= 1;
+    }
 }

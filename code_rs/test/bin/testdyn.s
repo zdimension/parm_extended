@@ -311,27 +311,36 @@ _ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E:
 	mvns	r0, r0
 	ldr	r1, [r0, #44]
 	cmp	r1, #0
-	beq	.LBB8_7
+	beq	.LBB8_9
+	ldr	r2, [r0, #4]
+	cmp	r2, #0
+	bpl	.LBB8_3
+	movs	r1, #45
+	str	r1, [r0]
+	rsbs	r1, r2, #0
+	str	r1, [r0, #4]
+	ldr	r1, [r0, #44]
+.LBB8_3:
 	mov	r2, r0
 	adds	r2, #248
-.LBB8_2:
+.LBB8_4:
 	lsls	r3, r1, #28
-	bne	.LBB8_5
+	bne	.LBB8_7
 	adds	r2, r2, #1
 	lsrs	r1, r1, #4
-	b	.LBB8_2
-.LBB8_4:
+	b	.LBB8_4
+.LBB8_6:
 	movs	r3, #15
 	ands	r3, r1
 	adds	r3, #48
 	str	r3, [r0]
 	adds	r2, r2, #1
 	lsrs	r1, r1, #4
-.LBB8_5:
-	cmp	r2, #0
-	bne	.LBB8_4
-	bx	lr
 .LBB8_7:
+	cmp	r2, #0
+	bne	.LBB8_6
+	bx	lr
+.LBB8_9:
 	movs	r1, #48
 	str	r1, [r0]
 	bx	lr
@@ -349,11 +358,10 @@ _ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E:
 run:
 	.fnstart
 	.save	{r7, lr}
-	push	{r7, lr}
-	.setfp	r7, sp
-	add	r7, sp, #0
-	.pad	#96
-	sub	sp, #96
+	.pad	#16
+	push	{r3, r4, r5, r6, r7, lr}
+	.setfp	r7, sp, #16
+	add	r7, sp, #16
 	@APP
 
 	movs	r0, #1
@@ -362,647 +370,77 @@ run:
 	movs	r0, #0
 
 	@NO_APP
-	movs	r0, #1
-	str	r0, [sp]
-	lsls	r4, r0, #16
-	movs	r0, #0
-	str	r0, [r4]
-	str	r0, [r4, #4]
-	str	r0, [sp, #20]
-	str	r0, [r4, #8]
-	ldr	r1, .LCPI9_22
-	movs	r0, #31
-	strb	r0, [r1, #2]
-	ldr	r0, .LCPI9_23
-	strh	r0, [r1]
-	ldr	r0, .LCPI9_24
-	movs	r1, #7
-	str	r1, [sp, #16]
-	bl	__aeabi_memclr
 	movs	r0, #255
-	str	r0, [sp, #44]
-	mvns	r5, r0
-	str	r5, [sp, #4]
-	str	r4, [sp, #24]
+	mvns	r0, r0
+	str	r0, [sp]
+	movs	r0, #0
 .LBB9_1:
-	ldr	r0, [r5, #12]
-	cmp	r0, #0
-	bne	.LBB9_2
-	b	.LBB9_96
-.LBB9_2:
-	ldr	r3, [r5, #8]
-	mov	r0, r4
-	uxtb	r4, r3
-	ldr	r0, [r0, #8]
-	.p2align	2
-	add	r0, pc
-	ldrb	r0, [r0, #4]
-	lsls	r0, r0, #1
-.LCPI9_19:
-	add	pc, r0
-	.p2align	2
-.LJTI9_0:
-	.byte	(.LBB9_4-(.LCPI9_19+4))/2
-	.byte	(.LBB9_9-(.LCPI9_19+4))/2
-	.byte	(.LBB9_12-(.LCPI9_19+4))/2
-	.byte	(.LBB9_23-(.LCPI9_19+4))/2
-	.p2align	1
-.LBB9_4:
-	mov	r0, r4
-	subs	r0, #8
-	cmp	r0, #5
-	bls	.LBB9_5
-	b	.LBB9_30
-.LBB9_5:
-	lsls	r0, r0, #1
-	.p2align	2
-	add	r0, pc
-	ldrh	r0, [r0, #4]
-	lsls	r0, r0, #1
-.LCPI9_20:
-	add	pc, r0
-	.p2align	2
-.LJTI9_2:
-	.short	(.LBB9_7-(.LCPI9_20+4))/2
-	.short	(.LBB9_53-(.LCPI9_20+4))/2
-	.short	(.LBB9_54-(.LCPI9_20+4))/2
-	.short	(.LBB9_36-(.LCPI9_20+4))/2
-	.short	(.LBB9_36-(.LCPI9_20+4))/2
-	.short	(.LBB9_56-(.LCPI9_20+4))/2
-	.p2align	1
-.LBB9_7:
-	ldr	r4, [sp, #24]
-	ldr	r0, [r4]
-	cmp	r0, #0
-	bne	.LBB9_8
-	b	.LBB9_96
-.LBB9_8:
-	subs	r0, r0, #1
-	b	.LBB9_57
-.LBB9_9:
-	cmp	r4, #91
-	beq	.LBB9_29
-	cmp	r4, #93
-	beq	.LBB9_11
-	b	.LBB9_112
-.LBB9_11:
-	movs	r0, #3
-	b	.LBB9_35
-.LBB9_12:
-	str	r3, [sp, #52]
-	ldr	r0, [sp, #24]
-	ldr	r6, [r0, #12]
-	add	r0, sp, #56
-	movs	r2, #20
-	ldr	r1, .LCPI9_3
-	bl	__aeabi_memcpy
-	mov	r0, r4
-	subs	r0, #64
-	cmp	r0, #63
-	bhs	.LBB9_25
-	adds	r0, r6, #1
-	str	r0, [sp, #52]
-	mov	r1, r4
-	subs	r1, #65
-	cmp	r1, #3
-	bls	.LBB9_14
-	b	.LBB9_58
-.LBB9_14:
-	ldr	r0, [sp, #56]
-	lsls	r1, r1, #1
-	.p2align	2
-	add	r1, pc
-	ldrh	r1, [r1, #4]
-	lsls	r1, r1, #1
-.LCPI9_21:
-	add	pc, r1
-	.p2align	2
-.LJTI9_1:
-	.short	(.LBB9_19-(.LCPI9_21+4))/2
-	.short	(.LBB9_79-(.LCPI9_21+4))/2
-	.short	(.LBB9_84-(.LCPI9_21+4))/2
-	.short	(.LBB9_88-(.LCPI9_21+4))/2
-	.p2align	1
-	.p2align	2
-.LCPI9_22:
-	.long	65572
-	.p2align	2
-.LCPI9_23:
-	.long	2039583
-	.p2align	2
-.LCPI9_24:
-	.long	65575
-	.p2align	1
-.LBB9_19:
-	ldr	r4, [sp, #24]
-	ldr	r1, [r4, #4]
-	cmp	r1, #0
-	bne	.LBB9_20
-	b	.LBB9_94
-.LBB9_20:
-	ldr	r2, [sp, #52]
-	cmp	r2, #0
-	bne	.LBB9_22
-	movs	r0, #1
-.LBB9_22:
-	subs	r0, r1, r0
-	b	.LBB9_83
-.LBB9_23:
-	cmp	r4, #7
-	ldr	r4, [sp, #24]
-	beq	.LBB9_24
-	b	.LBB9_96
-.LBB9_24:
-	ldr	r0, [sp, #20]
-	b	.LBB9_95
-.LBB9_25:
-	str	r6, [sp, #48]
-	movs	r0, #240
-	ands	r0, r4
-	cmp	r0, #48
-	ldr	r2, [sp, #20]
-	beq	.LBB9_26
-	b	.LBB9_115
-.LBB9_26:
-	cmp	r4, #57
-	bhi	.LBB9_32
-	add	r0, sp, #76
-	movs	r2, #20
-	ldr	r4, .LCPI9_3
-	mov	r1, r4
-	bl	__aeabi_memcpy
-	ldr	r0, [sp, #48]
-	cmp	r0, #4
-	bls	.LBB9_28
-	b	.LBB9_100
-.LBB9_28:
-	lsls	r0, r0, #2
-	add	r1, sp, #76
-	ldr	r2, [r1, r0]
-	movs	r3, #10
-	muls	r3, r2, r3
-	ldr	r2, [sp, #52]
-	adds	r2, #208
-	uxtb	r2, r2
-	adds	r2, r3, r2
-	str	r2, [r1, r0]
-	movs	r2, #20
-	mov	r0, r4
-	bl	__aeabi_memcpy
-	b	.LBB9_34
-.LBB9_29:
-	movs	r1, #20
-	ldr	r0, .LCPI9_3
-	bl	__aeabi_memclr8
-	movs	r0, #0
-	movs	r1, #2
-	ldr	r4, [sp, #24]
-	str	r1, [r4, #8]
-	str	r0, [r4, #12]
-	b	.LBB9_96
-.LBB9_30:
-	cmp	r4, #27
-	bne	.LBB9_36
-	movs	r0, #1
-	b	.LBB9_35
-.LBB9_32:
-	cmp	r4, #59
-	bne	.LBB9_34
-	movs	r0, #2
-	ldr	r1, [sp, #48]
-	adds	r1, r1, #1
-	ldr	r4, [sp, #24]
-	str	r0, [r4, #8]
-	str	r1, [r4, #12]
-	b	.LBB9_96
-.LBB9_34:
-	movs	r0, #2
-.LBB9_35:
-	ldr	r4, [sp, #24]
-	b	.LBB9_95
-.LBB9_36:
-	sxtb	r0, r4
-	cmp	r0, #0
-	bge	.LBB9_38
-	movs	r4, #63
-.LBB9_38:
-	movs	r0, #0
-	ldr	r1, .LCPI9_11
-	str	r1, [sp, #36]
-.LBB9_39:
-	cmp	r0, #95
-	bne	.LBB9_40
-	b	.LBB9_101
-.LBB9_40:
-	ldr	r1, .LCPI9_12
-	ldrb	r1, [r1, r0]
-	cmp	r1, r4
-	beq	.LBB9_42
-	ldr	r1, [sp, #36]
-	adds	r1, r1, #5
-	str	r1, [sp, #36]
-	adds	r0, r0, #1
-	b	.LBB9_39
-.LBB9_42:
-	ldr	r0, [sp, #24]
-	ldm	r0!, {r1, r2}
-	movs	r0, #6
-	str	r1, [sp, #12]
-	muls	r0, r1, r0
-	movs	r1, #5
-	str	r1, [sp, #52]
-	lsls	r1, r1, #9
+	cmp	r0, #10
+	beq	.LBB9_9
+	str	r0, [sp, #12]
+	bl	__aeabi_i2d
+	ldr	r2, .LCPI9_0
+	ldr	r3, .LCPI9_1
+	bl	__aeabi_dadd
+	mov	r5, r0
+	mov	r4, r1
+	movs	r2, #0
 	str	r2, [sp, #8]
-	muls	r1, r2, r1
-	adds	r0, r1, r0
-	lsls	r0, r0, #2
-	movs	r1, #1
-	str	r1, [sp, #48]
-	lsls	r1, r1, #24
-	adds	r0, r0, r1
-	str	r0, [sp, #32]
-	ldr	r0, .LCPI9_2
-	ldrb	r0, [r0]
-	ldr	r1, .LCPI9_13
-	ldrb	r1, [r1]
-	lsls	r1, r1, #8
-	adds	r0, r1, r0
-	ldr	r1, .LCPI9_14
-	ldrb	r1, [r1]
-	lsls	r1, r1, #16
-	adds	r0, r0, r1
-	str	r0, [sp, #40]
-	movs	r1, #0
-.LBB9_43:
-	cmp	r1, #5
-	beq	.LBB9_50
-	ldr	r0, [sp, #36]
-	str	r1, [sp, #28]
-	ldrb	r5, [r0, r1]
-	movs	r1, #0
-	ldr	r0, [sp, #32]
-.LBB9_45:
-	cmp	r1, #8
-	beq	.LBB9_49
-	uxtb	r2, r1
-	mov	r6, r5
-	lsrs	r6, r2
-	lsls	r2, r6, #31
-	ldr	r2, .LCPI9_1
-	beq	.LBB9_48
-	ldr	r2, [sp, #40]
-.LBB9_48:
-	ldr	r4, [sp, #44]
-	lsls	r6, r4, #24
-	lsls	r3, r2, #24
-	bics	r2, r6
-	lsrs	r6, r2, #16
-	lsrs	r3, r3, #14
-	adds	r3, r3, r6
-	lsrs	r2, r2, #3
-	lsls	r6, r4, #5
-	ands	r6, r2
-	orrs	r6, r3
-	ldr	r2, [sp, #48]
-	lsls	r2, r2, #15
-	adds	r2, r6, r2
-	str	r2, [r0]
-	ldr	r2, [sp, #52]
-	lsls	r2, r2, #8
-	adds	r0, r0, r2
-	adds	r1, r1, #1
-	b	.LBB9_45
-.LBB9_49:
-	ldr	r0, [sp, #32]
-	adds	r0, r0, #4
-	str	r0, [sp, #32]
-	ldr	r1, [sp, #28]
-	adds	r1, r1, #1
-	b	.LBB9_43
-.LBB9_50:
+	ldr	r3, .LCPI9_2
+	bl	__aeabi_dcmpge
+	mov	r6, r0
+	mov	r0, r5
+	mov	r1, r4
+	bl	__aeabi_d2iz
+	cmp	r6, #0
+	bne	.LBB9_4
+	movs	r0, #1
+	lsls	r0, r0, #31
+.LBB9_4:
+	str	r0, [sp, #4]
+	mov	r0, r5
+	mov	r1, r4
+	ldr	r2, .LCPI9_3
+	ldr	r3, .LCPI9_4
+	bl	__aeabi_dcmpgt
+	cmp	r0, #0
+	ldr	r6, .LCPI9_5
+	bne	.LBB9_6
+	ldr	r6, [sp, #4]
+.LBB9_6:
+	mov	r0, r5
+	mov	r1, r4
+	mov	r2, r5
+	mov	r3, r4
+	bl	__aeabi_dcmpun
+	cmp	r0, #0
+	ldr	r0, [sp, #8]
+	bne	.LBB9_8
+	mov	r0, r6
+.LBB9_8:
+	ldr	r4, [sp]
+	str	r0, [r4, #4]
+	bl	_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E
+	movs	r0, #10
+	str	r0, [r4]
 	ldr	r0, [sp, #12]
 	adds	r0, r0, #1
-	ldr	r4, [sp, #24]
-	str	r0, [r4]
-	cmp	r0, #52
-	ldr	r5, [sp, #4]
-	bhi	.LBB9_51
-	b	.LBB9_96
-.LBB9_51:
-	movs	r0, #0
-	str	r0, [r4]
-	ldr	r1, [sp, #8]
-	adds	r1, r1, #1
-	cmp	r1, #29
-	bhi	.LBB9_55
-	mov	r0, r1
-	b	.LBB9_55
-.LBB9_53:
-	ldr	r4, [sp, #24]
-	ldr	r0, [r4]
-	mov	r1, r0
-	adds	r1, #8
-	ldr	r2, [sp, #16]
-	bics	r1, r2
-	adds	r0, r1, r0
-	b	.LBB9_57
-.LBB9_54:
-	movs	r0, #0
-	ldr	r4, [sp, #24]
-	str	r0, [r4]
-	ldr	r0, [r4, #4]
-	adds	r0, r0, #1
-.LBB9_55:
-	str	r0, [r4, #4]
-	b	.LBB9_96
-.LBB9_56:
-	movs	r0, #0
-	ldr	r4, [sp, #24]
-.LBB9_57:
-	str	r0, [r4]
-	b	.LBB9_96
-.LBB9_58:
-	cmp	r4, #109
-	ldr	r4, [sp, #24]
-	bne	.LBB9_94
-	ldr	r0, [sp, #52]
-	cmp	r0, #0
-	beq	.LBB9_93
-	movs	r0, #0
-.LBB9_61:
-	ldr	r1, [sp, #52]
-	cmp	r0, r1
-	ldr	r4, [sp, #24]
-	beq	.LBB9_94
-	cmp	r0, #5
-	beq	.LBB9_98
-	adds	r6, r0, #1
-	lsls	r0, r0, #2
-	add	r1, sp, #56
-	ldr	r4, [r1, r0]
-	movs	r0, #0
-.LBB9_64:
-	cmp	r0, #4
-	beq	.LBB9_66
-	ldr	r1, .LCPI9_7
-	ldrb	r1, [r1, r0]
-	str	r1, [r5]
-	adds	r0, r0, #1
-	b	.LBB9_64
-.LBB9_66:
-	str	r4, [r5, #4]
-	bl	_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E
-	movs	r0, #10
-	str	r0, [r5]
-	cmp	r4, #0
-	beq	.LBB9_69
-	mov	r0, r4
-	subs	r0, #30
-	cmp	r0, #8
-	bhs	.LBB9_70
-	movs	r2, #3
-	muls	r0, r2, r0
-	ldr	r1, .LCPI9_8
-	adds	r1, r1, r0
-	b	.LBB9_74
-.LBB9_69:
-	ldr	r1, .LCPI9_0
-	ldr	r0, .LCPI9_1
-	strh	r0, [r1]
-	lsrs	r0, r0, #16
-	strb	r0, [r1, #2]
-	movs	r1, #7
-	ldr	r0, .LCPI9_2
-	bl	__aeabi_memclr
-	mov	r0, r6
-	b	.LBB9_61
-.LBB9_70:
-	mov	r0, r4
-	ldr	r1, [sp, #16]
-	bics	r0, r1
-	cmp	r0, #40
-	bne	.LBB9_72
-	movs	r2, #3
-	muls	r4, r2, r4
-	ldr	r0, .LCPI9_8
-	adds	r1, r4, r0
-	subs	r1, #120
-	b	.LBB9_77
-.LBB9_72:
-	mov	r0, r4
-	subs	r0, #90
-	cmp	r0, #8
-	bhs	.LBB9_75
-	movs	r2, #3
-	muls	r4, r2, r4
-	ldr	r0, .LCPI9_8
-	adds	r1, r4, r0
-	subs	r1, #246
-.LBB9_74:
-	ldr	r0, .LCPI9_2
-	b	.LBB9_78
-.LBB9_75:
-	mov	r0, r4
-	subs	r0, #100
-	cmp	r0, #8
-	mov	r0, r6
-	bhs	.LBB9_61
-	subs	r4, #92
-	movs	r2, #3
-	muls	r4, r2, r4
-	ldr	r0, .LCPI9_8
-	adds	r1, r0, r4
-.LBB9_77:
-	ldr	r0, .LCPI9_0
-.LBB9_78:
-	bl	__aeabi_memcpy
-	mov	r0, r6
-	b	.LBB9_61
-.LBB9_79:
-	ldr	r4, [sp, #24]
-	ldr	r1, [r4, #4]
-	cmp	r1, #29
-	bhs	.LBB9_94
-	ldr	r2, [sp, #52]
-	cmp	r2, #0
-	bne	.LBB9_82
-	movs	r0, #1
-.LBB9_82:
-	adds	r0, r1, r0
-.LBB9_83:
-	str	r0, [r4, #4]
-	b	.LBB9_94
-.LBB9_84:
-	ldr	r4, [sp, #24]
-	ldr	r1, [r4]
-	cmp	r1, #52
-	bhs	.LBB9_94
-	ldr	r2, [sp, #52]
-	cmp	r2, #0
-	bne	.LBB9_87
-	movs	r0, #1
-.LBB9_87:
-	adds	r0, r1, r0
-	b	.LBB9_92
-.LBB9_88:
-	ldr	r4, [sp, #24]
-	ldr	r1, [r4]
-	cmp	r1, #0
-	beq	.LBB9_94
-	ldr	r2, [sp, #52]
-	cmp	r2, #0
-	ldr	r2, [sp]
-	beq	.LBB9_91
-	mov	r2, r0
-.LBB9_91:
-	subs	r0, r1, r2
-.LBB9_92:
-	str	r0, [r4]
-	b	.LBB9_94
-.LBB9_93:
-	ldr	r1, .LCPI9_0
-	ldr	r0, .LCPI9_1
-	strh	r0, [r1]
-	lsrs	r0, r0, #16
-	strb	r0, [r1, #2]
-	movs	r1, #7
-	ldr	r0, .LCPI9_2
-	bl	__aeabi_memclr
-.LBB9_94:
-	movs	r0, #0
-.LBB9_95:
-	str	r0, [r4, #8]
-.LBB9_96:
-	ldr	r0, [r5, #24]
-	cmp	r0, #0
-	bne	.LBB9_97
 	b	.LBB9_1
-.LBB9_97:
-	ldr	r0, [r5, #28]
-	uxtb	r0, r0
-	str	r0, [r5, #8]
-	b	.LBB9_1
-.LBB9_98:
-	movs	r0, #5
-	ldr	r2, .LCPI9_9
-	mov	r1, r0
-.LBB9_99:
-	bl	_ZN4core9panicking18panic_bounds_check17h4951c2fcb20aa965E
-	.inst.n	0xdefe
-.LBB9_100:
-	movs	r1, #5
-	ldr	r2, .LCPI9_6
-	b	.LBB9_99
-.LBB9_101:
-	movs	r0, #0
-	ldr	r1, .LCPI9_15
-.LBB9_102:
-	cmp	r0, #14
-	beq	.LBB9_104
-	ldrb	r2, [r1, r0]
-	str	r2, [r5]
-	adds	r0, r0, #1
-	b	.LBB9_102
-.LBB9_104:
-	uxtb	r0, r3
-	movs	r1, #0
-	ldr	r2, .LCPI9_16
-	mov	r3, r0
-.LBB9_105:
-	str	r3, [r5]
-	cmp	r1, #1
-	beq	.LBB9_107
-	ldrb	r3, [r2, r1]
-	adds	r1, r1, #1
-	b	.LBB9_105
-.LBB9_107:
-	str	r0, [r5, #4]
-	bl	_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E
-	movs	r0, #0
-	ldr	r1, .LCPI9_17
-.LBB9_108:
-	cmp	r0, #1
-	beq	.LBB9_110
-	ldrb	r2, [r1, r0]
-	str	r2, [r5]
-	adds	r0, r0, #1
-	b	.LBB9_108
-.LBB9_110:
-	movs	r0, #10
-	str	r0, [r5]
-	ldr	r0, .LCPI9_18
-	movs	r1, #3
-.LBB9_111:
-	bl	_ZN4core9panicking5panic17h1ad3ed8b8184cb53E
-	.inst.n	0xdefe
-.LBB9_112:
-	movs	r0, #0
-	ldr	r1, .LCPI9_10
-.LBB9_113:
-	cmp	r0, #3
-	beq	.LBB9_118
-	ldrb	r2, [r1, r0]
-	str	r2, [r5]
-	adds	r0, r0, #1
-	b	.LBB9_113
-.LBB9_115:
-	ldr	r0, .LCPI9_4
-	ldr	r3, [sp, #52]
-.LBB9_116:
-	cmp	r2, #4
-	beq	.LBB9_118
-	ldrb	r1, [r0, r2]
-	str	r1, [r5]
-	adds	r2, r2, #1
-	b	.LBB9_116
-.LBB9_118:
-	uxtb	r0, r3
-	str	r0, [r5, #4]
-	bl	_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E
-	movs	r0, #10
-	str	r0, [r5]
-	ldr	r0, .LCPI9_5
-	movs	r1, #14
-	b	.LBB9_111
+.LBB9_9:
+	b	.LBB9_9
 	.p2align	2
 .LCPI9_0:
-	.long	65572
+	.long	1374389535
 .LCPI9_1:
-	.long	2039583
+	.long	1074339512
 .LCPI9_2:
-	.long	65575
+	.long	3252682752
 .LCPI9_3:
-	.long	65552
+	.long	4290772992
 .LCPI9_4:
-	.long	.L__unnamed_2
+	.long	1105199103
 .LCPI9_5:
-	.long	.L__unnamed_3
-.LCPI9_6:
-	.long	.L__unnamed_4
-.LCPI9_7:
-	.long	.L__unnamed_5
-.LCPI9_8:
-	.long	.L__unnamed_6
-.LCPI9_9:
-	.long	.L__unnamed_7
-.LCPI9_10:
-	.long	.L__unnamed_8
-.LCPI9_11:
-	.long	.L__unnamed_9
-.LCPI9_12:
-	.long	.L__unnamed_10
-.LCPI9_13:
-	.long	65576
-.LCPI9_14:
-	.long	65577
-.LCPI9_15:
-	.long	.L__unnamed_11
-.LCPI9_16:
-	.long	.L__unnamed_12
-.LCPI9_17:
-	.long	.L__unnamed_13
-.LCPI9_18:
-	.long	.L__unnamed_14
+	.long	2147483647
 .Lfunc_end9:
 	.size	run, .Lfunc_end9-run
 	.cantunwind
@@ -1041,7 +479,7 @@ _ZN4core9panicking5panic17h1ad3ed8b8184cb53E:
 	b	.LBB10_6
 	.p2align	2
 .LCPI10_0:
-	.long	.L__unnamed_15
+	.long	.L__unnamed_2
 .Lfunc_end10:
 	.size	_ZN4core9panicking5panic17h1ad3ed8b8184cb53E, .Lfunc_end10-_ZN4core9panicking5panic17h1ad3ed8b8184cb53E
 	.cantunwind
@@ -1087,6 +525,9 @@ _ZN4core9panicking5panic17h0889907c7e7272d5E:
 	@APP
 _ZN4core9panicking5panic17h54febf44e809a353E:
 	@NO_APP
+	@APP
+_ZN4core9panicking5panic17h17dc07c17ae86e0aE:
+	@NO_APP
 	bl	_ZN4core9panicking5panic17h1ad3ed8b8184cb53E
 	.inst.n	0xdefe
 .Lfunc_end12:
@@ -1115,7 +556,7 @@ _ZN4core6result13unwrap_failed17ha24f234727605fe4E:
 	.inst.n	0xdefe
 	.p2align	2
 .LCPI13_0:
-	.long	.L__unnamed_16
+	.long	.L__unnamed_3
 .Lfunc_end13:
 	.size	unwrap_failed, .Lfunc_end13-unwrap_failed
 	.cantunwind
@@ -1139,13 +580,16 @@ _ZN4core9panicking18panic_bounds_check17h6f55fa0d21c94988E:
 	@APP
 _ZN4core9panicking18panic_bounds_check17h2c8069d2b705747bE:
 	@NO_APP
+	@APP
+_ZN4core9panicking18panic_bounds_check17h4951c2fcb20aa965E:
+	@NO_APP
 	ldr	r0, .LCPI14_0
 	movs	r1, #19
 	bl	_ZN4core9panicking5panic17h1ad3ed8b8184cb53E
 	.inst.n	0xdefe
 	.p2align	2
 .LCPI14_0:
-	.long	.L__unnamed_17
+	.long	.L__unnamed_4
 .Lfunc_end14:
 	.size	panic_bounds_check, .Lfunc_end14-panic_bounds_check
 	.cantunwind
@@ -1169,13 +613,16 @@ _ZN4core9panicking9panic_fmt17hfd9f87229ac2f2baE:
 	@APP
 _ZN4core9panicking9panic_fmt17hd67f4882cc9312fdE:
 	@NO_APP
+	@APP
+_ZN4core9panicking9panic_fmt17hc90555fcc536d9d7E:
+	@NO_APP
 	ldr	r0, .LCPI15_0
 	movs	r1, #9
 	bl	_ZN4core9panicking5panic17h1ad3ed8b8184cb53E
 	.inst.n	0xdefe
 	.p2align	2
 .LCPI15_0:
-	.long	.L__unnamed_18
+	.long	.L__unnamed_5
 .Lfunc_end15:
 	.size	panic_fmt, .Lfunc_end15-panic_fmt
 	.cantunwind
@@ -1205,7 +652,7 @@ _ZN4core5slice5index26slice_start_index_len_fail17ha77bf5041ae3f134E:
 	.inst.n	0xdefe
 	.p2align	2
 .LCPI16_0:
-	.long	.L__unnamed_19
+	.long	.L__unnamed_6
 .Lfunc_end16:
 	.size	slicee_end_index_len_fail, .Lfunc_end16-slicee_end_index_len_fail
 	.cantunwind
@@ -1238,7 +685,7 @@ rust_begin_unwind:
 	b	.LBB17_4
 	.p2align	2
 .LCPI17_0:
-	.long	.L__unnamed_20
+	.long	.L__unnamed_7
 .Lfunc_end17:
 	.size	rust_begin_unwind, .Lfunc_end17-rust_begin_unwind
 	.cantunwind
@@ -1250,129 +697,41 @@ rust_begin_unwind:
 	.ascii	"unknown panic"
 	.size	.L__unnamed_1, 13
 
-	.type	.L__unnamed_15,%object
-	.section	.rodata..L__unnamed_15,"a",%progbits
-.L__unnamed_15:
-	.ascii	"PANIC:"
-	.size	.L__unnamed_15, 6
-
-	.type	.L__unnamed_16,%object
-	.section	.rodata..L__unnamed_16,"a",%progbits
-.L__unnamed_16:
-	.ascii	"unwrap_failed"
-	.size	.L__unnamed_16, 13
-
-	.type	.L__unnamed_17,%object
-	.section	.rodata..L__unnamed_17,"a",%progbits
-.L__unnamed_17:
-	.ascii	"index out of bounds"
-	.size	.L__unnamed_17, 19
-
-	.type	.L__unnamed_18,%object
-	.section	.rodata..L__unnamed_18,"a",%progbits
-.L__unnamed_18:
-	.ascii	"panic_fmt"
-	.size	.L__unnamed_18, 9
-
-	.type	.L__unnamed_19,%object
-	.section	.rodata..L__unnamed_19,"a",%progbits
-.L__unnamed_19:
-	.ascii	"slice index out of bounds"
-	.size	.L__unnamed_19, 25
-
-	.type	.L__unnamed_20,%object
-	.section	.rodata..L__unnamed_20,"a",%progbits
-.L__unnamed_20:
-	.ascii	"handler"
-	.size	.L__unnamed_20, 7
-
-	.type	.L__unnamed_21,%object
-	.section	.rodata..L__unnamed_21,"a",%progbits
-.L__unnamed_21:
-	.ascii	"src/testdyn.rs"
-	.size	.L__unnamed_21, 14
-
-	.type	.L__unnamed_11,%object
-	.section	.rodata..L__unnamed_11,"a",%progbits
-.L__unnamed_11:
-	.ascii	"Invalid char: "
-	.size	.L__unnamed_11, 14
-
-	.type	.L__unnamed_12,%object
-	.section	.rodata..L__unnamed_12,"a",%progbits
-.L__unnamed_12:
-	.byte	40
-	.size	.L__unnamed_12, 1
-
-	.type	.L__unnamed_13,%object
-	.section	.rodata..L__unnamed_13,"a",%progbits
-.L__unnamed_13:
-	.byte	41
-	.size	.L__unnamed_13, 1
-
-	.type	.L__unnamed_14,%object
-	.section	.rodata..L__unnamed_14,"a",%progbits
-.L__unnamed_14:
-	.ascii	"die"
-	.size	.L__unnamed_14, 3
-
-	.type	.L__unnamed_9,%object
-	.section	.rodata..L__unnamed_9,"a",%progbits
-.L__unnamed_9:
-	.ascii	"\000\000\000\000\000\000\000_\000\000\000\007\000\007\000\024\177\024\177\024$*\177*\022#\023\bdb6IU\"P\000\005\003\000\000\000\034\"A\000\000A\"\034\000\b*\034*\b\b\b>\b\b\000P0\000\000\b\b\b\b\b\000``\000\000 \020\b\004\002>QIE>\000B\177@\000BaQIF!AEK1\030\024\022\177\020'EEE9<JII0\001q\t\005\0036III6\006II)\036\00066\000\000\000V6\000\000\000\b\024\"A\024\024\024\024\024A\"\024\b\000\002\001Q\t\0062IyA>~\021\021\021~\177III6>AAA\"\177AA\"\034\177IIIA\177\t\t\001\001>AAQ2\177\b\b\b\177\000A\177A\000 @A?\001\177\b\024\"A\177@@@@\177\002\004\002\177\177\004\b\020\177>AAA>\177\t\t\t\006>AQ!^\177\t\031)FFIII1\001\001\177\001\001?@@@?\037 @ \037\177 \030 \177c\024\b\024c\003\004x\004\003aQIEC\000\000\177AA\002\004\b\020 AA\177\000\000\004\002\001\002\004@@@@@\000\001\002\004\000 TTTx\177HDD88DDD 8DDH\1778TTT\030\b~\t\001\002\b\024TT<\177\b\004\004x\000D}@\000 @D=\000\000\177\020(D\000A\177@\000|\004\030\004x|\b\004\004x8DDD8|\024\024\024\b\b\024\024\030||\b\004\004\bHTTT \004?D@ <@@ |\034 @ \034<@0@<D(\020(D\fPPP<DdTLD\000\b6A\000\000\000\177\000\000\000A6\b\000\002\001\002\004\002"
-	.size	.L__unnamed_9, 475
-
-	.type	.L__unnamed_10,%object
-	.section	.rodata..L__unnamed_10,"a",%progbits
-.L__unnamed_10:
-	.ascii	" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
-	.size	.L__unnamed_10, 95
-
-	.type	.L__unnamed_7,%object
-	.section	.rodata..L__unnamed_7,"a",%progbits
-	.p2align	2
-.L__unnamed_7:
-	.long	.L__unnamed_21
-	.asciz	"\016\000\000\000\t\001\000\000-\000\000"
-	.size	.L__unnamed_7, 16
-
-	.type	.L__unnamed_5,%object
-	.section	.rodata.cst4,"aM",%progbits,4
-.L__unnamed_5:
-	.ascii	"CSI "
-	.size	.L__unnamed_5, 4
-
-	.type	.L__unnamed_6,%object
-	.section	.rodata..L__unnamed_6,"a",%progbits
-.L__unnamed_6:
-	.ascii	"\000\000\000\025\000\000\000\025\000\025\n\000\000\000\025\025\000\025\000\025\025\025\025\025\n\n\n\037\n\n\n\037\n\037\037\n\n\n\037\037\n\037\n\037\037\037\037\037"
-	.size	.L__unnamed_6, 48
-
-	.type	.L__unnamed_4,%object
-	.section	.rodata..L__unnamed_4,"a",%progbits
-	.p2align	2
-.L__unnamed_4:
-	.long	.L__unnamed_21
-	.asciz	"\016\000\000\000\"\001\000\000\035\000\000"
-	.size	.L__unnamed_4, 16
-
 	.type	.L__unnamed_2,%object
-	.section	.rodata.cst4,"aM",%progbits,4
+	.section	.rodata..L__unnamed_2,"a",%progbits
 .L__unnamed_2:
-	.ascii	"Csi "
-	.size	.L__unnamed_2, 4
+	.ascii	"PANIC:"
+	.size	.L__unnamed_2, 6
 
 	.type	.L__unnamed_3,%object
 	.section	.rodata..L__unnamed_3,"a",%progbits
 .L__unnamed_3:
-	.ascii	"Invalid escape"
-	.size	.L__unnamed_3, 14
+	.ascii	"unwrap_failed"
+	.size	.L__unnamed_3, 13
 
-	.type	.L__unnamed_8,%object
-	.section	.rodata..L__unnamed_8,"a",%progbits
-.L__unnamed_8:
-	.ascii	"Fe "
-	.size	.L__unnamed_8, 3
+	.type	.L__unnamed_4,%object
+	.section	.rodata..L__unnamed_4,"a",%progbits
+.L__unnamed_4:
+	.ascii	"index out of bounds"
+	.size	.L__unnamed_4, 19
+
+	.type	.L__unnamed_5,%object
+	.section	.rodata..L__unnamed_5,"a",%progbits
+.L__unnamed_5:
+	.ascii	"panic_fmt"
+	.size	.L__unnamed_5, 9
+
+	.type	.L__unnamed_6,%object
+	.section	.rodata..L__unnamed_6,"a",%progbits
+.L__unnamed_6:
+	.ascii	"slice index out of bounds"
+	.size	.L__unnamed_6, 25
+
+	.type	.L__unnamed_7,%object
+	.section	.rodata..L__unnamed_7,"a",%progbits
+.L__unnamed_7:
+	.ascii	"handler"
+	.size	.L__unnamed_7, 7
 
 	.section	".note.GNU-stack","",%progbits
 	.eabi_attribute	30, 4
