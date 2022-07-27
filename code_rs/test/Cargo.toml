@@ -5,6 +5,10 @@ edition = "2021"
 
 [dependencies]
 indoc = "1.0.6"
+#approx = { version = "0.5.1", default-features = false }
+#nalgebra = { version = "0.31.0", default-features = false, features = ["macros", "nalgebra-macros"] }
+#num-traits = { version = "0.2.15", default-features = false }
+#simba = { version = "0.7.1", default-features = false }
 
 [[bin]]
 name = "calculator"

@@ -3,6 +3,7 @@
 #![feature(min_specialization)]
 #![feature(generic_associated_types)]
 #![feature(iter_order_by)]
+#![feature(step_trait)]
 
 use crate::parm::control::breakpoint;
 use core::iter::Peekable;

@@ -89,6 +89,8 @@ fn slice_end_index_len_fail(_index: usize, _len: usize) -> ! {
     unsafe {
         core::arch::asm!("_ZN4core5slice5index24slice_end_index_len_fail17h3d35c3c0c04c4afeE:");
         core::arch::asm!("_ZN4core5slice5index26slice_start_index_len_fail17ha77bf5041ae3f134E:");
+        core::arch::asm!("_ZN4core5slice5index26slice_start_index_len_fail17h86e173ea5fb70460E:");
+        core::arch::asm!("_ZN4core5slice5index24slice_end_index_len_fail17h117f4fe0161922aeE:");
     }
     panic("slice index out of bounds");
 }
@@ -101,3 +103,12 @@ fn handler(_info: &PanicInfo) -> ! {
     println!("handler");
     loop {}
 }
+/*
+#[no_mangle]
+pub unsafe extern "C" fn rust_begn_unwind(
+    _args: ::core::fmt::Arguments,
+    _file: &'static str,
+    _line: u32,
+) -> ! {
+    panic("unwind");
+}*/
