@@ -1232,6 +1232,12 @@ _ZN4core5slice5index24slice_end_index_len_fail17h3d35c3c0c04c4afeE:
 	@APP
 _ZN4core5slice5index26slice_start_index_len_fail17ha77bf5041ae3f134E:
 	@NO_APP
+	@APP
+_ZN4core5slice5index26slice_start_index_len_fail17h86e173ea5fb70460E:
+	@NO_APP
+	@APP
+_ZN4core5slice5index24slice_end_index_len_fail17h117f4fe0161922aeE:
+	@NO_APP
 	ldr	r0, .LCPI18_0
 	movs	r1, #25
 	bl	_ZN4core9panicking5panic17h1ad3ed8b8184cb53E

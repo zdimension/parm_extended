@@ -1,3 +1,4 @@
+#![feature(generic_associated_types)]
 #![no_main]
 #![no_std]
 

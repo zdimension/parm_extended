@@ -243,16 +243,16 @@ fn __rust_dealloc(ptr: *mut u8, _size: usize, _align: usize) {
 }
 
 #[no_mangle]
-extern "C" fn __aeabi_memcpy(dest: *mut u32, src: *const u32, n: usize) {
-    let rem = n % 4;
-    let n = n - rem;
-    for i in 0..n {
+extern "C" fn __aeabi_memcpy(dest: *mut u32, src: *const u32, bytes: usize) {
+    let rem = bytes % 4;
+    let words = bytes / 4;
+    for i in 0..words {
         unsafe {
             *dest.add(i) = *src.add(i);
         }
     }
-    let dest = unsafe { dest.add(n) } as *mut u8;
-    let src = unsafe { src.add(n) } as *const u8;
+    let dest = unsafe { dest.add(words) } as *mut u8;
+    let src = unsafe { src.add(words) } as *const u8;
     for i in 0..rem {
         unsafe {
             *dest.add(i) = *src.add(i);
@@ -261,18 +261,18 @@ extern "C" fn __aeabi_memcpy(dest: *mut u32, src: *const u32, n: usize) {
 }
 
 #[no_mangle]
-extern "C" fn __aeabi_memclr(dest: *mut u32, n: usize) {
-    let rem = n % 4;
-    let n = n - rem;
-    for i in 0..n {
+extern "C" fn __aeabi_memclr(dest: *mut u32, bytes: usize) {
+    let rem = bytes % 4;
+    let words = bytes / 4;
+    for i in 0..words {
         unsafe {
             *dest.add(i) = 0;
         }
     }
-    let ptr = unsafe { dest.add(n) } as *mut u8;
+    let dest = unsafe { dest.add(words) } as *mut u8;
     for i in 0..rem {
         unsafe {
-            *ptr.add(i) = 0;
+            *dest.add(i) = 0;
         }
     }
 }

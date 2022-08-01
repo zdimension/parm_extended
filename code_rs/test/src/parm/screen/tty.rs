@@ -1,4 +1,3 @@
-
 pub struct Font57 {}
 
 impl Font57 {
@@ -124,9 +123,9 @@ static LOOKUP57: &'static [u8] = &[
 
 use crate::parm::heap::HEAP_START;
 use crate::parm::keyb::read_key;
+use crate::parm::screen::{rgb32, Color15bpp, ColorEncodable, ColorEncoded};
 use crate::parm::tty::{AsciiEncodable, DisplayTarget};
 use crate::parm::{keyb, panic, screen, telnet};
-use crate::parm::screen::{Color15bpp, ColorEncodable, ColorEncoded, rgb32};
 use crate::println;
 
 pub const FONT_WIDTH: usize = 5;
@@ -209,7 +208,7 @@ impl VideoTty {
     }
 
     pub fn fg(mut self, color: impl ColorEncodable) -> VideoTty {
-        self.display_attrs.color_fore = color.encode().into();
+        self.display_attrs.color_fore = color.encode();
         self
     }
 }
@@ -286,8 +285,7 @@ impl DisplayTarget for VideoTty {
                             if count == 0 {
                                 self.display_attrs = DisplayAttrs::new();
                             } else {
-                                for n in 0..count {
-                                    let x = params[n];
+                                for x in params.iter().take(count).copied() {
                                     println!("CSI ", x as u32);
                                     match x {
                                         0 => self.display_attrs = DisplayAttrs::new(),

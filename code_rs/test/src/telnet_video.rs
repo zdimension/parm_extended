@@ -8,8 +8,8 @@
 
 mod parm;
 
-use parm::screen::tty::*;
 use crate::parm::{keyb, telnet};
+use parm::screen::tty::*;
 
 fn main() {
     init();

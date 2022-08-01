@@ -1,9 +1,11 @@
-use core::iter::Step;
 use crate::parm::mmio::{R2divR3, R2modR3, RESbcd, RES};
 use crate::parm::tty;
 use crate::parm::tty::DisplayTarget;
 use crate::{print, println};
-use core::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, RemAssign, Sub, SubAssign};
+use core::iter::Step;
+use core::ops::{
+    Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, RemAssign, Sub, SubAssign,
+};
 
 #[export_name = "__aeabi_uidiv"]
 pub fn __aeabi_uidiv(a: u32, b: u32) -> u32 {

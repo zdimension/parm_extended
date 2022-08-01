@@ -254,7 +254,7 @@ fn read_number<T: Iterator<Item = char>>(initial: char, iter: &mut Peekable<T>) 
 
 fn read_string<T: Iterator<Item = char>>(iter: &mut Peekable<T>) -> String {
     let mut string = String::with_capacity(8);
-    while let Some(ch) = iter.next() {
+    for ch in iter.by_ref() {
         if ch == '"' {
             break;
         }
@@ -332,6 +332,7 @@ fn shunting_yard(tokens: Vec<Token>) -> Vec<Token> {
 
 #[inline(never)]
 fn show_program(code: &Program) {
+    println!("TOTAL ", code.0.len());
     for i in code.0.iter() {
         println!(i);
     }
@@ -352,7 +353,7 @@ fn main() {
             show_program(&program);
             continue;
         } else if line.starts_with_ignore_case("RUN") {
-            if let Err(_) = program.run() {
+            if program.run().is_err() {
                 println!("Error");
             }
             continue;
@@ -395,6 +396,7 @@ fn main() {
 
 #[inline(never)]
 fn process_instruction(program: &mut Program, last: &mut u32, instr: &[char], line_no: u32) {
+    println!(line_no);
     let idata = Instruction {
         line_no: line_no as usize,
         content: match instr.parse() {
@@ -405,6 +407,7 @@ fn process_instruction(program: &mut Program, last: &mut u32, instr: &[char], li
             }
         },
     };
+    println!(idata);
     if line_no > *last {
         program.0.push(idata);
         *last = line_no;
@@ -596,15 +599,11 @@ struct Program(Vec<Instruction>);
 
 impl Program {
     fn find_by_line(&self, line_no: usize) -> Option<usize> {
-        match self
-            .0
+        self.0
             .iter()
             .enumerate()
             .find(|(_, i)| i.line_no >= line_no)
-        {
-            Some((i, _)) => Some(i),
-            None => None,
-        }
+            .map(|(i, _)| i)
     }
 
     fn run(&self) -> Result<(), ()> {

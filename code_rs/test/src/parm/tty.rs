@@ -197,13 +197,20 @@ pub fn read_int() -> u32 {
     let mut res = 0;
     loop {
         let c = keyb::read_char();
-        if c == '\n' {
-            print_char('\n');
-            break res;
-        }
-        if c >= '0' && c <= '9' {
-            print_char(c);
-            res = res * 10 + (c as u32 - '0' as u32);
+        match c {
+            '\x08' => {
+                print_char('\x08');
+                res /= 10;
+            }
+            '\n' => {
+                print_char('\n');
+                break res;
+            }
+            '0'..='9' => {
+                print_char(c);
+                res = res * 10 + (c as u32 - '0' as u32);
+            }
+            _ => {}
         }
     }
 }
@@ -215,14 +222,12 @@ pub fn print_res(sign: bool, target: &mut impl DisplayTarget) {
     if bcd == 0 {
         target.print_char('0');
         return;
-    } else {
-        if sign {
-            let signed = RES.read() as i32;
-            if signed < 0 {
-                target.print_char('-');
-                RES.write((-signed) as u32);
-                bcd = RESbcd.read();
-            }
+    } else if sign {
+        let signed = RES.read() as i32;
+        if signed < 0 {
+            target.print_char('-');
+            RES.write((-signed) as u32);
+            bcd = RESbcd.read();
         }
     }
 
@@ -276,11 +281,21 @@ pub fn print_hex(val: u32, width: u32, target: &mut impl DisplayTarget) {
 pub fn read_line(res: &mut String) {
     loop {
         let c = keyb::read_char();
-        if c == '\n' {
-            print_char('\n');
-            break;
+        match c {
+            '\x08' => {
+                if !res.is_empty() {
+                    res.pop();
+                    print_char('\x08');
+                }
+            }
+            '\n' => {
+                print_char('\n');
+                break;
+            }
+            _ => {
+                res.push(c);
+                print_char(c);
+            }
         }
-        print_char(c);
-        res.push(c);
     }
 }

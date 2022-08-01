@@ -207,60 +207,56 @@ pub fn flip_buf() {
     set_buf(Buffer::not(get_buf()));
 }
 
-
 #[inline(always)]
 pub fn line(mut x: isize, mut y: isize, x2: isize, y2: isize, color: impl ColorEncodable) {
-    let mut yLonger = false;
-    let mut shortLen = y2 - y;
-    let mut longLen = x2 - x;
-    if shortLen.abs() > longLen.abs() {
-        let swap = shortLen;
-        shortLen = longLen;
-        longLen = swap;
-        yLonger = true;
+    let mut y_longer = false;
+    let mut short_len = y2 - y;
+    let mut long_len = x2 - x;
+    if short_len.abs() > long_len.abs() {
+        core::mem::swap(&mut short_len, &mut long_len);
+        y_longer = true;
     }
-    let decInc;
-    if longLen == 0 {
-        decInc = 0;
+    let dec_inc = if long_len == 0 {
+        0
     } else {
-        decInc = (((shortLen) << 8) / longLen);
-    }
-    if yLonger {
-        if longLen > 0 {
-            longLen += y;
+        (short_len << 8) / long_len
+    };
+    if y_longer {
+        if long_len > 0 {
+            long_len += y;
             let mut j = 0x80 + (x << 8);
-            while y <= longLen {
+            while y <= long_len {
                 set_pixel_checked(j >> 8, y, color);
-                j += decInc;
+                j += dec_inc;
                 y += 1;
             }
             return;
         }
-        longLen += y;
+        long_len += y;
         let mut j = 0x80 + (x << 8);
-        while y >= longLen {
+        while y >= long_len {
             set_pixel_checked(j >> 8, y, color);
-            j -= decInc;
+            j -= dec_inc;
             y -= 1;
         }
         return;
     }
 
-    if longLen > 0 {
-        longLen += x;
+    if long_len > 0 {
+        long_len += x;
         let mut j = 0x80 + (y << 8);
-        while x <= longLen {
+        while x <= long_len {
             set_pixel_checked(x, j >> 8, color);
-            j += decInc;
+            j += dec_inc;
             x += 1;
         }
         return;
     }
-    longLen += x;
+    long_len += x;
     let mut j = 0x80 + (y << 8);
-    while x >= longLen {
+    while x >= long_len {
         set_pixel_checked(x, j >> 8, color);
-        j -= decInc;
+        j -= dec_inc;
         x -= 1;
     }
 }
