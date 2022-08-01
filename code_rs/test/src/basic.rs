@@ -19,8 +19,10 @@ use crate::parm::tty::{clear, print_char, print_hex, read_int, read_line, Displa
 
 mod parm;
 
+type LineNumber = u16;
+
 struct Instruction {
-    line_no: usize,
+    line_no: LineNumber,
     content: InstructionKind,
 }
 
@@ -50,7 +52,7 @@ enum InstructionKind {
         prompt: String,
         variable: Variable,
     },
-    Goto(usize),
+    Goto(LineNumber),
     Let {
         variable: Variable,
         value: Expression,
@@ -382,7 +384,7 @@ fn main() {
         };
         let (line, instr) =
             unsafe { (line.get_unchecked(..space), line.get_unchecked(space + 1..)) };
-        let line_no: u32 = match line.parse() {
+        let line_no: LineNumber = match line.parse() {
             Ok(no) => no,
             Err(_) => {
                 println!("Invalid line no");
@@ -395,10 +397,9 @@ fn main() {
 }
 
 #[inline(never)]
-fn process_instruction(program: &mut Program, last: &mut u32, instr: &[char], line_no: u32) {
-    println!(line_no);
+fn process_instruction(program: &mut Program, last: &mut LineNumber, instr: &[char], line_no: LineNumber) {
     let idata = Instruction {
-        line_no: line_no as usize,
+        line_no,
         content: match instr.parse() {
             Ok(instr) => instr,
             Err(_) => {
@@ -407,7 +408,6 @@ fn process_instruction(program: &mut Program, last: &mut u32, instr: &[char], li
             }
         },
     };
-    println!(idata);
     if line_no > *last {
         program.0.push(idata);
         *last = line_no;
@@ -417,14 +417,14 @@ fn process_instruction(program: &mut Program, last: &mut u32, instr: &[char], li
 }
 
 #[inline(never)]
-fn insert_instruction(program: &mut Program, line_no: u32, idata: Instruction) {
+fn insert_instruction(program: &mut Program, line_no: LineNumber, idata: Instruction) {
     let insert = program
         .0
         .iter()
         .enumerate()
-        .find(|(_, i)| i.line_no >= line_no as usize);
+        .find(|(_, i)| i.line_no >= line_no);
     let (index, instr) = unsafe { insert.unwrap_unchecked() }; // there must be one
-    if instr.line_no == line_no as usize {
+    if instr.line_no == line_no {
         unsafe {
             program.0.raw_set(index, idata);
         }
@@ -481,10 +481,10 @@ impl FromStr for InstructionKind {
         }
         #[inline(never)]
         fn parse_goto(args: &[char]) -> Result<InstructionKind, ()> {
-            let line_no: u32 = args
+            let line_no: LineNumber = args
                 .parse()
                 .map_err(|_| println!("Goto: Invalid line no"))?;
-            Ok(InstructionKind::Goto(line_no as usize))
+            Ok(InstructionKind::Goto(line_no))
         }
 
         if s.starts_with_ignore_case("PRINT") {
@@ -504,7 +504,7 @@ impl FromStr for InstructionKind {
 }
 
 impl Display for Instruction {
-    #[inline(always)]
+    #[inline(never)]
     fn write(&self, target: &mut impl DisplayTarget) {
         print!(self.line_no, ' ', self.content, => target);
     }
@@ -598,7 +598,7 @@ impl RpnVisitor for RpnStringifier {
 struct Program(Vec<Instruction>);
 
 impl Program {
-    fn find_by_line(&self, line_no: usize) -> Option<usize> {
+    fn find_by_line(&self, line_no: LineNumber) -> Option<usize> {
         self.0
             .iter()
             .enumerate()

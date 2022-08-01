@@ -372,24 +372,28 @@ try:
 				if m.group(1).lower() == "push":
 					add_instr(f"sub sp, #{len(regs) * 4}")
 					for i, reg in enumerate(regs):
-						if reg >= 8:
-							add_instr("mov r11, r7")
+						if reg == hi_regs["lr"]:
+							add_instr("mov r12, r7")
 							add_instr(f"mov r7, r{reg}")
 							add_instr(f"str r7, [sp, #{i * 4}]")
-							add_instr("mov r7, r11")
-						else:
+							add_instr("mov r7, r12")
+						elif reg <= 7:
 							add_instr(f"str r{reg}, [sp, #{i * 4}]")
+						else:
+							raise Exception(f"push: invalid register {reg}")
 				else:
 					for i, reg in enumerate(regs):
-						if reg >= 8:
-							add_instr("mov r11, r7")
+						if reg == hi_regs["pc"]:
+							add_instr("mov r12, r7")
 							add_instr(f"ldr r7, [sp, #{i * 4}]")
-							if reg == 15:
-								add_instr(f"add sp, #{len(regs) * 4}")
-							add_instr(f"mov r{reg}, r7")
-							add_instr("mov r7, r11")
-						else:
+							add_instr("mov lr, r7")
+							add_instr("mov r7, r12")
+							add_instr(f"add sp, #{len(regs) * 4}")
+							add_instr("bx lr")
+						elif reg <= 7:
 							add_instr(f"ldr r{reg}, [sp, #{i * 4}]")
+						else:
+							raise Exception(f"push: invalid register {reg}")
 					add_instr(f"add sp, #{len(regs) * 4}")
 				break
 			elif m := stmbang.match(line):
