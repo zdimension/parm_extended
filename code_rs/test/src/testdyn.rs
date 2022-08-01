@@ -4,13 +4,12 @@
 #![feature(associated_type_defaults)]
 #![feature(iter_order_by)]
 #![feature(generic_associated_types)]
+#![feature(step_trait)]
+
+use crate::parm::tty::{get_tty, print_res};
 
 mod parm;
 
 fn main() {
-    let x = 3.14;
-    for i in 0..10 {
-        let y = x + (i as f64);
-        println!(y as i32);
-    }
+    print_res(true, get_tty());
 }

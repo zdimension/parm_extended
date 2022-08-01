@@ -49,6 +49,21 @@ pub fn read_all_as<T>(conv: fn(u8) -> T, stop: fn(u8) -> bool) -> Vec<T> {
     data
 }
 
+pub fn read_until_as<T>(conv: fn(u8) -> T, stop: fn(u8) -> bool) -> Vec<T> {
+    while !data_available() {
+        continue;
+    }
+    let mut data = Vec::with_capacity(32);
+    loop {
+        let char_read = read_blocking();
+        if stop(char_read) {
+            break;
+        }
+        data.push(conv(char_read));
+    }
+    data
+}
+
 pub fn read_all() -> Vec<u8> {
     read_all_as(|x| x, |_| false)
 }
@@ -58,7 +73,7 @@ pub fn read_all_string() -> String {
 }
 
 pub fn read_line() -> String {
-    unsafe { String::from_utf32_unchecked(read_all_as(|x| x as char, |x| x == b'\n')) }
+    unsafe { String::from_utf32_unchecked(read_until_as(|x| x as char, |x| x == b'\n')) }
 }
 
 pub struct Telnet;

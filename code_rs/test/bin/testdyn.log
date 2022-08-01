@@ -1,14 +1,14 @@
 ╔══════╤══════╤═════════════════════════════════════════════════════════╤══════════════════════╗
 ║  PC  │  OP  │                       Instruction                       │      Arguments       ║
 ╠══════╪══════╪═════════════════════════════════════════════════════════╪══════════════════════╣
-║ 0000 │ f000 │ .bl1 run                                                │ 283 (236)            ║
-║ 0002 │ f91b │ .bl2 run                                                │ 283 (236)            ║ >───╮
+║ 0000 │ f000 │ .bl1 run                                                │ 486 (3cc)            ║
+║ 0002 │ f9e6 │ .bl2 run                                                │ 486 (3cc)            ║ >───╮
 ║ 0004 │ b082 │ sub sp, #8                                              │ immw7=8              ║     │
 ║ 0006 │ 9400 │ str r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │
-║ 0008 │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║     │
+║ 0008 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │
 ║ 000a │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │
 ║ 000c │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║     │
-║ 000e │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║     │
+║ 000e │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │
 ║ 0010 │ 4351 │ muls r1, r2, r1                                         │ Rdm=1, Rn=2, Rdm_=1  ║     │
 ║ 0012 │ 4343 │ muls r3, r0, r3                                         │ Rdm=3, Rn=0, Rdm_=3  ║     │
 ║ 0014 │ 18c9 │ adds r1, r1, r3                                         │ Rd=1, Rn=1, Rm=3     ║     │
@@ -32,450 +32,640 @@
 ║ 0038 │ 1880 │ adds r0, r0, r2                                         │ Rd=0, Rn=0, Rm=2     ║     │
 ║ 003a │ 4159 │ adcs r1, r3                                             │ Rdn=1, Rdn_=, Rm=3   ║     │
 ║ 003c │ 9c00 │ ldr r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │
-║ 003e │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║     │
+║ 003e │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │
 ║ 0040 │ 9f01 │ ldr r7, [sp, #4]                                        │ Rt=7, immw8=4        ║     │
-║ 0042 │ b002 │ add sp, #8                                              │ immw7=8              ║     │
-║ 0044 │ 46bf │ mov r15, r7                                             │ Hd=7, Rs=7           ║     │
-║ 0046 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║     │
-║ 0048 │ b002 │ add sp, #8                                              │ immw7=8              ║     │
-║ 004a │ 4600 │ .p2align 2                                              │                      ║     │
+║ 0042 │ 46be │ mov lr, r7                                              │ Hd=6, Rs=7           ║     │
+║ 0044 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │
+║ 0046 │ b002 │ add sp, #8                                              │ immw7=8              ║     │
+║ 0048 │ 4770 │ bx lr                                                   │ Hm=6                 ║     │
+║ 004a │ b002 │ add sp, #8                                              │ immw7=8              ║     │
 ║ 004c │ b082 │ sub sp, #8                                              │ immw7=8              ║     │
 ║ 004e │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║     │
-║ 0050 │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║     │
+║ 0050 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │
 ║ 0052 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │
 ║ 0054 │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║     │
-║ 0056 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║     │
+║ 0056 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │
 ║ 0058 │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║     │
 ║ 005a │ 4802 │ ldr r0, .LCPI0_0                                        │ Rd=0, labelp8=2      ║     │ >───╮
 ║ 005c │ 210d │ movs r1, #13                                            │ Rd=1, imm8=13        ║     │     │
-║ 005e │ f000 │ .bl1 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ 263 (20e)            ║     │     │
-║ 0060 │ f907 │ .bl2 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ 263 (20e)            ║     │     │ >───╮
+║ 005e │ f000 │ .bl1 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ 453 (38a)            ║     │     │
+║ 0060 │ f9c5 │ .bl2 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ 453 (38a)            ║     │     │ >───╮
 ║ 0062 │ defe │ .inst.n 0xdefe                                          │                      ║     │     │     │
-║ 0064 │ 0354 │ .long .L__unnamed_1                                     │ 852                  ║     │ <───╯     │
-║ 0066 │ 0000 │ .long .L__unnamed_1                                     │ 852                  ║     │           │
-║ 0068 │ b087 │ sub sp, #28                                             │ immw7=28             ║     │           │
-║ 006a │ 9200 │ str r2, [sp, #0]                                        │ Rt=2, immw8=0        ║     │           │
-║ 006c │ 9301 │ str r3, [sp, #4]                                        │ Rt=3, immw8=4        ║     │           │
-║ 006e │ 9402 │ str r4, [sp, #8]                                        │ Rt=4, immw8=8        ║     │           │
-║ 0070 │ 9503 │ str r5, [sp, #12]                                       │ Rt=5, immw8=12       ║     │           │
-║ 0072 │ 9604 │ str r6, [sp, #16]                                       │ Rt=6, immw8=16       ║     │           │
-║ 0074 │ 9705 │ str r7, [sp, #20]                                       │ Rt=7, immw8=20       ║     │           │
-║ 0076 │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║     │           │
-║ 0078 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │
-║ 007a │ 9706 │ str r7, [sp, #24]                                       │ Rt=7, immw8=24       ║     │           │
-║ 007c │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║     │           │
-║ 007e │ af05 │ add r7, sp, #20                                         │ Rd=7, immw8=20       ║     │           │
-║ 0080 │ 460e │ mov r6, r1                                              │ Rd=6, Rs=1           ║     │           │
-║ 0082 │ 2103 │ movs r1, #3                                             │ Rd=1, imm8=3         ║     │           │
-║ 0084 │ 4613 │ mov r3, r2                                              │ Rd=3, Rs=2           ║     │           │
-║ 0086 │ 438b │ bics r3, r1                                             │ Rdn=3, Rdn_=, Rm=1   ║     │           │
-║ 0088 │ 461d │ mov r5, r3                                              │ Rd=5, Rs=3           ║     │           │
-║ 008a │ 9600 │ str r6, [sp]                                            │ Rt=6, immw8=0        ║     │           │
-║ 008c │ 9001 │ str r0, [sp, #4]                                        │ Rt=0, immw8=4        ║     │           │
-║ 008e │ 2d00 │ cmp r5, #0                                              │ Rd=5, imm8=0         ║     │           │       <───╮
-║ 0090 │ d005 │ beq .LBB1_3                                             │ cond=0, label8=5     ║     │           │ >───╮     │
-║ 0092 │ 6834 │ ldr r4, [r6]                                            │ Rd=4, Rb=6, immw5=0  ║     │           │     │     │
-║ 0094 │ 3604 │ adds r6, #4                                             │ Rd=6, Rd_=, imm8=4   ║     │           │     │     │
-║ 0096 │ 6004 │ str r4, [r0]                                            │ Rd=4, Rb=0, immw5=0  ║     │           │     │     │
-║ 0098 │ 3004 │ adds r0, #4                                             │ Rd=0, Rd_=, imm8=4   ║     │           │     │     │
-║ 009a │ 1e6d │ subs r5, r5, #1                                         │ Rd=5, Rn=5, imm3=1   ║     │           │     │     │
-║ 009c │ e7f7 │ b .LBB1_1                                               │ label11=-9           ║     │           │     │ >───╯
-║ 009e │ 400a │ ands r2, r1                                             │ Rdn=2, Rdn_=, Rm=1   ║     │           │ <───╯
-║ 00a0 │ 0098 │ lsls r0, r3, #2                                         │ Rd=0, Rm=3, imm5=2   ║     │           │
-║ 00a2 │ 9900 │ ldr r1, [sp]                                            │ Rt=1, immw8=0        ║     │           │
-║ 00a4 │ 1809 │ adds r1, r1, r0                                         │ Rd=1, Rn=1, Rm=0     ║     │           │
-║ 00a6 │ 9b01 │ ldr r3, [sp, #4]                                        │ Rt=3, immw8=4        ║     │           │
-║ 00a8 │ 1818 │ adds r0, r3, r0                                         │ Rd=0, Rn=3, Rm=0     ║     │           │
-║ 00aa │ 2a00 │ cmp r2, #0                                              │ Rd=2, imm8=0         ║     │           │       <───╮
-║ 00ac │ d005 │ beq .LBB1_6                                             │ cond=0, label8=5     ║     │           │ >───╮     │
-║ 00ae │ 780b │ ldrb r3, [r1]                                           │ Rd=3, Rb=1, imm5=0   ║     │           │     │     │
-║ 00b0 │ 7003 │ strb r3, [r0]                                           │ Rd=3, Rb=0, imm5=0   ║     │           │     │     │
-║ 00b2 │ 1e52 │ subs r2, r2, #1                                         │ Rd=2, Rn=2, imm3=1   ║     │           │     │     │
-║ 00b4 │ 1c49 │ adds r1, r1, #1                                         │ Rd=1, Rn=1, imm3=1   ║     │           │     │     │
-║ 00b6 │ 1c40 │ adds r0, r0, #1                                         │ Rd=0, Rn=0, imm3=1   ║     │           │     │     │
-║ 00b8 │ e7f7 │ b .LBB1_4                                               │ label11=-9           ║     │           │     │ >───╯
-║ 00ba │ 9a00 │ ldr r2, [sp, #0]                                        │ Rt=2, immw8=0        ║     │           │ <───╯
-║ 00bc │ 9b01 │ ldr r3, [sp, #4]                                        │ Rt=3, immw8=4        ║     │           │
-║ 00be │ 9c02 │ ldr r4, [sp, #8]                                        │ Rt=4, immw8=8        ║     │           │
-║ 00c0 │ 9d03 │ ldr r5, [sp, #12]                                       │ Rt=5, immw8=12       ║     │           │
-║ 00c2 │ 9e04 │ ldr r6, [sp, #16]                                       │ Rt=6, immw8=16       ║     │           │
-║ 00c4 │ 9f05 │ ldr r7, [sp, #20]                                       │ Rt=7, immw8=20       ║     │           │
-║ 00c6 │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║     │           │
-║ 00c8 │ 9f06 │ ldr r7, [sp, #24]                                       │ Rt=7, immw8=24       ║     │           │
-║ 00ca │ b007 │ add sp, #28                                             │ immw7=28             ║     │           │
-║ 00cc │ 46bf │ mov r15, r7                                             │ Hd=7, Rs=7           ║     │           │
-║ 00ce │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║     │           │
-║ 00d0 │ b007 │ add sp, #28                                             │ immw7=28             ║     │           │
-║ 00d2 │ b085 │ sub sp, #20                                             │ immw7=20             ║     │           │             <───╮ <───╮
-║ 00d4 │ 9400 │ str r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │                 │     │
-║ 00d6 │ 9501 │ str r5, [sp, #4]                                        │ Rt=5, immw8=4        ║     │           │                 │     │
-║ 00d8 │ 9602 │ str r6, [sp, #8]                                        │ Rt=6, immw8=8        ║     │           │                 │     │
-║ 00da │ 9703 │ str r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │                 │     │
-║ 00dc │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║     │           │                 │     │
-║ 00de │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │                 │     │
-║ 00e0 │ 9704 │ str r7, [sp, #16]                                       │ Rt=7, immw8=16       ║     │           │                 │     │
-║ 00e2 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║     │           │                 │     │
-║ 00e4 │ af03 │ add r7, sp, #12                                         │ Rd=7, immw8=12       ║     │           │                 │     │
-║ 00e6 │ 2303 │ movs r3, #3                                             │ Rd=3, imm8=3         ║     │           │                 │     │
-║ 00e8 │ 460a │ mov r2, r1                                              │ Rd=2, Rs=1           ║     │           │                 │     │
-║ 00ea │ 439a │ bics r2, r3                                             │ Rdn=2, Rdn_=, Rm=3   ║     │           │                 │     │
-║ 00ec │ 4614 │ mov r4, r2                                              │ Rd=4, Rs=2           ║     │           │                 │     │
-║ 00ee │ 4605 │ mov r5, r0                                              │ Rd=5, Rs=0           ║     │           │                 │     │
-║ 00f0 │ 2c00 │ cmp r4, #0                                              │ Rd=4, imm8=0         ║     │           │       <───╮     │     │
-║ 00f2 │ d004 │ beq .LBB2_3                                             │ cond=0, label8=4     ║     │           │ >───╮     │     │     │
-║ 00f4 │ 2600 │ movs r6, #0                                             │ Rd=6, imm8=0         ║     │           │     │     │     │     │
-║ 00f6 │ 602e │ str r6, [r5]                                            │ Rd=6, Rb=5, immw5=0  ║     │           │     │     │     │     │
-║ 00f8 │ 3504 │ adds r5, #4                                             │ Rd=5, Rd_=, imm8=4   ║     │           │     │     │     │     │
-║ 00fa │ 1e64 │ subs r4, r4, #1                                         │ Rd=4, Rn=4, imm3=1   ║     │           │     │     │     │     │
-║ 00fc │ e7f8 │ b .LBB2_1                                               │ label11=-8           ║     │           │     │ >───╯     │     │
-║ 00fe │ 4019 │ ands r1, r3                                             │ Rdn=1, Rdn_=, Rm=3   ║     │           │ <───╯           │     │
-║ 0100 │ 0092 │ lsls r2, r2, #2                                         │ Rd=2, Rm=2, imm5=2   ║     │           │                 │     │
-║ 0102 │ 1880 │ adds r0, r0, r2                                         │ Rd=0, Rn=0, Rm=2     ║     │           │                 │     │
-║ 0104 │ 2900 │ cmp r1, #0                                              │ Rd=1, imm8=0         ║     │           │       <───╮     │     │
-║ 0106 │ d004 │ beq .LBB2_6                                             │ cond=0, label8=4     ║     │           │ >───╮     │     │     │
-║ 0108 │ 2200 │ movs r2, #0                                             │ Rd=2, imm8=0         ║     │           │     │     │     │     │
-║ 010a │ 7002 │ strb r2, [r0]                                           │ Rd=2, Rb=0, imm5=0   ║     │           │     │     │     │     │
-║ 010c │ 1e49 │ subs r1, r1, #1                                         │ Rd=1, Rn=1, imm3=1   ║     │           │     │     │     │     │
-║ 010e │ 1c40 │ adds r0, r0, #1                                         │ Rd=0, Rn=0, imm3=1   ║     │           │     │     │     │     │
-║ 0110 │ e7f8 │ b .LBB2_4                                               │ label11=-8           ║     │           │     │ >───╯     │     │
-║ 0112 │ 9c00 │ ldr r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │ <───╯           │     │
-║ 0114 │ 9d01 │ ldr r5, [sp, #4]                                        │ Rt=5, immw8=4        ║     │           │                 │     │
-║ 0116 │ 9e02 │ ldr r6, [sp, #8]                                        │ Rt=6, immw8=8        ║     │           │                 │     │
-║ 0118 │ 9f03 │ ldr r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │                 │     │
-║ 011a │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║     │           │                 │     │
-║ 011c │ 9f04 │ ldr r7, [sp, #16]                                       │ Rt=7, immw8=16       ║     │           │                 │     │
-║ 011e │ b005 │ add sp, #20                                             │ immw7=20             ║     │           │                 │     │
-║ 0120 │ 46bf │ mov r15, r7                                             │ Hd=7, Rs=7           ║     │           │                 │     │
-║ 0122 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║     │           │                 │     │
-║ 0124 │ b005 │ add sp, #20                                             │ immw7=20             ║     │           │                 │     │
-║ 0126 │ b082 │ sub sp, #8                                              │ immw7=8              ║     │           │                 │     │
-║ 0128 │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║     │           │                 │     │
-║ 012a │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║     │           │                 │     │
-║ 012c │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │                 │     │
-║ 012e │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║     │           │                 │     │
-║ 0130 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║     │           │                 │     │
-║ 0132 │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║     │           │                 │     │
-║ 0134 │ f7ff │ .bl1 __aeabi_memclr                                     │ -51 (-66)            ║     │           │                 │     │
-║ 0136 │ ffcd │ .bl2 __aeabi_memclr                                     │ -51 (-66)            ║     │           │             >───╯     │
-║ 0138 │ 9f00 │ ldr r7, [sp, #0]                                        │ Rt=7, immw8=0        ║     │           │                       │
-║ 013a │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║     │           │                       │
-║ 013c │ 9f01 │ ldr r7, [sp, #4]                                        │ Rt=7, immw8=4        ║     │           │                       │
-║ 013e │ b002 │ add sp, #8                                              │ immw7=8              ║     │           │                       │
-║ 0140 │ 46bf │ mov r15, r7                                             │ Hd=7, Rs=7           ║     │           │                       │
-║ 0142 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║     │           │                       │
-║ 0144 │ b002 │ add sp, #8                                              │ immw7=8              ║     │           │                       │
-║ 0146 │ b082 │ sub sp, #8                                              │ immw7=8              ║     │           │                       │
-║ 0148 │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║     │           │                       │
-║ 014a │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║     │           │                       │
-║ 014c │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │                       │
-║ 014e │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║     │           │                       │
-║ 0150 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║     │           │                       │
-║ 0152 │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║     │           │                       │
-║ 0154 │ f7ff │ .bl1 __aeabi_memclr                                     │ -67 (-86)            ║     │           │                       │
-║ 0156 │ ffbd │ .bl2 __aeabi_memclr                                     │ -67 (-86)            ║     │           │                   >───╯
-║ 0158 │ 9f00 │ ldr r7, [sp, #0]                                        │ Rt=7, immw8=0        ║     │           │
-║ 015a │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║     │           │
-║ 015c │ 9f01 │ ldr r7, [sp, #4]                                        │ Rt=7, immw8=4        ║     │           │
-║ 015e │ b002 │ add sp, #8                                              │ immw7=8              ║     │           │
-║ 0160 │ 46bf │ mov r15, r7                                             │ Hd=7, Rs=7           ║     │           │
-║ 0162 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║     │           │
-║ 0164 │ b002 │ add sp, #8                                              │ immw7=8              ║     │           │
-║ 0166 │ 1cd2 │ adds r2, r2, #3                                         │ Rd=2, Rn=2, imm3=3   ║     │           │
-║ 0168 │ 0892 │ lsrs r2, r2, #2                                         │ Rd=2, Rm=2, imm5=2   ║     │           │
-║ 016a │ 4288 │ cmp r0, r1                                              │ Rn=0, Rm=1           ║     │           │
-║ 016c │ d207 │ bhs .LBB5_3                                             │ cond=2, label8=7     ║     │           │ >───╮
-║ 016e │ 2a00 │ cmp r2, #0                                              │ Rd=2, imm8=0         ║     │           │     │       <───╮
-║ 0170 │ d011 │ beq .LBB5_6                                             │ cond=0, label8=17    ║     │           │     │ >───╮     │
-║ 0172 │ 680b │ ldr r3, [r1]                                            │ Rd=3, Rb=1, immw5=0  ║     │           │     │     │     │
-║ 0174 │ 3104 │ adds r1, #4                                             │ Rd=1, Rd_=, imm8=4   ║     │           │     │     │     │
-║ 0176 │ 6003 │ str r3, [r0]                                            │ Rd=3, Rb=0, immw5=0  ║     │           │     │     │     │
-║ 0178 │ 3004 │ adds r0, #4                                             │ Rd=0, Rd_=, imm8=4   ║     │           │     │     │     │
-║ 017a │ 1e52 │ subs r2, r2, #1                                         │ Rd=2, Rn=2, imm3=1   ║     │           │     │     │     │
-║ 017c │ e7f7 │ b .LBB5_1                                               │ label11=-9           ║     │           │     │     │ >───╯
-║ 017e │ 0093 │ lsls r3, r2, #2                                         │ Rd=3, Rm=2, imm5=2   ║     │           │ <───╯     │
-║ 0180 │ 1f1b │ subs r3, r3, #4                                         │ Rd=3, Rn=3, imm3=4   ║     │           │           │
-║ 0182 │ 18c9 │ adds r1, r1, r3                                         │ Rd=1, Rn=1, Rm=3     ║     │           │           │
-║ 0184 │ 18c0 │ adds r0, r0, r3                                         │ Rd=0, Rn=0, Rm=3     ║     │           │           │
-║ 0186 │ 2a00 │ cmp r2, #0                                              │ Rd=2, imm8=0         ║     │           │           │       <───╮
-║ 0188 │ d005 │ beq .LBB5_6                                             │ cond=0, label8=5     ║     │           │           │ >───╮     │
-║ 018a │ 680b │ ldr r3, [r1]                                            │ Rd=3, Rb=1, immw5=0  ║     │           │           │     │     │
-║ 018c │ 6003 │ str r3, [r0]                                            │ Rd=3, Rb=0, immw5=0  ║     │           │           │     │     │
-║ 018e │ 1f09 │ subs r1, r1, #4                                         │ Rd=1, Rn=1, imm3=4   ║     │           │           │     │     │
-║ 0190 │ 1f00 │ subs r0, r0, #4                                         │ Rd=0, Rn=0, imm3=4   ║     │           │           │     │     │
-║ 0192 │ 1e52 │ subs r2, r2, #1                                         │ Rd=2, Rn=2, imm3=1   ║     │           │           │     │     │
-║ 0194 │ e7f7 │ b .LBB5_4                                               │ label11=-9           ║     │           │           │     │ >───╯
-║ 0196 │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │       <───╯ <───╯
-║ 0198 │ b084 │ sub sp, #16                                             │ immw7=16             ║     │           │
-║ 019a │ 9400 │ str r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
-║ 019c │ 9601 │ str r6, [sp, #4]                                        │ Rt=6, immw8=4        ║     │           │
-║ 019e │ 9702 │ str r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │
-║ 01a0 │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║     │           │
-║ 01a2 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │
-║ 01a4 │ 9703 │ str r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
-║ 01a6 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║     │           │
-║ 01a8 │ af02 │ add r7, sp, #8                                          │ Rd=7, immw8=8        ║     │           │
-║ 01aa │ 22cf │ movs r2, #207                                           │ Rd=2, imm8=207       ║     │           │
-║ 01ac │ 43d4 │ mvns r4, r2                                             │ Rd=4, Rm=2           ║     │           │
-║ 01ae │ 4602 │ mov r2, r0                                              │ Rd=2, Rs=0           ║     │           │
-║ 01b0 │ 460b │ mov r3, r1                                              │ Rd=3, Rs=1           ║     │           │
-║ 01b2 │ 6820 │ ldr r0, [r4]                                            │ Rd=0, Rb=4, immw5=0  ║     │           │
-║ 01b4 │ 9c00 │ ldr r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
-║ 01b6 │ 9e01 │ ldr r6, [sp, #4]                                        │ Rt=6, immw8=4        ║     │           │
-║ 01b8 │ 9f02 │ ldr r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │
-║ 01ba │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║     │           │
-║ 01bc │ 9f03 │ ldr r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
-║ 01be │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │
-║ 01c0 │ 46bf │ mov r15, r7                                             │ Hd=7, Rs=7           ║     │           │
-║ 01c2 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║     │           │
-║ 01c4 │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │
-║ 01c6 │ b084 │ sub sp, #16                                             │ immw7=16             ║     │           │
-║ 01c8 │ 9400 │ str r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
-║ 01ca │ 9501 │ str r5, [sp, #4]                                        │ Rt=5, immw8=4        ║     │           │
-║ 01cc │ 9702 │ str r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │
-║ 01ce │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║     │           │
-║ 01d0 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │
-║ 01d2 │ 9703 │ str r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
-║ 01d4 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║     │           │
-║ 01d6 │ af02 │ add r7, sp, #8                                          │ Rd=7, immw8=8        ║     │           │
-║ 01d8 │ 22cf │ movs r2, #207                                           │ Rd=2, imm8=207       ║     │           │
-║ 01da │ 43d4 │ mvns r4, r2                                             │ Rd=4, Rm=2           ║     │           │
-║ 01dc │ 22cb │ movs r2, #203                                           │ Rd=2, imm8=203       ║     │           │
-║ 01de │ 43d5 │ mvns r5, r2                                             │ Rd=5, Rm=2           ║     │           │
-║ 01e0 │ 4602 │ mov r2, r0                                              │ Rd=2, Rs=0           ║     │           │
-║ 01e2 │ 460b │ mov r3, r1                                              │ Rd=3, Rs=1           ║     │           │
-║ 01e4 │ 6820 │ ldr r0, [r4]                                            │ Rd=0, Rb=4, immw5=0  ║     │           │
-║ 01e6 │ 6829 │ ldr r1, [r5]                                            │ Rd=1, Rb=5, immw5=0  ║     │           │
-║ 01e8 │ 9c00 │ ldr r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
-║ 01ea │ 9d01 │ ldr r5, [sp, #4]                                        │ Rt=5, immw8=4        ║     │           │
-║ 01ec │ 9f02 │ ldr r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │
-║ 01ee │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║     │           │
-║ 01f0 │ 9f03 │ ldr r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
-║ 01f2 │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │
-║ 01f4 │ 46bf │ mov r15, r7                                             │ Hd=7, Rs=7           ║     │           │
-║ 01f6 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║     │           │
-║ 01f8 │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │
-║ 01fa │ 20ff │ movs r0, #255                                           │ Rd=0, imm8=255       ║     │           │                   <───╮
-║ 01fc │ 43c0 │ mvns r0, r0                                             │ Rd=0, Rm=0           ║     │           │                       │
-║ 01fe │ 6ac1 │ ldr r1, [r0, #44]                                       │ Rd=1, Rb=0, immw5=44 ║     │           │                       │
-║ 0200 │ 2900 │ cmp r1, #0                                              │ Rd=1, imm8=0         ║     │           │                       │
-║ 0202 │ d017 │ beq .LBB8_9                                             │ cond=0, label8=23    ║     │           │ >───╮                 │
-║ 0204 │ 6842 │ ldr r2, [r0, #4]                                        │ Rd=2, Rb=0, immw5=4  ║     │           │     │                 │
-║ 0206 │ 2a00 │ cmp r2, #0                                              │ Rd=2, imm8=0         ║     │           │     │                 │
-║ 0208 │ d504 │ bpl .LBB8_3                                             │ cond=5, label8=4     ║     │           │     │ >───╮           │
-║ 020a │ 212d │ movs r1, #45                                            │ Rd=1, imm8=45        ║     │           │     │     │           │
-║ 020c │ 6001 │ str r1, [r0]                                            │ Rd=1, Rb=0, immw5=0  ║     │           │     │     │           │
-║ 020e │ 4251 │ rsbs r1, r2, #0                                         │ Rd=1, Rn=2           ║     │           │     │     │           │
-║ 0210 │ 6041 │ str r1, [r0, #4]                                        │ Rd=1, Rb=0, immw5=4  ║     │           │     │     │           │
-║ 0212 │ 6ac1 │ ldr r1, [r0, #44]                                       │ Rd=1, Rb=0, immw5=44 ║     │           │     │     │           │
-║ 0214 │ 4602 │ mov r2, r0                                              │ Rd=2, Rs=0           ║     │           │     │ <───╯           │
-║ 0216 │ 32f8 │ adds r2, #248                                           │ Rd=2, Rd_=, imm8=248 ║     │           │     │                 │
-║ 0218 │ 070b │ lsls r3, r1, #28                                        │ Rd=3, Rm=1, imm5=28  ║     │           │     │       <───╮     │
-║ 021a │ d108 │ bne .LBB8_7                                             │ cond=1, label8=8     ║     │           │     │ >───╮     │     │
-║ 021c │ 1c52 │ adds r2, r2, #1                                         │ Rd=2, Rn=2, imm3=1   ║     │           │     │     │     │     │
-║ 021e │ 0909 │ lsrs r1, r1, #4                                         │ Rd=1, Rm=1, imm5=4   ║     │           │     │     │     │     │
-║ 0220 │ e7fa │ b .LBB8_4                                               │ label11=-6           ║     │           │     │     │ >───╯     │
-║ 0222 │ 230f │ movs r3, #15                                            │ Rd=3, imm8=15        ║     │           │     │     │ <───╮     │
-║ 0224 │ 400b │ ands r3, r1                                             │ Rdn=3, Rdn_=, Rm=1   ║     │           │     │     │     │     │
-║ 0226 │ 3330 │ adds r3, #48                                            │ Rd=3, Rd_=, imm8=48  ║     │           │     │     │     │     │
-║ 0228 │ 6003 │ str r3, [r0]                                            │ Rd=3, Rb=0, immw5=0  ║     │           │     │     │     │     │
-║ 022a │ 1c52 │ adds r2, r2, #1                                         │ Rd=2, Rn=2, imm3=1   ║     │           │     │     │     │     │
-║ 022c │ 0909 │ lsrs r1, r1, #4                                         │ Rd=1, Rm=1, imm5=4   ║     │           │     │     │     │     │
-║ 022e │ 2a00 │ cmp r2, #0                                              │ Rd=2, imm8=0         ║     │           │     │ <───╯     │     │
-║ 0230 │ d1f7 │ bne .LBB8_6                                             │ cond=1, label8=-9    ║     │           │     │       >───╯     │
-║ 0232 │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │     │                 │
-║ 0234 │ 2130 │ movs r1, #48                                            │ Rd=1, imm8=48        ║     │           │ <───╯                 │
-║ 0236 │ 6001 │ str r1, [r0]                                            │ Rd=1, Rb=0, immw5=0  ║     │           │                       │
-║ 0238 │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │                       │
-║ 023a │ b082 │ sub sp, #8                                              │ immw7=8              ║ <───╯           │                       │
-║ 023c │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║                 │                       │
-║ 023e │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║                 │                       │
-║ 0240 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║                 │                       │
-║ 0242 │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║                 │                       │
-║ 0244 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║                 │                       │
-║ 0246 │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║                 │                       │
-║ 0248 │ 2001 │ movs r0, #1                                             │ Rd=0, imm8=1         ║                 │                       │
-║ 024a │ 0500 │ lsls r0, r0, #20                                        │ Rd=0, Rm=0, imm5=20  ║                 │                       │
-║ 024c │ 4685 │ mov sp, r0                                              │ Hd=5, Rs=0           ║                 │                       │
-║ 024e │ 2000 │ movs r0, #0                                             │ Rd=0, imm8=0         ║                 │                       │
-║ 0250 │ 20ff │ movs r0, #255                                           │ Rd=0, imm8=255       ║                 │                       │
-║ 0252 │ 43c4 │ mvns r4, r0                                             │ Rd=4, Rm=0           ║                 │                       │
-║ 0254 │ 2500 │ movs r5, #0                                             │ Rd=5, imm8=0         ║                 │                       │
-║ 0256 │ 260a │ movs r6, #10                                            │ Rd=6, imm8=10        ║                 │                       │
-║ 0258 │ 2e00 │ cmp r6, #0                                              │ Rd=6, imm8=0         ║                 │                       │ <───╮
-║ 025a │ d008 │ beq .LBB9_3                                             │ cond=0, label8=8     ║                 │ >───╮                 │     │
-║ 025c │ 1ce8 │ adds r0, r5, #3                                         │ Rd=0, Rn=5, imm3=3   ║                 │     │                 │     │
-║ 025e │ 6060 │ str r0, [r4, #4]                                        │ Rd=0, Rb=4, immw5=4  ║                 │     │                 │     │
-║ 0260 │ f7ff │ .bl1 _ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E │ -53 (-6a)            ║                 │     │                 │     │
-║ 0262 │ ffcb │ .bl2 _ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E │ -53 (-6a)            ║                 │     │             >───╯     │
-║ 0264 │ 200a │ movs r0, #10                                            │ Rd=0, imm8=10        ║                 │     │                       │
-║ 0266 │ 6020 │ str r0, [r4]                                            │ Rd=0, Rb=4, immw5=0  ║                 │     │                       │
-║ 0268 │ 1e76 │ subs r6, r6, #1                                         │ Rd=6, Rn=6, imm3=1   ║                 │     │                       │
-║ 026a │ 1c6d │ adds r5, r5, #1                                         │ Rd=5, Rn=5, imm3=1   ║                 │     │                       │
-║ 026c │ e7f4 │ b .LBB9_1                                               │ label11=-12          ║                 │     │                   >───╯
-║ 026e │ e7fe │ b .LBB9_3                                               │ label11=-2           ║ <───╯           │ <───╯
-║ 0270 │ 22ff │ movs r2, #255                                           │ Rd=2, imm8=255       ║             <───╯ <───╮ <───╮ <───╮ <───╮ <───╮ <───╮
-║ 0272 │ 43d2 │ mvns r2, r2                                             │ Rd=2, Rm=2           ║                       │     │     │     │     │     │
-║ 0274 │ 2300 │ movs r3, #0                                             │ Rd=3, imm8=0         ║                       │     │     │     │     │     │
-║ 0276 │ 4c08 │ ldr r4, .LCPI10_0                                       │ Rd=4, labelp8=8      ║ >───╮                 │     │     │     │     │     │
-║ 0278 │ 2b06 │ cmp r3, #6                                              │ Rd=3, imm8=6         ║     │       <───╮     │     │     │     │     │     │
-║ 027a │ d007 │ beq .LBB10_4                                            │ cond=0, label8=7     ║     │ >───╮     │     │     │     │     │     │     │
-║ 027c │ 5ce5 │ ldrb r5, [r4, r3]                                       │ Rd=5, Rb=4, Ro=3     ║     │     │     │     │     │     │     │     │     │
-║ 027e │ 6015 │ str r5, [r2]                                            │ Rd=5, Rb=2, immw5=0  ║     │     │     │     │     │     │     │     │     │
-║ 0280 │ 1c5b │ adds r3, r3, #1                                         │ Rd=3, Rn=3, imm3=1   ║     │     │     │     │     │     │     │     │     │
-║ 0282 │ e7f9 │ b .LBB10_1                                              │ label11=-7           ║     │     │ >───╯     │     │     │     │     │     │
-║ 0284 │ 7803 │ ldrb r3, [r0]                                           │ Rd=3, Rb=0, imm5=0   ║     │     │ <───╮     │     │     │     │     │     │
-║ 0286 │ 6013 │ str r3, [r2]                                            │ Rd=3, Rb=2, immw5=0  ║     │     │     │     │     │     │     │     │     │
-║ 0288 │ 1e49 │ subs r1, r1, #1                                         │ Rd=1, Rn=1, imm3=1   ║     │     │     │     │     │     │     │     │     │
-║ 028a │ 1c40 │ adds r0, r0, #1                                         │ Rd=0, Rn=0, imm3=1   ║     │     │     │     │     │     │     │     │     │
-║ 028c │ 2900 │ cmp r1, #0                                              │ Rd=1, imm8=0         ║     │ <───╯     │     │     │     │     │     │     │
-║ 028e │ d1f9 │ bne .LBB10_3                                            │ cond=1, label8=-7    ║     │       >───╯     │     │     │     │     │     │
-║ 0290 │ 200a │ movs r0, #10                                            │ Rd=0, imm8=10        ║     │                 │     │     │     │     │     │
-║ 0292 │ 6010 │ str r0, [r2]                                            │ Rd=0, Rb=2, immw5=0  ║     │                 │     │     │     │     │     │
-║ 0294 │ e7fe │ b .LBB10_6                                              │ label11=-2           ║ <───╯                 │     │     │     │     │     │
-║ 0296 │ 4600 │ .p2align 2                                              │                      ║     │                 │     │     │     │     │     │
-║ 0298 │ 0362 │ .long .L__unnamed_2                                     │ 866                  ║ <───╯                 │     │     │     │     │     │
-║ 029a │ 0000 │ .long .L__unnamed_2                                     │ 866                  ║                       │     │     │     │     │     │
-║ 029c │ b082 │ sub sp, #8                                              │ immw7=8              ║                       │     │     │     │     │     │
-║ 029e │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║                       │     │     │     │     │     │
-║ 02a0 │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║                       │     │     │     │     │     │
-║ 02a2 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║                       │     │     │     │     │     │
-║ 02a4 │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║                       │     │     │     │     │     │
-║ 02a6 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║                       │     │     │     │     │     │
-║ 02a8 │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║                       │     │     │     │     │     │
-║ 02aa │ f7ff │ .bl1 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -31 (-3e)            ║                       │     │     │     │     │     │
-║ 02ac │ ffe1 │ .bl2 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -31 (-3e)            ║                   >───╯     │     │     │     │     │
-║ 02ae │ defe │ .inst.n 0xdefe                                          │                      ║                             │     │     │     │     │
-║ 02b0 │ b082 │ sub sp, #8                                              │ immw7=8              ║                             │     │     │     │     │
-║ 02b2 │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║                             │     │     │     │     │
-║ 02b4 │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║                             │     │     │     │     │
-║ 02b6 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║                             │     │     │     │     │
-║ 02b8 │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║                             │     │     │     │     │
-║ 02ba │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║                             │     │     │     │     │
-║ 02bc │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║                             │     │     │     │     │
-║ 02be │ f7ff │ .bl1 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -41 (-52)            ║                             │     │     │     │     │
-║ 02c0 │ ffd7 │ .bl2 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -41 (-52)            ║                         >───╯     │     │     │     │
-║ 02c2 │ defe │ .inst.n 0xdefe                                          │                      ║                                   │     │     │     │
-║ 02c4 │ b082 │ sub sp, #8                                              │ immw7=8              ║                                   │     │     │     │
-║ 02c6 │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║                                   │     │     │     │
-║ 02c8 │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║                                   │     │     │     │
-║ 02ca │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║                                   │     │     │     │
-║ 02cc │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║                                   │     │     │     │
-║ 02ce │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║                                   │     │     │     │
-║ 02d0 │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║                                   │     │     │     │
-║ 02d2 │ 4802 │ ldr r0, .LCPI13_0                                       │ Rd=0, labelp8=2      ║ >───╮                             │     │     │     │
-║ 02d4 │ 210d │ movs r1, #13                                            │ Rd=1, imm8=13        ║     │                             │     │     │     │
-║ 02d6 │ f7ff │ .bl1 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -53 (-6a)            ║     │                             │     │     │     │
-║ 02d8 │ ffcb │ .bl2 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -53 (-6a)            ║     │                         >───╯     │     │     │
-║ 02da │ defe │ .inst.n 0xdefe                                          │                      ║     │                                   │     │     │
-║ 02dc │ 0368 │ .long .L__unnamed_3                                     │ 872                  ║ <───╯                                   │     │     │
-║ 02de │ 0000 │ .long .L__unnamed_3                                     │ 872                  ║                                         │     │     │
-║ 02e0 │ b082 │ sub sp, #8                                              │ immw7=8              ║                                         │     │     │
-║ 02e2 │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║                                         │     │     │
-║ 02e4 │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║                                         │     │     │
-║ 02e6 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║                                         │     │     │
-║ 02e8 │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║                                         │     │     │
-║ 02ea │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║                                         │     │     │
-║ 02ec │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║                                         │     │     │
-║ 02ee │ 4802 │ ldr r0, .LCPI14_0                                       │ Rd=0, labelp8=2      ║ >───╮                                   │     │     │
-║ 02f0 │ 2113 │ movs r1, #19                                            │ Rd=1, imm8=19        ║     │                                   │     │     │
-║ 02f2 │ f7ff │ .bl1 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -67 (-86)            ║     │                                   │     │     │
-║ 02f4 │ ffbd │ .bl2 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -67 (-86)            ║     │                               >───╯     │     │
-║ 02f6 │ defe │ .inst.n 0xdefe                                          │                      ║     │                                         │     │
-║ 02f8 │ 0376 │ .long .L__unnamed_4                                     │ 886                  ║ <───╯                                         │     │
-║ 02fa │ 0000 │ .long .L__unnamed_4                                     │ 886                  ║                                               │     │
-║ 02fc │ b082 │ sub sp, #8                                              │ immw7=8              ║                                               │     │
-║ 02fe │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║                                               │     │
-║ 0300 │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║                                               │     │
-║ 0302 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║                                               │     │
-║ 0304 │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║                                               │     │
-║ 0306 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║                                               │     │
-║ 0308 │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║                                               │     │
-║ 030a │ 4802 │ ldr r0, .LCPI15_0                                       │ Rd=0, labelp8=2      ║ >───╮                                         │     │
-║ 030c │ 2109 │ movs r1, #9                                             │ Rd=1, imm8=9         ║     │                                         │     │
-║ 030e │ f7ff │ .bl1 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -81 (-a2)            ║     │                                         │     │
-║ 0310 │ ffaf │ .bl2 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -81 (-a2)            ║     │                                     >───╯     │
-║ 0312 │ defe │ .inst.n 0xdefe                                          │                      ║     │                                               │
-║ 0314 │ 038a │ .long .L__unnamed_5                                     │ 906                  ║ <───╯                                               │
-║ 0316 │ 0000 │ .long .L__unnamed_5                                     │ 906                  ║                                                     │
-║ 0318 │ b082 │ sub sp, #8                                              │ immw7=8              ║                                                     │
-║ 031a │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║                                                     │
-║ 031c │ 46bb │ mov r11, r7                                             │ Hd=3, Rs=7           ║                                                     │
-║ 031e │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║                                                     │
-║ 0320 │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║                                                     │
-║ 0322 │ 465f │ mov r7, r11                                             │ Rd=7, Hs=3           ║                                                     │
-║ 0324 │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║                                                     │
-║ 0326 │ 4802 │ ldr r0, .LCPI16_0                                       │ Rd=0, labelp8=2      ║ >───╮                                               │
-║ 0328 │ 2119 │ movs r1, #25                                            │ Rd=1, imm8=25        ║     │                                               │
-║ 032a │ f7ff │ .bl1 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -95 (-be)            ║     │                                               │
-║ 032c │ ffa1 │ .bl2 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -95 (-be)            ║     │                                           >───╯
-║ 032e │ defe │ .inst.n 0xdefe                                          │                      ║     │
-║ 0330 │ 0394 │ .long .L__unnamed_6                                     │ 916                  ║ <───╯
-║ 0332 │ 0000 │ .long .L__unnamed_6                                     │ 916                  ║
-║ 0334 │ 20ff │ movs r0, #255                                           │ Rd=0, imm8=255       ║
-║ 0336 │ 43c0 │ mvns r0, r0                                             │ Rd=0, Rm=0           ║
-║ 0338 │ 2100 │ movs r1, #0                                             │ Rd=1, imm8=0         ║
-║ 033a │ 4a05 │ ldr r2, .LCPI17_0                                       │ Rd=2, labelp8=5      ║ >───╮
-║ 033c │ 2907 │ cmp r1, #7                                              │ Rd=1, imm8=7         ║     │       <───╮
-║ 033e │ d003 │ beq .LBB17_3                                            │ cond=0, label8=3     ║     │ >───╮     │
-║ 0340 │ 5c53 │ ldrb r3, [r2, r1]                                       │ Rd=3, Rb=2, Ro=1     ║     │     │     │
-║ 0342 │ 6003 │ str r3, [r0]                                            │ Rd=3, Rb=0, immw5=0  ║     │     │     │
-║ 0344 │ 1c49 │ adds r1, r1, #1                                         │ Rd=1, Rn=1, imm3=1   ║     │     │     │
-║ 0346 │ e7f9 │ b .LBB17_1                                              │ label11=-7           ║     │     │ >───╯
-║ 0348 │ 210a │ movs r1, #10                                            │ Rd=1, imm8=10        ║     │ <───╯
-║ 034a │ 6001 │ str r1, [r0]                                            │ Rd=1, Rb=0, immw5=0  ║     │
-║ 034c │ e7fe │ b .LBB17_4                                              │ label11=-2           ║ <───╯
-║ 034e │ 4600 │ .p2align 2                                              │                      ║     │
-║ 0350 │ 03ae │ .long .L__unnamed_7                                     │ 942                  ║ <───╯
-║ 0352 │ 0000 │ .long .L__unnamed_7                                     │ 942                  ║
-║ 0354 │ 6e75 │ .ascii "unknown panic"                                  │ 117 110              ║
-║ 0356 │ 6e6b │ .ascii "unknown panic"                                  │ 107 110              ║
-║ 0358 │ 776f │ .ascii "unknown panic"                                  │ 111 119              ║
-║ 035a │ 206e │ .ascii "unknown panic"                                  │ 110 32               ║
-║ 035c │ 6170 │ .ascii "unknown panic"                                  │ 112 97               ║
-║ 035e │ 696e │ .ascii "unknown panic"                                  │ 110 105              ║
-║ 0360 │ 0063 │ .ascii "unknown panic"                                  │ 99 0                 ║
-║ 0362 │ 4150 │ .ascii "PANIC:"                                         │ 80 65                ║
-║ 0364 │ 494e │ .ascii "PANIC:"                                         │ 78 73                ║
-║ 0366 │ 3a43 │ .ascii "PANIC:"                                         │ 67 58                ║
-║ 0368 │ 6e75 │ .ascii "unwrap_failed"                                  │ 117 110              ║
-║ 036a │ 7277 │ .ascii "unwrap_failed"                                  │ 119 114              ║
-║ 036c │ 7061 │ .ascii "unwrap_failed"                                  │ 97 112               ║
-║ 036e │ 665f │ .ascii "unwrap_failed"                                  │ 95 102               ║
-║ 0370 │ 6961 │ .ascii "unwrap_failed"                                  │ 97 105               ║
-║ 0372 │ 656c │ .ascii "unwrap_failed"                                  │ 108 101              ║
-║ 0374 │ 0064 │ .ascii "unwrap_failed"                                  │ 100 0                ║
-║ 0376 │ 6e69 │ .ascii "index out of bounds"                            │ 105 110              ║
-║ 0378 │ 6564 │ .ascii "index out of bounds"                            │ 100 101              ║
-║ 037a │ 2078 │ .ascii "index out of bounds"                            │ 120 32               ║
-║ 037c │ 756f │ .ascii "index out of bounds"                            │ 111 117              ║
-║ 037e │ 2074 │ .ascii "index out of bounds"                            │ 116 32               ║
-║ 0380 │ 666f │ .ascii "index out of bounds"                            │ 111 102              ║
-║ 0382 │ 6220 │ .ascii "index out of bounds"                            │ 32 98                ║
-║ 0384 │ 756f │ .ascii "index out of bounds"                            │ 111 117              ║
-║ 0386 │ 646e │ .ascii "index out of bounds"                            │ 110 100              ║
-║ 0388 │ 0073 │ .ascii "index out of bounds"                            │ 115 0                ║
-║ 038a │ 6170 │ .ascii "panic_fmt"                                      │ 112 97               ║
-║ 038c │ 696e │ .ascii "panic_fmt"                                      │ 110 105              ║
-║ 038e │ 5f63 │ .ascii "panic_fmt"                                      │ 99 95                ║
-║ 0390 │ 6d66 │ .ascii "panic_fmt"                                      │ 102 109              ║
-║ 0392 │ 0074 │ .ascii "panic_fmt"                                      │ 116 0                ║
-║ 0394 │ 6c73 │ .ascii "slice index out of bound...                     │ 115 108              ║
-║ 0396 │ 6369 │ .ascii "slice index out of bound...                     │ 105 99               ║
-║ 0398 │ 2065 │ .ascii "slice index out of bound...                     │ 101 32               ║
-║ 039a │ 6e69 │ .ascii "slice index out of bound...                     │ 105 110              ║
-║ 039c │ 6564 │ .ascii "slice index out of bound...                     │ 100 101              ║
-║ 039e │ 2078 │ .ascii "slice index out of bound...                     │ 120 32               ║
-║ 03a0 │ 756f │ .ascii "slice index out of bound...                     │ 111 117              ║
-║ 03a2 │ 2074 │ .ascii "slice index out of bound...                     │ 116 32               ║
-║ 03a4 │ 666f │ .ascii "slice index out of bound...                     │ 111 102              ║
-║ 03a6 │ 6220 │ .ascii "slice index out of bound...                     │ 32 98                ║
-║ 03a8 │ 756f │ .ascii "slice index out of bound...                     │ 111 117              ║
-║ 03aa │ 646e │ .ascii "slice index out of bound...                     │ 110 100              ║
-║ 03ac │ 0073 │ .ascii "slice index out of bound...                     │ 115 0                ║
-║ 03ae │ 6168 │ .ascii "handler"                                        │ 104 97               ║
-║ 03b0 │ 646e │ .ascii "handler"                                        │ 110 100              ║
-║ 03b2 │ 656c │ .ascii "handler"                                        │ 108 101              ║
-║ 03b4 │ 0072 │ .ascii "handler"                                        │ 114 0                ║
+║ 0064 │ 04d0 │ .long .L__unnamed_1                                     │ 1232                 ║     │ <───╯     │
+║ 0066 │ 0000 │ .long .L__unnamed_1                                     │ 1232                 ║     │           │
+║ 0068 │ b084 │ sub sp, #16                                             │ immw7=16             ║     │           │
+║ 006a │ 9400 │ str r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
+║ 006c │ 9501 │ str r5, [sp, #4]                                        │ Rt=5, immw8=4        ║     │           │
+║ 006e │ 9702 │ str r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │
+║ 0070 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │
+║ 0072 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │
+║ 0074 │ 9703 │ str r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
+║ 0076 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │
+║ 0078 │ af02 │ add r7, sp, #8                                          │ Rd=7, immw8=8        ║     │           │
+║ 007a │ 2303 │ movs r3, #3                                             │ Rd=3, imm8=3         ║     │           │
+║ 007c │ 4614 │ mov r4, r2                                              │ Rd=4, Rs=2           ║     │           │
+║ 007e │ 439c │ bics r4, r3                                             │ Rdn=4, Rdn_=, Rm=3   ║     │           │
+║ 0080 │ 2300 │ movs r3, #0                                             │ Rd=3, imm8=0         ║     │           │
+║ 0082 │ 42a3 │ cmp r3, r4                                              │ Rn=3, Rm=4           ║     │           │       <───╮
+║ 0084 │ d206 │ bhs .LBB1_4                                             │ cond=2, label8=6     ║     │           │ >───╮     │
+║ 0086 │ 58cd │ ldr r5, [r1, r3]                                        │ Rd=5, Rb=1, Ro=3     ║     │           │     │     │
+║ 0088 │ 50c5 │ str r5, [r0, r3]                                        │ Rd=5, Rb=0, Ro=3     ║     │           │     │     │
+║ 008a │ 1d1b │ adds r3, r3, #4                                         │ Rd=3, Rn=3, imm3=4   ║     │           │     │     │
+║ 008c │ e7f9 │ b .LBB1_1                                               │ label11=-7           ║     │           │     │ >───╯
+║ 008e │ 5ccc │ ldrb r4, [r1, r3]                                       │ Rd=4, Rb=1, Ro=3     ║     │           │     │ <───╮
+║ 0090 │ 54c4 │ strb r4, [r0, r3]                                       │ Rd=4, Rb=0, Ro=3     ║     │           │     │     │
+║ 0092 │ 1c5b │ adds r3, r3, #1                                         │ Rd=3, Rn=3, imm3=1   ║     │           │     │     │
+║ 0094 │ 4293 │ cmp r3, r2                                              │ Rn=3, Rm=2           ║     │           │ <───╯     │
+║ 0096 │ d3fa │ blo .LBB1_3                                             │ cond=3, label8=-6    ║     │           │       >───╯
+║ 0098 │ 9c00 │ ldr r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
+║ 009a │ 9d01 │ ldr r5, [sp, #4]                                        │ Rt=5, immw8=4        ║     │           │
+║ 009c │ 9f02 │ ldr r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │
+║ 009e │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │
+║ 00a0 │ 9f03 │ ldr r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
+║ 00a2 │ 46be │ mov lr, r7                                              │ Hd=6, Rs=7           ║     │           │
+║ 00a4 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │
+║ 00a6 │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │
+║ 00a8 │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │
+║ 00aa │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │
+║ 00ac │ b084 │ sub sp, #16                                             │ immw7=16             ║     │           │             <───╮ <───╮
+║ 00ae │ 9400 │ str r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │                 │     │
+║ 00b0 │ 9601 │ str r6, [sp, #4]                                        │ Rt=6, immw8=4        ║     │           │                 │     │
+║ 00b2 │ 9702 │ str r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │                 │     │
+║ 00b4 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │                 │     │
+║ 00b6 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │                 │     │
+║ 00b8 │ 9703 │ str r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │                 │     │
+║ 00ba │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │                 │     │
+║ 00bc │ af02 │ add r7, sp, #8                                          │ Rd=7, immw8=8        ║     │           │                 │     │
+║ 00be │ 2203 │ movs r2, #3                                             │ Rd=2, imm8=3         ║     │           │                 │     │
+║ 00c0 │ 460b │ mov r3, r1                                              │ Rd=3, Rs=1           ║     │           │                 │     │
+║ 00c2 │ 4393 │ bics r3, r2                                             │ Rdn=3, Rdn_=, Rm=2   ║     │           │                 │     │
+║ 00c4 │ 2200 │ movs r2, #0                                             │ Rd=2, imm8=0         ║     │           │                 │     │
+║ 00c6 │ 429a │ cmp r2, r3                                              │ Rn=2, Rm=3           ║     │           │       <───╮     │     │
+║ 00c8 │ d206 │ bhs .LBB2_4                                             │ cond=2, label8=6     ║     │           │ >───╮     │     │     │
+║ 00ca │ 2400 │ movs r4, #0                                             │ Rd=4, imm8=0         ║     │           │     │     │     │     │
+║ 00cc │ 5084 │ str r4, [r0, r2]                                        │ Rd=4, Rb=0, Ro=2     ║     │           │     │     │     │     │
+║ 00ce │ 1d12 │ adds r2, r2, #4                                         │ Rd=2, Rn=2, imm3=4   ║     │           │     │     │     │     │
+║ 00d0 │ e7f9 │ b .LBB2_1                                               │ label11=-7           ║     │           │     │ >───╯     │     │
+║ 00d2 │ 2300 │ movs r3, #0                                             │ Rd=3, imm8=0         ║     │           │     │ <───╮     │     │
+║ 00d4 │ 5483 │ strb r3, [r0, r2]                                       │ Rd=3, Rb=0, Ro=2     ║     │           │     │     │     │     │
+║ 00d6 │ 1c52 │ adds r2, r2, #1                                         │ Rd=2, Rn=2, imm3=1   ║     │           │     │     │     │     │
+║ 00d8 │ 428a │ cmp r2, r1                                              │ Rn=2, Rm=1           ║     │           │ <───╯     │     │     │
+║ 00da │ d3fa │ blo .LBB2_3                                             │ cond=3, label8=-6    ║     │           │       >───╯     │     │
+║ 00dc │ 9c00 │ ldr r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │                 │     │
+║ 00de │ 9e01 │ ldr r6, [sp, #4]                                        │ Rt=6, immw8=4        ║     │           │                 │     │
+║ 00e0 │ 9f02 │ ldr r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │                 │     │
+║ 00e2 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │                 │     │
+║ 00e4 │ 9f03 │ ldr r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │                 │     │
+║ 00e6 │ 46be │ mov lr, r7                                              │ Hd=6, Rs=7           ║     │           │                 │     │
+║ 00e8 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │                 │     │
+║ 00ea │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │                 │     │
+║ 00ec │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │                 │     │
+║ 00ee │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │                 │     │
+║ 00f0 │ b082 │ sub sp, #8                                              │ immw7=8              ║     │           │                 │     │
+║ 00f2 │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║     │           │                 │     │
+║ 00f4 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │                 │     │
+║ 00f6 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │                 │     │
+║ 00f8 │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║     │           │                 │     │
+║ 00fa │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │                 │     │
+║ 00fc │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║     │           │                 │     │
+║ 00fe │ f7ff │ .bl1 __aeabi_memclr                                     │ -43 (-56)            ║     │           │                 │     │
+║ 0100 │ ffd5 │ .bl2 __aeabi_memclr                                     │ -43 (-56)            ║     │           │             >───╯     │
+║ 0102 │ 9f00 │ ldr r7, [sp, #0]                                        │ Rt=7, immw8=0        ║     │           │                       │
+║ 0104 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │                       │
+║ 0106 │ 9f01 │ ldr r7, [sp, #4]                                        │ Rt=7, immw8=4        ║     │           │                       │
+║ 0108 │ 46be │ mov lr, r7                                              │ Hd=6, Rs=7           ║     │           │                       │
+║ 010a │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │                       │
+║ 010c │ b002 │ add sp, #8                                              │ immw7=8              ║     │           │                       │
+║ 010e │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │                       │
+║ 0110 │ b002 │ add sp, #8                                              │ immw7=8              ║     │           │                       │
+║ 0112 │ b082 │ sub sp, #8                                              │ immw7=8              ║     │           │                       │
+║ 0114 │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║     │           │                       │
+║ 0116 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │                       │
+║ 0118 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │                       │
+║ 011a │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║     │           │                       │
+║ 011c │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │                       │
+║ 011e │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║     │           │                       │
+║ 0120 │ f7ff │ .bl1 __aeabi_memclr                                     │ -60 (-78)            ║     │           │                       │
+║ 0122 │ ffc4 │ .bl2 __aeabi_memclr                                     │ -60 (-78)            ║     │           │                   >───╯
+║ 0124 │ 9f00 │ ldr r7, [sp, #0]                                        │ Rt=7, immw8=0        ║     │           │
+║ 0126 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │
+║ 0128 │ 9f01 │ ldr r7, [sp, #4]                                        │ Rt=7, immw8=4        ║     │           │
+║ 012a │ 46be │ mov lr, r7                                              │ Hd=6, Rs=7           ║     │           │
+║ 012c │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │
+║ 012e │ b002 │ add sp, #8                                              │ immw7=8              ║     │           │
+║ 0130 │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │
+║ 0132 │ b002 │ add sp, #8                                              │ immw7=8              ║     │           │
+║ 0134 │ b082 │ sub sp, #8                                              │ immw7=8              ║     │           │
+║ 0136 │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║     │           │
+║ 0138 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │
+║ 013a │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │
+║ 013c │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║     │           │
+║ 013e │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │
+║ 0140 │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║     │           │
+║ 0142 │ f000 │ .bl1 __aeabi_memmove                                    │ 8 (10)               ║     │           │
+║ 0144 │ f808 │ .bl2 __aeabi_memmove                                    │ 8 (10)               ║     │           │ >───╮
+║ 0146 │ 9f00 │ ldr r7, [sp, #0]                                        │ Rt=7, immw8=0        ║     │           │     │
+║ 0148 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │     │
+║ 014a │ 9f01 │ ldr r7, [sp, #4]                                        │ Rt=7, immw8=4        ║     │           │     │
+║ 014c │ 46be │ mov lr, r7                                              │ Hd=6, Rs=7           ║     │           │     │
+║ 014e │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │     │
+║ 0150 │ b002 │ add sp, #8                                              │ immw7=8              ║     │           │     │
+║ 0152 │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │     │
+║ 0154 │ b002 │ add sp, #8                                              │ immw7=8              ║     │           │     │
+║ 0156 │ b086 │ sub sp, #24                                             │ immw7=24             ║     │           │ <───╯
+║ 0158 │ 9300 │ str r3, [sp, #0]                                        │ Rt=3, immw8=0        ║     │           │
+║ 015a │ 9401 │ str r4, [sp, #4]                                        │ Rt=4, immw8=4        ║     │           │
+║ 015c │ 9502 │ str r5, [sp, #8]                                        │ Rt=5, immw8=8        ║     │           │
+║ 015e │ 9603 │ str r6, [sp, #12]                                       │ Rt=6, immw8=12       ║     │           │
+║ 0160 │ 9704 │ str r7, [sp, #16]                                       │ Rt=7, immw8=16       ║     │           │
+║ 0162 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │
+║ 0164 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │
+║ 0166 │ 9705 │ str r7, [sp, #20]                                       │ Rt=7, immw8=20       ║     │           │
+║ 0168 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │
+║ 016a │ af04 │ add r7, sp, #16                                         │ Rd=7, immw8=16       ║     │           │
+║ 016c │ 2403 │ movs r4, #3                                             │ Rd=4, imm8=3         ║     │           │
+║ 016e │ 4616 │ mov r6, r2                                              │ Rd=6, Rs=2           ║     │           │
+║ 0170 │ 43a6 │ bics r6, r4                                             │ Rdn=6, Rdn_=, Rm=4   ║     │           │
+║ 0172 │ 4281 │ cmp r1, r0                                              │ Rn=1, Rm=0           ║     │           │
+║ 0174 │ d208 │ bhs .LBB6_4                                             │ cond=2, label8=8     ║     │           │ >───╮
+║ 0176 │ 1f0c │ subs r4, r1, #4                                         │ Rd=4, Rn=1, imm3=4   ║     │           │     │
+║ 0178 │ 1f05 │ subs r5, r0, #4                                         │ Rd=5, Rn=0, imm3=4   ║     │           │     │
+║ 017a │ 9600 │ str r6, [sp]                                            │ Rt=6, immw8=0        ║     │           │     │
+║ 017c │ 2e00 │ cmp r6, #0                                              │ Rd=6, imm8=0         ║     │           │     │       <───╮
+║ 017e │ d01b │ beq .LBB6_10                                            │ cond=0, label8=27    ║     │           │     │ >───╮     │
+║ 0180 │ 59a3 │ ldr r3, [r4, r6]                                        │ Rd=3, Rb=4, Ro=6     ║     │           │     │     │     │
+║ 0182 │ 51ab │ str r3, [r5, r6]                                        │ Rd=3, Rb=5, Ro=6     ║     │           │     │     │     │
+║ 0184 │ 1f36 │ subs r6, r6, #4                                         │ Rd=6, Rn=6, imm3=4   ║     │           │     │     │     │
+║ 0186 │ e7f9 │ b .LBB6_2                                               │ label11=-7           ║     │           │     │     │ >───╯
+║ 0188 │ 2400 │ movs r4, #0                                             │ Rd=4, imm8=0         ║     │           │ <───╯     │
+║ 018a │ 42b4 │ cmp r4, r6                                              │ Rn=4, Rm=6           ║     │           │           │       <───╮
+║ 018c │ d206 │ bhs .LBB6_8                                             │ cond=2, label8=6     ║     │           │           │ >───╮     │
+║ 018e │ 590b │ ldr r3, [r1, r4]                                        │ Rd=3, Rb=1, Ro=4     ║     │           │           │     │     │
+║ 0190 │ 5103 │ str r3, [r0, r4]                                        │ Rd=3, Rb=0, Ro=4     ║     │           │           │     │     │
+║ 0192 │ 1d24 │ adds r4, r4, #4                                         │ Rd=4, Rn=4, imm3=4   ║     │           │           │     │     │
+║ 0194 │ e7f9 │ b .LBB6_5                                               │ label11=-7           ║     │           │           │     │ >───╯
+║ 0196 │ 5d0b │ ldrb r3, [r1, r4]                                       │ Rd=3, Rb=1, Ro=4     ║     │           │           │     │ <───╮
+║ 0198 │ 5503 │ strb r3, [r0, r4]                                       │ Rd=3, Rb=0, Ro=4     ║     │           │           │     │     │
+║ 019a │ 1c64 │ adds r4, r4, #1                                         │ Rd=4, Rn=4, imm3=1   ║     │           │           │     │     │
+║ 019c │ 4294 │ cmp r4, r2                                              │ Rn=4, Rm=2           ║     │           │           │ <───╯     │
+║ 019e │ d3fa │ blo .LBB6_7                                             │ cond=3, label8=-6    ║     │           │           │       >───╯
+║ 01a0 │ 9b00 │ ldr r3, [sp, #0]                                        │ Rt=3, immw8=0        ║     │           │           │ <───╮
+║ 01a2 │ 9c01 │ ldr r4, [sp, #4]                                        │ Rt=4, immw8=4        ║     │           │           │     │
+║ 01a4 │ 9d02 │ ldr r5, [sp, #8]                                        │ Rt=5, immw8=8        ║     │           │           │     │
+║ 01a6 │ 9e03 │ ldr r6, [sp, #12]                                       │ Rt=6, immw8=12       ║     │           │           │     │
+║ 01a8 │ 9f04 │ ldr r7, [sp, #16]                                       │ Rt=7, immw8=16       ║     │           │           │     │
+║ 01aa │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │           │     │
+║ 01ac │ 9f05 │ ldr r7, [sp, #20]                                       │ Rt=7, immw8=20       ║     │           │           │     │
+║ 01ae │ 46be │ mov lr, r7                                              │ Hd=6, Rs=7           ║     │           │           │     │
+║ 01b0 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │           │     │
+║ 01b2 │ b006 │ add sp, #24                                             │ immw7=24             ║     │           │           │     │
+║ 01b4 │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │           │     │
+║ 01b6 │ b006 │ add sp, #24                                             │ immw7=24             ║     │           │           │     │
+║ 01b8 │ 9b00 │ ldr r3, [sp]                                            │ Rt=3, immw8=0        ║     │           │       <───╯     │
+║ 01ba │ 1ad3 │ subs r3, r2, r3                                         │ Rd=3, Rn=2, Rm=3     ║     │           │                 │
+║ 01bc │ 1851 │ adds r1, r2, r1                                         │ Rd=1, Rn=2, Rm=1     ║     │           │                 │
+║ 01be │ 1e49 │ subs r1, r1, #1                                         │ Rd=1, Rn=1, imm3=1   ║     │           │                 │
+║ 01c0 │ 1810 │ adds r0, r2, r0                                         │ Rd=0, Rn=2, Rm=0     ║     │           │                 │
+║ 01c2 │ 1e40 │ subs r0, r0, #1                                         │ Rd=0, Rn=0, imm3=1   ║     │           │                 │ <───╮
+║ 01c4 │ 2b00 │ cmp r3, #0                                              │ Rd=3, imm8=0         ║     │           │                 │     │
+║ 01c6 │ d0eb │ beq .LBB6_9                                             │ cond=0, label8=-21   ║     │           │             >───╯     │
+║ 01c8 │ 780a │ ldrb r2, [r1]                                           │ Rd=2, Rb=1, imm5=0   ║     │           │                       │
+║ 01ca │ 7002 │ strb r2, [r0]                                           │ Rd=2, Rb=0, imm5=0   ║     │           │                       │
+║ 01cc │ 1e5b │ subs r3, r3, #1                                         │ Rd=3, Rn=3, imm3=1   ║     │           │                       │
+║ 01ce │ 1e49 │ subs r1, r1, #1                                         │ Rd=1, Rn=1, imm3=1   ║     │           │                       │
+║ 01d0 │ e7f7 │ b .LBB6_11                                              │ label11=-9           ║     │           │                   >───╯
+║ 01d2 │ 4600 │ .p2align 2                                              │                      ║     │           │
+║ 01d4 │ b084 │ sub sp, #16                                             │ immw7=16             ║     │           │
+║ 01d6 │ 9400 │ str r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
+║ 01d8 │ 9601 │ str r6, [sp, #4]                                        │ Rt=6, immw8=4        ║     │           │
+║ 01da │ 9702 │ str r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │
+║ 01dc │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │
+║ 01de │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │
+║ 01e0 │ 9703 │ str r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
+║ 01e2 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │
+║ 01e4 │ af02 │ add r7, sp, #8                                          │ Rd=7, immw8=8        ║     │           │
+║ 01e6 │ 2303 │ movs r3, #3                                             │ Rd=3, imm8=3         ║     │           │
+║ 01e8 │ 4614 │ mov r4, r2                                              │ Rd=4, Rs=2           ║     │           │
+║ 01ea │ 439c │ bics r4, r3                                             │ Rdn=4, Rdn_=, Rm=3   ║     │           │
+║ 01ec │ b2cb │ uxtb r3, r1                                             │ Rd=3, Rm=1           ║     │           │
+║ 01ee │ 490b │ ldr r1, .LCPI7_0                                        │ Rd=1, labelp8=11     ║     │           │ >───╮
+║ 01f0 │ 4359 │ muls r1, r3, r1                                         │ Rdm=1, Rn=3, Rdm_=1  ║     │           │     │
+║ 01f2 │ 2300 │ movs r3, #0                                             │ Rd=3, imm8=0         ║     │           │     │
+║ 01f4 │ 42a3 │ cmp r3, r4                                              │ Rn=3, Rm=4           ║     │           │     │       <───╮
+║ 01f6 │ d204 │ bhs .LBB7_4                                             │ cond=2, label8=4     ║     │           │     │ >───╮     │
+║ 01f8 │ 50c1 │ str r1, [r0, r3]                                        │ Rd=1, Rb=0, Ro=3     ║     │           │     │     │     │
+║ 01fa │ 1d1b │ adds r3, r3, #4                                         │ Rd=3, Rn=3, imm3=4   ║     │           │     │     │     │
+║ 01fc │ e7fa │ b .LBB7_1                                               │ label11=-6           ║     │           │     │     │ >───╯
+║ 01fe │ 54c1 │ strb r1, [r0, r3]                                       │ Rd=1, Rb=0, Ro=3     ║     │           │     │     │ <───╮
+║ 0200 │ 1c5b │ adds r3, r3, #1                                         │ Rd=3, Rn=3, imm3=1   ║     │           │     │     │     │
+║ 0202 │ 4293 │ cmp r3, r2                                              │ Rn=3, Rm=2           ║     │           │     │ <───╯     │
+║ 0204 │ d3fb │ blo .LBB7_3                                             │ cond=3, label8=-5    ║     │           │     │       >───╯
+║ 0206 │ 9c00 │ ldr r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │     │
+║ 0208 │ 9e01 │ ldr r6, [sp, #4]                                        │ Rt=6, immw8=4        ║     │           │     │
+║ 020a │ 9f02 │ ldr r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │     │
+║ 020c │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │     │
+║ 020e │ 9f03 │ ldr r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │     │
+║ 0210 │ 46be │ mov lr, r7                                              │ Hd=6, Rs=7           ║     │           │     │
+║ 0212 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │     │
+║ 0214 │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │     │
+║ 0216 │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │     │
+║ 0218 │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │     │
+║ 021a │ 4600 │ .p2align 2                                              │                      ║     │           │     │
+║ 021c │ 0101 │ .long 16843009                                          │ 16843009             ║     │           │ <───╯
+║ 021e │ 0101 │ .long 16843009                                          │ 16843009             ║     │           │
+║ 0220 │ b085 │ sub sp, #20                                             │ immw7=20             ║     │           │
+║ 0222 │ 9400 │ str r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
+║ 0224 │ 9501 │ str r5, [sp, #4]                                        │ Rt=5, immw8=4        ║     │           │
+║ 0226 │ 9602 │ str r6, [sp, #8]                                        │ Rt=6, immw8=8        ║     │           │
+║ 0228 │ 9703 │ str r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
+║ 022a │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │
+║ 022c │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │
+║ 022e │ 9704 │ str r7, [sp, #16]                                       │ Rt=7, immw8=16       ║     │           │
+║ 0230 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │
+║ 0232 │ af03 │ add r7, sp, #12                                         │ Rd=7, immw8=12       ║     │           │
+║ 0234 │ b085 │ sub sp, #20                                             │ immw7=20             ║     │           │
+║ 0236 │ 2303 │ movs r3, #3                                             │ Rd=3, imm8=3         ║     │           │
+║ 0238 │ 4616 │ mov r6, r2                                              │ Rd=6, Rs=2           ║     │           │
+║ 023a │ 439e │ bics r6, r3                                             │ Rdn=6, Rdn_=, Rm=3   ║     │           │
+║ 023c │ 2400 │ movs r4, #0                                             │ Rd=4, imm8=0         ║     │           │
+║ 023e │ ab01 │ add r3, sp, #4                                          │ Rd=3, immw8=4        ║     │           │
+║ 0240 │ 6018 │ str r0, [r3]                                            │ Rd=0, Rb=3, immw5=0  ║     │           │
+║ 0242 │ 3304 │ adds r3, #4                                             │ Rd=3, Rd_=, imm8=4   ║     │           │
+║ 0244 │ 6019 │ str r1, [r3]                                            │ Rd=1, Rb=3, immw5=0  ║     │           │
+║ 0246 │ 3304 │ adds r3, #4                                             │ Rd=3, Rd_=, imm8=4   ║     │           │
+║ 0248 │ 601a │ str r2, [r3]                                            │ Rd=2, Rb=3, immw5=0  ║     │           │
+║ 024a │ 3304 │ adds r3, #4                                             │ Rd=3, Rd_=, imm8=4   ║     │           │
+║ 024c │ 9600 │ str r6, [sp]                                            │ Rt=6, immw8=0        ║     │           │
+║ 024e │ 42b4 │ cmp r4, r6                                              │ Rn=4, Rm=6           ║     │           │                         <───╮
+║ 0250 │ d225 │ bhs .LBB8_11                                            │ cond=2, label8=37    ║     │           │ >───╮                       │
+║ 0252 │ 5863 │ ldr r3, [r4, r1]                                        │ Rd=3, Rb=4, Ro=1     ║     │           │     │                       │
+║ 0254 │ 5825 │ ldr r5, [r4, r0]                                        │ Rd=5, Rb=4, Ro=0     ║     │           │     │                       │
+║ 0256 │ 429d │ cmp r5, r3                                              │ Rn=5, Rm=3           ║     │           │     │                       │
+║ 0258 │ d01a │ beq .LBB8_9                                             │ cond=0, label8=26    ║     │           │     │ >───╮                 │
+║ 025a │ 1d22 │ adds r2, r4, #4                                         │ Rd=2, Rn=4, imm3=4   ║     │           │     │     │                 │
+║ 025c │ 4294 │ cmp r4, r2                                              │ Rn=4, Rm=2           ║     │           │     │     │                 │
+║ 025e │ 4625 │ mov r5, r4                                              │ Rd=5, Rs=4           ║     │           │     │     │                 │
+║ 0260 │ d800 │ bhi .LBB8_5                                             │ cond=8, label8=0     ║     │           │     │     │ >───╮           │
+║ 0262 │ 4615 │ mov r5, r2                                              │ Rd=5, Rs=2           ║     │           │     │     │     │           │
+║ 0264 │ 1906 │ adds r6, r0, r4                                         │ Rd=6, Rn=0, Rm=4     ║     │           │     │     │ <───╯           │
+║ 0266 │ 190b │ adds r3, r1, r4                                         │ Rd=3, Rn=1, Rm=4     ║     │           │     │     │                 │
+║ 0268 │ 9504 │ str r5, [sp, #16]                                       │ Rt=5, immw8=16       ║     │           │     │     │                 │
+║ 026a │ 1b2c │ subs r4, r5, r4                                         │ Rd=4, Rn=5, Rm=4     ║     │           │     │     │                 │
+║ 026c │ 2c00 │ cmp r4, #0                                              │ Rd=4, imm8=0         ║     │           │     │     │       <───╮     │
+║ 026e │ d009 │ beq .LBB8_8                                             │ cond=0, label8=9     ║     │           │     │     │ >───╮     │     │
+║ 0270 │ 1e64 │ subs r4, r4, #1                                         │ Rd=4, Rn=4, imm3=1   ║     │           │     │     │     │     │     │
+║ 0272 │ 1c71 │ adds r1, r6, #1                                         │ Rd=1, Rn=6, imm3=1   ║     │           │     │     │     │     │     │
+║ 0274 │ 1c58 │ adds r0, r3, #1                                         │ Rd=0, Rn=3, imm3=1   ║     │           │     │     │     │     │     │
+║ 0276 │ 781a │ ldrb r2, [r3]                                           │ Rd=2, Rb=3, imm5=0   ║     │           │     │     │     │     │     │
+║ 0278 │ 7835 │ ldrb r5, [r6]                                           │ Rd=5, Rb=6, imm5=0   ║     │           │     │     │     │     │     │
+║ 027a │ 4295 │ cmp r5, r2                                              │ Rn=5, Rm=2           ║     │           │     │     │     │     │     │
+║ 027c │ 460e │ mov r6, r1                                              │ Rd=6, Rs=1           ║     │           │     │     │     │     │     │
+║ 027e │ 4603 │ mov r3, r0                                              │ Rd=3, Rs=0           ║     │           │     │     │     │     │     │
+║ 0280 │ d0f4 │ beq .LBB8_6                                             │ cond=0, label8=-12   ║     │           │     │     │     │ >───╯     │
+║ 0282 │ e010 │ b .LBB8_13                                              │ label11=16           ║     │           │     │     │     │ >───╮     │
+║ 0284 │ ac01 │ add r4, sp, #4                                          │ Rd=4, immw8=4        ║     │           │     │     │ <───╯     │     │
+║ 0286 │ 6820 │ ldr r0, [r4, #0]                                        │ Rd=0, Rb=4, immw5=0  ║     │           │     │     │           │     │
+║ 0288 │ 6861 │ ldr r1, [r4, #4]                                        │ Rd=1, Rb=4, immw5=4  ║     │           │     │     │           │     │
+║ 028a │ 68a2 │ ldr r2, [r4, #8]                                        │ Rd=2, Rb=4, immw5=8  ║     │           │     │     │           │     │
+║ 028c │ 68e4 │ ldr r4, [r4, #12]                                       │ Rd=4, Rb=4, immw5=12 ║     │           │     │     │           │     │
+║ 028e │ 9e00 │ ldr r6, [sp]                                            │ Rt=6, immw8=0        ║     │           │     │     │           │     │
+║ 0290 │ 1d24 │ adds r4, r4, #4                                         │ Rd=4, Rn=4, imm3=4   ║     │           │     │ <───╯           │     │
+║ 0292 │ e7dc │ b .LBB8_1                                               │ label11=-36          ║     │           │     │                 │ >───╯
+║ 0294 │ 5d0b │ ldrb r3, [r1, r4]                                       │ Rd=3, Rb=1, Ro=4     ║     │           │     │                 │       <───╮
+║ 0296 │ 5d05 │ ldrb r5, [r0, r4]                                       │ Rd=5, Rb=0, Ro=4     ║     │           │     │                 │           │
+║ 0298 │ 1c64 │ adds r4, r4, #1                                         │ Rd=4, Rn=4, imm3=1   ║     │           │     │                 │           │
+║ 029a │ 429d │ cmp r5, r3                                              │ Rn=5, Rm=3           ║     │           │     │                 │           │
+║ 029c │ d110 │ bne .LBB8_15                                            │ cond=1, label8=16    ║     │           │     │                 │ >───╮     │
+║ 029e │ 4294 │ cmp r4, r2                                              │ Rn=4, Rm=2           ║     │           │ <───╯                 │     │     │
+║ 02a0 │ d3f8 │ blo .LBB8_10                                            │ cond=3, label8=-8    ║     │           │                       │     │ >───╯
+║ 02a2 │ 2000 │ movs r0, #0                                             │ Rd=0, imm8=0         ║     │           │                       │     │
+║ 02a4 │ e000 │ b .LBB8_14                                              │ label11=0            ║     │           │                       │     │ >───╮
+║ 02a6 │ 1aa8 │ subs r0, r5, r2                                         │ Rd=0, Rn=5, Rm=2     ║     │           │                   <───╯     │     │
+║ 02a8 │ b005 │ add sp, #20                                             │ immw7=20             ║     │           │                             │ <───╯ <───╮
+║ 02aa │ 9c00 │ ldr r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │                             │           │
+║ 02ac │ 9d01 │ ldr r5, [sp, #4]                                        │ Rt=5, immw8=4        ║     │           │                             │           │
+║ 02ae │ 9e02 │ ldr r6, [sp, #8]                                        │ Rt=6, immw8=8        ║     │           │                             │           │
+║ 02b0 │ 9f03 │ ldr r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │                             │           │
+║ 02b2 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │                             │           │
+║ 02b4 │ 9f04 │ ldr r7, [sp, #16]                                       │ Rt=7, immw8=16       ║     │           │                             │           │
+║ 02b6 │ 46be │ mov lr, r7                                              │ Hd=6, Rs=7           ║     │           │                             │           │
+║ 02b8 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │                             │           │
+║ 02ba │ b005 │ add sp, #20                                             │ immw7=20             ║     │           │                             │           │
+║ 02bc │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │                             │           │
+║ 02be │ b005 │ add sp, #20                                             │ immw7=20             ║     │           │                             │           │
+║ 02c0 │ 1ae8 │ subs r0, r5, r3                                         │ Rd=0, Rn=5, Rm=3     ║     │           │                         <───╯           │
+║ 02c2 │ e7f1 │ b .LBB8_14                                              │ label11=-15          ║     │           │                                     >───╯
+║ 02c4 │ b084 │ sub sp, #16                                             │ immw7=16             ║     │           │
+║ 02c6 │ 9400 │ str r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
+║ 02c8 │ 9601 │ str r6, [sp, #4]                                        │ Rt=6, immw8=4        ║     │           │
+║ 02ca │ 9702 │ str r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │
+║ 02cc │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │
+║ 02ce │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │
+║ 02d0 │ 9703 │ str r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
+║ 02d2 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │
+║ 02d4 │ af02 │ add r7, sp, #8                                          │ Rd=7, immw8=8        ║     │           │
+║ 02d6 │ 22cf │ movs r2, #207                                           │ Rd=2, imm8=207       ║     │           │
+║ 02d8 │ 43d4 │ mvns r4, r2                                             │ Rd=4, Rm=2           ║     │           │
+║ 02da │ 4602 │ mov r2, r0                                              │ Rd=2, Rs=0           ║     │           │
+║ 02dc │ 460b │ mov r3, r1                                              │ Rd=3, Rs=1           ║     │           │
+║ 02de │ 6820 │ ldr r0, [r4]                                            │ Rd=0, Rb=4, immw5=0  ║     │           │
+║ 02e0 │ 9c00 │ ldr r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
+║ 02e2 │ 9e01 │ ldr r6, [sp, #4]                                        │ Rt=6, immw8=4        ║     │           │
+║ 02e4 │ 9f02 │ ldr r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │
+║ 02e6 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │
+║ 02e8 │ 9f03 │ ldr r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
+║ 02ea │ 46be │ mov lr, r7                                              │ Hd=6, Rs=7           ║     │           │
+║ 02ec │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │
+║ 02ee │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │
+║ 02f0 │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │
+║ 02f2 │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │
+║ 02f4 │ b084 │ sub sp, #16                                             │ immw7=16             ║     │           │
+║ 02f6 │ 9400 │ str r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
+║ 02f8 │ 9601 │ str r6, [sp, #4]                                        │ Rt=6, immw8=4        ║     │           │
+║ 02fa │ 9702 │ str r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │
+║ 02fc │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │
+║ 02fe │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │
+║ 0300 │ 9703 │ str r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
+║ 0302 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │
+║ 0304 │ af02 │ add r7, sp, #8                                          │ Rd=7, immw8=8        ║     │           │
+║ 0306 │ 22cf │ movs r2, #207                                           │ Rd=2, imm8=207       ║     │           │
+║ 0308 │ 43d4 │ mvns r4, r2                                             │ Rd=4, Rm=2           ║     │           │
+║ 030a │ 4602 │ mov r2, r0                                              │ Rd=2, Rs=0           ║     │           │
+║ 030c │ 460b │ mov r3, r1                                              │ Rd=3, Rs=1           ║     │           │
+║ 030e │ 6820 │ ldr r0, [r4]                                            │ Rd=0, Rb=4, immw5=0  ║     │           │
+║ 0310 │ 9c00 │ ldr r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
+║ 0312 │ 9e01 │ ldr r6, [sp, #4]                                        │ Rt=6, immw8=4        ║     │           │
+║ 0314 │ 9f02 │ ldr r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │
+║ 0316 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │
+║ 0318 │ 9f03 │ ldr r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
+║ 031a │ 46be │ mov lr, r7                                              │ Hd=6, Rs=7           ║     │           │
+║ 031c │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │
+║ 031e │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │
+║ 0320 │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │
+║ 0322 │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │
+║ 0324 │ b084 │ sub sp, #16                                             │ immw7=16             ║     │           │
+║ 0326 │ 9400 │ str r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
+║ 0328 │ 9501 │ str r5, [sp, #4]                                        │ Rt=5, immw8=4        ║     │           │
+║ 032a │ 9702 │ str r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │
+║ 032c │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │
+║ 032e │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │
+║ 0330 │ 9703 │ str r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
+║ 0332 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │
+║ 0334 │ af02 │ add r7, sp, #8                                          │ Rd=7, immw8=8        ║     │           │
+║ 0336 │ 22cf │ movs r2, #207                                           │ Rd=2, imm8=207       ║     │           │
+║ 0338 │ 43d4 │ mvns r4, r2                                             │ Rd=4, Rm=2           ║     │           │
+║ 033a │ 22cb │ movs r2, #203                                           │ Rd=2, imm8=203       ║     │           │
+║ 033c │ 43d5 │ mvns r5, r2                                             │ Rd=5, Rm=2           ║     │           │
+║ 033e │ 4602 │ mov r2, r0                                              │ Rd=2, Rs=0           ║     │           │
+║ 0340 │ 460b │ mov r3, r1                                              │ Rd=3, Rs=1           ║     │           │
+║ 0342 │ 6820 │ ldr r0, [r4]                                            │ Rd=0, Rb=4, immw5=0  ║     │           │
+║ 0344 │ 6829 │ ldr r1, [r5]                                            │ Rd=1, Rb=5, immw5=0  ║     │           │
+║ 0346 │ 9c00 │ ldr r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
+║ 0348 │ 9d01 │ ldr r5, [sp, #4]                                        │ Rt=5, immw8=4        ║     │           │
+║ 034a │ 9f02 │ ldr r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │
+║ 034c │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │
+║ 034e │ 9f03 │ ldr r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
+║ 0350 │ 46be │ mov lr, r7                                              │ Hd=6, Rs=7           ║     │           │
+║ 0352 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │
+║ 0354 │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │
+║ 0356 │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │
+║ 0358 │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │
+║ 035a │ b084 │ sub sp, #16                                             │ immw7=16             ║     │           │
+║ 035c │ 9400 │ str r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
+║ 035e │ 9501 │ str r5, [sp, #4]                                        │ Rt=5, immw8=4        ║     │           │
+║ 0360 │ 9702 │ str r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │
+║ 0362 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │
+║ 0364 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║     │           │
+║ 0366 │ 9703 │ str r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
+║ 0368 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │
+║ 036a │ af02 │ add r7, sp, #8                                          │ Rd=7, immw8=8        ║     │           │
+║ 036c │ 22cf │ movs r2, #207                                           │ Rd=2, imm8=207       ║     │           │
+║ 036e │ 43d4 │ mvns r4, r2                                             │ Rd=4, Rm=2           ║     │           │
+║ 0370 │ 22cb │ movs r2, #203                                           │ Rd=2, imm8=203       ║     │           │
+║ 0372 │ 43d5 │ mvns r5, r2                                             │ Rd=5, Rm=2           ║     │           │
+║ 0374 │ 4602 │ mov r2, r0                                              │ Rd=2, Rs=0           ║     │           │
+║ 0376 │ 460b │ mov r3, r1                                              │ Rd=3, Rs=1           ║     │           │
+║ 0378 │ 6820 │ ldr r0, [r4]                                            │ Rd=0, Rb=4, immw5=0  ║     │           │
+║ 037a │ 6829 │ ldr r1, [r5]                                            │ Rd=1, Rb=5, immw5=0  ║     │           │
+║ 037c │ 9c00 │ ldr r4, [sp, #0]                                        │ Rt=4, immw8=0        ║     │           │
+║ 037e │ 9d01 │ ldr r5, [sp, #4]                                        │ Rt=5, immw8=4        ║     │           │
+║ 0380 │ 9f02 │ ldr r7, [sp, #8]                                        │ Rt=7, immw8=8        ║     │           │
+║ 0382 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║     │           │
+║ 0384 │ 9f03 │ ldr r7, [sp, #12]                                       │ Rt=7, immw8=12       ║     │           │
+║ 0386 │ 46be │ mov lr, r7                                              │ Hd=6, Rs=7           ║     │           │
+║ 0388 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║     │           │
+║ 038a │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │
+║ 038c │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │
+║ 038e │ b004 │ add sp, #16                                             │ immw7=16             ║     │           │
+║ 0390 │ 20ff │ movs r0, #255                                           │ Rd=0, imm8=255       ║     │           │                   <───╮
+║ 0392 │ 43c0 │ mvns r0, r0                                             │ Rd=0, Rm=0           ║     │           │                       │
+║ 0394 │ 6ac1 │ ldr r1, [r0, #44]                                       │ Rd=1, Rb=0, immw5=44 ║     │           │                       │
+║ 0396 │ 2900 │ cmp r1, #0                                              │ Rd=1, imm8=0         ║     │           │                       │
+║ 0398 │ d017 │ beq .LBB13_9                                            │ cond=0, label8=23    ║     │           │ >───╮                 │
+║ 039a │ 6842 │ ldr r2, [r0, #4]                                        │ Rd=2, Rb=0, immw5=4  ║     │           │     │                 │
+║ 039c │ 2a00 │ cmp r2, #0                                              │ Rd=2, imm8=0         ║     │           │     │                 │
+║ 039e │ d504 │ bpl .LBB13_3                                            │ cond=5, label8=4     ║     │           │     │ >───╮           │
+║ 03a0 │ 212d │ movs r1, #45                                            │ Rd=1, imm8=45        ║     │           │     │     │           │
+║ 03a2 │ 6001 │ str r1, [r0]                                            │ Rd=1, Rb=0, immw5=0  ║     │           │     │     │           │
+║ 03a4 │ 4251 │ rsbs r1, r2, #0                                         │ Rd=1, Rn=2           ║     │           │     │     │           │
+║ 03a6 │ 6041 │ str r1, [r0, #4]                                        │ Rd=1, Rb=0, immw5=4  ║     │           │     │     │           │
+║ 03a8 │ 6ac1 │ ldr r1, [r0, #44]                                       │ Rd=1, Rb=0, immw5=44 ║     │           │     │     │           │
+║ 03aa │ 4602 │ mov r2, r0                                              │ Rd=2, Rs=0           ║     │           │     │ <───╯           │
+║ 03ac │ 32f8 │ adds r2, #248                                           │ Rd=2, Rd_=, imm8=248 ║     │           │     │                 │
+║ 03ae │ 070b │ lsls r3, r1, #28                                        │ Rd=3, Rm=1, imm5=28  ║     │           │     │       <───╮     │
+║ 03b0 │ d108 │ bne .LBB13_7                                            │ cond=1, label8=8     ║     │           │     │ >───╮     │     │
+║ 03b2 │ 1c52 │ adds r2, r2, #1                                         │ Rd=2, Rn=2, imm3=1   ║     │           │     │     │     │     │
+║ 03b4 │ 0909 │ lsrs r1, r1, #4                                         │ Rd=1, Rm=1, imm5=4   ║     │           │     │     │     │     │
+║ 03b6 │ e7fa │ b .LBB13_4                                              │ label11=-6           ║     │           │     │     │ >───╯     │
+║ 03b8 │ 230f │ movs r3, #15                                            │ Rd=3, imm8=15        ║     │           │     │     │ <───╮     │
+║ 03ba │ 400b │ ands r3, r1                                             │ Rdn=3, Rdn_=, Rm=1   ║     │           │     │     │     │     │
+║ 03bc │ 3330 │ adds r3, #48                                            │ Rd=3, Rd_=, imm8=48  ║     │           │     │     │     │     │
+║ 03be │ 6003 │ str r3, [r0]                                            │ Rd=3, Rb=0, immw5=0  ║     │           │     │     │     │     │
+║ 03c0 │ 1c52 │ adds r2, r2, #1                                         │ Rd=2, Rn=2, imm3=1   ║     │           │     │     │     │     │
+║ 03c2 │ 0909 │ lsrs r1, r1, #4                                         │ Rd=1, Rm=1, imm5=4   ║     │           │     │     │     │     │
+║ 03c4 │ 2a00 │ cmp r2, #0                                              │ Rd=2, imm8=0         ║     │           │     │ <───╯     │     │
+║ 03c6 │ d1f7 │ bne .LBB13_6                                            │ cond=1, label8=-9    ║     │           │     │       >───╯     │
+║ 03c8 │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │     │                 │
+║ 03ca │ 2130 │ movs r1, #48                                            │ Rd=1, imm8=48        ║     │           │ <───╯                 │
+║ 03cc │ 6001 │ str r1, [r0]                                            │ Rd=1, Rb=0, immw5=0  ║     │           │                       │
+║ 03ce │ 4770 │ bx lr                                                   │ Hm=6                 ║     │           │                       │
+║ 03d0 │ b082 │ sub sp, #8                                              │ immw7=8              ║ <───╯           │                       │
+║ 03d2 │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║                 │                       │
+║ 03d4 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║                 │                       │
+║ 03d6 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║                 │                       │
+║ 03d8 │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║                 │                       │
+║ 03da │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║                 │                       │
+║ 03dc │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║                 │                       │
+║ 03de │ 2001 │ movs r0, #1                                             │ Rd=0, imm8=1         ║                 │                       │
+║ 03e0 │ 0500 │ lsls r0, r0, #20                                        │ Rd=0, Rm=0, imm5=20  ║                 │                       │
+║ 03e2 │ 4685 │ mov sp, r0                                              │ Hd=5, Rs=0           ║                 │                       │
+║ 03e4 │ 2000 │ movs r0, #0                                             │ Rd=0, imm8=0         ║                 │                       │
+║ 03e6 │ f7ff │ .bl1 _ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E │ -45 (-5a)            ║                 │                       │
+║ 03e8 │ ffd3 │ .bl2 _ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E │ -45 (-5a)            ║                 │                   >───╯
+║ 03ea │ e7fe │ b .LBB14_1                                              │ label11=-2           ║ <───╯           │
+║ 03ec │ 22ff │ movs r2, #255                                           │ Rd=2, imm8=255       ║             <───╯ <───╮ <───╮ <───╮ <───╮ <───╮ <───╮
+║ 03ee │ 43d2 │ mvns r2, r2                                             │ Rd=2, Rm=2           ║                       │     │     │     │     │     │
+║ 03f0 │ 2300 │ movs r3, #0                                             │ Rd=3, imm8=0         ║                       │     │     │     │     │     │
+║ 03f2 │ 4c08 │ ldr r4, .LCPI15_0                                       │ Rd=4, labelp8=8      ║ >───╮                 │     │     │     │     │     │
+║ 03f4 │ 2b06 │ cmp r3, #6                                              │ Rd=3, imm8=6         ║     │       <───╮     │     │     │     │     │     │
+║ 03f6 │ d007 │ beq .LBB15_4                                            │ cond=0, label8=7     ║     │ >───╮     │     │     │     │     │     │     │
+║ 03f8 │ 5ce5 │ ldrb r5, [r4, r3]                                       │ Rd=5, Rb=4, Ro=3     ║     │     │     │     │     │     │     │     │     │
+║ 03fa │ 6015 │ str r5, [r2]                                            │ Rd=5, Rb=2, immw5=0  ║     │     │     │     │     │     │     │     │     │
+║ 03fc │ 1c5b │ adds r3, r3, #1                                         │ Rd=3, Rn=3, imm3=1   ║     │     │     │     │     │     │     │     │     │
+║ 03fe │ e7f9 │ b .LBB15_1                                              │ label11=-7           ║     │     │ >───╯     │     │     │     │     │     │
+║ 0400 │ 7803 │ ldrb r3, [r0]                                           │ Rd=3, Rb=0, imm5=0   ║     │     │ <───╮     │     │     │     │     │     │
+║ 0402 │ 6013 │ str r3, [r2]                                            │ Rd=3, Rb=2, immw5=0  ║     │     │     │     │     │     │     │     │     │
+║ 0404 │ 1e49 │ subs r1, r1, #1                                         │ Rd=1, Rn=1, imm3=1   ║     │     │     │     │     │     │     │     │     │
+║ 0406 │ 1c40 │ adds r0, r0, #1                                         │ Rd=0, Rn=0, imm3=1   ║     │     │     │     │     │     │     │     │     │
+║ 0408 │ 2900 │ cmp r1, #0                                              │ Rd=1, imm8=0         ║     │ <───╯     │     │     │     │     │     │     │
+║ 040a │ d1f9 │ bne .LBB15_3                                            │ cond=1, label8=-7    ║     │       >───╯     │     │     │     │     │     │
+║ 040c │ 200a │ movs r0, #10                                            │ Rd=0, imm8=10        ║     │                 │     │     │     │     │     │
+║ 040e │ 6010 │ str r0, [r2]                                            │ Rd=0, Rb=2, immw5=0  ║     │                 │     │     │     │     │     │
+║ 0410 │ e7fe │ b .LBB15_6                                              │ label11=-2           ║ <───╯                 │     │     │     │     │     │
+║ 0412 │ 4600 │ .p2align 2                                              │                      ║     │                 │     │     │     │     │     │
+║ 0414 │ 04de │ .long .L__unnamed_2                                     │ 1246                 ║ <───╯                 │     │     │     │     │     │
+║ 0416 │ 0000 │ .long .L__unnamed_2                                     │ 1246                 ║                       │     │     │     │     │     │
+║ 0418 │ b082 │ sub sp, #8                                              │ immw7=8              ║                       │     │     │     │     │     │
+║ 041a │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║                       │     │     │     │     │     │
+║ 041c │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║                       │     │     │     │     │     │
+║ 041e │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║                       │     │     │     │     │     │
+║ 0420 │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║                       │     │     │     │     │     │
+║ 0422 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║                       │     │     │     │     │     │
+║ 0424 │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║                       │     │     │     │     │     │
+║ 0426 │ f7ff │ .bl1 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -31 (-3e)            ║                       │     │     │     │     │     │
+║ 0428 │ ffe1 │ .bl2 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -31 (-3e)            ║                   >───╯     │     │     │     │     │
+║ 042a │ defe │ .inst.n 0xdefe                                          │                      ║                             │     │     │     │     │
+║ 042c │ b082 │ sub sp, #8                                              │ immw7=8              ║                             │     │     │     │     │
+║ 042e │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║                             │     │     │     │     │
+║ 0430 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║                             │     │     │     │     │
+║ 0432 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║                             │     │     │     │     │
+║ 0434 │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║                             │     │     │     │     │
+║ 0436 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║                             │     │     │     │     │
+║ 0438 │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║                             │     │     │     │     │
+║ 043a │ f7ff │ .bl1 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -41 (-52)            ║                             │     │     │     │     │
+║ 043c │ ffd7 │ .bl2 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -41 (-52)            ║                         >───╯     │     │     │     │
+║ 043e │ defe │ .inst.n 0xdefe                                          │                      ║                                   │     │     │     │
+║ 0440 │ b082 │ sub sp, #8                                              │ immw7=8              ║                                   │     │     │     │
+║ 0442 │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║                                   │     │     │     │
+║ 0444 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║                                   │     │     │     │
+║ 0446 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║                                   │     │     │     │
+║ 0448 │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║                                   │     │     │     │
+║ 044a │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║                                   │     │     │     │
+║ 044c │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║                                   │     │     │     │
+║ 044e │ 4802 │ ldr r0, .LCPI18_0                                       │ Rd=0, labelp8=2      ║ >───╮                             │     │     │     │
+║ 0450 │ 210d │ movs r1, #13                                            │ Rd=1, imm8=13        ║     │                             │     │     │     │
+║ 0452 │ f7ff │ .bl1 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -53 (-6a)            ║     │                             │     │     │     │
+║ 0454 │ ffcb │ .bl2 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -53 (-6a)            ║     │                         >───╯     │     │     │
+║ 0456 │ defe │ .inst.n 0xdefe                                          │                      ║     │                                   │     │     │
+║ 0458 │ 04e4 │ .long .L__unnamed_3                                     │ 1252                 ║ <───╯                                   │     │     │
+║ 045a │ 0000 │ .long .L__unnamed_3                                     │ 1252                 ║                                         │     │     │
+║ 045c │ b082 │ sub sp, #8                                              │ immw7=8              ║                                         │     │     │
+║ 045e │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║                                         │     │     │
+║ 0460 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║                                         │     │     │
+║ 0462 │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║                                         │     │     │
+║ 0464 │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║                                         │     │     │
+║ 0466 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║                                         │     │     │
+║ 0468 │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║                                         │     │     │
+║ 046a │ 4802 │ ldr r0, .LCPI19_0                                       │ Rd=0, labelp8=2      ║ >───╮                                   │     │     │
+║ 046c │ 2113 │ movs r1, #19                                            │ Rd=1, imm8=19        ║     │                                   │     │     │
+║ 046e │ f7ff │ .bl1 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -67 (-86)            ║     │                                   │     │     │
+║ 0470 │ ffbd │ .bl2 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -67 (-86)            ║     │                               >───╯     │     │
+║ 0472 │ defe │ .inst.n 0xdefe                                          │                      ║     │                                         │     │
+║ 0474 │ 04f2 │ .long .L__unnamed_4                                     │ 1266                 ║ <───╯                                         │     │
+║ 0476 │ 0000 │ .long .L__unnamed_4                                     │ 1266                 ║                                               │     │
+║ 0478 │ b082 │ sub sp, #8                                              │ immw7=8              ║                                               │     │
+║ 047a │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║                                               │     │
+║ 047c │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║                                               │     │
+║ 047e │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║                                               │     │
+║ 0480 │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║                                               │     │
+║ 0482 │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║                                               │     │
+║ 0484 │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║                                               │     │
+║ 0486 │ 4802 │ ldr r0, .LCPI20_0                                       │ Rd=0, labelp8=2      ║ >───╮                                         │     │
+║ 0488 │ 2109 │ movs r1, #9                                             │ Rd=1, imm8=9         ║     │                                         │     │
+║ 048a │ f7ff │ .bl1 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -81 (-a2)            ║     │                                         │     │
+║ 048c │ ffaf │ .bl2 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -81 (-a2)            ║     │                                     >───╯     │
+║ 048e │ defe │ .inst.n 0xdefe                                          │                      ║     │                                               │
+║ 0490 │ 0506 │ .long .L__unnamed_5                                     │ 1286                 ║ <───╯                                               │
+║ 0492 │ 0000 │ .long .L__unnamed_5                                     │ 1286                 ║                                                     │
+║ 0494 │ b082 │ sub sp, #8                                              │ immw7=8              ║                                                     │
+║ 0496 │ 9700 │ str r7, [sp, #0]                                        │ Rt=7, immw8=0        ║                                                     │
+║ 0498 │ 46bc │ mov r12, r7                                             │ Hd=4, Rs=7           ║                                                     │
+║ 049a │ 4677 │ mov r7, r14                                             │ Rd=7, Hs=6           ║                                                     │
+║ 049c │ 9701 │ str r7, [sp, #4]                                        │ Rt=7, immw8=4        ║                                                     │
+║ 049e │ 4667 │ mov r7, r12                                             │ Rd=7, Hs=4           ║                                                     │
+║ 04a0 │ af00 │ add r7, sp, #0                                          │ Rd=7, immw8=0        ║                                                     │
+║ 04a2 │ 4802 │ ldr r0, .LCPI21_0                                       │ Rd=0, labelp8=2      ║ >───╮                                               │
+║ 04a4 │ 2119 │ movs r1, #25                                            │ Rd=1, imm8=25        ║     │                                               │
+║ 04a6 │ f7ff │ .bl1 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -95 (-be)            ║     │                                               │
+║ 04a8 │ ffa1 │ .bl2 _ZN4core9panicking5panic17h1ad3ed8b8184cb53E       │ -95 (-be)            ║     │                                           >───╯
+║ 04aa │ defe │ .inst.n 0xdefe                                          │                      ║     │
+║ 04ac │ 0510 │ .long .L__unnamed_6                                     │ 1296                 ║ <───╯
+║ 04ae │ 0000 │ .long .L__unnamed_6                                     │ 1296                 ║
+║ 04b0 │ 20ff │ movs r0, #255                                           │ Rd=0, imm8=255       ║
+║ 04b2 │ 43c0 │ mvns r0, r0                                             │ Rd=0, Rm=0           ║
+║ 04b4 │ 2100 │ movs r1, #0                                             │ Rd=1, imm8=0         ║
+║ 04b6 │ 4a05 │ ldr r2, .LCPI22_0                                       │ Rd=2, labelp8=5      ║ >───╮
+║ 04b8 │ 2907 │ cmp r1, #7                                              │ Rd=1, imm8=7         ║     │       <───╮
+║ 04ba │ d003 │ beq .LBB22_3                                            │ cond=0, label8=3     ║     │ >───╮     │
+║ 04bc │ 5c53 │ ldrb r3, [r2, r1]                                       │ Rd=3, Rb=2, Ro=1     ║     │     │     │
+║ 04be │ 6003 │ str r3, [r0]                                            │ Rd=3, Rb=0, immw5=0  ║     │     │     │
+║ 04c0 │ 1c49 │ adds r1, r1, #1                                         │ Rd=1, Rn=1, imm3=1   ║     │     │     │
+║ 04c2 │ e7f9 │ b .LBB22_1                                              │ label11=-7           ║     │     │ >───╯
+║ 04c4 │ 210a │ movs r1, #10                                            │ Rd=1, imm8=10        ║     │ <───╯
+║ 04c6 │ 6001 │ str r1, [r0]                                            │ Rd=1, Rb=0, immw5=0  ║     │
+║ 04c8 │ e7fe │ b .LBB22_4                                              │ label11=-2           ║ <───╯
+║ 04ca │ 4600 │ .p2align 2                                              │                      ║     │
+║ 04cc │ 052a │ .long .L__unnamed_7                                     │ 1322                 ║ <───╯
+║ 04ce │ 0000 │ .long .L__unnamed_7                                     │ 1322                 ║
+║ 04d0 │ 6e75 │ .ascii "unknown panic"                                  │ 117 110              ║
+║ 04d2 │ 6e6b │ .ascii "unknown panic"                                  │ 107 110              ║
+║ 04d4 │ 776f │ .ascii "unknown panic"                                  │ 111 119              ║
+║ 04d6 │ 206e │ .ascii "unknown panic"                                  │ 110 32               ║
+║ 04d8 │ 6170 │ .ascii "unknown panic"                                  │ 112 97               ║
+║ 04da │ 696e │ .ascii "unknown panic"                                  │ 110 105              ║
+║ 04dc │ 0063 │ .ascii "unknown panic"                                  │ 99 0                 ║
+║ 04de │ 4150 │ .ascii "PANIC:"                                         │ 80 65                ║
+║ 04e0 │ 494e │ .ascii "PANIC:"                                         │ 78 73                ║
+║ 04e2 │ 3a43 │ .ascii "PANIC:"                                         │ 67 58                ║
+║ 04e4 │ 6e75 │ .ascii "unwrap_failed"                                  │ 117 110              ║
+║ 04e6 │ 7277 │ .ascii "unwrap_failed"                                  │ 119 114              ║
+║ 04e8 │ 7061 │ .ascii "unwrap_failed"                                  │ 97 112               ║
+║ 04ea │ 665f │ .ascii "unwrap_failed"                                  │ 95 102               ║
+║ 04ec │ 6961 │ .ascii "unwrap_failed"                                  │ 97 105               ║
+║ 04ee │ 656c │ .ascii "unwrap_failed"                                  │ 108 101              ║
+║ 04f0 │ 0064 │ .ascii "unwrap_failed"                                  │ 100 0                ║
+║ 04f2 │ 6e69 │ .ascii "index out of bounds"                            │ 105 110              ║
+║ 04f4 │ 6564 │ .ascii "index out of bounds"                            │ 100 101              ║
+║ 04f6 │ 2078 │ .ascii "index out of bounds"                            │ 120 32               ║
+║ 04f8 │ 756f │ .ascii "index out of bounds"                            │ 111 117              ║
+║ 04fa │ 2074 │ .ascii "index out of bounds"                            │ 116 32               ║
+║ 04fc │ 666f │ .ascii "index out of bounds"                            │ 111 102              ║
+║ 04fe │ 6220 │ .ascii "index out of bounds"                            │ 32 98                ║
+║ 0500 │ 756f │ .ascii "index out of bounds"                            │ 111 117              ║
+║ 0502 │ 646e │ .ascii "index out of bounds"                            │ 110 100              ║
+║ 0504 │ 0073 │ .ascii "index out of bounds"                            │ 115 0                ║
+║ 0506 │ 6170 │ .ascii "panic_fmt"                                      │ 112 97               ║
+║ 0508 │ 696e │ .ascii "panic_fmt"                                      │ 110 105              ║
+║ 050a │ 5f63 │ .ascii "panic_fmt"                                      │ 99 95                ║
+║ 050c │ 6d66 │ .ascii "panic_fmt"                                      │ 102 109              ║
+║ 050e │ 0074 │ .ascii "panic_fmt"                                      │ 116 0                ║
+║ 0510 │ 6c73 │ .ascii "slice index out of bound...                     │ 115 108              ║
+║ 0512 │ 6369 │ .ascii "slice index out of bound...                     │ 105 99               ║
+║ 0514 │ 2065 │ .ascii "slice index out of bound...                     │ 101 32               ║
+║ 0516 │ 6e69 │ .ascii "slice index out of bound...                     │ 105 110              ║
+║ 0518 │ 6564 │ .ascii "slice index out of bound...                     │ 100 101              ║
+║ 051a │ 2078 │ .ascii "slice index out of bound...                     │ 120 32               ║
+║ 051c │ 756f │ .ascii "slice index out of bound...                     │ 111 117              ║
+║ 051e │ 2074 │ .ascii "slice index out of bound...                     │ 116 32               ║
+║ 0520 │ 666f │ .ascii "slice index out of bound...                     │ 111 102              ║
+║ 0522 │ 6220 │ .ascii "slice index out of bound...                     │ 32 98                ║
+║ 0524 │ 756f │ .ascii "slice index out of bound...                     │ 111 117              ║
+║ 0526 │ 646e │ .ascii "slice index out of bound...                     │ 110 100              ║
+║ 0528 │ 0073 │ .ascii "slice index out of bound...                     │ 115 0                ║
+║ 052a │ 6168 │ .ascii "handler"                                        │ 104 97               ║
+║ 052c │ 646e │ .ascii "handler"                                        │ 110 100              ║
+║ 052e │ 656c │ .ascii "handler"                                        │ 108 101              ║
+║ 0530 │ 0072 │ .ascii "handler"                                        │ 114 0                ║
 ╠══════╪══════╪═════════════════════════════════════════════════════════╪══════════════════════╣
 ║  PC  │  OP  │                       Instruction                       │      Arguments       ║
 ╚══════╧══════╧═════════════════════════════════════════════════════════╧══════════════════════╝

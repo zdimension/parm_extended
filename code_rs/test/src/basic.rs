@@ -14,8 +14,8 @@ use crate::parm::heap::string::{CharSeq, Parse};
 use crate::parm::heap::string::{FromStr, String};
 use crate::parm::heap::vec::Vec;
 use crate::parm::mmio::RES;
-use crate::parm::panic;
 use crate::parm::tty::{clear, print_char, print_hex, read_int, read_line, Display, DisplayTarget};
+use crate::parm::{panic, telnet};
 
 mod parm;
 
@@ -340,6 +340,8 @@ fn show_program(code: &Program) {
     }
 }
 
+fn load_program(code: &mut Program) {}
+
 fn main() {
     parm::heap::init();
 
@@ -374,30 +376,48 @@ fn main() {
                 Err(_) => println!("Error"),
             }
             continue;
+        } else if line.starts_with_ignore_case("LOAD") {
+            loop {
+                let line = telnet::read_line();
+                if line.is_empty() {
+                    break;
+                }
+                println!("# ", line);
+                process_instruction_input(&mut program, &mut last, &line);
+            }
+            continue;
         }
-        let space = match line.as_chars().find_char(' ') {
-            Some(pos) if pos < line.len() => pos,
-            _ => {
-                println!("Syntax error");
-                continue;
-            }
-        };
-        let (line, instr) =
-            unsafe { (line.get_unchecked(..space), line.get_unchecked(space + 1..)) };
-        let line_no: LineNumber = match line.parse() {
-            Ok(no) => no,
-            Err(_) => {
-                println!("Invalid line no");
-                continue;
-            }
-        };
         asm = None;
-        process_instruction(&mut program, &mut last, instr, line_no);
+        process_instruction_input(&mut program, &mut last, &line);
     }
 }
 
+fn process_instruction_input(program: &mut Program, last: &mut LineNumber, line: &String) {
+    let space = match line.as_chars().find_char(' ') {
+        Some(pos) if pos < line.len() => pos,
+        _ => {
+            println!("Syntax error");
+            return;
+        }
+    };
+    let (line, instr) = unsafe { (line.get_unchecked(..space), line.get_unchecked(space + 1..)) };
+    let line_no: LineNumber = match line.parse() {
+        Ok(no) => no,
+        Err(_) => {
+            println!("Invalid line no");
+            return;
+        }
+    };
+    process_instruction(program, last, instr, line_no);
+}
+
 #[inline(never)]
-fn process_instruction(program: &mut Program, last: &mut LineNumber, instr: &[char], line_no: LineNumber) {
+fn process_instruction(
+    program: &mut Program,
+    last: &mut LineNumber,
+    instr: &[char],
+    line_no: LineNumber,
+) {
     let idata = Instruction {
         line_no,
         content: match instr.parse() {
@@ -803,12 +823,47 @@ impl Program {
             match &instr.content {
                 InstructionKind::Print(expr) => {
                     asm.write_expr(expr);
-                    asm.instr(0x223b); // movs r2, #59
+                    asm.instr(0x223b); // movs r2, #251
                     asm.instr(0x43d2); // mvns r2, r2
                     asm.instr(0x6011); // str r1, [r2]
+                    // print_res(true, tty)
+                    /*
+
+                   asm.instr(0x20ff); // movs r0, #255
+                    asm.instr(0x43c0); // mvns r0, r0
+                    asm.instr(0x6ac1); // ldr r1, [r0, #44]
+                    asm.instr(0x2900); // cmp r1, #0
+                    asm.instr(0xd017); // beq .LBB13_9
+                    asm.instr(0x6842); // ldr r2, [r0, #4]
+                    asm.instr(0x2a00); // cmp r2, #0
+                    asm.instr(0xd504); // bpl .LBB13_3
+                    asm.instr(0x212d); // movs r1, #45
+                    asm.instr(0x6001); // str r1, [r0]
+                    asm.instr(0x4251); // rsbs r1, r2, #0
+                    asm.instr(0x6041); // str r1, [r0, #4]
+                    asm.instr(0x6ac1); // ldr r1, [r0, #44]
+                    asm.instr(0x4602); // mov r2, r0
+                    asm.instr(0x32f8); // adds r2, #248
+                    asm.instr(0x070b); // lsls r3, r1, #28
+                    asm.instr(0xd108); // bne .LBB13_7
+                    asm.instr(0x1c52); // adds r2, r2, #1
+                    asm.instr(0x0909); // lsrs r1, r1, #4
+                    asm.instr(0xe7fa); // b .LBB13_4
+                    asm.instr(0x230f); // movs r3, #15
+                    asm.instr(0x400b); // ands r3, r1
+                    asm.instr(0x3330); // adds r3, #48
+                    asm.instr(0x6003); // str r3, [r0]
+                    asm.instr(0x1c52); // adds r2, r2, #1
+                    asm.instr(0x0909); // lsrs r1, r1, #4
+                    asm.instr(0x2a00); // cmp r2, #0
+                    asm.instr(0xd1f7); // bne .LBB13_6
+                    asm.instr(0xe701); // b +2
+                    asm.instr(0x2130); // movs r1, #48
+                    asm.instr(0x6001); // str r1, [r0]
+                     */
                 }
                 InstructionKind::ClearScreen => {
-                    asm.instr(0x223f); // movs r2, #63
+                    asm.instr(0x22ff); // movs r2, #255
                     asm.instr(0x43d2); // mvns r2, r2
                     asm.instr(0x210c); // movs r1, #12
                     asm.instr(0x6011); // str r1, [r2]

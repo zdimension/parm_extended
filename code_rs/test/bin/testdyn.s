@@ -82,43 +82,29 @@ unknown_panic:
 	.thumb_func
 __aeabi_memcpy:
 	.fnstart
-	.save	{r4, r5, r6, r7, lr}
-	.pad	#8
-	push	{r2, r3, r4, r5, r6, r7, lr}
-	.setfp	r7, sp, #20
-	add	r7, sp, #20
-	mov	r6, r1
-	movs	r1, #3
-	mov	r3, r2
-	bics	r3, r1
-	mov	r5, r3
-	str	r6, [sp]
-	str	r0, [sp, #4]
+	.save	{r4, r5, r7, lr}
+	push	{r4, r5, r7, lr}
+	.setfp	r7, sp, #8
+	add	r7, sp, #8
+	movs	r3, #3
+	mov	r4, r2
+	bics	r4, r3
+	movs	r3, #0
 .LBB1_1:
-	cmp	r5, #0
-	beq	.LBB1_3
-	ldm	r6!, {r4}
-	stm	r0!, {r4}
-	subs	r5, r5, #1
+	cmp	r3, r4
+	bhs	.LBB1_4
+	ldr	r5, [r1, r3]
+	str	r5, [r0, r3]
+	adds	r3, r3, #4
 	b	.LBB1_1
 .LBB1_3:
-	ands	r2, r1
-	lsls	r0, r3, #2
-	ldr	r1, [sp]
-	adds	r1, r1, r0
-	ldr	r3, [sp, #4]
-	adds	r0, r3, r0
+	ldrb	r4, [r1, r3]
+	strb	r4, [r0, r3]
+	adds	r3, r3, #1
 .LBB1_4:
-	cmp	r2, #0
-	beq	.LBB1_6
-	ldrb	r3, [r1]
-	strb	r3, [r0]
-	subs	r2, r2, #1
-	adds	r1, r1, #1
-	adds	r0, r0, #1
-	b	.LBB1_4
-.LBB1_6:
-	pop	{r2, r3, r4, r5, r6, r7, pc}
+	cmp	r3, r2
+	blo	.LBB1_3
+	pop	{r4, r5, r7, pc}
 .Lfunc_end1:
 	.size	__aeabi_memcpy, .Lfunc_end1-__aeabi_memcpy
 	.cantunwind
@@ -132,36 +118,29 @@ __aeabi_memcpy:
 	.thumb_func
 __aeabi_memclr:
 	.fnstart
-	.save	{r4, r5, r6, r7, lr}
-	push	{r4, r5, r6, r7, lr}
-	.setfp	r7, sp, #12
-	add	r7, sp, #12
-	movs	r3, #3
-	mov	r2, r1
-	bics	r2, r3
-	mov	r4, r2
-	mov	r5, r0
+	.save	{r4, r6, r7, lr}
+	push	{r4, r6, r7, lr}
+	.setfp	r7, sp, #8
+	add	r7, sp, #8
+	movs	r2, #3
+	mov	r3, r1
+	bics	r3, r2
+	movs	r2, #0
 .LBB2_1:
-	cmp	r4, #0
-	beq	.LBB2_3
-	movs	r6, #0
-	stm	r5!, {r6}
-	subs	r4, r4, #1
+	cmp	r2, r3
+	bhs	.LBB2_4
+	movs	r4, #0
+	str	r4, [r0, r2]
+	adds	r2, r2, #4
 	b	.LBB2_1
 .LBB2_3:
-	ands	r1, r3
-	lsls	r2, r2, #2
-	adds	r0, r0, r2
+	movs	r3, #0
+	strb	r3, [r0, r2]
+	adds	r2, r2, #1
 .LBB2_4:
-	cmp	r1, #0
-	beq	.LBB2_6
-	movs	r2, #0
-	strb	r2, [r0]
-	subs	r1, r1, #1
-	adds	r0, r0, #1
-	b	.LBB2_4
-.LBB2_6:
-	pop	{r4, r5, r6, r7, pc}
+	cmp	r2, r1
+	blo	.LBB2_3
+	pop	{r4, r6, r7, pc}
 .Lfunc_end2:
 	.size	__aeabi_memclr, .Lfunc_end2-__aeabi_memclr
 	.cantunwind
@@ -213,35 +192,202 @@ __aeabi_memclr8:
 	.thumb_func
 __aeabi_memmove4:
 	.fnstart
-	adds	r2, r2, #3
-	lsrs	r2, r2, #2
-	cmp	r0, r1
-	bhs	.LBB5_3
-.LBB5_1:
-	cmp	r2, #0
-	beq	.LBB5_6
-	ldm	r1!, {r3}
-	stm	r0!, {r3}
-	subs	r2, r2, #1
-	b	.LBB5_1
-.LBB5_3:
-	lsls	r3, r2, #2
-	subs	r3, r3, #4
-	adds	r1, r1, r3
-	adds	r0, r0, r3
-.LBB5_4:
-	cmp	r2, #0
-	beq	.LBB5_6
-	ldr	r3, [r1]
-	str	r3, [r0]
-	subs	r1, r1, #4
-	subs	r0, r0, #4
-	subs	r2, r2, #1
-	b	.LBB5_4
-.LBB5_6:
-	bx	lr
+	.save	{r7, lr}
+	push	{r7, lr}
+	.setfp	r7, sp
+	add	r7, sp, #0
+	bl	__aeabi_memmove
+	pop	{r7, pc}
 .Lfunc_end5:
 	.size	__aeabi_memmove4, .Lfunc_end5-__aeabi_memmove4
+	.cantunwind
+	.fnend
+
+	.section	.text.__aeabi_memmove,"ax",%progbits
+	.globl	__aeabi_memmove
+	.p2align	1
+	.type	__aeabi_memmove,%function
+	.code	16
+	.thumb_func
+__aeabi_memmove:
+	.fnstart
+	.save	{r4, r5, r6, r7, lr}
+	.pad	#4
+	push	{r3, r4, r5, r6, r7, lr}
+	.setfp	r7, sp, #16
+	add	r7, sp, #16
+	movs	r4, #3
+	mov	r6, r2
+	bics	r6, r4
+	cmp	r1, r0
+	bhs	.LBB6_4
+	subs	r4, r1, #4
+	subs	r5, r0, #4
+	str	r6, [sp]
+.LBB6_2:
+	cmp	r6, #0
+	beq	.LBB6_10
+	ldr	r3, [r4, r6]
+	str	r3, [r5, r6]
+	subs	r6, r6, #4
+	b	.LBB6_2
+.LBB6_4:
+	movs	r4, #0
+.LBB6_5:
+	cmp	r4, r6
+	bhs	.LBB6_8
+	ldr	r3, [r1, r4]
+	str	r3, [r0, r4]
+	adds	r4, r4, #4
+	b	.LBB6_5
+.LBB6_7:
+	ldrb	r3, [r1, r4]
+	strb	r3, [r0, r4]
+	adds	r4, r4, #1
+.LBB6_8:
+	cmp	r4, r2
+	blo	.LBB6_7
+.LBB6_9:
+	pop	{r3, r4, r5, r6, r7, pc}
+.LBB6_10:
+	ldr	r3, [sp]
+	subs	r3, r2, r3
+	adds	r1, r2, r1
+	subs	r1, r1, #1
+	adds	r0, r2, r0
+.LBB6_11:
+	subs	r0, r0, #1
+	cmp	r3, #0
+	beq	.LBB6_9
+	ldrb	r2, [r1]
+	strb	r2, [r0]
+	subs	r3, r3, #1
+	subs	r1, r1, #1
+	b	.LBB6_11
+.Lfunc_end6:
+	.size	__aeabi_memmove, .Lfunc_end6-__aeabi_memmove
+	.cantunwind
+	.fnend
+
+	.section	.text.__aeabi_memset,"ax",%progbits
+	.globl	__aeabi_memset
+	.p2align	2
+	.type	__aeabi_memset,%function
+	.code	16
+	.thumb_func
+__aeabi_memset:
+	.fnstart
+	.save	{r4, r6, r7, lr}
+	push	{r4, r6, r7, lr}
+	.setfp	r7, sp, #8
+	add	r7, sp, #8
+	movs	r3, #3
+	mov	r4, r2
+	bics	r4, r3
+	uxtb	r3, r1
+	ldr	r1, .LCPI7_0
+	muls	r1, r3, r1
+	movs	r3, #0
+.LBB7_1:
+	cmp	r3, r4
+	bhs	.LBB7_4
+	str	r1, [r0, r3]
+	adds	r3, r3, #4
+	b	.LBB7_1
+.LBB7_3:
+	strb	r1, [r0, r3]
+	adds	r3, r3, #1
+.LBB7_4:
+	cmp	r3, r2
+	blo	.LBB7_3
+	pop	{r4, r6, r7, pc}
+	.p2align	2
+.LCPI7_0:
+	.long	16843009
+.Lfunc_end7:
+	.size	__aeabi_memset, .Lfunc_end7-__aeabi_memset
+	.cantunwind
+	.fnend
+
+	.section	.text.__aeabi_memcmp,"ax",%progbits
+	.globl	__aeabi_memcmp
+	.p2align	1
+	.type	__aeabi_memcmp,%function
+	.code	16
+	.thumb_func
+__aeabi_memcmp:
+	.fnstart
+	.save	{r4, r5, r6, r7, lr}
+	push	{r4, r5, r6, r7, lr}
+	.setfp	r7, sp, #12
+	add	r7, sp, #12
+	.pad	#20
+	sub	sp, #20
+	movs	r3, #3
+	mov	r6, r2
+	bics	r6, r3
+	movs	r4, #0
+	add	r3, sp, #4
+	stm	r3!, {r0, r1, r2}
+	str	r6, [sp]
+.LBB8_1:
+	cmp	r4, r6
+	bhs	.LBB8_11
+	ldr	r3, [r4, r1]
+	ldr	r5, [r4, r0]
+	cmp	r5, r3
+	beq	.LBB8_9
+	adds	r2, r4, #4
+	cmp	r4, r2
+	mov	r5, r4
+	bhi	.LBB8_5
+	mov	r5, r2
+.LBB8_5:
+	adds	r6, r0, r4
+	adds	r3, r1, r4
+	str	r5, [sp, #16]
+	subs	r4, r5, r4
+.LBB8_6:
+	cmp	r4, #0
+	beq	.LBB8_8
+	subs	r4, r4, #1
+	adds	r1, r6, #1
+	adds	r0, r3, #1
+	ldrb	r2, [r3]
+	ldrb	r5, [r6]
+	cmp	r5, r2
+	mov	r6, r1
+	mov	r3, r0
+	beq	.LBB8_6
+	b	.LBB8_13
+.LBB8_8:
+	add	r4, sp, #4
+	ldm	r4, {r0, r1, r2, r4}
+	ldr	r6, [sp]
+.LBB8_9:
+	adds	r4, r4, #4
+	b	.LBB8_1
+.LBB8_10:
+	ldrb	r3, [r1, r4]
+	ldrb	r5, [r0, r4]
+	adds	r4, r4, #1
+	cmp	r5, r3
+	bne	.LBB8_15
+.LBB8_11:
+	cmp	r4, r2
+	blo	.LBB8_10
+	movs	r0, #0
+	b	.LBB8_14
+.LBB8_13:
+	subs	r0, r5, r2
+.LBB8_14:
+	add	sp, #20
+	pop	{r4, r5, r6, r7, pc}
+.LBB8_15:
+	subs	r0, r5, r3
+	b	.LBB8_14
+.Lfunc_end8:
+	.size	__aeabi_memcmp, .Lfunc_end8-__aeabi_memcmp
 	.cantunwind
 	.fnend
 
@@ -265,8 +411,33 @@ __aeabi_uidiv:
 	ldr	r0, [r4]
 	@NO_APP
 	pop	{r4, r6, r7, pc}
-.Lfunc_end6:
-	.size	__aeabi_uidiv, .Lfunc_end6-__aeabi_uidiv
+.Lfunc_end9:
+	.size	__aeabi_uidiv, .Lfunc_end9-__aeabi_uidiv
+	.cantunwind
+	.fnend
+
+	.section	.text.__aeabi_idiv,"ax",%progbits
+	.globl	__aeabi_idiv
+	.p2align	1
+	.type	__aeabi_idiv,%function
+	.code	16
+	.thumb_func
+__aeabi_idiv:
+	.fnstart
+	.save	{r4, r6, r7, lr}
+	push	{r4, r6, r7, lr}
+	.setfp	r7, sp, #8
+	add	r7, sp, #8
+	movs	r2, #207
+	mvns	r4, r2
+	mov	r2, r0
+	mov	r3, r1
+	@APP
+	ldr	r0, [r4]
+	@NO_APP
+	pop	{r4, r6, r7, pc}
+.Lfunc_end10:
+	.size	__aeabi_idiv, .Lfunc_end10-__aeabi_idiv
 	.cantunwind
 	.fnend
 
@@ -295,8 +466,38 @@ __aeabi_uidivmod:
 
 	@NO_APP
 	pop	{r4, r5, r7, pc}
-.Lfunc_end7:
-	.size	__aeabi_uidivmod, .Lfunc_end7-__aeabi_uidivmod
+.Lfunc_end11:
+	.size	__aeabi_uidivmod, .Lfunc_end11-__aeabi_uidivmod
+	.cantunwind
+	.fnend
+
+	.section	.text.__aeabi_idivmod,"ax",%progbits
+	.globl	__aeabi_idivmod
+	.p2align	1
+	.type	__aeabi_idivmod,%function
+	.code	16
+	.thumb_func
+__aeabi_idivmod:
+	.fnstart
+	.save	{r4, r5, r7, lr}
+	push	{r4, r5, r7, lr}
+	.setfp	r7, sp, #8
+	add	r7, sp, #8
+	movs	r2, #207
+	mvns	r4, r2
+	movs	r2, #203
+	mvns	r5, r2
+	mov	r2, r0
+	mov	r3, r1
+	@APP
+
+	ldr	r0, [r4]
+	ldr	r1, [r5]
+
+	@NO_APP
+	pop	{r4, r5, r7, pc}
+.Lfunc_end12:
+	.size	__aeabi_idivmod, .Lfunc_end12-__aeabi_idivmod
 	.cantunwind
 	.fnend
 
@@ -311,57 +512,56 @@ _ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E:
 	mvns	r0, r0
 	ldr	r1, [r0, #44]
 	cmp	r1, #0
-	beq	.LBB8_9
+	beq	.LBB13_9
 	ldr	r2, [r0, #4]
 	cmp	r2, #0
-	bpl	.LBB8_3
+	bpl	.LBB13_3
 	movs	r1, #45
 	str	r1, [r0]
 	rsbs	r1, r2, #0
 	str	r1, [r0, #4]
 	ldr	r1, [r0, #44]
-.LBB8_3:
+.LBB13_3:
 	mov	r2, r0
 	adds	r2, #248
-.LBB8_4:
+.LBB13_4:
 	lsls	r3, r1, #28
-	bne	.LBB8_7
+	bne	.LBB13_7
 	adds	r2, r2, #1
 	lsrs	r1, r1, #4
-	b	.LBB8_4
-.LBB8_6:
+	b	.LBB13_4
+.LBB13_6:
 	movs	r3, #15
 	ands	r3, r1
 	adds	r3, #48
 	str	r3, [r0]
 	adds	r2, r2, #1
 	lsrs	r1, r1, #4
-.LBB8_7:
+.LBB13_7:
 	cmp	r2, #0
-	bne	.LBB8_6
+	bne	.LBB13_6
 	bx	lr
-.LBB8_9:
+.LBB13_9:
 	movs	r1, #48
 	str	r1, [r0]
 	bx	lr
-.Lfunc_end8:
-	.size	_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E, .Lfunc_end8-_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E
+.Lfunc_end13:
+	.size	_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E, .Lfunc_end13-_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E
 	.cantunwind
 	.fnend
 
 	.section	.start,"ax",%progbits
 	.globl	run
-	.p2align	2
+	.p2align	1
 	.type	run,%function
 	.code	16
 	.thumb_func
 run:
 	.fnstart
 	.save	{r7, lr}
-	.pad	#16
-	push	{r3, r4, r5, r6, r7, lr}
-	.setfp	r7, sp, #16
-	add	r7, sp, #16
+	push	{r7, lr}
+	.setfp	r7, sp
+	add	r7, sp, #0
 	@APP
 
 	movs	r0, #1
@@ -370,79 +570,11 @@ run:
 	movs	r0, #0
 
 	@NO_APP
-	movs	r0, #255
-	mvns	r0, r0
-	str	r0, [sp]
-	movs	r0, #0
-.LBB9_1:
-	cmp	r0, #10
-	beq	.LBB9_9
-	str	r0, [sp, #12]
-	bl	__aeabi_i2d
-	ldr	r2, .LCPI9_0
-	ldr	r3, .LCPI9_1
-	bl	__aeabi_dadd
-	mov	r5, r0
-	mov	r4, r1
-	movs	r2, #0
-	str	r2, [sp, #8]
-	ldr	r3, .LCPI9_2
-	bl	__aeabi_dcmpge
-	mov	r6, r0
-	mov	r0, r5
-	mov	r1, r4
-	bl	__aeabi_d2iz
-	cmp	r6, #0
-	bne	.LBB9_4
-	movs	r0, #1
-	lsls	r0, r0, #31
-.LBB9_4:
-	str	r0, [sp, #4]
-	mov	r0, r5
-	mov	r1, r4
-	ldr	r2, .LCPI9_3
-	ldr	r3, .LCPI9_4
-	bl	__aeabi_dcmpgt
-	cmp	r0, #0
-	ldr	r6, .LCPI9_5
-	bne	.LBB9_6
-	ldr	r6, [sp, #4]
-.LBB9_6:
-	mov	r0, r5
-	mov	r1, r4
-	mov	r2, r5
-	mov	r3, r4
-	bl	__aeabi_dcmpun
-	cmp	r0, #0
-	ldr	r0, [sp, #8]
-	bne	.LBB9_8
-	mov	r0, r6
-.LBB9_8:
-	ldr	r4, [sp]
-	str	r0, [r4, #4]
 	bl	_ZN7testdyn4parm3tty9print_res17hbe56f1772a552662E
-	movs	r0, #10
-	str	r0, [r4]
-	ldr	r0, [sp, #12]
-	adds	r0, r0, #1
-	b	.LBB9_1
-.LBB9_9:
-	b	.LBB9_9
-	.p2align	2
-.LCPI9_0:
-	.long	1374389535
-.LCPI9_1:
-	.long	1074339512
-.LCPI9_2:
-	.long	3252682752
-.LCPI9_3:
-	.long	4290772992
-.LCPI9_4:
-	.long	1105199103
-.LCPI9_5:
-	.long	2147483647
-.Lfunc_end9:
-	.size	run, .Lfunc_end9-run
+.LBB14_1:
+	b	.LBB14_1
+.Lfunc_end14:
+	.size	run, .Lfunc_end14-run
 	.cantunwind
 	.fnend
 
@@ -457,31 +589,31 @@ _ZN4core9panicking5panic17h1ad3ed8b8184cb53E:
 	movs	r2, #255
 	mvns	r2, r2
 	movs	r3, #0
-	ldr	r4, .LCPI10_0
-.LBB10_1:
+	ldr	r4, .LCPI15_0
+.LBB15_1:
 	cmp	r3, #6
-	beq	.LBB10_4
+	beq	.LBB15_4
 	ldrb	r5, [r4, r3]
 	str	r5, [r2]
 	adds	r3, r3, #1
-	b	.LBB10_1
-.LBB10_3:
+	b	.LBB15_1
+.LBB15_3:
 	ldrb	r3, [r0]
 	str	r3, [r2]
 	subs	r1, r1, #1
 	adds	r0, r0, #1
-.LBB10_4:
+.LBB15_4:
 	cmp	r1, #0
-	bne	.LBB10_3
+	bne	.LBB15_3
 	movs	r0, #10
 	str	r0, [r2]
-.LBB10_6:
-	b	.LBB10_6
+.LBB15_6:
+	b	.LBB15_6
 	.p2align	2
-.LCPI10_0:
+.LCPI15_0:
 	.long	.L__unnamed_2
-.Lfunc_end10:
-	.size	_ZN4core9panicking5panic17h1ad3ed8b8184cb53E, .Lfunc_end10-_ZN4core9panicking5panic17h1ad3ed8b8184cb53E
+.Lfunc_end15:
+	.size	_ZN4core9panicking5panic17h1ad3ed8b8184cb53E, .Lfunc_end15-_ZN4core9panicking5panic17h1ad3ed8b8184cb53E
 	.cantunwind
 	.fnend
 
@@ -502,8 +634,8 @@ _ZN4core6option13expect_failed17h8c305cb9ee051e3fE:
 	@NO_APP
 	bl	_ZN4core9panicking5panic17h1ad3ed8b8184cb53E
 	.inst.n	0xdefe
-.Lfunc_end11:
-	.size	expect_failed, .Lfunc_end11-expect_failed
+.Lfunc_end16:
+	.size	expect_failed, .Lfunc_end16-expect_failed
 	.cantunwind
 	.fnend
 
@@ -530,8 +662,8 @@ _ZN4core9panicking5panic17h17dc07c17ae86e0aE:
 	@NO_APP
 	bl	_ZN4core9panicking5panic17h1ad3ed8b8184cb53E
 	.inst.n	0xdefe
-.Lfunc_end12:
-	.size	panic2, .Lfunc_end12-panic2
+.Lfunc_end17:
+	.size	panic2, .Lfunc_end17-panic2
 	.cantunwind
 	.fnend
 
@@ -550,15 +682,15 @@ unwrap_failed:
 	@APP
 _ZN4core6result13unwrap_failed17ha24f234727605fe4E:
 	@NO_APP
-	ldr	r0, .LCPI13_0
+	ldr	r0, .LCPI18_0
 	movs	r1, #13
 	bl	_ZN4core9panicking5panic17h1ad3ed8b8184cb53E
 	.inst.n	0xdefe
 	.p2align	2
-.LCPI13_0:
+.LCPI18_0:
 	.long	.L__unnamed_3
-.Lfunc_end13:
-	.size	unwrap_failed, .Lfunc_end13-unwrap_failed
+.Lfunc_end18:
+	.size	unwrap_failed, .Lfunc_end18-unwrap_failed
 	.cantunwind
 	.fnend
 
@@ -583,15 +715,15 @@ _ZN4core9panicking18panic_bounds_check17h2c8069d2b705747bE:
 	@APP
 _ZN4core9panicking18panic_bounds_check17h4951c2fcb20aa965E:
 	@NO_APP
-	ldr	r0, .LCPI14_0
+	ldr	r0, .LCPI19_0
 	movs	r1, #19
 	bl	_ZN4core9panicking5panic17h1ad3ed8b8184cb53E
 	.inst.n	0xdefe
 	.p2align	2
-.LCPI14_0:
+.LCPI19_0:
 	.long	.L__unnamed_4
-.Lfunc_end14:
-	.size	panic_bounds_check, .Lfunc_end14-panic_bounds_check
+.Lfunc_end19:
+	.size	panic_bounds_check, .Lfunc_end19-panic_bounds_check
 	.cantunwind
 	.fnend
 
@@ -616,15 +748,15 @@ _ZN4core9panicking9panic_fmt17hd67f4882cc9312fdE:
 	@APP
 _ZN4core9panicking9panic_fmt17hc90555fcc536d9d7E:
 	@NO_APP
-	ldr	r0, .LCPI15_0
+	ldr	r0, .LCPI20_0
 	movs	r1, #9
 	bl	_ZN4core9panicking5panic17h1ad3ed8b8184cb53E
 	.inst.n	0xdefe
 	.p2align	2
-.LCPI15_0:
+.LCPI20_0:
 	.long	.L__unnamed_5
-.Lfunc_end15:
-	.size	panic_fmt, .Lfunc_end15-panic_fmt
+.Lfunc_end20:
+	.size	panic_fmt, .Lfunc_end20-panic_fmt
 	.cantunwind
 	.fnend
 
@@ -646,15 +778,21 @@ _ZN4core5slice5index24slice_end_index_len_fail17h3d35c3c0c04c4afeE:
 	@APP
 _ZN4core5slice5index26slice_start_index_len_fail17ha77bf5041ae3f134E:
 	@NO_APP
-	ldr	r0, .LCPI16_0
+	@APP
+_ZN4core5slice5index26slice_start_index_len_fail17h86e173ea5fb70460E:
+	@NO_APP
+	@APP
+_ZN4core5slice5index24slice_end_index_len_fail17h117f4fe0161922aeE:
+	@NO_APP
+	ldr	r0, .LCPI21_0
 	movs	r1, #25
 	bl	_ZN4core9panicking5panic17h1ad3ed8b8184cb53E
 	.inst.n	0xdefe
 	.p2align	2
-.LCPI16_0:
+.LCPI21_0:
 	.long	.L__unnamed_6
-.Lfunc_end16:
-	.size	slicee_end_index_len_fail, .Lfunc_end16-slicee_end_index_len_fail
+.Lfunc_end21:
+	.size	slicee_end_index_len_fail, .Lfunc_end21-slicee_end_index_len_fail
 	.cantunwind
 	.fnend
 
@@ -670,24 +808,24 @@ rust_begin_unwind:
 	movs	r0, #255
 	mvns	r0, r0
 	movs	r1, #0
-	ldr	r2, .LCPI17_0
-.LBB17_1:
+	ldr	r2, .LCPI22_0
+.LBB22_1:
 	cmp	r1, #7
-	beq	.LBB17_3
+	beq	.LBB22_3
 	ldrb	r3, [r2, r1]
 	str	r3, [r0]
 	adds	r1, r1, #1
-	b	.LBB17_1
-.LBB17_3:
+	b	.LBB22_1
+.LBB22_3:
 	movs	r1, #10
 	str	r1, [r0]
-.LBB17_4:
-	b	.LBB17_4
+.LBB22_4:
+	b	.LBB22_4
 	.p2align	2
-.LCPI17_0:
+.LCPI22_0:
 	.long	.L__unnamed_7
-.Lfunc_end17:
-	.size	rust_begin_unwind, .Lfunc_end17-rust_begin_unwind
+.Lfunc_end22:
+	.size	rust_begin_unwind, .Lfunc_end22-rust_begin_unwind
 	.cantunwind
 	.fnend
 
