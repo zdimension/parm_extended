@@ -498,3 +498,10 @@ concept bool CharSeq =
     requires(T t) {
 
  */
+
+impl PartialEq<str> for String {
+    #[inline(never)]
+    fn eq(&self, other: &str) -> bool {
+        self.to_chars().eq(other.to_chars())
+    }
+}

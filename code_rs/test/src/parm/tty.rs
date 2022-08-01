@@ -20,6 +20,17 @@ macro_rules! print {
 }
 
 #[macro_export]
+macro_rules! makestr {
+    ($($args:expr),*) => {
+        {
+            let mut res = $crate::parm::heap::string::String::new();
+            $crate::print!($($args),* , => &mut res);
+            res
+        }
+    };
+}
+
+#[macro_export]
 macro_rules! println {
     (=> $target:expr) => {
         $target.print_char('\n')

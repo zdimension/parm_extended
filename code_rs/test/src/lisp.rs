@@ -5,12 +5,14 @@
 #![feature(iter_order_by)]
 #![feature(generic_associated_types)]
 #![feature(step_trait)]
+#![feature(inherent_associated_types)]
 
 use crate::parm::heap::{free, malloc};
 use core::iter::{Copied, Enumerate, Peekable};
 use core::mem::size_of;
-use core::ops::Deref;
+use core::ops::{Deref, DerefMut};
 use core::ptr;
+use core::slice::Iter;
 
 use crate::parm::heap::string::{FromStr, Parse, String};
 use crate::parm::heap::vec::Vec;
@@ -25,14 +27,74 @@ pub enum SExpr {
     Int(i32),
     Bool(bool),
     Str(String),
-    List(Vec<SExpr>),
+    List(Vec<LispValBox>),
+}
+
+impl SExpr {
+    pub fn type_name(&self) -> &'static str {
+        match self {
+            SExpr::Symbol(_) => "symbol",
+            SExpr::Int(_) => "int",
+            SExpr::Bool(_) => "bool",
+            SExpr::Str(_) => "string",
+            SExpr::List(_) => "list",
+        }
+    }
+
+    fn expect_int(&self, origin: &'static str) -> Result<i32, String> {
+        match self {
+            SExpr::Int(val) => Ok(*val),
+            _ => Err(makestr!(origin, ": expected int, got ", self.type_name())),
+        }
+    }
+
+    fn expect_symbol(&self, origin: &'static str) -> Result<&String, String> {
+        match self {
+            SExpr::Symbol(val) => Ok(val),
+            _ => Err(makestr!(
+                origin,
+                ": expected symbol, got ",
+                self.type_name()
+            )),
+        }
+    }
 }
 
 #[derive(Clone)]
-enum LispVal {
+pub enum LispVal {
     Primitive(SExpr),
     Void,
     Builtin(String, fn(&[LispValBox]) -> Result<LispValBox, String>),
+    Closure {
+        name: Option<String>,
+        args: ClosureArgs,
+        body: Vec<LispValBox>,
+        env: SchemeEnv,
+    },
+}
+
+#[derive(Clone)]
+pub enum ClosureArgs {
+    Whole(String),
+    Dispatch(Vec<String>, Option<String>),
+}
+
+impl LispVal {
+    pub fn type_name(&self) -> &'static str {
+        match self {
+            LispVal::Primitive(p) => p.type_name(),
+            LispVal::Void => "void",
+            LispVal::Builtin(_, _) => "builtin",
+            LispVal::Closure { .. } => "function",
+        }
+    }
+
+    pub fn expect_prim(&self) -> Result<&SExpr, String> {
+        match self {
+            LispVal::Primitive(p) => Ok(p),
+            _ => Err(makestr!("expected primitive, got ", self.type_name())),
+        }
+    }
 }
 
 struct SchemeParser<'a>(
@@ -170,7 +232,7 @@ impl<'a> SchemeParser<'a> {
         };
         let mut values = Vec::new();
         while !self.accept(closing) {
-            values.push(self.read()?);
+            values.push(self.read()?.into());
             self.skip_spaces();
         }
         Ok(SExpr::List(values))
@@ -182,10 +244,13 @@ impl<'a> SchemeParser<'a> {
             Some(&(_, '(' | '[')) => self.read_list(),
             Some(&(_, '#')) => self.read_boolean(),
             Some(&(_, '"')) => self.read_string(),
-            /*Some(&(_, '\'')) => {
+            Some(&(_, '\'')) => {
                 self.1.next();
-                Ok(SExpr::List(parmvec![SExpr::Symbol(String::from("quote")), self.read()?]))
-            }*/
+                Ok(SExpr::List(parmvec![
+                    SExpr::Symbol(String::from("quote")).into(),
+                    self.read()?.into()
+                ]))
+            }
             Some(&(_, ch)) if ch.is_ascii_digit() => self.read_number(),
             Some(_) => self.read_symbol(),
             None => Err(ReadError::EOFFound),
@@ -245,7 +310,15 @@ impl Display for LispVal {
             LispVal::Primitive(sexpr) => sexpr.write(target),
             LispVal::Void => print!("#<void>", => target),
             LispVal::Builtin(name, _) => print!("#<procedure:", name, ">", => target),
+            LispVal::Closure { name: Some(s), .. } => print!("#<procedure:", s, ">", => target),
+            LispVal::Closure { name: None, .. } => print!("#<procedure>", => target),
         }
+    }
+}
+
+impl<T: Display> Display for Prc<T> {
+    fn write(&self, target: &mut impl DisplayTarget) {
+        <T as Display>::write(self, target);
     }
 }
 
@@ -264,9 +337,22 @@ impl SymbolMap {
     }
 
     #[inline(never)]
+    fn entry(&mut self, s: &[char]) -> Option<&mut LispValBox> {
+        self.0
+            .iter_mut()
+            .find(|(ref k, _)| k.iter().eq(s.iter()))
+            .map(|(_, ref mut v)| v)
+    }
+
+    #[inline(never)]
+    fn contains(&self, s: &[char]) -> bool {
+        self.0.iter().any(|(ref k, _)| k.iter().eq(s))
+    }
+
+    #[inline(never)]
     fn set(&mut self, s: String, v: LispValBox) {
-        let existing = self.0.iter_mut().find(|(ref k, _)| k.iter().eq(s.iter()));
-        if let Some((_, ref mut cell)) = existing {
+        let existing = self.entry(&s);
+        if let Some(cell) = existing {
             *cell = v;
         } else {
             self.0.push((s, v));
@@ -274,45 +360,52 @@ impl SymbolMap {
     }
 }
 
-struct SchemeEnv {
+struct SchemeEnvData {
     map: SymbolMap,
+    parent: Option<SchemeEnv>,
 }
 
-struct LispValBoxInner {
-    val: LispVal,
+#[derive(Clone)]
+pub struct SchemeEnv(Prc<SchemeEnvData>);
+
+struct PrcInner<T> {
+    val: T,
     ref_count: usize,
 }
 
-struct LispValBox {
-    ptr: *mut LispValBoxInner,
+pub struct Prc<T> {
+    ptr: *mut PrcInner<T>,
 }
 
-impl LispValBox {
-    fn new(v: LispVal) -> Self {
+pub type LispValBox = Prc<LispVal>;
+
+impl<T> Prc<T> {
+    type Inner = PrcInner<T>;
+    fn new(v: T) -> Self {
         unsafe {
-            let mem = malloc(size_of::<LispValBoxInner>()) as *mut LispValBoxInner;
+            let mem = malloc(size_of::<PrcInner<T>>()) as *mut PrcInner<T>;
             ptr::write(
                 mem,
-                LispValBoxInner {
+                PrcInner {
                     val: v,
                     ref_count: 1,
                 },
             );
-            LispValBox { ptr: mem }
+            Self { ptr: mem }
         }
     }
 }
 
-impl Clone for LispValBox {
+impl<T> Clone for Prc<T> {
     fn clone(&self) -> Self {
         unsafe {
             (*self.ptr).ref_count += 1;
-            LispValBox { ptr: self.ptr }
+            Self { ptr: self.ptr }
         }
     }
 }
 
-impl Drop for LispValBox {
+impl<T> Drop for Prc<T> {
     fn drop(&mut self) {
         unsafe {
             if (*self.ptr).ref_count == 1 {
@@ -324,74 +417,274 @@ impl Drop for LispValBox {
     }
 }
 
-impl From<LispVal> for LispValBox {
-    fn from(v: LispVal) -> Self {
-        LispValBox::new(v)
+impl<T> From<T> for Prc<T> {
+    fn from(v: T) -> Self {
+        Prc::new(v)
     }
 }
 
-impl AsRef<LispVal> for LispValBox {
-    fn as_ref(&self) -> &LispVal {
+impl<T> AsRef<T> for Prc<T> {
+    fn as_ref(&self) -> &T {
         unsafe { &(*self.ptr).val }
     }
 }
 
-impl Deref for LispValBox {
-    type Target = LispVal;
+impl<T> Deref for Prc<T> {
+    type Target = T;
 
-    fn deref(&self) -> &LispVal {
+    fn deref(&self) -> &T {
         unsafe { &(*self.ptr).val }
+    }
+}
+
+impl<T> DerefMut for Prc<T> {
+    fn deref_mut(&mut self) -> &mut T {
+        unsafe { &mut (*self.ptr).val }
     }
 }
 
 impl SchemeEnv {
+    fn get(&self, s: &[char]) -> Option<LispValBox> {
+        if let Some(res) = self.0.map.get(s) {
+            Some(res)
+        } else {
+            self.0.parent.as_ref().and_then(|p| p.get(s))
+        }
+    }
+
     #[inline(never)]
-    fn eval(&mut self, expr: &SExpr) -> Result<LispValBox, String> {
-        match expr {
-            SExpr::Symbol(name) => self
+    fn set_new(&mut self, s: String, v: LispValBox) {
+        self.0.map.set(s, v);
+    }
+
+    #[inline(never)]
+    fn entry(&mut self, s: &[char]) -> Option<&mut LispValBox> {
+        let SchemeEnvData {
+            ref mut map,
+            ref mut parent,
+        } = *self.0;
+        if let Some(res) = map.entry(s) {
+            Some(res)
+        } else {
+            parent.as_mut().and_then(|p| p.entry(s))
+        }
+    }
+
+    #[inline(never)]
+    fn set(&mut self, s: String, v: LispValBox) {
+        if let Some(cell) = self.entry(&s) {
+            *cell = v;
+        } else {
+            self.set_new(s, v);
+        }
+    }
+
+    #[inline(never)]
+    fn make_child(&self) -> SchemeEnv {
+        SchemeEnv(Prc::new(SchemeEnvData {
+            map: SymbolMap::new(),
+            parent: Some(self.clone()),
+        }))
+    }
+
+    #[inline(never)]
+    fn eval_begin(&mut self, instrs: &[LispValBox]) -> Result<LispValBox, String> {
+        let mut res = LispVal::Void.into();
+        for item in instrs {
+            res = self.eval(item)?;
+        }
+        Ok(res)
+    }
+
+    #[inline(never)]
+    fn make_closure(
+        &mut self,
+        name: Option<String>,
+        args: ClosureArgs,
+        body: Vec<LispValBox>,
+    ) -> LispVal {
+        LispVal::Closure {
+            name,
+            args,
+            body,
+            env: self.clone(),
+        }
+    }
+
+    #[inline(never)]
+    fn eval_lambda(&mut self, items: &[LispValBox]) -> Result<LispValBox, String> {
+        let args = &items[0];
+        let body = &items[1..];
+        let cl_args = match args.expect_prim()? {
+            SExpr::List(args) => {
+                let syms = args
+                    .iter()
+                    .map(|s| s.expect_prim().and_then(|s| s.expect_symbol("lambda")))
+                    .collect::<Result<Vec<_>, _>>()?;
+                if syms.len() >= 2 && syms[syms.len() - 2] == "." {
+                    ClosureArgs::Dispatch(
+                        Vec::from_iter(syms[..syms.len() - 2].iter().map(|&s| s.clone())),
+                        Some(syms[syms.len() - 1].clone()),
+                    )
+                } else {
+                    ClosureArgs::Dispatch(Vec::from_iter(syms.iter().map(|&s| s.clone())), None)
+                }
+            }
+            SExpr::Symbol(name) => ClosureArgs::Whole(name.clone()),
+            _ => {
+                return Err(makestr!("lambda: expected list or symbol, got ", args));
+            }
+        };
+        Ok(self.make_closure(None, cl_args, Vec::from(body)).into())
+    }
+
+    #[inline(never)]
+    fn eval_define(&mut self, items: &[LispValBox]) -> Result<LispValBox, String> {
+        let symbol = items[0].expect_prim()?.expect_symbol("define")?;
+        let value = self.eval(items.get(1).ok_or("define: expected value")?)?;
+        self.0.map.set(symbol.clone(), value);
+        Ok(LispVal::Void.into())
+    }
+
+    #[inline(never)]
+    fn eval_builtin_form(
+        &mut self,
+        name: &String,
+        items: &[LispValBox],
+    ) -> Option<Result<LispValBox, String>> {
+        if name == "quote" {
+            return Some(Ok(items[1].clone()));
+        }
+        if name == "define" {
+            return Some(self.eval_define(&items[1..]));
+        }
+        if name == "begin" {
+            return Some(self.make_child().eval_begin(&items[1..]));
+        }
+        if name == "lambda" {
+            return Some(self.eval_lambda(&items[1..]));
+        }
+        None
+    }
+
+    #[inline(never)]
+    fn eval_form(&mut self, items: &Vec<LispValBox>) -> Result<LispValBox, String> {
+        let head = items.first().ok_or("call: expected head")?;
+
+        if let Ok(name) = head
+            .expect_prim()
+            .and_then(|p| p.expect_symbol("eval"))
+        {
+            if let Some(res) = self.eval_builtin_form(name, items) {
+                return res;
+            }
+        }
+
+        let head = self.eval(head)?;
+
+        match &*head {
+            LispVal::Builtin(_name, f) => {
+                let args = items[1..]
+                    .iter()
+                    .map(|x| self.eval(x))
+                    .collect::<Result<Vec<_>, _>>()?;
+                f(&args)
+            }
+            LispVal::Closure {
+                name: _,
+                args,
+                body,
+                env,
+            } => Self::eval_closure_call(items, args, body, env),
+            _ => Err(makestr!(
+                "call: expected callable, got ",
+                (*head).type_name()
+            )),
+        }
+    }
+
+    #[inline(never)]
+    fn eval_closure_call(items: &Vec<LispValBox>, args: &ClosureArgs, body: &Vec<LispValBox>, env: &SchemeEnv) -> Result<LispValBox, String> {
+        let mut new_env = env.clone();
+        let mut iter = items[1..].iter();
+        match args {
+            ClosureArgs::Whole(name) => {
+                new_env.set_new(name.clone(), SExpr::List(Vec::from(&items[1..])).into());
+            }
+            ClosureArgs::Dispatch(names, vararg_name) => {
+                Self::process_dispatch_args(&mut new_env, &mut iter, names, vararg_name)?;
+            }
+        }
+        new_env.eval_begin(body)
+    }
+
+    #[inline(never)]
+    fn process_dispatch_args(mut new_env: &mut SchemeEnv, iter: &mut Iter<LispValBox>, names: &Vec<String>, vararg_name: &Option<String>)-> Result<(), String>  {
+        for name in names.iter() {
+            let arg = iter.next().ok_or("call: not enough arguments")?;
+            let arg_val = new_env.eval(arg)?;
+            new_env.set_new(name.clone(), arg_val);
+        }
+        if let Some(name) = vararg_name {
+            let varargs = iter
+                .map(|e| new_env.eval(e))
+                .collect::<Result<Vec<_>, _>>()?;
+            new_env.set_new(name.clone(), SExpr::List(varargs).into());
+        } else if iter.next().is_some() {
+            return Err(String::from("call: too many arguments"));
+        }
+        Ok(())
+    }
+
+    #[inline(never)]
+    fn eval(&mut self, expr: &LispValBox) -> Result<LispValBox, String> {
+        match &**expr {
+            LispVal::Primitive(SExpr::Symbol(name)) => self
+                .0
                 .map
                 .get(name)
                 .ok_or_else(|| String::from("unknown symbol")),
-            SExpr::List(ref items) => {
+            LispVal::Primitive(SExpr::List(ref items)) => {
                 if items.is_empty() {
-                    return Ok(LispVal::Primitive(expr.clone()).into());
+                    return Ok(expr.clone()); // empty list
                 }
 
-                let head = items.first().ok_or("expected head")?;
-                let head = self.eval(head)?;
-
-                match &*head {
-                    LispVal::Builtin(name, f) => {
-                        let mut args =
-                            items[1..].iter().map(|x| self.eval(x)).collect::<Result<Vec<_>, _>>()?;
-                        f(&args)
-                    },
-                    _ => Ok(LispVal::Void.into())
-                }
+                self.eval_form(items)
             }
-            _ => Ok(LispVal::Primitive(expr.clone()).into()),
+            _ => Ok(expr.clone()),
         }
     }
 }
 
-impl Default for SchemeEnv {
+impl Default for SchemeEnvData {
     #[inline(never)]
     fn default() -> Self {
         let mut map = SymbolMap::new();
 
-        fn builtin(map: &mut SymbolMap, name: &str, f: fn(&[LispValBox]) -> Result<LispValBox, String>) {
-            map.set(String::from(name),
-            LispVal::Builtin(String::from(name), f).into());
+        fn builtin(
+            map: &mut SymbolMap,
+            name: &str,
+            f: fn(&[LispValBox]) -> Result<LispValBox, String>,
+        ) {
+            map.set(
+                String::from(name),
+                LispVal::Builtin(String::from(name), f).into(),
+            );
         }
 
         builtin(&mut map, "+", |args| {
             let mut sum = 0;
             for arg in args {
-                if let LispVal::Primitive(SExpr::Int(i)) = **arg {
-                    sum += i;
-                } else {
-                    return Err(String::from("expected int"));
-                }
+                sum += arg.expect_prim()?.expect_int("+")?;
+            }
+            Ok(SExpr::Int(sum).into())
+        });
+
+        builtin(&mut map, "-", |args| {
+            let (first, rest) = args.split_first().ok_or("expected at least one argument")?;
+            let mut sum = first.expect_prim()?.expect_int("-")?;
+            for arg in rest {
+                sum -= arg.expect_prim()?.expect_int("-")?;
             }
             Ok(SExpr::Int(sum).into())
         });
@@ -399,23 +692,24 @@ impl Default for SchemeEnv {
         builtin(&mut map, "*", |args| {
             let mut sum = 1;
             for arg in args {
-                if let LispVal::Primitive(SExpr::Int(i)) = **arg {
-                    sum *= i;
-                } else {
-                    return Err(String::from("expected int"));
-                }
+                sum *= arg.expect_prim()?.expect_int("*")?;
             }
             Ok(SExpr::Int(sum).into())
         });
 
-
-        SchemeEnv { map }
+        SchemeEnvData { map, parent: None }
     }
 }
 
 impl From<SExpr> for LispValBox {
     fn from(expr: SExpr) -> Self {
         LispVal::Primitive(expr).into()
+    }
+}
+
+impl Default for SchemeEnv {
+    fn default() -> Self {
+        Self(Prc::new(SchemeEnvData::default()))
     }
 }
 
@@ -427,19 +721,21 @@ fn main() {
     loop {
         print!(if input.is_empty() { ">>> " } else { "... " });
         tty::read_line(&mut input);
-        match input.parse() {
-            Ok(ref res) => {
-                let res = env.eval(res);
+        match input.parse::<SExpr>() {
+            Ok(res) => {
+                let res = env.eval(&res.into());
                 match res {
                     Ok(res) => {
-                        println!(*res);
-                        env.map.set(String::from("_"), res);
+                        if !matches!(*res, LispVal::Void) {
+                            println!(*res);
+                        }
+                        env.0.map.set(String::from("_"), res);
                     }
                     Err(msg) => {
                         println!("eval error: ", msg);
                     }
                 }
-            },
+            }
             Err(ReadError::EOFFound) => continue,
             Err(e) => {
                 println!("parse error: ", e);

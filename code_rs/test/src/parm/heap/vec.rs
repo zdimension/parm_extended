@@ -117,7 +117,7 @@ impl<T> Vec<T> {
     #[inline(always)]
     pub fn drain(&mut self) -> Drain<T> {
         unsafe {
-            let iter = RawValIter::new(&self);
+            let iter = RawValIter::new(self);
 
             // this is a mem::forget safety thing. If Drain is forgotten, we just
             // leak the whole Vec's contents. Also we need to do this *eventually*
@@ -272,7 +272,7 @@ impl<T: Clone> From<&[T]> for Vec<T> {
 impl<T> Drop for Vec<T> {
     #[inline(always)]
     fn drop(&mut self) {
-        while let Some(_) = self.pop() {}
+        while self.pop().is_some() {}
         let elem_size = mem::size_of::<T>();
 
         if self.cap != 0 && elem_size != 0 {
@@ -328,7 +328,7 @@ impl<T> RawValIter<T> {
             start: slice.as_ptr(),
             end: if mem::size_of::<T>() == 0 {
                 ((slice.as_ptr() as usize) + slice.len()) as *const _
-            } else if slice.len() == 0 {
+            } else if slice.is_empty() {
                 slice.as_ptr()
             } else {
                 slice.as_ptr().add(slice.len())
