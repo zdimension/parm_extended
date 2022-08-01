@@ -16,7 +16,7 @@ use core::slice::{Iter, SlicePattern};
 
 use crate::parm::heap::string::{FromStr, Parse, String};
 use crate::parm::heap::vec::Vec;
-use crate::parm::tty;
+use crate::parm::{keyb, telnet, tty};
 use crate::parm::tty::{Display, DisplayTarget};
 
 mod parm;
@@ -571,6 +571,32 @@ impl SchemeEnv {
     }
 
     #[inline(never)]
+    fn eval_let_binding(&mut self, items: &[LispValBox], target: &mut Self) -> Result<(), String> {
+        if items.len() != 2 {
+            return Err(makestr!("let binding: expected list of length 2, got ", items.len()));
+        }
+        let name = items[0].expect_symbol("let binding")?.clone();
+        let value = self.eval(&items[1])?;
+        target.set(name, value);
+        Ok(())
+    }
+
+    #[inline(never)]
+    fn eval_let(&mut self, args: &[LispValBox]) -> Result<LispValBox, String> {
+        let mut env = self.make_child();
+        let bindings = args.get(0).ok_or("let: expected list")?.expect_list("let")?;
+        for item in bindings.iter() {
+            match &**item {
+                LispVal::List(items) => {
+                    self.eval_let_binding(items, &mut env)?;
+                }
+                _ => return Err(makestr!("let: expected list, got ", item)),
+            }
+        }
+        env.eval_begin(&args[1..])
+    }
+
+    #[inline(never)]
     fn eval_builtin_form(
         &mut self,
         name: &String,
@@ -591,6 +617,9 @@ impl SchemeEnv {
         }
         if name == "list" {
             return Some(self.eval_list(args));
+        }
+        if name == "let" {
+            return Some(self.eval_let(args));
         }
         None
     }
@@ -631,7 +660,7 @@ impl SchemeEnv {
 
     #[inline(never)]
     fn eval_closure_call(items: &Vec<LispValBox>, args: &ClosureArgs, body: &Vec<LispValBox>, env: &SchemeEnv) -> Result<LispValBox, String> {
-        let mut new_env = env.clone();
+        let mut new_env = env.make_child();
         let mut iter = items[1..].iter();
         match args {
             ClosureArgs::Whole(name) => {
@@ -666,10 +695,8 @@ impl SchemeEnv {
     fn eval(&mut self, expr: &LispValBox) -> Result<LispValBox, String> {
         match &**expr {
             LispVal::Symbol(name) => self
-                .0
-                .map
                 .get(name)
-                .ok_or_else(|| String::from("unknown symbol")),
+                .ok_or_else(|| makestr!("unknown symbol: ", name)),
             LispVal::List(ref items) => {
                 if items.is_empty() {
                     return Ok(expr.clone()); // empty list
@@ -775,9 +802,35 @@ fn main() {
 
     let mut env = SchemeEnv::default();
     let mut input = String::new();
+    let mut telnet = false;
     loop {
-        print!(if input.is_empty() { ">>> " } else { "... " });
-        tty::read_line(&mut input);
+        print!(if input.is_empty() { if telnet { "$$$"  } else { ">>> " } } else { "... " });
+        if telnet {
+            loop {
+                if keyb::key_available() {
+                    keyb::flush();
+                    telnet = false;
+                    println!();
+                    break;
+                }
+                let char_read = telnet::read();
+                if let Some(char_read) = char_read {
+                    print!(char_read as char);
+                    if char_read == b'\n' {
+                        break;
+                    }
+                    input.push(char_read as char);
+                }
+            }
+        } else {
+            tty::read_line(&mut input);
+        }
+        if input == *".load" {
+            // telnet load
+            telnet = true;
+            input.clear();
+            continue;
+        }
         match input.parse::<LispVal>() {
             Ok(res) => {
                 let res = env.eval(&res.into());

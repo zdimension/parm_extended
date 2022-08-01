@@ -24,3 +24,15 @@ pub fn read() -> Option<u32> {
         None
     }
 }
+
+#[inline(always)]
+pub fn key_available() -> bool {
+    KEYBeof.read() != 0
+}
+
+#[inline(always)]
+pub fn flush() {
+    while key_available() {
+        let _ = read_key();
+    }
+}

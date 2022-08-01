@@ -2,6 +2,7 @@ use crate::parm::heap::string::String;
 use crate::parm::heap::vec::Vec;
 use crate::parm::mmio::{TELNETavail, TELNETdata};
 use crate::parm::tty::{AsciiEncodable, DisplayTarget};
+use crate::print;
 
 pub fn flush_all() {
     while data_available() {
@@ -74,6 +75,22 @@ pub fn read_all_string() -> String {
 
 pub fn read_line() -> String {
     unsafe { String::from_utf32_unchecked(read_until_as(|x| x as char, |x| x == b'\n')) }
+}
+
+pub fn read_line_to(out: &mut String, echo: bool) {
+    while !data_available() {
+        continue;
+    }
+    loop {
+        let char_read = read_blocking();
+        if echo {
+            print!(char_read as char);
+        }
+        if char_read == b'\n' {
+            break;
+        }
+        out.push(char_read as char);
+    }
 }
 
 pub struct Telnet;
