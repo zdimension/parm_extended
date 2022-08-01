@@ -457,7 +457,7 @@ macro_rules! __rust_force_expr {
 }
 
 #[macro_export]
-macro_rules! vec {
+macro_rules! parmvec {
     () => (
         $crate::__rust_force_expr!($crate::parm::heap::vec::Vec::new())
     );
@@ -465,7 +465,7 @@ macro_rules! vec {
         $crate::__rust_force_expr!($crate::parm::heap::vec::from_elem($elem, $n))
     );
     (@c ($count:expr) ($(($i:expr, $y:expr))*) $first:expr $(, $($x:expr),*)?) => (
-        $crate::vec!(@c ($count + 1) ($(($i, $y))* ($count, $first)) $($($x),*)?)
+        $crate::parmvec!(@c ($count + 1) ($(($i, $y))* ($count, $first)) $($($x),*)?)
     );
     (@c ($count:expr) ($(($i:expr, $y:expr))*)) => (
         {
@@ -480,6 +480,16 @@ macro_rules! vec {
         }
     );
     ($($x:expr),+ $(,)?) => (
-        $crate::vec!(@c (0) () $($x),+)
+        $crate::parmvec!(@c (0) () $($x),+)
     );
+}
+
+impl<T> FromIterator<T> for Vec<T> {
+    fn from_iter<I: IntoIterator<Item = T>>(iter: I) -> Self {
+        let mut vec = Vec::new();
+        for i in iter {
+            vec.push(i);
+        }
+        vec
+    }
 }

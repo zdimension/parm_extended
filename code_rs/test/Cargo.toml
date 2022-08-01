@@ -50,6 +50,10 @@ path = "src/telnet_video.rs"
 name = "simpletelnet"
 path = "src/simpletelnet.rs"
 
+[[bin]]
+name = "lisp"
+path = "src/lisp.rs"
+
 [profile.dev]
 panic = "abort"
 

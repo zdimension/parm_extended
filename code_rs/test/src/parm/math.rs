@@ -1,7 +1,7 @@
 use crate::parm::mmio::{R2divR3, R2modR3, RESbcd, RES};
 use crate::parm::tty;
 use crate::parm::tty::DisplayTarget;
-use crate::{print, println};
+use crate::print;
 use core::iter::Step;
 use core::ops::{
     Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, RemAssign, Sub, SubAssign,

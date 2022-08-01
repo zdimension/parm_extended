@@ -2,10 +2,9 @@ use crate::parm::heap::vec::Vec;
 use core::iter::{Copied, Map, Take};
 use core::ops::{Deref, DerefMut};
 use core::slice::Iter;
-use core::str::{Bytes, Chars};
+use core::str::Bytes;
 
 use crate::parm::tty::{AsciiEncodable, Display, DisplayTarget};
-use crate::{print, println};
 
 #[repr(transparent)]
 #[derive(Clone)]
@@ -223,6 +222,27 @@ impl FromStr for u16 {
         for ch in s {
             if let Some(digit) = ch.to_digit(10) {
                 res = res * 10 + digit as u16;
+            } else {
+                return Err(());
+            }
+        }
+        Ok(res)
+    }
+}
+
+impl FromStr for i32 {
+    type Err = ();
+    fn from_str(s: &[char]) -> Result<Self, Self::Err> {
+        if s.len() == 0 {
+            return Err(());
+        }
+        if s[0] == '-' {
+            return Self::from_str(&s[1..]).map(|x| -x);
+        }
+        let mut res = 0;
+        for ch in s {
+            if let Some(digit) = ch.to_digit(10) {
+                res = res * 10 + digit as i32;
             } else {
                 return Err(());
             }

@@ -6,32 +6,32 @@ use core::hint::unreachable_unchecked;
 #[macro_export]
 macro_rules! print {
     ($b:expr, => $target:expr) => {
-        $crate::parm::tty::print_internal(&$b, $target);
+        $crate::parm::tty::print_internal(&$b, $target)
     };
     ($b:expr) => {
-        $crate::parm::tty::print_internal(&$b, $crate::parm::tty::get_tty());
+        $crate::parm::tty::print_internal(&$b, $crate::parm::tty::get_tty())
     };
     ($b:expr, $($args:expr),* $(,)? $(, => $target:expr)?) => {
-        $crate::print!($b $(, => $target)?);
-        $crate::print!($($args),* $(, => $target)?);
+        {
+            $crate::print!($b $(, => $target)?);
+            $crate::print!($($args),* $(, => $target)?)
+        }
     };
 }
 
 #[macro_export]
 macro_rules! println {
     (=> $target:expr) => {
-        $target.print_char('\n');
+        $target.print_char('\n')
     };
 
     () => {
-        $crate::parm::tty::print_char('\n');
+        $crate::parm::tty::print_char('\n')
     };
 
     ($($c:expr),* $(,)? $(=> $target:expr)?) => {
-        {
-            $crate::print!($($c),* $(, => $target)?);
-            $crate::println!($(=> $target)?);
-        }
+        $crate::print!($($c),* $(, => $target)?);
+        $crate::println!($(=> $target)?)
     };
 }
 

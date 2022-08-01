@@ -191,7 +191,7 @@ impl Not for Buffer {
 
 #[inline(always)]
 pub fn get_buf() -> Buffer {
-    match unsafe { DISPbuf.read() } {
+    match DISPbuf.read() {
         0 => Buffer::Front,
         _ => Buffer::Back,
     }

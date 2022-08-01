@@ -826,41 +826,41 @@ impl Program {
                     asm.instr(0x223b); // movs r2, #251
                     asm.instr(0x43d2); // mvns r2, r2
                     asm.instr(0x6011); // str r1, [r2]
-                    // print_res(true, tty)
-                    /*
+                                       // print_res(true, tty)
+                                       /*
 
-                   asm.instr(0x20ff); // movs r0, #255
-                    asm.instr(0x43c0); // mvns r0, r0
-                    asm.instr(0x6ac1); // ldr r1, [r0, #44]
-                    asm.instr(0x2900); // cmp r1, #0
-                    asm.instr(0xd017); // beq .LBB13_9
-                    asm.instr(0x6842); // ldr r2, [r0, #4]
-                    asm.instr(0x2a00); // cmp r2, #0
-                    asm.instr(0xd504); // bpl .LBB13_3
-                    asm.instr(0x212d); // movs r1, #45
-                    asm.instr(0x6001); // str r1, [r0]
-                    asm.instr(0x4251); // rsbs r1, r2, #0
-                    asm.instr(0x6041); // str r1, [r0, #4]
-                    asm.instr(0x6ac1); // ldr r1, [r0, #44]
-                    asm.instr(0x4602); // mov r2, r0
-                    asm.instr(0x32f8); // adds r2, #248
-                    asm.instr(0x070b); // lsls r3, r1, #28
-                    asm.instr(0xd108); // bne .LBB13_7
-                    asm.instr(0x1c52); // adds r2, r2, #1
-                    asm.instr(0x0909); // lsrs r1, r1, #4
-                    asm.instr(0xe7fa); // b .LBB13_4
-                    asm.instr(0x230f); // movs r3, #15
-                    asm.instr(0x400b); // ands r3, r1
-                    asm.instr(0x3330); // adds r3, #48
-                    asm.instr(0x6003); // str r3, [r0]
-                    asm.instr(0x1c52); // adds r2, r2, #1
-                    asm.instr(0x0909); // lsrs r1, r1, #4
-                    asm.instr(0x2a00); // cmp r2, #0
-                    asm.instr(0xd1f7); // bne .LBB13_6
-                    asm.instr(0xe701); // b +2
-                    asm.instr(0x2130); // movs r1, #48
-                    asm.instr(0x6001); // str r1, [r0]
-                     */
+                                       asm.instr(0x20ff); // movs r0, #255
+                                        asm.instr(0x43c0); // mvns r0, r0
+                                        asm.instr(0x6ac1); // ldr r1, [r0, #44]
+                                        asm.instr(0x2900); // cmp r1, #0
+                                        asm.instr(0xd017); // beq .LBB13_9
+                                        asm.instr(0x6842); // ldr r2, [r0, #4]
+                                        asm.instr(0x2a00); // cmp r2, #0
+                                        asm.instr(0xd504); // bpl .LBB13_3
+                                        asm.instr(0x212d); // movs r1, #45
+                                        asm.instr(0x6001); // str r1, [r0]
+                                        asm.instr(0x4251); // rsbs r1, r2, #0
+                                        asm.instr(0x6041); // str r1, [r0, #4]
+                                        asm.instr(0x6ac1); // ldr r1, [r0, #44]
+                                        asm.instr(0x4602); // mov r2, r0
+                                        asm.instr(0x32f8); // adds r2, #248
+                                        asm.instr(0x070b); // lsls r3, r1, #28
+                                        asm.instr(0xd108); // bne .LBB13_7
+                                        asm.instr(0x1c52); // adds r2, r2, #1
+                                        asm.instr(0x0909); // lsrs r1, r1, #4
+                                        asm.instr(0xe7fa); // b .LBB13_4
+                                        asm.instr(0x230f); // movs r3, #15
+                                        asm.instr(0x400b); // ands r3, r1
+                                        asm.instr(0x3330); // adds r3, #48
+                                        asm.instr(0x6003); // str r3, [r0]
+                                        asm.instr(0x1c52); // adds r2, r2, #1
+                                        asm.instr(0x0909); // lsrs r1, r1, #4
+                                        asm.instr(0x2a00); // cmp r2, #0
+                                        asm.instr(0xd1f7); // bne .LBB13_6
+                                        asm.instr(0xe701); // b +2
+                                        asm.instr(0x2130); // movs r1, #48
+                                        asm.instr(0x6001); // str r1, [r0]
+                                         */
                 }
                 InstructionKind::ClearScreen => {
                     asm.instr(0x22ff); // movs r2, #255

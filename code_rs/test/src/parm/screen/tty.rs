@@ -122,10 +122,10 @@ static LOOKUP57: &'static [u8] = &[
 ];
 
 use crate::parm::heap::HEAP_START;
-use crate::parm::keyb::read_key;
-use crate::parm::screen::{rgb32, Color15bpp, ColorEncodable, ColorEncoded};
+
+use crate::parm::screen::{rgb32, ColorEncodable, ColorEncoded};
 use crate::parm::tty::{AsciiEncodable, DisplayTarget};
-use crate::parm::{keyb, panic, screen, telnet};
+use crate::parm::{panic, screen};
 use crate::println;
 
 pub const FONT_WIDTH: usize = 5;
