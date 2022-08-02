@@ -264,7 +264,6 @@ impl<'a> SchemeParser<'a> {
 
     #[inline(never)]
     fn read_special(&mut self, name: &'static str) -> Result<LispVal, ReadError> {
-        self.1.next();
         Ok(LispVal::List(parmvec![
             LispVal::Symbol(String::from(name)).into(),
             self.read()?.into()
@@ -277,9 +276,17 @@ impl<'a> SchemeParser<'a> {
             Some(&(_, '(' | '[')) => self.read_list(),
             Some(&(_, '#')) => self.read_boolean(),
             Some(&(_, '"')) => self.read_string(),
-            Some(&(_, '\'')) => self.read_special("quote"),
-            Some(&(_, '`')) => self.read_special("quasiquote"),
-            Some(&(_, ',')) => self.read_special("unquote"),
+            Some(&(_, '\'')) => { self.1.next(); self.read_special("quote") },
+            Some(&(_, '`')) => { self.1.next(); self.read_special("quasiquote") },
+            Some(&(_, ',')) => {
+                self.1.next();
+                if let Some(&(_, '@')) = self.1.peek() {
+                    self.1.next();
+                    self.read_special("unquote-splicing")
+                } else {
+                    self.read_special("unquote")
+                }
+            }
             Some(&(_, ch)) if ch.is_ascii_digit() => self.read_number(),
             Some(_) => self.read_symbol(),
             None => Err(ReadError::EOFFound),
@@ -567,6 +574,7 @@ impl SchemeEnv {
         name: Option<String>,
         args: ClosureArgs,
         body: Vec<LispValBox>,
+        is_macro: bool
     ) -> LispVal {
         LispVal::Procedure(
             ProcType::Closure {
@@ -575,7 +583,7 @@ impl SchemeEnv {
                 body,
                 env: self.clone(),
             },
-            false,
+            is_macro,
         )
     }
 
@@ -611,22 +619,27 @@ impl SchemeEnv {
         &mut self,
         args: ClosureArgs,
         body: &[LispValBox],
+        is_macro: bool
     ) -> Result<LispValBox, String> {
-        Ok(self.make_closure(None, args, Vec::from(body)).into())
+        Ok(self.make_closure(None, args, Vec::from(body), is_macro).into())
     }
 
     #[inline(never)]
-    fn eval_define(&mut self, items: &[LispValBox]) -> Result<LispValBox, String> {
+    fn eval_define(&mut self, items: &[LispValBox], is_macro: bool) -> Result<LispValBox, String> {
         let head = &items[0];
         match &**head {
             LispVal::Symbol(name) => {
-                let value = self.eval(items.get(1).ok_or("define: expected value")?)?;
+                let mut value = self.eval(items.get(1).ok_or("define: expected value")?)?;
+                if is_macro {
+                    let (ty, _) = value.expect_callable("define-macro")?;
+                    value = LispVal::Procedure(ty.clone(), true).into();
+                }
                 self.0.map.set(name.clone(), value);
             }
             LispVal::List(fct_items) => {
                 if let [name, args @ ..] = fct_items.as_slice() {
                     let args = self.eval_lambda_args_list(args)?;
-                    let lambda = self.eval_closure(args, &items[1..])?;
+                    let lambda = self.eval_closure(args, &items[1..], is_macro)?;
                     self.0
                         .map
                         .set(name.expect_symbol("define")?.clone(), lambda);
@@ -646,7 +659,7 @@ impl SchemeEnv {
     #[inline(never)]
     fn eval_lambda(&mut self, args: &[LispValBox]) -> Result<LispValBox, String> {
         self.eval_lambda_args(&args[0])
-            .and_then(|cl_args| self.eval_closure(cl_args, &args[1..]))
+            .and_then(|cl_args| self.eval_closure(cl_args, &args[1..], false))
     }
 
     #[inline(never)]
@@ -706,13 +719,36 @@ impl SchemeEnv {
     }
 
     #[inline(never)]
+    fn check_unquote_splicing(&mut self, items: &Vec<LispValBox>) -> Result<Option<Vec<LispValBox>>, String> {
+        if items.len() == 2 {
+            if let Ok(res) = items[0].expect_symbol("quasiquote") {
+                if res == "unquote-splicing" {
+                    let res = self.eval(&items[1])?;
+                    let res = res.expect_list("unquote-splicing")?;
+                    return Ok(Some(res.clone()));
+                }
+            }
+        }
+        Ok(None)
+    }
+
+    #[inline(never)]
     fn eval_quasiquote(&mut self, val: &LispValBox) -> Result<LispValBox, String> {
         if let LispVal::List(items) = &**val {
             if let Some(res) = self.check_unquote(items) {
                 return res;
             }
-            let res: Result<Vec<_>, _> = items.iter().map(|e| self.eval_quasiquote(e)).collect();
-            Ok(LispVal::List(res?).into())
+            let mut out = Vec::with_capacity(items.len());
+            for item in items.iter() {
+                if let Ok(res) = item.expect_list("quasiquote") {
+                    if let Some(res) = self.check_unquote_splicing(res)? {
+                        out.extend_from_slice(&res);
+                        continue;
+                    }
+                }
+                out.push(self.eval_quasiquote(item)?);
+            }
+            Ok(LispVal::List(out).into())
         } else {
             Ok(val.clone())
         }
@@ -732,7 +768,10 @@ impl SchemeEnv {
         }
         let args = &items[1..];
         if name == "define" {
-            return Some(self.eval_define(args));
+            return Some(self.eval_define(args, false));
+        }
+        if name == "define-macro" {
+            return Some(self.eval_define(args, true));
         }
         if name == "begin" {
             return Some(self.make_child().eval_begin(args));
@@ -786,7 +825,8 @@ impl SchemeEnv {
         let binding = self.eval(head)?;
         let (proc, is_macro) = binding.expect_callable("call")?;
         if is_macro {
-            self.eval_call(proc, &items[1..])
+            let expansion = self.eval_call(proc, &items[1..])?;
+            self.eval(&expansion)
         } else {
             let evald = items[1..]
                 .iter()

@@ -1,3 +1,9 @@
+(define-macro (prog1 e1 . en)
+  `(begin
+    (define res ,e1)
+    ,@en
+    res))
+
 (define-macro (push! stack x)
   `(set! ,stack (cons ,x ,stack)))
 
