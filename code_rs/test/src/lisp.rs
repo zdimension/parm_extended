@@ -663,7 +663,7 @@ impl SchemeEnv {
     }
 
     #[inline(never)]
-    fn eval_let_binding(&mut self, items: &[LispValBox], target: &mut Self) -> Result<(), String> {
+    fn eval_let_binding(&mut self, items: &[LispValBox]) -> Result<(String, LispValBox), String> {
         if items.len() != 2 {
             return Err(makestr!(
                 "let binding: expected list of length 2, got ",
@@ -672,12 +672,11 @@ impl SchemeEnv {
         }
         let name = items[0].expect_symbol("let binding")?.clone();
         let value = self.eval(&items[1])?;
-        target.set(name, value);
-        Ok(())
+        Ok((name, value))
     }
 
     #[inline(never)]
-    fn eval_let(&mut self, args: &[LispValBox]) -> Result<LispValBox, String> {
+    fn eval_let(&mut self, args: &[LispValBox], rec: bool) -> Result<LispValBox, String> {
         let mut env = self.make_child();
         let bindings = args
             .get(0)
@@ -686,7 +685,12 @@ impl SchemeEnv {
         for item in bindings.iter() {
             match &**item {
                 LispVal::List(items) => {
-                    self.eval_let_binding(items, &mut env)?;
+                    let (name, val) = if rec {
+                        env.eval_let_binding(items)
+                    } else {
+                        self.eval_let_binding(items)
+                    }?;
+                    env.set(name, val);
                 }
                 _ => return Err(makestr!("let: expected list, got ", item)),
             }
@@ -789,7 +793,10 @@ impl SchemeEnv {
                 return Some(self_.eval_list(args));
             }
             if name == "let" {
-                return Some(self_.eval_let(args));
+                return Some(self_.eval_let(args, false));
+            }
+            if name == "letrec" {
+                return Some(self_.eval_let(args, true));
             }
             if name == "if" {
                 return Some(self_.eval_if(args));
@@ -977,7 +984,7 @@ impl Default for SchemeEnvData {
             Ok(LispVal::List(rest).into())
         });
 
-        builtin(&mut map, "display", |_, args| {
+        let display: fn(&mut SchemeEnv, &[LispValBox]) -> _ = |_, args| {
             let x = args.get(0).ok_or("display: expected argument")?;
             if let LispVal::Str(s) = &**x {
                 print!(s);
@@ -985,7 +992,9 @@ impl Default for SchemeEnvData {
                 print!(x);
             }
             Ok(LispVal::Void.into())
-        });
+        };
+        builtin(&mut map, "display", display);
+        builtin(&mut map, "print", display);
 
         builtin(&mut map, "displayln", |_, args| {
             let x = args.get(0).ok_or("display: expected argument")?;
