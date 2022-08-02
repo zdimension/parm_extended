@@ -711,6 +711,16 @@ impl SchemeEnv {
     }
 
     #[inline(never)]
+    fn eval_when(&mut self, args: &[LispValBox], invert: bool) -> Result<LispValBox, String> {
+        let cond = self.eval(&args[0])?;
+        if cond.is_truthy() ^ invert {
+            self.eval_begin(&args[1..])
+        } else {
+            Ok(LispVal::Void.into())
+        }
+    }
+
+    #[inline(never)]
     fn check_unquote(&mut self, items: &Vec<LispValBox>) -> Option<Result<LispValBox, String>> {
         if items.len() == 2 {
             if let Ok(res) = items[0].expect_symbol("quasiquote") {
@@ -800,6 +810,12 @@ impl SchemeEnv {
             }
             if name == "if" {
                 return Some(self_.eval_if(args));
+            }
+            if name == "when" {
+                return Some(self_.eval_when(args, false));
+            }
+            if name == "unless" {
+                return Some(self_.eval_when(args, true));
             }
             None
         }
