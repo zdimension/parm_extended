@@ -99,6 +99,7 @@ fn slice_end_index_len_fail(_index: usize, _len: usize) -> ! {
 fn slice_index_order_fail(_index: usize, _end: usize) -> ! {
     unsafe {
         core::arch::asm!("_ZN4core5slice5index22slice_index_order_fail17h7e93f067783a53a9E:");
+        core::arch::asm!("_ZN4core5slice5index22slice_index_order_fail17hfb6240035e985fd1E:");
     }
     panic("slice index start is larger than end");
 }

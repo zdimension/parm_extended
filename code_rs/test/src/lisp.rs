@@ -1045,16 +1045,19 @@ impl Default for SchemeEnvData {
             Ok(LispVal::Bool(first < second).into())
         });
 
-        if false {
-            builtin(&mut map, "for-each", |env, args| {
-                let (fct, _) = args[0].expect_callable("for-each")?;
-                let list = args[1].expect_list("for-each")?;
+        builtin(&mut map, "for-each", |env, args| {
+            let (fct, _) = args[0].expect_callable("for-each")?;
+            let list = args[1].expect_list("for-each")?;
+            #[inline(never)]
+            fn process_list(list: &Vec<LispValBox>, env: &mut SchemeEnv, fct: &ProcType) -> Result<(), String> {
                 for item in list.iter() {
                     env.eval_call(fct, &[item.clone()])?;
                 }
-                Ok(LispVal::Void.into())
-            });
-        }
+                Ok(())
+            }
+            process_list(&list, env, &fct)?;
+            Ok(LispVal::Void.into())
+        });
 
         builtin(&mut map, "pair?", |_, args| {
             if let LispVal::List(ref list) = &*args[0] {
