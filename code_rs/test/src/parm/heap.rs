@@ -265,6 +265,11 @@ unsafe extern "C" fn __aeabi_memcpy(dest: *mut u8, src: *const u8, n: usize) {
 }
 
 #[no_mangle]
+unsafe extern "C" fn __aeabi_memcpy4(dest: *mut u8, src: *const u8, n: usize) {
+    __aeabi_memcpy(dest, src, n);
+}
+
+#[no_mangle]
 unsafe extern "C" fn __aeabi_memclr(dest: *mut u8, n: usize) {
     let n_usize: usize = n / WORD_SIZE; // Number of word sized groups
     let mut i: usize = 0;
@@ -293,8 +298,8 @@ unsafe extern "C" fn __aeabi_memclr8(dest: *mut u8, n: usize) {
     __aeabi_memclr(dest, n)
 }
 
-#[no_mangle]
-unsafe extern "C" fn __aeabi_memmove4(dest: *mut u8, src: *const u8, n: usize) {
+#[export_name = "__aeabi_memmove4"]
+pub unsafe extern "C" fn __aeabi_memmove4(dest: *mut u8, src: *const u8, n: usize) {
     __aeabi_memmove(dest, src, n)
 }
 

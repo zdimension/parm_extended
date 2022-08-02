@@ -16,8 +16,8 @@ use core::slice::{Iter, SlicePattern};
 
 use crate::parm::heap::string::{FromStr, Parse, String};
 use crate::parm::heap::vec::Vec;
-use crate::parm::{keyb, telnet, tty};
 use crate::parm::tty::{Display, DisplayTarget};
+use crate::parm::{keyb, telnet, tty};
 
 mod parm;
 
@@ -29,13 +29,31 @@ pub enum LispVal {
     Str(String),
     List(Vec<LispValBox>),
     Void,
-    Builtin(String, fn(&[LispValBox]) -> Result<LispValBox, String>),
+    Procedure(ProcType, bool),
+}
+
+#[derive(Clone)]
+pub enum ProcType {
+    Builtin(
+        String,
+        fn(&mut SchemeEnv, &[LispValBox]) -> Result<LispValBox, String>,
+    ),
     Closure {
         name: Option<String>,
         args: ClosureArgs,
         body: Vec<LispValBox>,
         env: SchemeEnv,
     },
+}
+
+impl ProcType {
+    #[inline(never)]
+    pub fn name(&self) -> Option<&String> {
+        match self {
+            ProcType::Builtin(name, _) => Some(name),
+            ProcType::Closure { name, .. } => name.as_ref(),
+        }
+    }
 }
 
 #[derive(Clone)]
@@ -45,6 +63,14 @@ pub enum ClosureArgs {
 }
 
 impl LispVal {
+    pub fn is_truthy(&self) -> bool {
+        !self.is_falsey()
+    }
+
+    pub fn is_falsey(&self) -> bool {
+        matches!(self, LispVal::Bool(false))
+    }
+
     pub fn type_name(&self) -> &'static str {
         match self {
             LispVal::Symbol(_) => "symbol",
@@ -53,8 +79,8 @@ impl LispVal {
             LispVal::Str(_) => "string",
             LispVal::List(_) => "list",
             LispVal::Void => "void",
-            LispVal::Builtin(_, _) => "builtin",
-            LispVal::Closure { .. } => "function",
+            LispVal::Procedure(ProcType::Builtin(_, _), _) => "builtin",
+            LispVal::Procedure(ProcType::Closure { .. }, _) => "closure",
         }
     }
 
@@ -62,6 +88,17 @@ impl LispVal {
         match self {
             LispVal::Int(val) => Ok(*val),
             _ => Err(makestr!(origin, ": expected int, got ", self.type_name())),
+        }
+    }
+
+    fn expect_callable(&self, origin: &'static str) -> Result<(&ProcType, bool), String> {
+        match self {
+            LispVal::Procedure(proc, is_macro) => Ok((proc, *is_macro)),
+            _ => Err(makestr!(
+                origin,
+                ": expected callable, got ",
+                self.type_name()
+            )),
         }
     }
 
@@ -86,7 +123,7 @@ impl LispVal {
 
 struct SchemeParser<'a>(
     &'a [char],
-    Peekable<Enumerate<Copied<core::slice::Iter<'a, char>>>>,
+    Peekable<Enumerate<Copied<Iter<'a, char>>>>,
 );
 
 #[derive(Debug)]
@@ -225,19 +262,24 @@ impl<'a> SchemeParser<'a> {
         Ok(LispVal::List(values))
     }
 
+    #[inline(never)]
+    fn read_special(&mut self, name: &'static str) -> Result<LispVal, ReadError> {
+        self.1.next();
+        Ok(LispVal::List(parmvec![
+            LispVal::Symbol(String::from(name)).into(),
+            self.read()?.into()
+        ]))
+    }
+
     fn read(&mut self) -> Result<LispVal, ReadError> {
         self.skip_spaces();
         match self.1.peek() {
             Some(&(_, '(' | '[')) => self.read_list(),
             Some(&(_, '#')) => self.read_boolean(),
             Some(&(_, '"')) => self.read_string(),
-            Some(&(_, '\'')) => {
-                self.1.next();
-                Ok(LispVal::List(parmvec![
-                    LispVal::Symbol(String::from("quote")).into(),
-                    self.read()?.into()
-                ]))
-            }
+            Some(&(_, '\'')) => self.read_special("quote"),
+            Some(&(_, '`')) => self.read_special("quasiquote"),
+            Some(&(_, ',')) => self.read_special("unquote"),
             Some(&(_, ch)) if ch.is_ascii_digit() => self.read_number(),
             Some(_) => self.read_symbol(),
             None => Err(ReadError::EOFFound),
@@ -260,10 +302,33 @@ impl<'a> SchemeParser<'a> {
     }
 }
 
+fn check_balanced(s: &[char]) -> bool {
+    let mut count = 0;
+
+    for bracket in s {
+        let change = match bracket {
+            '(' | '[' => 1,
+            ')' | ']' => -1,
+            _ => continue,
+        };
+
+        count += change;
+        if count < 0 {
+            return false;
+        }
+    }
+
+    count == 0
+}
+
 impl FromStr for LispVal {
     type Err = ReadError;
 
     fn from_str(s: &[char]) -> Result<Self, Self::Err> {
+        // simple check so that we don't waste time parsing an incomplete REPL line
+        if !check_balanced(s) {
+            return Err(ReadError::EOFFound);
+        }
         SchemeParser::new(s).read_whole()
     }
 }
@@ -296,17 +361,22 @@ fn write_bool(b: bool, target: &mut impl DisplayTarget) {
     print!('#', if b { 't' } else { 'f' }, => target);
 }
 
+#[inline(never)]
+fn write_string(s: &String, target: &mut impl DisplayTarget) {
+    print!('"', s, '"', => target);
+}
+
 impl Display for LispVal {
+    #[inline(never)]
     fn write(&self, target: &mut impl DisplayTarget) {
         match self {
             LispVal::Int(i) => print!(i, => target),
             LispVal::Bool(b) => write_bool(*b, target),
-            LispVal::Str(s) => print!('"', s, '"', => target),
+            LispVal::Str(s) => write_string(s, target),
             LispVal::Symbol(s) => print!(s, => target),
             LispVal::List(xs) => write_list(xs, target),
             LispVal::Void => print!("#<void>", => target),
-            LispVal::Builtin(name, _) => write_procedure(Some(name), target),
-            LispVal::Closure { name, .. } => write_procedure(name.as_ref(), target),
+            LispVal::Procedure(ty, _) => write_procedure(ty.name(), target),
         }
     }
 }
@@ -456,6 +526,7 @@ impl SchemeEnv {
         let SchemeEnvData {
             ref mut map,
             ref mut parent,
+            ..
         } = *self.0;
         if let Some(res) = map.entry(s) {
             Some(res)
@@ -497,12 +568,15 @@ impl SchemeEnv {
         args: ClosureArgs,
         body: Vec<LispValBox>,
     ) -> LispVal {
-        LispVal::Closure {
-            name,
-            args,
-            body,
-            env: self.clone(),
-        }
+        LispVal::Procedure(
+            ProcType::Closure {
+                name,
+                args,
+                body,
+                env: self.clone(),
+            },
+            false,
+        )
     }
 
     #[inline(never)]
@@ -524,9 +598,7 @@ impl SchemeEnv {
     #[inline(never)]
     fn eval_lambda_args(&mut self, args: &LispValBox) -> Result<ClosureArgs, String> {
         Ok(match &**args {
-            LispVal::List(args) => {
-                self.eval_lambda_args_list(args)?
-            }
+            LispVal::List(args) => self.eval_lambda_args_list(args)?,
             LispVal::Symbol(name) => ClosureArgs::Whole(name.clone()),
             _ => {
                 return Err(makestr!("lambda: expected list or symbol, got ", args));
@@ -535,7 +607,11 @@ impl SchemeEnv {
     }
 
     #[inline(never)]
-    fn eval_closure(&mut self, args: ClosureArgs, body: &[LispValBox]) -> Result<LispValBox, String> {
+    fn eval_closure(
+        &mut self,
+        args: ClosureArgs,
+        body: &[LispValBox],
+    ) -> Result<LispValBox, String> {
         Ok(self.make_closure(None, args, Vec::from(body)).into())
     }
 
@@ -551,7 +627,9 @@ impl SchemeEnv {
                 if let [name, args @ ..] = fct_items.as_slice() {
                     let args = self.eval_lambda_args_list(args)?;
                     let lambda = self.eval_closure(args, &items[1..])?;
-                    self.0.map.set(name.expect_symbol("define")?.clone(), lambda);
+                    self.0
+                        .map
+                        .set(name.expect_symbol("define")?.clone(), lambda);
                 }
             }
             _ => return Err(makestr!("define: expected symbol or list, got ", head)),
@@ -567,13 +645,17 @@ impl SchemeEnv {
 
     #[inline(never)]
     fn eval_lambda(&mut self, args: &[LispValBox]) -> Result<LispValBox, String> {
-        self.eval_lambda_args(&args[0]).and_then(|cl_args| self.eval_closure(cl_args, &args[1..]))
+        self.eval_lambda_args(&args[0])
+            .and_then(|cl_args| self.eval_closure(cl_args, &args[1..]))
     }
 
     #[inline(never)]
     fn eval_let_binding(&mut self, items: &[LispValBox], target: &mut Self) -> Result<(), String> {
         if items.len() != 2 {
-            return Err(makestr!("let binding: expected list of length 2, got ", items.len()));
+            return Err(makestr!(
+                "let binding: expected list of length 2, got ",
+                items.len()
+            ));
         }
         let name = items[0].expect_symbol("let binding")?.clone();
         let value = self.eval(&items[1])?;
@@ -584,7 +666,10 @@ impl SchemeEnv {
     #[inline(never)]
     fn eval_let(&mut self, args: &[LispValBox]) -> Result<LispValBox, String> {
         let mut env = self.make_child();
-        let bindings = args.get(0).ok_or("let: expected list")?.expect_list("let")?;
+        let bindings = args
+            .get(0)
+            .ok_or("let: expected list")?
+            .expect_list("let")?;
         for item in bindings.iter() {
             match &**item {
                 LispVal::List(items) => {
@@ -597,6 +682,43 @@ impl SchemeEnv {
     }
 
     #[inline(never)]
+    fn eval_if(&mut self, args: &[LispValBox]) -> Result<LispValBox, String> {
+        let cond = self.eval(&args[0])?;
+        if cond.is_truthy() {
+            self.eval(&args[1])
+        } else if args.len() > 2 {
+            self.eval(&args[2])
+        } else {
+            Ok(LispVal::Void.into())
+        }
+    }
+
+    #[inline(never)]
+    fn check_unquote(&mut self, items: &Vec<LispValBox>) -> Option<Result<LispValBox, String>> {
+        if items.len() == 2 {
+            if let Ok(res) = items[0].expect_symbol("quasiquote") {
+                if res == "unquote" {
+                    return Some(self.eval(&items[1]));
+                }
+            }
+        }
+        None
+    }
+
+    #[inline(never)]
+    fn eval_quasiquote(&mut self, val: &LispValBox) -> Result<LispValBox, String> {
+        if let LispVal::List(items) = &**val {
+            if let Some(res) = self.check_unquote(items) {
+                return res;
+            }
+            let res: Result<Vec<_>, _> = items.iter().map(|e| self.eval_quasiquote(e)).collect();
+            Ok(LispVal::List(res?).into())
+        } else {
+            Ok(val.clone())
+        }
+    }
+
+    #[inline(never)]
     fn eval_builtin_form(
         &mut self,
         name: &String,
@@ -604,6 +726,9 @@ impl SchemeEnv {
     ) -> Option<Result<LispValBox, String>> {
         if name == "quote" {
             return Some(Ok(items[1].clone()));
+        }
+        if name == "quasiquote" {
+            return Some(self.eval_quasiquote(&items[1]));
         }
         let args = &items[1..];
         if name == "define" {
@@ -615,76 +740,100 @@ impl SchemeEnv {
         if name == "lambda" {
             return Some(self.eval_lambda(args));
         }
-        if name == "list" {
-            return Some(self.eval_list(args));
+        #[inline(never)]
+        fn hack(
+            self_: &mut SchemeEnv,
+            name: &String,
+            args: &[LispValBox],
+        ) -> Option<Result<LispValBox, String>> {
+            if name == "list" {
+                return Some(self_.eval_list(args));
+            }
+            if name == "let" {
+                return Some(self_.eval_let(args));
+            }
+            if name == "if" {
+                return Some(self_.eval_if(args));
+            }
+            None
         }
-        if name == "let" {
-            return Some(self.eval_let(args));
+        hack(self, name, args)
+    }
+
+    #[inline(never)]
+    fn eval_call(&mut self, head: &ProcType, items: &[LispValBox]) -> Result<LispValBox, String> {
+        match head {
+            ProcType::Builtin(_name, f) => f(self, items),
+            ProcType::Closure {
+                name: _,
+                args,
+                body,
+                env,
+            } => self.eval_closure_call(items, args, body, env),
         }
-        None
     }
 
     #[inline(never)]
     fn eval_form(&mut self, items: &Vec<LispValBox>) -> Result<LispValBox, String> {
         let head = items.first().ok_or("call: expected head")?;
 
-        if let Ok(name) = head.expect_symbol("eval")
-        {
+        if let Ok(name) = head.expect_symbol("eval") {
             if let Some(res) = self.eval_builtin_form(name, items) {
                 return res;
             }
         }
 
-        let head = self.eval(head)?;
-
-        match &*head {
-            LispVal::Builtin(_name, f) => {
-                let args = items[1..]
-                    .iter()
-                    .map(|x| self.eval(x))
-                    .collect::<Result<Vec<_>, _>>()?;
-                f(&args)
-            }
-            LispVal::Closure {
-                name: _,
-                args,
-                body,
-                env,
-            } => Self::eval_closure_call(items, args, body, env),
-            _ => Err(makestr!(
-                "call: expected callable, got ",
-                (*head).type_name()
-            )),
+        let binding = self.eval(head)?;
+        let (proc, is_macro) = binding.expect_callable("call")?;
+        if is_macro {
+            self.eval_call(proc, &items[1..])
+        } else {
+            let evald = items[1..]
+                .iter()
+                .map(|x| self.eval(x))
+                .collect::<Result<Vec<_>, _>>()?;
+            self.eval_call(proc, &evald)
         }
     }
 
     #[inline(never)]
-    fn eval_closure_call(items: &Vec<LispValBox>, args: &ClosureArgs, body: &Vec<LispValBox>, env: &SchemeEnv) -> Result<LispValBox, String> {
+    fn eval_closure_call(
+        &mut self,
+        items: &[LispValBox],
+        args: &ClosureArgs,
+        body: &Vec<LispValBox>,
+        env: &SchemeEnv,
+    ) -> Result<LispValBox, String> {
         let mut new_env = env.make_child();
-        let mut iter = items[1..].iter();
+        let mut iter = items.iter();
         match args {
             ClosureArgs::Whole(name) => {
-                new_env.set_new(name.clone(), LispVal::List(Vec::from(&items[1..])).into());
+                new_env.set_new(name.clone(), LispVal::List(Vec::from(items)).into());
             }
             ClosureArgs::Dispatch(names, vararg_name) => {
-                Self::process_dispatch_args(&mut new_env, &mut iter, names, vararg_name)?;
+                self.process_dispatch_args(&mut new_env, &mut iter, names, vararg_name)?;
             }
         }
         new_env.eval_begin(body)
     }
 
     #[inline(never)]
-    fn process_dispatch_args(mut new_env: &mut SchemeEnv, iter: &mut Iter<LispValBox>, names: &Vec<String>, vararg_name: &Option<String>)-> Result<(), String>  {
+    fn process_dispatch_args(
+        &mut self,
+        new_env: &mut SchemeEnv,
+        iter: &mut Iter<LispValBox>,
+        names: &Vec<String>,
+        vararg_name: &Option<String>,
+    ) -> Result<(), String> {
         for name in names.iter() {
             let arg = iter.next().ok_or("call: not enough arguments")?;
-            let arg_val = new_env.eval(arg)?;
-            new_env.set_new(name.clone(), arg_val);
+            new_env.set_new(name.clone(), arg.clone());
         }
         if let Some(name) = vararg_name {
-            let varargs = iter
-                .map(|e| new_env.eval(e))
-                .collect::<Result<Vec<_>, _>>()?;
-            new_env.set_new(name.clone(), LispVal::List(varargs).into());
+            new_env.set_new(
+                name.clone(),
+                LispVal::List(Vec::from_iter(iter.cloned())).into(),
+            );
         } else if iter.next().is_some() {
             return Err(String::from("call: too many arguments"));
         }
@@ -717,15 +866,26 @@ impl Default for SchemeEnvData {
         fn builtin(
             map: &mut SymbolMap,
             name: &str,
-            f: fn(&[LispValBox]) -> Result<LispValBox, String>,
+            f: fn(&mut SchemeEnv, &[LispValBox]) -> Result<LispValBox, String>,
         ) {
             map.set(
                 String::from(name),
-                LispVal::Builtin(String::from(name), f).into(),
+                LispVal::Procedure(ProcType::Builtin(String::from(name), f), false).into(),
             );
         }
 
-        builtin(&mut map, "+", |args| {
+        fn builtin_macro(
+            map: &mut SymbolMap,
+            name: &str,
+            f: fn(&mut SchemeEnv, &[LispValBox]) -> Result<LispValBox, String>,
+        ) {
+            map.set(
+                String::from(name),
+                LispVal::Procedure(ProcType::Builtin(String::from(name), f), true).into(),
+            );
+        }
+
+        builtin(&mut map, "+", |_, args| {
             let mut sum = 0;
             for arg in args {
                 sum += arg.expect_int("+")?;
@@ -733,7 +893,7 @@ impl Default for SchemeEnvData {
             Ok(LispVal::Int(sum).into())
         });
 
-        builtin(&mut map, "-", |args| {
+        builtin(&mut map, "-", |_, args| {
             let (first, rest) = args.split_first().ok_or("expected at least one argument")?;
             let mut sum = first.expect_int("-")?;
             for arg in rest {
@@ -742,7 +902,7 @@ impl Default for SchemeEnvData {
             Ok(LispVal::Int(sum).into())
         });
 
-        builtin(&mut map, "*", |args| {
+        builtin(&mut map, "*", |_, args| {
             let mut sum = 1;
             for arg in args {
                 sum *= arg.expect_int("*")?;
@@ -750,40 +910,156 @@ impl Default for SchemeEnvData {
             Ok(LispVal::Int(sum).into())
         });
 
-        builtin(&mut map, "car", |args| {
+        builtin(&mut map, "car", |_, args| {
             let list = args[0].expect_list("car")?;
             Ok(list.first().ok_or("car: expected list")?.clone())
         });
 
-        builtin(&mut map, "cadr", |args| {
+        builtin(&mut map, "cadr", |_, args| {
             let list = args[0].expect_list("cadr")?;
             Ok(list.get(1).ok_or("cadr: expected list")?.clone())
         });
 
-        builtin(&mut map, "cdr", |args| {
+        builtin(&mut map, "cdr", |_, args| {
             let list = args[0].expect_list("cdr")?;
             Ok(LispVal::List(list.iter().skip(1).cloned().collect()).into())
         });
 
-        builtin(&mut map, "cddr", |args| {
+        builtin(&mut map, "cddr", |_, args| {
             let list = args[0].expect_list("cddr")?;
             Ok(LispVal::List(list.iter().skip(2).cloned().collect()).into())
         });
 
-        builtin(&mut map, "cons", |args| {
+        builtin(&mut map, "cons", |_, args| {
             let first = &args[0];
             let mut rest = args[1].expect_list("cons")?.clone();
             rest.insert(0, first.clone());
             Ok(LispVal::List(rest).into())
         });
 
-        builtin(&mut map, "display", |args| {
-            print!(args.get(0).ok_or("display: expected argument")?);
+        builtin(&mut map, "display", |_, args| {
+            let x = args.get(0).ok_or("display: expected argument")?;
+            if let LispVal::Str(s) = &**x {
+                print!(s);
+            } else {
+                print!(x);
+            }
             Ok(LispVal::Void.into())
         });
 
-        builtin(&mut map, "displayln", |args| {
-            println!(args.get(0).ok_or("displayln: expected argument")?);
+        builtin(&mut map, "displayln", |_, args| {
+            let x = args.get(0).ok_or("display: expected argument")?;
+            if let LispVal::Str(s) = &**x {
+                println!(s);
+            } else {
+                println!(x);
+            }
+            Ok(LispVal::Void.into())
+        });
+
+        builtin(&mut map, "newline", |_, args| {
+            println!();
+            Ok(LispVal::Void.into())
+        });
+
+        builtin(&mut map, "=", |_, args| {
+            let first = args[0].expect_int("=")?;
+            let second = args[1].expect_int("=")?;
+            Ok(LispVal::Bool(first == second).into())
+        });
+
+        builtin(&mut map, ">", |_, args| {
+            let first = args[0].expect_int(">")?;
+            let second = args[1].expect_int(">")?;
+            Ok(LispVal::Bool(first > second).into())
+        });
+
+        builtin(&mut map, "<", |_, args| {
+            let first = args[0].expect_int("<")?;
+            let second = args[1].expect_int("<")?;
+            Ok(LispVal::Bool(first < second).into())
+        });
+
+        if false {
+            builtin(&mut map, "for-each", |env, args| {
+                let (fct, _) = args[0].expect_callable("for-each")?;
+                let list = args[1].expect_list("for-each")?;
+                for item in list.iter() {
+                    env.eval_call(fct, &[item.clone()])?;
+                }
+                Ok(LispVal::Void.into())
+            });
+        }
+
+        builtin(&mut map, "pair?", |_, args| {
+            if let LispVal::List(ref list) = &*args[0] {
+                Ok(LispVal::Bool(list.len() >= 1).into())
+            } else {
+                Ok(LispVal::Bool(false).into())
+            }
+        });
+
+        builtin(&mut map, "list?", |_, args| {
+            if let LispVal::List(_) = &*args[0] {
+                Ok(LispVal::Bool(true).into())
+            } else {
+                Ok(LispVal::Bool(false).into())
+            }
+        });
+
+        fn list_star(args: &[LispValBox]) -> Result<Vec<LispValBox>, String> {
+            let head = args[..args.len() - 1].iter().cloned();
+            let tail = args[args.len() - 1].expect_list("list*")?;
+            Ok(head.chain(tail.iter().cloned()).collect())
+        }
+
+        builtin(&mut map, "list*", |_, args| {
+            list_star(args).map(|list| LispVal::List(list).into())
+        });
+
+        builtin(&mut map, "apply", |env, args| {
+            let (fct, _) = args[0].expect_callable("apply")?;
+            let args = list_star(&args[1..])?;
+            env.eval_call(fct, &args)
+        });
+
+        builtin(&mut map, "map", |env, args| {
+            let (fct, _) = args[0].expect_callable("map")?;
+            let list = args[1].expect_list("map")?;
+            let results: Result<Vec<_>, _> = list
+                .iter()
+                .map(|e| env.eval_call(fct, &[e.clone()]))
+                .collect();
+            Ok(LispVal::List(results?).into())
+        });
+
+        builtin(&mut map, "append", |_, args| {
+            let mut list = Vec::new();
+            for arg in args {
+                let arg = arg.expect_list("append")?;
+                list.reserve(arg.len());
+                for item in arg.iter() {
+                    list.push(item.clone());
+                }
+            }
+            Ok(LispVal::List(list).into())
+        });
+
+        builtin(&mut map, "max", |_, args| {
+            let mut max = args[0].expect_int("max")?;
+            for arg in args[1..].iter() {
+                let arg = arg.expect_int("max")?;
+                if arg > max {
+                    max = arg;
+                }
+            }
+            Ok(LispVal::Int(max).into())
+        });
+
+        builtin_macro(&mut map, "set!", |env, args| {
+            let var = args[0].expect_symbol("set!")?;
+            let value = env.eval(&args[1])?;
+            env.set(var.clone(), value);
             Ok(LispVal::Void.into())
         });
 
@@ -804,7 +1080,15 @@ fn main() {
     let mut input = String::new();
     let mut telnet = false;
     loop {
-        print!(if input.is_empty() { if telnet { "$$$"  } else { ">>> " } } else { "... " });
+        print!(if input.is_empty() {
+            if telnet {
+                "$$$"
+            } else {
+                ">>> "
+            }
+        } else {
+            "... "
+        });
         if telnet {
             loop {
                 if keyb::key_available() {

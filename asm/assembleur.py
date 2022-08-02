@@ -280,6 +280,16 @@ def assemble(line, labels, pc):
 				val = (0b1111_1 << 11) | (n & 0b111_1111_1111)
 				jumps.append((pc, parse_imm(args)//2))
 			return (pc, val, dl, f"{n} ({2*n:x})"),
+		if instr.lower().startswith("@bcond"):
+			first = instr[6] == "1"
+			cond, targ = args.strip().split(None, 1)
+			n = parse_imm(targ) // 2 - (pc + (1 if first else 0)) - 1
+			if first:
+				val = (0b1111_0 << 11) | ((n >> 11) & 0b111_1111_1111)
+			else:
+				val = (0b1111_1 << 11) | (n & 0b111_1111_1111)
+				jumps.append((pc, parse_imm(targ)//2))
+			return (pc, val, dl, f"{n} ({2*n:x})"),
 		if instr.lower().startswith("@asci"):
 			bytes = eval(args).encode("utf-8")
 			if instr[5].lower() == "z":
@@ -320,6 +330,7 @@ stmbang = re.compile(r"^stm\s+(r\d)!\s*,\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNOR
 ldmbang = re.compile(r"^ldm\s+(r\d)!\s*,\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
 ldm = re.compile(r"^ldm\s+(r\d),\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
 bl = re.compile(r"^blx?\s+((?!r).*)$", re.IGNORECASE)
+bcond = re.compile(r"^xxb([a-z]{2})\s+((?!r).*)$", re.IGNORECASE)
 instn = re.compile(r"^.inst.n\s+(.*)$", re.IGNORECASE)
 p2align = re.compile(r"^.p2align\s+(\d+)$", re.IGNORECASE)
 labels = {}
@@ -366,6 +377,10 @@ try:
 			elif m := bl.match(line):
 				add_instr(f"@bl1 {m.group(1)}")
 				add_instr(f"@bl2 {m.group(1)}")
+				break
+			elif m := bcond.match(line):
+				add_instr(f"@bcond1 {m.group(1)} {m.group(2)}")
+				add_instr(f"@bcond2 {m.group(1)} {m.group(2)}")
 				break
 			elif m := pushpop.match(line):
 				regs = sorted(hi_regs.get(x, None) or int(x[1:]) for x in map(str.strip, m.group(2).split(",")))

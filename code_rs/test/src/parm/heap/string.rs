@@ -500,7 +500,6 @@ concept bool CharSeq =
  */
 
 impl PartialEq<str> for String {
-    #[inline(never)]
     fn eq(&self, other: &str) -> bool {
         self.to_chars().eq(other.to_chars())
     }
