@@ -195,6 +195,10 @@ impl VideoTty {
         self
     }
 
+    pub fn map_mut<T>(&mut self, f: impl FnOnce(&mut VideoTty) -> T) {
+        f(self);
+    }
+
     pub fn at(mut self, x: usize, y: usize) -> VideoTty {
         self.cursor_x = x;
         self.cursor_y = y;

@@ -6,10 +6,7 @@
 
 use crate::parm::math::fp32;
 use crate::parm::screen::tty::{blank, get_videotty, init};
-use crate::parm::screen::{
-    circle, clear, line, set_pixel, Color15bpp, ColorEncodable, ColorEncoded, ColorSimple, HEIGHT,
-    WIDTH,
-};
+use crate::parm::screen::{circle, clear, line, set_pixel, Color15bpp, ColorEncodable, ColorEncoded, ColorSimple, HEIGHT, WIDTH, rgb32};
 use crate::parm::tty::DisplayTarget;
 
 mod parm;
@@ -36,7 +33,7 @@ fn xy(f: fn(fp32) -> fp32) -> impl FnOnce(ColorEncoded) {
 }
 
 fn add(f: impl FnOnce(ColorEncoded), name: &'static str, color: impl ColorEncodable) {
-    //get_videotty().fg(color).map(|tty| println!(name, => tty));
+    *get_videotty() = get_videotty().fg(color).map(|tty| println!(name, => tty));
     f(color.encode());
 }
 
@@ -47,18 +44,18 @@ fn main() {
 
     line(0, HEIGHT / 2, WIDTH - 1, HEIGHT / 2, ColorSimple::Black);
     line(WIDTH / 2, 0, WIDTH / 2, HEIGHT - 1, ColorSimple::Black);
-
-    add(xy(fp32::sin), "sin(x)", ColorSimple::Red);
-    add(xy(fp32::cos), "cos(x)", ColorSimple::Green);
+/*
+    add(xy(fp32::sin), "sin(x)", rgb32(255, 0, 0));
+    add(xy(fp32::cos), "cos(x)", rgb32(0, 128, 0));
     add(
         xy(|f| f.recip().unwrap_or(fp32::MAX)),
         "1/x",
         ColorSimple::Blue,
-    );
+    );*/
     add(
         |c| circle(WIDTH / 2, HEIGHT / 2, 100, c),
         "circle",
-        ColorSimple::Yellow,
+        rgb32(192, 192, 0),
     );
 
     let r = 80;

@@ -41,8 +41,10 @@ macro_rules! println {
     };
 
     ($($c:expr),* $(,)? $(=> $target:expr)?) => {
-        $crate::print!($($c),* $(, => $target)?);
-        $crate::println!($(=> $target)?)
+        {
+            $crate::print!($($c),* $(, => $target)?);
+            $crate::println!($(=> $target)?)
+        }
     };
 }
 
