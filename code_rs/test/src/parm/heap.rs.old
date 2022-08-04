@@ -8,45 +8,169 @@ use core::{mem, ptr};
 
 pub const HEAP_START: usize = 0x10000;
 
-const HEAP_FREEP: *mut *mut u8 = HEAP_START as _;
-
-pub fn alloc_pos() -> *mut u8 {
-    unsafe { *HEAP_FREEP }
+struct BlockHeader {
+    /// size in blocks including header
+    size: usize,
+    next: *mut BlockHeader,
 }
 
-pub fn init() {
-    unsafe {
-        *HEAP_FREEP = (HEAP_START + 4) as _;
+impl BlockHeader {
+    #[inline(always)]
+    pub fn from_block<T>(block: *mut T) -> *mut BlockHeader {
+        unsafe { (block as *mut BlockHeader).sub(1) }
+    }
+
+    #[inline(always)]
+    pub fn next(&self) -> *mut BlockHeader {
+        self.next
+    }
+
+    #[inline(always)]
+    pub fn size(&self) -> usize {
+        self.size
+    }
+
+    #[inline(always)]
+    pub fn end(&self) -> *mut BlockHeader {
+        unsafe { (self as *const _ as *mut BlockHeader).add(self.size()) }
+    }
+
+    #[inline(always)]
+    pub fn data(&self) -> *mut u32 {
+        unsafe { (self as *const BlockHeader).add(1) as _ }
     }
 }
 
-#[inline(never)]
+#[inline(always)]
+fn is_free(header: *mut BlockHeader) -> bool {
+    unsafe {
+        let mut p = *HEAP_FREEP;
+        while p != header {
+            p = (*p).next;
+            if p == *HEAP_FREEP {
+                return false;
+            }
+        }
+        true
+    }
+}
+
+const HEADER_SIZE: usize = core::mem::size_of::<BlockHeader>();
+const fn blocks_to_allocate(size: usize) -> usize {
+    1 + (size + HEADER_SIZE - 1) / HEADER_SIZE
+}
+
+const HEAP_FREEP: *mut *mut BlockHeader = HEAP_START as _;
+const HEAP_BASE: *mut BlockHeader = (HEAP_START as usize + 4) as _;
+const HEAP_FIRST: *mut BlockHeader = (HEAP_START as usize + 12) as _;
+
+pub fn init() {
+    unsafe {
+        *HEAP_BASE = BlockHeader {
+            size: 0,
+            next: HEAP_FIRST,
+        };
+        *HEAP_FIRST = BlockHeader {
+            size: 32766, // (0xFFFF - 1 (heap_base) - 2 (heap_first)) / 2 (size of BlockHeader)
+            next: HEAP_BASE,
+        };
+        *HEAP_FREEP = HEAP_BASE;
+    }
+}
+
 pub unsafe fn malloc(size: usize) -> *mut u32 {
-    let old = alloc_pos();
-    let next = old.add(size + 4);
-    (old as *mut u32).write(size as _);
-    *HEAP_FREEP = next;
-    old.add(4) as _
+    let blocks = blocks_to_allocate(size);
+    let mut prevp = *HEAP_FREEP;
+    let mut p = *HEAP_FREEP;
+    while (*p).size < blocks {
+        let newprevp = p;
+        p = (*p).next;
+        if p == *HEAP_FREEP {
+            return ptr::null_mut();
+        }
+        prevp = newprevp;
+    }
+    if (*p).size == blocks {
+        (*prevp).next = (*p).next;
+    } else {
+        let next = p.add(blocks);
+        (*next).next = (*p).next;
+        (*next).size = (*p).size - blocks;
+        (*p).size = blocks;
+        (*prevp).next = next;
+    }
+    p.add(1) as _
 }
 
 pub unsafe fn free(_ptr: *mut u32) {
     return; // who's gonna stop me?
+            // let mut header = BlockHeader::from_block(ptr);
+            // *ptr = 0xabababab;
+            // *ptr.add(2 * (*header).size - 3) = 0xcdcdcdcd;
+            // let mut prevp = *HEAP_FREEP;
+            // let mut p = *HEAP_FREEP;
+            // while p < header {
+            //     prevp = p;
+            //     p = (*p).next;
+            // }
+            //
+            // if (*prevp).end() == header {
+            //     (*prevp).size += (*header).size;
+            //     header = prevp;
+            // } else {
+            //     (*prevp).next = header;
+            //     (*header).next = p;
+            // }
+            //
+            // if (*header).next == (*header).end() {
+            //     (*header).size += (*(*header).next).size;
+            //     (*header).next = (*(*header).next).next;
+            // }
 }
 
 pub unsafe fn realloc(ptr: *mut u32, size: usize) -> *mut u32 {
-    let old_size = *(ptr.sub(1)) as usize;
-    if size <= old_size {
+    if ptr.is_null() {
+        return malloc(size);
+    }
+
+    let blocks = blocks_to_allocate(size);
+    let mut header = BlockHeader::from_block(ptr);
+
+    if blocks == (*header).size {
         return ptr;
     }
-    let new_ptr = malloc(size);
-    ptr::copy_nonoverlapping(ptr, new_ptr, old_size);
-    free(ptr);
-    new_ptr
+
+    if blocks < (*header).size {
+        let mut next = header.add(blocks);
+        (*next).next = (*header).next;
+        (*next).size = (*header).size - blocks;
+        (*header).size = blocks;
+        free((*next).data());
+        return ptr;
+    }
+
+    let end = (*header).end();
+    if is_free(end) && (*end).size + (*header).size >= blocks {
+        let diff = blocks - (*header).size;
+        malloc((diff - 1) * HEADER_SIZE);
+        (*header).size += diff;
+        ptr
+    } else {
+        let newptr = malloc(size);
+        for p in 0..(2 * (*header).size - 1) {
+            *newptr.add(p) = *ptr.add(p);
+        }
+        free(ptr);
+        newptr
+    }
 }
 
 pub unsafe fn calloc(size: usize) -> *mut u32 {
     let ptr = malloc(size);
-    __aeabi_memclr(ptr as _, size);
+    let size = ((size + 3) & !3) >> 2;
+    for p in 0..size {
+        *ptr.add(p) = 0;
+    }
     ptr
 }
 

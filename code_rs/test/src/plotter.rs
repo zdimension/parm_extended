@@ -44,14 +44,14 @@ fn main() {
 
     line(0, HEIGHT / 2, WIDTH - 1, HEIGHT / 2, ColorSimple::Black);
     line(WIDTH / 2, 0, WIDTH / 2, HEIGHT - 1, ColorSimple::Black);
-/*
+
     add(xy(fp32::sin), "sin(x)", rgb32(255, 0, 0));
     add(xy(fp32::cos), "cos(x)", rgb32(0, 128, 0));
     add(
         xy(|f| f.recip().unwrap_or(fp32::MAX)),
         "1/x",
         ColorSimple::Blue,
-    );*/
+    );
     add(
         |c| circle(WIDTH / 2, HEIGHT / 2, 100, c),
         "circle",
