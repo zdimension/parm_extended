@@ -240,6 +240,11 @@ unsafe extern "C" fn __aeabi_memset(dest: *mut u8, c: i32, n: usize) {
 }
 
 #[no_mangle]
+unsafe extern "C" fn memcmp(s1: *const u8, s2: *const u8, n: usize) -> i32 {
+    __aeabi_memcmp(s1, s2, n)
+}
+
+#[no_mangle]
 unsafe extern "C" fn __aeabi_memcmp(s1: *const u8, s2: *const u8, n: usize) -> i32 {
     let n_usize: usize = n / WORD_SIZE;
     let mut i: usize = 0;

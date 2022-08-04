@@ -63,6 +63,19 @@ pub enum ClosureArgs {
 }
 
 impl LispVal {
+    pub fn equal(&self, other: &LispVal) -> bool {
+        match (self, other) {
+            (LispVal::Symbol(ref a), LispVal::Symbol(ref b)) => a == b,
+            (LispVal::Int(a), LispVal::Int(b)) => a == b,
+            (LispVal::Bool(a), LispVal::Bool(b)) => a == b,
+            (LispVal::Str(ref a), LispVal::Str(ref b)) => a == b,
+            (LispVal::List(ref a), LispVal::List(ref b)) => a.iter().zip(b.iter()).all(|(a, b)| a.equal(b)),
+            (LispVal::Void, LispVal::Void) => true,
+            (LispVal::Procedure(ref a, ref b), LispVal::Procedure(ref c, ref d)) => false,
+            _ => false,
+        }
+    }
+
     pub fn is_truthy(&self) -> bool {
         !self.is_falsey()
     }
@@ -476,6 +489,12 @@ impl<T> Clone for Prc<T> {
     }
 }
 
+impl<T: PartialEq> PartialEq<Prc<T>> for Prc<T> {
+    fn eq(&self, other: &Prc<T>) -> bool {
+        self.ptr == other.ptr || *self == *other
+    }
+}
+
 impl<T> Drop for Prc<T> {
     fn drop(&mut self) {
         unsafe {
@@ -711,10 +730,36 @@ impl SchemeEnv {
     }
 
     #[inline(never)]
+    fn eval_case(&mut self, args: &[LispValBox]) -> Result<LispValBox, String> {
+        let scrutinee = self.eval(&args[0])?;
+        for case in args[1..].iter() {
+            match &**case {
+                LispVal::List(case_items) => {
+                    if case_items.len() < 2 {
+                        return Err(makestr!("case: expected list of length 2, got ", case));
+                    }
+                    let test = &case_items[0];
+                    let valid = match **test {
+                        LispVal::Symbol(ref s) if s == "else" => true,
+                        LispVal::List(ref values) => values.iter().any(|v| v.equal(&scrutinee)),
+                        _ => return Err(makestr!("case: expected list or 'else', got ", test)),
+                    };
+                    if valid {
+                        let body = &case_items[1..];
+                        return self.make_child().eval_begin(body);
+                    }
+                }
+                _ => return Err(makestr!("case: expected list, got ", case)),
+            }
+        }
+        Ok(LispVal::Void.into())
+    }
+
+    #[inline(never)]
     fn eval_when(&mut self, args: &[LispValBox], invert: bool) -> Result<LispValBox, String> {
         let cond = self.eval(&args[0])?;
         if cond.is_truthy() ^ invert {
-            self.eval_begin(&args[1..])
+            self.make_child().eval_begin(&args[1..])
         } else {
             Ok(LispVal::Void.into())
         }
@@ -816,6 +861,9 @@ impl SchemeEnv {
             }
             if name == "unless" {
                 return Some(self_.eval_when(args, true));
+            }
+            if name == "case" {
+                return Some(self_.eval_case(args));
             }
             None
         }
@@ -1012,15 +1060,18 @@ impl Default for SchemeEnvData {
         builtin(&mut map, "display", display);
         builtin(&mut map, "print", display);
 
-        builtin(&mut map, "displayln", |_, args| {
-            let x = args.get(0).ok_or("display: expected argument")?;
+        let displayln: fn(&mut SchemeEnv, &[LispValBox]) -> _ = |_, args| {
+            let x = args.get(0).ok_or("displayln: expected argument")?;
             if let LispVal::Str(s) = &**x {
                 println!(s);
             } else {
                 println!(x);
             }
             Ok(LispVal::Void.into())
-        });
+        };
+
+        builtin(&mut map, "displayln", displayln);
+        builtin(&mut map, "println", displayln);
 
         builtin(&mut map, "newline", |_, args| {
             println!();
@@ -1129,6 +1180,24 @@ impl Default for SchemeEnvData {
             let value = env.eval(&args[1])?;
             env.set(var.clone(), value);
             Ok(LispVal::Void.into())
+        });
+
+        builtin(&mut map, "length", |_, args| {
+            let list = args[0].expect_list("length")?;
+            Ok(LispVal::Int(list.len() as i32).into())
+        });
+
+        builtin(&mut map, "error", |_, args| {
+            let mut msg = String::new();
+            for arg in args {
+                if let LispVal::Str(s) = &**arg {
+                    msg.push_str(s);
+                } else {
+                    arg.write(&mut msg);
+                }
+                msg.push(' ');
+            }
+            Err(msg)
         });
 
         SchemeEnvData { map, parent: None }

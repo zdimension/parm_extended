@@ -1,7 +1,7 @@
 use crate::parm::heap::vec::Vec;
 use core::iter::{Copied, Map, Take};
 use core::ops::{Deref, DerefMut};
-use core::slice::Iter;
+use core::slice::{Iter, SlicePattern};
 use core::str::Bytes;
 
 use crate::parm::tty::{AsciiEncodable, Display, DisplayTarget};
@@ -502,5 +502,11 @@ concept bool CharSeq =
 impl PartialEq<str> for String {
     fn eq(&self, other: &str) -> bool {
         self.to_chars().eq(other.to_chars())
+    }
+}
+
+impl PartialEq<String> for String {
+    fn eq(&self, other: &String) -> bool {
+        self.vec.eq(&other.vec[..])
     }
 }
