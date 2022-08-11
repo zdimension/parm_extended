@@ -4,6 +4,7 @@
 #![feature(generic_associated_types)]
 #![feature(iter_order_by)]
 #![feature(step_trait)]
+#![feature(slice_pattern)]
 
 use crate::parm::control::breakpoint;
 use core::iter::Peekable;
@@ -377,17 +378,22 @@ fn main() {
             }
             continue;
         } else if line.starts_with_ignore_case("LOAD") {
-            loop {
-                let line = telnet::read_line();
-                if line.is_empty() {
-                    break;
-                }
-                println!("# ", line);
-                process_instruction_input(&mut program, &mut last, &line);
-            }
+            load_telnet(&mut program, &mut last);
             continue;
         }
         asm = None;
+        process_instruction_input(&mut program, &mut last, &line);
+    }
+}
+
+#[inline(never)]
+fn load_telnet(mut program: &mut Program, mut last: &mut LineNumber) {
+    loop {
+        let line = telnet::read_line();
+        if line.is_empty() {
+            break;
+        }
+        println!("# ", line);
         process_instruction_input(&mut program, &mut last, &line);
     }
 }

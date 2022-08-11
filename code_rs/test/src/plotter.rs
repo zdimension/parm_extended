@@ -3,10 +3,14 @@
 #![feature(min_specialization)]
 #![feature(generic_associated_types)]
 #![feature(step_trait)]
+#![feature(slice_pattern)]
 
 use crate::parm::math::fp32;
 use crate::parm::screen::tty::{blank, get_videotty, init};
-use crate::parm::screen::{circle, clear, line, set_pixel, Color15bpp, ColorEncodable, ColorEncoded, ColorSimple, HEIGHT, WIDTH, rgb32};
+use crate::parm::screen::{
+    circle, clear, line, rgb32, set_pixel, Color15bpp, ColorEncodable, ColorEncoded, ColorSimple,
+    HEIGHT, WIDTH,
+};
 use crate::parm::tty::DisplayTarget;
 
 mod parm;
@@ -40,6 +44,8 @@ fn add(f: impl FnOnce(ColorEncoded), name: &'static str, color: impl ColorEncoda
 fn main() {
     init();
 
+    circle(10, 10, 100, ColorSimple::White);
+
     get_videotty().offset(10, 10);
 
     line(0, HEIGHT / 2, WIDTH - 1, HEIGHT / 2, ColorSimple::Black);
@@ -58,7 +64,7 @@ fn main() {
         rgb32(192, 192, 0),
     );
 
-    let r = 80;
+    /*let r = 80;
     for angle in (0..2 * fp32::PI.get_raw_data()).step_by(fp32::from(0.01).get_raw_data() as usize)
     {
         let angle = fp32::from_raw(angle);
@@ -69,5 +75,5 @@ fn main() {
             (y + fp32::from(HEIGHT / 2)).integer_part() as isize,
             ColorSimple::Magenta,
         );
-    }
+    }*/
 }

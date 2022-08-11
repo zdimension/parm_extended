@@ -4,5 +4,5 @@
 
 (named-let Loop ((i 0))
   (when (< i 10)
-    (display i)
+    (displayln i)
     (Loop (+ i 1))))

@@ -1,7 +1,11 @@
 pub mod tty;
 
+use core::fmt::Write;
 use crate::parm::mmio::DISPbuf;
 use core::ops::Not;
+use crate::parm::screen::tty::AnsiEscape;
+use crate::parm::tty::{Display, DisplayTarget, print_hex};
+use crate::print;
 
 const VRAM: *mut u32 = 0x100_0000 as *mut u32;
 
@@ -10,6 +14,10 @@ pub const HEIGHT: isize = 240;
 
 pub trait ColorEncodable: Copy {
     fn encode(&self) -> ColorEncoded;
+
+    fn ansi(&self) -> AnsiEscape {
+        todo!()
+    }
 }
 
 #[derive(Copy, Clone, Eq, PartialEq)]
@@ -56,11 +64,30 @@ impl From<Color15bpp> for Color {
 }
 
 #[derive(Copy, Clone, Eq, PartialEq)]
-pub struct ColorEncoded(u32);
+pub struct ColorEncoded(pub u16);
 
 impl ColorEncodable for ColorEncoded {
     fn encode(&self) -> ColorEncoded {
         *self
+    }
+}
+
+const HEX: [u8; 16] = [
+    b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b'a', b'b', b'c', b'd', b'e', b'f',
+];
+
+impl Display for ColorEncoded {
+    #[inline(always)]
+    fn write(&self, target: &mut impl DisplayTarget) {
+        if self.0 < 32768 {
+            print!(self.0, => target);
+        } else {
+            print!("[", ((self.0 >> 10) & 0b11111) << 3, ",", ((self.0 >> 5) & 0b1111) << 3, ",", (self.0 & 0b11111) << 3, "]", => target);
+            /*target.print_char(HEX[(self.0 >> 12) as usize]);
+            target.print_char(HEX[((self.0 >> 8) & 15) as usize]);
+            target.print_char(HEX[((self.0 >> 4) & 15) as usize]);
+            target.print_char(HEX[(self.0 & 15) as usize]);*/
+        }
     }
 }
 
@@ -81,7 +108,7 @@ pub enum ColorSimple {
 
 impl ColorEncodable for ColorSimple {
     fn encode(&self) -> ColorEncoded {
-        ColorEncoded(*self as u32)
+        ColorEncoded(*self as u16)
     }
 }
 
@@ -90,7 +117,7 @@ pub struct ColorGrayscale(pub u8);
 
 impl ColorEncodable for ColorGrayscale {
     fn encode(&self) -> ColorEncoded {
-        ColorEncoded(32 + self.0 as u32)
+        ColorEncoded(32 + self.0 as u16)
     }
 }
 
@@ -99,7 +126,7 @@ pub struct Color6bpp(pub u8, pub u8, pub u8);
 
 impl ColorEncodable for Color6bpp {
     fn encode(&self) -> ColorEncoded {
-        ColorEncoded(64 + ((self.0 as u32) << 4 | (self.1 as u32) << 2 | (self.2 as u32)))
+        ColorEncoded(64 + ((self.0 as u16) << 4 | (self.1 as u16) << 2 | (self.2 as u16)))
     }
 }
 
@@ -112,7 +139,7 @@ pub const fn rgb32(r: u8, g: u8, b: u8) -> ColorEncoded {
 
 impl Color15bpp {
     const fn encode(&self) -> ColorEncoded {
-        ColorEncoded(0x8000 + ((self.0 as u32) << 10 | (self.1 as u32) << 5 | (self.2 as u32)))
+        ColorEncoded(0x8000 + ((self.0 as u16) << 10 | (self.1 as u16) << 5 | (self.2 as u16)))
     }
 }
 
@@ -136,7 +163,7 @@ impl From<ColorEncoded> for Color15bpp {
 #[inline(always)]
 pub fn set_pixel(x: isize, y: isize, color: impl ColorEncodable) {
     unsafe {
-        *VRAM.offset(y * WIDTH + x) = color.encode().0;
+        *VRAM.offset(y * WIDTH + x) = color.encode().0 as u32;
     }
 }
 
@@ -151,7 +178,7 @@ pub fn set_pixel_checked(x: isize, y: isize, color: impl ColorEncodable) {
 pub fn clear(color: impl ColorEncodable) {
     unsafe {
         for i in 0..WIDTH * HEIGHT {
-            *VRAM.offset(i) = color.encode().0;
+            *VRAM.offset(i) = color.encode().0 as u32;
         }
     }
 }
@@ -159,7 +186,7 @@ pub fn clear(color: impl ColorEncodable) {
 #[inline(always)]
 pub fn set_pixel_buf(b: Buffer, x: isize, y: isize, color: impl ColorEncodable) {
     unsafe {
-        *VRAM.offset(b.get_offset() + y * WIDTH + x) = color.encode().0;
+        *VRAM.offset(b.get_offset() + y * WIDTH + x) = color.encode().0 as u32;
     }
 }
 

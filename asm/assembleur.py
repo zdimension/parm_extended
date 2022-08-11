@@ -291,7 +291,7 @@ def assemble(line, labels, pc):
 				jumps.append((pc, parse_imm(targ)//2))
 			return (pc, val, dl, f"{n} ({2*n:x})"),
 		if instr.lower().startswith("@asci"):
-			bytes = eval(args).encode("utf-8")
+			bytes = eval("b" + args)
 			if instr[5].lower() == "z":
 				bytes += b"\0"
 			if len(bytes) % 2 == 1:
@@ -442,9 +442,8 @@ try:
 				val = None
 				fpart = line.split(None, 1)[0].lower()
 				if fpart.startswith(".asci"):
-					s = eval(line.split(None, 1)[1])
-					utf = s.encode("utf-8")
-					l = len(s.encode("utf-8"))+1*(line[5]=="z")
+					s = eval("b" + line.split(None, 1)[1].strip())
+					l = len(s)+1*(line[5]=="z")
 					l += l%2
 					add_instr("@" + line[1:], size=l//2)
 				elif fpart in (".word", ".long"):

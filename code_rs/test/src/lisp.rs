@@ -69,7 +69,9 @@ impl LispVal {
             (LispVal::Int(a), LispVal::Int(b)) => a == b,
             (LispVal::Bool(a), LispVal::Bool(b)) => a == b,
             (LispVal::Str(ref a), LispVal::Str(ref b)) => a == b,
-            (LispVal::List(ref a), LispVal::List(ref b)) => a.iter().zip(b.iter()).all(|(a, b)| a.equal(b)),
+            (LispVal::List(ref a), LispVal::List(ref b)) => {
+                a.iter().zip(b.iter()).all(|(a, b)| a.equal(b))
+            }
             (LispVal::Void, LispVal::Void) => true,
             (LispVal::Procedure(ref a, ref b), LispVal::Procedure(ref c, ref d)) => false,
             _ => false,
@@ -97,47 +99,49 @@ impl LispVal {
         }
     }
 
+    fn expect_message(&self, origin: &'static str, expected: &'static str) -> String {
+        makestr!(
+            origin,
+            ": expected ",
+            expected,
+            ", got ",
+            self,
+            " (",
+            self.type_name(),
+            ")"
+        )
+    }
+
     fn expect_int(&self, origin: &'static str) -> Result<i32, String> {
         match self {
             LispVal::Int(val) => Ok(*val),
-            _ => Err(makestr!(origin, ": expected int, got ", self.type_name())),
+            _ => Err(self.expect_message(origin, "int")),
         }
     }
 
     fn expect_callable(&self, origin: &'static str) -> Result<(&ProcType, bool), String> {
         match self {
             LispVal::Procedure(proc, is_macro) => Ok((proc, *is_macro)),
-            _ => Err(makestr!(
-                origin,
-                ": expected callable, got ",
-                self.type_name()
-            )),
+            _ => Err(self.expect_message(origin, "callable")),
         }
     }
 
     fn expect_symbol(&self, origin: &'static str) -> Result<&String, String> {
         match self {
             LispVal::Symbol(val) => Ok(val),
-            _ => Err(makestr!(
-                origin,
-                ": expected symbol, got ",
-                self.type_name()
-            )),
+            _ => Err(self.expect_message(origin, "symbol")),
         }
     }
 
     fn expect_list(&self, origin: &'static str) -> Result<&Vec<LispValBox>, String> {
         match self {
             LispVal::List(val) => Ok(val),
-            _ => Err(makestr!(origin, ": expected list, got ", self.type_name())),
+            _ => Err(self.expect_message(origin, "list")),
         }
     }
 }
 
-struct SchemeParser<'a>(
-    &'a [char],
-    Peekable<Enumerate<Copied<Iter<'a, char>>>>,
-);
+struct SchemeParser<'a>(&'a [char], Peekable<Enumerate<Copied<Iter<'a, char>>>>);
 
 #[derive(Debug)]
 pub enum ReadError {
@@ -289,8 +293,14 @@ impl<'a> SchemeParser<'a> {
             Some(&(_, '(' | '[')) => self.read_list(),
             Some(&(_, '#')) => self.read_boolean(),
             Some(&(_, '"')) => self.read_string(),
-            Some(&(_, '\'')) => { self.1.next(); self.read_special("quote") },
-            Some(&(_, '`')) => { self.1.next(); self.read_special("quasiquote") },
+            Some(&(_, '\'')) => {
+                self.1.next();
+                self.read_special("quote")
+            }
+            Some(&(_, '`')) => {
+                self.1.next();
+                self.read_special("quasiquote")
+            }
             Some(&(_, ',')) => {
                 self.1.next();
                 if let Some(&(_, '@')) = self.1.peek() {
@@ -593,7 +603,7 @@ impl SchemeEnv {
         name: Option<String>,
         args: ClosureArgs,
         body: Vec<LispValBox>,
-        is_macro: bool
+        is_macro: bool,
     ) -> LispVal {
         LispVal::Procedure(
             ProcType::Closure {
@@ -638,9 +648,11 @@ impl SchemeEnv {
         &mut self,
         args: ClosureArgs,
         body: &[LispValBox],
-        is_macro: bool
+        is_macro: bool,
     ) -> Result<LispValBox, String> {
-        Ok(self.make_closure(None, args, Vec::from(body), is_macro).into())
+        Ok(self
+            .make_closure(None, args, Vec::from(body), is_macro)
+            .into())
     }
 
     #[inline(never)]
@@ -778,7 +790,10 @@ impl SchemeEnv {
     }
 
     #[inline(never)]
-    fn check_unquote_splicing(&mut self, items: &Vec<LispValBox>) -> Result<Option<Vec<LispValBox>>, String> {
+    fn check_unquote_splicing(
+        &mut self,
+        items: &Vec<LispValBox>,
+    ) -> Result<Option<Vec<LispValBox>>, String> {
         if items.len() == 2 {
             if let Ok(res) = items[0].expect_symbol("quasiquote") {
                 if res == "unquote-splicing" {
@@ -1100,7 +1115,11 @@ impl Default for SchemeEnvData {
             let (fct, _) = args[0].expect_callable("for-each")?;
             let list = args[1].expect_list("for-each")?;
             #[inline(never)]
-            fn process_list(list: &Vec<LispValBox>, env: &mut SchemeEnv, fct: &ProcType) -> Result<(), String> {
+            fn process_list(
+                list: &Vec<LispValBox>,
+                env: &mut SchemeEnv,
+                fct: &ProcType,
+            ) -> Result<(), String> {
                 for item in list.iter() {
                     env.eval_call(fct, &[item.clone()])?;
                 }

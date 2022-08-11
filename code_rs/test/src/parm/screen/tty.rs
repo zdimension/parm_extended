@@ -1,3 +1,7 @@
+pub struct AnsiEscape {
+
+}
+
 pub struct Font57 {}
 
 impl Font57 {
@@ -126,6 +130,7 @@ use crate::parm::heap::HEAP_START;
 use crate::parm::screen::{rgb32, ColorEncodable, ColorEncoded};
 use crate::parm::tty::{AsciiEncodable, DisplayTarget};
 use crate::parm::{panic, screen};
+use crate::parm::mmio::RES;
 use crate::println;
 
 pub const FONT_WIDTH: usize = 5;
@@ -229,7 +234,7 @@ pub fn get_videotty() -> &'static mut VideoTty {
             .unwrap_unchecked()
     }
 }
-
+/*
 pub const PALETTE: [ColorEncoded; 16] = [
     rgb32(0, 0, 0),
     rgb32(170, 0, 0),
@@ -247,6 +252,26 @@ pub const PALETTE: [ColorEncoded; 16] = [
     rgb32(255, 85, 255),
     rgb32(85, 255, 255),
     rgb32(255, 255, 255),
+];*/
+
+
+pub const PALETTE: [ColorEncoded; 16] = [
+    rgb32(0, 0, 0),
+    rgb32(204, 0, 0),
+    rgb32(78, 154, 6),
+    rgb32(196, 160, 0),
+    rgb32(52, 101, 164),
+    rgb32(117, 80, 123),
+    rgb32(6, 152, 154),
+    rgb32(211, 215, 207),
+    rgb32(85, 87, 83),
+    rgb32(239, 41, 41),
+    rgb32(138, 226, 52),
+    rgb32(252, 233, 79),
+    rgb32(114, 159, 207),
+    rgb32(173, 127, 168),
+    rgb32(52, 226, 226),
+    rgb32(238, 238, 236),
 ];
 
 impl DisplayTarget for VideoTty {
@@ -294,7 +319,8 @@ impl DisplayTarget for VideoTty {
                                     match x {
                                         0 => self.display_attrs = DisplayAttrs::new(),
                                         30..=37 => {
-                                            self.display_attrs.color_fore = PALETTE[x as usize - 30]
+                                            self.display_attrs.color_fore = PALETTE[x as usize - 30];
+                                            println!("fg", self.display_attrs.color_fore);
                                         }
                                         40..=47 => {
                                             self.display_attrs.color_back = PALETTE[x as usize - 40]
@@ -324,7 +350,6 @@ impl DisplayTarget for VideoTty {
                             let mut arr = params;
                             arr[count] *= 10;
                             arr[count] += (ch - b'0') as u32;
-                            //println!("CSI upd ", ch as char, ' ', arr[count] as u32);
                             self.escape_state = AnsiEscapeState::CSI(count, arr);
                         }
                         b';' => {
