@@ -83,6 +83,14 @@ pub trait Display {
     fn write(&self, target: &mut impl DisplayTarget);
 }
 
+impl Display for u8 {
+    #[inline(always)]
+    fn write(&self, target: &mut impl DisplayTarget) {
+        RES.write(*self as u32);
+        print_res(false, target);
+    }
+}
+
 impl Display for u32 {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {

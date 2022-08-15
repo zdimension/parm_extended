@@ -9,12 +9,27 @@ use core::mem::{ManuallyDrop, MaybeUninit};
 use core::ops::{Deref, DerefMut};
 use core::ptr::NonNull;
 use core::{cmp, mem, ptr, slice};
+use core::hash::{Hash, Hasher};
 
 #[repr(C)]
 pub struct Vec<T> {
     ptr: NonNull<T>,
     cap: usize,
     len: usize,
+}
+
+impl<T> Default for Vec<T> {
+    #[inline]
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl<T: Hash> Hash for Vec<T> {
+    #[inline]
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        Hash::hash(&**self, state)
+    }
 }
 
 impl<T> Vec<T> {
@@ -38,7 +53,7 @@ impl<T> Vec<T> {
     }
 
     #[inline(always)]
-    pub fn new() -> Self {
+    pub const fn new() -> Self {
         // `NonNull::dangling()` doubles as "unallocated" and "zero-sized allocation"
         Vec {
             ptr: NonNull::dangling(),
@@ -462,7 +477,28 @@ macro_rules! parmvec {
         $crate::__rust_force_expr!($crate::parm::heap::vec::Vec::new())
     );
     ($elem:expr; $n:expr) => (
-        $crate::__rust_force_expr!($crate::parm::heap::vec::from_elem($elem, $n))
+        unsafe {
+            use core::ptr;
+            use core::clone::Clone;
+
+            let elem = $elem;
+            let n: usize = $n;
+            let mut v = Vec::with_capacity(n);
+            let mut ptr = v.as_mut_ptr();
+            for i in 0..n {
+                ptr::write(ptr, Clone::clone(&elem));
+                ptr = ptr.offset(1);
+                v.set_len(i);
+            }
+
+            // No needless clones
+            if n > 0 {
+                ptr::write(ptr, elem);
+                v.set_len(n);
+            }
+
+            v
+        }
     );
     (@c ($count:expr) ($(($i:expr, $y:expr))*) $first:expr $(, $($x:expr),*)?) => (
         $crate::parmvec!(@c ($count + 1) ($(($i, $y))* ($count, $first)) $($($x),*)?)

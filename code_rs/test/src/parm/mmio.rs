@@ -81,13 +81,16 @@ pins! {
     RES => 1(inout),
     TELNETdata => 2(inout),
     TELNETavail => 3(in),
-    RESETpin => 4(out),
-    BREAKpin => 5(out),
+    MIDInote => 3(out),
+    MIDIvol => 4(out),
+    MIDIon => 5(out),
+    MIDIinstr => 6(out),
     KEYBeof => 6(in),
     KEYBchr => 7(in),
     RNG32 => 10(in),
     RESbcd => 11(in),
     R2divR3 => 12(in),
     R2modR3 => 13(in),
-    DISPbuf => 14(inout)
+    DISPbuf => 14(inout),
+    BREAKpin => 15(out)
 }

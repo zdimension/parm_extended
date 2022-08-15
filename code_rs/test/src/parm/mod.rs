@@ -5,6 +5,7 @@ pub mod control;
 pub mod heap;
 pub mod keyb;
 pub mod math;
+pub mod midi;
 pub mod mmio;
 pub mod screen;
 pub mod telnet;
@@ -66,9 +67,7 @@ pub fn unwrap_failed() -> ! {
 #[inline(always)]
 fn panic_bounds_check() -> ! {
     unsafe {
-        core::arch::asm!("_ZN4core9panicking18panic_bounds_check17h6f55fa0d21c94988E:");
-        core::arch::asm!("_ZN4core9panicking18panic_bounds_check17h2c8069d2b705747bE:");
-        core::arch::asm!("_ZN4core9panicking18panic_bounds_check17h4951c2fcb20aa965E:");
+        core::arch::asm!("_ZN4core9panicking18panic_bounds_check17hdd4103d91da30be2E:");
     }
     panic("index out of bounds")
 }
@@ -77,9 +76,7 @@ fn panic_bounds_check() -> ! {
 #[inline(always)]
 fn panic_fmt() -> ! {
     unsafe {
-        core::arch::asm!("_ZN4core9panicking9panic_fmt17hfd9f87229ac2f2baE:");
-        core::arch::asm!("_ZN4core9panicking9panic_fmt17hd67f4882cc9312fdE:");
-        core::arch::asm!("_ZN4core9panicking9panic_fmt17hc90555fcc536d9d7E:");
+        core::arch::asm!("_ZN4core9panicking9panic_fmt17h68d384b53873b462E:");
     }
     panic("panic_fmt")
 }
@@ -87,10 +84,10 @@ fn panic_fmt() -> ! {
 #[export_name = "slicee_end_index_len_fail"]
 fn slice_end_index_len_fail(_index: usize, _len: usize) -> ! {
     unsafe {
-        core::arch::asm!("_ZN4core5slice5index24slice_end_index_len_fail17h3d35c3c0c04c4afeE:");
-        core::arch::asm!("_ZN4core5slice5index26slice_start_index_len_fail17ha77bf5041ae3f134E:");
         core::arch::asm!("_ZN4core5slice5index26slice_start_index_len_fail17h86e173ea5fb70460E:");
-        core::arch::asm!("_ZN4core5slice5index24slice_end_index_len_fail17h117f4fe0161922aeE:");
+        core::arch::asm!("_ZN4core5slice5index26slice_start_index_len_fail17h05b08b6429f99ff9E:");
+        core::arch::asm!("_ZN4core5slice5index24slice_end_index_len_fail17hd26402f79c80bb78E:");
+        core::arch::asm!("_ZN4core5slice29__DOL_LT_DOL_impl_DOL_u20_DOL__DOL_u5b_DOL_T_DOL_u5d_DOL__DOL_GT_DOL_15copy_from_slice17len_mismatch_fail17ha5c55307ed7c32d3E:");
     }
     panic("slice index out of bounds");
 }

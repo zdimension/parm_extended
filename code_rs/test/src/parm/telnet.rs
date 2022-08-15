@@ -1,6 +1,6 @@
 use crate::parm::heap::string::String;
 use crate::parm::heap::vec::Vec;
-use crate::parm::mmio::{TELNETavail, TELNETdata};
+use crate::parm::mmio::{RES, TELNETavail, TELNETdata};
 use crate::parm::tty::{AsciiEncodable, DisplayTarget};
 use crate::print;
 
@@ -19,6 +19,7 @@ pub fn data_available() -> bool {
     TELNETavail.read() != 0
 }
 
+#[inline(always)]
 pub fn read_blocking() -> u8 {
     while !data_available() {
         continue;
@@ -33,6 +34,24 @@ pub fn read() -> Option<u8> {
     } else {
         None
     }
+}
+
+pub fn read_arr_blocking<const N: usize>() -> [u8; N] {
+    let mut arr = [0; N];
+    for i in 0..N {
+        arr[i] = read_blocking();
+    }
+    arr
+}
+
+#[inline(never)]
+pub fn read_n_blocking(n: usize) -> Vec<u8> {
+    let mut vec = Vec::with_capacity(n);
+    for i in 0..n {
+        RES.write(i as u32);
+        unsafe { vec.push_unchecked(read_blocking()); }
+    }
+    vec
 }
 
 pub fn read_all_as<T>(conv: fn(u8) -> T, stop: fn(u8) -> bool) -> Vec<T> {
