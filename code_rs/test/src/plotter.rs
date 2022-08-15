@@ -8,8 +8,8 @@
 use crate::parm::math::fp32;
 use crate::parm::screen::tty::{blank, get_videotty, init};
 use crate::parm::screen::{
-    circle, clear, line, rgb32, set_pixel, Color15bpp, ColorEncodable, ColorEncoded, ColorSimple,
-    HEIGHT, WIDTH,
+    circle, clear, line, rgb32, set_pixel_unchecked, Color15bpp, ColorEncodable, ColorEncoded,
+    ColorSimple, HEIGHT, WIDTH,
 };
 use crate::parm::tty::DisplayTarget;
 
@@ -29,7 +29,9 @@ fn xy(f: fn(fp32) -> fp32) -> impl FnOnce(ColorEncoded) {
             let val_on_screen = HEIGHT as i32 / 2
                 - (val * fp32::from(HEIGHT as f32 / WINDOW_HEIGHT)).integer_part();
             if val_on_screen >= 0 && val_on_screen < HEIGHT as i32 {
-                set_pixel(i, val_on_screen as isize, color);
+                unsafe {
+                    set_pixel_unchecked(i, val_on_screen as isize, color);
+                }
             }
             cur += step;
         }

@@ -1,15 +1,15 @@
 pub mod tty;
 
-use core::fmt::Write;
 use crate::parm::mmio::DISPbuf;
-use core::ops::Not;
 use crate::parm::screen::tty::AnsiEscape;
-use crate::parm::tty::{Display, DisplayTarget, print_hex};
+use crate::parm::tty::{print_hex, Display, DisplayTarget};
 use crate::print;
+use core::fmt::Write;
+use core::ops::Not;
 
 const VRAM: *mut u32 = 0x100_0000 as *mut u32;
 
-pub const WIDTH: isize = 320;
+pub const WIDTH: isize = 480;
 pub const HEIGHT: isize = 240;
 
 pub trait ColorEncodable: Copy {
@@ -161,16 +161,16 @@ impl From<ColorEncoded> for Color15bpp {
 }
 
 #[inline(always)]
-pub fn set_pixel(x: isize, y: isize, color: impl ColorEncodable) {
-    unsafe {
-        *VRAM.offset(y * WIDTH + x) = color.encode().0 as u32;
-    }
+pub unsafe fn set_pixel_unchecked(x: isize, y: isize, color: impl ColorEncodable) {
+    *VRAM.offset(y * WIDTH + x) = color.encode().0 as u32;
 }
 
 #[inline(always)]
-pub fn set_pixel_checked(x: isize, y: isize, color: impl ColorEncodable) {
+pub fn set_pixel(x: isize, y: isize, color: impl ColorEncodable) {
     if x >= 0 && x < WIDTH as isize && y >= 0 && y < HEIGHT as isize {
-        set_pixel(x, y, color);
+        unsafe {
+            set_pixel_unchecked(x, y, color);
+        }
     }
 }
 
@@ -253,7 +253,7 @@ pub fn line(mut x: isize, mut y: isize, x2: isize, y2: isize, color: impl ColorE
             long_len += y;
             let mut j = 0x80 + (x << 8);
             while y <= long_len {
-                set_pixel_checked(j >> 8, y, color);
+                set_pixel(j >> 8, y, color);
                 j += dec_inc;
                 y += 1;
             }
@@ -262,7 +262,7 @@ pub fn line(mut x: isize, mut y: isize, x2: isize, y2: isize, color: impl ColorE
         long_len += y;
         let mut j = 0x80 + (x << 8);
         while y >= long_len {
-            set_pixel_checked(j >> 8, y, color);
+            set_pixel(j >> 8, y, color);
             j -= dec_inc;
             y -= 1;
         }
@@ -273,7 +273,7 @@ pub fn line(mut x: isize, mut y: isize, x2: isize, y2: isize, color: impl ColorE
         long_len += x;
         let mut j = 0x80 + (y << 8);
         while x <= long_len {
-            set_pixel_checked(x, j >> 8, color);
+            set_pixel(x, j >> 8, color);
             j += dec_inc;
             x += 1;
         }
@@ -282,9 +282,63 @@ pub fn line(mut x: isize, mut y: isize, x2: isize, y2: isize, color: impl ColorE
     long_len += x;
     let mut j = 0x80 + (y << 8);
     while x >= long_len {
-        set_pixel_checked(x, j >> 8, color);
+        set_pixel(x, j >> 8, color);
         j -= dec_inc;
         x -= 1;
+    }
+}
+
+#[inline(always)]
+pub unsafe fn line_h_unchecked(x: isize, y: isize, len: isize, color: impl ColorEncodable) {
+    for i in x..x + len {
+        set_pixel_unchecked(i, y, color);
+    }
+}
+
+#[inline(always)]
+pub fn line_h(x: isize, y: isize, len: isize, color: impl ColorEncodable) {
+    if y < 0 || y >= HEIGHT as isize {
+        return;
+    }
+    if x < 0 {
+        unsafe {
+            line_h_unchecked(0, y, x + len, color);
+        }
+    } else if x + len >= WIDTH as isize {
+        unsafe {
+            line_h_unchecked(x, y, WIDTH as isize - x, color);
+        }
+    } else {
+        unsafe {
+            line_h_unchecked(x, y, len, color);
+        }
+    }
+}
+
+#[inline(always)]
+pub unsafe fn line_v_unchecked(x: isize, y: isize, len: isize, color: impl ColorEncodable) {
+    for i in y..y + len {
+        set_pixel_unchecked(x, i, color);
+    }
+}
+
+#[inline(always)]
+pub fn line_v(x: isize, y: isize, len: isize, color: impl ColorEncodable) {
+    if x < 0 || x >= WIDTH as isize {
+        return;
+    }
+    if y < 0 {
+        unsafe {
+            line_v_unchecked(x, 0, y + len, color);
+        }
+    } else if y + len >= HEIGHT as isize {
+        unsafe {
+            line_v_unchecked(x, y, HEIGHT as isize - y, color);
+        }
+    } else {
+        unsafe {
+            line_v_unchecked(x, y, len, color);
+        }
     }
 }
 
@@ -292,14 +346,14 @@ pub fn line(mut x: isize, mut y: isize, x2: isize, y2: isize, color: impl ColorE
 pub fn circle(xc: isize, yc: isize, radius: isize, color: impl ColorEncodable) {
     #[inline(always)]
     fn symmetric(xc: isize, yc: isize, x: isize, y: isize, color: impl ColorEncodable) {
-        set_pixel_checked(xc + x, yc + y, color);
-        set_pixel_checked(xc - x, yc + y, color);
-        set_pixel_checked(xc + x, yc - y, color);
-        set_pixel_checked(xc - x, yc - y, color);
-        set_pixel_checked(xc + y, yc + x, color);
-        set_pixel_checked(xc - y, yc + x, color);
-        set_pixel_checked(xc + y, yc - x, color);
-        set_pixel_checked(xc - y, yc - x, color);
+        set_pixel(xc + x, yc + y, color);
+        set_pixel(xc - x, yc + y, color);
+        set_pixel(xc + x, yc - y, color);
+        set_pixel(xc - x, yc - y, color);
+        set_pixel(xc + y, yc + x, color);
+        set_pixel(xc - y, yc + x, color);
+        set_pixel(xc + y, yc - x, color);
+        set_pixel(xc - y, yc - x, color);
     }
 
     // bresenham
@@ -316,5 +370,18 @@ pub fn circle(xc: isize, yc: isize, radius: isize, color: impl ColorEncodable) {
             d += 4 * x + 6;
         }
         symmetric(xc, yc, x, y, color);
+    }
+}
+
+#[inline(always)]
+pub fn rect(x: isize, y: isize, w: isize, h: isize, color: impl ColorEncodable) {
+    if w > h {
+        for i in y..y + h {
+            line_h(x, i, w, color);
+        }
+    } else {
+        for i in x..x + w {
+            line_v(i, y, h, color);
+        }
     }
 }

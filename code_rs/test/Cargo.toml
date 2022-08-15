@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+derive_more = "0.99.17"
 indoc = "1.0.6"
 #approx = { version = "0.5.1", default-features = false }
 #nalgebra = { version = "0.31.0", default-features = false, features = ["macros", "nalgebra-macros"] }
@@ -53,6 +54,10 @@ path = "src/simpletelnet.rs"
 [[bin]]
 name = "lisp"
 path = "src/lisp.rs"
+
+[[bin]]
+name = "ball"
+path = "src/ball.rs"
 
 [profile.dev]
 panic = "abort"

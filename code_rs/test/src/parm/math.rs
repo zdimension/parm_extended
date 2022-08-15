@@ -9,6 +9,7 @@ use core::ops::{
 
 #[export_name = "__aeabi_uidiv"]
 pub fn __aeabi_uidiv(a: u32, b: u32) -> u32 {
+    unsafe { core::arch::asm!("uidiv:"); }
     div(a, b)
 }
 
@@ -93,6 +94,12 @@ pub fn divmod(a: u32, b: u32) -> (u32, u32) {
 #[derive(Ord, PartialOrd, Eq, PartialEq, Copy, Clone)]
 pub struct fp32(i32);
 
+impl Default for fp32 {
+    fn default() -> Self {
+        fp32(0)
+    }
+}
+
 impl Step for fp32 {
     fn steps_between(start: &Self, end: &Self) -> Option<usize> {
         i32::steps_between(&start.0, &end.0).map(|x| x >> 16)
@@ -130,6 +137,9 @@ impl From<f32> for fp32 {
 
 impl fp32 {
     // value * 65536
+    pub const ZERO: Self = fp32(0);
+    pub const ONE: Self = fp32(1);
+
     pub const E: Self = fp32(178145);
     pub const FRAC_1_PI: Self = fp32(20861);
     pub const FRAC_1_SQRT_2: Self = fp32(46341);
@@ -167,6 +177,11 @@ impl fp32 {
     #[inline(always)]
     pub const fn fractional_part(self) -> fp32 {
         fp32(self.0 & 0xFFFF)
+    }
+
+    #[inline(always)]
+    pub const fn round(self) -> i32 {
+        self.integer_part() + (self.fractional_part().0 >= 0x8000) as i32
     }
 
     #[inline(always)]

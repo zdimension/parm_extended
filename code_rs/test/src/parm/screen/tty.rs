@@ -1,5 +1,16 @@
-pub struct AnsiEscape {
+#[derive(Copy, Clone)]
+pub enum AnsiEscape {
+    Sgr(u8),
+}
 
+impl Display for AnsiEscape {
+    fn write(&self, target: &mut impl DisplayTarget) {
+        match self {
+            AnsiEscape::Sgr(code) => {
+                print!("\x1b[", *code as u32, 'm', => target);
+            }
+        }
+    }
 }
 
 pub struct Font57 {}
@@ -127,11 +138,11 @@ static LOOKUP57: &'static [u8] = &[
 
 use crate::parm::heap::HEAP_START;
 
-use crate::parm::screen::{rgb32, ColorEncodable, ColorEncoded};
-use crate::parm::tty::{AsciiEncodable, DisplayTarget};
-use crate::parm::{panic, screen};
 use crate::parm::mmio::RES;
-use crate::println;
+use crate::parm::screen::{rgb32, ColorEncodable, ColorEncoded};
+use crate::parm::tty::{AsciiEncodable, Display, DisplayTarget};
+use crate::parm::{panic, screen};
+use crate::{print, println};
 
 pub const FONT_WIDTH: usize = 5;
 pub const FONT_HEIGHT: usize = 8;
@@ -234,26 +245,6 @@ pub fn get_videotty() -> &'static mut VideoTty {
             .unwrap_unchecked()
     }
 }
-/*
-pub const PALETTE: [ColorEncoded; 16] = [
-    rgb32(0, 0, 0),
-    rgb32(170, 0, 0),
-    rgb32(0, 170, 0),
-    rgb32(170, 85, 0),
-    rgb32(0, 0, 170),
-    rgb32(170, 0, 170),
-    rgb32(0, 170, 170),
-    rgb32(170, 170, 170),
-    rgb32(85, 85, 85),
-    rgb32(255, 85, 85),
-    rgb32(85, 255, 85),
-    rgb32(255, 255, 85),
-    rgb32(85, 85, 255),
-    rgb32(255, 85, 255),
-    rgb32(85, 255, 255),
-    rgb32(255, 255, 255),
-];*/
-
 
 pub const PALETTE: [ColorEncoded; 16] = [
     rgb32(0, 0, 0),
@@ -274,6 +265,32 @@ pub const PALETTE: [ColorEncoded; 16] = [
     rgb32(238, 238, 236),
 ];
 
+#[derive(Copy, Clone)]
+pub enum AnsiColor {
+    Black,
+    Red,
+    Green,
+    Yellow,
+    Blue,
+    Magenta,
+    Cyan,
+    White,
+}
+
+impl AnsiColor {
+    pub fn fg(self) -> AnsiEscape {
+        AnsiEscape::Sgr(self as u8 + 30)
+    }
+
+    pub fn bg(self) -> AnsiEscape {
+        AnsiEscape::Sgr(self as u8 + 40)
+    }
+}
+
+pub fn sgr_reset() -> AnsiEscape {
+    AnsiEscape::Sgr(0)
+}
+
 impl DisplayTarget for VideoTty {
     #[inline(always)]
     fn print_char(&mut self, c: impl AsciiEncodable) {
@@ -289,6 +306,12 @@ impl DisplayTarget for VideoTty {
                 0x40..=0x7e => {
                     let count = count + 1;
                     let first_param = (count > 0).then(|| params[0]);
+                    let second_param = (count > 1).then(|| params[1]);
+                    print!("csi ", ch as char);
+                    for i in 0..count {
+                        print!(' ', params[i]);
+                    }
+                    println!();
                     match ch {
                         b'A' => {
                             if self.cursor_y > 0 {
@@ -310,17 +333,32 @@ impl DisplayTarget for VideoTty {
                                 self.cursor_x -= first_param.unwrap_or(1) as usize;
                             }
                         }
+                        b'E' => {
+                            self.cursor_x = 0;
+                            if self.cursor_y < ROWS - 1 {
+                                self.cursor_y += first_param.unwrap_or(1) as usize;
+                            }
+                        }
+                        b'F' => {
+                            self.cursor_x = 0;
+                            if self.cursor_y > 0 {
+                                self.cursor_y -= first_param.unwrap_or(1) as usize;
+                            }
+                        }
+                        b'H' => {
+                            self.cursor_y = first_param.unwrap_or(1) as usize;
+                            self.cursor_x = second_param.unwrap_or(1) as usize;
+                        }
                         b'm' => {
                             if count == 0 {
                                 self.display_attrs = DisplayAttrs::new();
                             } else {
                                 for x in params.iter().take(count).copied() {
-                                    println!("CSI ", x as u32);
                                     match x {
                                         0 => self.display_attrs = DisplayAttrs::new(),
                                         30..=37 => {
-                                            self.display_attrs.color_fore = PALETTE[x as usize - 30];
-                                            println!("fg", self.display_attrs.color_fore);
+                                            self.display_attrs.color_fore =
+                                                PALETTE[x as usize - 30];
                                         }
                                         40..=47 => {
                                             self.display_attrs.color_back = PALETTE[x as usize - 40]
@@ -340,26 +378,30 @@ impl DisplayTarget for VideoTty {
                                 }
                             }
                         }
-                        _ => {}
+                        _ => {
+                            print!("csi ", ch as char, ' ');
+                            for i in 0..count {
+                                print!(params[i]);
+                            }
+                            println!();
+                        }
                     }
                     self.escape_state = AnsiEscapeState::None;
                 }
-                0x30..=0x3f => {
-                    match ch {
-                        b'0'..=b'9' => {
-                            let mut arr = params;
-                            arr[count] *= 10;
-                            arr[count] += (ch - b'0') as u32;
-                            self.escape_state = AnsiEscapeState::CSI(count, arr);
-                        }
-                        b';' => {
-                            self.escape_state = AnsiEscapeState::CSI(count + 1, params);
-                        }
-                        _ => {
-                            self.escape_state = AnsiEscapeState::CSI(count, params);
-                        }
+                0x30..=0x3f => match ch {
+                    b'0'..=b'9' => {
+                        let mut arr = params;
+                        arr[count] *= 10;
+                        arr[count] += (ch - b'0') as u32;
+                        self.escape_state = AnsiEscapeState::CSI(count, arr);
                     }
-                }
+                    b';' => {
+                        self.escape_state = AnsiEscapeState::CSI(count + 1, params);
+                    }
+                    _ => {
+                        self.escape_state = AnsiEscapeState::CSI(count, params);
+                    }
+                },
                 0x20..=0x2f | _ => {
                     println!("Csi ", ch as u32);
                     panic("Invalid escape");
@@ -381,6 +423,9 @@ impl DisplayTarget for VideoTty {
                 b'\n' => {
                     self.cursor_x = 0;
                     self.cursor_y += 1;
+                    if self.cursor_y == ROWS {
+                        self.cursor_y = 0;
+                    }
                 }
                 b'\r' => {
                     self.cursor_x = 0;
@@ -391,24 +436,53 @@ impl DisplayTarget for VideoTty {
                     }
                 }
                 b'\x09' => {
-                    self.cursor_x += (self.cursor_x + 8) & !7;
+                    self.cursor_x = (self.cursor_x + 8) & !7;
+                    if self.cursor_x >= COLS {
+                        self.cursor_x = 0;
+                        self.cursor_y += 1;
+                        if self.cursor_y == ROWS {
+                            self.cursor_y = 0;
+                        }
+                    }
                 }
                 b'\x1b' => {
+                    println!("ESC");
                     self.escape_state = AnsiEscapeState::Fe;
                 }
                 _ => {
                     let ch = Font57::get_char(ch as char);
+                    let char_x = self.offset_x + self.cursor_x * (FONT_WIDTH + 1);
+                    let char_y = self.offset_y + self.cursor_y * FONT_HEIGHT;
                     for col in 0..5 {
                         for row in 0..8 {
                             let bit = ch[col] & (1 << row);
-                            screen::set_pixel(
-                                (self.offset_x + self.cursor_x * (FONT_WIDTH + 1) + col) as isize,
-                                (self.offset_y + self.cursor_y * FONT_HEIGHT + row) as isize,
-                                if bit != 0 {
-                                    self.display_attrs.color_fore
-                                } else {
-                                    rgb32(255, 255, 255)
-                                },
+                            let final_x = (char_x + col) as isize;
+                            let final_y = (char_y + row) as isize;
+                            if bit != 0 {
+                                unsafe {
+                                    screen::set_pixel_unchecked(
+                                        final_x,
+                                        final_y,
+                                        self.display_attrs.color_fore,
+                                    );
+                                }
+                            } else {
+                                unsafe {
+                                    screen::set_pixel_unchecked(
+                                        final_x,
+                                        final_y,
+                                        self.display_attrs.color_back,
+                                    );
+                                }
+                            }
+                        }
+                    }
+                    for row in 0..8 {
+                        unsafe {
+                            screen::set_pixel_unchecked(
+                                (char_x + 5) as isize,
+                                (char_y + row) as isize,
+                                self.display_attrs.color_back,
                             );
                         }
                     }
