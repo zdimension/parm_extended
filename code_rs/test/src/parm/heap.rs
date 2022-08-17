@@ -171,6 +171,7 @@ unsafe extern "C" fn __aeabi_memclr4(dest: *mut u8, n: usize) {
 
 #[no_mangle]
 unsafe extern "C" fn __aeabi_memclr8(dest: *mut u8, n: usize) {
+    core::arch::asm!("memclr8:");
     __aeabi_memclr(dest, n)
 }
 
