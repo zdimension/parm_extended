@@ -59,6 +59,10 @@ path = "src/lisp.rs"
 name = "ball"
 path = "src/ball.rs"
 
+[[bin]]
+name = "midi"
+path = "src/midi.rs"
+
 [profile.dev]
 panic = "abort"
 
