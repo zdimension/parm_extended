@@ -143,12 +143,29 @@ jumps = []
 immshift = {"h": 1, "w": 2, "p": 2}
 hi_regs = {"sp": 13, "lr": 14, "pc": 15}
 bname = {1: "halfword", 2: "word"}
+san_table = {".": "_DOT_", "$": "_DOL_"}
 def sanitize(s):
-	return s.replace(".", "_DOT_").replace("$", "_DOL_")
+	for k, v in san_table.items():
+		s = s.replace(k, v)
+	return s
+def unsanitize(s):
+	for k, v in san_table.items():
+		s = s.replace(v, k)
+	return s
+class lookup(dict):
+	def __getitem__(self, key):
+		key = sanitize(key)
+		if v := labels.get(key):
+			return 2 * v
+		for k, v in labels.items():
+			if k[-3:] == "XXX" and key.startswith(k[:-3]):
+				return v
+		raise KeyError(key)
+lookup = lookup()
 def parse_imm(s):
 	if not s:
 		return 0
-	res = eval(sanitize(s), {sanitize(k): 2*v for k, v in labels.items()})
+	res = eval(sanitize(s), lookup)
 	if type(res) == float and res != (res := int(res)):
 		raise AsmException(s)
 	return res
@@ -204,6 +221,7 @@ def try_assemble(m, instr, output, line):
 				except Exception as e:
 					raise AsmException(f"Invalid register list: {v}") from e
 			elif k.startswith("label"):
+				v = sanitize(v)
 				kw = k[5:]
 				if kw[0] == "p":
 					pcrel = True
@@ -224,7 +242,7 @@ def try_assemble(m, instr, output, line):
 							f"Jump too wide : {labels[v]} is {dic[k][0]} which does not fit in {width} bits")
 					jumps.append((pc, labels[v]))
 				except KeyError:
-					raise AsmException(f"Invalid label: {v} (available: {', '.join(labels.keys())})")
+					raise AsmException(f"Invalid label: {v} (available: {', '.join(map(unsanitize, labels.keys()))})")
 	for k, v in dic.items():
 		if k[-1] == "_":
 			other = dic[k[:-1]]
@@ -365,7 +383,7 @@ try:
 				if skip:
 					break
 			if m := rlbl.match(line):  # line is a label
-				labels[m.group(1)] = current_pc()
+				labels[sanitize(m.group(1))] = current_pc()
 				line = line[line.index(":") + 1:]
 			elif m := instn.match(line):
 				inst = m.group(1)

@@ -30,7 +30,7 @@ pub fn _start() -> ! {
     loop {}
 }
 
-#[export_name = "_ZN4core9panicking5panic17h1ad3ed8b8184cb53E"]
+#[export_name = "_ZN4core9panicking5panicXXX"]
 pub fn panic(expr: &'static str) -> ! {
     println!("PANIC:", expr);
     loop {}
@@ -39,26 +39,16 @@ pub fn panic(expr: &'static str) -> ! {
 #[no_mangle]
 pub fn expect_failed(msg: &'static str) -> ! {
     unsafe {
-        core::arch::asm!("_ZN4core6option13expect_failed17h8c305cb9ee051e3fE:");
+        core::arch::asm!("_ZN4core6option13expect_failedXXX:");
     }
     panic(msg)
-}
-
-#[no_mangle]
-pub fn panic2(expr: &'static str) -> ! {
-    unsafe {
-        core::arch::asm!("_ZN4core9panicking5panic17h0889907c7e7272d5E:");
-        core::arch::asm!("_ZN4core9panicking5panic17h54febf44e809a353E:");
-        core::arch::asm!("_ZN4core9panicking5panic17h17dc07c17ae86e0aE:");
-    }
-    panic(expr)
 }
 
 #[export_name = "unwrap_failed"]
 #[inline(always)]
 pub fn unwrap_failed() -> ! {
     unsafe {
-        core::arch::asm!("_ZN4core6result13unwrap_failed17ha24f234727605fe4E:");
+        core::arch::asm!("_ZN4core6result13unwrap_failedXXX:");
     }
     panic("unwrap_failed");
 }
@@ -67,7 +57,7 @@ pub fn unwrap_failed() -> ! {
 #[inline(always)]
 fn panic_bounds_check() -> ! {
     unsafe {
-        core::arch::asm!("_ZN4core9panicking18panic_bounds_check17hdd4103d91da30be2E:");
+        core::arch::asm!("_ZN4core9panicking18panic_bounds_checkXXX:");
     }
     panic("index out of bounds")
 }
@@ -76,7 +66,7 @@ fn panic_bounds_check() -> ! {
 #[inline(always)]
 fn panic_fmt() -> ! {
     unsafe {
-        core::arch::asm!("_ZN4core9panicking9panic_fmt17h68d384b53873b462E:");
+        core::arch::asm!("_ZN4core9panicking9panic_fmtXXX:");
     }
     panic("panic_fmt")
 }
@@ -84,10 +74,9 @@ fn panic_fmt() -> ! {
 #[export_name = "slicee_end_index_len_fail"]
 fn slice_end_index_len_fail(_index: usize, _len: usize) -> ! {
     unsafe {
-        core::arch::asm!("_ZN4core5slice5index26slice_start_index_len_fail17h86e173ea5fb70460E:");
-        core::arch::asm!("_ZN4core5slice5index26slice_start_index_len_fail17h05b08b6429f99ff9E:");
-        core::arch::asm!("_ZN4core5slice5index24slice_end_index_len_fail17hd26402f79c80bb78E:");
-        core::arch::asm!("_ZN4core5slice29__DOL_LT_DOL_impl_DOL_u20_DOL__DOL_u5b_DOL_T_DOL_u5d_DOL__DOL_GT_DOL_15copy_from_slice17len_mismatch_fail17ha5c55307ed7c32d3E:");
+        core::arch::asm!("_ZN4core5slice5index26slice_start_index_len_failXXX:");
+        core::arch::asm!("_ZN4core5slice5index24slice_end_index_len_failXXX:");
+        core::arch::asm!("_ZN4core5slice29__DOL_LT_DOL_impl_DOL_u20_DOL__DOL_u5b_DOL_T_DOL_u5d_DOL__DOL_GT_DOL_15copy_from_slice17len_mismatch_failXXX:");
     }
     panic("slice index out of bounds");
 }
@@ -95,8 +84,7 @@ fn slice_end_index_len_fail(_index: usize, _len: usize) -> ! {
 #[no_mangle]
 fn slice_index_order_fail(_index: usize, _end: usize) -> ! {
     unsafe {
-        core::arch::asm!("_ZN4core5slice5index22slice_index_order_fail17h7e93f067783a53a9E:");
-        core::arch::asm!("_ZN4core5slice5index22slice_index_order_fail17hfb6240035e985fd1E:");
+        core::arch::asm!("_ZN4core5slice5index22slice_index_order_failXXX:");
     }
     panic("slice index start is larger than end");
 }
