@@ -113,14 +113,11 @@ impl LispList {
     }
 
     pub fn from_iter(iter: &mut LispListIter) -> LispValBox {
-        let head: LispValBox = LispVal::List(LispList::Empty).into();
-        let mut last = head.clone();
+        let mut ret = LispListBuilder::new();
         for item in iter {
-            let new_last: LispValBox = LispVal::List(LispList::Empty).into();
-            *last = LispVal::List(LispList::Cons(item.clone(), new_last.clone()));
-            last = new_last;
+            ret.push(item.clone());
         }
-        head
+        ret.finish()
     }
 }
 
@@ -162,6 +159,29 @@ impl<'a> Iterator for LispListIter<'a> {
                 Some(car)
             }
         }
+    }
+}
+
+struct LispListBuilder {
+    head: LispValBox,
+    last: LispValBox,
+}
+
+impl LispListBuilder {
+    pub fn new() -> Self {
+        let head: LispValBox = LispVal::List(LispList::Empty).into();
+        let last = head.clone();
+        Self { head, last }
+    }
+
+    pub fn push(&mut self, item: LispValBox) {
+        let new_last: LispValBox = LispVal::List(LispList::Empty).into();
+        *self.last = LispVal::List(LispList::Cons(item, new_last.clone()));
+        self.last = new_last;
+    }
+
+    pub fn finish(self) -> LispValBox {
+        self.head
     }
 }
 
@@ -850,15 +870,11 @@ impl SchemeEnv {
 
     #[inline(never)]
     fn eval_list(&mut self, items: &LispList) -> Result<LispValBox, String> {
-        let head: LispValBox = LispVal::List(LispList::Empty).into();
-        let mut last = head.clone();
+        let mut res = LispListBuilder::new();
         for item in items.iter() {
-            let result = self.eval(item)?;
-            let new_last: LispValBox = LispVal::List(LispList::Empty).into();
-            *last = LispVal::List(LispList::Cons(result, new_last.clone()));
-            last = new_last;
+            res.push(self.eval(item)?);
         }
-        Ok(head)
+        Ok(res.finish())
     }
 
     #[inline(never)]
@@ -1338,55 +1354,60 @@ impl Default for SchemeEnvData {
             }
         });
 
-        /*fn list_star(args: &[LispValBox]) -> Result<Vec<LispValBox>, String> {
-            let head = args[..args.len() - 1].iter().cloned();
-            let tail = args[args.len() - 1].expect_list("list*")?;
-            Ok(head.chain(tail.iter().cloned()).collect())
+        fn list_star(mut args: &LispList) -> Result<LispValBox, String> {
+            let mut res = LispListBuilder::new();
+            while let LispList::Cons(item, rest) = args {
+                if let LispVal::List(LispList::Empty) = **rest {
+                    for item in item.expect_list("list*")? {
+                        res.push(item.clone());
+                    }
+                    break;
+                }
+                res.push(item.clone());
+                args = rest.expect_list("list*")?;
+            }
+            Ok(res.finish())
         }
 
         builtin(&mut map, "list*", |_, args| {
-            list_star(args).map(|list| LispVal::List(list).into())
+            list_star(args)
         });
 
         builtin(&mut map, "apply", |env, args| {
-            let (fct, _) = args[0].expect_callable("apply")?;
-            let args = list_star(&args[1..])?;
-            env.eval_call(fct, &args)
-        });*/
+            let (fct, args) = args.expect_cons("apply")?;
+            let (fct, _) = fct.expect_callable("apply")?;
+            let args = list_star(args.expect_list("list*")?)?;
+            let args = unsafe {
+                args
+                    .expect_list("")
+                    .unwrap_unchecked()
+            };
+            env.eval_call(fct, args)
+        });
 
         builtin(&mut map, "map", |env, args| {
             let (fct, _) = args.expect_car("map")?.expect_callable("map")?;
             let list = args.expect_cadr("map")?.expect_list("map")?;
-            let head: LispValBox = LispVal::List(LispList::Empty).into();
-            let mut last = head.clone();
-            #[inline(never)]
-            fn inner(last: &mut LispValBox, fct: &ProcType, env: &mut SchemeEnv, item: &LispValBox) -> Result<(), String> {
-                let result = env.eval_call(fct, &LispList::singleton(item.clone()))?;
-                let new_last: LispValBox = LispVal::List(LispList::Empty).into();
-                **last = LispVal::List(LispList::Cons(result, new_last.clone()));
-                *last = new_last;
-                Ok(())
-            }
+            let mut res = LispListBuilder::new();
             for item in list.iter() {
-                inner(&mut last, fct, env, item)?;
+                res.push(env.eval_call(fct, &LispList::singleton(item.clone()))?);
             }
-            Ok(head)
+            Ok(res.finish())
         });
 
-        /*builtin(&mut map, "append", |_, args| {
-            let mut head = LispVal::List(LispList::Empty).into();
-            let mut last = head.clone();
-
+        builtin(&mut map, "append", |_, args| {
+            let mut res = LispListBuilder::new();
 
             for arg in args {
                 let arg = arg.expect_list("append")?;
-                list.reserve(arg.len());
+
                 for item in arg.iter() {
-                    list.push(item.clone());
+                    res.push(item.clone());
                 }
             }
-            Ok(LispVal::List(list).into())
-        });*/
+
+            Ok(res.finish())
+        });
 
         builtin(&mut map, "max", |_, args| {
             let mut max = args.expect_car("max")?.expect_int("max")?;
