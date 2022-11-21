@@ -28,7 +28,7 @@ impl Font57 {
 
 // https://github.com/noopkat/oled-font-5x7/blob/master/oled-font-5x7.js
 
-static FONT57: &'static [u8] = &[
+static FONT57: &[u8] = &[
     0x00, 0x00, 0x00, 0x00, 0x00, // (space)
     0x00, 0x00, 0x5F, 0x00, 0x00, // !
     0x00, 0x07, 0x00, 0x07, 0x00, // "
@@ -126,7 +126,7 @@ static FONT57: &'static [u8] = &[
     0x02, 0x01, 0x02, 0x04, 0x02, // ~
 ];
 
-static LOOKUP57: &'static [u8] = &[
+static LOOKUP57: &[u8] = &[
     b' ', b'!', b'"', b'#', b'$', b'%', b'&', b'\'', b'(', b')', b'*', b'+', b',', b'-', b'.',
     b'/', b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b':', b';', b'<', b'=', b'>',
     b'?', b'@', b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N',
@@ -137,8 +137,6 @@ static LOOKUP57: &'static [u8] = &[
 ];
 
 use crate::parm::heap::HEAP_START;
-
-use crate::parm::mmio::RES;
 use crate::parm::screen::{rgb32, ColorEncodable, ColorEncoded};
 use crate::parm::tty::{AsciiEncodable, Display, DisplayTarget};
 use crate::parm::{panic, screen};

@@ -3,7 +3,7 @@
 #![feature(min_specialization)]
 #![feature(associated_type_defaults)]
 #![feature(iter_order_by)]
-#![feature(generic_associated_types)]
+#![feature(step_trait)]
 
 mod parm;
 

@@ -1,12 +1,10 @@
 #![no_main]
 #![no_std]
 #![feature(min_specialization)]
-#![feature(generic_associated_types)]
 #![feature(iter_order_by)]
 #![feature(step_trait)]
 #![feature(slice_pattern)]
 
-use crate::parm::control::breakpoint;
 use core::iter::Peekable;
 
 use crate::parm::heap::string::StrLike;
@@ -14,7 +12,6 @@ use crate::parm::heap::string::ToString;
 use crate::parm::heap::string::{CharSeq, Parse};
 use crate::parm::heap::string::{FromStr, String};
 use crate::parm::heap::vec::Vec;
-use crate::parm::mmio::RES;
 use crate::parm::tty::{clear, print_char, print_hex, read_int, read_line, Display, DisplayTarget};
 use crate::parm::{panic, telnet};
 
@@ -89,8 +86,8 @@ impl Operator {
                 Operator::Sub => Value::Number(a - b),
                 Operator::Mul => Value::Number(a * b),
                 Operator::Div => Value::Number(a / b),
-                Operator::Eq => Value::Number(if a == b { 1 } else { 0 }),
-                Operator::NotEq => Value::Number(if a != b { 1 } else { 0 }),
+                Operator::Eq => Value::Number(u32::from(a == b)),
+                Operator::NotEq => Value::Number(u32::from(a != b)),
             },
             _ => panic("invalid operands"),
         }
@@ -122,24 +119,26 @@ impl<'v, T, V: RpnVisitor<Output = T>> RpnEvaluator<'v, T, V> {
 
     #[inline(never)]
     fn visit_token(&mut self, item: &Token) -> T {
+        #[inline(never)]
+        fn visit_operator<T, V: RpnVisitor<Output = T>>(s: &mut RpnEvaluator<'_, T, V>, op: &Operator) -> T {
+            let a = match s.stack.pop() {
+                Some(a) => a,
+                None => {
+                    panic("stack underflow (a)");
+                }
+            };
+            let b = match s.stack.pop() {
+                Some(b) => b,
+                None => {
+                    panic("stack underflow (b)");
+                }
+            };
+            s.visitor.visit_operator(op, &a, &b)
+        }
         match item {
             Token::Literal(v) => self.visitor.visit_literal(v),
             Token::Variable(v) => self.visitor.visit_variable(v),
-            Token::Operator(op) => {
-                let a = match self.stack.pop() {
-                    Some(a) => a,
-                    None => {
-                        panic("stack underflow (a)");
-                    }
-                };
-                let b = match self.stack.pop() {
-                    Some(b) => b,
-                    None => {
-                        panic("stack underflow (b)");
-                    }
-                };
-                self.visitor.visit_operator(op, &a, &b)
-            }
+            Token::Operator(op) => visit_operator(self, op)
         }
     }
 
@@ -341,8 +340,6 @@ fn show_program(code: &Program) {
     }
 }
 
-fn load_program(code: &mut Program) {}
-
 fn main() {
     parm::heap::init();
 
@@ -387,14 +384,14 @@ fn main() {
 }
 
 #[inline(never)]
-fn load_telnet(mut program: &mut Program, mut last: &mut LineNumber) {
+fn load_telnet(program: &mut Program, last: &mut LineNumber) {
     loop {
         let line = telnet::read_line();
         if line.is_empty() {
             break;
         }
         println!("# ", line);
-        process_instruction_input(&mut program, &mut last, &line);
+        process_instruction_input(program, last, &line);
     }
 }
 
@@ -703,9 +700,7 @@ impl Program {
 
             #[inline(always)]
             fn start_line(&mut self) {
-                unsafe {
-                    self.instr_starts.push(self.instr_count());
-                }
+                self.instr_starts.push(self.instr_count());
             }
 
             #[inline(always)]
@@ -726,7 +721,7 @@ impl Program {
 
             #[inline(always)]
             fn instr_count(&self) -> usize {
-                self.code.len() * 2 + if self.leftover.is_some() { 1 } else { 0 }
+                self.code.len() * 2 + usize::from(self.leftover.is_some())
             }
 
             #[inline(always)]
