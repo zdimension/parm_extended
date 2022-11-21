@@ -1,6 +1,6 @@
 use crate::parm::heap::string::String;
 use crate::parm::mmio::{RESbcd, RES};
-use crate::parm::{keyb, mmio, panic};
+use crate::parm::{keyb, mmio};
 use core::hint::unreachable_unchecked;
 
 #[macro_export]

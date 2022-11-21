@@ -2,9 +2,8 @@ pub mod tty;
 
 use crate::parm::mmio::DISPbuf;
 use crate::parm::screen::tty::AnsiEscape;
-use crate::parm::tty::{print_hex, Display, DisplayTarget};
+use crate::parm::tty::{Display, DisplayTarget};
 use crate::print;
-use core::fmt::Write;
 use core::ops::Not;
 
 const VRAM: *mut u32 = 0x100_0000 as *mut u32;

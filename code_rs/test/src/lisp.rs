@@ -3,7 +3,6 @@
 #![feature(min_specialization)]
 #![feature(associated_type_defaults)]
 #![feature(iter_order_by)]
-#![feature(generic_associated_types)]
 #![feature(step_trait)]
 #![feature(slice_pattern)]
 
@@ -64,17 +63,23 @@ pub enum ClosureArgs {
 
 impl LispVal {
     pub fn equal(&self, other: &LispVal) -> bool {
+        #[inline(never)]
+        fn inner(l: &LispVal, r: &LispVal) -> bool {
+            match (l, r) {
+                (LispVal::List(ref a), LispVal::List(ref b)) => {
+                    a.iter().zip(b.iter()).all(|(a, b)| a.equal(b))
+                }
+                (LispVal::Void, LispVal::Void) => true,
+                (LispVal::Procedure(ref _a, ref _b), LispVal::Procedure(ref _c, ref _d)) => false,
+                _ => false,
+            }
+        }
         match (self, other) {
             (LispVal::Symbol(ref a), LispVal::Symbol(ref b)) => a == b,
             (LispVal::Int(a), LispVal::Int(b)) => a == b,
             (LispVal::Bool(a), LispVal::Bool(b)) => a == b,
             (LispVal::Str(ref a), LispVal::Str(ref b)) => a == b,
-            (LispVal::List(ref a), LispVal::List(ref b)) => {
-                a.iter().zip(b.iter()).all(|(a, b)| a.equal(b))
-            }
-            (LispVal::Void, LispVal::Void) => true,
-            (LispVal::Procedure(ref a, ref b), LispVal::Procedure(ref c, ref d)) => false,
-            _ => false,
+            _ => inner(self, other),
         }
     }
 
@@ -622,14 +627,18 @@ impl SchemeEnv {
             .iter()
             .map(|s| s.expect_symbol("lambda"))
             .collect::<Result<Vec<_>, _>>()?;
-        Ok(if syms.len() >= 2 && syms[syms.len() - 2] == "." {
-            ClosureArgs::Dispatch(
-                Vec::from_iter(syms[..syms.len() - 2].iter().map(|&s| s.clone())),
-                Some(syms[syms.len() - 1].clone()),
-            )
-        } else {
-            ClosureArgs::Dispatch(Vec::from_iter(syms.iter().map(|&s| s.clone())), None)
-        })
+        #[inline(never)]
+        fn inner(syms: Vec<&String>) -> Result<ClosureArgs, String> {
+            Ok(if syms.len() >= 2 && syms[syms.len() - 2] == "." {
+                ClosureArgs::Dispatch(
+                    Vec::from_iter(syms[..syms.len() - 2].iter().map(|&s| s.clone())),
+                    Some(syms[syms.len() - 1].clone()),
+                )
+            } else {
+                ClosureArgs::Dispatch(Vec::from_iter(syms.iter().map(|&s| s.clone())), None)
+            })
+        }
+        inner(syms)
     }
 
     #[inline(never)]
@@ -899,6 +908,12 @@ impl SchemeEnv {
     }
 
     #[inline(never)]
+    fn eval_macro_call(&mut self, mac: &ProcType, items: &[LispValBox]) -> Result<LispValBox, String> {
+        let expansion = self.eval_call(mac, items)?;
+        self.eval(&expansion)
+    }
+
+    #[inline(never)]
     fn eval_form(&mut self, items: &Vec<LispValBox>) -> Result<LispValBox, String> {
         let head = items.first().ok_or("call: expected head")?;
 
@@ -910,11 +925,11 @@ impl SchemeEnv {
 
         let binding = self.eval(head)?;
         let (proc, is_macro) = binding.expect_callable("call")?;
+        let args = &items[1..];
         if is_macro {
-            let expansion = self.eval_call(proc, &items[1..])?;
-            self.eval(&expansion)
+            self.eval_macro_call(proc, args)
         } else {
-            let evald = items[1..]
+            let evald = args
                 .iter()
                 .map(|x| self.eval(x))
                 .collect::<Result<Vec<_>, _>>()?;
@@ -1088,7 +1103,7 @@ impl Default for SchemeEnvData {
         builtin(&mut map, "displayln", displayln);
         builtin(&mut map, "println", displayln);
 
-        builtin(&mut map, "newline", |_, args| {
+        builtin(&mut map, "newline", |_, _| {
             println!();
             Ok(LispVal::Void.into())
         });
@@ -1164,11 +1179,15 @@ impl Default for SchemeEnvData {
         builtin(&mut map, "map", |env, args| {
             let (fct, _) = args[0].expect_callable("map")?;
             let list = args[1].expect_list("map")?;
-            let results: Result<Vec<_>, _> = list
-                .iter()
-                .map(|e| env.eval_call(fct, &[e.clone()]))
-                .collect();
-            Ok(LispVal::List(results?).into())
+            #[inline(never)]
+            fn inner(fct: &ProcType, list: &Vec<LispValBox>, env: &mut SchemeEnv) -> Result<LispValBox, String> {
+                let results: Result<Vec<_>, _> = list
+                    .iter()
+                    .map(|e| env.eval_call(fct, &[e.clone()]))
+                    .collect();
+                Ok(LispVal::List(results?).into())
+            }
+            inner(&fct, &list, env)
         });
 
         builtin(&mut map, "append", |_, args| {

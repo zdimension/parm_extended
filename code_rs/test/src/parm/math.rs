@@ -26,6 +26,9 @@ pub struct DivMod<T> {
 
 #[export_name = "__aeabi_uidivmod"]
 pub fn __aeabi_uidivmod(a: u32, b: u32) -> DivMod<u32> {
+    unsafe {
+        core::arch::asm!("__uidivmod_test:");
+    }
     let divmod = divmod(a, b);
     DivMod {
         quotient: divmod.0,

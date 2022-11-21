@@ -4,7 +4,7 @@
 #![feature(associated_type_defaults)]
 #![feature(iter_order_by)]
 #![feature(step_trait)]
-#![feature(generic_associated_types)]
+#![feature(slice_pattern)]
 
 mod parm;
 
