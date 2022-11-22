@@ -177,6 +177,12 @@ impl<T> Vec<T> {
         }
     }
 
+    #[inline(always)]
+    pub fn reserve_exact(&mut self, additional: usize) {
+        // todo: exact
+        self.reserve(additional);
+    }
+
     #[inline(never)]
     fn grow_amortized(&mut self, additional: usize) {
         // since we set the capacity to usize::MAX when T has size 0,
@@ -236,6 +242,59 @@ impl<T> Vec<T> {
             ptr::drop_in_place(s);
         }
     }
+
+    #[inline(always)]
+    fn extend_with<E: ExtendWith<T>>(&mut self, n: usize, mut value: E) {
+        self.reserve(n);
+
+        unsafe {
+            let mut ptr = self.as_mut_ptr().add(self.len());
+            // Use SetLenOnDrop to work around bug where compiler
+            // might not realize the store through `ptr` through self.set_len()
+            // don't alias.
+            let mut local_len = SetLenOnDrop::new(&mut self.len);
+
+            // Write all elements except the last one
+            for _ in 1..n {
+                ptr::write(ptr, value.next());
+                ptr = ptr.add(1);
+                // Increment the length in every step in case next() panics
+                local_len.increment_len(1);
+            }
+
+            if n > 0 {
+                // We can write the last element directly without cloning needlessly
+                ptr::write(ptr, value.last());
+                local_len.increment_len(1);
+            }
+
+            // len set by scope guard
+        }
+    }
+}
+
+struct SetLenOnDrop<'a> {
+    len: &'a mut usize,
+    local_len: usize,
+}
+
+impl<'a> SetLenOnDrop<'a> {
+    #[inline]
+    pub(super) fn new(len: &'a mut usize) -> Self {
+        SetLenOnDrop { local_len: *len, len }
+    }
+
+    #[inline]
+    pub(super) fn increment_len(&mut self, increment: usize) {
+        self.local_len += increment;
+    }
+}
+
+impl Drop for SetLenOnDrop<'_> {
+    #[inline]
+    fn drop(&mut self) {
+        *self.len = self.local_len;
+    }
 }
 
 impl<T: Display> Vec<T> {
@@ -260,6 +319,31 @@ impl<T: Clone> Clone for Vec<T> {
     }
 }
 
+trait ExtendWith<T> {
+    fn next(&mut self) -> T;
+    fn last(self) -> T;
+}
+
+struct ExtendElement<T>(T);
+impl<T: Clone> ExtendWith<T> for ExtendElement<T> {
+    fn next(&mut self) -> T {
+        self.0.clone()
+    }
+    fn last(self) -> T {
+        self.0
+    }
+}
+
+struct ExtendFunc<F>(F);
+impl<T, F: FnMut() -> T> ExtendWith<T> for ExtendFunc<F> {
+    fn next(&mut self) -> T {
+        (self.0)()
+    }
+    fn last(mut self) -> T {
+        (self.0)()
+    }
+}
+
 impl<T: Clone> Vec<T> {
     #[inline(always)]
     pub fn extend_from_slice(&mut self, other: &[T]) {
@@ -272,6 +356,17 @@ impl<T: Clone> Vec<T> {
             unsafe {
                 self.push_unchecked(item.clone());
             }
+        }
+    }
+
+    #[inline(always)]
+    pub fn resize(&mut self, new_len: usize, value: T) {
+        let len = self.len();
+
+        if new_len > len {
+            self.extend_with(new_len - len, ExtendElement(value))
+        } else {
+            self.truncate(new_len);
         }
     }
 }
