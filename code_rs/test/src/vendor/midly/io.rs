@@ -42,12 +42,11 @@ pub trait Seek: Write {
     fn write_at(&mut self, buf: &[u8], pos: u64) -> WriteResult<Self>;
 }
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone)]
 enum Never {}
 
 /// The type used for the [`Seekable`](trait.Write.html#associatedtype.Seekable) associated type on
 /// non-seekable writers.
-#[derive(Debug)]
 pub struct NotSeekable<W> {
     _phantom: PhantomData<W>,
     never: Never,
@@ -143,7 +142,6 @@ impl Seek for Vec<u8> {
 /// A seekable writer over an in-memory buffer.
 ///
 /// Available even when the `std` and `alloc` features are disabled.
-#[derive(Debug)]
 pub struct Cursor<'a> {
     buf: &'a mut [u8],
     cur: usize,
@@ -283,7 +281,7 @@ impl<'a> Seek for Cursor<'a> {
 }
 
 /// The errors that can arise when writing to an in-memory buffer.
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub enum CursorError {
     /// The in-memory buffer was too small.
     OutOfSpace,
@@ -315,7 +313,7 @@ impl<'a> Write for &'a mut [u8] {
 /// Bridge between a `midly::io::Write` type and a `std::io::Write` type.
 ///
 /// Always available, but only implements `midly::io::Write` when the `std` feature is enabled.
-#[derive(Debug, Clone, Default)]
+#[derive(Clone, Default)]
 pub struct IoWrap<T>(pub T);
 #[cfg(feature = "std")]
 impl<T: io::Write> Write for IoWrap<T> {
@@ -335,7 +333,7 @@ impl<T: io::Write> Write for IoWrap<T> {
 ///
 /// Always available, but only implements `midly::io::{Write, Seek}` when the `std` feature is
 /// enabled.
-#[derive(Debug, Clone, Default)]
+#[derive(Clone, Default)]
 pub struct SeekableWrap<T>(pub T);
 
 

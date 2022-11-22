@@ -262,7 +262,7 @@ pub fn release_key() {
     MIDIon.write(0);
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct MidiNote(u8);
 
 impl MidiNote {
@@ -311,7 +311,7 @@ impl Sub for MidiNote {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Octave(i8);
 
 impl Octave {
@@ -340,7 +340,7 @@ impl Octave {
 }
 
 #[repr(u8)]
-#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Pitch {
     C,
     CSharp,
@@ -445,7 +445,7 @@ impl Sub<Interval> for Pitch {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Interval {
     semitones: u8,
 }

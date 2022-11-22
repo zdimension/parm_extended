@@ -56,7 +56,7 @@ pub type Track<'a> = Vec<TrackEvent<'a>>;
 /// This type is only available with the `alloc` feature enabled.
 /// If you're looking for a fully `no_std` alternative, see the [`parse`](fn.parse.html) function.
 #[cfg(feature = "alloc")]
-#[derive(Clone, PartialEq, Eq, Debug, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash)]
 pub struct Smf<'a> {
     /// The header of this MIDI file, indicating tempo information and track format.
     pub header: Header,
@@ -138,7 +138,7 @@ pub type BytemappedTrack<'a> = Vec<(&'a [u8], TrackEvent<'a>)>;
 ///
 /// This type is only available with the `alloc` feature enabled.
 #[cfg(feature = "alloc")]
-#[derive(Clone, PartialEq, Eq, Debug, Hash)]
+#[derive(Clone, PartialEq, Eq, Hash)]
 pub struct SmfBytemap<'a> {
     /// The header of this file.
     pub header: Header,
@@ -364,7 +364,7 @@ where
     write(header, tracks, &mut IoWrap(out))
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 struct ChunkIter<'a> {
     /// Starts at the current index, ends at EOF.
     raw: &'a [u8],
@@ -402,7 +402,7 @@ impl<'a> Iterator for ChunkIter<'a> {
     }
 }
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone)]
 enum Chunk<'a> {
     Header(Header, u16),
     Track(&'a [u8]),
@@ -537,7 +537,7 @@ impl<'a> Chunk<'a> {
 }
 
 /// A MIDI file header, indicating metadata about the file.
-#[derive(Copy, Clone, PartialEq, Eq, Debug, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Header {
     /// Information about how should the tracks be laid out when playing them back.
     pub format: Format,
@@ -575,7 +575,7 @@ impl Header {
 /// Created by the [`parse`](fn.parse.html) function.
 ///
 /// This type is always available, even in `no_std` environments.
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 pub struct TrackIter<'a> {
     chunks: ChunkIter<'a>,
     track_count_hint: u16,
@@ -686,7 +686,7 @@ trait EventKind<'a> {
     fn read_ev(raw: &mut &'a [u8], running_status: &mut Option<u8>) -> Result<Self::Event>;
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 struct EventIterGeneric<'a, T> {
     raw: &'a [u8],
     running_status: Option<u8>,
@@ -776,7 +776,7 @@ impl<'a, T: EventKind<'a>> Iterator for EventIterGeneric<'a, T> {
 /// rather than `TrackEvent`.
 ///
 /// This type is always available, even in `no_std` environments.
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 pub struct EventIter<'a> {
     inner: EventIterGeneric<'a, Self>,
 }
@@ -858,7 +858,7 @@ impl<'a> Iterator for EventIter<'a> {
 /// `Result<(&[u8], TrackEvent)>>` rather than just `(&[u8], TrackEvent)`.
 ///
 /// This type is always available, even in `no_std` environments.
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 pub struct EventBytemapIter<'a> {
     inner: EventIterGeneric<'a, Self>,
 }

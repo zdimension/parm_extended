@@ -91,7 +91,7 @@ impl Display for ColorEncoded {
 }
 
 #[repr(u32)]
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum ColorSimple {
     White,
     Black,

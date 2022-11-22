@@ -19,7 +19,7 @@ use crate::vendor::midly::{
 /// This parser takes raw MIDI, *not* `.midi` files!
 ///
 /// Read the module documentation for more info.
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Default)]
 pub struct MidiStream<B = DefaultBuffer> {
     status: Option<u8>,
     data: B,
@@ -201,16 +201,6 @@ macro_rules! stack_buffer {
             fn hash<H: core::hash::Hasher>(&self, h: &mut H) {
                 h.write($crate::vendor::midly::num::u7::slice_as_int(&self.buf[..self.len]));
                 h.write(&[0xFF]);
-            }
-        }
-        impl core::fmt::Debug for $name {
-            fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
-                write!(f, concat!(stringify!($name), "["))?;
-                for databyte in self.buf.iter() {
-                    write!(f, "{:02x}", databyte.as_int())?;
-                }
-                write!(f, "]")?;
-                Ok(())
             }
         }
         impl $name {

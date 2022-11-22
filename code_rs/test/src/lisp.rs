@@ -5,6 +5,8 @@
 #![feature(iter_order_by)]
 #![feature(step_trait)]
 #![feature(slice_pattern)]
+#![allow(dead_code)]
+#![allow(clippy::should_implement_trait)]
 
 use crate::parm::heap::{free, malloc};
 use core::iter::{Copied, Enumerate, Peekable};
@@ -12,6 +14,7 @@ use core::mem::{MaybeUninit, size_of};
 use core::ops::{Deref, DerefMut};
 use core::ptr;
 use core::slice::Iter;
+use crate::budmap::{BudMap, Entry};
 
 use crate::parm::heap::string::{FromStr, Parse, String};
 use crate::parm::heap::vec::Vec;
@@ -320,7 +323,6 @@ impl LispVal {
 
 struct SchemeParser<'a>(&'a [char], Peekable<Enumerate<Copied<Iter<'a, char>>>>);
 
-#[derive(Debug)]
 pub enum ReadError {
     EOFFound,
     CharacterExpected(char, Option<char>),
@@ -569,7 +571,7 @@ fn write_list(xs: &LispList, target: &mut impl DisplayTarget) {
     let mut iter = xs.iter();
     if let Some(x) = iter.next() {
         x.write(target);
-        while let Some(x) = iter.next() {
+        for x in iter.by_ref() {
             print!(" ", => target);
             x.write(target);
         }
@@ -621,41 +623,32 @@ impl<T: Display> Display for Prc<T> {
     }
 }
 
-struct SymbolMap(Vec<(String, LispValBox)>);
+struct SymbolMap(BudMap<String, LispValBox>);
+
+type SymbolEntry<'map> = Entry<'map, String, LispValBox>;
 
 impl SymbolMap {
     fn new() -> Self {
-        SymbolMap(Vec::new())
+        SymbolMap(BudMap::default())
     }
 
-    fn get(&self, s: &[char]) -> Option<LispValBox> {
-        self.0
-            .iter()
-            .find(|(ref k, _)| k.iter().eq(s))
-            .map(|&(_, ref v)| v.clone())
+    fn get(&self, s: &String) -> Option<LispValBox> {
+        self.0.get(s).cloned()
     }
 
     #[inline(never)]
-    fn entry(&mut self, s: &[char]) -> Option<&mut LispValBox> {
-        self.0
-            .iter_mut()
-            .find(|(ref k, _)| k.iter().eq(s.iter()))
-            .map(|(_, ref mut v)| v)
+    fn entry(&mut self, s: &String) -> Entry<'_, String, LispValBox> {
+        self.0.entry_ref(s)
     }
 
     #[inline(never)]
-    fn contains(&self, s: &[char]) -> bool {
-        self.0.iter().any(|(ref k, _)| k.iter().eq(s))
+    fn contains(&self, s: &String) -> bool {
+        self.0.contains(s)
     }
 
     #[inline(never)]
     fn set(&mut self, s: String, v: LispValBox) {
-        let existing = self.entry(&s);
-        if let Some(cell) = existing {
-            *cell = v;
-        } else {
-            self.0.push((s, v));
-        }
+        self.0.set(s, v);
     }
 }
 
@@ -756,7 +749,7 @@ impl<T> DerefMut for Prc<T> {
 }
 
 impl SchemeEnv {
-    fn get(&self, s: &[char]) -> Option<LispValBox> {
+    fn get(&self, s: &String) -> Option<LispValBox> {
         if let Some(res) = self.0.map.get(s) {
             Some(res)
         } else {
@@ -770,26 +763,28 @@ impl SchemeEnv {
     }
 
     #[inline(never)]
-    fn entry(&mut self, s: &[char]) -> Option<&mut LispValBox> {
+    fn entry(&mut self, s: &String) -> SymbolEntry<'_> {
         let SchemeEnvData {
             ref mut map,
             ref mut parent,
             ..
         } = *self.0;
-        if let Some(res) = map.entry(s) {
-            Some(res)
-        } else {
-            parent.as_mut().and_then(|p| p.entry(s))
+        let entry = map.entry(s);
+        match entry {
+            Entry::Occupied(_) => entry,
+            Entry::Vacant(_) => match parent {
+                Some(p) => p.entry(s),
+                None => entry,
+            },
         }
     }
 
     #[inline(never)]
     fn set(&mut self, s: String, v: LispValBox) {
-        if let Some(cell) = self.entry(&s) {
-            *cell = v;
-        } else {
-            self.set_new(s, v);
-        }
+        match self.entry(&s) {
+            Entry::Occupied(e) => { let _ = e.replace(v); },
+            Entry::Vacant(e) => e.insert(v),
+        };
     }
 
     #[inline(never)]
@@ -830,22 +825,15 @@ impl SchemeEnv {
 
     #[inline(never)]
     fn eval_lambda_args_list(&mut self, args: &LispList) -> Result<ClosureArgs, String> {
-        let syms = args
-            .iter()
-            .map(|s| s.expect_symbol("lambda"))
-            .collect::<Result<Vec<_>, _>>()?;
-        #[inline(never)]
-        fn inner(syms: Vec<&String>) -> Result<ClosureArgs, String> {
-            Ok(if syms.len() >= 2 && syms[syms.len() - 2] == "." {
-                ClosureArgs::Dispatch(
-                    Vec::from_iter(syms[..syms.len() - 2].iter().map(|&s| s.clone())),
-                    Some(syms[syms.len() - 1].clone()),
-                )
-            } else {
-                ClosureArgs::Dispatch(Vec::from_iter(syms.iter().map(|&s| s.clone())), None)
-            })
+        let mut iter = args.iter();
+        let mut syms = Vec::new();
+        for arg in iter.by_ref() {
+            syms.push(arg.expect_symbol("lambda")?.clone());
         }
-        inner(syms)
+        Ok(ClosureArgs::Dispatch(
+            syms,
+            iter.tail().map(|s| s.expect_symbol("lambda")).transpose()?.cloned(),
+        ))
     }
 
     #[inline(never)]
@@ -1199,8 +1187,8 @@ impl SchemeEnv {
                 name.clone(),
                 LispList::from_iter(iter),
             );
-        } else if iter.next().is_some() {
-            return Err(String::from("call: too many arguments"));
+        } else if let Some(remaining) = iter.next() {
+            return Err(makestr!("call: too many arguments, unexpected ", remaining));
         }
         Ok(())
     }
@@ -1520,7 +1508,7 @@ fn main() {
             tty::read_line(&mut input);
             print!('\n', => &mut input);
         }
-        if input == *".load" {
+        if input == ".load\n" {
             // telnet load
             telnet = true;
             input.clear();
@@ -1555,7 +1543,6 @@ mod budmap {
     use core::slice;
     use crate::fxhash::FxHasher;
     use crate::parm::heap::vec::Vec;
-    use crate::parm::mmio::RNG32;
 
     #[derive(Clone)]
     pub struct RandomState;
@@ -1582,7 +1569,7 @@ mod budmap {
     /// Additionally, methods can be used to retrieve entries by index instead of
     /// just by key.
     #[derive(Clone)]
-    pub struct BudMap<Key, Value, HashBuilder = RandomState> {
+    pub struct BudMap<Key, Value> {
         /// A dense list of all entries in this map. This is where the actual
         /// key/value data is stored.
         entries: Vec<RawEntry<Key, Value>>,
@@ -1597,23 +1584,20 @@ mod budmap {
         /// the start of a singly-linked list that points to all currently free
         /// collision bins.
         free_collision_head: OptionalIndex,
-        /// The [`BuildHasher`] implementor via which keys are hashed.
-        hash_builder: HashBuilder,
     }
 
-    impl<Key, Value> Default for BudMap<Key, Value, RandomState> {
+    impl<Key, Value> Default for BudMap<Key, Value> {
         fn default() -> Self {
             Self {
                 entries: Vec::default(),
                 bins: Vec::default(),
                 bin_mask: BinMask(0),
                 free_collision_head: OptionalIndex::none(),
-                hash_builder: RandomState,
             }
         }
     }
 
-    impl<Key, Value> BudMap<Key, Value, RandomState>
+    impl<Key, Value> BudMap<Key, Value>
         where
             Key: Eq + Hash,
     {
@@ -1627,31 +1611,23 @@ mod budmap {
         }
     }
 
-    impl<Key, Value, HashBuilder> BudMap<Key, Value, HashBuilder>
+    impl<Key, Value> BudMap<Key, Value>
         where
             Key: Eq + Hash,
-            HashBuilder: BuildHasher,
     {
         /// Returns an empty map with enough room for `minimum_capacity` elements to
         /// be inserted without allocations (assuming no hash collisions). Keys are
         /// hashed using `hash_builder`.
         #[must_use]
-        pub fn with_capacity_and_hasher(minimum_capacity: usize, hash_builder: HashBuilder) -> Self {
-            let mut map = Self::with_hasher(hash_builder);
-            map.grow(minimum_capacity);
-            map
-        }
-
-        /// Returns an empty map whose keys are hashed using `hash_builder`.
-        #[must_use]
-        pub const fn with_hasher(hash_builder: HashBuilder) -> Self {
-            Self {
+        pub fn with_capacity_and_hasher(minimum_capacity: usize) -> Self {
+            let mut map = Self {
                 entries: Vec::new(),
                 bins: Vec::new(),
                 bin_mask: BinMask(0),
                 free_collision_head: OptionalIndex::none(),
-                hash_builder,
-            }
+            };
+            map.grow(minimum_capacity);
+            map
         }
 
         fn get_entry(&self, hash: u64, key: &Key) -> Option<(usize, Option<usize>, usize)> {
@@ -1679,26 +1655,31 @@ mod budmap {
 
         /// Looks up an entry for `key`. If one is found, [`Entry::Occupied`] will
         /// be returned. If one is not found, [`Entry::Vacant`] will be returned.
-        pub fn entry(&mut self, key: Key) -> Entry<'_, Key, Value, HashBuilder> {
-            let hash = self.hash(&key);
+        pub fn entry(&mut self, key: Key) -> Entry<'_, Key, Value> {
+        let hash = self.hash(&key);
 
-            // Try to find the existing value
-            let existing_entry = self.get_entry(hash, &key);
+        // Try to find the existing value
+        let existing_entry = self.get_entry(hash, &key);
 
-            if let Some((bin_index, pointee, entry_index)) = existing_entry {
-                Entry::Occupied(OccupiedEntry {
-                    map: self,
-                    entry_index,
-                    bin_index,
-                    pointee,
-                })
-            } else {
-                Entry::Vacant(VacantEntry {
-                    map: self,
-                    key,
-                    hash,
-                })
-            }
+        if let Some((bin_index, pointee, entry_index)) = existing_entry {
+            Entry::Occupied(OccupiedEntry {
+                map: self,
+                entry_index,
+                bin_index,
+                pointee,
+            })
+        } else {
+            Entry::Vacant(VacantEntry {
+                map: self,
+                key,
+                hash,
+            })
+        }
+    }
+
+        pub fn contains(&self, key: &Key) -> bool {
+            let hash = self.hash(key);
+            self.get_entry(hash, key).is_some()
         }
 
         fn grow_for_insert(&mut self) {
@@ -1731,7 +1712,7 @@ mod budmap {
         }
 
         fn hash(&self, key: &Key) -> u64 {
-            let mut hasher = self.hash_builder.build_hasher();
+            let mut hasher = RandomState.build_hasher();
             key.hash(&mut hasher);
             hasher.finish()
         }
@@ -1767,6 +1748,18 @@ mod budmap {
                             entry_index,
                         );
                     }
+                }
+            }
+        }
+
+        pub fn set(&mut self, key: Key, value: Value) {
+            let entry = self.entry(key);
+            match entry {
+                Entry::Occupied(entry) => {
+                    let _ = entry.replace(value);
+                }
+                Entry::Vacant(entry) => {
+                    entry.insert(value);
                 }
             }
         }
@@ -1836,7 +1829,7 @@ mod budmap {
             if entry_index == self.bin_mask.0 {
                 // This should only trigger when we don't grow after our upper
                 // limit.
-                assert_eq!(self.bin_mask.0, usize::MAX << 1);
+                //assert_eq!(self.bin_mask.0, usize::MAX << 1);
                 panic!("map too large for insert");
             } else {
                 self.entries.push(RawEntry { hash, key, value });
@@ -1945,6 +1938,33 @@ mod budmap {
         }
     }
 
+    impl<Key, Value> BudMap<Key, Value>
+        where
+            Key: Eq + Hash + Clone
+    {
+        pub fn entry_ref(&mut self, key: &Key) -> Entry<'_, Key, Value> {
+            let hash = self.hash(key);
+
+            // Try to find the existing value
+            let existing_entry = self.get_entry(hash, key);
+
+            if let Some((bin_index, pointee, entry_index)) = existing_entry {
+                Entry::Occupied(OccupiedEntry {
+                    map: self,
+                    entry_index,
+                    bin_index,
+                    pointee,
+                })
+            } else {
+                Entry::Vacant(VacantEntry {
+                    map: self,
+                    key: key.clone(),
+                    hash,
+                })
+            }
+        }
+    }
+
     #[inline]
     fn free_collision_index(
         bins: &mut [Bin],
@@ -1984,7 +2004,7 @@ mod budmap {
     }
 
     /// A bitmask for a 2^n quantity of bins.
-    #[derive(Clone, Copy, Debug)]
+    #[derive(Clone, Copy)]
     struct BinMask(usize);
 
     impl BinMask {
@@ -1998,7 +2018,7 @@ mod budmap {
     }
 
     /// A hash-map bin.
-    #[derive(Default, Debug, Clone, Copy)]
+    #[derive(Default, Clone, Copy)]
     struct Bin {
         /// The index inside of the [`BudMap::entries`] vec, if present.
         entry_index: OptionalIndex,
@@ -2010,7 +2030,7 @@ mod budmap {
     /// A wrapper for a `usize` which reserves `usize::MAX` as a marker indicating
     /// None. `core::mem::size_of::<Option<usize>>()` is 2x usize, while
     /// `size_of::<OptionalIndex>()` remains 1x usize.
-    #[derive(Clone, Copy, Debug)]
+    #[derive(Clone, Copy)]
     struct OptionalIndex(usize);
 
     impl OptionalIndex {
@@ -2045,7 +2065,7 @@ mod budmap {
     }
 
     /// A single key/value entry in a [`BudMap`].
-    #[derive(Clone, Debug)]
+    #[derive(Clone)]
     struct RawEntry<Key, Value> {
         /// The computed hash of `key`.
         hash: u64,
@@ -2056,25 +2076,24 @@ mod budmap {
     }
 
     /// A possible entry for a key in a [`BudMap`].
-    pub enum Entry<'a, Key, Value, HashBuilder> {
+    pub enum Entry<'a, Key, Value> {
         /// There is an entry for this key that contains a value.
-        Occupied(OccupiedEntry<'a, Key, Value, HashBuilder>),
+        Occupied(OccupiedEntry<'a, Key, Value>),
         /// There is not currently an entry for this key.
-        Vacant(VacantEntry<'a, Key, Value, HashBuilder>),
+        Vacant(VacantEntry<'a, Key, Value>),
     }
 
     /// An occupied entry for a key in a [`BudMap`].
-    pub struct OccupiedEntry<'a, Key, Value, HashBuilder> {
-        map: &'a mut BudMap<Key, Value, HashBuilder>,
+    pub struct OccupiedEntry<'a, Key, Value> {
+        map: &'a mut BudMap<Key, Value>,
         entry_index: usize,
         bin_index: usize,
         pointee: Option<usize>,
     }
 
-    impl<'a, Key, Value, HashBuilder> OccupiedEntry<'a, Key, Value, HashBuilder>
+    impl<'a, Key, Value> OccupiedEntry<'a, Key, Value>
         where
             Key: Eq + Hash,
-            HashBuilder: BuildHasher,
     {
         fn slot(&self) -> &RawEntry<Key, Value> {
             &self.map.entries[self.entry_index]
@@ -2115,16 +2134,15 @@ mod budmap {
     ///
     /// Because the map has not been modified to create this record, dropping a
     /// vacant entry will leave the original map untouched.
-    pub struct VacantEntry<'a, Key, Value, HashBuilder> {
-        map: &'a mut BudMap<Key, Value, HashBuilder>,
+    pub struct VacantEntry<'a, Key, Value> {
+        map: &'a mut BudMap<Key, Value>,
         key: Key,
         hash: u64,
     }
 
-    impl<'a, Key, Value, HashBuilder> VacantEntry<'a, Key, Value, HashBuilder>
+    impl<'a, Key, Value> VacantEntry<'a, Key, Value>
         where
             Key: Eq + Hash,
-            HashBuilder: BuildHasher,
     {
         /// Inserts `value` into the map for this entry's key.
         pub fn insert(self, value: Value) {
@@ -2240,7 +2258,7 @@ mod fxhash {
     ///
     /// This hashing algorithm should not be used for cryptographic, or in scenarios where
     /// DOS attacks are a concern.
-    #[derive(Debug, Clone)]
+    #[derive(Clone)]
     pub struct FxHasher {
         hash: usize,
     }

@@ -12,6 +12,7 @@ use core::{cmp, mem, ptr, slice};
 use core::hash::{Hash, Hasher};
 
 #[repr(C)]
+#[derive(Eq)]
 pub struct Vec<T> {
     ptr: NonNull<T>,
     cap: usize,
@@ -307,6 +308,12 @@ impl<T: Display> Vec<T> {
             print!(self[i], => &mut s);
         }
         s
+    }
+}
+
+impl<T: PartialEq> PartialEq for Vec<T> {
+    fn eq(&self, other: &Self) -> bool {
+        (&self[..]).eq(&other[..])
     }
 }
 

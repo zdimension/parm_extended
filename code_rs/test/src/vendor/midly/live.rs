@@ -20,7 +20,7 @@ use crate::vendor::midly::{event::MidiMessage, prelude::*};
 /// [`TrackEvent`](../struct.TrackEvent.html)s stored in a `.mid` file.
 ///
 /// See the [`live`](index.html) module for more information.
-#[derive(Copy, Clone, PartialEq, Eq, Debug, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub enum LiveEvent<'a> {
     /// A MIDI message associated with a channel, carrying musical data.
     ///
@@ -188,7 +188,7 @@ impl<'a> LiveEvent<'a> {
 }
 
 /// A "system common event", as defined by the MIDI spec.
-#[derive(Copy, Clone, PartialEq, Eq, Debug, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub enum SystemCommon<'a> {
     /// A system-exclusive event.
     ///
@@ -272,7 +272,7 @@ impl<'a> SystemCommon<'a> {
 }
 
 /// The different kinds of info a Midi Time Code Quarter Frame message can carry.
-#[derive(Copy, Clone, PartialEq, Eq, Debug, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub enum MtcQuarterFrameMessage {
     /// The low nibble of the frame count.
     FramesLow,
@@ -324,7 +324,7 @@ impl MtcQuarterFrameMessage {
 /// System Realtime messages are one-byte messages that only occur within live MIDI streams.
 /// They are usually time-sensitive, get top priority and can even be transmitted in between other
 /// messages.
-#[derive(Copy, Clone, PartialEq, Eq, Debug, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub enum SystemRealtime {
     /// If sent, they should be sent 24 times per quarter note.
     TimingClock,

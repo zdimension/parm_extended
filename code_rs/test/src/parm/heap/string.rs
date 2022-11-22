@@ -7,7 +7,7 @@ use core::str::Bytes;
 use crate::parm::tty::{AsciiEncodable, Display, DisplayTarget};
 
 #[repr(transparent)]
-#[derive(Clone)]
+#[derive(Clone, Eq, Hash)]
 pub struct String {
     vec: Vec<char>,
 }
@@ -499,6 +499,12 @@ concept bool CharSeq =
 
  */
 
+impl PartialEq<&str> for String {
+    fn eq(&self, other: &&str) -> bool {
+        self.to_chars().eq(other.to_chars())
+    }
+}
+
 impl PartialEq<str> for String {
     fn eq(&self, other: &str) -> bool {
         self.to_chars().eq(other.to_chars())
@@ -507,6 +513,6 @@ impl PartialEq<str> for String {
 
 impl PartialEq<String> for String {
     fn eq(&self, other: &String) -> bool {
-        self.vec.eq(&other.vec[..])
+        self.vec.eq(&other.vec)
     }
 }

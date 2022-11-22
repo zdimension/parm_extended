@@ -81,7 +81,7 @@ trait ErrorExt {
 /// violated are not very useful.
 /// For this reason, errors are broadly categorized into 2 classes, and specific error info is
 /// provided as a non-normative string literal.
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone)]
 pub enum ErrorKind {
     /// Fatal errors while reading the file. It is likely that the file is not a MIDI file or
     /// is severely corrupted.

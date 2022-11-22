@@ -48,7 +48,7 @@ mod parse_collect {
     #[cfg(feature = "alloc")]
     pub use crate::vendor::midly::Smf;
     #[cfg(not(feature = "alloc"))]
-    #[derive(Clone, PartialEq, Eq, Debug)]
+    #[derive(Clone, PartialEq, Eq)]
     pub struct Smf<'a> {
         pub header: crate::vendor::midly::Header,
         pub tracks: Vec<Vec<TrackEvent<'a>>>,
@@ -77,7 +77,7 @@ mod parse_bytemap {
     #[cfg(feature = "alloc")]
     pub use crate::vendor::midly::SmfBytemap as Smf;
     #[cfg(not(feature = "alloc"))]
-    #[derive(Clone, PartialEq, Eq, Debug)]
+    #[derive(Clone, PartialEq, Eq)]
     pub struct Smf<'a> {
         pub header: crate::vendor::midly::Header,
         pub tracks: Vec<Vec<(&'a [u8], TrackEvent<'a>)>>,
@@ -270,7 +270,6 @@ fn test_stream_api(file: &str) {
         TrackEventKind,
     };
 
-    #[derive(Debug)]
     struct EventData<'a> {
         fired_at: usize,
         event: Result<LiveEvent<'a>, (usize, usize)>,
