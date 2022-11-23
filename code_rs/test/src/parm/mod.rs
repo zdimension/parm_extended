@@ -10,6 +10,7 @@ pub mod mmio;
 pub mod screen;
 pub mod telnet;
 pub mod tty;
+pub mod util;
 
 #[link_section = ".start"]
 #[export_name = "run"]

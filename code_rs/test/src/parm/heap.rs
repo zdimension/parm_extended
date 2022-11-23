@@ -1,5 +1,6 @@
 pub mod string;
 pub mod vec;
+pub mod budmap;
 
 use crate::parm::panic;
 use core::alloc::{GlobalAlloc, Layout};
