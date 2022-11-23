@@ -8,14 +8,16 @@
 #![allow(dead_code)]
 #![allow(clippy::should_implement_trait)]
 
+use core::cell::{RefCell, RefMut};
 use core::hash::{Hash, Hasher};
 use crate::parm::heap::{free, malloc};
 use core::iter::{Copied, Enumerate, Peekable};
 use core::mem::{MaybeUninit, size_of};
-use core::ops::{Deref, DerefMut};
+use core::ops::{Deref};
 use core::ptr;
 use core::slice::Iter;
 use crate::parm::heap::budmap::{BudMap, Entry};
+use paste::paste;
 
 use crate::parm::heap::string::{FromStr, Parse, String};
 use crate::parm::heap::vec::Vec;
@@ -24,7 +26,18 @@ use crate::parm::{keyb, telnet, tty};
 
 mod parm;
 
-type LispHash = BudMap<LispValBox, LispValBox>;
+#[derive(Clone, Hash, Eq, PartialEq)]
+pub struct LispHash
+{
+    map: BudMap<LispValBox, LispValBox>,
+    mutable: bool,
+}
+
+#[derive(Clone, Hash, Eq, PartialEq)]
+pub struct LispProc {
+    pub fct: ProcType,
+    pub is_macro: bool
+}
 
 #[derive(Clone, Hash, Eq)]
 pub enum LispVal {
@@ -34,7 +47,7 @@ pub enum LispVal {
     Str(String),
     List(LispList),
     Void,
-    Procedure(ProcType, bool),
+    Procedure(LispProc),
     Hash(LispHash),
 }
 
@@ -97,6 +110,10 @@ impl LispList {
     }
 
     pub fn get_n<const N: usize>(&self) -> Option<[&LispValBox; N]> {
+        self.get_n_iter().map(|(res, _)| res)
+    }
+
+    pub fn get_n_iter<const N: usize>(&self) -> Option<([&LispValBox; N], LispListIter)> {
         let mut iter = self.iter();
         let mut ret: [MaybeUninit<&LispValBox>; N] = unsafe { MaybeUninit::uninit().assume_init() };
         for i in ret.iter_mut() {
@@ -107,7 +124,7 @@ impl LispList {
         }
         // not possible yet https://stackoverflow.com/a/68451110/2196124
         // Some(unsafe { core::mem::transmute(ret) })
-        Some(unsafe { *(&ret as *const _ as *const _) })
+        Some((unsafe { *(&ret as *const _ as *const _) }, iter))
     }
 
     pub fn len(&self) -> usize {
@@ -195,7 +212,7 @@ impl LispListBuilder {
 
     pub fn push(&mut self, item: LispValBox) {
         let new_last: LispValBox = LispVal::List(LispList::Empty).into();
-        *self.last = LispVal::List(LispList::Cons(item, new_last.clone()));
+        *self.last.borrow_mut() = LispVal::List(LispList::Cons(item, new_last.clone()));
         self.last = new_last;
     }
 
@@ -266,6 +283,37 @@ impl PartialEq for LispVal {
     }
 }
 
+macro_rules! expect {
+    ($variant:ident, $expected:ident, &$type:ty) => {
+        paste! {
+            fn [<expect_ $expected>](&self, origin: &'static str) -> Result<&$type, String> {
+                match self {
+                    LispVal::[< $variant >](val) => Ok(val),
+                    _ => Err(self.expect_message(origin, stringify!($expected))),
+                }
+            }
+
+            fn [<expect_ $expected _mut>](&mut self, origin: &'static str) -> Result<&mut $type, String> {
+                match self {
+                    LispVal::[< $variant >](val) => Ok(val),
+                    _ => Err(self.expect_message(origin, stringify!($expected))),
+                }
+            }
+        }
+    };
+
+    ($variant:ident, $expected:ident, $type:ty) => {
+        paste! {
+            fn [<expect_ $expected>](&self, origin: &'static str) -> Result<$type, String> {
+                match self {
+                    LispVal::[< $variant >](val) => Ok(*val),
+                    _ => Err(self.expect_message(origin, stringify!($expected))),
+                }
+            }
+        }
+    };
+}
+
 impl LispVal {
     pub fn equal(&self, other: &LispVal) -> bool {
         #[inline(never)]
@@ -279,7 +327,7 @@ impl LispVal {
                     _ => false,
                 },
                 (LispVal::Void, LispVal::Void) => true,
-                (LispVal::Procedure(ref _a, ref _b), LispVal::Procedure(ref _c, ref _d)) => false,
+                (LispVal::Procedure(LispProc { fct: ref _a, is_macro: ref _b }), LispVal::Procedure(LispProc { fct: ref _c, is_macro: ref _d })) => false,
                 _ => false,
             }
         }
@@ -308,9 +356,9 @@ impl LispVal {
             LispVal::Str(_) => "string",
             LispVal::List(_) => "list",
             LispVal::Void => "void",
-            LispVal::Procedure(ProcType::Builtin(_, _), _) => "builtin",
-            LispVal::Procedure(ProcType::Closure { .. }, _) => "closure",
-            LispVal::Hash(_) => "hash",
+            LispVal::Procedure(LispProc { fct: ProcType::Builtin(_, _), .. }) => "builtin",
+            LispVal::Procedure(LispProc { fct: ProcType::Closure { .. }, .. }) => "closure",
+            LispVal::Hash { .. } => "hash",
         }
     }
 
@@ -327,33 +375,11 @@ impl LispVal {
         )
     }
 
-    fn expect_int(&self, origin: &'static str) -> Result<i32, String> {
-        match self {
-            LispVal::Int(val) => Ok(*val),
-            _ => Err(self.expect_message(origin, "int")),
-        }
-    }
-
-    fn expect_callable(&self, origin: &'static str) -> Result<(&ProcType, bool), String> {
-        match self {
-            LispVal::Procedure(proc, is_macro) => Ok((proc, *is_macro)),
-            _ => Err(self.expect_message(origin, "callable")),
-        }
-    }
-
-    fn expect_symbol(&self, origin: &'static str) -> Result<&String, String> {
-        match self {
-            LispVal::Symbol(val) => Ok(val),
-            _ => Err(self.expect_message(origin, "symbol")),
-        }
-    }
-
-    fn expect_list(&self, origin: &'static str) -> Result<&LispList, String> {
-        match self {
-            LispVal::List(val) => Ok(val),
-            _ => Err(self.expect_message(origin, "list")),
-        }
-    }
+    expect!(Int, int, i32);
+    expect!(Procedure, callable, &LispProc);
+    expect!(Symbol, symbol, &String);
+    expect!(List, list, &LispList);
+    expect!(Hash, hash, &LispHash);
 }
 
 struct SchemeParser<'a>(&'a [char], Peekable<Enumerate<Copied<Iter<'a, char>>>>);
@@ -500,13 +526,13 @@ impl<'a> SchemeParser<'a> {
                 let val = self.read()?;
                 self.skip_spaces();
                 self.expect(closing)?;
-                *last = val;
+                *last.borrow_mut() = val;
                 break;
             }
             let val = self.read()?;
             self.skip_spaces();
             let new_last: LispValBox = LispVal::List(LispList::Empty).into();
-            *last = LispVal::List(LispList::Cons(val.into(), new_last.clone()));
+            *last.borrow_mut() = LispVal::List(LispList::Cons(val.into(), new_last.clone()));
             last = new_last;
         }
         Ok(first)
@@ -621,8 +647,12 @@ fn write_list(xs: &LispList, target: &mut impl DisplayTarget) {
 #[inline(never)]
 fn write_hash(h: &LispHash, target: &mut impl DisplayTarget) {
     print!("'#hash(", => target);
-    for (key, value) in h.iter() {
+    let mut iter = h.map.iter();
+    if let Some((key, value)) = iter.next() {
         print!("(", key, " . ", value, ")", => target);
+        for (key, value) in iter {
+            print!(" (", key, " . ", value, ")", => target);
+        }
     }
     print!(")", => target);
 }
@@ -656,7 +686,7 @@ impl Display for LispVal {
             LispVal::Symbol(s) => print!(s, => target),
             LispVal::List(xs) => write_list(xs, target),
             LispVal::Void => print!("#<void>", => target),
-            LispVal::Procedure(ty, _) => write_procedure(ty.name(), target),
+            LispVal::Procedure(LispProc { fct: ty, .. }) => write_procedure(ty.name(), target),
             LispVal::Hash(h) => write_hash(h, target),
         }
     }
@@ -720,11 +750,11 @@ impl Hash for SchemeEnv {
 }
 
 struct PrcInner<T> {
-    val: T,
+    val: RefCell<T>,
     ref_count: usize,
 }
 
-#[derive(Eq, Hash)]
+#[derive(Eq)]
 pub struct Prc<T> {
     ptr: *mut PrcInner<T>,
 }
@@ -738,7 +768,7 @@ impl<T> Prc<T> {
             ptr::write(
                 mem,
                 PrcInner {
-                    val: v,
+                    val: RefCell::new(v),
                     ref_count: 1,
                 },
             );
@@ -752,6 +782,10 @@ impl<T> Prc<T> {
 
     unsafe fn from_raw(ptr: *mut PrcInner<T>) -> Self {
         Self { ptr }
+    }
+
+    pub fn borrow_mut(&self) -> RefMut<'_, T> {
+        unsafe { (*self.ptr).val.borrow_mut() }
     }
 }
 
@@ -767,6 +801,12 @@ impl<T> Clone for Prc<T> {
 impl<T: PartialEq> PartialEq<Prc<T>> for Prc<T> {
     fn eq(&self, other: &Prc<T>) -> bool {
         self.ptr == other.ptr || *self == *other
+    }
+}
+
+impl<T: PartialEq + Hash> Hash for Prc<T> {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.ptr.hash(state);
     }
 }
 
@@ -790,7 +830,7 @@ impl<T> From<T> for Prc<T> {
 
 impl<T> AsRef<T> for Prc<T> {
     fn as_ref(&self) -> &T {
-        unsafe { &(*self.ptr).val }
+        unsafe { &*(*self.ptr).val.as_ptr() }
     }
 }
 
@@ -798,14 +838,19 @@ impl<T> Deref for Prc<T> {
     type Target = T;
 
     fn deref(&self) -> &T {
-        unsafe { &(*self.ptr).val }
+        unsafe { &*(*self.ptr).val.as_ptr() }
     }
 }
 
-impl<T> DerefMut for Prc<T> {
+/*impl<T> DerefMut for Prc<T> {
     fn deref_mut(&mut self) -> &mut T {
         unsafe { &mut (*self.ptr).val }
     }
+}*/
+
+enum InsertionState {
+    Inserted,
+    NotFound(LispValBox),
 }
 
 impl SchemeEnv {
@@ -819,32 +864,54 @@ impl SchemeEnv {
 
     #[inline(never)]
     fn set_new(&mut self, s: String, v: LispValBox) {
-        self.0.map.set(s, v);
+        self.0.borrow_mut().map.set(s, v);
     }
 
+
+
     #[inline(never)]
-    fn entry(&mut self, s: &String) -> SymbolEntry<'_> {
+    fn set_rec(&mut self, s: String, v: LispValBox, root: bool) -> InsertionState {
+        let mut bo = self.0.borrow_mut();
         let SchemeEnvData {
             ref mut map,
             ref mut parent,
             ..
-        } = *self.0;
-        let entry = map.entry(s);
+        } = *bo;
+        let entry = map.entry(&s);
         match entry {
-            Entry::Occupied(_) => entry,
-            Entry::Vacant(_) => match parent {
-                Some(p) => p.entry(s),
-                None => entry,
+            Entry::Occupied(e) => {
+                let _ = e.replace(v);
+                InsertionState::Inserted
+            },
+            Entry::Vacant(e) => match parent {
+                Some(p) => {
+                    let inserted = p.set_rec(s, v, false);
+                    if let InsertionState::NotFound(v) = inserted {
+                        if root {
+                            e.insert(v);
+                            InsertionState::Inserted
+                        } else {
+                            InsertionState::NotFound(v)
+                        }
+                    } else {
+                        InsertionState::Inserted
+                    }
+                },
+                None => {
+                    if root {
+                        e.insert(v);
+                        InsertionState::Inserted
+                    } else {
+                        InsertionState::NotFound(v)
+                    }
+                },
             },
         }
     }
 
     #[inline(never)]
     fn set(&mut self, s: String, v: LispValBox) {
-        match self.entry(&s) {
-            Entry::Occupied(e) => { let _ = e.replace(v); }
-            Entry::Vacant(e) => e.insert(v),
-        };
+        self.set_rec(s, v, true);
     }
 
     #[inline(never)]
@@ -872,15 +939,15 @@ impl SchemeEnv {
         body: LispList,
         is_macro: bool,
     ) -> LispVal {
-        LispVal::Procedure(
-            ProcType::Closure {
+        LispVal::Procedure(LispProc {
+            fct: ProcType::Closure {
                 name,
                 args,
                 body,
                 env: self.clone(),
             },
-            is_macro,
-        )
+            is_macro
+        })
     }
 
     #[inline(never)]
@@ -926,16 +993,17 @@ impl SchemeEnv {
             LispVal::Symbol(name) => {
                 let mut value = self.eval(items.expect_cadr("define: expected value")?)?;
                 if is_macro {
-                    let (ty, _) = value.expect_callable("define-macro")?;
-                    value = LispVal::Procedure(ty.clone(), true).into();
+                    let mut res = value.expect_callable("define-macro")?.clone();
+                    res.is_macro = true;
+                    value = LispVal::Procedure(res).into();
                 }
-                self.0.map.set(name.clone(), value);
+                self.0.borrow_mut().map.set(name.clone(), value);
             }
             LispVal::List(fct_items) => {
                 let (name, args) = fct_items.expect_cons("define")?;
                 let args = self.eval_lambda_args_list(args.expect_list("define: expected argument list")?)?;
                 let lambda = self.eval_closure(args, rest.expect_list("define: expected body")?, is_macro)?;
-                self.0
+                self.0.borrow_mut()
                     .map
                     .set(name.expect_symbol("define")?.clone(), lambda);
             }
@@ -1087,7 +1155,7 @@ impl SchemeEnv {
                     if let Some(res) = env.check_unquote_splicing(res)? {
                         for item in res.iter() {
                             let new_last: LispValBox = LispVal::List(LispList::Empty).into();
-                            **last = LispVal::List(LispList::Cons(item.clone(), new_last.clone()));
+                            *(*last).borrow_mut() = LispVal::List(LispList::Cons(item.clone(), new_last.clone()));
                             *last = new_last;
                         }
 
@@ -1097,7 +1165,7 @@ impl SchemeEnv {
 
                 let result = env.eval_quasiquote(item)?;
                 let new_last: LispValBox = LispVal::List(LispList::Empty).into();
-                **last = LispVal::List(LispList::Cons(result, new_last.clone()));
+                *(*last).borrow_mut() = LispVal::List(LispList::Cons(result, new_last.clone()));
                 *last = new_last;
                 Ok(())
             }
@@ -1198,9 +1266,9 @@ impl SchemeEnv {
         }
 
         let binding = self.eval(head)?;
-        let (proc, is_macro) = binding.expect_callable("call")?;
+        let LispProc { fct: proc, is_macro } = binding.expect_callable("call")?;
         let args = rest;
-        if is_macro {
+        if *is_macro {
             self.eval_macro_call(proc, args)
         } else {
             let evaluated = self.eval_list(args)?;
@@ -1283,7 +1351,10 @@ impl Default for SchemeEnvData {
         ) {
             map.set(
                 String::from(name),
-                LispVal::Procedure(ProcType::Builtin(String::from(name), f), false).into(),
+                LispVal::Procedure(LispProc {
+                    fct: ProcType::Builtin(String::from(name), f),
+                    is_macro: false
+                }).into(),
             );
         }
 
@@ -1294,7 +1365,10 @@ impl Default for SchemeEnvData {
         ) {
             map.set(
                 String::from(name),
-                LispVal::Procedure(ProcType::Builtin(String::from(name), f), true).into(),
+                LispVal::Procedure(LispProc {
+                    fct: ProcType::Builtin(String::from(name), f),
+                    is_macro: true
+                }).into(),
             );
         }
 
@@ -1397,7 +1471,7 @@ impl Default for SchemeEnvData {
 
         builtin(&mut map, "for-each", |env, args| {
             let [fct, list] = args.get_n().ok_or("for-each")?;
-            let (fct, _) = fct.expect_callable("for-each")?;
+            let LispProc{ fct, .. } = fct.expect_callable("for-each")?;
             let list = list.expect_list("for-each")?;
             #[inline(never)]
             fn process_list(
@@ -1451,7 +1525,7 @@ impl Default for SchemeEnvData {
 
         builtin(&mut map, "apply", |env, args| {
             let (fct, args) = args.expect_cons("apply")?;
-            let (fct, _) = fct.expect_callable("apply")?;
+            let LispProc{ fct, .. } = fct.expect_callable("apply")?;
             let args = list_star(args.expect_list("list*")?)?;
             let args = unsafe {
                 args
@@ -1462,7 +1536,7 @@ impl Default for SchemeEnvData {
         });
 
         builtin(&mut map, "map", |env, args| {
-            let (fct, _) = args.expect_car("map")?.expect_callable("map")?;
+            let LispProc{ fct, .. } = args.expect_car("map")?.expect_callable("map")?;
             let list = args.expect_cadr("map")?.expect_list("map")?;
             let mut res = LispListBuilder::new();
             for item in list.iter() {
@@ -1519,6 +1593,52 @@ impl Default for SchemeEnvData {
                 msg.push(' ');
             }
             Err(msg)
+        });
+
+        fn make_hash(args: &LispList, mutable: bool, origin: &'static str) -> Result<LispValBox, String> {
+            let mut hash = BudMap::default();
+            let [items] = args.get_n().ok_or(origin)?;
+            let items = items.expect_list(origin)?;
+            for item in items.iter() {
+                let (key, value) = item.expect_list(origin)?.expect_cons(origin)?;
+                hash.insert(key.clone(), value.clone());
+            }
+            Ok(LispVal::Hash(LispHash { map: hash, mutable }).into())
+        }
+
+        builtin(&mut map, "make-hash", |_, args| {
+            make_hash(args, true, "make-hash")
+        });
+
+        builtin(&mut map, "hash", |_, args| {
+            make_hash(args, false, "hash")
+        });
+
+        builtin(&mut map, "hash?", |_, args| {
+            Ok(LispVal::Bool(matches!(**args.expect_car("hash?")?, LispVal::Hash { .. })).into())
+        });
+
+        builtin(&mut map, "hash-set!", |_, args| {
+            let [hash, key, value] = args.get_n().ok_or("hash-set!")?;
+            let mut hashref = hash.borrow_mut();
+            let hash = hashref.expect_hash_mut("hash-set!")?;
+            if !hash.mutable {
+                return Err(String::from("hash-set! on immutable hash"));
+            }
+            hash.map.insert(key.clone(), value.clone());
+            Ok(LispVal::Void.into())
+        });
+
+        builtin(&mut map, "hash-ref", |env, args| {
+            let ([hash, key], mut iter) = args.get_n_iter().ok_or("hash-ref")?;
+            let hash = hash.expect_hash("hash-ref")?;
+            match hash.map.get(key) {
+                Some(value) => Ok(value.clone()),
+                None => match iter.next() {
+                    Some(failure) => env.eval_call(&failure.expect_callable("hash-ref")?.fct, &LispList::Empty),
+                    None => Err(String::from("hash-ref: key not found")),
+                }
+            }
         });
 
         SchemeEnvData { map, parent: None }
@@ -1582,7 +1702,7 @@ fn main() {
                         if !matches!(*res, LispVal::Void) {
                             println!(*res);
                         }
-                        env.0.map.set(String::from("_"), res);
+                        env.0.borrow_mut().map.set(String::from("_"), res);
                     }
                     Err(msg) => {
                         println!("eval error: ", msg);
