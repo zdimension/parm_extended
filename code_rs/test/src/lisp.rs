@@ -8,6 +8,7 @@
 #![allow(dead_code)]
 #![allow(clippy::should_implement_trait)]
 
+use core::hash::{Hash, Hasher};
 use crate::parm::heap::{free, malloc};
 use core::iter::{Copied, Enumerate, Peekable};
 use core::mem::{MaybeUninit, size_of};
@@ -23,7 +24,9 @@ use crate::parm::{keyb, telnet, tty};
 
 mod parm;
 
-#[derive(Clone)]
+type LispHash = BudMap<LispValBox, LispValBox>;
+
+#[derive(Clone, Hash, Eq)]
 pub enum LispVal {
     Symbol(String),
     Int(i32),
@@ -32,9 +35,10 @@ pub enum LispVal {
     List(LispList),
     Void,
     Procedure(ProcType, bool),
+    Hash(LispHash),
 }
 
-#[derive(Clone)]
+#[derive(Clone, Hash, PartialEq, Eq)]
 pub enum LispList {
     Empty,
     Cons(LispValBox, LispValBox),
@@ -214,6 +218,19 @@ pub enum ProcType {
     },
 }
 
+impl Hash for ProcType {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        match self {
+            ProcType::Builtin(_, ptr) => {
+                (*ptr as *const u8).hash(state);
+            }
+            ProcType::Closure { name, args, body, env } => {
+                (name, args, body, env).hash(state);
+            }
+        }
+    }
+}
+
 impl ProcType {
     #[inline(never)]
     pub fn name(&self) -> Option<&String> {
@@ -224,12 +241,29 @@ impl ProcType {
     }
 }
 
-#[derive(Clone)]
+impl PartialEq for ProcType {
+    fn eq(&self, other: &Self) -> bool {
+        match (self, other) {
+            (ProcType::Builtin(_, ptr1), ProcType::Builtin(_, ptr2)) => ptr::eq(ptr1, ptr2),
+            _ => false,
+        }
+    }
+}
+
+impl Eq for ProcType {}
+
+#[derive(Clone, Hash)]
 pub enum ClosureArgs {
     /// (lambda args)
     Whole(String),
     /// (lambda (a b)) or (lambda (a b . c))
     Dispatch(Vec<String>, Option<String>),
+}
+
+impl PartialEq for LispVal {
+    fn eq(&self, other: &Self) -> bool {
+        self.equal(other)
+    }
 }
 
 impl LispVal {
@@ -276,6 +310,7 @@ impl LispVal {
             LispVal::Void => "void",
             LispVal::Procedure(ProcType::Builtin(_, _), _) => "builtin",
             LispVal::Procedure(ProcType::Closure { .. }, _) => "closure",
+            LispVal::Hash(_) => "hash",
         }
     }
 
@@ -584,6 +619,15 @@ fn write_list(xs: &LispList, target: &mut impl DisplayTarget) {
 }
 
 #[inline(never)]
+fn write_hash(h: &LispHash, target: &mut impl DisplayTarget) {
+    print!("'#hash(", => target);
+    for (key, value) in h.iter() {
+        print!("(", key, " . ", value, ")", => target);
+    }
+    print!(")", => target);
+}
+
+#[inline(never)]
 fn write_procedure(name: Option<&String>, target: &mut impl DisplayTarget) {
     if let Some(name) = name {
         print!("#<procedure:", name, ">", => target);
@@ -613,6 +657,7 @@ impl Display for LispVal {
             LispVal::List(xs) => write_list(xs, target),
             LispVal::Void => print!("#<void>", => target),
             LispVal::Procedure(ty, _) => write_procedure(ty.name(), target),
+            LispVal::Hash(h) => write_hash(h, target),
         }
     }
 }
@@ -623,6 +668,7 @@ impl<T: Display> Display for Prc<T> {
     }
 }
 
+#[derive(Hash)]
 struct SymbolMap(BudMap<String, LispValBox>);
 
 type SymbolEntry<'map> = Entry<'map, String, LispValBox>;
@@ -657,14 +703,28 @@ struct SchemeEnvData {
     parent: Option<SchemeEnv>,
 }
 
+impl Hash for SchemeEnvData {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.map.hash(state);
+        self.parent.as_ref().map(|prc| prc.0.ptr).hash(state);
+    }
+}
+
 #[derive(Clone)]
 pub struct SchemeEnv(Prc<SchemeEnvData>);
+
+impl Hash for SchemeEnv {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.0.ptr.hash(state);
+    }
+}
 
 struct PrcInner<T> {
     val: T,
     ref_count: usize,
 }
 
+#[derive(Eq, Hash)]
 pub struct Prc<T> {
     ptr: *mut PrcInner<T>,
 }
@@ -782,7 +842,7 @@ impl SchemeEnv {
     #[inline(never)]
     fn set(&mut self, s: String, v: LispValBox) {
         match self.entry(&s) {
-            Entry::Occupied(e) => { let _ = e.replace(v); },
+            Entry::Occupied(e) => { let _ = e.replace(v); }
             Entry::Vacant(e) => e.insert(v),
         };
     }
@@ -1586,6 +1646,23 @@ mod budmap {
         free_collision_head: OptionalIndex,
     }
 
+    impl<Key: PartialEq + Eq + Hash, Value: PartialEq> PartialEq for BudMap<Key, Value> {
+        fn eq(&self, other: &Self) -> bool {
+            self.iter().eq(other.iter())
+        }
+    }
+
+    impl<Key: PartialEq + Eq + Hash, Value: PartialEq + Eq + Hash> Hash for BudMap<Key, Value> {
+        fn hash<H: Hasher>(&self, state: &mut H) {
+            for (key, value) in self.iter() {
+                key.hash(state);
+                value.hash(state);
+            }
+        }
+    }
+
+    impl<Key: PartialEq + Eq + Hash, Value: PartialEq> Eq for BudMap<Key, Value> {}
+
     impl<Key, Value> Default for BudMap<Key, Value> {
         fn default() -> Self {
             Self {
@@ -1656,26 +1733,26 @@ mod budmap {
         /// Looks up an entry for `key`. If one is found, [`Entry::Occupied`] will
         /// be returned. If one is not found, [`Entry::Vacant`] will be returned.
         pub fn entry(&mut self, key: Key) -> Entry<'_, Key, Value> {
-        let hash = self.hash(&key);
+            let hash = self.hash(&key);
 
-        // Try to find the existing value
-        let existing_entry = self.get_entry(hash, &key);
+            // Try to find the existing value
+            let existing_entry = self.get_entry(hash, &key);
 
-        if let Some((bin_index, pointee, entry_index)) = existing_entry {
-            Entry::Occupied(OccupiedEntry {
-                map: self,
-                entry_index,
-                bin_index,
-                pointee,
-            })
-        } else {
-            Entry::Vacant(VacantEntry {
-                map: self,
-                key,
-                hash,
-            })
+            if let Some((bin_index, pointee, entry_index)) = existing_entry {
+                Entry::Occupied(OccupiedEntry {
+                    map: self,
+                    entry_index,
+                    bin_index,
+                    pointee,
+                })
+            } else {
+                Entry::Vacant(VacantEntry {
+                    map: self,
+                    key,
+                    hash,
+                })
+            }
         }
-    }
 
         pub fn contains(&self, key: &Key) -> bool {
             let hash = self.hash(key);
