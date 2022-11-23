@@ -90,6 +90,12 @@ fn slice_index_order_fail(_index: usize, _end: usize) -> ! {
     panic("slice index start is larger than end");
 }
 
+core::arch::global_asm!(
+    r#"
+    _ZN63_$LT$core..cell..BorrowMutError$u20$as$u20$core..fmt..Debug$GT$3fmt17hd3989ea40ef8781cE: nop
+    "#
+);
+
 use crate::println;
 use core::panic::PanicInfo;
 

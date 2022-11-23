@@ -23,6 +23,7 @@ use crate::parm::heap::string::{FromStr, Parse, String};
 use crate::parm::heap::vec::Vec;
 use crate::parm::tty::{Display, DisplayTarget};
 use crate::parm::{keyb, telnet, tty};
+use crate::parm::util::fxhash::FxHasher;
 
 mod parm;
 
@@ -390,6 +391,7 @@ pub enum ReadError {
     EOFExpected(char),
     IntParseError,
     BoolParseError(Option<char>),
+    Empty,
 }
 
 impl Display for ReadError {
@@ -408,8 +410,15 @@ impl Display for ReadError {
                 print!("expected '#t' or '#f' but found '", next, "'", => target);
             }
             ReadError::BoolParseError(None) => print!("got EOF while parsing boolean", => target),
+            ReadError::Empty => print!("empty input", => target),
         }
     }
+}
+
+#[derive(PartialEq, Eq)]
+enum LoopResult {
+    Continue,
+    EndList
 }
 
 impl<'a> SchemeParser<'a> {
@@ -500,6 +509,44 @@ impl<'a> SchemeParser<'a> {
     }
 
     #[inline(never)]
+    fn read_list_tail(&mut self, closing: char, last: &mut LispValBox) -> Result<LoopResult, ReadError> {
+        self.skip_spaces();
+        let val = self.read()?;
+        self.skip_spaces();
+        self.expect(closing)?;
+        *last.borrow_mut() = val;
+        Ok(LoopResult::EndList)
+    }
+
+    #[inline(never)]
+    fn read_list_item(&mut self, closing: char, last: &mut LispValBox) -> Result<LoopResult, ReadError> {
+        if self.accept('.') {
+            return self.read_list_tail(closing, last);
+        }
+        let val = self.read()?;
+        self.skip_spaces();
+        let new_last: LispValBox = LispVal::List(LispList::Empty).into();
+        *last.borrow_mut() = LispVal::List(LispList::Cons(val.into(), new_last.clone()));
+        *last = new_last;
+        Ok(LoopResult::Continue)
+    }
+
+    #[inline(never)]
+    fn read_list_content(&mut self, closing: char) -> Result<LispVal, ReadError> {
+        let val = self.read()?;
+        self.skip_spaces();
+        let mut last: LispValBox = LispVal::List(LispList::Empty).into();
+        let mut first = LispVal::List(LispList::Cons(val.into(), last.clone()));
+
+        while !self.accept(closing) {
+            if self.read_list_item(closing, &mut last)? == LoopResult::EndList {
+                break;
+            }
+        }
+        Ok(first)
+    }
+
+    #[inline(never)]
     fn read_list(&mut self) -> Result<LispVal, ReadError> {
         let closing = if self.accept('(') {
             ')'
@@ -512,30 +559,11 @@ impl<'a> SchemeParser<'a> {
             ));
         };
 
-        let mut first = LispVal::List(LispList::Empty);
         if self.accept(closing) {
-            return Ok(first);
+            return Ok(LispVal::List(LispList::Empty));
         }
-        let val = self.read()?;
-        self.skip_spaces();
-        let mut last: LispValBox = LispVal::List(LispList::Empty).into();
-        first = LispVal::List(LispList::Cons(val.into(), last.clone()));
-        while !self.accept(closing) {
-            if self.accept('.') {
-                self.skip_spaces();
-                let val = self.read()?;
-                self.skip_spaces();
-                self.expect(closing)?;
-                *last.borrow_mut() = val;
-                break;
-            }
-            let val = self.read()?;
-            self.skip_spaces();
-            let new_last: LispValBox = LispVal::List(LispList::Empty).into();
-            *last.borrow_mut() = LispVal::List(LispList::Cons(val.into(), new_last.clone()));
-            last = new_last;
-        }
-        Ok(first)
+
+        self.read_list_content(closing)
     }
 
     #[inline(never)]
@@ -586,6 +614,10 @@ impl<'a> SchemeParser<'a> {
 
     #[inline(never)]
     fn read_whole(&mut self) -> Result<LispVal, ReadError> {
+        self.skip_spaces();
+        if self.1.peek().is_none() {
+            return Err(ReadError::Empty);
+        }
         let res = self.read();
         self.skip_spaces();
         match self.1.peek() {
@@ -800,13 +832,13 @@ impl<T> Clone for Prc<T> {
 
 impl<T: PartialEq> PartialEq<Prc<T>> for Prc<T> {
     fn eq(&self, other: &Prc<T>) -> bool {
-        self.ptr == other.ptr || *self == *other
+        self.ptr == other.ptr || self.deref() == other.deref()
     }
 }
 
 impl<T: PartialEq + Hash> Hash for Prc<T> {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        self.ptr.hash(state);
+        self.deref().hash(state);
     }
 }
 
@@ -1372,6 +1404,14 @@ impl Default for SchemeEnvData {
             );
         }
 
+        builtin(&mut map, "env", |env, args| {
+            let mut hash = BudMap::default();
+            for item in env.0.map.0.iter() {
+                hash.insert(LispVal::Str(item.0.clone()).into(), item.1.clone());
+            }
+            Ok(LispVal::Hash(LispHash { map: hash, mutable: false }).into())
+        });
+
         builtin(&mut map, "+", |_, args| {
             let mut sum = 0;
             for arg in args.iter() {
@@ -1452,6 +1492,16 @@ impl Default for SchemeEnvData {
         builtin(&mut map, "newline", |_, _| {
             println!();
             Ok(LispVal::Void.into())
+        });
+
+        builtin(&mut map, "eq?", |_, args| {
+            let [a, b] = args.get_n().ok_or("eq?: expected two arguments")?;
+            Ok(LispVal::Bool(a.ptr == b.ptr).into())
+        });
+
+        builtin(&mut map, "equal?", |_, args| {
+            let [a, b] = args.get_n().ok_or("equal?: expected two arguments")?;
+            Ok(LispVal::Bool(a == b).into())
         });
 
         builtin(&mut map, "=", |_, args| {
@@ -1641,6 +1691,13 @@ impl Default for SchemeEnvData {
             }
         });
 
+        builtin(&mut map, "hash-code", |_, args| {
+            let [arg] = args.get_n().ok_or("hash-code")?;
+            let mut hasher = FxHasher::default();
+            arg.hash(&mut hasher);
+            Ok(LispVal::Int(hasher.finish() as i32).into())
+        });
+
         SchemeEnvData { map, parent: None }
     }
 }
@@ -1709,6 +1766,7 @@ fn main() {
                     }
                 }
             }
+            Err(ReadError::Empty) => {},
             Err(ReadError::EOFFound) => continue,
             Err(e) => {
                 println!("parse error: ", e);

@@ -338,7 +338,7 @@ def assemble(line, labels, pc):
 
 
 
-no_optim, quiet, nobranch = [param in sys.argv for param in ("-O0","-q","-b")]
+no_optim, quiet, nobranch, nolog = [param in sys.argv for param in ("-O0","-q","-b","-n")]
 fn = sys.argv[1]
 fp = open(fn, "r")
 fo = open(os.path.splitext(fn)[0] + ".bin", "w")
@@ -507,6 +507,8 @@ for i, pc, line, val, size in instrs:
 		raise
 if quiet:
 	sys.stdout = open(os.path.splitext(fn)[0] + ".log", "w")
+elif nolog:
+	print = lambda *args: None
 width_instr = max(len(d[2]) for d in log)
 width_args = max(len(str(d[3])) for d in log)
 columns = f"║  PC  │  OP  │ {'Instruction':^{width_instr}} │ {'Arguments':^{width_args}} ║"
