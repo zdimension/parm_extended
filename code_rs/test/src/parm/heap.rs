@@ -95,10 +95,6 @@ __rust_dealloc:
     b rust_dealloc
 __rust_realloc:
     b unknown_panic
-_ZN5alloc7raw_vec17capacity_overflow17h366701d495c7c2b4E:
-_ZN5alloc5alloc18handle_alloc_error17h46eb2aaf8cd638d4E:
-_ZN4core9panicking18panic_bounds_check17h6f55fa0d21c94988E:
-    b unknown_panic
 "#
 );
 

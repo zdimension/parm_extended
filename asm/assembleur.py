@@ -159,7 +159,7 @@ class lookup(dict):
 			return 2 * v
 		for k, v in labels.items():
 			if k[-3:] == "XXX" and key.startswith(k[:-3]):
-				return v
+				return 2 * v
 		raise KeyError(key)
 lookup = lookup()
 def parse_imm(s):

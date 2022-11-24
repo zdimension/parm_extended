@@ -81,7 +81,7 @@ impl LispList {
     }
 
     pub fn expect_car(&self, origin: &'static str) -> Result<&LispValBox, String> {
-        self.car().ok_or(makestr!(origin, ": car: expected list, got nil"))
+        self.car().ok_or(makestr!(origin, ": expected list, got nil"))
     }
 
     pub fn cdr(&self) -> Option<&LispValBox> {
@@ -92,7 +92,7 @@ impl LispList {
     }
 
     pub fn expect_cdr(&self, origin: &'static str) -> Result<&LispValBox, String> {
-        self.cdr().ok_or(makestr!(origin, ": cdr: expected list, got nil"))
+        self.cdr().ok_or(makestr!(origin, ": expected list, got nil"))
     }
 
     pub fn expect_cdr_list(&self, origin: &'static str) -> Result<&LispList, String> {
@@ -536,7 +536,7 @@ impl<'a> SchemeParser<'a> {
         let val = self.read()?;
         self.skip_spaces();
         let mut last: LispValBox = LispVal::List(LispList::Empty).into();
-        let mut first = LispVal::List(LispList::Cons(val.into(), last.clone()));
+        let first = LispVal::List(LispList::Cons(val.into(), last.clone()));
 
         while !self.accept(closing) {
             if self.read_list_item(closing, &mut last)? == LoopResult::EndList {
@@ -620,10 +620,7 @@ impl<'a> SchemeParser<'a> {
         }
         let res = self.read();
         self.skip_spaces();
-        match self.1.peek() {
-            Some(&(_, ch)) => Err(ReadError::EOFExpected(ch)),
-            None => res,
-        }
+        res
     }
 }
 
@@ -639,7 +636,7 @@ fn check_balanced(s: &[char]) -> bool {
 
         count += change;
         if count < 0 {
-            return false;
+            return true; // if we closed too much, we don't care since it'll be handled by the REPL
         }
     }
 
@@ -1404,7 +1401,7 @@ impl Default for SchemeEnvData {
             );
         }
 
-        builtin(&mut map, "env", |env, args| {
+        builtin(&mut map, "env", |env, _args| {
             let mut hash = BudMap::default();
             for item in env.0.map.0.iter() {
                 hash.insert(LispVal::Str(item.0.clone()).into(), item.1.clone());
@@ -1439,23 +1436,23 @@ impl Default for SchemeEnvData {
 
         builtin(&mut map, "car", |_, args| {
             let [list] = args.get_n().ok_or("car")?;
-            Ok(list.expect_list("car")?.expect_car("car: expected list")?.clone())
+            Ok(list.expect_list("car")?.expect_car("car")?.clone())
         });
 
         builtin(&mut map, "cadr", |_, args| {
-            let [list] = args.get_n().ok_or("car")?;
-            Ok(list.expect_list("car")?.expect_cadr("car: expected list")?.clone())
+            let [list] = args.get_n().ok_or("cadr")?;
+            Ok(list.expect_list("car")?.expect_cadr("cadr")?.clone())
         });
 
         builtin(&mut map, "cdr", |_, args| {
             let [list] = args.get_n().ok_or("cdr")?;
-            Ok(list.expect_list("cdr")?.expect_cdr("cdr: expected list")?.clone())
+            Ok(list.expect_list("cdr")?.expect_cdr("cdr")?.clone())
         });
 
         builtin(&mut map, "cddr", |_, args| {
             let [list] = args.get_n().ok_or("cddr")?;
-            let (_first, rest) = list.expect_list("cddr")?.expect_cons("cddr: expected list")?;
-            let (_second, rest) = rest.expect_list("cddr")?.expect_cons("cddr: expected list")?;
+            let (_first, rest) = list.expect_list("cddr")?.expect_cons("cddr")?;
+            let (_second, rest) = rest.expect_list("cddr")?.expect_cons("cddr")?;
             Ok(rest.clone())
         });
 
@@ -1539,19 +1536,15 @@ impl Default for SchemeEnvData {
         });
 
         builtin(&mut map, "pair?", |_, args| {
-            if let LispVal::List(LispList::Cons(_, _)) = **args.expect_car("pair?")? {
-                Ok(LispVal::Bool(true).into())
-            } else {
-                Ok(LispVal::Bool(false).into())
-            }
+            Ok(LispVal::Bool(matches!(**args.expect_car("list?")?, LispVal::List(LispList::Cons(_, _)))).into())
         });
 
         builtin(&mut map, "list?", |_, args| {
-            if let LispVal::List(_) = **args.expect_car("list?")? {
-                Ok(LispVal::Bool(true).into())
-            } else {
-                Ok(LispVal::Bool(false).into())
-            }
+            Ok(LispVal::Bool(matches!(**args.expect_car("list?")?, LispVal::List(_))).into())
+        });
+
+        builtin(&mut map, "null?", |_, args| {
+            Ok(LispVal::Bool(matches!(**args.expect_car("null?")?, LispVal::List(LispList::Empty))).into())
         });
 
         fn list_star(mut args: &LispList) -> Result<LispValBox, String> {
@@ -1708,70 +1701,112 @@ impl Default for SchemeEnv {
     }
 }
 
+struct LispRepl {
+    env: SchemeEnv
+}
+
+enum EvalStatus {
+    Ok,
+    ContinueReading
+}
+
+impl LispRepl {
+    fn new() -> LispRepl {
+        LispRepl { env: SchemeEnv::default() }
+    }
+
+    fn process(&mut self, code: &[char]) -> EvalStatus {
+        if !check_balanced(code) {
+            return EvalStatus::ContinueReading;
+        }
+        let mut parser = SchemeParser::new(code);
+        loop {
+            let read = parser.read_whole();
+            match read {
+                Ok(res) => {
+                    let res = self.env.eval(&res.into());
+                    match res {
+                        Ok(res) => {
+                            if !matches!(*res, LispVal::Void) {
+                                println!(*res);
+                            }
+                            self.env.0.borrow_mut().map.set(String::from("_"), res);
+                        }
+                        Err(msg) => {
+                            println!("eval error: ", msg);
+                        }
+                    }
+                }
+                Err(ReadError::Empty) => break,
+                Err(ReadError::EOFFound) => return EvalStatus::ContinueReading,
+                Err(e) => {
+                    println!("parse error: ", e);
+                    break;
+                }
+            };
+        }
+        EvalStatus::Ok
+    }
+
+    fn run(&mut self) {
+        let mut input = String::new();
+        enum TelnetMode {
+            Off,
+            On { long: bool }
+        }
+        use TelnetMode::*;
+        let mut telnet = Off;
+        loop {
+            print!(if input.is_empty() {
+                if matches!(telnet, On { .. }) {
+                    "$$$"
+                } else {
+                    ">>> "
+                }
+            } else {
+                "... "
+            });
+            if let On { long } = telnet {
+                loop {
+                    if keyb::key_available() {
+                        keyb::flush();
+                        telnet = Off;
+                        println!();
+                        break;
+                    }
+                    let char_read = telnet::read();
+                    if let Some(char_read) = char_read {
+                        print!(char_read as char);
+                        if !long && char_read == b'\n' {
+                            break;
+                        }
+                        input.push(char_read as char);
+                    }
+                }
+            } else {
+                tty::read_line(&mut input);
+                print!('\n', => &mut input);
+                if input == ".load\n" {
+                    // telnet load
+                    telnet = On { long: false };
+                    input.clear();
+                    continue;
+                } else if input == ".loadl\n" {
+                    // telnet load long
+                    telnet = On { long: true };
+                    input.clear();
+                    continue;
+                }
+            }
+            if matches!(self.process(&input), EvalStatus::Ok) {
+                input.clear();
+            }
+        }
+    }
+}
+
 fn main() {
     parm::heap::init();
 
-    let mut env = SchemeEnv::default();
-    let mut input = String::new();
-    let mut telnet = false;
-    loop {
-        print!(if input.is_empty() {
-            if telnet {
-                "$$$"
-            } else {
-                ">>> "
-            }
-        } else {
-            "... "
-        });
-        if telnet {
-            loop {
-                if keyb::key_available() {
-                    keyb::flush();
-                    telnet = false;
-                    println!();
-                    break;
-                }
-                let char_read = telnet::read();
-                if let Some(char_read) = char_read {
-                    print!(char_read as char);
-                    if char_read == b'\n' {
-                        break;
-                    }
-                    input.push(char_read as char);
-                }
-            }
-        } else {
-            tty::read_line(&mut input);
-            print!('\n', => &mut input);
-        }
-        if input == ".load\n" {
-            // telnet load
-            telnet = true;
-            input.clear();
-            continue;
-        }
-        match input.parse::<LispVal>() {
-            Ok(res) => {
-                let res = env.eval(&res.into());
-                match res {
-                    Ok(res) => {
-                        if !matches!(*res, LispVal::Void) {
-                            println!(*res);
-                        }
-                        env.0.borrow_mut().map.set(String::from("_"), res);
-                    }
-                    Err(msg) => {
-                        println!("eval error: ", msg);
-                    }
-                }
-            }
-            Err(ReadError::Empty) => {},
-            Err(ReadError::EOFFound) => continue,
-            Err(e) => {
-                println!("parse error: ", e);
-            }
-        };
-        input.clear();
-    }
+    LispRepl::new().run();
 }
