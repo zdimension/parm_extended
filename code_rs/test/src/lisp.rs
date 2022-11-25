@@ -222,12 +222,43 @@ impl LispListBuilder {
     }
 }
 
+pub struct EvalClosure {
+    env: SchemeEnv,
+    body: LispValBox,
+    fct: fn(&mut SchemeEnv, &LispList) -> Result<LispValBox, String>
+}
+
+#[derive(Clone)]
+pub enum InternalProc {
+
+}
+
+impl InternalProc {
+    #[inline(never)]
+    pub fn name(&self) -> Option<&String> {
+        todo!()
+    }
+
+    #[inline(never)]
+    pub fn call(&self, _env: &mut SchemeEnv, _args: &LispList) -> Result<LispValBox, String> {
+        todo!()
+    }
+}
+
+impl Hash for InternalProc {
+    #[inline(never)]
+    fn hash<H: Hasher>(&self, _state: &mut H) {
+        todo!()
+    }
+}
+
 #[derive(Clone)]
 pub enum ProcType {
     Builtin(
         String,
         fn(&mut SchemeEnv, &LispList) -> Result<LispValBox, String>,
     ),
+    Internal(InternalProc),
     Closure {
         name: Option<String>,
         args: ClosureArgs,
@@ -242,6 +273,9 @@ impl Hash for ProcType {
             ProcType::Builtin(_, ptr) => {
                 (*ptr as *const u8).hash(state);
             }
+            ProcType::Internal(int) => {
+                int.hash(state);
+            }
             ProcType::Closure { name, args, body, env } => {
                 (name, args, body, env).hash(state);
             }
@@ -254,6 +288,7 @@ impl ProcType {
     pub fn name(&self) -> Option<&String> {
         match self {
             ProcType::Builtin(name, _) => Some(name),
+            ProcType::Internal(int) => int.name(),
             ProcType::Closure { name, .. } => name.as_ref(),
         }
     }
@@ -358,6 +393,7 @@ impl LispVal {
             LispVal::List(_) => "list",
             LispVal::Void => "void",
             LispVal::Procedure(LispProc { fct: ProcType::Builtin(_, _), .. }) => "builtin",
+            LispVal::Procedure(LispProc { fct: ProcType::Internal(_), .. }) => "internal",
             LispVal::Procedure(LispProc { fct: ProcType::Closure { .. }, .. }) => "closure",
             LispVal::Hash { .. } => "hash",
         }
@@ -778,19 +814,20 @@ impl Hash for SchemeEnv {
     }
 }
 
-struct PrcInner<T> {
-    val: RefCell<T>,
+struct PrcInner<T: ?Sized> {
     ref_count: usize,
+    val: RefCell<T>,
 }
 
-#[derive(Eq)]
-pub struct Prc<T> {
+pub struct Prc<T: ?Sized> {
     ptr: *mut PrcInner<T>,
 }
 
+impl<T: Sized + PartialEq> Eq for Prc<T> {}
+
 pub type LispValBox = Prc<LispVal>;
 
-impl<T> Prc<T> {
+impl<T: Sized> Prc<T> {
     fn new(v: T) -> Self {
         unsafe {
             let mem = malloc(size_of::<PrcInner<T>>()) as *mut PrcInner<T>;
@@ -804,7 +841,9 @@ impl<T> Prc<T> {
             Self { ptr: mem }
         }
     }
+}
 
+impl<T> Prc<T> {
     unsafe fn empty() -> Self {
         Self { ptr: ptr::null_mut() }
     }
@@ -818,7 +857,7 @@ impl<T> Prc<T> {
     }
 }
 
-impl<T> Clone for Prc<T> {
+impl<T: ?Sized> Clone for Prc<T> {
     fn clone(&self) -> Self {
         unsafe {
             (*self.ptr).ref_count += 1;
@@ -839,7 +878,7 @@ impl<T: PartialEq + Hash> Hash for Prc<T> {
     }
 }
 
-impl<T> Drop for Prc<T> {
+impl<T: ?Sized> Drop for Prc<T> {
     fn drop(&mut self) {
         unsafe {
             if (*self.ptr).ref_count == 1 {
@@ -857,13 +896,13 @@ impl<T> From<T> for Prc<T> {
     }
 }
 
-impl<T> AsRef<T> for Prc<T> {
+impl<T: ?Sized> AsRef<T> for Prc<T> {
     fn as_ref(&self) -> &T {
         unsafe { &*(*self.ptr).val.as_ptr() }
     }
 }
 
-impl<T> Deref for Prc<T> {
+impl<T: ?Sized> Deref for Prc<T> {
     type Target = T;
 
     fn deref(&self) -> &T {
@@ -1066,9 +1105,39 @@ impl SchemeEnv {
     }
 
     #[inline(never)]
+    fn eval_named_let(&mut self, name: &String, bindings: &LispList, body: &LispValBox) -> Result<LispValBox, String> {
+        let mut proc_bindings = Vec::new();
+        let mut lambda_env = self.make_child();
+        let mut first_call_env = lambda_env.make_child();
+        for item in bindings.iter() {
+            match &**item {
+                LispVal::List(items) => {
+                    let (name, val) = self.eval_let_binding(items)?;
+                    first_call_env.set(name.clone(), val);
+                    proc_bindings.push(name);
+                }
+                _ => return Err(makestr!("let: expected list, got ", item)),
+            }
+        }
+        let args = ClosureArgs::Dispatch(proc_bindings, None);
+        let body = body.expect_list("let: expected body")?;
+        let lambda = lambda_env.eval_closure(args, body, false)?;
+        lambda_env.set(name.clone(), lambda);
+        first_call_env.eval_begin(body)
+    }
+
+    #[inline(never)]
     fn eval_let(&mut self, args: &LispList, rec: bool) -> Result<LispValBox, String> {
         let mut env = self.make_child();
-        let (bindings, body) = args.expect_cons("let")?;
+        let (bindings, body) = args.expect_cons("let: expected list of length 2 or 3")?;
+        if let LispVal::Symbol(name) = &**bindings {
+            let (bindings, body) = body.expect_list("let")?.expect_cons("let: expected body")?;
+            return self.eval_named_let(
+                name,
+                bindings.expect_list("let")?,
+                body
+            );
+        }
         let bindings = bindings.expect_list("let")?;
         #[inline(never)]
         fn inner(item: &LispValBox, env: &mut SchemeEnv, parent: &mut SchemeEnv, rec: bool) -> Result<(), String> {
@@ -1268,6 +1337,7 @@ impl SchemeEnv {
     fn eval_call(&mut self, head: &ProcType, items: &LispList) -> Result<LispValBox, String> {
         match head {
             ProcType::Builtin(_name, f) => f(self, items),
+            ProcType::Internal(int) => int.call(self, items),
             ProcType::Closure {
                 name: _,
                 args,

@@ -1,4 +1,6 @@
+(define L '())
 (let Loop ((i 0))
-  (when (< i 10)
+  (set! L Loop)
+  (when (< i 5)
     (displayln i)
     (Loop (+ i 1))))
