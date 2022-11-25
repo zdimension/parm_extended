@@ -336,7 +336,6 @@ impl<T: io::Write> Write for IoWrap<T> {
 #[derive(Clone, Default)]
 pub struct SeekableWrap<T>(pub T);
 
-
 /// Counts the amount of bytes written to it, but otherwise ignores the actual bytes written.
 pub(crate) struct WriteCounter(pub u64);
 impl Write for WriteCounter {

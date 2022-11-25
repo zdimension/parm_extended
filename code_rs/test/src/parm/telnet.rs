@@ -1,6 +1,6 @@
 use crate::parm::heap::string::String;
 use crate::parm::heap::vec::Vec;
-use crate::parm::mmio::{RES, TELNETavail, TELNETdata};
+use crate::parm::mmio::{TELNETavail, TELNETdata, RES};
 use crate::parm::tty::{AsciiEncodable, DisplayTarget};
 use crate::print;
 
@@ -49,7 +49,9 @@ pub fn read_n_blocking(n: usize) -> Vec<u8> {
     let mut vec = Vec::with_capacity(n);
     for i in 0..n {
         RES.write(i as u32);
-        unsafe { vec.push_unchecked(read_blocking()); }
+        unsafe {
+            vec.push_unchecked(read_blocking());
+        }
     }
     vec
 }

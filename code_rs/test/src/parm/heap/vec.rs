@@ -4,12 +4,12 @@ use crate::parm::panic;
 use crate::parm::tty::Display;
 use crate::print;
 use core::alloc::{GlobalAlloc, Layout};
+use core::hash::{Hash, Hasher};
 use core::marker::PhantomData;
 use core::mem::{ManuallyDrop, MaybeUninit};
 use core::ops::{Deref, DerefMut};
 use core::ptr::NonNull;
 use core::{cmp, mem, ptr, slice};
-use core::hash::{Hash, Hasher};
 
 #[repr(C)]
 #[derive(Eq)]
@@ -282,7 +282,10 @@ struct SetLenOnDrop<'a> {
 impl<'a> SetLenOnDrop<'a> {
     #[inline]
     pub(super) fn new(len: &'a mut usize) -> Self {
-        SetLenOnDrop { local_len: *len, len }
+        SetLenOnDrop {
+            local_len: *len,
+            len,
+        }
     }
 
     #[inline]

@@ -1,6 +1,6 @@
+use crate::parm::mmio::{MIDIinstr, MIDInote, MIDIon, MIDIvol};
 use core::mem;
 use core::ops::{Add, AddAssign, Sub};
-use crate::parm::mmio::{MIDIinstr, MIDInote, MIDIon, MIDIvol};
 
 #[derive(Copy, Clone, PartialEq, Eq)]
 #[repr(u8)]

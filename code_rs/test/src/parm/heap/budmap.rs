@@ -1,7 +1,7 @@
-use core::hash::{BuildHasher, Hash, Hasher};
-use core::slice;
 use crate::parm::heap::vec::Vec;
 use crate::parm::util::fxhash::FxHasher;
+use core::hash::{BuildHasher, Hash, Hasher};
+use core::slice;
 
 #[derive(Clone)]
 pub struct RandomState;
@@ -74,8 +74,8 @@ impl<Key, Value> Default for BudMap<Key, Value> {
 }
 
 impl<Key, Value> BudMap<Key, Value>
-    where
-        Key: Eq + Hash,
+where
+    Key: Eq + Hash,
 {
     /// Returns an empty map with enough room for `minimum_capacity` elements to
     /// be inserted without allocations (assuming no hash collisions).
@@ -88,8 +88,8 @@ impl<Key, Value> BudMap<Key, Value>
 }
 
 impl<Key, Value> BudMap<Key, Value>
-    where
-        Key: Eq + Hash,
+where
+    Key: Eq + Hash,
 {
     /// Returns an empty map with enough room for `minimum_capacity` elements to
     /// be inserted without allocations (assuming no hash collisions). Keys are
@@ -177,9 +177,9 @@ impl<Key, Value> BudMap<Key, Value>
             // with our implementation.
             _ if current_length > current_capacity / 8 * 7
                 && current_length < (usize::MAX << 1) =>
-                {
-                    true
-                }
+            {
+                true
+            }
             _ => false,
         };
         if should_grow {
@@ -282,11 +282,15 @@ impl<Key, Value> BudMap<Key, Value>
                     bin = &self.bins[bin_index];
                 } else {
                     #[inline(never)]
-                    fn inner(bins: &mut Vec<Bin>, free_collision_head: &mut OptionalIndex, bin_index: usize, entry_index_if_pushed: usize) {
+                    fn inner(
+                        bins: &mut Vec<Bin>,
+                        free_collision_head: &mut OptionalIndex,
+                        bin_index: usize,
+                        entry_index_if_pushed: usize,
+                    ) {
                         // New entry that collides with another key.
 
-                        let free_collision_index =
-                            free_collision_index(bins, free_collision_head);
+                        let free_collision_index = free_collision_index(bins, free_collision_head);
                         let collision_index = free_collision_index.unwrap_or(bins.len());
                         bins[bin_index].collision_index = OptionalIndex(collision_index);
                         // Create our new bin.
@@ -300,9 +304,13 @@ impl<Key, Value> BudMap<Key, Value>
                                 collision_index: OptionalIndex::none(),
                             });
                         };
-
                     }
-                    inner(&mut self.bins, &mut self.free_collision_head, bin_index, entry_index_if_pushed);
+                    inner(
+                        &mut self.bins,
+                        &mut self.free_collision_head,
+                        bin_index,
+                        entry_index_if_pushed,
+                    );
                     self.push_entry(hash, key, value);
                     // todo
                     return None;
@@ -426,8 +434,8 @@ impl<Key, Value> BudMap<Key, Value>
 }
 
 impl<Key, Value> BudMap<Key, Value>
-    where
-        Key: Eq + Hash + Clone
+where
+    Key: Eq + Hash + Clone,
 {
     pub fn entry_ref(&mut self, key: &Key) -> Entry<'_, Key, Value> {
         let hash = self.hash(key);
@@ -579,8 +587,8 @@ pub struct OccupiedEntry<'a, Key, Value> {
 }
 
 impl<'a, Key, Value> OccupiedEntry<'a, Key, Value>
-    where
-        Key: Eq + Hash,
+where
+    Key: Eq + Hash,
 {
     fn slot(&self) -> &RawEntry<Key, Value> {
         &self.map.entries[self.entry_index]
@@ -628,8 +636,8 @@ pub struct VacantEntry<'a, Key, Value> {
 }
 
 impl<'a, Key, Value> VacantEntry<'a, Key, Value>
-    where
-        Key: Eq + Hash,
+where
+    Key: Eq + Hash,
 {
     /// Inserts `value` into the map for this entry's key.
     pub fn insert(self, value: Value) {

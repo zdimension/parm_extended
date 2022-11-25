@@ -1,7 +1,7 @@
 use crate::parm::heap::vec::Vec;
 use core::iter::{Copied, Map, Take};
 use core::ops::{Deref, DerefMut};
-use core::slice::{Iter};
+use core::slice::Iter;
 use core::str::Bytes;
 
 use crate::parm::tty::{AsciiEncodable, Display, DisplayTarget};

@@ -64,7 +64,10 @@ mod parse_collect {
                     .collect::<MidlyResult<Vec<_>>>()?,
             })
         }
-        pub fn write<W: crate::vendor::midly::io::Write>(&self, out: &mut W) -> Result<(), W::Error> {
+        pub fn write<W: crate::vendor::midly::io::Write>(
+            &self,
+            out: &mut W,
+        ) -> Result<(), W::Error> {
             crate::vendor::midly::write(&self.header, self.tracks.iter(), out)
         }
     }

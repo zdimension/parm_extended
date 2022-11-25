@@ -120,7 +120,10 @@ impl<'v, T, V: RpnVisitor<Output = T>> RpnEvaluator<'v, T, V> {
     #[inline(never)]
     fn visit_token(&mut self, item: &Token) -> T {
         #[inline(never)]
-        fn visit_operator<T, V: RpnVisitor<Output = T>>(s: &mut RpnEvaluator<'_, T, V>, op: &Operator) -> T {
+        fn visit_operator<T, V: RpnVisitor<Output = T>>(
+            s: &mut RpnEvaluator<'_, T, V>,
+            op: &Operator,
+        ) -> T {
             let a = match s.stack.pop() {
                 Some(a) => a,
                 None => {
@@ -138,7 +141,7 @@ impl<'v, T, V: RpnVisitor<Output = T>> RpnEvaluator<'v, T, V> {
         match item {
             Token::Literal(v) => self.visitor.visit_literal(v),
             Token::Variable(v) => self.visitor.visit_variable(v),
-            Token::Operator(op) => visit_operator(self, op)
+            Token::Operator(op) => visit_operator(self, op),
         }
     }
 

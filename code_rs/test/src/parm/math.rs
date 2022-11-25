@@ -9,7 +9,9 @@ use core::ops::{
 
 #[export_name = "__aeabi_uidiv"]
 pub fn __aeabi_uidiv(a: u32, b: u32) -> u32 {
-    unsafe { core::arch::asm!("uidiv:"); }
+    unsafe {
+        core::arch::asm!("uidiv:");
+    }
     div(a, b)
 }
 

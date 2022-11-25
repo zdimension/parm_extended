@@ -72,11 +72,12 @@ fn panic_fmt() -> ! {
     panic("panic_fmt")
 }
 
-
 #[export_name = "borrow_mut_error"]
 fn borrow_mut_error() -> ! {
     unsafe {
-        core::arch::asm!("_ZN63_$LT$core..cell..BorrowMutError$u20$as$u20$core..fmt..Debug$GT$3fmtXXX:");
+        core::arch::asm!(
+            "_ZN63_$LT$core..cell..BorrowMutError$u20$as$u20$core..fmt..Debug$GT$3fmtXXX:"
+        );
     }
     panic("borrow_mut error")
 }

@@ -54,7 +54,7 @@ path = "src/simpletelnet.rs"
 
 [[bin]]
 name = "lisp"
-path = "src/lisp.rs"
+path = "src/lisprepl.rs"
 
 [[bin]]
 name = "ball"
