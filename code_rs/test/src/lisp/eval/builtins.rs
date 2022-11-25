@@ -371,7 +371,10 @@ impl Default for SchemeEnvData {
                 Some(value) => Ok(value.clone()),
                 None => match iter.next() {
                     Some(failure) => {
-                        env.eval_call(failure.expect_callable("hash-ref")?, &LispList::Empty)
+                        match &**failure {
+                            LispVal::Procedure(proc) => env.eval_call(proc, &LispList::Empty),
+                            _ => Ok(failure.clone())
+                        }
                     }
                     None => Err(String::from("hash-ref: key not found")),
                 },

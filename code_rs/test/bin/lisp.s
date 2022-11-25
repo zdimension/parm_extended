@@ -2283,7 +2283,7 @@ _ZN4core3ops8function6FnOnce9call_once17hac8c675a813bdae4E:
 	ldr	r1, .LCPI32_1
 	movs	r2, #8
 	mov	r0, r5
-	b	.LBB32_19
+	b	.LBB32_20
 .LBB32_4:
 	movs	r0, #4
 	str	r0, [sp, #4]
@@ -2300,7 +2300,7 @@ _ZN4core3ops8function6FnOnce9call_once17hac8c675a813bdae4E:
 	ldr	r1, [sp, #48]
 	ldr	r2, [sp, #52]
 	stm	r5!, {r0, r1, r2}
-	b	.LBB32_20
+	b	.LBB32_21
 .LBB32_6:
 	str	r6, [sp, #8]
 	str	r5, [sp, #12]
@@ -2324,14 +2324,14 @@ _ZN4core3ops8function6FnOnce9call_once17hac8c675a813bdae4E:
 	str	r2, [sp, #24]
 .LBB32_9:
 	cmp	r0, r3
-	bhs	.LBB32_23
+	bhs	.LBB32_24
 	lsls	r6, r0, #3
 	ldr	r0, [r2, r6]
 	adds	r1, r0, #1
 	beq	.LBB32_15
 	ldr	r1, [sp, #40]
 	cmp	r0, r1
-	bhs	.LBB32_24
+	bhs	.LBB32_25
 	lsls	r0, r0, #4
 	ldr	r2, [sp, #36]
 	ldr	r1, [r2, r0]
@@ -2361,38 +2361,31 @@ _ZN4core3ops8function6FnOnce9call_once17hac8c675a813bdae4E:
 	ldr	r1, [sp, #16]
 	ldr	r0, [r1]
 	cmp	r0, #0
-	beq	.LBB32_18
-	ldr	r1, [r1, #4]
-	adds	r1, #8
-	add	r0, sp, #44
-	ldr	r2, .LCPI32_1
-	movs	r3, #8
-	bl	_ZN4lisp4lisp3val7LispVal15expect_callable17hc3666ed2358ded9eE
-	ldr	r3, [sp, #44]
-	cmp	r3, #0
+	beq	.LBB32_19
+	ldr	r2, [r1, #4]
+	ldr	r3, [r2, #44]
+	cmp	r3, #9
 	ldr	r0, [sp, #12]
-	beq	.LBB32_21
-	ldr	r1, [sp, #48]
-	ldr	r2, [sp, #52]
-	str	r3, [r0]
-	str	r1, [r0, #4]
-	str	r2, [r0, #8]
-	b	.LBB32_20
-.LBB32_18:
-	ldr	r1, .LCPI32_5
-	movs	r2, #23
-	ldr	r0, [sp, #12]
-.LBB32_19:
-	bl	_ZN87_$LT$lisp..parm..heap..string..String$u20$as$u20$core..convert..From$LT$$RF$str$GT$$GT$4from17h25a10eb48256cf6dE
-.LBB32_20:
-	add	sp, #60
-	pop	{r4, r5, r6, r7, pc}
-.LBB32_21:
-	ldr	r2, [sp, #48]
+	bhi	.LBB32_23
+	movs	r1, #1
+	lsls	r1, r3
 	ldr	r3, .LCPI32_4
+	tst	r1, r3
+	beq	.LBB32_23
+	adds	r2, #8
+	ldr	r3, .LCPI32_5
 	ldr	r1, [sp, #8]
 	bl	_ZN4lisp4lisp4eval4call44_$LT$impl$u20$lisp..lisp..env..SchemeEnv$GT$9eval_call17h15fd35d2efe87adbE
-	b	.LBB32_20
+	b	.LBB32_21
+.LBB32_19:
+	ldr	r1, .LCPI32_6
+	movs	r2, #23
+	ldr	r0, [sp, #12]
+.LBB32_20:
+	bl	_ZN87_$LT$lisp..parm..heap..string..String$u20$as$u20$core..convert..From$LT$$RF$str$GT$$GT$4from17h25a10eb48256cf6dE
+.LBB32_21:
+	add	sp, #60
+	pop	{r4, r5, r6, r7, pc}
 .LBB32_22:
 	movs	r0, #0
 	ldr	r1, [r5, #12]
@@ -2401,15 +2394,22 @@ _ZN4core3ops8function6FnOnce9call_once17hac8c675a813bdae4E:
 	ldr	r0, [r1]
 	adds	r0, r0, #1
 	str	r0, [r1]
-	b	.LBB32_20
+	b	.LBB32_21
 .LBB32_23:
+	movs	r1, #0
+	stm	r0!, {r1, r2}
+	ldr	r0, [r2]
+	adds	r0, r0, #1
+	str	r0, [r2]
+	b	.LBB32_21
+.LBB32_24:
 	ldr	r2, .LCPI32_2
 	mov	r1, r3
-	b	.LBB32_25
-.LBB32_24:
+	b	.LBB32_26
+.LBB32_25:
 	ldr	r2, .LCPI32_3
 	ldr	r1, [sp, #40]
-.LBB32_25:
+.LBB32_26:
 	bl	_ZN4core9panicking18panic_bounds_check17h1ca984f63bd01bd3E
 	.inst.n	0xdefe
 	.p2align	2
@@ -2422,8 +2422,10 @@ _ZN4core3ops8function6FnOnce9call_once17hac8c675a813bdae4E:
 .LCPI32_3:
 	.long	.L__unnamed_34
 .LCPI32_4:
-	.long	.L__unnamed_10
+	.long	519
 .LCPI32_5:
+	.long	.L__unnamed_10
+.LCPI32_6:
 	.long	.L__unnamed_35
 .Lfunc_end32:
 	.size	_ZN4core3ops8function6FnOnce9call_once17hac8c675a813bdae4E, .Lfunc_end32-_ZN4core3ops8function6FnOnce9call_once17hac8c675a813bdae4E
