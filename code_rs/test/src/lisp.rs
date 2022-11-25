@@ -1176,6 +1176,62 @@ impl SchemeEnv {
     }
 
     #[inline(never)]
+    fn eval_and(&mut self, args: &LispList) -> Result<LispValBox, String> {
+        let mut res = LispVal::Bool(true).into();
+        for item in args.iter() {
+            let item = self.eval(item)?;
+            if matches!(&*item, LispVal::Bool(false)) {
+                return Ok(LispVal::Bool(false).into());
+            }
+            res = item;
+        }
+        Ok(res)
+    }
+
+    #[inline(never)]
+    fn eval_or(&mut self, args: &LispList) -> Result<LispValBox, String> {
+        for item in args.iter() {
+            let item = self.eval(item)?;
+            if !matches!(&*item, LispVal::Bool(false)) {
+                return Ok(item.clone());
+            }
+        }
+        Ok(LispVal::Bool(false).into())
+    }
+
+    #[inline(never)]
+    fn eval_cond(&mut self, args: &LispList)  -> Result<LispValBox, String> {
+        for clause in args {
+            let (head, rest) = clause.expect_list("cond")?.expect_cons("cond")?;
+            return match &**head {
+                LispVal::Symbol(name) if name == "else" => {
+                    self.eval_begin(rest.expect_list("cond")?)
+                }
+                _ => {
+                    let test = self.eval(head)?;
+                    if matches!(&*test, LispVal::Bool(false)) {
+                        continue;
+                    }
+                    let body = rest.expect_list("cond")?;
+                    match body {
+                        LispList::Empty => Ok(test),
+                        LispList::Cons(head, rest) => {
+                            match &**head {
+                                LispVal::Symbol(name) if name == "=>" => {
+                                    let proc = rest.expect_callable("cond")?;
+                                    self.eval_call(proc, &LispList::singleton(test))
+                                },
+                                _ => self.eval_begin(body),
+                            }
+                        },
+                    }
+                }
+            }
+        }
+        Ok(LispVal::Void.into())
+    }
+
+    #[inline(never)]
     fn eval_case(&mut self, args: &LispList) -> Result<LispValBox, String> {
         let (scrutinee, cases) = args.expect_cons("case")?;
         let scrutinee = self.eval(scrutinee)?;
@@ -1319,6 +1375,15 @@ impl SchemeEnv {
             if name == "if" {
                 return Some(self_.eval_if(args));
             }
+            if name == "and" {
+                return Some(self_.eval_and(args));
+            }
+            if name == "or" {
+                return Some(self_.eval_or(args));
+            }
+            if name == "cond" {
+                return Some(self_.eval_cond(args));
+            }
             if name == "when" {
                 return Some(self_.eval_when(args, false));
             }
@@ -1334,7 +1399,7 @@ impl SchemeEnv {
     }
 
     #[inline(never)]
-    fn eval_call(&mut self, head: &ProcType, items: &LispList) -> Result<LispValBox, String> {
+    fn eval_nonmacro_call(&mut self, head: &ProcType, items: &LispList) -> Result<LispValBox, String> {
         match head {
             ProcType::Builtin(_name, f) => f(self, items),
             ProcType::Internal(int) => int.call(self, items),
@@ -1349,7 +1414,7 @@ impl SchemeEnv {
 
     #[inline(never)]
     fn eval_macro_call(&mut self, mac: &ProcType, items: &LispList) -> Result<LispValBox, String> {
-        let expansion = self.eval_call(mac, items)?;
+        let expansion = self.eval_nonmacro_call(mac, items)?;
         self.eval(&expansion)
     }
 
@@ -1365,14 +1430,17 @@ impl SchemeEnv {
         }
 
         let binding = self.eval(head)?;
-        let LispProc { fct: proc, is_macro } = binding.expect_callable("call")?;
-        let args = rest;
+        self.eval_call(binding.expect_callable("call")?, rest)
+    }
+
+    #[inline(never)]
+    fn eval_call(&mut self, LispProc { fct, is_macro }: &LispProc, args: &LispList) -> Result<LispValBox, String> {
         if *is_macro {
-            self.eval_macro_call(proc, args)
+            self.eval_macro_call(fct, args)
         } else {
             let evaluated = self.eval_list(args)?;
             let evald = unsafe { evaluated.expect_list("").unwrap_unchecked() };
-            self.eval_call(proc, evald)
+            self.eval_nonmacro_call(fct, evald)
         }
     }
 
@@ -1586,15 +1654,30 @@ impl Default for SchemeEnvData {
             Ok(LispVal::Bool(first.expect_int("<")? < second.expect_int("<")?).into())
         });
 
+        builtin(&mut map, "positive?", |_, args| {
+            let [first] = args.get_n().ok_or("positive?")?;
+            Ok(LispVal::Bool(first.expect_int("positive?")? > 0).into())
+        });
+
+        builtin(&mut map, "negative?", |_, args| {
+            let [first] = args.get_n().ok_or("negative?")?;
+            Ok(LispVal::Bool(first.expect_int("negative?")? < 0).into())
+        });
+
+        builtin(&mut map, "zero?", |_, args| {
+            let [first] = args.get_n().ok_or("zero?")?;
+            Ok(LispVal::Bool(first.expect_int("zero?")? == 0).into())
+        });
+
         builtin(&mut map, "for-each", |env, args| {
             let [fct, list] = args.get_n().ok_or("for-each")?;
-            let LispProc{ fct, .. } = fct.expect_callable("for-each")?;
+            let fct = fct.expect_callable("for-each")?;
             let list = list.expect_list("for-each")?;
             #[inline(never)]
             fn process_list(
                 list: &LispList,
                 env: &mut SchemeEnv,
-                fct: &ProcType,
+                fct: &LispProc,
             ) -> Result<(), String> {
                 for item in list.iter() {
                     env.eval_call(fct, &LispList::singleton(item.clone()))?;
@@ -1615,6 +1698,10 @@ impl Default for SchemeEnvData {
 
         builtin(&mut map, "null?", |_, args| {
             Ok(LispVal::Bool(matches!(**args.expect_car("null?")?, LispVal::List(LispList::Empty))).into())
+        });
+
+        builtin(&mut map, "symbol?", |_, args| {
+            Ok(LispVal::Bool(matches!(**args.expect_car("symbol?")?, LispVal::Symbol(_))).into())
         });
 
         fn list_star(mut args: &LispList) -> Result<LispValBox, String> {
@@ -1638,7 +1725,7 @@ impl Default for SchemeEnvData {
 
         builtin(&mut map, "apply", |env, args| {
             let (fct, args) = args.expect_cons("apply")?;
-            let LispProc{ fct, .. } = fct.expect_callable("apply")?;
+            let fct = fct.expect_callable("apply")?;
             let args = list_star(args.expect_list("list*")?)?;
             let args = unsafe {
                 args
@@ -1649,13 +1736,25 @@ impl Default for SchemeEnvData {
         });
 
         builtin(&mut map, "map", |env, args| {
-            let LispProc{ fct, .. } = args.expect_car("map")?.expect_callable("map")?;
+            let fct = args.expect_car("map")?.expect_callable("map")?;
             let list = args.expect_cadr("map")?.expect_list("map")?;
             let mut res = LispListBuilder::new();
             for item in list.iter() {
                 res.push(env.eval_call(fct, &LispList::singleton(item.clone()))?);
             }
             Ok(res.finish())
+        });
+
+        builtin(&mut map, "member", |_, args| {
+            let [item, list] = args.get_n().ok_or("member")?;
+            let mut list = list;
+            while let LispList::Cons(list_item, rest) = list.expect_list("member")? {
+                if item == list_item {
+                    return Ok(list.clone());
+                }
+                list = rest;
+            }
+            Ok(LispVal::Bool(false).into())
         });
 
         builtin(&mut map, "append", |_, args| {
@@ -1748,7 +1847,7 @@ impl Default for SchemeEnvData {
             match hash.map.get(key) {
                 Some(value) => Ok(value.clone()),
                 None => match iter.next() {
-                    Some(failure) => env.eval_call(&failure.expect_callable("hash-ref")?.fct, &LispList::Empty),
+                    Some(failure) => env.eval_call(failure.expect_callable("hash-ref")?, &LispList::Empty),
                     None => Err(String::from("hash-ref: key not found")),
                 }
             }

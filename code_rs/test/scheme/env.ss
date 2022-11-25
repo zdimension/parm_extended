@@ -1,20 +1,5 @@
-;;;;
-;;;;
-;;;; environment.stk         -- Adapter for Racket tables
-;;;;
-;;;;           Author: Erick Gallesio [eg@unice.fr]
-;;;;    Creation date:  5-Apr-2019 15:20
-;;;; Last file update: 19-Apr-2021 15:34 (eg)
-;;;;
-
-(define ms-error error) ;; For now, Mini-Scheme errors are standard errors
-
-;; ======================================================================
-;;
-;;                       Environment Management
-;;
-;; ======================================================================
-(define *absent*  (list 'absent))  ;; For hash table searching
+(define ms-error error)
+(define *absent*  (list 'absent))
 
 (define *global-env*
   (list
@@ -65,19 +50,13 @@
 (define (set-binding! var val env err?)
   (unless (symbol? var) (ms-error "bad variable name" var))
 
-  ;; err? indicates if an absent binding is an error
   (let ((initial-env env))
     (let Loop ((env env))
       (if (pair? env)
         (let ((old (hash-ref (car env) var *absent*)))
           (if (and (eq? old *absent*) err?)
-            ;; continue the search in embedding env
             (Loop (cdr env))
-            ;; replace current binding or define var
             (hash-set! (car env) var val)))
-        ;; no more hash table
         (if err?
-          ;; var didn't exists ⟹ error
           (ms-error "undefined variable:" var)
-          ;; Define a new binding in the OUTERMOST env
           (hash-set! (car initial-env) var val))))))
