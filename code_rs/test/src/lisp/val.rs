@@ -34,6 +34,7 @@ pub enum LispVal {
     Void,
     Procedure(LispProc),
     Hash(LispHash),
+    Eof
 }
 
 #[derive(Clone, Hash, PartialEq, Eq)]
@@ -188,6 +189,7 @@ impl<'a> Iterator for LispListIter<'a> {
 
 pub struct LispListBuilder {
     head: LispValBox,
+    last_1: LispValBox,
     last: LispValBox,
 }
 
@@ -195,13 +197,28 @@ impl LispListBuilder {
     pub fn new() -> Self {
         let head: LispValBox = LispVal::List(LispList::Empty).into();
         let last = head.clone();
-        Self { head, last }
+        Self { head, last_1: last.clone(), last }
     }
 
     pub fn push(&mut self, item: LispValBox) {
         let new_last: LispValBox = LispVal::List(LispList::Empty).into();
         *self.last.borrow_mut() = LispVal::List(LispList::Cons(item, new_last.clone()));
-        self.last = new_last;
+        self.last_1 = core::mem::replace(&mut self.last, new_last);
+    }
+
+    #[inline(never)]
+    pub fn finish_with_tail(self, tail: LispValBox) -> LispValBox {
+        let mut b = self.last_1.borrow_mut();
+        match *b {
+            LispVal::List(LispList::Cons(_, ref mut cdr)) => {
+                *cdr = tail;
+            }
+            LispVal::List(LispList::Empty) => {
+                return tail;
+            }
+            _ => unreachable!(),
+        }
+        self.head
     }
 
     pub fn finish(self) -> LispValBox {
@@ -355,6 +372,7 @@ impl LispVal {
             (LispVal::Int(a), LispVal::Int(b)) => a == b,
             (LispVal::Bool(a), LispVal::Bool(b)) => a == b,
             (LispVal::Str(ref a), LispVal::Str(ref b)) => a == b,
+            (LispVal::Eof, LispVal::Eof) => true,
             _ => inner(self, other),
         }
     }
@@ -388,6 +406,7 @@ impl LispVal {
                 ..
             }) => "closure",
             LispVal::Hash { .. } => "hash",
+            LispVal::Eof => "eof-object",
         }
     }
 
@@ -435,6 +454,7 @@ impl Display for LispVal {
             LispVal::Void => print!("#<void>", => target),
             LispVal::Procedure(LispProc { fct: ty, .. }) => write_procedure(ty.name(), target),
             LispVal::Hash(h) => write_hash(h, target),
+            LispVal::Eof => print!("#<eof>", => target),
         }
     }
 }

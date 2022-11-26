@@ -222,7 +222,8 @@ impl<'a> SchemeParser<'a> {
                 }
             }
             Some(&(_, ch)) if ch.is_ascii_digit() => self.read_number(),
-            Some(_) => self.read_symbol(),
+            Some(&(_, ch)) if !matches!(ch, ')' | ']') => self.read_symbol(),
+            Some(&(_, ch)) => Err(ReadError::EOFExpected(ch)),
             None => Err(ReadError::EOFFound),
         }
     }

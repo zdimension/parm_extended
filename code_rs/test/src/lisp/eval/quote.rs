@@ -1,74 +1,53 @@
 use crate::lisp::env::SchemeEnv;
-use crate::lisp::val::{LispList, LispVal};
+use crate::lisp::val::{LispList, LispListBuilder, LispVal};
 use crate::parm::heap::string::String;
 use crate::{LispValBox, Prc};
 
 impl SchemeEnv {
     #[inline(never)]
-    fn check_unquote_splicing(&mut self, items: &LispList) -> Result<Option<LispList>, String> {
-        if let Some([head, arg]) = items.get_n() {
-            if let LispVal::Symbol(s) = &**head {
-                if s == "unquote-splicing" {
-                    let res = self.eval(arg)?;
-                    let res = res.expect_list("unquote-splicing")?;
-                    return Ok(Some(res.clone()));
-                }
-            }
-        }
-        Ok(None)
-    }
-
-    #[inline(never)]
     pub(crate) fn eval_quasiquote(&mut self, val: &LispValBox) -> Result<LispValBox, String> {
-        if let LispVal::List(items) = &**val {
-            if let Some(res) = self.check_unquote(items) {
-                return res;
+        fn expect_one<'a>(cdr: &'a LispValBox, origin: &'static str) -> Result<&'a LispValBox, String> {
+            let (cadr, cddr) = cdr.expect_list(origin)?.expect_cons(origin)?;
+            if **cddr != LispVal::List(LispList::Empty) {
+                return Err(String::from("expected exactly one arg"))
             }
-            let head: LispValBox = LispVal::List(LispList::Empty).into();
-            let mut last = head.clone();
-            #[inline(never)]
-            fn inner(
-                env: &mut SchemeEnv,
-                last: &mut Prc<LispVal>,
-                item: &LispValBox,
-            ) -> Result<(), String> {
-                if let Ok(res) = item.expect_list("quasiquote") {
-                    if let Some(res) = env.check_unquote_splicing(res)? {
-                        for item in res.iter() {
-                            let new_last: LispValBox = LispVal::List(LispList::Empty).into();
-                            *(*last).borrow_mut() =
-                                LispVal::List(LispList::Cons(item.clone(), new_last.clone()));
-                            *last = new_last;
+            Ok(cadr)
+        }
+
+        match &**val {
+            LispVal::List(LispList::Cons(car, cdr)) => {
+                match &**car {
+                    LispVal::Symbol(name) => {
+                        if name == "unquote" {
+                            return self.eval(expect_one(cdr, "unquote")?);
+                        } else if name == "unquote-splicing" {
+                            return Err(String::from("unquote-splicing not allowed in quasiquote"));
                         }
-
-                        return Ok(());
+                    },
+                    LispVal::List(LispList::Cons(caar, cdar)) => {
+                        if let LispVal::Symbol(name) = &**caar {
+                            if name == "unquote-splicing" {
+                                let arg = self.eval(expect_one(cdar, "unquote-splicing")?)?;
+                                let d = self.eval_quasiquote(cdr)?;
+                                if matches!(*d, LispVal::List(LispList::Empty)) {
+                                    return Ok(arg.clone());
+                                }
+                                let mut res = LispListBuilder::new();
+                                for item in arg.expect_list("unquote-splicing")? {
+                                    res.push(item.clone());
+                                }
+                                for item in d.expect_list("unquote-splicing")? {
+                                    res.push(item.clone());
+                                }
+                                return Ok(res.finish());
+                            }
+                        }
                     }
+                    _ => {}
                 }
-
-                let result = env.eval_quasiquote(item)?;
-                let new_last: LispValBox = LispVal::List(LispList::Empty).into();
-                *(*last).borrow_mut() = LispVal::List(LispList::Cons(result, new_last.clone()));
-                *last = new_last;
-                Ok(())
+                Ok(LispVal::List(LispList::Cons(self.eval_quasiquote(car)?, self.eval_quasiquote(cdr)?)).into())
             }
-            for item in items.iter() {
-                inner(self, &mut last, item)?;
-            }
-            Ok(head)
-        } else {
-            Ok(val.clone())
+            _ => Ok(val.clone()),
         }
-    }
-
-    #[inline(never)]
-    fn check_unquote(&mut self, items: &LispList) -> Option<Result<LispValBox, String>> {
-        if let Some([head, arg]) = items.get_n() {
-            if let LispVal::Symbol(s) = &**head {
-                if s == "unquote" {
-                    return Some(self.eval(arg));
-                }
-            }
-        }
-        None
     }
 }

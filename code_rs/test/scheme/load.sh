@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-cat $1 <(echo) | sed 's/\xce\xbb/lambda/g' | dos2unix | iconv -f utf8 -t ascii//TRANSLIT | nc -N ::1 4567
+cat <(sed 's/\xce\xbb/lambda/g' $1 | dos2unix | iconv -f utf8 -t ascii//TRANSLIT) <(printf "\x4") | pv -L 64 | nc ::1 4567

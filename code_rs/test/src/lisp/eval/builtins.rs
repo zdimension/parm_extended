@@ -4,8 +4,11 @@ use crate::lisp::val::{LispHash, LispList, LispListBuilder, LispProc, LispVal, P
 use crate::{LispValBox, print, println};
 use crate::parm::heap::budmap::BudMap;
 use crate::parm::heap::string::String;
+use crate::parm::tty;
 use crate::parm::util::fxhash::FxHasher;
 use crate::parm::tty::Display;
+use crate::parm::heap::string::Parse;
+use crate::makestr;
 
 impl Default for SchemeEnvData {
     #[inline(never)]
@@ -75,9 +78,9 @@ impl Default for SchemeEnvData {
         });
 
         builtin!("-", |_, args| {
-            let (first, rest) = args.expect_cons("expected at least one argument")?;
+            let ([first], iter) = args.get_n_iter().ok_or("-")?;
             let mut sum = first.expect_int("-")?;
-            for arg in rest.expect_list("expected list")?.iter() {
+            for arg in iter {
                 sum -= arg.expect_int("-")?;
             }
             Ok(LispVal::Int(sum).into())
@@ -91,6 +94,19 @@ impl Default for SchemeEnvData {
             Ok(LispVal::Int(sum).into())
         });
 
+        builtin!("/", |_, args| {
+            let ([first], iter) = args.get_n_iter().ok_or("/")?;
+            let mut sum = first.expect_int("/")?;
+            for arg in iter {
+                sum /= arg.expect_int("/")?;
+            }
+            Ok(LispVal::Int(sum).into())
+        });
+
+        builtin!("void", |_, _args| {
+            Ok(LispVal::Void.into())
+        });
+
         builtin!("car", |_, args| {
             let [list] = args.get_n().ok_or("car")?;
             Ok(list.expect_list("car")?.expect_car("car")?.clone())
@@ -98,7 +114,17 @@ impl Default for SchemeEnvData {
 
         builtin!("cadr", |_, args| {
             let [list] = args.get_n().ok_or("cadr")?;
-            Ok(list.expect_list("car")?.expect_cadr("cadr")?.clone())
+            Ok(list.expect_list("cadr")?.expect_cadr("cadr")?.clone())
+        });
+
+        builtin!("caddr", |_, args| {
+            let [list] = args.get_n().ok_or("caddr")?;
+            Ok(list.expect_list("caddr")?.expect_cdr_list("caddr")?.expect_cadr("caddr")?.clone())
+        });
+
+        builtin!("cadddr", |_, args| {
+            let [list] = args.get_n().ok_or("cadddr")?;
+            Ok(list.expect_list("cadddr")?.expect_cdr_list("cadddr")?.expect_cdr_list("cadddr")?.expect_cadr("cadddr")?.clone())
         });
 
         builtin!("cdr", |_, args| {
@@ -143,9 +169,29 @@ impl Default for SchemeEnvData {
         builtin!("displayln", displayln);
         builtin!("println", displayln);
 
+        builtin!("write", |_, args| {
+            let x = args.expect_car("write: expected argument")?;
+            print!(x);
+            Ok(LispVal::Void.into())
+        });
+
         builtin!("newline", |_, _| {
             println!();
             Ok(LispVal::Void.into())
+        });
+
+        builtin!("read", |_, _| {
+            let mut input = String::new();
+            tty::read_line(&mut input);
+            match input.parse::<LispVal>() {
+                Ok(expr) => Ok(expr.into()),
+                Err(e) => Err(makestr!("read: ", e)),
+            }
+        });
+
+        builtin!("eof-object?", |_, args| {
+            let [x] = args.get_n().ok_or("eof-object?: expected one argument")?;
+            Ok(LispVal::Bool(matches!(&**x, LispVal::Eof)).into())
         });
 
         builtin!("eq?", |_, args| {
@@ -168,9 +214,19 @@ impl Default for SchemeEnvData {
             Ok(LispVal::Bool(first.expect_int(">")? > second.expect_int(">")?).into())
         });
 
+        builtin!(">=", |_, args| {
+            let [first, second] = args.get_n().ok_or(">=")?;
+            Ok(LispVal::Bool(first.expect_int(">=")? >= second.expect_int(">=")?).into())
+        });
+
         builtin!("<", |_, args| {
             let [first, second] = args.get_n().ok_or("<")?;
             Ok(LispVal::Bool(first.expect_int("<")? < second.expect_int("<")?).into())
+        });
+
+        builtin!("<=", |_, args| {
+            let [first, second] = args.get_n().ok_or("<=")?;
+            Ok(LispVal::Bool(first.expect_int("<=")? <= second.expect_int("<=")?).into())
         });
 
         builtin!("positive?", |_, args| {

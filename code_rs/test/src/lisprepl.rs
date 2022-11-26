@@ -43,7 +43,7 @@ fn check_balanced(s: &[char]) -> bool {
 
         count += change;
         if count < 0 {
-            return true; // if we closed too much, we don't care since it'll be handled by the REPL
+            return true;
         }
     }
 
@@ -242,6 +242,10 @@ impl LispRepl {
                     }
                     let char_read = telnet::read();
                     if let Some(char_read) = char_read {
+                        if char_read == b'\x04' {
+                            println!("*EOT*");
+                            break; // EOT
+                        }
                         print!(char_read as char);
                         if !long && char_read == b'\n' {
                             break;
