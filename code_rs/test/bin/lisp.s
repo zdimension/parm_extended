@@ -908,10 +908,6 @@ _ZN4core3ops8function6FnOnce9call_once17h25c8c6c5956008c3E:
 .LBB14_2:
 	ldr	r0, [sp, #4]
 	bl	_ZN63_$LT$lisp..Prc$LT$T$GT$$u20$as$u20$lisp..parm..tty..Display$GT$5write17h671d097c3b6e60ddE
-	movs	r0, #255
-	mvns	r0, r0
-	movs	r1, #10
-	str	r1, [r0]
 	movs	r0, #8
 	str	r0, [sp, #36]
 	mov	r0, sp

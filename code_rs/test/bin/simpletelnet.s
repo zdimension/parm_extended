@@ -15,7 +15,7 @@
 	.eabi_attribute	38, 1
 	.eabi_attribute	14, 0
 	.code	16
-	.file	"simpletelnet.960d3e2c-cgu.0"
+	.file	"simpletelnet.a9bbb8be-cgu.0"
 
 
 __aeabi_lmul:
@@ -48,6 +48,10 @@ __aeabi_lmul:
 	adds	r0, r0, r2
 	adcs	r1, r3
 	pop	{r4, pc}
+
+_ZN63_$LT$core..cell..BorrowMutError$u20$as$u20$core..fmt..Debug$GT$3fmt17hd3989ea40ef8781cE:
+	nop
+
 
 
 	.section	.text.unknown_panic,"ax",%progbits
@@ -548,6 +552,64 @@ __aeabi_idivmod:
 	.cantunwind
 	.fnend
 
+	.section	.text.__clzsi2,"ax",%progbits
+	.globl	__clzsi2
+	.p2align	1
+	.type	__clzsi2,%function
+	.code	16
+	.thumb_func
+__clzsi2:
+	.fnstart
+	lsrs	r2, r0, #16
+	beq	.LBB15_2
+	movs	r1, #16
+	b	.LBB15_3
+.LBB15_2:
+	movs	r1, #32
+.LBB15_3:
+	cmp	r2, #0
+	beq	.LBB15_5
+	mov	r0, r2
+.LBB15_5:
+	lsrs	r2, r0, #8
+	beq	.LBB15_7
+	subs	r1, #8
+.LBB15_7:
+	cmp	r2, #0
+	beq	.LBB15_9
+	mov	r0, r2
+.LBB15_9:
+	cmp	r0, #16
+	blo	.LBB15_11
+	subs	r1, r1, #4
+.LBB15_11:
+	cmp	r0, #16
+	blo	.LBB15_13
+	lsrs	r0, r0, #4
+.LBB15_13:
+	cmp	r0, #4
+	blo	.LBB15_15
+	subs	r1, r1, #2
+.LBB15_15:
+	cmp	r0, #4
+	blo	.LBB15_17
+	lsrs	r0, r0, #2
+.LBB15_17:
+	cmp	r0, #2
+	blo	.LBB15_19
+	movs	r0, #1
+	mvns	r0, r0
+	b	.LBB15_20
+.LBB15_19:
+	rsbs	r0, r0, #0
+.LBB15_20:
+	adds	r0, r0, r1
+	bx	lr
+.Lfunc_end15:
+	.size	__clzsi2, .Lfunc_end15-__clzsi2
+	.cantunwind
+	.fnend
+
 	.section	.start,"ax",%progbits
 	.globl	run
 	.p2align	1
@@ -570,23 +632,23 @@ run:
 	@NO_APP
 	movs	r0, #255
 	mvns	r0, r0
-.LBB15_1:
+.LBB16_1:
 	ldr	r1, [r0, #12]
 	cmp	r1, #0
-	beq	.LBB15_3
+	beq	.LBB16_3
 	ldr	r1, [r0, #8]
 	uxtb	r1, r1
 	str	r1, [r0]
-.LBB15_3:
+.LBB16_3:
 	ldr	r1, [r0, #24]
 	cmp	r1, #0
-	beq	.LBB15_1
+	beq	.LBB16_1
 	ldr	r1, [r0, #28]
 	uxtb	r1, r1
 	str	r1, [r0, #8]
-	b	.LBB15_1
-.Lfunc_end15:
-	.size	run, .Lfunc_end15-run
+	b	.LBB16_1
+.Lfunc_end16:
+	.size	run, .Lfunc_end16-run
 	.cantunwind
 	.fnend
 
@@ -601,31 +663,31 @@ _ZN4core9panicking5panicXXX:
 	movs	r2, #255
 	mvns	r2, r2
 	movs	r3, #0
-	ldr	r4, .LCPI16_0
-.LBB16_1:
+	ldr	r4, .LCPI17_0
+.LBB17_1:
 	cmp	r3, #6
-	beq	.LBB16_4
+	beq	.LBB17_4
 	ldrb	r5, [r4, r3]
 	str	r5, [r2]
 	adds	r3, r3, #1
-	b	.LBB16_1
-.LBB16_3:
+	b	.LBB17_1
+.LBB17_3:
 	ldrb	r3, [r0]
 	str	r3, [r2]
 	subs	r1, r1, #1
 	adds	r0, r0, #1
-.LBB16_4:
+.LBB17_4:
 	cmp	r1, #0
-	bne	.LBB16_3
+	bne	.LBB17_3
 	movs	r0, #10
 	str	r0, [r2]
-.LBB16_6:
-	b	.LBB16_6
+.LBB17_6:
+	b	.LBB17_6
 	.p2align	2
-.LCPI16_0:
+.LCPI17_0:
 	.long	.L__unnamed_2
-.Lfunc_end16:
-	.size	_ZN4core9panicking5panicXXX, .Lfunc_end16-_ZN4core9panicking5panicXXX
+.Lfunc_end17:
+	.size	_ZN4core9panicking5panicXXX, .Lfunc_end17-_ZN4core9panicking5panicXXX
 	.cantunwind
 	.fnend
 
@@ -646,8 +708,8 @@ _ZN4core6option13expect_failedXXX:
 	@NO_APP
 	bl	_ZN4core9panicking5panicXXX
 	.inst.n	0xdefe
-.Lfunc_end17:
-	.size	expect_failed, .Lfunc_end17-expect_failed
+.Lfunc_end18:
+	.size	expect_failed, .Lfunc_end18-expect_failed
 	.cantunwind
 	.fnend
 
@@ -666,15 +728,15 @@ unwrap_failed:
 	@APP
 _ZN4core6result13unwrap_failedXXX:
 	@NO_APP
-	ldr	r0, .LCPI18_0
+	ldr	r0, .LCPI19_0
 	movs	r1, #13
 	bl	_ZN4core9panicking5panicXXX
 	.inst.n	0xdefe
 	.p2align	2
-.LCPI18_0:
+.LCPI19_0:
 	.long	.L__unnamed_3
-.Lfunc_end18:
-	.size	unwrap_failed, .Lfunc_end18-unwrap_failed
+.Lfunc_end19:
+	.size	unwrap_failed, .Lfunc_end19-unwrap_failed
 	.cantunwind
 	.fnend
 
@@ -693,15 +755,15 @@ panic_bounds_check:
 	@APP
 _ZN4core9panicking18panic_bounds_checkXXX:
 	@NO_APP
-	ldr	r0, .LCPI19_0
+	ldr	r0, .LCPI20_0
 	movs	r1, #19
 	bl	_ZN4core9panicking5panicXXX
 	.inst.n	0xdefe
 	.p2align	2
-.LCPI19_0:
+.LCPI20_0:
 	.long	.L__unnamed_4
-.Lfunc_end19:
-	.size	panic_bounds_check, .Lfunc_end19-panic_bounds_check
+.Lfunc_end20:
+	.size	panic_bounds_check, .Lfunc_end20-panic_bounds_check
 	.cantunwind
 	.fnend
 
@@ -720,15 +782,42 @@ panic_fmt:
 	@APP
 _ZN4core9panicking9panic_fmtXXX:
 	@NO_APP
-	ldr	r0, .LCPI20_0
+	ldr	r0, .LCPI21_0
 	movs	r1, #9
 	bl	_ZN4core9panicking5panicXXX
 	.inst.n	0xdefe
 	.p2align	2
-.LCPI20_0:
+.LCPI21_0:
 	.long	.L__unnamed_5
-.Lfunc_end20:
-	.size	panic_fmt, .Lfunc_end20-panic_fmt
+.Lfunc_end21:
+	.size	panic_fmt, .Lfunc_end21-panic_fmt
+	.cantunwind
+	.fnend
+
+	.section	.text.borrow_mut_error,"ax",%progbits
+	.globl	borrow_mut_error
+	.p2align	2
+	.type	borrow_mut_error,%function
+	.code	16
+	.thumb_func
+borrow_mut_error:
+	.fnstart
+	.save	{r7, lr}
+	push	{r7, lr}
+	.setfp	r7, sp
+	add	r7, sp, #0
+	@APP
+_ZN63_$LT$core..cell..BorrowMutError$u20$as$u20$core..fmt..Debug$GT$3fmtXXX:
+	@NO_APP
+	ldr	r0, .LCPI22_0
+	movs	r1, #16
+	bl	_ZN4core9panicking5panicXXX
+	.inst.n	0xdefe
+	.p2align	2
+.LCPI22_0:
+	.long	.L__unnamed_6
+.Lfunc_end22:
+	.size	borrow_mut_error, .Lfunc_end22-borrow_mut_error
 	.cantunwind
 	.fnend
 
@@ -753,15 +842,15 @@ _ZN4core5slice5index24slice_end_index_len_failXXX:
 	@APP
 _ZN4core5slice29__DOL_LT_DOL_impl_DOL_u20_DOL__DOL_u5b_DOL_T_DOL_u5d_DOL__DOL_GT_DOL_15copy_from_slice17len_mismatch_failXXX:
 	@NO_APP
-	ldr	r0, .LCPI21_0
+	ldr	r0, .LCPI23_0
 	movs	r1, #25
 	bl	_ZN4core9panicking5panicXXX
 	.inst.n	0xdefe
 	.p2align	2
-.LCPI21_0:
-	.long	.L__unnamed_6
-.Lfunc_end21:
-	.size	slicee_end_index_len_fail, .Lfunc_end21-slicee_end_index_len_fail
+.LCPI23_0:
+	.long	.L__unnamed_7
+.Lfunc_end23:
+	.size	slicee_end_index_len_fail, .Lfunc_end23-slicee_end_index_len_fail
 	.cantunwind
 	.fnend
 
@@ -780,15 +869,15 @@ slice_index_order_fail:
 	@APP
 _ZN4core5slice5index22slice_index_order_failXXX:
 	@NO_APP
-	ldr	r0, .LCPI22_0
+	ldr	r0, .LCPI24_0
 	movs	r1, #36
 	bl	_ZN4core9panicking5panicXXX
 	.inst.n	0xdefe
 	.p2align	2
-.LCPI22_0:
-	.long	.L__unnamed_7
-.Lfunc_end22:
-	.size	slice_index_order_fail, .Lfunc_end22-slice_index_order_fail
+.LCPI24_0:
+	.long	.L__unnamed_8
+.Lfunc_end24:
+	.size	slice_index_order_fail, .Lfunc_end24-slice_index_order_fail
 	.cantunwind
 	.fnend
 
@@ -804,24 +893,24 @@ rust_begin_unwind:
 	movs	r0, #255
 	mvns	r0, r0
 	movs	r1, #0
-	ldr	r2, .LCPI23_0
-.LBB23_1:
+	ldr	r2, .LCPI25_0
+.LBB25_1:
 	cmp	r1, #7
-	beq	.LBB23_3
+	beq	.LBB25_3
 	ldrb	r3, [r2, r1]
 	str	r3, [r0]
 	adds	r1, r1, #1
-	b	.LBB23_1
-.LBB23_3:
+	b	.LBB25_1
+.LBB25_3:
 	movs	r1, #10
 	str	r1, [r0]
-.LBB23_4:
-	b	.LBB23_4
+.LBB25_4:
+	b	.LBB25_4
 	.p2align	2
-.LCPI23_0:
-	.long	.L__unnamed_8
-.Lfunc_end23:
-	.size	rust_begin_unwind, .Lfunc_end23-rust_begin_unwind
+.LCPI25_0:
+	.long	.L__unnamed_9
+.Lfunc_end25:
+	.size	rust_begin_unwind, .Lfunc_end25-rust_begin_unwind
 	.cantunwind
 	.fnend
 
@@ -856,22 +945,28 @@ rust_begin_unwind:
 	.size	.L__unnamed_5, 9
 
 	.type	.L__unnamed_6,%object
-	.section	.rodata..L__unnamed_6,"a",%progbits
+	.section	.rodata.cst16,"aM",%progbits,16
 .L__unnamed_6:
-	.ascii	"slice index out of bounds"
-	.size	.L__unnamed_6, 25
+	.ascii	"borrow_mut error"
+	.size	.L__unnamed_6, 16
 
 	.type	.L__unnamed_7,%object
 	.section	.rodata..L__unnamed_7,"a",%progbits
 .L__unnamed_7:
-	.ascii	"slice index start is larger than end"
-	.size	.L__unnamed_7, 36
+	.ascii	"slice index out of bounds"
+	.size	.L__unnamed_7, 25
 
 	.type	.L__unnamed_8,%object
 	.section	.rodata..L__unnamed_8,"a",%progbits
 .L__unnamed_8:
+	.ascii	"slice index start is larger than end"
+	.size	.L__unnamed_8, 36
+
+	.type	.L__unnamed_9,%object
+	.section	.rodata..L__unnamed_9,"a",%progbits
+.L__unnamed_9:
 	.ascii	"handler"
-	.size	.L__unnamed_8, 7
+	.size	.L__unnamed_9, 7
 
 	.section	".note.GNU-stack","",%progbits
 	.eabi_attribute	30, 4

@@ -400,7 +400,7 @@ try:
 				add_instr(f"@bcond1 {m.group(1)} {m.group(2)}")
 				add_instr(f"@bcond2 {m.group(1)} {m.group(2)}")
 				break
-			elif m := pushpop.match(line):
+			elif (m := pushpop.match(line)):
 				regs = sorted(hi_regs.get(x, None) or int(x[1:]) for x in map(str.strip, m.group(2).split(",")))
 				if m.group(1).lower() == "push":
 					add_instr(f"sub sp, #{len(regs) * 4}")
