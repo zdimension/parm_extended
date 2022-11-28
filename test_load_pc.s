@@ -3,9 +3,9 @@ lsls r0, r0, #20
 mov sp, r0
 movs r0, #0
 
-
 movs r2, #2
 movs r3, #3
+
 bl func 
 movs r4, #4
 movs r5, #5
