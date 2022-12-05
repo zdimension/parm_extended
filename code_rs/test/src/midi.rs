@@ -154,8 +154,9 @@ fn main() {
     let mut instrs = [MidiInstrument::Piano1; 128];
     let mut last_instr = MidiInstrument::Piano1;
     let mut tempo = 1;
+    let mut midi_metro = 24;
     for EventAbs(abs, ev) in merged.iter() {
-        sleep(((abs - last) * tempo) as usize);
+        sleep(((abs - last) * tempo) as usize / (1250 * midi_metro));
         last = *abs;
         match ev.kind {
             TrackEventKind::Midi { channel, message } => match message {
@@ -207,14 +208,17 @@ fn main() {
                 MetaMessage::MidiPort(_) => println!("midi port"),
                 MetaMessage::EndOfTrack => println!("end of track"),
                 MetaMessage::Tempo(t) => {
-                    tempo = t.as_int() / 100000;
+                    tempo = t.as_int();
                     println!("tempo ", tempo);
                 }
                 MetaMessage::SmpteOffset(_) => println!("smpte offset"),
-                MetaMessage::TimeSignature(num, den, clPerClk, no32perQrt) => println!(
-                    "time signature ",
-                    num, "/", den, " ", clPerClk, "/", no32perQrt
-                ),
+                MetaMessage::TimeSignature(num, den, clPerClk, no32perQrt) => {
+                    midi_metro = clPerClk as usize;
+                    println!(
+                        "time signature ",
+                        num, "/", den, " ", clPerClk, "/", no32perQrt
+                    )
+                },
                 MetaMessage::KeySignature(_, _) => println!("key signature"),
                 MetaMessage::SequencerSpecific(_) => println!("sequencer specific"),
                 MetaMessage::Unknown(_, _) => println!("unknown"),
