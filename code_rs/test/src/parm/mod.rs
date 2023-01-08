@@ -12,8 +12,7 @@ pub mod telnet;
 pub mod tty;
 pub mod util;
 
-#[link_section = ".start"]
-#[export_name = "run"]
+#[no_mangle]
 pub fn _start() -> ! {
     let main: unsafe fn() -> () = crate::main;
 

@@ -7,6 +7,7 @@ edition = "2021"
 derive_more = "0.99.17"
 indoc = "1.0.6"
 paste = "1.0.9"
+
 #approx = { version = "0.5.1", default-features = false }
 #nalgebra = { version = "0.31.0", default-features = false, features = ["macros", "nalgebra-macros"] }
 #num-traits = { version = "0.2.15", default-features = false }
@@ -63,6 +64,10 @@ path = "src/ball.rs"
 [[bin]]
 name = "midi"
 path = "src/midi.rs"
+
+[[bin]]
+name = "minimal"
+path = "src/minimal.rs"
 
 [profile.dev]
 panic = "abort"
