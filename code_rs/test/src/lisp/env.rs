@@ -40,6 +40,7 @@ impl SymbolMap {
 pub(crate) struct SchemeEnvData {
     pub(crate) map: SymbolMap,
     pub(crate) parent: Option<SchemeEnv>,
+    pub(crate) trace: bool
 }
 
 impl Hash for SchemeEnvData {
@@ -50,7 +51,7 @@ impl Hash for SchemeEnvData {
 }
 
 #[derive(Clone)]
-pub struct SchemeEnv(Prc<SchemeEnvData>);
+pub struct SchemeEnv(pub(crate) Prc<SchemeEnvData>);
 
 impl Hash for SchemeEnv {
     fn hash<H: Hasher>(&self, state: &mut H) {
@@ -126,6 +127,7 @@ impl SchemeEnv {
         SchemeEnv(Prc::new(SchemeEnvData {
             map: SymbolMap::new(),
             parent: Some(self.clone()),
+            trace: self.0.trace
         }))
     }
 }

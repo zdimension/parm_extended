@@ -246,16 +246,16 @@ impl Default for SchemeEnvData {
 
         builtin!("for-each", |env, args| {
             let [fct, list] = args.get_n().ok_or("for-each")?;
-            let fct = fct.expect_callable("for-each")?;
+            let fct = fct.expect_nonmacro("for-each")?;
             let list = list.expect_list("for-each")?;
             #[inline(never)]
             fn process_list(
                 list: &LispList,
                 env: &mut SchemeEnv,
-                fct: &LispProc,
+                fct: &ProcType,
             ) -> Result<(), String> {
                 for item in list.iter() {
-                    env.eval_call(fct, &LispList::singleton(item.clone()))?;
+                    env.eval_nonmacro_call(fct, &LispList::singleton(item.clone()))?;
                 }
                 Ok(())
             }
@@ -306,18 +306,18 @@ impl Default for SchemeEnvData {
 
         builtin!("apply", |env, args| {
             let (fct, args) = args.expect_cons("apply")?;
-            let fct = fct.expect_callable("apply")?;
+            let fct = fct.expect_nonmacro("apply")?;
             let args = list_star(args.expect_list("list*")?)?;
             let args = unsafe { args.expect_list("").unwrap_unchecked() };
-            env.eval_call(fct, args)
+            env.eval_nonmacro_call(fct, args)
         });
 
         builtin!("map", |env, args| {
-            let fct = args.expect_car("map")?.expect_callable("map")?;
+            let fct = args.expect_car("map")?.expect_nonmacro("map")?;
             let list = args.expect_cadr("map")?.expect_list("map")?;
             let mut res = LispListBuilder::new();
             for item in list.iter() {
-                res.push(env.eval_call(fct, &LispList::singleton(item.clone()))?);
+                res.push(env.eval_nonmacro_call(fct, &LispList::singleton(item.clone()))?);
             }
             Ok(res.finish())
         });
@@ -428,7 +428,7 @@ impl Default for SchemeEnvData {
                 None => match iter.next() {
                     Some(failure) => {
                         match &**failure {
-                            LispVal::Procedure(proc) => env.eval_call(proc, &LispList::Empty),
+                            LispVal::Procedure(LispProc { fct, is_macro: false }) => env.eval_nonmacro_call(fct, &LispList::Empty),
                             _ => Ok(failure.clone())
                         }
                     }
@@ -444,6 +444,11 @@ impl Default for SchemeEnvData {
             Ok(LispVal::Int(hasher.finish() as i32).into())
         });
 
-        SchemeEnvData { map, parent: None }
+        builtin!("identity", |_, args| {
+            let [arg] = args.get_n().ok_or("identity")?;
+            Ok(arg.clone())
+        });
+
+        SchemeEnvData { map, parent: None, trace: true }
     }
 }

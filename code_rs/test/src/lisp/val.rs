@@ -428,6 +428,13 @@ impl LispVal {
     expect!(Symbol, symbol, &String);
     expect!(List, list, &LispList);
     expect!(Hash, hash, &LispHash);
+
+    pub fn expect_nonmacro(&self, origin: &'static str) -> Result<&ProcType, String> {
+        match self {
+            LispVal::Procedure(LispProc { fct, is_macro: false }) => Ok(fct),
+            _ => Err(self.expect_message(origin, "nonmacro")),
+        }
+    }
 }
 
 impl FromStr for LispVal {
@@ -456,6 +463,20 @@ impl Display for LispVal {
             LispVal::Hash(h) => write_hash(h, target),
             LispVal::Eof => print!("#<eof>", => target),
         }
+    }
+}
+
+impl Display for LispList {
+    #[inline(never)]
+    fn write(&self, target: &mut impl DisplayTarget) {
+        write_list(self, target)
+    }
+}
+
+impl Display for ProcType {
+    #[inline(never)]
+    fn write(&self, target: &mut impl DisplayTarget) {
+        write_procedure(self.name(), target)
     }
 }
 

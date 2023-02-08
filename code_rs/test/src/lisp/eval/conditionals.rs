@@ -61,8 +61,8 @@ impl SchemeEnv {
                         LispList::Empty => Ok(test),
                         LispList::Cons(head, rest) => match &**head {
                             LispVal::Symbol(name) if name == "=>" => {
-                                let proc = rest.expect_callable("cond")?;
-                                self.eval_call(proc, &LispList::singleton(test))
+                                let proc = rest.expect_nonmacro("cond")?;
+                                self.eval_nonmacro_call(proc, &LispList::singleton(test))
                             }
                             _ => self.eval_begin(body),
                         },

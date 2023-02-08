@@ -4,7 +4,7 @@ use crate::lisp::val::{
 };
 use crate::parm::heap::string::String;
 use crate::parm::heap::vec::Vec;
-use crate::{makestr, LispValBox};
+use crate::{makestr, LispValBox, println};
 
 impl SchemeEnv {
     #[inline(never)]
@@ -16,6 +16,9 @@ impl SchemeEnv {
         if *is_macro {
             self.eval_macro_call(fct, args)
         } else {
+            if self.0.trace {
+                println!("nonmacro raw: ", fct, ' ', args);
+            }
             let evaluated = self.eval_list(args)?;
             let evald = unsafe { evaluated.expect_list("").unwrap_unchecked() };
             self.eval_nonmacro_call(fct, evald)
@@ -23,11 +26,14 @@ impl SchemeEnv {
     }
 
     #[inline(never)]
-    fn eval_nonmacro_call(
+    pub(crate) fn eval_nonmacro_call(
         &mut self,
         head: &ProcType,
         items: &LispList,
     ) -> Result<LispValBox, String> {
+        if self.0.trace {
+            println!("nonmacro: ", head, ' ', items);
+        }
         match head {
             ProcType::Builtin(_name, f) => f(self, items),
             ProcType::Internal(int) => int.call(self, items),
@@ -42,6 +48,9 @@ impl SchemeEnv {
 
     #[inline(never)]
     fn eval_macro_call(&mut self, mac: &ProcType, items: &LispList) -> Result<LispValBox, String> {
+        if self.0.trace {
+            println!("macro: ", mac, ' ', items);
+        }
         let expansion = self.eval_nonmacro_call(mac, items)?;
         self.eval(&expansion)
     }
