@@ -1,7 +1,7 @@
 use crate::lisp::env::SchemeEnv;
 use crate::lisp::val::{LispList, LispListBuilder, LispVal};
 use crate::parm::heap::string::String;
-use crate::{makestr, LispValBox};
+use crate::{makestr, LispValBox, println};
 
 impl SchemeEnv {
     #[inline(never)]
@@ -89,6 +89,9 @@ impl SchemeEnv {
         items: &LispList,
         is_macro: bool,
     ) -> Result<LispValBox, String> {
+        if self.0.trace {
+            println!("define: ", items);
+        }
         let (head, rest) = items.expect_cons("define")?;
         match &**head {
             LispVal::Symbol(name) => {
@@ -102,8 +105,7 @@ impl SchemeEnv {
             }
             LispVal::List(fct_items) => {
                 let (name, args) = fct_items.expect_cons("define")?;
-                let args = self
-                    .eval_lambda_args_list(args.expect_list("define: expected argument list")?)?;
+                let args = self.eval_lambda_args(args)?;
                 let lambda =
                     self.eval_closure(args, rest.expect_list("define: expected body")?, is_macro)?;
                 self.set_new(name.expect_symbol("define")?.clone(), lambda);

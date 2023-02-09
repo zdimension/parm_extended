@@ -24,6 +24,27 @@ pub struct LispProc {
     pub is_macro: bool,
 }
 
+impl LispProc {
+    fn type_name(&self) -> &'static str {
+        match (&self.fct, self.is_macro) {
+            (ProcType::Builtin(_, _), false) => "builtin",
+            (ProcType::Builtin(_, _), true) => "builtin(macro)",
+            (ProcType::Internal(_), false) => "internal",
+            (ProcType::Internal(_), true) => "internal(macro)",
+            (ProcType::Closure { .. }, false) => "closure",
+            (ProcType::Closure { .. }, true) => "closure(macro)",
+        }
+    }
+
+    fn name(&self) -> Option<&String> {
+        match &self.fct {
+            ProcType::Builtin(name, _) => Some(name),
+            ProcType::Internal(name) => None,
+            ProcType::Closure { name, .. } => name.as_ref(),
+        }
+    }
+}
+
 #[derive(Clone, Hash, Eq)]
 pub enum LispVal {
     Symbol(String),
@@ -393,18 +414,7 @@ impl LispVal {
             LispVal::Str(_) => "string",
             LispVal::List(_) => "list",
             LispVal::Void => "void",
-            LispVal::Procedure(LispProc {
-                fct: ProcType::Builtin(_, _),
-                ..
-            }) => "builtin",
-            LispVal::Procedure(LispProc {
-                fct: ProcType::Internal(_),
-                ..
-            }) => "internal",
-            LispVal::Procedure(LispProc {
-                fct: ProcType::Closure { .. },
-                ..
-            }) => "closure",
+            LispVal::Procedure(proc) => proc.type_name(),
             LispVal::Hash { .. } => "hash",
             LispVal::Eof => "eof-object",
         }
@@ -459,7 +469,7 @@ impl Display for LispVal {
             LispVal::Symbol(s) => print!(s, => target),
             LispVal::List(xs) => write_list(xs, target),
             LispVal::Void => print!("#<void>", => target),
-            LispVal::Procedure(LispProc { fct: ty, .. }) => write_procedure(ty.name(), target),
+            LispVal::Procedure(proc) => print!(proc, => target),
             LispVal::Hash(h) => write_hash(h, target),
             LispVal::Eof => print!("#<eof>", => target),
         }
@@ -472,13 +482,13 @@ impl Display for LispList {
         write_list(self, target)
     }
 }
-
+/*
 impl Display for ProcType {
     #[inline(never)]
     fn write(&self, target: &mut impl DisplayTarget) {
         write_procedure(self.name(), target)
     }
-}
+}*/
 
 #[inline(never)]
 fn write_list(xs: &LispList, target: &mut impl DisplayTarget) {
@@ -511,12 +521,15 @@ fn write_hash(h: &LispHash, target: &mut impl DisplayTarget) {
     print!(")", => target);
 }
 
-#[inline(never)]
-fn write_procedure(name: Option<&String>, target: &mut impl DisplayTarget) {
-    if let Some(name) = name {
-        print!("#<procedure:", name, ">", => target);
-    } else {
-        print!("#<procedure>", => target);
+impl Display for LispProc {
+    #[inline(never)]
+    fn write(&self, target: &mut impl DisplayTarget) {
+        let typename = self.type_name();
+        if let Some(name) = self.name() {
+            print!("#<", typename, ":", name, ">", => target);
+        } else {
+            print!("#<", typename, ">", => target);
+        }
     }
 }
 

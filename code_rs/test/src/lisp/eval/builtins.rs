@@ -449,6 +449,12 @@ impl Default for SchemeEnvData {
             Ok(arg.clone())
         });
 
-        SchemeEnvData { map, parent: None, trace: true }
+        builtin_macro!("trace", |env, args| {
+            let mut new_env = env.make_child();
+            new_env.0.borrow_mut().trace = true;
+            new_env.eval_begin(args)
+        });
+
+        SchemeEnvData { map, parent: None, trace: false }
     }
 }

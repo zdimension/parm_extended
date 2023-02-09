@@ -6,7 +6,7 @@ use crate::{makestr, LispValBox};
 
 impl SchemeEnv {
     #[inline(never)]
-    fn eval_lambda_args(&mut self, args: &LispValBox) -> Result<ClosureArgs, String> {
+    pub(crate) fn eval_lambda_args(&mut self, args: &LispValBox) -> Result<ClosureArgs, String> {
         Ok(match &**args {
             LispVal::List(args) => self.eval_lambda_args_list(args)?,
             LispVal::Symbol(name) => ClosureArgs::Whole(name.clone()),
