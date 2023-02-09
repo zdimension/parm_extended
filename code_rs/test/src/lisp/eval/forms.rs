@@ -1,7 +1,7 @@
 use crate::lisp::env::SchemeEnv;
 use crate::lisp::val::{LispList, LispListBuilder, LispVal};
 use crate::parm::heap::string::String;
-use crate::{makestr, LispValBox, println};
+use crate::{makestr, println, LispValBox};
 
 impl SchemeEnv {
     #[inline(never)]
@@ -33,48 +33,39 @@ impl SchemeEnv {
         if name == "lambda" {
             return Some(self.eval_lambda(args));
         }
-        #[inline(never)]
-        fn hack(
-            self_: &mut SchemeEnv,
-            name: &String,
-            args: &LispList,
-        ) -> Option<Result<LispValBox, String>> {
-            if name == "list" {
-                return Some(self_.eval_list(args));
-            }
-            if name == "let" {
-                return Some(self_.eval_let(args, false));
-            }
-            if name == "letrec" {
-                return Some(self_.eval_let(args, true));
-            }
-            if name == "if" {
-                return Some(self_.eval_if(args));
-            }
-            if name == "and" {
-                return Some(self_.eval_and(args));
-            }
-            if name == "or" {
-                return Some(self_.eval_or(args));
-            }
-            if name == "cond" {
-                return Some(self_.eval_cond(args));
-            }
-            if name == "when" {
-                return Some(self_.eval_when(args, false));
-            }
-            if name == "unless" {
-                return Some(self_.eval_when(args, true));
-            }
-            if name == "case" {
-                return Some(self_.eval_case(args));
-            }
-            None
+        if name == "list" {
+            return Some(self.eval_list(args));
         }
-        hack(self, name, args)
+        if name == "let" {
+            return Some(self.eval_let(args, false));
+        }
+        if name == "letrec" {
+            return Some(self.eval_let(args, true));
+        }
+        if name == "if" {
+            return Some(self.eval_if(args));
+        }
+        if name == "and" {
+            return Some(self.eval_and(args));
+        }
+        if name == "or" {
+            return Some(self.eval_or(args));
+        }
+        if name == "cond" {
+            return Some(self.eval_cond(args));
+        }
+        if name == "when" {
+            return Some(self.eval_when(args, false));
+        }
+        if name == "unless" {
+            return Some(self.eval_when(args, true));
+        }
+        if name == "case" {
+            return Some(self.eval_case(args));
+        }
+        None
     }
 
-    #[inline(never)]
     pub(crate) fn eval_list(&mut self, items: &LispList) -> Result<LispValBox, String> {
         let mut res = LispListBuilder::new();
         for item in items.iter() {
@@ -83,7 +74,6 @@ impl SchemeEnv {
         Ok(res.finish())
     }
 
-    #[inline(never)]
     pub(crate) fn eval_define(
         &mut self,
         items: &LispList,
@@ -115,7 +105,6 @@ impl SchemeEnv {
         Ok(LispVal::Void.into())
     }
 
-    #[inline(never)]
     pub(crate) fn eval_form(&mut self, items: &LispList) -> Result<LispValBox, String> {
         let (head, rest) = items.expect_cons("call")?;
         let rest = rest.expect_list("call: expected list")?;

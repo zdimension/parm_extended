@@ -1,13 +1,10 @@
 use crate::lisp::env::SchemeEnv;
-use crate::lisp::val::{
-    ClosureArgs, LispList, LispListIter, LispProc, LispVal, ProcType,
-};
+use crate::lisp::val::{ClosureArgs, LispList, LispListIter, LispProc, LispVal, ProcType};
 use crate::parm::heap::string::String;
 use crate::parm::heap::vec::Vec;
-use crate::{makestr, LispValBox, println};
+use crate::{makestr, println, LispValBox};
 
 impl SchemeEnv {
-    #[inline(never)]
     pub(crate) fn eval_call(
         &mut self,
         proc @ LispProc { fct, is_macro }: &LispProc,
@@ -31,7 +28,6 @@ impl SchemeEnv {
         }
     }
 
-    #[inline(never)]
     pub(crate) fn eval_nonmacro_call(
         &mut self,
         head: &ProcType,
@@ -49,13 +45,11 @@ impl SchemeEnv {
         }
     }
 
-    #[inline(never)]
     fn eval_macro_call(&mut self, mac: &ProcType, items: &LispList) -> Result<LispValBox, String> {
         let expansion = self.eval_nonmacro_call(mac, items)?;
         self.eval(&expansion)
     }
 
-    #[inline(never)]
     fn eval_closure_call(
         &mut self,
         items: &LispList,
@@ -76,7 +70,6 @@ impl SchemeEnv {
         new_env.eval_begin(body)
     }
 
-    #[inline(never)]
     fn process_dispatch_args(
         &mut self,
         new_env: &mut SchemeEnv,

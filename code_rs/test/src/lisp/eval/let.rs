@@ -5,7 +5,6 @@ use crate::parm::heap::vec::Vec;
 use crate::{makestr, LispValBox};
 
 impl SchemeEnv {
-    #[inline(never)]
     fn eval_let_binding(&mut self, items: &LispList) -> Result<(String, LispValBox), String> {
         let [name, value] = items
             .get_n()
@@ -15,7 +14,6 @@ impl SchemeEnv {
         Ok((name, value))
     }
 
-    #[inline(never)]
     fn eval_named_let(
         &mut self,
         name: &String,
@@ -42,7 +40,6 @@ impl SchemeEnv {
         first_call_env.eval_begin(body)
     }
 
-    #[inline(never)]
     pub(crate) fn eval_let(&mut self, args: &LispList, rec: bool) -> Result<LispValBox, String> {
         let mut env = self.make_child();
         let (bindings, body) = args.expect_cons("let: expected list of length 2 or 3")?;
@@ -51,28 +48,18 @@ impl SchemeEnv {
             return self.eval_named_let(name, bindings.expect_list("let")?, body);
         }
         let bindings = bindings.expect_list("let")?;
-        #[inline(never)]
-        fn inner(
-            item: &LispValBox,
-            env: &mut SchemeEnv,
-            parent: &mut SchemeEnv,
-            rec: bool,
-        ) -> Result<(), String> {
+        for item in bindings.iter() {
             match &**item {
                 LispVal::List(items) => {
                     let (name, val) = if rec {
                         env.eval_let_binding(items)
                     } else {
-                        parent.eval_let_binding(items)
+                        self.eval_let_binding(items)
                     }?;
                     env.set(name, val);
                 }
                 _ => return Err(makestr!("let: expected list, got ", item)),
             }
-            Ok(())
-        }
-        for item in bindings.iter() {
-            inner(item, &mut env, self, rec)?;
         }
         env.eval_begin(body.expect_list("let: expected body")?)
     }

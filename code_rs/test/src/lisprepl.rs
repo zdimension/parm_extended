@@ -18,7 +18,7 @@ use lisp::env::SchemeEnv;
 use lisp::parse::{ReadError, SchemeParser};
 use lisp::val::LispVal;
 
-use crate::parm::heap::string::{String};
+use crate::parm::heap::string::String;
 use crate::parm::tty::{Display, DisplayTarget};
 use crate::parm::{keyb, telnet, tty};
 

@@ -5,7 +5,6 @@ use crate::parm::heap::vec::Vec;
 use crate::{makestr, LispValBox};
 
 impl SchemeEnv {
-    #[inline(never)]
     pub(crate) fn eval_lambda_args(&mut self, args: &LispValBox) -> Result<ClosureArgs, String> {
         Ok(match &**args {
             LispVal::List(args) => self.eval_lambda_args_list(args)?,
@@ -16,7 +15,6 @@ impl SchemeEnv {
         })
     }
 
-    #[inline(never)]
     pub(crate) fn eval_lambda_args_list(&mut self, args: &LispList) -> Result<ClosureArgs, String> {
         let mut iter = args.iter();
         let mut syms = Vec::new();
@@ -32,7 +30,6 @@ impl SchemeEnv {
         ))
     }
 
-    #[inline(never)]
     pub(crate) fn eval_lambda(&mut self, args: &LispList) -> Result<LispValBox, String> {
         let (args, body) = args.expect_cons("lambda")?;
         self.eval_lambda_args(args).and_then(|cl_args| {
@@ -40,7 +37,6 @@ impl SchemeEnv {
         })
     }
 
-    #[inline(never)]
     pub(crate) fn eval_closure(
         &mut self,
         args: ClosureArgs,
@@ -50,7 +46,6 @@ impl SchemeEnv {
         Ok(self.make_closure(None, args, body.clone(), is_macro).into())
     }
 
-    #[inline(never)]
     fn make_closure(
         &mut self,
         name: Option<String>,

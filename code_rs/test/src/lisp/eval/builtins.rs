@@ -1,14 +1,15 @@
 use core::hash::{Hash, Hasher};
+
 use crate::lisp::env::{SchemeEnv, SchemeEnvData, SymbolMap};
 use crate::lisp::val::{LispHash, LispList, LispListBuilder, LispProc, LispVal, ProcType};
-use crate::{LispValBox, print, println};
+use crate::makestr;
 use crate::parm::heap::budmap::BudMap;
+use crate::parm::heap::string::Parse;
 use crate::parm::heap::string::String;
 use crate::parm::tty;
-use crate::parm::util::fxhash::FxHasher;
 use crate::parm::tty::Display;
-use crate::parm::heap::string::Parse;
-use crate::makestr;
+use crate::parm::util::fxhash::FxHasher;
+use crate::{print, println, LispValBox};
 
 impl Default for SchemeEnvData {
     #[inline(never)]
@@ -26,14 +27,14 @@ impl Default for SchemeEnvData {
                     fct: ProcType::Builtin(String::from(name), f),
                     is_macro: false,
                 })
-                    .into(),
+                .into(),
             );
         }
 
         macro_rules! builtin {
             ($name:expr, $val:expr) => {
                 builtin(&mut map, $name, $val);
-            }
+            };
         }
 
         fn builtin_macro(
@@ -47,14 +48,14 @@ impl Default for SchemeEnvData {
                     fct: ProcType::Builtin(String::from(name), f),
                     is_macro: true,
                 })
-                    .into(),
+                .into(),
             );
         }
 
         macro_rules! builtin_macro {
             ($name:expr, $val:expr) => {
                 builtin_macro(&mut map, $name, $val);
-            }
+            };
         }
 
         builtin!("env", |env, _args| {
@@ -66,7 +67,7 @@ impl Default for SchemeEnvData {
                 map: hash,
                 mutable: false,
             })
-                .into())
+            .into())
         });
 
         builtin!("+", |_, args| {
@@ -103,9 +104,7 @@ impl Default for SchemeEnvData {
             Ok(LispVal::Int(sum).into())
         });
 
-        builtin!("void", |_, _args| {
-            Ok(LispVal::Void.into())
-        });
+        builtin!("void", |_, _args| { Ok(LispVal::Void.into()) });
 
         builtin!("car", |_, args| {
             let [list] = args.get_n().ok_or("car")?;
@@ -119,12 +118,21 @@ impl Default for SchemeEnvData {
 
         builtin!("caddr", |_, args| {
             let [list] = args.get_n().ok_or("caddr")?;
-            Ok(list.expect_list("caddr")?.expect_cdr_list("caddr")?.expect_cadr("caddr")?.clone())
+            Ok(list
+                .expect_list("caddr")?
+                .expect_cdr_list("caddr")?
+                .expect_cadr("caddr")?
+                .clone())
         });
 
         builtin!("cadddr", |_, args| {
             let [list] = args.get_n().ok_or("cadddr")?;
-            Ok(list.expect_list("cadddr")?.expect_cdr_list("cadddr")?.expect_cdr_list("cadddr")?.expect_cadr("cadddr")?.clone())
+            Ok(list
+                .expect_list("cadddr")?
+                .expect_cdr_list("cadddr")?
+                .expect_cdr_list("cadddr")?
+                .expect_cadr("cadddr")?
+                .clone())
         });
 
         builtin!("cdr", |_, args| {
@@ -248,18 +256,9 @@ impl Default for SchemeEnvData {
             let [fct, list] = args.get_n().ok_or("for-each")?;
             let fct = fct.expect_nonmacro("for-each")?;
             let list = list.expect_list("for-each")?;
-            #[inline(never)]
-            fn process_list(
-                list: &LispList,
-                env: &mut SchemeEnv,
-                fct: &ProcType,
-            ) -> Result<(), String> {
-                for item in list.iter() {
-                    env.eval_nonmacro_call(fct, &LispList::singleton(item.clone()))?;
-                }
-                Ok(())
+            for item in list.iter() {
+                env.eval_nonmacro_call(fct, &LispList::singleton(item.clone()))?;
             }
-            process_list(list, env, fct)?;
             Ok(LispVal::Void.into())
         });
 
@@ -268,7 +267,7 @@ impl Default for SchemeEnvData {
                 **args.expect_car("list?")?,
                 LispVal::List(LispList::Cons(_, _))
             ))
-                .into())
+            .into())
         });
 
         builtin!("list?", |_, args| {
@@ -280,7 +279,7 @@ impl Default for SchemeEnvData {
                 **args.expect_car("null?")?,
                 LispVal::List(LispList::Empty)
             ))
-                .into())
+            .into())
         });
 
         builtin!("symbol?", |_, args| {
@@ -426,12 +425,13 @@ impl Default for SchemeEnvData {
             match hash.map.get(key) {
                 Some(value) => Ok(value.clone()),
                 None => match iter.next() {
-                    Some(failure) => {
-                        match &**failure {
-                            LispVal::Procedure(LispProc { fct, is_macro: false }) => env.eval_nonmacro_call(fct, &LispList::Empty),
-                            _ => Ok(failure.clone())
-                        }
-                    }
+                    Some(failure) => match &**failure {
+                        LispVal::Procedure(LispProc {
+                            fct,
+                            is_macro: false,
+                        }) => env.eval_nonmacro_call(fct, &LispList::Empty),
+                        _ => Ok(failure.clone()),
+                    },
                     None => Err(String::from("hash-ref: key not found")),
                 },
             }
@@ -455,6 +455,10 @@ impl Default for SchemeEnvData {
             new_env.eval_begin(args)
         });
 
-        SchemeEnvData { map, parent: None, trace: false }
+        SchemeEnvData {
+            map,
+            parent: None,
+            trace: false,
+        }
     }
 }

@@ -42,7 +42,6 @@ impl<'a> SchemeParser<'a> {
         SchemeParser(s, s.iter().copied().enumerate().peekable())
     }
 
-    #[inline(never)]
     fn accept(&mut self, c: char) -> bool {
         match self.1.peek() {
             Some(&(_, ch)) if ch == c => {
@@ -53,7 +52,6 @@ impl<'a> SchemeParser<'a> {
         }
     }
 
-    #[inline(never)]
     fn expect(&mut self, c: char) -> Result<(), ReadError> {
         if self.accept(c) {
             Ok(())
@@ -65,7 +63,6 @@ impl<'a> SchemeParser<'a> {
         }
     }
 
-    #[inline(never)]
     fn skip_while(&mut self, p: impl Fn(char) -> bool) {
         while let Some(&(_, ch)) = self.1.peek() {
             if !p(ch) {
@@ -79,7 +76,6 @@ impl<'a> SchemeParser<'a> {
         self.1.peek().map(|&(pos, _)| pos).unwrap_or(self.0.len())
     }
 
-    #[inline(never)]
     fn read_number(&mut self) -> Result<LispVal, ReadError> {
         let start = self.current_pos();
         self.skip_while(|c| c.is_ascii_digit());
@@ -90,7 +86,6 @@ impl<'a> SchemeParser<'a> {
             .map_err(|_| ReadError::IntParseError)
     }
 
-    #[inline(never)]
     fn read_boolean(&mut self) -> Result<LispVal, ReadError> {
         self.expect('#')?;
         if self.accept('t') {
@@ -102,7 +97,6 @@ impl<'a> SchemeParser<'a> {
         }
     }
 
-    #[inline(never)]
     fn read_symbol(&mut self) -> Result<LispVal, ReadError> {
         let start = self.current_pos();
         self.skip_while(|c| {
@@ -113,7 +107,6 @@ impl<'a> SchemeParser<'a> {
         Ok(LispVal::Symbol(String::from(s)))
     }
 
-    #[inline(never)]
     fn read_string(&mut self) -> Result<LispVal, ReadError> {
         self.expect('"')?;
         let start = self.current_pos();
@@ -124,7 +117,6 @@ impl<'a> SchemeParser<'a> {
         Ok(LispVal::Str(String::from(s)))
     }
 
-    #[inline(never)]
     fn read_list_tail(
         &mut self,
         closing: char,
@@ -138,7 +130,6 @@ impl<'a> SchemeParser<'a> {
         Ok(LoopResult::EndList)
     }
 
-    #[inline(never)]
     fn read_list_item(
         &mut self,
         closing: char,
@@ -155,7 +146,6 @@ impl<'a> SchemeParser<'a> {
         Ok(LoopResult::Continue)
     }
 
-    #[inline(never)]
     fn read_list_content(&mut self, closing: char) -> Result<LispVal, ReadError> {
         let val = self.read()?;
         self.skip_spaces();
@@ -170,7 +160,6 @@ impl<'a> SchemeParser<'a> {
         Ok(first)
     }
 
-    #[inline(never)]
     fn read_list(&mut self) -> Result<LispVal, ReadError> {
         let closing = if self.accept('(') {
             ')'
@@ -190,7 +179,6 @@ impl<'a> SchemeParser<'a> {
         self.read_list_content(closing)
     }
 
-    #[inline(never)]
     fn read_special(&mut self, name: &'static str) -> Result<LispVal, ReadError> {
         Ok(LispList::cons(
             LispVal::Symbol(String::from(name)).into(),
@@ -228,7 +216,6 @@ impl<'a> SchemeParser<'a> {
         }
     }
 
-    #[inline(never)]
     fn skip_spaces(&mut self) {
         self.skip_while(|c| c.is_ascii_whitespace());
         if self.accept(';') {
@@ -237,7 +224,6 @@ impl<'a> SchemeParser<'a> {
         }
     }
 
-    #[inline(never)]
     pub fn read_whole(&mut self) -> Result<LispVal, ReadError> {
         self.skip_spaces();
         if self.1.peek().is_none() {

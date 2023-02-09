@@ -39,7 +39,7 @@ impl LispProc {
     fn name(&self) -> Option<&String> {
         match &self.fct {
             ProcType::Builtin(name, _) => Some(name),
-            ProcType::Internal(name) => None,
+            ProcType::Internal(_) => None,
             ProcType::Closure { name, .. } => name.as_ref(),
         }
     }
@@ -55,7 +55,7 @@ pub enum LispVal {
     Void,
     Procedure(LispProc),
     Hash(LispHash),
-    Eof
+    Eof,
 }
 
 #[derive(Clone, Hash, PartialEq, Eq)]
@@ -218,7 +218,11 @@ impl LispListBuilder {
     pub fn new() -> Self {
         let head: LispValBox = LispVal::List(LispList::Empty).into();
         let last = head.clone();
-        Self { head, last_1: last.clone(), last }
+        Self {
+            head,
+            last_1: last.clone(),
+            last,
+        }
     }
 
     pub fn push(&mut self, item: LispValBox) {
@@ -227,7 +231,6 @@ impl LispListBuilder {
         self.last_1 = core::mem::replace(&mut self.last, new_last);
     }
 
-    #[inline(never)]
     pub fn finish_with_tail(self, tail: LispValBox) -> LispValBox {
         let mut b = self.last_1.borrow_mut();
         match *b {
@@ -251,19 +254,16 @@ impl LispListBuilder {
 pub enum InternalProc {}
 
 impl InternalProc {
-    #[inline(never)]
     pub fn name(&self) -> Option<&String> {
         todo!()
     }
 
-    #[inline(never)]
     pub fn call(&self, _env: &mut SchemeEnv, _args: &LispList) -> Result<LispValBox, String> {
         todo!()
     }
 }
 
 impl Hash for InternalProc {
-    #[inline(never)]
     fn hash<H: Hasher>(&self, _state: &mut H) {
         todo!()
     }
@@ -306,7 +306,6 @@ impl Hash for ProcType {
 }
 
 impl ProcType {
-    #[inline(never)]
     pub fn name(&self) -> Option<&String> {
         match self {
             ProcType::Builtin(name, _) => Some(name),
@@ -366,35 +365,29 @@ macro_rules! expect {
 
 impl LispVal {
     pub fn equal(&self, other: &LispVal) -> bool {
-        #[inline(never)]
-        fn inner(l: &LispVal, r: &LispVal) -> bool {
-            match (l, r) {
-                (LispVal::List(l), LispVal::List(r)) => match (l, r) {
-                    (LispList::Empty, LispList::Empty) => true,
-                    (LispList::Cons(l, r), LispList::Cons(l2, r2)) => l.equal(l2) && r.equal(r2),
-                    _ => false,
-                },
-                (LispVal::Void, LispVal::Void) => true,
-                (
-                    LispVal::Procedure(LispProc {
-                        fct: ref _a,
-                        is_macro: ref _b,
-                    }),
-                    LispVal::Procedure(LispProc {
-                        fct: ref _c,
-                        is_macro: ref _d,
-                    }),
-                ) => false,
-                _ => false,
-            }
-        }
         match (self, other) {
             (LispVal::Symbol(ref a), LispVal::Symbol(ref b)) => a == b,
             (LispVal::Int(a), LispVal::Int(b)) => a == b,
             (LispVal::Bool(a), LispVal::Bool(b)) => a == b,
             (LispVal::Str(ref a), LispVal::Str(ref b)) => a == b,
             (LispVal::Eof, LispVal::Eof) => true,
-            _ => inner(self, other),
+            (LispVal::List(l), LispVal::List(r)) => match (l, r) {
+                (LispList::Empty, LispList::Empty) => true,
+                (LispList::Cons(l, r), LispList::Cons(l2, r2)) => l.equal(l2) && r.equal(r2),
+                _ => false,
+            },
+            (LispVal::Void, LispVal::Void) => true,
+            (
+                LispVal::Procedure(LispProc {
+                    fct: ref _a,
+                    is_macro: ref _b,
+                }),
+                LispVal::Procedure(LispProc {
+                    fct: ref _c,
+                    is_macro: ref _d,
+                }),
+            ) => false,
+            _ => false,
         }
     }
 
@@ -441,7 +434,10 @@ impl LispVal {
 
     pub fn expect_nonmacro(&self, origin: &'static str) -> Result<&ProcType, String> {
         match self {
-            LispVal::Procedure(LispProc { fct, is_macro: false }) => Ok(fct),
+            LispVal::Procedure(LispProc {
+                fct,
+                is_macro: false,
+            }) => Ok(fct),
             _ => Err(self.expect_message(origin, "nonmacro")),
         }
     }
@@ -460,7 +456,6 @@ impl FromStr for LispVal {
 }
 
 impl Display for LispVal {
-    #[inline(never)]
     fn write(&self, target: &mut impl DisplayTarget) {
         match self {
             LispVal::Int(i) => print!(i, => target),
@@ -477,7 +472,6 @@ impl Display for LispVal {
 }
 
 impl Display for LispList {
-    #[inline(never)]
     fn write(&self, target: &mut impl DisplayTarget) {
         write_list(self, target)
     }
@@ -490,7 +484,6 @@ impl Display for ProcType {
     }
 }*/
 
-#[inline(never)]
 fn write_list(xs: &LispList, target: &mut impl DisplayTarget) {
     print!("(", => target);
     let mut iter = xs.iter();
@@ -508,7 +501,6 @@ fn write_list(xs: &LispList, target: &mut impl DisplayTarget) {
     print!(")", => target);
 }
 
-#[inline(never)]
 fn write_hash(h: &LispHash, target: &mut impl DisplayTarget) {
     print!("'#hash(", => target);
     let mut iter = h.map.iter();
@@ -522,7 +514,6 @@ fn write_hash(h: &LispHash, target: &mut impl DisplayTarget) {
 }
 
 impl Display for LispProc {
-    #[inline(never)]
     fn write(&self, target: &mut impl DisplayTarget) {
         let typename = self.type_name();
         if let Some(name) = self.name() {
@@ -533,12 +524,10 @@ impl Display for LispProc {
     }
 }
 
-#[inline(never)]
 fn write_bool(b: bool, target: &mut impl DisplayTarget) {
     print!('#', if b { 't' } else { 'f' }, => target);
 }
 
-#[inline(never)]
 fn write_string(s: &String, target: &mut impl DisplayTarget) {
     print!('"', s, '"', => target);
 }

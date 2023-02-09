@@ -5,6 +5,8 @@ import math
 import os
 import re
 import sys
+import random
+import string
 from collections import OrderedDict
 class AsmException(Exception):
 	pass
@@ -173,7 +175,7 @@ def check_align(val, sh):
 	if (val & ((1 << sh) - 1)) != 0:
 		raise AsmException(f"Value {val} must be {bname[sh]}-aligned")
 	return val >> sh
-def try_assemble(m, instr, output, line):
+def try_assemble(m, instr, output, line, line_num):
 	dic = m.groupdict()
 	for k, v in dic.items():
 		if k.startswith("imm"):
@@ -221,7 +223,7 @@ def try_assemble(m, instr, output, line):
 				except Exception as e:
 					raise AsmException(f"Invalid register list: {v}") from e
 			elif k.startswith("label"):
-				v = sanitize(v)
+				v, old_v = sanitize(v), v
 				kw = k[5:]
 				if kw[0] == "p":
 					pcrel = True
@@ -238,6 +240,31 @@ def try_assemble(m, instr, output, line):
 						val = (labels[v] - pc - (2 if cond else 0))
 					dic[k] = (val, width)
 					if not (abs(dic[k][0]) < 2 ** (width - (not pcrel))):
+						if not notrampo:	
+							new_label = "trampo_" + ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
+							
+							print("Old code:", lines[line_num-1:line_num+8])
+							if cond and len(instr) == 3:
+								print("Trampolining:", line)
+								cond_id = dic["cond"][0]
+								opp_id = cond_id ^ 1
+								lines[line_num - 1] = f"b{conds[opp_id]} {new_label}"
+								lines.insert(line_num, f"{new_label}:")
+								lines.insert(line_num, f"b {old_v}")
+								print("New code:", lines[line_num-1:line_num+8])
+								raise Trampoline(2)
+							elif instr.lower() == "ldr":
+								print("Trampolining:", line)
+								tr_data = f"{new_label}_addr"
+								tr_after = f"{new_label}_after"
+								rd = f"r{dic['Rd'][0]}"
+								lines[line_num - 1] = f"ldr {rd}, {tr_data}"
+								lines.insert(line_num, f"{tr_after}: ldr {rd}, [{rd}]")
+								lines.insert(line_num, f"{tr_data}: .long {old_v}")
+								lines.insert(line_num, f".p2align 2")
+								lines.insert(line_num, f"b {tr_after}")
+								print("New code:", lines[line_num-1:line_num+8])
+								raise Trampoline(4)
 						raise Exception(
 							f"Jump too wide : {labels[v]} is {dic[k][0]} which does not fit in {width} bits")
 					jumps.append((pc, labels[v]))
@@ -269,7 +296,10 @@ def try_assemble(m, instr, output, line):
 	return ((pc, res, line, ', '.join(f'{k}={v[0] if v else str()}' for k, v in dic.items() if k[0] != 'F')),)
 def truncate(line, width=35):
 	return (line[:width-3] + '...') if len(line) > width-3 else line
-def assemble(line, labels, pc):
+class Trampoline(Exception):
+	def __init__(self, offset):
+		self.offset = offset
+def assemble(line, labels, pc, line_num):
 	try:
 		instr, args = line.split(None, 1)
 	except:
@@ -329,7 +359,7 @@ def assemble(line, labels, pc):
 					break
 				else:
 					try:
-						if (res := try_assemble(m, instr, output, line)) is not None:
+						if (res := try_assemble(m, instr, output, line, line_num)) is not None:
 							return res
 					except Exception as e:
 						exc = e
@@ -337,8 +367,21 @@ def assemble(line, labels, pc):
 			raise exc or AsmException(f"Invalid instruction: {oline}")
 
 
-
-no_optim, quiet, nobranch, nolog = [param in sys.argv for param in ("-O0","-q","-b","-n")]
+params = []
+def param(short, desc):
+	short = f"-{short}"
+	params.append((short, desc))
+	return short in sys.argv
+no_optim = param("O0", "Disable optimizations")
+quiet = param("q", "Write log to file instead of stdout")
+nobranch = param("b", "Disable 'b run' at the beginning")
+nolog = param("n", "Disable all logging (speeds up large inputs)")
+notrampo = param("t", "Disable trampolining")
+if len(sys.argv) < 2:
+	for short, desc in params:
+		print(f"{short:<3} {desc}")
+	exit(1)
+print(sys.argv)
 fn = sys.argv[1]
 fp = open(fn, "r")
 fo = open(os.path.splitext(fn)[0] + ".bin", "w")
@@ -353,158 +396,173 @@ instn = re.compile(r"^.inst.n\s+(.*)$", re.IGNORECASE)
 p2align = re.compile(r"^.p2align\s+(\d+)$", re.IGNORECASE)
 labels = {}
 lines = list(fp.readlines())
-#lines = [l[:l.index("@")]  if "@" in l else l for l in lines]
-#lines = [l[:l.index(";")]  if ";" in l else l for l in lines]
 lines = [l.strip() for l in lines]
 ignored_lines = [i for i, l in enumerate(lines[:-1])
 				 if l.lower().startswith("b\t") and lines[i + 1] == f"{l[2:]}:"]  # fix for clang's redundant jumps
-instrs = [(-1, 0, ".nobranchstart", None, 0)] if nobranch else [(-1, 0, "@bl1 run", None, 1), (-1, 1, "@bl2 run", None, 1)]
-#instrs = [(-1, 0, ".start", None, 0)]
-def add_instr(line, val=None, size=1):
-	instrs.append((i + 1, current_pc(), line, val, size))
-def current_pc():
-	return instrs[-1][1] + instrs[-1][4]
-byte_val = None
-try:
-	for i, line in enumerate(lines):
-		if not no_optim:
-			if i in ignored_lines:
-				continue
-		if line in {"@APP", "@NO_APP"}:
-			continue
-		while line := line.strip():
-			if byte_val is not None:
-				if line.lower().startswith(".byte"):
-					skip, byte_val2 = True, line.split(None, 1)[1]
-				else:
-					skip, byte_val2 = False, 0
-				add_instr(f"@bytes {byte_val}, {byte_val2}", None, 1)
-				byte_val = None
-				if skip:
-					break
-			if m := rlbl.match(line):  # line is a label
-				labels[sanitize(m.group(1))] = current_pc()
-				line = line[line.index(":") + 1:]
-			elif m := instn.match(line):
-				inst = m.group(1)
-				val = eval(inst)
-				if not (0 <= val <= 0xffff):
-					raise Exception(".inst.n operand must fit in 16 bits")
-				add_instr(f".inst.n {inst}", val, 1)
-				break
-			elif m := bl.match(line):
-				add_instr(f"@bl1 {m.group(1)}")
-				add_instr(f"@bl2 {m.group(1)}")
-				break
-			elif m := bcond.match(line):
-				add_instr(f"@bcond1 {m.group(1)} {m.group(2)}")
-				add_instr(f"@bcond2 {m.group(1)} {m.group(2)}")
-				break
-			elif m := pushpop.match(line):
-				regs = sorted(hi_regs.get(x, None) or int(x[1:]) for x in map(str.strip, m.group(2).split(",")))
-				if m.group(1).lower() == "push":
-					add_instr(f"sub sp, #{len(regs) * 4}")
-					for i, reg in enumerate(regs):
-						if reg == hi_regs["lr"]:
-							add_instr("mov r12, r7")
-							add_instr(f"mov r7, r{reg}")
-							add_instr(f"str r7, [sp, #{i * 4}]")
-							add_instr("mov r7, r12")
-						elif reg <= 7:
-							add_instr(f"str r{reg}, [sp, #{i * 4}]")
-						else:
-							raise Exception(f"push: invalid register {reg}")
-				else:
-					for i, reg in enumerate(regs):
-						if reg == hi_regs["pc"]:
-							add_instr("mov r12, r7")
-							add_instr(f"ldr r7, [sp, #{i * 4}]")
-							add_instr("mov lr, r7")
-							add_instr("mov r7, r12")
-							add_instr(f"add sp, #{len(regs) * 4}")
-							add_instr("bx lr")
-						elif reg <= 7:
-							add_instr(f"ldr r{reg}, [sp, #{i * 4}]")
-						else:
-							raise Exception(f"push: invalid register {reg}")
-					add_instr(f"add sp, #{len(regs) * 4}")
-				break
-			elif m := stmbang.match(line):
-				addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
-				for r in regs:
-					add_instr(f"str {r}, [{addr}]")
-					add_instr(f"adds {addr}, #4")
-				break
-			elif m := ldmbang.match(line):
-				addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
-				for r in regs:
-					add_instr(f"ldr {r}, [{addr}]")
-					add_instr(f"adds {addr}, #4")
-				break
-			elif m := ldm.match(line):
-				addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
-				for k, r in enumerate(regs):
-					add_instr(f"ldr {r}, [{addr}, #{4 * k}]")
-				break
-			elif m := p2align.match(line):
-				val = int(m.group(1))
-				if val > 1:
-					off = val - 1
-					num = 1 << off
-					align = current_pc() & (num - 1)
-					if align:
-						for _ in range(num - align):
-							add_instr(f".p2align {val}", 0x4600, 1)
-				break
-			else:
-				val = None
-				fpart = line.split(None, 1)[0].lower()
-				if fpart.startswith(".asci"):
-					s = eval("b" + line.split(None, 1)[1].strip())
-					l = len(s)+1*(line[5]=="z")
-					l += l%2
-					add_instr("@" + line[1:], size=l//2)
-				elif fpart in (".word", ".long"):
-					add_instr("@" + line[1:], size=2)
-				elif fpart in (".short",):
-					add_instr("@" + line[1:], size=1)
-				elif fpart == ".byte":
-					byte_val = line.split(None, 1)[1]
-				elif fpart == ".zero":
-					args = line.split(None, 1)[1]
-					if "," in args:
-						cnt, val = map(int, args.split(","))
-					else:
-						cnt, val = int(args), 0
-					for n in range((cnt - 1) // 2):
-						add_instr(f"@bytes {val}, {val}", None, 1)
-					add_instr(f"@bytes {val}, {val if cnt % 2 == 0 else 0}", None, 1)
-				elif line[0] != ".":
-					add_instr(line)
-				elif fpart in (".text", ".syntax", ".section", ".type", ".eabi_attribute", ".code", ".file", ".thumb_func", ".fnstart", ".save", ".setfp", ".size", ".cantunwind", ".fnend", ".pad", ".globl", ".hidden", ".set"):
-					pass
-				else:
-					raise Exception("Invalid directive: " + fpart)
-					break
-				break
-except:
-	print(i + 1, line)
-	raise
-out = []
-for i, pc, line, val, size in instrs:
+trampoline_need = False
+while True:
+	instrs = [(-1, 0, ".nobranchstart", None, 0)] if nobranch else [(-1, 0, "@bl1 run", None, 1), (-1, 1, "@bl2 run", None, 1)]
+	#instrs = [(-1, 0, ".start", None, 0)]
+	def add_instr(line, val=None, size=1):
+		instrs.append((i + 1, current_pc(), line, val, size))
+	def current_pc():
+		return instrs[-1][1] + instrs[-1][4]
+	byte_val = None
 	try:
-		if val is not None:
-			out.append(val)
-			log.append((pc, val, line, ""))
-		elif line[0] == ".":
-			continue
-		else:
-			for pc, val, code, data in assemble(line, labels, pc):
-				out.append(val)
-				log.append((pc, val, code, data))
-	except Exception as e:
-		print(f"Build error on line {i}: {line}")
+		for i, line in enumerate(lines):
+			if not no_optim:
+				if i in ignored_lines:
+					continue
+			if line in {"@APP", "@NO_APP"}:
+				continue
+			while line := line.strip():
+				if byte_val is not None:
+					if line.lower().startswith(".byte"):
+						skip, byte_val2 = True, line.split(None, 1)[1]
+					else:
+						skip, byte_val2 = False, 0
+					add_instr(f"@bytes {byte_val}, {byte_val2}", None, 1)
+					byte_val = None
+					if skip:
+						break
+				if m := rlbl.match(line):  # line is a label
+					labels[sanitize(m.group(1))] = current_pc()
+					line = line[line.index(":") + 1:]
+				elif m := instn.match(line):
+					inst = m.group(1)
+					val = eval(inst)
+					if not (0 <= val <= 0xffff):
+						raise Exception(".inst.n operand must fit in 16 bits")
+					add_instr(f".inst.n {inst}", val, 1)
+					break
+				elif m := bl.match(line):
+					add_instr(f"@bl1 {m.group(1)}")
+					add_instr(f"@bl2 {m.group(1)}")
+					break
+				elif m := bcond.match(line):
+					add_instr(f"@bcond1 {m.group(1)} {m.group(2)}")
+					add_instr(f"@bcond2 {m.group(1)} {m.group(2)}")
+					break
+				elif m := pushpop.match(line):
+					regs = sorted(hi_regs.get(x, None) or int(x[1:]) for x in map(str.strip, m.group(2).split(",")))
+					if m.group(1).lower() == "push":
+						add_instr(f"sub sp, #{len(regs) * 4}")
+						for i, reg in enumerate(regs):
+							if reg == hi_regs["lr"]:
+								add_instr("mov r12, r7")
+								add_instr(f"mov r7, r{reg}")
+								add_instr(f"str r7, [sp, #{i * 4}]")
+								add_instr("mov r7, r12")
+							elif reg <= 7:
+								add_instr(f"str r{reg}, [sp, #{i * 4}]")
+							else:
+								raise Exception(f"push: invalid register {reg}")
+					else:
+						for i, reg in enumerate(regs):
+							if reg == hi_regs["pc"]:
+								add_instr("mov r12, r7")
+								add_instr(f"ldr r7, [sp, #{i * 4}]")
+								add_instr("mov lr, r7")
+								add_instr("mov r7, r12")
+								add_instr(f"add sp, #{len(regs) * 4}")
+								add_instr("bx lr")
+							elif reg <= 7:
+								add_instr(f"ldr r{reg}, [sp, #{i * 4}]")
+							else:
+								raise Exception(f"push: invalid register {reg}")
+						add_instr(f"add sp, #{len(regs) * 4}")
+					break
+				elif m := stmbang.match(line):
+					addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
+					for r in regs:
+						add_instr(f"str {r}, [{addr}]")
+						add_instr(f"adds {addr}, #4")
+					break
+				elif m := ldmbang.match(line):
+					addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
+					for r in regs:
+						add_instr(f"ldr {r}, [{addr}]")
+						add_instr(f"adds {addr}, #4")
+					break
+				elif m := ldm.match(line):
+					addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
+					for k, r in enumerate(regs):
+						add_instr(f"ldr {r}, [{addr}, #{4 * k}]")
+					break
+				elif m := p2align.match(line):
+					val = int(m.group(1))
+					if val > 1:
+						off = val - 1
+						num = 1 << off
+						align = current_pc() & (num - 1)
+						if align:
+							for _ in range(num - align):
+								add_instr(f".p2align {val}", 0x4600, 1)
+					break
+				else:
+					val = None
+					fpart = line.split(None, 1)[0].lower()
+					if fpart.startswith(".asci"):
+						s = eval("b" + line.split(None, 1)[1].strip())
+						l = len(s)+1*(line[5]=="z")
+						l += l%2
+						add_instr("@" + line[1:], size=l//2)
+					elif fpart in (".word", ".long"):
+						add_instr("@" + line[1:], size=2)
+					elif fpart in (".short",):
+						add_instr("@" + line[1:], size=1)
+					elif fpart == ".byte":
+						byte_val = line.split(None, 1)[1]
+					elif fpart == ".zero":
+						args = line.split(None, 1)[1]
+						if "," in args:
+							cnt, val = map(int, args.split(","))
+						else:
+							cnt, val = int(args), 0
+						for n in range((cnt - 1) // 2):
+							add_instr(f"@bytes {val}, {val}", None, 1)
+						add_instr(f"@bytes {val}, {val if cnt % 2 == 0 else 0}", None, 1)
+					elif line[0] != ".":
+						add_instr(line)
+					elif fpart in (".text", ".syntax", ".section", ".type", ".eabi_attribute", ".code", ".file", ".thumb_func", ".fnstart", ".save", ".setfp", ".size", ".cantunwind", ".fnend", ".pad", ".globl", ".hidden", ".set"):
+						pass
+					else:
+						raise Exception("Invalid directive: " + fpart)
+						break
+					break
+	except:
+		print(i + 1, line)
 		raise
+	out = []
+	trampo_offset = 0
+	for i, pc, line, val, size in instrs:
+		try:
+			if val is not None:
+				out.append(val)
+				log.append((pc, val, line, ""))
+			elif line[0] == ".":
+				continue
+			else:
+				for pc, val, code, data in assemble(line, labels, pc, i + trampo_offset):
+					out.append(val)
+					log.append((pc, val, code, data))
+		except Trampoline as e:
+			trampo_offset += e.offset
+			continue
+		except Exception as e:
+			print(f"Build error on line {i}: {line}")
+			raise
+	if trampo_offset != 0:
+		print("RESTART")
+		with open("trampo.s", "w") as tw:
+			tw.write("\n".join(lines))
+		out.clear()
+		log.clear()
+		lookup.clear()
+		jumps.clear()
+		labels.clear()
+	else:
+		break
 if quiet:
 	sys.stdout = open(os.path.splitext(fn)[0] + ".log", "w")
 elif nolog:

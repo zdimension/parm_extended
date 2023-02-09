@@ -4,7 +4,6 @@ use crate::parm::heap::string::String;
 use crate::{makestr, LispValBox};
 
 impl SchemeEnv {
-    #[inline(never)]
     pub(crate) fn eval_if(&mut self, args: &LispList) -> Result<LispValBox, String> {
         let (cond, rest) = args.expect_cons("if")?;
         let (then, else_) = rest.expect_list("if")?.expect_cons("if")?;
@@ -19,7 +18,6 @@ impl SchemeEnv {
         }
     }
 
-    #[inline(never)]
     pub(crate) fn eval_and(&mut self, args: &LispList) -> Result<LispValBox, String> {
         let mut res = LispVal::Bool(true).into();
         for item in args.iter() {
@@ -32,7 +30,6 @@ impl SchemeEnv {
         Ok(res)
     }
 
-    #[inline(never)]
     pub(crate) fn eval_or(&mut self, args: &LispList) -> Result<LispValBox, String> {
         for item in args.iter() {
             let item = self.eval(item)?;
@@ -43,7 +40,6 @@ impl SchemeEnv {
         Ok(LispVal::Bool(false).into())
     }
 
-    #[inline(never)]
     pub(crate) fn eval_cond(&mut self, args: &LispList) -> Result<LispValBox, String> {
         for clause in args {
             let (head, rest) = clause.expect_list("cond")?.expect_cons("cond")?;
@@ -73,7 +69,6 @@ impl SchemeEnv {
         Ok(LispVal::Void.into())
     }
 
-    #[inline(never)]
     pub(crate) fn eval_case(&mut self, args: &LispList) -> Result<LispValBox, String> {
         let (scrutinee, cases) = args.expect_cons("case")?;
         let scrutinee = self.eval(scrutinee)?;
@@ -97,7 +92,6 @@ impl SchemeEnv {
         Ok(LispVal::Void.into())
     }
 
-    #[inline(never)]
     pub(crate) fn eval_when(
         &mut self,
         args: &LispList,

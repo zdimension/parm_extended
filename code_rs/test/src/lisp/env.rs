@@ -1,8 +1,5 @@
-
 use crate::parm::heap::budmap::{BudMap, Entry, Iter};
 use crate::parm::heap::string::String;
-
-
 
 use crate::{InsertionState, LispValBox, Prc};
 use core::hash::{Hash, Hasher};
@@ -21,17 +18,14 @@ impl SymbolMap {
         self.0.get(s).cloned()
     }
 
-    #[inline(never)]
     fn entry(&mut self, s: &String) -> Entry<'_, String, LispValBox> {
         self.0.entry_ref(s)
     }
 
-    #[inline(never)]
     fn contains(&self, s: &String) -> bool {
         self.0.contains(s)
     }
 
-    #[inline(never)]
     pub(crate) fn set(&mut self, s: String, v: LispValBox) {
         self.0.set(s, v);
     }
@@ -40,7 +34,7 @@ impl SymbolMap {
 pub(crate) struct SchemeEnvData {
     pub(crate) map: SymbolMap,
     pub(crate) parent: Option<SchemeEnv>,
-    pub(crate) trace: bool
+    pub(crate) trace: bool,
 }
 
 impl Hash for SchemeEnvData {
@@ -72,12 +66,12 @@ impl SchemeEnv {
         }
     }
 
-    #[inline(never)]
+    //#[inline(never)]
     pub fn set_new(&mut self, s: String, v: LispValBox) {
         self.0.borrow_mut().map.set(s, v);
     }
 
-    #[inline(never)]
+    //#[inline(never)]
     fn set_rec(&mut self, s: String, v: LispValBox, root: bool) -> InsertionState {
         let mut bo = self.0.borrow_mut();
         let SchemeEnvData {
@@ -117,17 +111,15 @@ impl SchemeEnv {
         }
     }
 
-    #[inline(never)]
     pub fn set(&mut self, s: String, v: LispValBox) {
         self.set_rec(s, v, true);
     }
 
-    #[inline(never)]
     pub(crate) fn make_child(&self) -> SchemeEnv {
         SchemeEnv(Prc::new(SchemeEnvData {
             map: SymbolMap::new(),
             parent: Some(self.clone()),
-            trace: self.0.trace
+            trace: self.0.trace,
         }))
     }
 }

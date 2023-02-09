@@ -218,7 +218,7 @@ fn main() {
                         "time signature ",
                         num, "/", den, " ", clPerClk, "/", no32perQrt
                     )
-                },
+                }
                 MetaMessage::KeySignature(_, _) => println!("key signature"),
                 MetaMessage::SequencerSpecific(_) => println!("sequencer specific"),
                 MetaMessage::Unknown(_, _) => println!("unknown"),

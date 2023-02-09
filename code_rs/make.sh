@@ -40,6 +40,6 @@ else
   cat $ASM >bin/$NAME.s
 
   pushd bin
-  ../../../asm/assembleur.py $NAME.s $2
+  ../../../asm/assembleur.py $NAME.s $2 $3 $4
   cp $NAME.raw digital_out.raw
 fi

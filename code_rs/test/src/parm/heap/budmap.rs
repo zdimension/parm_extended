@@ -281,36 +281,22 @@ where
                     bin_index = next_bin;
                     bin = &self.bins[bin_index];
                 } else {
-                    #[inline(never)]
-                    fn inner(
-                        bins: &mut Vec<Bin>,
-                        free_collision_head: &mut OptionalIndex,
-                        bin_index: usize,
-                        entry_index_if_pushed: usize,
-                    ) {
-                        // New entry that collides with another key.
-
-                        let free_collision_index = free_collision_index(bins, free_collision_head);
-                        let collision_index = free_collision_index.unwrap_or(bins.len());
-                        bins[bin_index].collision_index = OptionalIndex(collision_index);
-                        // Create our new bin.
-                        if let Some(index) = free_collision_index {
-                            // Reuse a collision bin that has been previously removed.
-                            bins[index].entry_index = OptionalIndex(entry_index_if_pushed);
-                        } else {
-                            // Create a new collision bin
-                            bins.push(Bin {
-                                entry_index: OptionalIndex(entry_index_if_pushed),
-                                collision_index: OptionalIndex::none(),
-                            });
-                        };
-                    }
-                    inner(
-                        &mut self.bins,
-                        &mut self.free_collision_head,
-                        bin_index,
-                        entry_index_if_pushed,
-                    );
+                    let bins = &mut self.bins;
+                    let free_collision_head = &mut self.free_collision_head;
+                    let free_collision_index1 = free_collision_index(bins, free_collision_head);
+                    let collision_index = free_collision_index1.unwrap_or(bins.len());
+                    bins[bin_index].collision_index = OptionalIndex(collision_index);
+                    // Create our new bin.
+                    if let Some(index) = free_collision_index1 {
+                        // Reuse a collision bin that has been previously removed.
+                        bins[index].entry_index = OptionalIndex(entry_index_if_pushed);
+                    } else {
+                        // Create a new collision bin
+                        bins.push(Bin {
+                            entry_index: OptionalIndex(entry_index_if_pushed),
+                            collision_index: OptionalIndex::none(),
+                        });
+                    };
                     self.push_entry(hash, key, value);
                     // todo
                     return None;

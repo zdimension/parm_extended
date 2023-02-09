@@ -1,15 +1,18 @@
 use crate::lisp::env::SchemeEnv;
 use crate::lisp::val::{LispList, LispListBuilder, LispVal};
 use crate::parm::heap::string::String;
-use crate::{LispValBox, Prc};
+use crate::LispValBox;
 
 impl SchemeEnv {
     #[inline(never)]
     pub(crate) fn eval_quasiquote(&mut self, val: &LispValBox) -> Result<LispValBox, String> {
-        fn expect_one<'a>(cdr: &'a LispValBox, origin: &'static str) -> Result<&'a LispValBox, String> {
+        fn expect_one<'a>(
+            cdr: &'a LispValBox,
+            origin: &'static str,
+        ) -> Result<&'a LispValBox, String> {
             let (cadr, cddr) = cdr.expect_list(origin)?.expect_cons(origin)?;
             if **cddr != LispVal::List(LispList::Empty) {
-                return Err(String::from("expected exactly one arg"))
+                return Err(String::from("expected exactly one arg"));
             }
             Ok(cadr)
         }
@@ -23,7 +26,7 @@ impl SchemeEnv {
                         } else if name == "unquote-splicing" {
                             return Err(String::from("unquote-splicing not allowed in quasiquote"));
                         }
-                    },
+                    }
                     LispVal::List(LispList::Cons(caar, cdar)) => {
                         if let LispVal::Symbol(name) = &**caar {
                             if name == "unquote-splicing" {
@@ -45,7 +48,11 @@ impl SchemeEnv {
                     }
                     _ => {}
                 }
-                Ok(LispVal::List(LispList::Cons(self.eval_quasiquote(car)?, self.eval_quasiquote(cdr)?)).into())
+                Ok(LispVal::List(LispList::Cons(
+                    self.eval_quasiquote(car)?,
+                    self.eval_quasiquote(cdr)?,
+                ))
+                .into())
             }
             _ => Ok(val.clone()),
         }
