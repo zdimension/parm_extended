@@ -29,14 +29,12 @@ struct Instruction {
 struct Variable(u32);
 
 impl Variable {
-    #[inline(always)]
     pub const fn get_name(&self) -> char {
         (self.0 + 'A' as u32) as u8 as char
     }
 }
 
 impl Display for Variable {
-    #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         target.print_char(self.get_name());
     }
@@ -69,7 +67,6 @@ enum Operator {
 }
 
 impl Operator {
-    #[inline(always)]
     pub const fn precedence(&self) -> u32 {
         match self {
             Operator::Eq | Operator::NotEq => 0,
@@ -78,7 +75,6 @@ impl Operator {
         }
     }
 
-    #[inline(never)]
     pub fn eval(&self, a: &Value, b: &Value) -> Value {
         match (a, b) {
             (Value::Number(a), Value::Number(b)) => match self {
@@ -109,7 +105,6 @@ struct RpnEvaluator<'v, T, V: RpnVisitor<Output = T>> {
 }
 
 impl<'v, T, V: RpnVisitor<Output = T>> RpnEvaluator<'v, T, V> {
-    #[inline(always)]
     fn new(visitor: &'v V) -> Self {
         RpnEvaluator {
             stack: Vec::new(),
@@ -117,35 +112,28 @@ impl<'v, T, V: RpnVisitor<Output = T>> RpnEvaluator<'v, T, V> {
         }
     }
 
-    #[inline(never)]
     fn visit_token(&mut self, item: &Token) -> T {
-        #[inline(never)]
-        fn visit_operator<T, V: RpnVisitor<Output = T>>(
-            s: &mut RpnEvaluator<'_, T, V>,
-            op: &Operator,
-        ) -> T {
-            let a = match s.stack.pop() {
-                Some(a) => a,
-                None => {
-                    panic("stack underflow (a)");
-                }
-            };
-            let b = match s.stack.pop() {
-                Some(b) => b,
-                None => {
-                    panic("stack underflow (b)");
-                }
-            };
-            s.visitor.visit_operator(op, &a, &b)
-        }
         match item {
             Token::Literal(v) => self.visitor.visit_literal(v),
             Token::Variable(v) => self.visitor.visit_variable(v),
-            Token::Operator(op) => visit_operator(self, op),
+            Token::Operator(op) => {
+                let a = match self.stack.pop() {
+                    Some(a) => a,
+                    None => {
+                        panic("stack underflow (a)");
+                    }
+                };
+                let b = match self.stack.pop() {
+                    Some(b) => b,
+                    None => {
+                        panic("stack underflow (b)");
+                    }
+                };
+                self.visitor.visit_operator(op, &a, &b)
+            }
         }
     }
 
-    #[inline(never)]
     fn visit(&mut self, e: &Expression) -> T {
         for item in e.0.iter() {
             let result = self.visit_token(item);
@@ -297,13 +285,11 @@ fn tokenize<'a>(code: impl CharSeq<'a>) -> Result<Vec<Token>, ()> {
     Ok(tokens)
 }
 
-#[inline(never)]
 fn shunting_yard(tokens: Vec<Token>) -> Vec<Token> {
     let mut output = Vec::with_capacity(tokens.len());
     let mut stack = Vec::with_capacity(tokens.len());
 
-    #[inline(never)]
-    fn process_token(token: Token, output: &mut Vec<Token>, stack: &mut Vec<Token>) {
+    for token in tokens.into_iter() {
         match token {
             Token::Literal(_) | Token::Variable(_) => unsafe { output.push_unchecked(token) },
             Token::Operator(o) => {
@@ -323,10 +309,6 @@ fn shunting_yard(tokens: Vec<Token>) -> Vec<Token> {
         }
     }
 
-    for token in tokens.into_iter() {
-        process_token(token, &mut output, &mut stack);
-    }
-
     while let Some(token) = stack.pop() {
         unsafe {
             output.push_unchecked(token);
@@ -335,7 +317,6 @@ fn shunting_yard(tokens: Vec<Token>) -> Vec<Token> {
     output
 }
 
-#[inline(never)]
 fn show_program(code: &Program) {
     println!("TOTAL ", code.0.len());
     for i in code.0.iter() {
@@ -386,7 +367,6 @@ fn main() {
     }
 }
 
-#[inline(never)]
 fn load_telnet(program: &mut Program, last: &mut LineNumber) {
     loop {
         let line = telnet::read_line();
@@ -417,7 +397,6 @@ fn process_instruction_input(program: &mut Program, last: &mut LineNumber, line:
     process_instruction(program, last, instr, line_no);
 }
 
-#[inline(never)]
 fn process_instruction(
     program: &mut Program,
     last: &mut LineNumber,
@@ -442,7 +421,6 @@ fn process_instruction(
     }
 }
 
-#[inline(never)]
 fn insert_instruction(program: &mut Program, line_no: LineNumber, idata: Instruction) {
     let insert = program
         .0
@@ -461,17 +439,17 @@ fn insert_instruction(program: &mut Program, line_no: LineNumber, idata: Instruc
 
 impl FromStr for InstructionKind {
     type Err = ();
-    #[inline(never)]
     fn from_str(s: &[char]) -> Result<Self, Self::Err> {
-        #[inline(never)]
-        fn parse_print(content: &[char]) -> Result<InstructionKind, ()> {
+        if s.starts_with_ignore_case("PRINT") {
+            let content = unsafe { s.get_unchecked(5..).trim() };
             let expr = content
                 .parse()
                 .map_err(|_| println!("Print: Invalid expression"))?;
             Ok(InstructionKind::Print(expr))
-        }
-        #[inline(never)]
-        fn parse_input(args: &[char]) -> Result<InstructionKind, ()> {
+        } else if s.starts_with_ignore_case("CLS") {
+            Ok(InstructionKind::ClearScreen)
+        } else if s.starts_with_ignore_case("INPUT") {
+            let args = unsafe { s.get_unchecked(5..).trim() };
             let comma = args.find_char(',').ok_or(())?;
             let (prompt, variable) = unsafe {
                 (
@@ -485,9 +463,14 @@ impl FromStr for InstructionKind {
                     .parse()
                     .map_err(|_| println!("Input: Invalid variable"))?,
             })
-        }
-        #[inline(never)]
-        fn parse_let(args: &[char]) -> Result<InstructionKind, ()> {
+        } else if s.starts_with_ignore_case("GOTO") {
+            let args = unsafe { s.get_unchecked(4..).trim() };
+            let line_no: LineNumber = args
+                .parse()
+                .map_err(|_| println!("Goto: Invalid line no"))?;
+            Ok(InstructionKind::Goto(line_no))
+        } else if s.starts_with_ignore_case("LET") {
+            let args = unsafe { s.get_unchecked(3..).trim() };
             let equal = args.find_char('=').ok_or(())?;
             let (variable, value) = unsafe {
                 (
@@ -504,25 +487,6 @@ impl FromStr for InstructionKind {
                     .map_err(|_| println!("Let: Invalid expression"))?,
             };
             Ok(xl)
-        }
-        #[inline(never)]
-        fn parse_goto(args: &[char]) -> Result<InstructionKind, ()> {
-            let line_no: LineNumber = args
-                .parse()
-                .map_err(|_| println!("Goto: Invalid line no"))?;
-            Ok(InstructionKind::Goto(line_no))
-        }
-
-        if s.starts_with_ignore_case("PRINT") {
-            parse_print(unsafe { s.get_unchecked(5..).trim() })
-        } else if s.starts_with_ignore_case("CLS") {
-            Ok(InstructionKind::ClearScreen)
-        } else if s.starts_with_ignore_case("INPUT") {
-            parse_input(unsafe { s.get_unchecked(5..).trim() })
-        } else if s.starts_with_ignore_case("GOTO") {
-            parse_goto(unsafe { s.get_unchecked(4..).trim() })
-        } else if s.starts_with_ignore_case("LET") {
-            parse_let(unsafe { s.get_unchecked(3..).trim() })
         } else {
             Err(())
         }
@@ -530,14 +494,12 @@ impl FromStr for InstructionKind {
 }
 
 impl Display for Instruction {
-    #[inline(never)]
     fn write(&self, target: &mut impl DisplayTarget) {
         print!(self.line_no, ' ', self.content, => target);
     }
 }
 
 impl Display for InstructionKind {
-    #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         match self {
             InstructionKind::Print(s) => {
@@ -568,17 +530,14 @@ impl ProgramContext {
         ProgramContext { variables: [0; 26] }
     }
 
-    #[inline(always)]
     fn get_variable(&self, variable: &Variable) -> u32 {
         self.variables[variable.0 as usize]
     }
 
-    #[inline(always)]
     fn set_variable(&mut self, variable: &Variable, value: u32) {
         self.variables[variable.0 as usize] = value;
     }
 
-    #[inline(never)]
     fn eval(&self, e: &Expression) -> Value {
         RpnEvaluator::new(self).visit(e)
     }
@@ -613,7 +572,6 @@ impl RpnVisitor for RpnStringifier {
         v.to_string()
     }
 
-    #[inline(never)]
     fn visit_operator(&self, o: &Operator, a: &Self::Output, b: &Self::Output) -> Self::Output {
         let mut res = String::with_capacity(a.len() + b.len() + 5);
         print!('(', b, o, a, ')', => &mut res);
@@ -669,7 +627,6 @@ impl Program {
         Ok(())
     }
 
-    #[inline(never)]
     fn assemble(&self) -> Result<Assembly, ()> {
         const NOP: u16 = 0x4600;
 
@@ -691,7 +648,6 @@ impl Program {
         }
 
         impl Assembler {
-            #[inline(always)]
             fn new(capacity: usize) -> Self {
                 Assembler {
                     code: Vec::with_capacity(capacity),
@@ -701,12 +657,10 @@ impl Program {
                 }
             }
 
-            #[inline(always)]
             fn start_line(&mut self) {
                 self.instr_starts.push(self.instr_count());
             }
 
-            #[inline(always)]
             fn instr(&mut self, instr: u16) {
                 if let Some(l) = self.leftover {
                     self.code.push(i(l as u16, instr));
@@ -716,24 +670,20 @@ impl Program {
                 }
             }
 
-            #[inline(always)]
             fn reloc(&mut self, reloc: RelocationType) {
                 self.relocations.push(Relocation(self.instr_count(), reloc));
                 self.instr(0);
             }
 
-            #[inline(always)]
             fn instr_count(&self) -> usize {
                 self.code.len() * 2 + usize::from(self.leftover.is_some())
             }
 
-            #[inline(always)]
             fn finalize(mut self) -> Assembly {
                 if let Some(l) = self.leftover {
                     self.code.push(i(l as u16, NOP));
                 }
 
-                #[inline(always)]
                 fn set_at(code: &mut Vec<u32>, pos: usize, instr: u16) {
                     let arr_pos = pos >> 1;
                     let rem = pos & 1;
@@ -764,7 +714,6 @@ impl Program {
 
             /// evaluates an expression.
             /// result in r1
-            #[inline(never)]
             fn write_expr(&mut self, expr: &Expression) {
                 self.instr(0xa800); // mov r0, sp
 

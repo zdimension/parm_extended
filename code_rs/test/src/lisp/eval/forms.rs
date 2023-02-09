@@ -4,6 +4,7 @@ use crate::parm::heap::string::String;
 use crate::{makestr, println, LispValBox};
 
 impl SchemeEnv {
+    // don't remove this; event with the trampoline hack, there are too many literals
     #[inline(never)]
     fn eval_builtin_form(
         &mut self,

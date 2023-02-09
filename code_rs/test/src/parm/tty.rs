@@ -213,7 +213,6 @@ pub fn clear() {
     print_char(12);
 }
 
-#[inline(never)]
 pub fn read_int() -> u32 {
     let mut res = 0;
     loop {
@@ -236,7 +235,6 @@ pub fn read_int() -> u32 {
     }
 }
 
-#[inline(never)]
 pub fn print_res(sign: bool, target: &mut impl DisplayTarget) {
     let mut bcd = RESbcd.read();
 
@@ -298,7 +296,6 @@ pub fn print_hex(val: u32, width: u32, target: &mut impl DisplayTarget) {
     }
 }
 
-#[inline(never)]
 pub fn read_line(res: &mut String) {
     loop {
         let c = keyb::read_char();

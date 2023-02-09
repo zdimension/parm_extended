@@ -242,7 +242,7 @@ def try_assemble(m, instr, output, line, line_num):
 					if not (abs(dic[k][0]) < 2 ** (width - (not pcrel))):
 						if not notrampo:	
 							new_label = "trampo_" + ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
-							
+							# thanks @Guekka
 							print("Old code:", lines[line_num-1:line_num+8])
 							if cond and len(instr) == 3:
 								print("Trampolining:", line)

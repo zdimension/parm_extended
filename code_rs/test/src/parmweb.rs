@@ -28,7 +28,6 @@ impl WebApp {
         WebApp { logs: Vec::new() }
     }
 
-    #[inline(never)]
     fn process_req(&mut self, req: HttpRequest) -> Result<(), ()> {
         let HttpRequestStart { verb, url } = &req.start;
         let mut log = String::with_capacity(64);
@@ -54,7 +53,6 @@ impl WebApp {
         Ok(())
     }
 
-    #[inline(never)]
     fn get_response(&self, verb: HttpVerb, url: &[char]) -> HttpResponse {
         match verb {
             HttpVerb::Get => match url {
@@ -99,7 +97,6 @@ fn strip_cr(mut s: String) -> String {
     s
 }
 
-#[inline(never)]
 fn read_req() -> Result<HttpRequest, &'static str> {
     let line = read_line();
     let start = match line.parse() {

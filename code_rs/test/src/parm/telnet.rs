@@ -44,7 +44,6 @@ pub fn read_arr_blocking<const N: usize>() -> [u8; N] {
     arr
 }
 
-#[inline(never)]
 pub fn read_n_blocking(n: usize) -> Vec<u8> {
     let mut vec = Vec::with_capacity(n);
     for i in 0..n {

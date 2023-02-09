@@ -12,6 +12,7 @@ use crate::parm::util::fxhash::FxHasher;
 use crate::{print, println, LispValBox};
 
 impl Default for SchemeEnvData {
+    // don't remove this; event with the trampoline hack, there are too many literals
     #[inline(never)]
     fn default() -> Self {
         let mut map = SymbolMap::new();

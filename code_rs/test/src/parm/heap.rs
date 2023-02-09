@@ -21,7 +21,6 @@ pub fn init() {
     }
 }
 
-#[inline(never)]
 pub unsafe fn malloc(size: usize) -> *mut u32 {
     let old = alloc_pos();
     let next = old.add(size + 4);

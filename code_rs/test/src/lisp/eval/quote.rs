@@ -4,6 +4,7 @@ use crate::parm::heap::string::String;
 use crate::LispValBox;
 
 impl SchemeEnv {
+    // don't remove this; event with the trampoline hack, there are too many literals
     #[inline(never)]
     pub(crate) fn eval_quasiquote(&mut self, val: &LispValBox) -> Result<LispValBox, String> {
         fn expect_one<'a>(
