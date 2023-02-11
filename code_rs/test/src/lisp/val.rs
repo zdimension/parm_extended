@@ -57,7 +57,7 @@ pub enum LispVal {
     Procedure(LispProc),
     Hash(LispHash),
     Eof,
-    Box(LispValBox)
+    Box(LispValBox),
 }
 
 #[derive(Clone, Hash, PartialEq, Eq)]
@@ -555,7 +555,7 @@ fn write_char(c: char, target: &mut impl DisplayTarget) {
         _ => {
             print!(c, => target);
             return;
-        },
+        }
     };
     print!(name, => target);
 }

@@ -6,10 +6,10 @@
 #![feature(slice_pattern)]
 
 use crate::parm::math::fp32;
-use crate::parm::screen::tty::{blank, get_videotty, init};
+use crate::parm::screen::tty::{get_videotty, init};
 use crate::parm::screen::{
-    circle, clear, line, rgb32, set_pixel_unchecked, Color15bpp, ColorEncodable, ColorEncoded,
-    ColorSimple, HEIGHT, WIDTH,
+    circle, line, rgb32, set_pixel_unchecked, ColorEncodable, ColorEncoded, ColorSimple, HEIGHT,
+    WIDTH,
 };
 use crate::parm::tty::DisplayTarget;
 

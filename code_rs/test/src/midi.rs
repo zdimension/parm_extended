@@ -70,7 +70,7 @@ fn sleep_ms(ms: u32) {
 struct EventAbs<'a>(
     /// in MIDI ticks
     u32,
-    TrackEvent<'a>
+    TrackEvent<'a>,
 );
 
 impl<'a> PartialEq for EventAbs<'a> {
@@ -136,7 +136,7 @@ fn merge_full<T: PartialOrd + Copy>(mut vec: &[Vec<T>]) -> Vec<T> {
 struct MidiSpeedSettings {
     tempo: u32,
     ticks_per_quarter: u32,
-    ms_per_tick: u32
+    ms_per_tick: u32,
 }
 
 impl MidiSpeedSettings {
@@ -144,7 +144,7 @@ impl MidiSpeedSettings {
         Self {
             tempo: 500_000,
             ticks_per_quarter: 480,
-            ms_per_tick: 500_000 / 480 / 1000
+            ms_per_tick: 500_000 / 480 / 1000,
         }
     }
 
