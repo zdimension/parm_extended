@@ -193,7 +193,6 @@ where
         hasher.finish()
     }
 
-    #[inline(never)]
     fn inner(&mut self) {
         for (entry_index, slot) in self.entries.iter().enumerate() {
             let bin = hash_to_bin(slot.hash, self.bin_mask);
@@ -207,7 +206,6 @@ where
         }
     }
 
-    #[inline(never)]
     fn grow(&mut self, minimum_capacity: usize) {
         let old_bin_count = self.bin_mask.into_count();
         if old_bin_count < minimum_capacity {
