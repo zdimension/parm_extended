@@ -261,17 +261,29 @@ impl<'a> SchemeParser<'a> {
         Ok(LispVal::Char(ch))
     }
 
+    fn read_box(&mut self) -> Result<LispVal, ReadError> {
+        let val = self.read()?;
+        Ok(LispVal::Box(val.into()))
+    }
+
     fn read(&mut self) -> Result<LispVal, ReadError> {
         self.skip_spaces();
         match self.1.peek() {
             Some(&(_, '(' | '[')) => self.read_list(),
             Some(&(_, '#')) => {
                 self.1.next();
-                if let Some(&(_, '\\')) = self.1.peek() {
-                    self.1.next();
-                    self.read_char()
-                } else {
-                    self.read_boolean()
+                match self.1.peek() {
+                    Some(&(_, '\\')) => {
+                        self.1.next();
+                        self.read_char()
+                    }
+                    Some(&(_, '&')) => {
+                        self.1.next();
+                        self.read_box()
+                    }
+                    _ => {
+                        self.read_boolean()
+                    }
                 }
             },
             Some(&(_, '"')) => self.read_string(),

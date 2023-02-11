@@ -4,9 +4,6 @@
 (define type-name (compose car unbox))
 (define type-params (compose cdr unbox))
 
-(define-macro (trace func)
-  `(set! ,func (trace-function ,func ',func)))
-
 (define tt box)
 
 ; checks whether a symbol is a type variable (generated symbol) or a regular identifier

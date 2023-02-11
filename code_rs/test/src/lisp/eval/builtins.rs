@@ -471,6 +471,30 @@ impl Default for SchemeEnvData {
             Ok(LispVal::Bool(matches!(**args.expect_car("string?")?, LispVal::Str(_))).into())
         });
 
+        builtin!("box", |_, args| {
+            let [arg] = args.get_n().ok_or("box")?;
+            Ok(LispVal::Box(arg.clone()).into())
+        });
+
+        builtin!("set-box!", |_, args| {
+            let [box_, value] = args.get_n().ok_or("set-box!")?;
+            let mut boxref = box_.borrow_mut();
+            let box_ = boxref.expect_box_mut("set-box!")?;
+            *box_ = value.clone();
+            Ok(LispVal::Void.into())
+        });
+
+        builtin!("unbox", |_, args| {
+            let [box_] = args.get_n().ok_or("unbox")?;
+            let box_ = box_.expect_box("unbox")?;
+            Ok(box_.clone())
+        });
+
+        builtin!("not", |_, args| {
+            let [arg] = args.get_n().ok_or("not")?;
+            Ok(LispVal::Bool(!arg.is_truthy()).into())
+        });
+
         SchemeEnvData {
             map,
             parent: None,

@@ -57,6 +57,7 @@ pub enum LispVal {
     Procedure(LispProc),
     Hash(LispHash),
     Eof,
+    Box(LispValBox)
 }
 
 #[derive(Clone, Hash, PartialEq, Eq)]
@@ -412,6 +413,7 @@ impl LispVal {
             LispVal::Procedure(proc) => proc.type_name(),
             LispVal::Hash { .. } => "hash",
             LispVal::Eof => "eof-object",
+            LispVal::Box(_) => "box",
         }
     }
 
@@ -434,6 +436,7 @@ impl LispVal {
     expect!(List, list, &LispList);
     expect!(Hash, hash, &LispHash);
     expect!(Str, string, &String);
+    expect!(Box, box, &LispValBox);
 
     pub fn expect_nonmacro(&self, origin: &'static str) -> Result<&ProcType, String> {
         match self {
@@ -471,6 +474,7 @@ impl Display for LispVal {
             LispVal::Procedure(proc) => print!(proc, => target),
             LispVal::Hash(h) => write_hash(h, target),
             LispVal::Eof => print!("#<eof>", => target),
+            LispVal::Box(v) => print!("#&", v, => target),
         }
     }
 }
