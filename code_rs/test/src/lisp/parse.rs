@@ -13,6 +13,7 @@ pub enum ReadError {
     EOFExpected(char),
     IntParseError,
     BoolParseError(Option<char>),
+    CharParseError,
     Empty,
 }
 
@@ -32,6 +33,7 @@ impl Display for ReadError {
                 print!("expected '#t' or '#f' but found '", next, "'", => target);
             }
             ReadError::BoolParseError(None) => print!("got EOF while parsing boolean", => target),
+            ReadError::CharParseError => print!("invalid character literal", => target),
             ReadError::Empty => print!("empty input", => target),
         }
     }
@@ -63,6 +65,13 @@ impl<'a> SchemeParser<'a> {
         }
     }
 
+    fn expect_str(&mut self, s: &str) -> Result<(), ReadError> {
+        for c in s.chars() {
+            self.expect(c)?;
+        }
+        Ok(())
+    }
+
     fn skip_while(&mut self, p: impl Fn(char) -> bool) {
         while let Some(&(_, ch)) = self.1.peek() {
             if !p(ch) {
@@ -87,7 +96,6 @@ impl<'a> SchemeParser<'a> {
     }
 
     fn read_boolean(&mut self) -> Result<LispVal, ReadError> {
-        self.expect('#')?;
         if self.accept('t') {
             Ok(LispVal::Bool(true))
         } else if self.accept('f') {
@@ -186,11 +194,86 @@ impl<'a> SchemeParser<'a> {
         ))
     }
 
+    #[inline(never)] // ..nah, it's too long
+    fn read_char(&mut self) -> Result<LispVal, ReadError> {
+        let ch = self.1.next().map(|(_, ch)| ch).ok_or(ReadError::CharParseError)?;
+        let next = self.1.peek();
+        macro_rules! c {
+            ($exp:literal, $c:literal) => {
+                {
+                    self.expect_str($exp)?;
+                    return Ok(LispVal::Char($c));
+                }
+            };
+        }
+        if matches!(next, Some(&(_, ch)) if ch.is_ascii_alphabetic()) {
+            // we have #\AB where B is alphabetic
+            match ch {
+                'b' => c!("ackspace", '\x08'),
+                't' => c!("ab", '\t'),
+                'v' => c!("tab", '\x0B'),
+                'p' => c!("age", '\x0C'),
+                's' => c!("pace", ' '),
+                'u' => {},
+                _ => {
+                    let ch2 = self.1.next().map(|(_, ch)| ch).ok_or(ReadError::CharParseError)?;
+                    match (ch, ch2) {
+                        ('n', 'e') => c!("wline", '\n'),
+                        ('n', 'u') => {
+                            self.expect_str("l")?;
+                            let _ = self.accept('l'); // can be nul or null
+                            return Ok(LispVal::Char('\0'));
+                        },
+                        ('r', 'e') => c!("turn", '\r'),
+                        ('r', 'u') => c!("bout", '\x7f'),
+                        _ => return Err(ReadError::CharParseError),
+                    }
+                }
+            }
+        }
+
+        if matches!(ch, 'u' | 'U') {
+            let mut chnum = 0;
+            while let Some(&(_, ch)) = self.1.peek() {
+                if ch.is_ascii_hexdigit() {
+                    self.1.next();
+                    chnum = chnum * 16 + ch.to_digit(16).unwrap();
+                } else {
+                    break;
+                }
+            }
+            return Ok(LispVal::Char(core::char::from_u32(chnum).ok_or(ReadError::CharParseError)?));
+        }
+
+        if matches!(ch, '0'..='7') && matches!(next, Some(&(_, '0'..='7'))) {
+            let mut chnum = 0;
+            while let Some(&(_, ch)) = self.1.peek() {
+                if ch.is_ascii_digit() {
+                    self.1.next();
+                    chnum = chnum * 8 + ch.to_digit(8).unwrap();
+                } else {
+                    break;
+                }
+            }
+            return Ok(LispVal::Char(core::char::from_u32(chnum).ok_or(ReadError::CharParseError)?));
+        }
+
+        Ok(LispVal::Char(ch))
+    }
+
     fn read(&mut self) -> Result<LispVal, ReadError> {
         self.skip_spaces();
         match self.1.peek() {
             Some(&(_, '(' | '[')) => self.read_list(),
-            Some(&(_, '#')) => self.read_boolean(),
+            Some(&(_, '#')) => {
+                self.1.next();
+                if let Some(&(_, '\\')) = self.1.peek() {
+                    self.1.next();
+                    self.read_char()
+                } else {
+                    self.read_boolean()
+                }
+            },
             Some(&(_, '"')) => self.read_string(),
             Some(&(_, '\'')) => {
                 self.1.next();

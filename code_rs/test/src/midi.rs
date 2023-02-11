@@ -58,8 +58,20 @@ fn sleep(count: usize) {
     }
 }
 
+const SIM_FREQ: u32 = 15000;
+const SLEEP_FACTOR: usize = 4000; // empirically adjusted
+
+fn sleep_ms(ms: u32) {
+    println!("s", ms);
+    sleep((ms as usize) * SIM_FREQ as usize / SLEEP_FACTOR);
+}
+
 #[derive(Copy, Clone)]
-struct EventAbs<'a>(u32, TrackEvent<'a>);
+struct EventAbs<'a>(
+    /// in MIDI ticks
+    u32,
+    TrackEvent<'a>
+);
 
 impl<'a> PartialEq for EventAbs<'a> {
     #[inline(always)]
@@ -121,6 +133,37 @@ fn merge_full<T: PartialOrd + Copy>(mut vec: &[Vec<T>]) -> Vec<T> {
     }
 }
 
+struct MidiSpeedSettings {
+    tempo: u32,
+    ticks_per_quarter: u32,
+    ms_per_tick: u32
+}
+
+impl MidiSpeedSettings {
+    fn new() -> Self {
+        Self {
+            tempo: 500_000,
+            ticks_per_quarter: 480,
+            ms_per_tick: 500_000 / 480 / 1000
+        }
+    }
+
+    fn update(&mut self) {
+        let ms_per_tick = self.tempo / self.ticks_per_quarter / 1000 / 14;
+        self.ms_per_tick = ms_per_tick;
+    }
+
+    fn set_tempo(&mut self, tempo: u32) {
+        self.tempo = tempo;
+        self.update();
+    }
+
+    fn set_ticks_per_quarter(&mut self, ticks_per_quarter: u32) {
+        self.ticks_per_quarter = ticks_per_quarter;
+        self.update();
+    }
+}
+
 fn main() {
     parm::heap::init();
 
@@ -153,10 +196,11 @@ fn main() {
     let mut last = 0;
     let mut instrs = [MidiInstrument::Piano1; 128];
     let mut last_instr = MidiInstrument::Piano1;
-    let mut tempo = 1;
-    let mut midi_metro = 24;
+    let mut settings = MidiSpeedSettings::new();
     for EventAbs(abs, ev) in merged.iter() {
-        sleep(((abs - last) * tempo) as usize / (1250 * midi_metro));
+        let delta = abs - last; // in MIDI ticks
+        let ms = delta * settings.ms_per_tick;
+        sleep_ms(ms);
         last = *abs;
         match ev.kind {
             TrackEventKind::Midi { channel, message } => match message {
@@ -208,12 +252,13 @@ fn main() {
                 MetaMessage::MidiPort(_) => println!("midi port"),
                 MetaMessage::EndOfTrack => println!("end of track"),
                 MetaMessage::Tempo(t) => {
-                    tempo = t.as_int();
+                    let tempo = t.as_int();
+                    settings.set_tempo(tempo);
                     println!("tempo ", tempo);
                 }
                 MetaMessage::SmpteOffset(_) => println!("smpte offset"),
                 MetaMessage::TimeSignature(num, den, clPerClk, no32perQrt) => {
-                    midi_metro = clPerClk as usize;
+                    settings.set_ticks_per_quarter(no32perQrt as u32);
                     println!(
                         "time signature ",
                         num, "/", den, " ", clPerClk, "/", no32perQrt

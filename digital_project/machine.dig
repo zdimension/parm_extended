@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <circuit>
-  <version>1</version>
+  <version>2</version>
   <attributes/>
   <visualElements>
     <visualElement>
@@ -12,7 +12,7 @@
         </entry>
         <entry>
           <string>Frequency</string>
-          <int>2147483647</int>
+          <int>15000</int>
         </entry>
       </elementAttributes>
       <pos x="20" y="20"/>
@@ -10597,6 +10597,10 @@
         <entry>
           <string>port</string>
           <int>4567</int>
+        </entry>
+        <entry>
+          <string>telnetBufferSize</string>
+          <int>1048576</int>
         </entry>
       </elementAttributes>
       <pos x="-780" y="-580"/>

@@ -16,8 +16,8 @@ fn main() {
             print!(ch as char);
         }
 
-        if let Some(ch) = keyb::read() {
+        /*if let Some(ch) = keyb::read() {
             telnet::send(ch as u8);
-        }
+        }*/
     }
 }

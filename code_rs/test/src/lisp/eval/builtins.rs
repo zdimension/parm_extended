@@ -371,6 +371,17 @@ impl Default for SchemeEnvData {
             Ok(LispVal::Int(list.len() as i32).into())
         });
 
+        builtin!("string-length", |_, args| {
+            let string = args.car().ok_or("string-length")?.expect_string("string-length")?;
+            Ok(LispVal::Int(string.len() as i32).into())
+        });
+
+        builtin!("string-ref", |_, args| {
+            let string = args.expect_car("string-ref")?.expect_string("string-ref")?;
+            let index = args.expect_cadr("string-ref")?.expect_int("string-ref")?;
+            Ok(LispVal::Char(*string.get(index as usize).ok_or("string-ref")?).into())
+        });
+
         builtin!("error", |_, args| {
             let mut msg = String::new();
             for arg in args.iter() {
@@ -454,6 +465,10 @@ impl Default for SchemeEnvData {
             let mut new_env = env.make_child();
             new_env.0.borrow_mut().trace = true;
             new_env.eval_begin(args)
+        });
+
+        builtin!("string?", |_, args| {
+            Ok(LispVal::Bool(matches!(**args.expect_car("string?")?, LispVal::Str(_))).into())
         });
 
         SchemeEnvData {

@@ -215,7 +215,7 @@ impl LispRepl {
     }
 
     fn run(&mut self) {
-        let mut input = String::new();
+        let mut input = String::with_capacity(16384);
         enum TelnetMode {
             Off,
             On { long: bool },

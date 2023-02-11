@@ -51,6 +51,7 @@ pub enum LispVal {
     Int(i32),
     Bool(bool),
     Str(String),
+    Char(char),
     List(LispList),
     Void,
     Procedure(LispProc),
@@ -405,6 +406,7 @@ impl LispVal {
             LispVal::Int(_) => "int",
             LispVal::Bool(_) => "bool",
             LispVal::Str(_) => "string",
+            LispVal::Char(_) => "char",
             LispVal::List(_) => "list",
             LispVal::Void => "void",
             LispVal::Procedure(proc) => proc.type_name(),
@@ -431,6 +433,7 @@ impl LispVal {
     expect!(Symbol, symbol, &String);
     expect!(List, list, &LispList);
     expect!(Hash, hash, &LispHash);
+    expect!(Str, string, &String);
 
     pub fn expect_nonmacro(&self, origin: &'static str) -> Result<&ProcType, String> {
         match self {
@@ -461,6 +464,7 @@ impl Display for LispVal {
             LispVal::Int(i) => print!(i, => target),
             LispVal::Bool(b) => write_bool(*b, target),
             LispVal::Str(s) => write_string(s, target),
+            LispVal::Char(c) => write_char(*c, target),
             LispVal::Symbol(s) => print!(s, => target),
             LispVal::List(xs) => write_list(xs, target),
             LispVal::Void => print!("#<void>", => target),
@@ -530,6 +534,26 @@ fn write_bool(b: bool, target: &mut impl DisplayTarget) {
 
 fn write_string(s: &String, target: &mut impl DisplayTarget) {
     print!('"', s, '"', => target);
+}
+
+fn write_char(c: char, target: &mut impl DisplayTarget) {
+    print!('#', '\\', => target);
+    let name = match c {
+        '\0' => "nul",
+        '\x08' => "backspace",
+        '\t' => "tab",
+        '\n' => "newline",
+        '\x0B' => "vtab",
+        '\x0C' => "page",
+        '\r' => "return",
+        ' ' => "space",
+        '\x7f' => "rubout",
+        _ => {
+            print!(c, => target);
+            return;
+        },
+    };
+    print!(name, => target);
 }
 
 #[derive(Clone, Hash)]
