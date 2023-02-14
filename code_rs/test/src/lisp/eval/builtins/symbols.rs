@@ -3,6 +3,7 @@ use crate::lisp::val::LispVal;
 
 pub(crate) fn init(h: &mut Helper) {
     h.builtin("symbol?", |_, args| {
-        Ok(LispVal::Bool(matches!(**args.expect_car("symbol?")?, LispVal::Symbol(_))).into())
+        let [arg] = args.params_n("symbol?")?;
+        Ok(LispVal::Bool(matches!(**arg, LispVal::Symbol(_))).into())
     });
 }

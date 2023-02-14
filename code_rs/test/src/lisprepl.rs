@@ -194,7 +194,7 @@ impl LispRepl {
                     match res {
                         Ok(res) => {
                             if !matches!(*res, LispVal::Void) {
-                                println!(*res);
+                                println!(res.debug_display());
                             }
                             self.env.set_new(String::from("_"), res);
                         }

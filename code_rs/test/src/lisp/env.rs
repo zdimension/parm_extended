@@ -53,6 +53,14 @@ impl Hash for SchemeEnv {
     }
 }
 
+impl PartialEq for SchemeEnv {
+    fn eq(&self, other: &Self) -> bool {
+        self.0.ptr == other.0.ptr
+    }
+}
+
+impl Eq for SchemeEnv {}
+
 impl SchemeEnv {
     pub fn iter(&self) -> Iter<'_, String, LispValBox> {
         self.0.map.0.iter()

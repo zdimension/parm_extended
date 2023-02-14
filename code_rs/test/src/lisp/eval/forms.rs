@@ -12,13 +12,13 @@ impl SchemeEnv {
         items: &LispList,
     ) -> Option<Result<LispValBox, String>> {
         if name == "quote" {
-            return Some(items.expect_car("quote").map(|v| v.clone()));
+            return Some(items.params_n("quote").map(|[v]| v.clone()));
         }
         if name == "quasiquote" {
             return Some(
                 items
-                    .expect_car("quasiquote")
-                    .and_then(|v| self.eval_quasiquote(v)),
+                    .params_n("quasiquote")
+                    .and_then(|[v]| self.eval_quasiquote(v)),
             );
         }
         let args = items;

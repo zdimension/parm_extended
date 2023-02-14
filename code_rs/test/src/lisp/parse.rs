@@ -85,14 +85,13 @@ impl<'a> SchemeParser<'a> {
         self.1.peek().map(|&(pos, _)| pos).unwrap_or(self.0.len())
     }
 
-    fn read_number(&mut self) -> Result<LispVal, ReadError> {
+    fn read_number(&mut self, negate: bool) -> Result<LispVal, ReadError> {
         let start = self.current_pos();
         self.skip_while(|c| c.is_ascii_digit());
         let end = self.current_pos();
         let s = &self.0[start..end];
-        s.parse()
-            .map(LispVal::Int)
-            .map_err(|_| ReadError::IntParseError)
+        let res: i32 = s.parse().map_err(|_| ReadError::IntParseError)?;
+        Ok(LispVal::Int(if negate { -res } else { res }))
     }
 
     fn read_boolean(&mut self) -> Result<LispVal, ReadError> {
@@ -105,8 +104,8 @@ impl<'a> SchemeParser<'a> {
         }
     }
 
-    fn read_symbol(&mut self) -> Result<LispVal, ReadError> {
-        let start = self.current_pos();
+    fn read_symbol(&mut self, backtrack: usize) -> Result<LispVal, ReadError> {
+        let start = self.current_pos() - backtrack;
         self.skip_while(|c| {
             c != '(' && c != ')' && c != '[' && c != ']' && !c.is_ascii_whitespace()
         });
@@ -312,8 +311,24 @@ impl<'a> SchemeParser<'a> {
                     self.read_special("unquote")
                 }
             }
-            Some(&(_, ch)) if ch.is_ascii_digit() => self.read_number(),
-            Some(&(_, ch)) if !matches!(ch, ')' | ']') => self.read_symbol(),
+            Some(&(_, '0'..='9')) => self.read_number(false),
+            Some(&(_, '+')) => {
+                self.1.next();
+                if let Some(&(_, '0'..='9')) = self.1.peek() {
+                    self.read_number(false)
+                } else {
+                    self.read_symbol(1)
+                }
+            }
+            Some(&(_, '-')) => {
+                self.1.next();
+                if let Some(&(_, '0'..='9')) = self.1.peek() {
+                    self.read_number(true)
+                } else {
+                    self.read_symbol(1)
+                }
+            }
+            Some(&(_, ch)) if !matches!(ch, ')' | ']') => self.read_symbol(0),
             Some(&(_, ch)) => Err(ReadError::EOFExpected(ch)),
             None => Err(ReadError::EOFFound),
         }

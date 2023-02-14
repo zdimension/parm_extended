@@ -2,6 +2,7 @@
 #![allow(named_asm_labels)]
 
 pub mod control;
+mod float;
 pub mod heap;
 pub mod keyb;
 pub mod math;

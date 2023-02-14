@@ -3,8 +3,9 @@ use crate::lisp::val::LispVal;
 
 pub(crate) fn init(h: &mut Helper) {
     h.builtin_macro("set!", |env, args| {
-        let var = args.expect_car("set!")?.expect_symbol("set!")?;
-        let value = env.eval(args.expect_cadr("set!")?)?;
+        let [var, value] = args.params_n("set!")?;
+        let var = var.expect_symbol("set!")?;
+        let value = env.eval(value)?;
         env.set(var.clone(), value);
         Ok(LispVal::Void.into())
     });

@@ -11,7 +11,7 @@ pub(crate) fn init(h: &mut Helper) {
     });
 
     h.builtin("identity", |_, args| {
-        let [arg] = args.get_n().ok_or("identity")?;
+        let [arg] = args.params_n("identity")?;
         Ok(arg.clone())
     });
 }

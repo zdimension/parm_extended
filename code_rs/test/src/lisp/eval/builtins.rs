@@ -18,11 +18,12 @@ macro_rules! modules {
         $cb!(numbers);
         $cb!(pairs_lists);
         $cb!(procedures);
+        $cb!(promises);
         $cb!(strings);
         $cb!(symbols);
         $cb!(syntax);
         $cb!(void);
-    }
+    };
 }
 
 macro_rules! import_module {

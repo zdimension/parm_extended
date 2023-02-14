@@ -37,27 +37,27 @@ pub(crate) fn init(h: &mut Helper) {
     });
 
     h.builtin("=", |_, args| {
-        let [first, second] = args.get_n().ok_or("=")?;
+        let [first, second] = args.params_n("=")?;
         Ok(LispVal::Bool(first.expect_int("=")? == second.expect_int("=")?).into())
     });
 
     h.builtin(">", |_, args| {
-        let [first, second] = args.get_n().ok_or(">")?;
+        let [first, second] = args.params_n(">")?;
         Ok(LispVal::Bool(first.expect_int(">")? > second.expect_int(">")?).into())
     });
 
     h.builtin(">=", |_, args| {
-        let [first, second] = args.get_n().ok_or(">=")?;
+        let [first, second] = args.params_n(">=")?;
         Ok(LispVal::Bool(first.expect_int(">=")? >= second.expect_int(">=")?).into())
     });
 
     h.builtin("<", |_, args| {
-        let [first, second] = args.get_n().ok_or("<")?;
+        let [first, second] = args.params_n("<")?;
         Ok(LispVal::Bool(first.expect_int("<")? < second.expect_int("<")?).into())
     });
 
     h.builtin("<=", |_, args| {
-        let [first, second] = args.get_n().ok_or("<=")?;
+        let [first, second] = args.params_n("<=")?;
         Ok(LispVal::Bool(first.expect_int("<=")? <= second.expect_int("<=")?).into())
     });
 
@@ -73,17 +73,17 @@ pub(crate) fn init(h: &mut Helper) {
     });
 
     h.builtin("zero?", |_, args| {
-        let [first] = args.get_n().ok_or("zero?")?;
+        let [first] = args.params_n("zero?")?;
         Ok(LispVal::Bool(first.expect_int("zero?")? == 0).into())
     });
 
     h.builtin("positive?", |_, args| {
-        let [first] = args.get_n().ok_or("positive?")?;
+        let [first] = args.params_n("positive?")?;
         Ok(LispVal::Bool(first.expect_int("positive?")? > 0).into())
     });
 
     h.builtin("negative?", |_, args| {
-        let [first] = args.get_n().ok_or("negative?")?;
+        let [first] = args.params_n("negative?")?;
         Ok(LispVal::Bool(first.expect_int("negative?")? < 0).into())
     });
 }

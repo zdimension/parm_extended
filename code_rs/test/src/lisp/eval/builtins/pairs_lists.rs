@@ -5,17 +5,17 @@ use crate::LispValBox;
 
 pub(crate) fn init(h: &mut Helper) {
     h.builtin("car", |_, args| {
-        let [list] = args.get_n().ok_or("car")?;
+        let [list] = args.params_n("car")?;
         Ok(list.expect_list("car")?.expect_car("car")?.clone())
     });
 
     h.builtin("cadr", |_, args| {
-        let [list] = args.get_n().ok_or("cadr")?;
+        let [list] = args.params_n("cadr")?;
         Ok(list.expect_list("cadr")?.expect_cadr("cadr")?.clone())
     });
 
     h.builtin("caddr", |_, args| {
-        let [list] = args.get_n().ok_or("caddr")?;
+        let [list] = args.params_n("caddr")?;
         Ok(list
             .expect_list("caddr")?
             .expect_cdr_list("caddr")?
@@ -24,7 +24,7 @@ pub(crate) fn init(h: &mut Helper) {
     });
 
     h.builtin("cadddr", |_, args| {
-        let [list] = args.get_n().ok_or("cadddr")?;
+        let [list] = args.params_n("cadddr")?;
         Ok(list
             .expect_list("cadddr")?
             .expect_cdr_list("cadddr")?
@@ -34,46 +34,41 @@ pub(crate) fn init(h: &mut Helper) {
     });
 
     h.builtin("cdr", |_, args| {
-        let [list] = args.get_n().ok_or("cdr")?;
+        let [list] = args.params_n("cdr")?;
         Ok(list.expect_list("cdr")?.expect_cdr("cdr")?.clone())
     });
 
     h.builtin("cddr", |_, args| {
-        let [list] = args.get_n().ok_or("cddr")?;
+        let [list] = args.params_n("cddr")?;
         let (_first, rest) = list.expect_list("cddr")?.expect_cons("cddr")?;
         let (_second, rest) = rest.expect_list("cddr")?.expect_cons("cddr")?;
         Ok(rest.clone())
     });
 
     h.builtin("cons", |_, args| {
-        let [first, rest] = args.get_n().ok_or("cons: expected two arguments")?;
+        let [first, rest] = args.params_n("cons")?;
         Ok(LispVal::List(LispList::Cons(first.clone(), rest.clone())).into())
     });
 
     h.builtin("pair?", |_, args| {
-        Ok(LispVal::Bool(matches!(
-            **args.expect_car("list?")?,
-            LispVal::List(LispList::Cons(_, _))
-        ))
-        .into())
+        let [arg] = args.params_n("pair?")?;
+        Ok(LispVal::Bool(matches!(**arg, LispVal::List(LispList::Cons(_, _)))).into())
     });
 
     h.builtin("list?", |_, args| {
-        Ok(LispVal::Bool(matches!(**args.expect_car("list?")?, LispVal::List(_))).into())
+        let [arg] = args.params_n("list?")?;
+        Ok(LispVal::Bool(matches!(**arg, LispVal::List(_))).into())
     });
 
     h.builtin("null?", |_, args| {
-        Ok(LispVal::Bool(matches!(
-            **args.expect_car("null?")?,
-            LispVal::List(LispList::Empty)
-        ))
-        .into())
+        let [arg] = args.params_n("null?")?;
+        Ok(LispVal::Bool(matches!(**arg, LispVal::List(LispList::Empty))).into())
     });
 
     h.builtin("list*", |_, args| list_star(args));
 
     h.builtin("member", |_, args| {
-        let [item, list] = args.get_n().ok_or("member")?;
+        let [item, list] = args.params_n("member")?;
         let mut list = list;
         while let LispList::Cons(list_item, rest) = list.expect_list("member")? {
             if item == list_item {
@@ -104,8 +99,9 @@ pub(crate) fn init(h: &mut Helper) {
     });
 
     h.builtin("map", |env, args| {
-        let fct = args.expect_car("map")?.expect_nonmacro("map")?;
-        let list = args.expect_cadr("map")?.expect_list("map")?;
+        let [fct, list] = args.params_n("map")?;
+        let fct = fct.expect_nonmacro("map")?;
+        let list = list.expect_list("map")?;
         let mut res = LispListBuilder::new();
         for item in list.iter() {
             res.push(env.eval_nonmacro_call(fct, &LispList::singleton(item.clone()))?);
@@ -114,7 +110,7 @@ pub(crate) fn init(h: &mut Helper) {
     });
 
     h.builtin("for-each", |env, args| {
-        let [fct, list] = args.get_n().ok_or("for-each")?;
+        let [fct, list] = args.params_n("for-each")?;
         let fct = fct.expect_nonmacro("for-each")?;
         let list = list.expect_list("for-each")?;
         for item in list.iter() {

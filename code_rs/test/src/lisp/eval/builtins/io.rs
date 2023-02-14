@@ -13,24 +13,16 @@ pub(crate) fn init(h: &mut Helper) {
     });
 
     let display: fn(&mut SchemeEnv, &LispList) -> _ = |_, args| {
-        let x = args.expect_car("display: expected argument")?;
-        if let LispVal::Str(s) = &**x {
-            print!(s);
-        } else {
-            print!(x);
-        }
+        let [x] = args.params_n("display")?;
+        print!(x);
         Ok(LispVal::Void.into())
     };
     h.builtin("display", display);
     h.builtin("print", display);
 
     let displayln: fn(&mut SchemeEnv, &LispList) -> _ = |_, args| {
-        let x = args.expect_car("displayln: expected argument")?;
-        if let LispVal::Str(s) = &**x {
-            println!(s);
-        } else {
-            println!(x);
-        }
+        let [x] = args.params_n("displayln")?;
+        println!(x);
         Ok(LispVal::Void.into())
     };
 
@@ -38,8 +30,14 @@ pub(crate) fn init(h: &mut Helper) {
     h.builtin("println", displayln);
 
     h.builtin("write", |_, args| {
-        let x = args.expect_car("write: expected argument")?;
-        print!(x);
+        let [x] = args.params_n("write")?;
+        print!(x.debug_display());
+        Ok(LispVal::Void.into())
+    });
+
+    h.builtin("writeln", |_, args| {
+        let [x] = args.params_n("writeln")?;
+        println!(x.debug_display());
         Ok(LispVal::Void.into())
     });
 
@@ -53,7 +51,7 @@ pub(crate) fn init(h: &mut Helper) {
     });
 
     h.builtin("eof-object?", |_, args| {
-        let [x] = args.get_n().ok_or("eof-object?: expected one argument")?;
+        let [x] = args.params_n("eof-object?")?;
         Ok(LispVal::Bool(matches!(&**x, LispVal::Eof)).into())
     });
 }

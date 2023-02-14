@@ -58,12 +58,19 @@ pub enum LispVal {
     Hash(LispHash),
     Eof,
     Box(LispValBox),
+    Promise(LispPromise),
 }
 
 #[derive(Clone, Hash, PartialEq, Eq)]
 pub enum LispList {
     Empty,
     Cons(LispValBox, LispValBox),
+}
+
+#[derive(Clone, Hash, PartialEq, Eq)]
+pub enum LispPromise {
+    Unevaluated { body: LispList, env: SchemeEnv },
+    Evaluated { val: LispValBox },
 }
 
 impl LispList {
@@ -140,6 +147,22 @@ impl LispList {
         Some((unsafe { *(&ret as *const _ as *const _) }, iter))
     }
 
+    pub fn params_n<const N: usize>(
+        &self,
+        origin: &'static str,
+    ) -> Result<[&LispValBox; N], String> {
+        match self.get_n_iter() {
+            Some((res, iter)) => {
+                if iter.has_next() {
+                    Err(makestr!(origin, ": expected ", N, " arguments, got more"))
+                } else {
+                    Ok(res)
+                }
+            }
+            None => Err(makestr!(origin, ": expected ", N, " arguments, got less")),
+        }
+    }
+
     pub fn len(&self) -> usize {
         let mut iter = self.iter();
         let mut len = 0;
@@ -185,6 +208,10 @@ impl<'a> LispListIter<'a> {
 
     pub fn tail(&self) -> Option<&'a LispValBox> {
         self.tail
+    }
+
+    pub fn has_next(&self) -> bool {
+        matches!(self.list, LispList::Cons(_, _))
     }
 }
 
@@ -414,6 +441,7 @@ impl LispVal {
             LispVal::Hash { .. } => "hash",
             LispVal::Eof => "eof-object",
             LispVal::Box(_) => "box",
+            LispVal::Promise(_) => "promise",
         }
     }
 
@@ -437,6 +465,7 @@ impl LispVal {
     expect!(Hash, hash, &LispHash);
     expect!(Str, string, &String);
     expect!(Box, box, &LispValBox);
+    expect!(Promise, promise, &LispPromise);
 
     pub fn expect_nonmacro(&self, origin: &'static str) -> Result<&ProcType, String> {
         match self {
@@ -461,20 +490,43 @@ impl FromStr for LispVal {
     }
 }
 
+pub struct LispValDebugDisplay<'a>(&'a LispVal);
+
+impl LispVal {
+    pub fn debug_display(&self) -> LispValDebugDisplay {
+        LispValDebugDisplay(self)
+    }
+}
+
 impl Display for LispVal {
     fn write(&self, target: &mut impl DisplayTarget) {
         match self {
             LispVal::Int(i) => print!(i, => target),
             LispVal::Bool(b) => write_bool(*b, target),
-            LispVal::Str(s) => write_string(s, target),
-            LispVal::Char(c) => write_char(*c, target),
+            LispVal::Str(s) => print!(s, => target),
+            LispVal::Char(c) => print!(c, => target),
             LispVal::Symbol(s) => print!(s, => target),
-            LispVal::List(xs) => write_list(xs, target),
+            LispVal::List(xs) => display_list(xs, target),
             LispVal::Void => print!("#<void>", => target),
             LispVal::Procedure(proc) => print!(proc, => target),
             LispVal::Hash(h) => write_hash(h, target),
             LispVal::Eof => print!("#<eof>", => target),
             LispVal::Box(v) => print!("#&", v, => target),
+            LispVal::Promise(LispPromise::Evaluated { val }) => {
+                print!("#<promise!", val, ">", => target)
+            }
+            LispVal::Promise(LispPromise::Unevaluated { .. }) => print!("#<promise>", => target),
+        }
+    }
+}
+
+impl<'a> Display for LispValDebugDisplay<'a> {
+    fn write(&self, target: &mut impl DisplayTarget) {
+        match self.0 {
+            LispVal::Str(s) => write_string(s, target),
+            LispVal::Char(c) => write_char(*c, target),
+            LispVal::List(xs) => write_list(xs, target),
+            _ => print!(self.0, => target),
         }
     }
 }
@@ -484,15 +536,8 @@ impl Display for LispList {
         write_list(self, target)
     }
 }
-/*
-impl Display for ProcType {
-    #[inline(never)]
-    fn write(&self, target: &mut impl DisplayTarget) {
-        write_procedure(self.name(), target)
-    }
-}*/
 
-fn write_list(xs: &LispList, target: &mut impl DisplayTarget) {
+fn display_list(xs: &LispList, target: &mut impl DisplayTarget) {
     print!("(", => target);
     let mut iter = xs.iter();
     if let Some(x) = iter.next() {
@@ -505,6 +550,23 @@ fn write_list(xs: &LispList, target: &mut impl DisplayTarget) {
     if let Some(tail) = iter.tail() {
         print!(" . ", => target);
         tail.write(target);
+    }
+    print!(")", => target);
+}
+
+fn write_list(xs: &LispList, target: &mut impl DisplayTarget) {
+    print!("(", => target);
+    let mut iter = xs.iter();
+    if let Some(x) = iter.next() {
+        x.debug_display().write(target);
+        for x in iter.by_ref() {
+            print!(" ", => target);
+            x.debug_display().write(target);
+        }
+    }
+    if let Some(tail) = iter.tail() {
+        print!(" . ", => target);
+        tail.debug_display().write(target);
     }
     print!(")", => target);
 }

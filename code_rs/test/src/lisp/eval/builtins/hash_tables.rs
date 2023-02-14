@@ -9,7 +9,7 @@ use crate::LispValBox;
 
 fn make_hash(args: &LispList, mutable: bool, origin: &'static str) -> Result<LispValBox, String> {
     let mut hash = BudMap::default();
-    let [items] = args.get_n().ok_or(origin)?;
+    let [items] = args.params_n(origin)?;
     let items = items.expect_list(origin)?;
     for item in items.iter() {
         let (key, value) = item.expect_list(origin)?.expect_cons(origin)?;
@@ -24,11 +24,12 @@ pub(crate) fn init(h: &mut Helper) {
     h.builtin("hash", |_, args| make_hash(args, false, "hash"));
 
     h.builtin("hash?", |_, args| {
-        Ok(LispVal::Bool(matches!(**args.expect_car("hash?")?, LispVal::Hash { .. })).into())
+        let [arg] = args.params_n("hash?")?;
+        Ok(LispVal::Bool(matches!(**arg, LispVal::Hash { .. })).into())
     });
 
     h.builtin("hash-set!", |_, args| {
-        let [hash, key, value] = args.get_n().ok_or("hash-set!")?;
+        let [hash, key, value] = args.params_n("hash-set!")?;
         let mut hashref = hash.borrow_mut();
         let hash = hashref.expect_hash_mut("hash-set!")?;
         if !hash.mutable {
@@ -57,7 +58,7 @@ pub(crate) fn init(h: &mut Helper) {
     });
 
     h.builtin("hash-code", |_, args| {
-        let [arg] = args.get_n().ok_or("hash-code")?;
+        let [arg] = args.params_n("hash-code")?;
         let mut hasher = FxHasher::default();
         arg.hash(&mut hasher);
         Ok(LispVal::Int(hasher.finish() as i32).into())
