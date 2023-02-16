@@ -12,12 +12,12 @@ pub(crate) fn init(h: &mut Helper) {
         let mut promise = promise.borrow_mut();
         let promise = promise.expect_promise_mut("force")?;
         match promise {
-            LispPromise::Evaluated { val } => Ok(val.clone()),
+            LispPromise::Evaluated { val } => Ok(val.clone().into()),
             LispPromise::Unevaluated { body, env } => {
                 let evaluation = env.eval_begin(body)?;
                 let val = env.eval_tco(evaluation)?;
                 *promise = LispPromise::Evaluated { val: val.clone() };
-                Ok(val)
+                Ok(val.into())
             }
         }
     });

@@ -7,11 +7,11 @@ pub(crate) fn init(h: &mut Helper) {
         let fct = fct.expect_nonmacro("apply")?;
         let args = list_star(args.expect_list("list*")?)?;
         let args = unsafe { args.expect_list("").unwrap_unchecked() };
-        env.eval_nonmacro_call(fct, args)
+        env.eval_nonmacro_call_tco(fct, args)
     });
 
     h.builtin("identity", |_, args| {
         let [arg] = args.params_n("identity")?;
-        Ok(arg.clone())
+        Ok(arg.clone().into())
     });
 }

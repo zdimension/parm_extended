@@ -1,13 +1,14 @@
 use core::hash::{Hash, Hasher};
 
 use crate::lisp::eval::builtins::Helper;
+use crate::lisp::eval::CallEvaluation;
 use crate::lisp::val::{LispHash, LispList, LispProc, LispVal};
 use crate::parm::heap::budmap::BudMap;
 use crate::parm::heap::string::String;
 use crate::parm::util::fxhash::FxHasher;
 use crate::LispValBox;
 
-fn make_hash(args: &LispList, mutable: bool, origin: &'static str) -> Result<LispValBox, String> {
+fn make_hash(args: &LispList, mutable: bool, origin: &'static str) -> Result<CallEvaluation, String> {
     let mut hash = BudMap::default();
     let [items] = args.params_n(origin)?;
     let items = items.expect_list(origin)?;
@@ -43,14 +44,14 @@ pub(crate) fn init(h: &mut Helper) {
         let ([hash, key], mut iter) = args.get_n_iter().ok_or("hash-ref")?;
         let hash = hash.expect_hash("hash-ref")?;
         match hash.map.get(key) {
-            Some(value) => Ok(value.clone()),
+            Some(value) => Ok(value.clone().into()),
             None => match iter.next() {
                 Some(failure) => match &**failure {
                     LispVal::Procedure(LispProc {
                         fct,
                         is_macro: false,
-                    }) => env.eval_nonmacro_call(fct, &LispList::Empty),
-                    _ => Ok(failure.clone()),
+                    }) => env.eval_nonmacro_call_tco(fct, &LispList::Empty),
+                    _ => Ok(failure.clone().into()),
                 },
                 None => Err(String::from("hash-ref: key not found")),
             },

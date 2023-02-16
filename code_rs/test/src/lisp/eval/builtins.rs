@@ -5,6 +5,7 @@ use crate::parm::heap::string::String;
 
 use crate::LispValBox;
 use crate::{print, println};
+use crate::lisp::eval::CallEvaluation;
 
 macro_rules! modules {
     ($cb:ident) => {
@@ -42,7 +43,7 @@ impl<'a> Helper<'a> {
     fn builtin(
         &mut self,
         name: &str,
-        f: fn(&mut SchemeEnv, &LispList) -> Result<LispValBox, String>,
+        f: fn(&mut SchemeEnv, &LispList) -> Result<CallEvaluation, String>,
     ) {
         self.map.set(
             String::from(name),
@@ -57,7 +58,7 @@ impl<'a> Helper<'a> {
     fn builtin_macro(
         &mut self,
         name: &str,
-        f: fn(&mut SchemeEnv, &LispList) -> Result<LispValBox, String>,
+        f: fn(&mut SchemeEnv, &LispList) -> Result<CallEvaluation, String>,
     ) {
         self.map.set(
             String::from(name),

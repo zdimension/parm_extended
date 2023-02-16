@@ -1,6 +1,5 @@
 use crate::{LispValBox, makestr, print, println};
 use crate::lisp::env::SchemeEnv;
-use crate::lisp::eval::call::CallEvaluation;
 use crate::lisp::val::{LispList, LispSymbol, LispVal};
 use crate::parm::heap::string::String;
 
@@ -55,5 +54,22 @@ impl SchemeEnv {
     pub fn eval(&mut self, expr: &LispValBox) -> Result<LispValBox, String> {
         let f = self.eval_inner(expr)?;
         self.eval_tco(f)
+    }
+}
+
+pub enum CallEvaluation {
+    Tail((SchemeEnv, LispList)),
+    Normal(LispValBox),
+}
+
+impl From<LispValBox> for CallEvaluation {
+    fn from(v: LispValBox) -> Self {
+        CallEvaluation::Normal(v)
+    }
+}
+
+impl From<LispVal> for CallEvaluation {
+    fn from(v: LispVal) -> Self {
+        CallEvaluation::Normal(v.into())
     }
 }

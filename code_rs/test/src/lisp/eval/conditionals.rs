@@ -2,7 +2,7 @@ use crate::lisp::env::SchemeEnv;
 use crate::lisp::val::{LispList, LispSymbol, LispVal};
 use crate::parm::heap::string::String;
 use crate::{makestr, LispValBox, println};
-use crate::lisp::eval::call::CallEvaluation;
+use crate::lisp::eval::CallEvaluation;
 
 impl SchemeEnv {
     pub(crate) fn eval_if(&mut self, args: &LispList) -> Result<CallEvaluation, String> {

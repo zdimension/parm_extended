@@ -18,6 +18,6 @@ pub(crate) fn init(h: &mut Helper) {
 
     h.builtin("unbox", |_, args| {
         let box_ = args.expect::<(&LispValBox,)>("unbox")?;
-        Ok(box_.clone())
+        Ok(box_.clone().into())
     });
 }

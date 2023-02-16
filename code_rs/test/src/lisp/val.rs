@@ -11,6 +11,7 @@ use crate::lisp::env::SchemeEnv;
 use crate::lisp::parse::{ReadError, SchemeParser};
 use crate::parm::heap::vec::Vec;
 use paste::paste;
+use crate::lisp::eval::CallEvaluation;
 
 #[derive(Clone, Hash, Eq, PartialEq)]
 pub struct LispHash {
@@ -377,7 +378,7 @@ impl Hash for InternalProc {
 pub enum ProcType {
     Builtin(
         String,
-        fn(&mut SchemeEnv, &LispList) -> Result<LispValBox, String>,
+        fn(&mut SchemeEnv, &LispList) -> Result<CallEvaluation, String>,
     ),
     Internal(InternalProc),
     Closure {
