@@ -7,7 +7,7 @@ mod r#let;
 mod quote;
 
 use crate::lisp::env::SchemeEnv;
-use crate::lisp::val::{LispList, LispVal};
+use crate::lisp::val::{LispList, LispSymbol, LispVal};
 use crate::parm::heap::string::String;
 use crate::{makestr, LispValBox};
 
@@ -22,7 +22,7 @@ impl SchemeEnv {
 
     pub fn eval(&mut self, expr: &LispValBox) -> Result<LispValBox, String> {
         match &**expr {
-            LispVal::Symbol(name) => self
+            LispVal::Symbol(LispSymbol(name)) => self
                 .get(name)
                 .ok_or_else(|| makestr!("unknown symbol: ", name)),
             LispVal::List(ref items) => {

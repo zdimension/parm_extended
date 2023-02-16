@@ -1,5 +1,6 @@
 use crate::lisp::eval::builtins::Helper;
 use crate::lisp::val::LispVal;
+use crate::LispValBox;
 
 pub(crate) fn init(h: &mut Helper) {
     h.builtin("box", |_, args| {
@@ -16,8 +17,7 @@ pub(crate) fn init(h: &mut Helper) {
     });
 
     h.builtin("unbox", |_, args| {
-        let [box_] = args.params_n("unbox")?;
-        let box_ = box_.expect_box("unbox")?;
+        let box_ = args.expect::<(&LispValBox,)>("unbox")?;
         Ok(box_.clone())
     });
 }

@@ -111,7 +111,7 @@ impl<'a> SchemeParser<'a> {
         });
         let end = self.current_pos();
         let s = &self.0[start..end];
-        Ok(LispVal::Symbol(String::from(s)))
+        Ok(LispVal::Symbol(String::from(s).into()))
     }
 
     fn read_string(&mut self) -> Result<LispVal, ReadError> {
@@ -188,7 +188,7 @@ impl<'a> SchemeParser<'a> {
 
     fn read_special(&mut self, name: &'static str) -> Result<LispVal, ReadError> {
         Ok(LispList::cons(
-            LispVal::Symbol(String::from(name)).into(),
+            LispVal::Symbol(String::from(name).into()).into(),
             LispVal::List(LispList::singleton(self.read()?.into())).into(),
         ))
     }

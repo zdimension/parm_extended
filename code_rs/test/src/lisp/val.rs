@@ -47,7 +47,7 @@ impl LispProc {
 
 #[derive(Clone, Hash, Eq)]
 pub enum LispVal {
-    Symbol(String),
+    Symbol(LispSymbol),
     Int(i32),
     Bool(bool),
     Str(String),
@@ -163,6 +163,13 @@ impl LispList {
         }
     }
 
+    pub fn expect<T: ParamsN>(
+        &self,
+        origin: &'static str
+    ) -> Result<T::Output<'_>, String> {
+        T::expect(self, origin)
+    }
+
     pub fn len(&self) -> usize {
         let mut iter = self.iter();
         let mut len = 0;
@@ -179,6 +186,74 @@ impl LispList {
         }
         ret.finish()
     }
+}
+
+pub trait ParamsN: Sized {
+    type Output<'a>;
+    fn expect<'a>(val: &'a LispList, origin: &'static str) -> Result<Self::Output<'a>, String>;
+}
+/*
+impl<'c, T: ParamsN<'c>> LispValType for T {
+    type Output<'a> = Self;
+    fn expect<'b>(val: &'b LispVal, origin: &'static str) -> Result<Self, String> {
+        match val {
+            LispVal::List(list) => T::expect(&list, origin),
+            _ => Err(makestr!(origin, ": expected list, got ", val)),
+        }
+    }
+}*/
+
+impl<T: ParamsN> LispValType for T {
+    type Output<'a> = T::Output<'a>;
+    fn expect<'a>(val: &'a LispVal, origin: &'static str) -> Result<Self::Output<'a>, String> {
+        match val {
+            LispVal::List(list) => T::expect(&list, origin),
+            _ => Err(makestr!(origin, ": expected list, got ", val)),
+        }
+    }
+}
+
+impl<T: LispValType> ParamsN for [T; 1] {
+    type Output<'a> = T::Output<'a>;
+    fn expect<'a>(val: &'a LispList, origin: &'static str) -> Result<Self::Output<'a>, String> {
+        let [params_1] = val.params_n(origin)?;
+        let params_1 = T::expect(params_1, origin)?;
+        Ok(params_1)
+    }
+}
+
+macro_rules! params_n {
+    (@ $($type:ident),* $(,)?) => {
+        paste! {
+            impl<$($type: LispValType),*> ParamsN for ($($type),*,) {
+                #[allow(unused_parens)]
+                type Output<'a> = ($(<$type as LispValType>::Output<'a>),*);
+                #[allow(non_snake_case)]
+                fn expect<'a>(val: &'a LispList, origin: &'static str) -> Result<Self::Output<'a>, String> {
+                    let [$([<params_ $type>]),*] = val.params_n(origin)?;
+                    $(
+                        let [<params_ $type>] = $type::expect([<params_ $type>], origin)?;
+                    )*
+                    Ok(($([<params_ $type>]),*))
+                }
+            }
+        }
+    };
+
+    () => {};
+
+    ($type:ident $(,$rest:ident)* $(,)?) => {
+        params_n! { @ $type, $($rest),* }
+
+        params_n! { $($rest),* }
+    };
+}
+
+params_n! {
+    T1,
+    T2,
+    T3,
+    T4,
 }
 
 impl<'a> IntoIterator for &'a LispList {
@@ -363,29 +438,51 @@ impl PartialEq for LispVal {
 
 macro_rules! expect {
     ($variant:ident, $expected:ident, &$type:ty) => {
-        paste! {
-            pub fn [<expect_ $expected>](&self, origin: &'static str) -> Result<&$type, String> {
-                match self {
-                    LispVal::[< $variant >](val) => Ok(val),
-                    _ => Err(self.expect_message(origin, stringify!($expected))),
+        impl LispVal {
+            paste! {
+                pub fn [<expect_ $expected>](&self, origin: &'static str) -> Result<&$type, String> {
+                    match self {
+                        LispVal::[< $variant >](val) => Ok(val),
+                        _ => Err(self.expect_message(origin, stringify!($expected))),
+                    }
+                }
+
+                pub fn [<expect_ $expected _mut>](&mut self, origin: &'static str) -> Result<&mut $type, String> {
+                    match self {
+                        LispVal::[< $variant >](val) => Ok(val),
+                        _ => Err(self.expect_message(origin, stringify!($expected))),
+                    }
                 }
             }
+        }
 
-            pub fn [<expect_ $expected _mut>](&mut self, origin: &'static str) -> Result<&mut $type, String> {
-                match self {
-                    LispVal::[< $variant >](val) => Ok(val),
-                    _ => Err(self.expect_message(origin, stringify!($expected))),
+        impl LispValType for &$type {
+            type Output<'a> = &'a $type;
+            fn expect<'a>(val: &'a LispVal, origin: &'static str) -> Result<&'a $type, String> {
+                paste! {
+                    val.[<expect_ $expected>](origin)
                 }
             }
         }
     };
 
     ($variant:ident, $expected:ident, $type:ty) => {
-        paste! {
-            pub fn [<expect_ $expected>](&self, origin: &'static str) -> Result<$type, String> {
-                match self {
-                    LispVal::[< $variant >](val) => Ok(*val),
-                    _ => Err(self.expect_message(origin, stringify!($expected))),
+        impl LispVal {
+            paste! {
+                pub fn [<expect_ $expected>](&self, origin: &'static str) -> Result<$type, String> {
+                    match self {
+                        LispVal::[< $variant >](val) => Ok(*val),
+                        _ => Err(self.expect_message(origin, stringify!($expected))),
+                    }
+                }
+            }
+        }
+
+        impl LispValType for $type {
+            type Output<'a> = Self;
+            fn expect<'a>(val: &'a LispVal, origin: &'static str) -> Result<Self, String> {
+                paste! {
+                    val.[<expect_ $expected>](origin)
                 }
             }
         }
@@ -458,15 +555,6 @@ impl LispVal {
         )
     }
 
-    expect!(Int, int, i32);
-    expect!(Procedure, callable, &LispProc);
-    expect!(Symbol, symbol, &String);
-    expect!(List, list, &LispList);
-    expect!(Hash, hash, &LispHash);
-    expect!(Str, string, &String);
-    expect!(Box, box, &LispValBox);
-    expect!(Promise, promise, &LispPromise);
-
     pub fn expect_nonmacro(&self, origin: &'static str) -> Result<&ProcType, String> {
         match self {
             LispVal::Procedure(LispProc {
@@ -476,6 +564,38 @@ impl LispVal {
             _ => Err(self.expect_message(origin, "nonmacro")),
         }
     }
+}
+
+#[derive(Clone, PartialEq, Eq, Hash)]
+pub struct LispSymbol(pub(crate) String);
+
+impl From<String> for LispSymbol {
+    fn from(s: String) -> Self {
+        LispSymbol(s)
+    }
+}
+
+expect!(Int, int, i32);
+expect!(Procedure, callable, &LispProc);
+expect!(Symbol, symbol, &LispSymbol);
+expect!(List, list, &LispList);
+expect!(Hash, hash, &LispHash);
+expect!(Str, string, &String);
+expect!(Box, box, &LispValBox);
+expect!(Promise, promise, &LispPromise);
+
+impl LispValType for &ProcType {
+    type Output<'a> = &'a ProcType;
+    fn expect<'a>(val: &'a LispVal, origin: &'static str) -> Result<&'a ProcType, String> {
+        val.expect_nonmacro(origin)
+    }
+}
+
+pub trait LispValType : Sized {
+    type Output<'a>;
+    //type OutputMut<'a> : 'a;
+    fn expect<'a>(val: &'a LispVal, origin: &'static str) -> Result<Self::Output<'a>, String>;
+    //fn expect_mut<'a>(val: &'a mut LispVal, origin: &'static str) -> Result<Self::OutputMut<'a>, String>;
 }
 
 impl FromStr for LispVal {
@@ -505,7 +625,7 @@ impl Display for LispVal {
             LispVal::Bool(b) => write_bool(*b, target),
             LispVal::Str(s) => print!(s, => target),
             LispVal::Char(c) => print!(c, => target),
-            LispVal::Symbol(s) => print!(s, => target),
+            LispVal::Symbol(s) => print!(s.0, => target),
             LispVal::List(xs) => display_list(xs, target),
             LispVal::Void => print!("#<void>", => target),
             LispVal::Procedure(proc) => print!(proc, => target),

@@ -1,5 +1,5 @@
 use crate::lisp::env::SchemeEnv;
-use crate::lisp::val::{LispList, LispListBuilder, LispVal};
+use crate::lisp::val::{LispList, LispListBuilder, LispSymbol, LispVal};
 use crate::parm::heap::string::String;
 use crate::LispValBox;
 
@@ -21,7 +21,7 @@ impl SchemeEnv {
         match &**val {
             LispVal::List(LispList::Cons(car, cdr)) => {
                 match &**car {
-                    LispVal::Symbol(name) => {
+                    LispVal::Symbol(LispSymbol(name)) => {
                         if name == "unquote" {
                             return self.eval(expect_one(cdr, "unquote")?);
                         } else if name == "unquote-splicing" {
@@ -29,7 +29,7 @@ impl SchemeEnv {
                         }
                     }
                     LispVal::List(LispList::Cons(caar, cdar)) => {
-                        if let LispVal::Symbol(name) = &**caar {
+                        if let LispVal::Symbol(LispSymbol(name)) = &**caar {
                             if name == "unquote-splicing" {
                                 let arg = self.eval(expect_one(cdar, "unquote-splicing")?)?;
                                 let d = self.eval_quasiquote(cdr)?;

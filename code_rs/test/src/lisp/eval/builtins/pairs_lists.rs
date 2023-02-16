@@ -1,32 +1,30 @@
 use crate::lisp::eval::builtins::Helper;
-use crate::lisp::val::{LispList, LispListBuilder, LispVal};
+use crate::lisp::val::{LispList, LispListBuilder, LispVal, ProcType};
 use crate::parm::heap::string::String;
 use crate::LispValBox;
 
 pub(crate) fn init(h: &mut Helper) {
     h.builtin("car", |_, args| {
-        let [list] = args.params_n("car")?;
-        Ok(list.expect_list("car")?.expect_car("car")?.clone())
+        let list = args.expect::<(&LispList,)>("car")?;
+        Ok(list.expect_car("car")?.clone())
     });
 
     h.builtin("cadr", |_, args| {
-        let [list] = args.params_n("cadr")?;
-        Ok(list.expect_list("cadr")?.expect_cadr("cadr")?.clone())
+        let list = args.expect::<(&LispList,)>("cadr")?;
+        Ok(list.expect_cadr("cadr")?.clone())
     });
 
     h.builtin("caddr", |_, args| {
-        let [list] = args.params_n("caddr")?;
+        let list = args.expect::<(&LispList,)>("caddr")?;
         Ok(list
-            .expect_list("caddr")?
             .expect_cdr_list("caddr")?
             .expect_cadr("caddr")?
             .clone())
     });
 
     h.builtin("cadddr", |_, args| {
-        let [list] = args.params_n("cadddr")?;
+        let list = args.expect::<(&LispList,)>("cadddr")?;
         Ok(list
-            .expect_list("cadddr")?
             .expect_cdr_list("cadddr")?
             .expect_cdr_list("cadddr")?
             .expect_cadr("cadddr")?
@@ -34,8 +32,8 @@ pub(crate) fn init(h: &mut Helper) {
     });
 
     h.builtin("cdr", |_, args| {
-        let [list] = args.params_n("cdr")?;
-        Ok(list.expect_list("cdr")?.expect_cdr("cdr")?.clone())
+        let list = args.expect::<(&LispList,)>("cdr")?;
+        Ok(list.expect_cdr("cdr")?.clone())
     });
 
     h.builtin("cddr", |_, args| {
@@ -94,14 +92,12 @@ pub(crate) fn init(h: &mut Helper) {
     });
 
     h.builtin("length", |_, args| {
-        let list = args.car().ok_or("length")?.expect_list("length")?;
+        let list = args.expect::<(&LispList,)>("length")?;
         Ok(LispVal::Int(list.len() as i32).into())
     });
 
     h.builtin("map", |env, args| {
-        let [fct, list] = args.params_n("map")?;
-        let fct = fct.expect_nonmacro("map")?;
-        let list = list.expect_list("map")?;
+        let (fct, list) = args.expect::<(&ProcType, &LispList)>("map")?;
         let mut res = LispListBuilder::new();
         for item in list.iter() {
             res.push(env.eval_nonmacro_call(fct, &LispList::singleton(item.clone()))?);
@@ -110,9 +106,7 @@ pub(crate) fn init(h: &mut Helper) {
     });
 
     h.builtin("for-each", |env, args| {
-        let [fct, list] = args.params_n("for-each")?;
-        let fct = fct.expect_nonmacro("for-each")?;
-        let list = list.expect_list("for-each")?;
+        let (fct, list) = args.expect::<(&ProcType, &LispList)>("map")?;
         for item in list.iter() {
             env.eval_nonmacro_call(fct, &LispList::singleton(item.clone()))?;
         }

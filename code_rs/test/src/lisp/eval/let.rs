@@ -1,5 +1,5 @@
 use crate::lisp::env::SchemeEnv;
-use crate::lisp::val::{ClosureArgs, LispList, LispVal};
+use crate::lisp::val::{ClosureArgs, LispList, LispSymbol, LispVal};
 use crate::parm::heap::string::String;
 use crate::parm::heap::vec::Vec;
 use crate::{makestr, LispValBox};
@@ -9,7 +9,7 @@ impl SchemeEnv {
         let [name, value] = items
             .get_n()
             .ok_or("let binding: expected list of length 2")?;
-        let name = name.expect_symbol("let binding")?.clone();
+        let name = name.expect_symbol("let binding")?.0.clone();
         let value = self.eval(value)?;
         Ok((name, value))
     }
@@ -43,7 +43,7 @@ impl SchemeEnv {
     pub(crate) fn eval_let(&mut self, args: &LispList, rec: bool) -> Result<LispValBox, String> {
         let mut env = self.make_child();
         let (bindings, body) = args.expect_cons("let: expected list of length 2 or 3")?;
-        if let LispVal::Symbol(name) = &**bindings {
+        if let LispVal::Symbol(LispSymbol(name)) = &**bindings {
             let (bindings, body) = body.expect_list("let")?.expect_cons("let: expected body")?;
             return self.eval_named_let(name, bindings.expect_list("let")?, body);
         }

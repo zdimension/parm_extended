@@ -1,4 +1,3 @@
-use core::borrow::BorrowMut;
 use crate::lisp::eval::builtins::Helper;
 use crate::lisp::val::{LispPromise, LispVal};
 

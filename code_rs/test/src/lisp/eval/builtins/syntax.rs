@@ -6,7 +6,7 @@ pub(crate) fn init(h: &mut Helper) {
         let [var, value] = args.params_n("set!")?;
         let var = var.expect_symbol("set!")?;
         let value = env.eval(value)?;
-        env.set(var.clone(), value);
+        env.set(var.0.clone(), value);
         Ok(LispVal::Void.into())
     });
 }
