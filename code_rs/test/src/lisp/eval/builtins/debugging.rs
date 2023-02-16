@@ -18,6 +18,7 @@ pub(crate) fn init(h: &mut Helper) {
     h.builtin_macro("trace", |env, args| {
         let mut new_env = env.make_child();
         new_env.0.borrow_mut().trace = true;
-        new_env.eval_begin(args)
+        let evaluation = new_env.eval_begin(args)?;
+        new_env.eval_tco(evaluation)
     });
 }

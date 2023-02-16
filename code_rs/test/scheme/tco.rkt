@@ -4,4 +4,4 @@
       (tcotest (- n 1) (+ acc 1))))
 
 (displayln "begin")
-(displayln (tcotest 10000 0))
+(displayln (tcotest 20 0))

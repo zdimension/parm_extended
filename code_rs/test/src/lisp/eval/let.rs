@@ -3,6 +3,7 @@ use crate::lisp::val::{ClosureArgs, LispList, LispSymbol, LispVal};
 use crate::parm::heap::string::String;
 use crate::parm::heap::vec::Vec;
 use crate::{makestr, LispValBox};
+use crate::lisp::eval::call::CallEvaluation;
 
 impl SchemeEnv {
     fn eval_let_binding(&mut self, items: &LispList) -> Result<(String, LispValBox), String> {
@@ -19,7 +20,7 @@ impl SchemeEnv {
         name: &String,
         bindings: &LispList,
         body: &LispValBox,
-    ) -> Result<LispValBox, String> {
+    ) -> Result<CallEvaluation, String> {
         let mut proc_bindings = Vec::new();
         let mut lambda_env = self.make_child();
         let mut first_call_env = lambda_env.make_child();
@@ -40,7 +41,7 @@ impl SchemeEnv {
         first_call_env.eval_begin(body)
     }
 
-    pub(crate) fn eval_let(&mut self, args: &LispList, rec: bool) -> Result<LispValBox, String> {
+    pub(crate) fn eval_let(&mut self, args: &LispList, rec: bool) -> Result<CallEvaluation, String> {
         let mut env = self.make_child();
         let (bindings, body) = args.expect_cons("let: expected list of length 2 or 3")?;
         if let LispVal::Symbol(LispSymbol(name)) = &**bindings {

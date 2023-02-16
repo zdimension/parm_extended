@@ -14,7 +14,8 @@ pub(crate) fn init(h: &mut Helper) {
         match promise {
             LispPromise::Evaluated { val } => Ok(val.clone()),
             LispPromise::Unevaluated { body, env } => {
-                let val = env.eval_begin(body)?;
+                let evaluation = env.eval_begin(body)?;
+                let val = env.eval_tco(evaluation)?;
                 *promise = LispPromise::Evaluated { val: val.clone() };
                 Ok(val)
             }

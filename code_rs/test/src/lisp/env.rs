@@ -1,8 +1,9 @@
 use crate::parm::heap::budmap::{BudMap, Entry, Iter};
 use crate::parm::heap::string::String;
 
-use crate::{InsertionState, LispValBox, Prc};
+use crate::{InsertionState, LispValBox, Prc, print};
 use core::hash::{Hash, Hasher};
+use crate::parm::tty::{Display, DisplayTarget};
 
 #[derive(Hash)]
 pub(crate) struct SymbolMap(BudMap<String, LispValBox>);
@@ -28,6 +29,26 @@ impl SymbolMap {
 
     pub(crate) fn set(&mut self, s: String, v: LispValBox) {
         self.0.set(s, v);
+    }
+
+    pub fn len(&self) -> usize {
+        self.0.len()
+    }
+}
+
+impl Display for SymbolMap {
+    fn write(&self, target: &mut impl DisplayTarget) {
+        print!('{', => target);
+        let mut first = true;
+        for (key, value) in self.0.iter() {
+            if first {
+                first = false;
+            } else {
+                print!(", ", => target);
+            }
+            print!(key, ": ", value, => target);
+        }
+        print!('}', => target);
     }
 }
 

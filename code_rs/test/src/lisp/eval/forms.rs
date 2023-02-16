@@ -2,6 +2,7 @@ use crate::lisp::env::SchemeEnv;
 use crate::lisp::val::{LispList, LispListBuilder, LispSymbol, LispVal};
 use crate::parm::heap::string::String;
 use crate::{makestr, println, LispValBox};
+use crate::lisp::eval::call::CallEvaluation;
 
 impl SchemeEnv {
     // don't remove this; event with the trampoline hack, there are too many literals
@@ -10,32 +11,34 @@ impl SchemeEnv {
         &mut self,
         name: &String,
         items: &LispList,
-    ) -> Option<Result<LispValBox, String>> {
+    ) -> Option<Result<CallEvaluation, String>> {
+        use CallEvaluation::Normal;
         if name == "quote" {
-            return Some(items.params_n("quote").map(|[v]| v.clone()));
+            return Some(items.params_n("quote").map(|[v]| v.clone()).map(Normal));
         }
         if name == "quasiquote" {
             return Some(
                 items
                     .params_n("quasiquote")
-                    .and_then(|[v]| self.eval_quasiquote(v)),
+                    .and_then(|[v]| self.eval_quasiquote(v))
+                    .map(Normal)
             );
         }
         let args = items;
         if name == "define" {
-            return Some(self.eval_define(args, false));
+            return Some(self.eval_define(args, false).map(Normal));
         }
         if name == "define-macro" {
-            return Some(self.eval_define(args, true));
+            return Some(self.eval_define(args, true).map(Normal));
         }
         if name == "begin" {
             return Some(self.make_child().eval_begin(args));
         }
         if name == "lambda" {
-            return Some(self.eval_lambda(args));
+            return Some(self.eval_lambda(args).map(Normal));
         }
         if name == "list" {
-            return Some(self.eval_list(args));
+            return Some(self.eval_list(args).map(Normal));
         }
         if name == "let" {
             return Some(self.eval_let(args, false));
@@ -47,10 +50,10 @@ impl SchemeEnv {
             return Some(self.eval_if(args));
         }
         if name == "and" {
-            return Some(self.eval_and(args));
+            return Some(self.eval_and(args).map(Normal));
         }
         if name == "or" {
-            return Some(self.eval_or(args));
+            return Some(self.eval_or(args).map(Normal));
         }
         if name == "cond" {
             return Some(self.eval_cond(args));
@@ -106,9 +109,10 @@ impl SchemeEnv {
         Ok(LispVal::Void.into())
     }
 
-    pub(crate) fn eval_form(&mut self, items: &LispList) -> Result<LispValBox, String> {
+    pub(crate) fn eval_form(&mut self, items: &LispList) -> Result<CallEvaluation, String> {
+        use CallEvaluation::*;
         let (head, rest) = items.expect_cons("call")?;
-        let rest = rest.expect_list("call: expected list")?;
+        let rest = rest.expect_list("call")?;
 
         if let Ok(LispSymbol(name)) = head.expect_symbol("eval") {
             if let Some(res) = self.eval_builtin_form(name, rest) {
