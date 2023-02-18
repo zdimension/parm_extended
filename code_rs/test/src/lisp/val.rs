@@ -527,9 +527,9 @@ impl LispVal {
             origin,
             ": expected ",
             expected,
-            ", got ",
+            ", got `",
             self,
-            " (",
+            "` (",
             self.type_name(),
             ")"
         )
@@ -563,6 +563,7 @@ expect!(Hash, hash, &LispHash);
 expect!(Str, string, &String);
 expect!(Box, box, &LispValBox);
 expect!(Promise, promise, &LispPromise);
+expect!(Char, char, char);
 
 impl LispValType for &ProcType {
     type Output<'a> = &'a ProcType;

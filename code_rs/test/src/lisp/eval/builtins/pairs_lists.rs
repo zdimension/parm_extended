@@ -113,6 +113,15 @@ pub(crate) fn init(h: &mut Helper) {
         }
         Ok(LispVal::Void.into())
     });
+
+    h.builtin("reverse", |_, args| {
+        let list = args.expect::<(&LispList,)>("reverse")?;
+        let mut result = LispList::Empty;
+        for item in list {
+            result = LispList::Cons(item.clone(), LispVal::List(result).into());
+        }
+        Ok(LispVal::List(result).into())
+    });
 }
 
 pub(crate) fn list_star(mut args: &LispList) -> Result<LispValBox, String> {

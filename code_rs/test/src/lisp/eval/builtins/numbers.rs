@@ -87,4 +87,19 @@ pub(crate) fn init(h: &mut Helper) {
         let first = args.expect::<(i32,)>("negative?")?;
         Ok(LispVal::Bool(first < 0).into())
     });
+
+    h.builtin("integer?", |_, args| {
+        let [arg] = args.params_n("integer?")?;
+        Ok(LispVal::Bool(matches!(**arg, LispVal::Int(_))).into())
+    });
+
+    h.builtin("expt", |_, args| {
+        let (base, exponent) = args.expect::<(i32, i32)>("expt")?;
+        let exponent = if exponent < 0 {
+            return Err("expt: negative exponent unsupported".into());
+        } else {
+            exponent as u32
+        };
+        Ok(LispVal::Int(base.pow(exponent)).into())
+    });
 }

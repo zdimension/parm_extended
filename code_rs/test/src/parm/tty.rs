@@ -159,7 +159,7 @@ where
 }
 
 #[inline(always)]
-pub fn print_internal<T: Display>(item: &T, target: &mut impl DisplayTarget) {
+pub fn print_internal<T: Display + ?Sized>(item: &T, target: &mut impl DisplayTarget) {
     item.write(target);
 }
 
@@ -277,22 +277,65 @@ pub fn print_res_fixed(_sign: bool, width: u32, target: &mut impl DisplayTarget)
     }
 }
 
+pub fn print_hex_digit(digit: u8, target: &mut impl DisplayTarget) {
+    target.print_char(match digit {
+        0..=9 => digit + b'0',
+        10 => b'a',
+        11 => b'b',
+        12 => b'c',
+        13 => b'd',
+        14 => b'e',
+        15 => b'f',
+        _ => unsafe { unreachable_unchecked() },
+    });
+}
+
 pub fn print_hex(val: u32, width: u32, target: &mut impl DisplayTarget) {
     let width_bits = 4 * width;
     let mut val = val << (32 - width_bits);
     for _ in 0..width {
         let digit = (val >> 28) & 0xf;
-        target.print_char(match digit as u8 {
-            0..=9 => digit as u8 + b'0',
-            10 => b'a',
-            11 => b'b',
-            12 => b'c',
-            13 => b'd',
-            14 => b'e',
-            15 => b'f',
-            _ => unsafe { unreachable_unchecked() },
-        });
+        print_hex_digit(digit as u8, target);
         val <<= 4;
+    }
+}
+
+pub fn print_hex_auto(mut val: u32, target: &mut impl DisplayTarget) {
+    let mut width = 8;
+    while val & 0xf0000000 == 0 && width > 1 {
+        val <<= 4;
+        width -= 1;
+    }
+    for _ in 0..width {
+        let digit = (val >> 28) & 0xf;
+        print_hex_digit(digit as u8, target);
+        val <<= 4;
+    }
+}
+
+pub fn print_bin_auto(mut val: u32, target: &mut impl DisplayTarget) {
+    let mut width = 32;
+    while val & 0x80000000 == 0 && width > 1 {
+        val <<= 1;
+        width -= 1;
+    }
+    for _ in 0..width {
+        let digit = (val >> 31) & 0x1;
+        target.print_char(digit as u8 + b'0');
+        val <<= 1;
+    }
+}
+
+pub fn print_oct_auto(mut val: u32, target: &mut impl DisplayTarget) {
+    let mut width = 11;
+    while val & 0x40000000 == 0 && width > 1 {
+        val <<= 3;
+        width -= 1;
+    }
+    for _ in 0..width {
+        let digit = (val >> 29) & 0x7;
+        target.print_char(digit as u8 + b'0');
+        val <<= 3;
     }
 }
 
