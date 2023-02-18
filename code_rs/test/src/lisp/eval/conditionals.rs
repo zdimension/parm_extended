@@ -6,14 +6,21 @@ use crate::lisp::eval::CallEvaluation;
 
 impl SchemeEnv {
     pub(crate) fn eval_if(&mut self, args: &LispList) -> Result<CallEvaluation, String> {
-        let [cond, then, else_] = args.params_n("if")?;
+        let ([cond, then], mut rest) = args.get_n_iter().ok_or("if")?;
         let cond = self.eval(cond)?;
-        let result = if cond.is_truthy() {
-            then
+        if cond.is_truthy() {
+            self.eval_inner(then)
         } else {
-            else_
-        };
-        self.eval_inner(result)
+            match rest.next() {
+                None => Ok(LispVal::Void.into()),
+                Some(res) => {
+                    if rest.has_next() {
+                        return Err(String::from("too many arguments to if"));
+                    }
+                    self.eval_inner(res)
+                }
+            }
+        }
     }
 
     pub(crate) fn eval_and(&mut self, args: &LispList) -> Result<LispValBox, String> {
