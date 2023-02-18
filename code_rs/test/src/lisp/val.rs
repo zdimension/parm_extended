@@ -19,28 +19,31 @@ pub struct LispHash {
     pub mutable: bool,
 }
 
+#[derive(Copy, Clone, Hash, Eq, PartialEq)]
+pub enum ProcEvalMode {
+    Regular,
+    Macro { eval_out: bool}
+}
+
 #[derive(Clone, Hash, Eq, PartialEq)]
 pub struct LispProc {
     pub fct: ProcType,
-    pub is_macro: bool,
+    pub eval_mode: ProcEvalMode,
 }
 
 impl LispProc {
     fn type_name(&self) -> &'static str {
-        match (&self.fct, self.is_macro) {
-            (ProcType::Builtin(_, _), false) => "builtin",
-            (ProcType::Builtin(_, _), true) => "builtin(macro)",
-            (ProcType::Internal(_), false) => "internal",
-            (ProcType::Internal(_), true) => "internal(macro)",
-            (ProcType::Closure { .. }, false) => "closure",
-            (ProcType::Closure { .. }, true) => "closure(macro)",
+        match (&self.fct, self.eval_mode) {
+            (ProcType::Builtin(_, _), ProcEvalMode::Regular) => "builtin",
+            (ProcType::Builtin(_, _), ProcEvalMode::Macro { .. }) => "builtin(macro)",
+            (ProcType::Closure { .. }, ProcEvalMode::Regular) => "closure",
+            (ProcType::Closure { .. }, ProcEvalMode::Macro { .. }) => "closure(macro)",
         }
     }
 
     fn name(&self) -> Option<&String> {
         match &self.fct {
             ProcType::Builtin(name, _) => Some(name),
-            ProcType::Internal(_) => None,
             ProcType::Closure { name, .. } => name.as_ref(),
         }
     }
@@ -356,31 +359,11 @@ impl LispListBuilder {
 }
 
 #[derive(Clone)]
-pub enum InternalProc {}
-
-impl InternalProc {
-    pub fn name(&self) -> Option<&String> {
-        todo!()
-    }
-
-    pub fn call(&self, _env: &mut SchemeEnv, _args: &LispList) -> Result<LispValBox, String> {
-        todo!()
-    }
-}
-
-impl Hash for InternalProc {
-    fn hash<H: Hasher>(&self, _state: &mut H) {
-        todo!()
-    }
-}
-
-#[derive(Clone)]
 pub enum ProcType {
     Builtin(
         String,
         fn(&mut SchemeEnv, &LispList) -> Result<CallEvaluation, String>,
     ),
-    Internal(InternalProc),
     Closure {
         name: Option<String>,
         args: ClosureArgs,
@@ -394,9 +377,6 @@ impl Hash for ProcType {
         match self {
             ProcType::Builtin(_, ptr) => {
                 (*ptr as *const u8).hash(state);
-            }
-            ProcType::Internal(int) => {
-                int.hash(state);
             }
             ProcType::Closure {
                 name,
@@ -414,7 +394,6 @@ impl ProcType {
     pub fn name(&self) -> Option<&String> {
         match self {
             ProcType::Builtin(name, _) => Some(name),
-            ProcType::Internal(int) => int.name(),
             ProcType::Closure { name, .. } => name.as_ref(),
         }
     }
@@ -507,11 +486,11 @@ impl LispVal {
             (
                 LispVal::Procedure(LispProc {
                     fct: ref _a,
-                    is_macro: ref _b,
+                    eval_mode: ref _b,
                 }),
                 LispVal::Procedure(LispProc {
                     fct: ref _c,
-                    is_macro: ref _d,
+                                       eval_mode: ref _d,
                 }),
             ) => false,
             _ => false,
@@ -560,7 +539,7 @@ impl LispVal {
         match self {
             LispVal::Procedure(LispProc {
                 fct,
-                is_macro: false,
+                                   eval_mode: ProcEvalMode::Regular,
             }) => Ok(fct),
             _ => Err(self.expect_message(origin, "nonmacro")),
         }

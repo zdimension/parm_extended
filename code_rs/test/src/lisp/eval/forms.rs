@@ -1,5 +1,5 @@
 use crate::lisp::env::SchemeEnv;
-use crate::lisp::val::{LispList, LispListBuilder, LispSymbol, LispVal};
+use crate::lisp::val::{LispList, LispListBuilder, LispSymbol, LispVal, ProcEvalMode};
 use crate::parm::heap::string::String;
 use crate::{makestr, println, LispValBox};
 use crate::lisp::eval::CallEvaluation;
@@ -92,7 +92,7 @@ impl SchemeEnv {
                 let mut value = self.eval(items.expect_cadr("define: expected value")?)?;
                 if is_macro {
                     let mut res = value.expect_callable("define-macro")?.clone();
-                    res.is_macro = true;
+                    res.eval_mode = ProcEvalMode::Macro { eval_out: true };
                     value = LispVal::Procedure(res).into();
                 }
                 self.set_new(name.clone(), value);

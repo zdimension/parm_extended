@@ -12,22 +12,17 @@ pub(crate) fn init(h: &mut Helper) {
         Ok(LispVal::Void.into())
     });
 
-    let display: fn(&mut SchemeEnv, &LispList) -> _ = |_, args| {
+    h.builtin("display", |_, args| {
         let [x] = args.params_n("display")?;
         print!(x);
         Ok(LispVal::Void.into())
-    };
-    h.builtin("display", display);
-    h.builtin("print", display);
+    }).alias("print");
 
-    let displayln: fn(&mut SchemeEnv, &LispList) -> _ = |_, args| {
+    h.builtin("displayln", |_, args| {
         let [x] = args.params_n("displayln")?;
         println!(x);
         Ok(LispVal::Void.into())
-    };
-
-    h.builtin("displayln", displayln);
-    h.builtin("println", displayln);
+    }).alias("println");
 
     h.builtin("write", |_, args| {
         let [x] = args.params_n("write")?;

@@ -1,5 +1,5 @@
 use crate::lisp::env::SchemeEnv;
-use crate::lisp::val::{ClosureArgs, LispList, LispListIter, LispProc, LispVal, ProcType};
+use crate::lisp::val::{ClosureArgs, LispList, LispListIter, LispProc, LispVal, ProcEvalMode, ProcType};
 use crate::parm::heap::string::String;
 use crate::parm::heap::vec::Vec;
 use crate::{makestr, println, LispValBox};
@@ -8,25 +8,35 @@ use crate::lisp::eval::CallEvaluation;
 impl SchemeEnv {
     pub(crate) fn eval_call(
         &mut self,
-        proc @ LispProc { fct, is_macro }: &LispProc,
+        proc @ LispProc { fct, eval_mode }: &LispProc,
         args: &LispList,
     ) -> Result<CallEvaluation, String> {
         use CallEvaluation::*;
-        if *is_macro {
-            if self.0.trace {
-                println!("macro: ", proc, ' ', args);
+        match eval_mode {
+            ProcEvalMode::Macro { eval_out: false } => {
+                if self.0.trace {
+                    println!("macro raw: ", proc, ' ', args);
+                }
+                self.eval_nonmacro_call_tco(fct, args)
             }
-            self.eval_macro_call(fct, args)
-        } else {
-            if self.0.trace {
-                println!("nonmacro raw: ", proc, ' ', args);
+            ProcEvalMode::Macro { eval_out: true } => {
+                if self.0.trace {
+                    println!("macro raw: ", proc, ' ', args);
+                }
+                let expansion = self.eval_nonmacro_call(fct, args)?;
+                self.eval_inner(&expansion)
             }
-            let evaluated = self.eval_list(args)?;
-            let evald = unsafe { evaluated.expect_list("").unwrap_unchecked() };
-            if self.0.trace {
-                println!("nonmacro: ", proc, ' ', evald);
+            ProcEvalMode::Regular => {
+                if self.0.trace {
+                    println!("nonmacro raw: ", proc, ' ', args);
+                }
+                let evaluated = self.eval_list(args)?;
+                let evald = unsafe { evaluated.expect_list("").unwrap_unchecked() };
+                if self.0.trace {
+                    println!("nonmacro: ", proc, ' ', evald);
+                }
+                self.eval_nonmacro_call_tco(fct, evald)
             }
-            self.eval_nonmacro_call_tco(fct, evald)
         }
     }
 
@@ -38,7 +48,6 @@ impl SchemeEnv {
         use CallEvaluation::*;
         match head {
             ProcType::Builtin(_name, f) => f(self, items),
-            ProcType::Internal(int) => int.call(self, items).map(Normal),
             ProcType::Closure {
                 name: _,
                 args,
@@ -55,11 +64,6 @@ impl SchemeEnv {
     ) -> Result<LispValBox, String> {
         let evaluation = self.eval_nonmacro_call_tco(head, items)?;
         self.eval_tco(evaluation)
-    }
-
-    fn eval_macro_call(&mut self, mac: &ProcType, items: &LispList) -> Result<CallEvaluation, String> {
-        let expansion = self.eval_nonmacro_call(mac, items)?;
-        self.eval_inner(&expansion)
     }
 
     fn eval_closure_call(

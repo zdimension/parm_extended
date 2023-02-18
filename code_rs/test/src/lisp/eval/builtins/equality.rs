@@ -10,5 +10,5 @@ pub(crate) fn init(h: &mut Helper) {
     h.builtin("equal?", |_, args| {
         let [a, b] = args.params_n("equal?")?;
         Ok(LispVal::Bool(a == b).into())
-    });
+    }).alias("eqv?");
 }

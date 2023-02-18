@@ -2,7 +2,7 @@ use core::hash::{Hash, Hasher};
 
 use crate::lisp::eval::builtins::Helper;
 use crate::lisp::eval::CallEvaluation;
-use crate::lisp::val::{LispHash, LispList, LispProc, LispVal};
+use crate::lisp::val::{LispHash, LispList, LispProc, LispVal, ProcEvalMode};
 use crate::parm::heap::budmap::BudMap;
 use crate::parm::heap::string::String;
 use crate::parm::util::fxhash::FxHasher;
@@ -49,7 +49,7 @@ pub(crate) fn init(h: &mut Helper) {
                 Some(failure) => match &**failure {
                     LispVal::Procedure(LispProc {
                         fct,
-                        is_macro: false,
+                        eval_mode: ProcEvalMode::Regular,
                     }) => env.eval_nonmacro_call_tco(fct, &LispList::Empty),
                     _ => Ok(failure.clone().into()),
                 },

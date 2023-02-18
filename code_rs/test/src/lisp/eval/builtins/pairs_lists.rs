@@ -76,7 +76,7 @@ pub(crate) fn init(h: &mut Helper) {
             list = rest;
         }
         Ok(LispVal::Bool(false).into())
-    });
+    }).alias("memv");
 
     h.builtin("append", |_, args| {
         let mut res = LispListBuilder::new();

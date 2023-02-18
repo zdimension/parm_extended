@@ -2,7 +2,7 @@ use crate::lisp::eval::builtins::Helper;
 use crate::lisp::val::{LispPromise, LispVal};
 
 pub(crate) fn init(h: &mut Helper) {
-    h.builtin_macro("delay", |env, args| {
+    h.builtin_macro("delay", false, |env, args| {
         let new_env = env.make_child();
         Ok(LispVal::Promise(LispPromise::Unevaluated { body: args.clone(), env: new_env }).into())
     });

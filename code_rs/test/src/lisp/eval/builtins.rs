@@ -1,5 +1,5 @@
 use crate::lisp::env::{SchemeEnv, SchemeEnvData, SymbolMap};
-use crate::lisp::val::{LispList, LispProc, LispVal, ProcType};
+use crate::lisp::val::{LispList, LispProc, LispVal, ProcEvalMode, ProcType};
 
 use crate::parm::heap::string::String;
 
@@ -39,32 +39,47 @@ pub(crate) struct Helper<'a> {
     map: &'a mut SymbolMap,
 }
 
+type FnBuiltin = fn(&mut SchemeEnv, &LispList) -> Result<CallEvaluation, String>;
+
+struct CreatedBuiltin<'a, 'b> {
+    f: FnBuiltin,
+    helper: &'b mut Helper<'a>
+}
+
+impl<'a, 'b> CreatedBuiltin<'a, 'b> {
+    fn alias(self, name: &str) -> Self {
+        self.helper.builtin(name, self.f)
+    }
+}
+
 impl<'a> Helper<'a> {
-    fn builtin(
-        &mut self,
+    fn builtin<'s>(
+        &'s mut self,
         name: &str,
-        f: fn(&mut SchemeEnv, &LispList) -> Result<CallEvaluation, String>,
-    ) {
+        f: FnBuiltin,
+    ) -> CreatedBuiltin<'a, 's> {
         self.map.set(
             String::from(name),
             LispVal::Procedure(LispProc {
                 fct: ProcType::Builtin(String::from(name), f),
-                is_macro: false,
+                eval_mode: ProcEvalMode::Regular,
             })
             .into(),
         );
+        CreatedBuiltin { f, helper: self }
     }
 
     fn builtin_macro(
         &mut self,
         name: &str,
-        f: fn(&mut SchemeEnv, &LispList) -> Result<CallEvaluation, String>,
+        eval_out: bool,
+        f: FnBuiltin,
     ) {
         self.map.set(
             String::from(name),
             LispVal::Procedure(LispProc {
                 fct: ProcType::Builtin(String::from(name), f),
-                is_macro: true,
+                eval_mode: ProcEvalMode::Macro { eval_out },
             })
             .into(),
         );

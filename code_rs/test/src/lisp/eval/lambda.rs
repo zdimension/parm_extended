@@ -1,5 +1,5 @@
 use crate::lisp::env::SchemeEnv;
-use crate::lisp::val::{ClosureArgs, LispList, LispProc, LispSymbol, LispVal, ProcType};
+use crate::lisp::val::{ClosureArgs, LispList, LispProc, LispSymbol, LispVal, ProcEvalMode, ProcType};
 use crate::parm::heap::string::String;
 use crate::parm::heap::vec::Vec;
 use crate::{makestr, LispValBox};
@@ -61,7 +61,7 @@ impl SchemeEnv {
                 body,
                 env: self.clone(),
             },
-            is_macro,
+            eval_mode: if is_macro { ProcEvalMode::Macro { eval_out: true } } else { ProcEvalMode::Regular },
         })
     }
 }
