@@ -69,6 +69,13 @@ impl<T: Sized + PartialEq> Eq for Prc<T> {}
 
 pub type LispValBox = Prc<LispVal>;
 
+impl LispValBox {
+    pub fn ref_eq(&self, other: &Self) -> bool {
+        self.ptr == other.ptr ||
+            matches!((self.deref(), other.deref()), (LispVal::Symbol(a), LispVal::Symbol(b)) if a == b)
+    }
+}
+
 impl<T: Sized> Prc<T> {
     fn new(v: T) -> Self {
         unsafe {
