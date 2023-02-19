@@ -17,4 +17,9 @@ pub(crate) fn init(h: &mut Helper) {
         let (string, index) = args.expect::<(&String, i32)>("string-ref")?;
         Ok(LispVal::Char(*string.get(index as usize).ok_or("string-ref")?).into())
     });
+
+    h.builtin("make-string", |_, args| {
+        let (length, char) = args.expect::<(usize, char)>("make-string")?;
+        Ok(LispVal::Str(String::from_char(length, char)).into())
+    });
 }

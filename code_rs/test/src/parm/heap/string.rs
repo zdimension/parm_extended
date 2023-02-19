@@ -106,6 +106,17 @@ impl String {
     pub fn clear(&mut self) {
         self.vec.clear();
     }
+
+    pub fn from_char(count: usize, ch: char) -> String {
+        let mut res = Vec::with_capacity(count);
+        unsafe {
+            res.set_len(count);
+            for i in 0..count {
+                res.raw_set(i, ch);
+            }
+            String::from_utf32_unchecked(res)
+        }
+    }
 }
 
 impl From<&[u8]> for String {

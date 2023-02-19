@@ -14,6 +14,7 @@ pub enum ReadError {
     IntParseError,
     BoolParseError(Option<char>),
     CharParseError,
+    StringParseError,
     Empty,
 }
 
@@ -34,7 +35,25 @@ impl Display for ReadError {
             }
             ReadError::BoolParseError(None) => print!("got EOF while parsing boolean", => target),
             ReadError::CharParseError => print!("invalid character literal", => target),
+            ReadError::StringParseError => print!("invalid string literal", => target),
             ReadError::Empty => print!("empty input", => target),
+        }
+    }
+}
+
+enum SkipStop<T> {
+    Skip,
+    Stop(T)
+}
+
+use SkipStop::*;
+
+impl From<bool> for SkipStop<()> {
+    fn from(b: bool) -> Self {
+        if b {
+            Skip
+        } else {
+            Stop(())
         }
     }
 }
@@ -72,13 +91,14 @@ impl<'a> SchemeParser<'a> {
         Ok(())
     }
 
-    fn skip_while(&mut self, p: impl Fn(char) -> bool) {
+    fn skip_while<T, U: Into<SkipStop<T>>>(&mut self, p: impl Fn(char) -> U) -> Option<T> {
         while let Some(&(_, ch)) = self.1.peek() {
-            if !p(ch) {
-                break;
+            if let Stop(x) = p(ch).into() {
+                return Some(x);
             }
             self.1.next();
         }
+        None
     }
 
     fn current_pos(&mut self) -> usize {
@@ -114,14 +134,55 @@ impl<'a> SchemeParser<'a> {
         Ok(LispVal::Symbol(String::from(s).into()))
     }
 
+    #[inline(never)] // ..nah, it's too long
     fn read_string(&mut self) -> Result<LispVal, ReadError> {
         self.expect('"')?;
-        let start = self.current_pos();
-        self.skip_while(|c| c != '"');
-        let end = self.current_pos();
-        self.expect('"')?;
-        let s = &self.0[start..end];
-        Ok(LispVal::Str(String::from(s)))
+        let mut res = String::new();
+        loop {
+            let start = self.current_pos();
+            let last = self.skip_while(|c| {
+                match c {
+                    '\\' | '"' => Stop(c),
+                    _ => Skip,
+                }
+            });
+            if last == None {
+                return Err(ReadError::EOFFound);
+            }
+            let end = self.current_pos();
+            let s = &self.0[start..end];
+            res.push_str(s);
+            if last == Some('"') {
+                self.expect('"')?;
+                break;
+            }
+            self.expect('\\')?;
+            match self.1.peek() {
+                Some(&(_, ch)) => {
+                    self.1.next();
+                    match ch {
+                        'a' => res.push('\x07'),
+                        'b' => res.push('\x08'),
+                        't' => res.push('\t'),
+                        'n' => res.push('\n'),
+                        'v' => res.push('\x0b'),
+                        'f' => res.push('\x0c'),
+                        'r' => res.push('\r'),
+                        'e' => res.push('\x1b'),
+                        '"' => res.push('"'),
+                        '\'' => res.push('\''),
+                        '\\' => res.push('\\'),
+                        'u' | 'U' => res.push(self.read_char_unicode(4)?),
+                        'x' => res.push(self.read_char_unicode(2)?),
+                        '0'..='9' => res.push(self.read_char_octal()?),
+                        '\n' | '\r' => {},
+                        _ => return Err(ReadError::StringParseError),
+                    }
+                },
+                None => return Err(ReadError::EOFFound)
+            }
+        }
+        Ok(LispVal::Str(res))
     }
 
     fn read_list_tail(
@@ -238,36 +299,49 @@ impl<'a> SchemeParser<'a> {
         }
 
         if matches!(ch, 'u' | 'U') {
-            let mut chnum = 0;
-            while let Some(&(_, ch)) = self.1.peek() {
-                if ch.is_ascii_hexdigit() {
-                    self.1.next();
-                    chnum = chnum * 16 + ch.to_digit(16).unwrap();
-                } else {
-                    break;
-                }
-            }
-            return Ok(LispVal::Char(
-                core::char::from_u32(chnum).ok_or(ReadError::CharParseError)?,
-            ));
+            return self.read_char_unicode(4).map(LispVal::Char);
         }
 
         if matches!(ch, '0'..='7') && matches!(next, Some(&(_, '0'..='7'))) {
-            let mut chnum = 0;
-            while let Some(&(_, ch)) = self.1.peek() {
-                if ch.is_ascii_digit() {
-                    self.1.next();
-                    chnum = chnum * 8 + ch.to_digit(8).unwrap();
-                } else {
-                    break;
-                }
-            }
-            return Ok(LispVal::Char(
-                core::char::from_u32(chnum).ok_or(ReadError::CharParseError)?,
-            ));
+            return self.read_char_octal().map(LispVal::Char);
         }
 
         Ok(LispVal::Char(ch))
+    }
+
+    fn read_char_unicode(&mut self, max_chars: usize) -> Result<char, ReadError> {
+        let mut chnum = 0;
+        let mut count = 0;
+        while let Some(&(_, ch)) = self.1.peek() {
+            if ch.is_ascii_hexdigit() {
+                self.1.next();
+                chnum = chnum * 16 + ch.to_digit(16).unwrap();
+                count += 1;
+                if count >= max_chars {
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+        return Ok(
+            core::char::from_u32(chnum).ok_or(ReadError::CharParseError)?,
+        );
+    }
+
+    fn read_char_octal(&mut self) -> Result<char, ReadError> {
+        let mut chnum = 0;
+        while let Some(&(_, ch)) = self.1.peek() {
+            if ch.is_ascii_digit() {
+                self.1.next();
+                chnum = chnum * 8 + ch.to_digit(8).unwrap();
+            } else {
+                break;
+            }
+        }
+        return Ok(
+            core::char::from_u32(chnum).ok_or(ReadError::CharParseError)?,
+        );
     }
 
     fn read_box(&mut self) -> Result<LispVal, ReadError> {

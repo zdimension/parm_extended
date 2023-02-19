@@ -12,6 +12,7 @@ use crate::lisp::parse::{ReadError, SchemeParser};
 use crate::parm::heap::vec::Vec;
 use paste::paste;
 use crate::lisp::eval::CallEvaluation;
+use crate::parm::tty;
 
 #[derive(Clone, Hash, Eq, PartialEq)]
 pub struct LispHash {
@@ -446,12 +447,20 @@ macro_rules! expect {
         }
     };
 
-    ($variant:ident, $expected:ident, $type:ty) => {
+    (@map $val:ident) => {
+        Ok(*$val)
+    };
+
+    (@map $val:ident, $f:expr) => {
+        ($f)(*$val)
+    };
+
+    ($variant:ident, $expected:ident, $type:ty $(, $f:expr)?) => {
         impl LispVal {
             paste! {
                 pub fn [<expect_ $expected>](&self, origin: &'static str) -> Result<$type, String> {
                     match self {
-                        LispVal::[< $variant >](val) => Ok(*val),
+                        LispVal::[< $variant >](val) => expect!(@map val $(, $f)?),
                         _ => Err(self.expect_message(origin, stringify!($expected))),
                     }
                 }
@@ -556,6 +565,12 @@ impl From<String> for LispSymbol {
 }
 
 expect!(Int, int, i32);
+expect!(Int, usize, usize, |val: i32| {
+    match val {
+        0.. => Ok(val as usize),
+        _ => Err(makestr!("expected usize, got ", val)),
+    }
+});
 expect!(Procedure, callable, &LispProc);
 expect!(Symbol, symbol, &LispSymbol);
 expect!(List, list, &LispList);
@@ -699,8 +714,57 @@ fn write_bool(b: bool, target: &mut impl DisplayTarget) {
     print!('#', if b { 't' } else { 'f' }, => target);
 }
 
+fn char_blank(c: char) -> bool {
+    matches!(c, ' ')
+}
+
+fn char_graphic(c: char) -> bool {
+    c.is_ascii_graphic()
+}
+
+fn char_is_wisywig(c: char) -> bool {
+    (char_blank(c) || char_graphic(c)) && !matches!(c, '"' | '\\')
+}
+
 fn write_string(s: &String, target: &mut impl DisplayTarget) {
-    print!('"', s, '"', => target);
+    print!('"', => target);
+    let mut s = &s[..];
+    loop {
+        let pos = s.iter().position(|&c| !char_is_wisywig(c));
+        if let Some(pos) = pos {
+            print!(&s[..pos], => target);
+            match s[pos] {
+                '\x07' => print!("\\a", => target),
+                '\x08' => print!("\\b", => target),
+                '\t' => print!("\\t", => target),
+                '\n' => print!("\\n", => target),
+                '\x0B' => print!("\\v", => target),
+                '\x0C' => print!("\\f", => target),
+                '\r' => print!("\\r", => target),
+                '\x1b' => print!("\\e", => target),
+                '"' => print!("\\\"", => target),
+                '\\' => print!("\\\\", => target),
+                val => {
+                    let val = val as u32;
+                    match val {
+                        0..=0xffff => {
+                            print!("\\u", => target);
+                            tty::print_hex(val, 4, target);
+                        }
+                        _ => {
+                            print!("\\U", => target);
+                            tty::print_hex(val, 8, target);
+                        }
+                    };
+                }
+            };
+            s = &s[pos + 1..];
+        } else {
+            print!(s, => target);
+            break;
+        }
+    }
+    print!('"', => target);
 }
 
 fn write_char(c: char, target: &mut impl DisplayTarget) {
