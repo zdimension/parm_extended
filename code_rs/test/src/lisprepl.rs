@@ -65,6 +65,12 @@ pub struct Prc<T: ?Sized> {
     ptr: *mut PrcInner<T>,
 }
 
+impl<T: ?Sized> From<&Prc<T>> for Prc<T> {
+    fn from(other: &Prc<T>) -> Self {
+        other.clone()
+    }
+}
+
 impl<T: Sized + PartialEq> Eq for Prc<T> {}
 
 pub type LispValBox = Prc<LispVal>;

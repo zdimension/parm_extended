@@ -88,7 +88,7 @@ impl SchemeEnv {
         }
         let (head, rest) = items.expect_cons("define")?;
         match &**head {
-            LispVal::Symbol(LispSymbol(name)) => {
+            LispVal::Symbol(LispSymbol { name, .. }) => {
                 let mut value = self.eval(items.expect_cadr("define: expected value")?)?;
                 if is_macro {
                     let mut res = value.expect_callable("define-macro")?.clone();
@@ -102,7 +102,7 @@ impl SchemeEnv {
                 let args = self.eval_lambda_args(args)?;
                 let lambda =
                     self.eval_closure(args, rest.expect_list("define: expected body")?, is_macro)?;
-                self.set_new(name.expect_symbol("define")?.0.clone(), lambda);
+                self.set_new(name.expect_symbol("define")?.name.clone(), lambda);
             }
             _ => return Err(makestr!("define: expected symbol or list, got ", head)),
         }
@@ -110,11 +110,11 @@ impl SchemeEnv {
     }
 
     pub(crate) fn eval_form(&mut self, items: &LispList) -> Result<CallEvaluation, String> {
-        use CallEvaluation::*;
+        
         let (head, rest) = items.expect_cons("call")?;
         let rest = rest.expect_list("call")?;
 
-        if let Ok(LispSymbol(name)) = head.expect_symbol("eval") {
+        if let Ok(LispSymbol { name, .. }) = head.expect_symbol("eval") {
             if let Some(res) = self.eval_builtin_form(name, rest) {
                 return res;
             }

@@ -1,6 +1,3 @@
-(define (compose f g)
-  (lambda (x) (f (g x))))
-
 (define type-name (compose car unbox))
 (define type-params (compose cdr unbox))
 

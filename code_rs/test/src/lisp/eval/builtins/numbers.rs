@@ -13,10 +13,14 @@ pub(crate) fn init(h: &mut Helper) {
     h.builtin("-", |_, args| {
         let ([first], iter) = args.get_n_iter().ok_or("-")?;
         let mut sum = first.expect_int("-")?;
-        for arg in iter {
-            sum -= arg.expect_int("-")?;
+        if iter.has_next() {
+            for arg in iter {
+                sum -= arg.expect_int("-")?;
+            }
+            Ok(LispVal::Int(sum).into())
+        } else {
+            Ok(LispVal::Int(-sum).into())
         }
-        Ok(LispVal::Int(sum).into())
     });
 
     h.builtin("*", |_, args| {
@@ -74,17 +78,17 @@ pub(crate) fn init(h: &mut Helper) {
     });
 
     h.builtin("zero?", |_, args| {
-        let first = args.expect::<(i32,)>("zero?")?;
+        let first = args.expect::<(i32, )>("zero?")?;
         Ok(LispVal::Bool(first == 0).into())
     });
 
     h.builtin("positive?", |_, args| {
-        let first = args.expect::<(i32,)>("positive?")?;
+        let first = args.expect::<(i32, )>("positive?")?;
         Ok(LispVal::Bool(first > 0).into())
     });
 
     h.builtin("negative?", |_, args| {
-        let first = args.expect::<(i32,)>("negative?")?;
+        let first = args.expect::<(i32, )>("negative?")?;
         Ok(LispVal::Bool(first < 0).into())
     });
 
@@ -101,5 +105,15 @@ pub(crate) fn init(h: &mut Helper) {
             exponent as u32
         };
         Ok(LispVal::Int(base.pow(exponent)).into())
+    });
+
+    h.builtin("add1", |_, args| {
+        let arg = args.expect::<(i32, )>("add1")?;
+        Ok(LispVal::Int(arg + 1).into())
+    });
+
+    h.builtin("sub1", |_, args| {
+        let arg = args.expect::<(i32, )>("sub1")?;
+        Ok(LispVal::Int(arg - 1).into())
     });
 }

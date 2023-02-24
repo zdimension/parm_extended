@@ -1,11 +1,11 @@
-use crate::lisp::env::SchemeEnv;
+
 use crate::lisp::eval::builtins::Helper;
-use crate::lisp::val::{LispList, LispListIter, LispVal};
+use crate::lisp::val::{LispListIter, LispVal};
 use crate::parm::heap::string::Parse;
 use crate::parm::heap::string::String;
 use crate::parm::tty;
 use crate::{makestr, print, println};
-use crate::parm::tty::{Display, DisplayTarget};
+use crate::parm::tty::{DisplayTarget};
 
 pub(crate) fn init(h: &mut Helper) {
     h.builtin("newline", |_, _| {

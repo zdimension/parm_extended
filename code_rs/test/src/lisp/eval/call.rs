@@ -2,7 +2,7 @@ use crate::lisp::env::SchemeEnv;
 use crate::lisp::val::{ClosureArgs, LispList, LispListIter, LispProc, LispVal, ProcEvalMode, ProcType};
 use crate::parm::heap::string::String;
 use crate::parm::heap::vec::Vec;
-use crate::{makestr, println, LispValBox};
+use crate::{makestr, println, LispValBox, print};
 use crate::lisp::eval::CallEvaluation;
 
 impl SchemeEnv {
@@ -11,7 +11,7 @@ impl SchemeEnv {
         proc @ LispProc { fct, eval_mode }: &LispProc,
         args: &LispList,
     ) -> Result<CallEvaluation, String> {
-        use CallEvaluation::*;
+        
         match eval_mode {
             ProcEvalMode::Macro { eval_out: false } => {
                 if self.0.trace {
@@ -45,7 +45,7 @@ impl SchemeEnv {
         head: &ProcType,
         items: &LispList,
     ) -> Result<CallEvaluation, String> {
-        use CallEvaluation::*;
+        
         match head {
             ProcType::Builtin(_name, f) => f(self, items),
             ProcType::Closure {
@@ -100,7 +100,11 @@ impl SchemeEnv {
         if let Some(name) = vararg_name {
             new_env.set_new(name.clone(), LispList::from_iter(iter));
         } else if let Some(remaining) = iter.next() {
-            return Err(makestr!("call: too many arguments, unexpected ", remaining));
+            let mut err = makestr!("call: too many arguments, unexpected ", remaining, ", arguments were");
+            for name in names.iter() {
+                print!(" ", name, => &mut err);
+            }
+            return Err(err);
         }
         Ok(())
     }

@@ -1,7 +1,7 @@
 use crate::lisp::env::SchemeEnv;
 use crate::lisp::val::{LispList, LispSymbol, LispVal};
 use crate::parm::heap::string::String;
-use crate::{makestr, LispValBox, println};
+use crate::{makestr, LispValBox};
 use crate::lisp::eval::CallEvaluation;
 
 impl SchemeEnv {
@@ -49,7 +49,7 @@ impl SchemeEnv {
         for clause in args {
             let (head, rest) = clause.expect_list("cond")?.expect_cons("cond")?;
             return match &**head {
-                LispVal::Symbol(LispSymbol(name)) if name == "else" => {
+                LispVal::Symbol(LispSymbol { name, .. }) if name == "else" => {
                     self.eval_begin(rest.expect_list("cond")?)
                 }
                 _ => {
@@ -61,7 +61,7 @@ impl SchemeEnv {
                     match body {
                         LispList::Empty => Ok(CallEvaluation::Normal(test)),
                         LispList::Cons(head, rest) => match &**head {
-                            LispVal::Symbol(LispSymbol(name)) if name == "=>" => {
+                            LispVal::Symbol(LispSymbol { name, .. }) if name == "=>" => {
                                 let proc = rest.expect_nonmacro("cond")?;
                                 self.eval_nonmacro_call_tco(proc, &LispList::singleton(test))
                             }
@@ -82,7 +82,7 @@ impl SchemeEnv {
                 LispVal::List(case_items) => {
                     let (test, body) = case_items.expect_cons("case: expected case")?;
                     let valid = match **test {
-                        LispVal::Symbol(LispSymbol(ref s)) if s == "else" => true,
+                        LispVal::Symbol(LispSymbol { name: ref s, .. }) if s == "else" => true,
                         LispVal::List(ref values) => values.iter().any(|v| v.equal(&scrutinee)),
                         _ => return Err(makestr!("case: expected list or 'else', got ", test)),
                     };

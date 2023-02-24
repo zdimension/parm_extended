@@ -1,8 +1,9 @@
 use crate::lisp::eval::builtins::Helper;
 use crate::lisp::eval::CallEvaluation;
-use crate::lisp::val::{LispList, LispListBuilder, LispVal, ProcType};
+use crate::lisp::val::{Any, LispList, LispListBuilder, LispVal, ProcType};
 use crate::parm::heap::string::String;
-use crate::LispValBox;
+use crate::{lisplist, LispValBox};
+use crate::parm::heap::vec::Vec;
 
 pub(crate) fn init(h: &mut Helper) {
     h.builtin("car", |_, args| {
@@ -121,6 +122,26 @@ pub(crate) fn init(h: &mut Helper) {
             result = LispList::Cons(item.clone(), LispVal::List(result).into());
         }
         Ok(LispVal::List(result).into())
+    });
+
+    // todo: n lists
+    h.builtin("foldl", |env, args| {
+        let (fct, init, list) = args.expect::<(&ProcType, Any, &LispList)>("foldl")?;
+        let mut result = init.clone();
+        for item in list.iter() {
+            result = env.eval_nonmacro_call(fct, &lisplist!(item.clone(), result))?;
+        }
+        Ok(result.into())
+    });
+
+    h.builtin("foldr", |env, args| {
+        let (fct, init, list) = args.expect::<(&ProcType, Any, &LispList)>("foldr")?;
+        let list = Vec::from_iter(list.iter());
+        let mut result = init.clone();
+        for item in list.into_iter().rev() {
+            result = env.eval_nonmacro_call(fct, &lisplist!(item.clone(), result))?;
+        }
+        Ok(result.into())
     });
 }
 

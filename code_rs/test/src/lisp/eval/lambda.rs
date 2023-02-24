@@ -8,7 +8,7 @@ impl SchemeEnv {
     pub(crate) fn eval_lambda_args(&mut self, args: &LispValBox) -> Result<ClosureArgs, String> {
         Ok(match &**args {
             LispVal::List(args) => self.eval_lambda_args_list(args)?,
-            LispVal::Symbol(LispSymbol(name)) => ClosureArgs::Whole(name.clone()),
+            LispVal::Symbol(LispSymbol { name, .. }) => ClosureArgs::Whole(name.clone()),
             _ => {
                 return Err(makestr!("lambda: expected list or symbol, got ", args));
             }
@@ -19,14 +19,14 @@ impl SchemeEnv {
         let mut iter = args.iter();
         let mut syms = Vec::new();
         for arg in iter.by_ref() {
-            syms.push(arg.expect_symbol("lambda")?.0.clone());
+            syms.push(arg.expect_symbol("lambda")?.name.clone());
         }
         Ok(ClosureArgs::Dispatch(
             syms,
             iter.tail()
                 .map(|s| s.expect_symbol("lambda"))
                 .transpose()?
-                .map(|s| &s.0)
+                .map(|s| &s.name)
                 .cloned(),
         ))
     }

@@ -1,4 +1,4 @@
-use crate::{LispValBox, makestr, print, println};
+use crate::{LispValBox, makestr};
 use crate::lisp::env::SchemeEnv;
 use crate::lisp::val::{LispList, LispSymbol, LispVal};
 use crate::parm::heap::string::String;
@@ -25,7 +25,7 @@ impl SchemeEnv {
 
     pub(crate) fn eval_inner(&mut self, expr: &LispValBox) -> Result<CallEvaluation, String> {
         match &**expr {
-            LispVal::Symbol(LispSymbol(name)) => return self
+            LispVal::Symbol(LispSymbol { name, .. }) => return self
                 .get(name)
                 .ok_or_else(|| makestr!("unknown symbol: ", name))
                 .map(CallEvaluation::Normal),

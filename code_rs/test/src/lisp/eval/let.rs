@@ -10,7 +10,7 @@ impl SchemeEnv {
         let [name, value] = items
             .get_n()
             .ok_or("let binding: expected list of length 2")?;
-        let name = name.expect_symbol("let binding")?.0.clone();
+        let name = name.expect_symbol("let binding")?.name.clone();
         let value = self.eval(value)?;
         Ok((name, value))
     }
@@ -44,7 +44,7 @@ impl SchemeEnv {
     pub(crate) fn eval_let(&mut self, args: &LispList, rec: bool) -> Result<CallEvaluation, String> {
         let mut env = self.make_child();
         let (bindings, body) = args.expect_cons("let: expected list of length 2 or 3")?;
-        if let LispVal::Symbol(LispSymbol(name)) = &**bindings {
+        if let LispVal::Symbol(LispSymbol { name, .. }) = &**bindings {
             let (bindings, body) = body.expect_list("let")?.expect_cons("let: expected body")?;
             return self.eval_named_let(name, bindings.expect_list("let")?, body);
         }

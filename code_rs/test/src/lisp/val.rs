@@ -193,6 +193,19 @@ impl LispList {
     }
 }
 
+#[macro_export]
+macro_rules! lisplist {
+    () => {
+       $crate::lisp::val::LispList::Empty
+    };
+    ($item:expr) => {
+        $crate::lisp::val::LispList::singleton($item.into())
+    };
+    ($item:expr, $($rest:expr),*) => {
+        $crate::lisp::val::LispList::Cons($item.into(), $crate::lisp::val::LispVal::List(lisplist!($($rest),*)).into())
+    };
+}
+
 pub trait ParamsN: Sized {
     type Output<'a>;
     fn expect<'a>(val: &'a LispList, origin: &'static str) -> Result<Self::Output<'a>, String>;
@@ -210,8 +223,8 @@ impl<'c, T: ParamsN<'c>> LispValType for T {
 
 impl<T: ParamsN> LispValType for T {
     type Output<'a> = T::Output<'a>;
-    fn expect<'a>(val: &'a LispVal, origin: &'static str) -> Result<Self::Output<'a>, String> {
-        match val {
+    fn expect<'a>(val: &'a LispValBox, origin: &'static str) -> Result<Self::Output<'a>, String> {
+        match &**val {
             LispVal::List(list) => T::expect(&list, origin),
             _ => Err(makestr!(origin, ": expected list, got ", val)),
         }
@@ -439,7 +452,7 @@ macro_rules! expect {
 
         impl LispValType for &$type {
             type Output<'a> = &'a $type;
-            fn expect<'a>(val: &'a LispVal, origin: &'static str) -> Result<&'a $type, String> {
+            fn expect<'a>(val: &'a LispValBox, origin: &'static str) -> Result<&'a $type, String> {
                 paste! {
                     val.[<expect_ $expected>](origin)
                 }
@@ -469,7 +482,7 @@ macro_rules! expect {
 
         impl LispValType for $type {
             type Output<'a> = Self;
-            fn expect<'a>(val: &'a LispVal, origin: &'static str) -> Result<Self, String> {
+            fn expect<'a>(val: &'a LispValBox, origin: &'static str) -> Result<Self, String> {
                 paste! {
                     val.[<expect_ $expected>](origin)
                 }
@@ -555,12 +568,25 @@ impl LispVal {
     }
 }
 
-#[derive(Clone, PartialEq, Eq, Hash)]
-pub struct LispSymbol(pub(crate) String);
+#[derive(Clone, Eq, Hash)]
+pub struct LispSymbol {
+    pub(crate) name: String,
+    pub(crate) interned: bool
+}
+
+impl PartialEq for LispSymbol {
+    fn eq(&self, other: &Self) -> bool {
+        match (self.interned, other.interned) {
+            (true, true) => self.name == other.name,
+            (false, false) => self.name.as_ptr() == other.name.as_ptr(),
+            _ => false,
+        }
+    }
+}
 
 impl From<String> for LispSymbol {
     fn from(s: String) -> Self {
-        LispSymbol(s)
+        LispSymbol { name: s, interned: true }
     }
 }
 
@@ -580,9 +606,18 @@ expect!(Box, box, &LispValBox);
 expect!(Promise, promise, &LispPromise);
 expect!(Char, char, char);
 
+pub struct Any;
+
+impl LispValType for Any {
+    type Output<'a> = &'a LispValBox;
+    fn expect<'a>(val: &'a LispValBox, _origin: &'static str) -> Result<&'a LispValBox, String> {
+        Ok(val)
+    }
+}
+
 impl LispValType for &ProcType {
     type Output<'a> = &'a ProcType;
-    fn expect<'a>(val: &'a LispVal, origin: &'static str) -> Result<&'a ProcType, String> {
+    fn expect<'a>(val: &'a LispValBox, origin: &'static str) -> Result<&'a ProcType, String> {
         val.expect_nonmacro(origin)
     }
 }
@@ -590,7 +625,7 @@ impl LispValType for &ProcType {
 pub trait LispValType : Sized {
     type Output<'a>;
     //type OutputMut<'a> : 'a;
-    fn expect<'a>(val: &'a LispVal, origin: &'static str) -> Result<Self::Output<'a>, String>;
+    fn expect<'a>(val: &'a LispValBox, origin: &'static str) -> Result<Self::Output<'a>, String>;
     //fn expect_mut<'a>(val: &'a mut LispVal, origin: &'static str) -> Result<Self::OutputMut<'a>, String>;
 }
 
@@ -621,7 +656,7 @@ impl Display for LispVal {
             LispVal::Bool(b) => write_bool(*b, target),
             LispVal::Str(s) => print!(s, => target),
             LispVal::Char(c) => print!(c, => target),
-            LispVal::Symbol(s) => print!(s.0, => target),
+            LispVal::Symbol(s) => print!(s.name, => target),
             LispVal::List(xs) => display_list(xs, target),
             LispVal::Void => print!("#<void>", => target),
             LispVal::Procedure(proc) => print!(proc, => target),
