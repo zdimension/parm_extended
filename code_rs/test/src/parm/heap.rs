@@ -24,6 +24,14 @@ pub fn init() {
 pub unsafe fn malloc(size: usize) -> *mut u32 {
     let old = alloc_pos();
     let next = old.add(size + 4);
+    let cur_sp = unsafe {
+        let sp: usize;
+        core::arch::asm!("mov {}, sp", out(reg) sp);
+        sp
+    };
+    if next as usize > cur_sp {
+        panic!("Heap overflow");
+    }
     (old as *mut u32).write(size as _);
     *HEAP_FREEP = next;
     old.add(4) as _

@@ -19,6 +19,13 @@ pub(crate) fn init(h: &mut Helper) {
         Ok(LispVal::Void.into())
     }).alias("print");
 
+    h.builtin("~a", |_, args| {
+        let [x] = args.params_n("~a")?;
+        let mut res = String::new();
+        print!(x, => &mut res);
+        Ok(LispVal::Str(res).into())
+    }).alias("~v"); // todo: full ~a support
+
     h.builtin("displayln", |_, args| {
         let [x] = args.params_n("displayln")?;
         println!(x);
@@ -30,6 +37,13 @@ pub(crate) fn init(h: &mut Helper) {
         print!(x.debug_display());
         Ok(LispVal::Void.into())
     });
+
+    h.builtin("~s", |_, args| {
+        let [x] = args.params_n("~s")?;
+        let mut res = String::new();
+        print!(x.debug_display(), => &mut res);
+        Ok(LispVal::Str(res).into())
+    }); // todo: full ~s support
 
     h.builtin("writeln", |_, args| {
         let [x] = args.params_n("writeln")?;

@@ -43,7 +43,7 @@ impl SchemeEnv {
         if name == "let" {
             return Some(self.eval_let(args, false));
         }
-        if name == "letrec" {
+        if name == "letrec" || name == "let*" {
             return Some(self.eval_let(args, true));
         }
         if name == "if" {

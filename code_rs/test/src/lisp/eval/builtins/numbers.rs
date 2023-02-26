@@ -95,7 +95,7 @@ pub(crate) fn init(h: &mut Helper) {
     h.builtin("integer?", |_, args| {
         let [arg] = args.params_n("integer?")?;
         Ok(LispVal::Bool(matches!(**arg, LispVal::Int(_))).into())
-    });
+    }).alias("number?");
 
     h.builtin("expt", |_, args| {
         let (base, exponent) = args.expect::<(i32, i32)>("expt")?;

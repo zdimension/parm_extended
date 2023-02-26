@@ -143,6 +143,29 @@ pub(crate) fn init(h: &mut Helper) {
         }
         Ok(result.into())
     });
+
+    h.builtin("assoc", |_, args| {
+        let (v, lst) = args.expect::<(Any, &LispList)>("assoc")?;
+        for item in lst.iter() {
+            let (key, _) = item.expect_list("assoc")?.expect_cons("assoc")?;
+            if key == v {
+                return Ok(item.clone().into());
+            }
+        }
+        Ok(LispVal::Bool(false).into())
+    }).alias("assv");
+
+    h.builtin("filter", |env, args| {
+        let (fct, list) = args.expect::<(&ProcType, &LispList)>("filter")?;
+        let mut res = LispListBuilder::new();
+        for item in list.iter() {
+            let pred = env.eval_nonmacro_call(fct, &LispList::singleton(item.clone()))?;
+            if pred.is_truthy() {
+                res.push(item.clone());
+            }
+        }
+        Ok(res.finish().into())
+    });
 }
 
 pub(crate) fn list_star(mut args: &LispList) -> Result<LispValBox, String> {

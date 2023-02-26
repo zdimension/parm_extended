@@ -5,4 +5,4 @@ cat <( \
   dos2unix | \
   iconv -f utf8 -t ascii//TRANSLIT \
 ) <(printf "\x4") | \
-nc ::1 4567
+nc -N ::1 4567
