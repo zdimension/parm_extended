@@ -33,9 +33,10 @@ pub fn _start() -> ! {
     loop {}
 }
 
-#[export_name = "_ZN4core9panicking5panicXXX"]
+#[export_name = "_ZN4core9panicking5panicXX"]
 pub fn panic(expr: &'static str) -> ! {
     println!("PANIC:", expr);
+    breakpoint();
     loop {}
 }
 
@@ -110,6 +111,7 @@ core::arch::global_asm!(
 
 use crate::println;
 use core::panic::PanicInfo;
+use crate::parm::control::breakpoint;
 
 #[panic_handler]
 fn handler(_info: &PanicInfo) -> ! {

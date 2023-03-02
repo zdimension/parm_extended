@@ -45,7 +45,9 @@ impl SchemeEnv {
         head: &ProcType,
         items: &LispList,
     ) -> Result<CallEvaluation, String> {
-        
+        if self.0.trace {
+            println!("nonmacro tco: ", items);
+        }
         match head {
             ProcType::Builtin(_name, f) => f(self, items),
             ProcType::Closure {

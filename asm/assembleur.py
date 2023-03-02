@@ -267,7 +267,8 @@ def try_assemble(m, instr, output, line, line_num):
 								raise Trampoline(4)
 						raise Exception(
 							f"Jump too wide : {labels[v]} is {dic[k][0]} which does not fit in {width} bits")
-					jumps.append((pc, labels[v]))
+					if not nojumps:
+						jumps.append((pc, labels[v]))
 				except KeyError:
 					raise AsmException(f"Invalid label: {v} (available: {', '.join(map(unsanitize, labels.keys()))})")
 	for k, v in dic.items():
@@ -326,7 +327,8 @@ def assemble(line, labels, pc, line_num):
 				val = (0b1111_0 << 11) | ((n >> 11) & 0b111_1111_1111)
 			else:
 				val = (0b1111_1 << 11) | (n & 0b111_1111_1111)
-				jumps.append((pc, parse_imm(args)//2))
+				if not nojumps:
+					jumps.append((pc, parse_imm(args)//2))
 			return (pc, val, dl, f"{n} ({2*n:x})"),
 		if instr.lower().startswith("@bcond"):
 			first = instr[6] == "1"
@@ -336,7 +338,8 @@ def assemble(line, labels, pc, line_num):
 				val = (0b1111_0 << 11) | ((n >> 11) & 0b111_1111_1111)
 			else:
 				val = (0b1111_1 << 11) | (n & 0b111_1111_1111)
-				jumps.append((pc, parse_imm(targ)//2))
+				if not nojumps:
+					jumps.append((pc, parse_imm(targ)//2))
 			return (pc, val, dl, f"{n} ({2*n:x})"),
 		if instr.lower().startswith("@asci"):
 			bytes = eval("b" + args)
@@ -376,6 +379,7 @@ no_optim = param("O0", "Disable optimizations")
 quiet = param("q", "Write log to file instead of stdout")
 nobranch = param("b", "Disable 'b run' at the beginning")
 nolog = param("n", "Disable all logging (speeds up large inputs)")
+nojumps = param("j", "Disable jumps in log")
 notrampo = param("t", "Disable trampolining")
 if len(sys.argv) < 2:
 	for short, desc in params:
