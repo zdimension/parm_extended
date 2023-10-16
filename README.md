@@ -8,5 +8,5 @@
 4. Run Digital
 5. Open the circuit digital_project/machine.dig
 6. Open a shell in the code_rs/test directory
-7. Build one of the example programs by doing `../make.sh NAME` where `NAME` is a file in the code_rs/test/src directory (e.g. `basic`, `plotter`, ...)
+7. Build one of the example programs by doing `../make.sh NAME -q` where `NAME` is a file in the code_rs/test/src directory (e.g. `basic`, `plotter`, ...)
 8. Run the circuit in Digital by enabling the clock (Ctrl+K)
