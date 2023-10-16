@@ -33,7 +33,7 @@ pub fn _start() -> ! {
     loop {}
 }
 
-#[export_name = "_ZN4core9panicking5panicXX"]
+#[export_name = "_ZN4core9panicking5panicXXX"]
 pub fn panic(expr: &'static str) -> ! {
     println!("PANIC:", expr);
     breakpoint();
