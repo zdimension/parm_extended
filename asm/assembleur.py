@@ -397,7 +397,7 @@ ldm = re.compile(r"^ldm\s+(r\d),\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
 bl = re.compile(r"^blx?\s+((?!r).*)$", re.IGNORECASE)
 bcond = re.compile(r"^xxb([a-z]{2})\s+((?!r).*)$", re.IGNORECASE)
 instn = re.compile(r"^.inst.n\s+(.*)$", re.IGNORECASE)
-p2align = re.compile(r"^.p2align\s+(\d+)$", re.IGNORECASE)
+p2align = re.compile(r"^.p2align\s+(\d+)(?:\s*,\s*((?:0x)?\d+))?$", re.IGNORECASE)
 labels = {}
 lines = list(fp.readlines())
 lines = [l.strip() for l in lines]
@@ -495,13 +495,14 @@ while True:
 					break
 				elif m := p2align.match(line):
 					val = int(m.group(1))
+					filler = eval(m.group(2)) if m.group(2) is not None else 0x4600
 					if val > 1:
 						off = val - 1
 						num = 1 << off
 						align = current_pc() & (num - 1)
 						if align:
 							for _ in range(num - align):
-								add_instr(f".p2align {val}", 0x4600, 1)
+								add_instr(f".p2align {val}", filler, 1)
 					break
 				else:
 					val = None
@@ -528,7 +529,7 @@ while True:
 						add_instr(f"@bytes {val}, {val if cnt % 2 == 0 else 0}", None, 1)
 					elif line[0] != ".":
 						add_instr(line)
-					elif fpart in (".text", ".syntax", ".section", ".type", ".eabi_attribute", ".code", ".file", ".thumb_func", ".fnstart", ".save", ".setfp", ".size", ".cantunwind", ".fnend", ".pad", ".globl", ".hidden", ".set"):
+					elif fpart in (".text", ".syntax", ".section", ".type", ".eabi_attribute", ".code", ".file", ".thumb_func", ".fnstart", ".save", ".setfp", ".size", ".cantunwind", ".fnend", ".pad", ".globl", ".hidden", ".set", ".ident"):
 						pass
 					else:
 						raise Exception("Invalid directive: " + fpart)
