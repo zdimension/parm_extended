@@ -8,10 +8,10 @@
 
 mod parm;
 
-use crate::parm::heap::malloc;
+
 use crate::parm::heap::string::{FromStr, String};
 use crate::parm::heap::vec::Vec;
-use crate::parm::mmio::RES;
+
 use crate::parm::tty::{Display, DisplayTarget};
 use indoc::indoc;
 use parm::heap::string::CharSeq;

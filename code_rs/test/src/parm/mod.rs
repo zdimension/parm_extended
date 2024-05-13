@@ -75,6 +75,15 @@ fn panic_fmt() -> ! {
     panic("panic_fmt")
 }
 
+#[export_name = "panic_already_borrowed"]
+#[inline(always)]
+fn panic_already_borrowed() -> ! {
+    unsafe {
+        core::arch::asm!("_ZN4core4cell22panic_already_borrowedXXX:");
+    }
+    panic("panic_already_borrowed")
+}
+
 #[export_name = "borrow_mut_error"]
 fn borrow_mut_error() -> ! {
     unsafe {

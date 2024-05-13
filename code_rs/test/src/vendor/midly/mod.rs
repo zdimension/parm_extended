@@ -196,7 +196,7 @@ mod prelude {
     };
     #[cfg(feature = "alloc")]
     pub(crate) use alloc::{boxed::Box, vec, vec::Vec};
-    pub(crate) use core::{convert::TryFrom, fmt, marker::PhantomData, mem};
+    pub(crate) use core::{convert::TryFrom, marker::PhantomData, mem};
     #[cfg(feature = "std")]
     pub(crate) use std::{fs::File, io, path::Path};
 

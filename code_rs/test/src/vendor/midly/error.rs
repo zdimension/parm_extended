@@ -1,4 +1,4 @@
-use core::fmt;
+
 
 #[cfg(not(all(debug_assertions, feature = "alloc")))]
 mod error_impl {
@@ -42,7 +42,7 @@ mod error_impl {
 /// [`ErrorKind`](enum.ErrorKind.html).
 #[derive(Clone)]
 pub struct Error {
-    inner: self::error_impl::ErrorInner,
+    inner: error_impl::ErrorInner,
 }
 impl Error {
     /// Create a new error with the given `ErrorKind`.

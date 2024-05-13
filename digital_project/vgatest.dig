@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <circuit>
-  <version>1</version>
+  <version>2</version>
   <attributes/>
   <visualElements>
     <visualElement>
@@ -42,12 +42,12 @@
       <elementName>Clock</elementName>
       <elementAttributes>
         <entry>
-          <string>Frequency</string>
-          <int>2147483647</int>
-        </entry>
-        <entry>
           <string>runRealTime</string>
           <boolean>true</boolean>
+        </entry>
+        <entry>
+          <string>Frequency</string>
+          <int>2147483647</int>
         </entry>
       </elementAttributes>
       <pos x="180" y="220"/>
@@ -127,15 +127,15 @@
       <elementAttributes>
         <entry>
           <string>Value</string>
-          <long>783</long>
-        </entry>
-        <entry>
-          <string>intFormat</string>
-          <intFormat>dec</intFormat>
+          <long>703</long>
         </entry>
         <entry>
           <string>Bits</string>
           <int>10</int>
+        </entry>
+        <entry>
+          <string>intFormat</string>
+          <intFormat>dec</intFormat>
         </entry>
       </elementAttributes>
       <pos x="500" y="560"/>
@@ -155,7 +155,7 @@
       <elementAttributes>
         <entry>
           <string>Value</string>
-          <long>847</long>
+          <long>799</long>
         </entry>
         <entry>
           <string>Bits</string>
@@ -183,7 +183,7 @@
       <elementAttributes>
         <entry>
           <string>Value</string>
-          <long>505</long>
+          <long>522</long>
         </entry>
         <entry>
           <string>Bits</string>
@@ -211,7 +211,7 @@
       <elementAttributes>
         <entry>
           <string>Value</string>
-          <long>508</long>
+          <long>524</long>
         </entry>
         <entry>
           <string>Bits</string>
@@ -392,6 +392,11 @@
       </elementAttributes>
       <pos x="1280" y="820"/>
     </visualElement>
+    <visualElement>
+      <elementName>Not</elementName>
+      <elementAttributes/>
+      <pos x="1080" y="540"/>
+    </visualElement>
   </visualElements>
   <wires>
     <wire>
@@ -508,6 +513,10 @@
     </wire>
     <wire>
       <p1 x="1060" y="540"/>
+      <p2 x="1080" y="540"/>
+    </wire>
+    <wire>
+      <p1 x="1120" y="540"/>
       <p2 x="1140" y="540"/>
     </wire>
     <wire>

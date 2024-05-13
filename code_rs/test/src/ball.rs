@@ -3,16 +3,15 @@
 #![feature(min_specialization)]
 #![feature(associated_type_defaults)]
 #![feature(iter_order_by)]
-#![feature(generic_associated_types)]
 #![feature(step_trait)]
 #![feature(slice_pattern)]
 
 use crate::parm::math::fp32;
 use crate::parm::screen;
-use crate::parm::screen::tty::AnsiColor::*;
-use crate::parm::screen::{tty, tty::*, ColorSimple};
-use crate::parm::tty::DisplayTarget;
-use crate::screen::{circle, line, rect, set_pixel, set_pixel_unchecked};
+
+use crate::parm::screen::{ColorSimple};
+
+use crate::screen::{rect};
 use derive_more::{Add, AddAssign, Mul};
 
 mod parm;
@@ -23,7 +22,7 @@ struct Vec2(fp32, fp32);
 fn main() {
     let mut p = Vec2::default();
     let mut v = Vec2(fp32::from(5), fp32::ZERO);
-    let mut a = Vec2(fp32::ZERO, fp32::from(9.81));
+    let a = Vec2(fp32::ZERO, fp32::from(9.81));
     let dt = fp32::from(0.1);
     while !(p.1 == fp32::from(screen::HEIGHT - 1) && v.1 == fp32::ZERO) {
         let mut v_next = v + a * dt;

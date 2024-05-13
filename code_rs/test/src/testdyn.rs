@@ -10,7 +10,7 @@ mod parm;
 use parm::keyb;
 
 fn main() {
-    let x = 1.5;
+    let _x = 1.5;
     let y = 2.0 * keyb::read_key() as f32;
     let z = y as i32;
     println!(z);

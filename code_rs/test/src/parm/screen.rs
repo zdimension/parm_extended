@@ -166,7 +166,7 @@ pub unsafe fn set_pixel_unchecked(x: isize, y: isize, color: impl ColorEncodable
 
 #[inline(always)]
 pub fn set_pixel(x: isize, y: isize, color: impl ColorEncodable) {
-    if x >= 0 && x < WIDTH as isize && y >= 0 && y < HEIGHT as isize {
+    if x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT {
         unsafe {
             set_pixel_unchecked(x, y, color);
         }
@@ -296,16 +296,16 @@ pub unsafe fn line_h_unchecked(x: isize, y: isize, len: isize, color: impl Color
 
 #[inline(always)]
 pub fn line_h(x: isize, y: isize, len: isize, color: impl ColorEncodable) {
-    if y < 0 || y >= HEIGHT as isize {
+    if y < 0 || y >= HEIGHT {
         return;
     }
     if x < 0 {
         unsafe {
             line_h_unchecked(0, y, x + len, color);
         }
-    } else if x + len >= WIDTH as isize {
+    } else if x + len >= WIDTH {
         unsafe {
-            line_h_unchecked(x, y, WIDTH as isize - x, color);
+            line_h_unchecked(x, y, WIDTH - x, color);
         }
     } else {
         unsafe {
@@ -323,16 +323,16 @@ pub unsafe fn line_v_unchecked(x: isize, y: isize, len: isize, color: impl Color
 
 #[inline(always)]
 pub fn line_v(x: isize, y: isize, len: isize, color: impl ColorEncodable) {
-    if x < 0 || x >= WIDTH as isize {
+    if x < 0 || x >= WIDTH {
         return;
     }
     if y < 0 {
         unsafe {
             line_v_unchecked(x, 0, y + len, color);
         }
-    } else if y + len >= HEIGHT as isize {
+    } else if y + len >= HEIGHT {
         unsafe {
-            line_v_unchecked(x, y, HEIGHT as isize - y, color);
+            line_v_unchecked(x, y, HEIGHT - y, color);
         }
     } else {
         unsafe {

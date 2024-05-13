@@ -1,7 +1,7 @@
 #![no_main]
 #![no_std]
 #![feature(min_specialization)]
-#![feature(generic_associated_types)]
+
 #![feature(step_trait)]
 #![feature(slice_pattern)]
 

@@ -268,7 +268,7 @@ impl FromStr for u32 {
         let mut res = 0;
         for ch in s {
             if let Some(digit) = ch.to_digit(10) {
-                res = res * 10 + digit as u32;
+                res = res * 10 + digit;
             } else {
                 return Err(());
             }

@@ -3,7 +3,6 @@
 #![feature(min_specialization)]
 #![feature(associated_type_defaults)]
 #![feature(iter_order_by)]
-#![feature(generic_associated_types)]
 #![feature(step_trait)]
 #![feature(slice_pattern)]
 #![feature(core_intrinsics)]
@@ -11,21 +10,21 @@
 use crate::parm::heap::vec::Vec;
 use crate::parm::math::fp32;
 use crate::parm::midi::{
-    press_key, release_key, set_instr, set_note, set_vol, Interval, MidiInstrument, MidiNote,
+    press_key, release_key, set_instr, set_note, set_vol, MidiInstrument, MidiNote,
 };
-use crate::parm::mmio::{MIDIinstr, MIDInote, MIDIon, MIDIvol};
-use crate::parm::screen::tty::AnsiColor::*;
-use crate::parm::screen::{tty, tty::*, ColorSimple};
-use crate::parm::tty::DisplayTarget;
-use crate::parm::{panic, screen, telnet};
-use crate::screen::{circle, line, rect, set_pixel, set_pixel_unchecked};
+use crate::parm::mmio::{MIDIvol};
+
+
+
+use crate::parm::{panic, telnet};
+
 use core::intrinsics::black_box;
 use derive_more::{Add, AddAssign, Mul};
 
 mod parm;
 mod vendor;
 
-use crate::midly::{EventIter, MetaMessage, MidiMessage, TrackEvent, TrackEventKind};
+use crate::midly::{MetaMessage, MidiMessage, TrackEvent, TrackEventKind};
 use vendor::midly;
 
 #[derive(Copy, Clone, Add, AddAssign, Default, Mul)]
@@ -118,7 +117,7 @@ fn merge_two<T: PartialOrd + Copy>(a: Vec<T>, b: Vec<T>) -> Vec<T> {
     sorted
 }
 
-fn merge_full<T: PartialOrd + Copy>(mut vec: &[Vec<T>]) -> Vec<T> {
+fn merge_full<T: PartialOrd + Copy>(vec: &[Vec<T>]) -> Vec<T> {
     if vec.is_empty() {
         Vec::new()
     } else if vec.len() == 1 {
@@ -175,7 +174,7 @@ fn main() {
 
     let data = telnet::read_n_blocking(data_len as usize);
     println!("data read");
-    let (header, tracks) = midly::parse(&data).unwrap_or_else(|_| panic("midi error"));
+    let (_header, tracks) = midly::parse(&data).unwrap_or_else(|_| panic("midi error"));
     println!("decoded");
     let ev: Vec<Vec<EventAbs>> = UnwrapIter::new(tracks)
         .map(|t| {
@@ -224,7 +223,7 @@ fn main() {
                         last_instr = instr;
                     }
                     set_note(MidiNote::from_byte(key.as_int()));
-                    set_vol(vel.as_int() as u8);
+                    set_vol(vel.as_int());
                     press_key();
                 }
                 MidiMessage::Aftertouch { .. } => {}
@@ -257,11 +256,11 @@ fn main() {
                     println!("tempo ", tempo);
                 }
                 MetaMessage::SmpteOffset(_) => println!("smpte offset"),
-                MetaMessage::TimeSignature(num, den, clPerClk, no32perQrt) => {
-                    settings.set_ticks_per_quarter(no32perQrt as u32);
+                MetaMessage::TimeSignature(num, den, midi_clocks_per_quarter, no_32nd_per_midi_quarter) => {
+                    settings.set_ticks_per_quarter(no_32nd_per_midi_quarter as u32);
                     println!(
                         "time signature ",
-                        num, "/", den, " ", clPerClk, "/", no32perQrt
+                        num, "/", (1 << den), " ", midi_clocks_per_quarter, "/", no_32nd_per_midi_quarter
                     )
                 }
                 MetaMessage::KeySignature(_, _) => println!("key signature"),
