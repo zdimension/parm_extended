@@ -2,6 +2,8 @@
 
 ## Quick setup
 
+*note:* this assumes you're running a Linux-like OS. On Windows, WSL (1 or 2) works perfectly.
+
 1. Download Digital from the [GitHub repo](https://github.com/hneemann/Digital/releases)
 2. [Optional] Download the patched .jar with enhanced Telnet support from [here](https://domino.zdimension.fr/poubelle/digital.jar) and place it in the Digital folder
 3. If you don't have Rust, install Rust (using [rustup](https://rustup.rs/)) and install the nightly toolchain (`rustup toolchain install nightly`)
