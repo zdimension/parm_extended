@@ -94,6 +94,16 @@ fn borrow_mut_error() -> ! {
     panic("borrow_mut error")
 }
 
+#[export_name = "const_div_by_zero"]
+fn const_div_by_zero() -> ! {
+    unsafe {
+        core::arch::asm!(
+            "_ZN4core9panicking11panic_const23panic_const_div_by_zeroXXX:"
+        );
+    }
+    panic("const div by zero")
+}
+
 #[export_name = "slicee_end_index_len_fail"]
 fn slice_end_index_len_fail(_index: usize, _len: usize) -> ! {
     unsafe {
