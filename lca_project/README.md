@@ -45,7 +45,7 @@ main:
 	bl exit
 ```
 
-Les programmes assembleurs incluent la librairie standard du projet (`lca_lib.S`) à l'aide de la directive `#include`. Cette ligne doit toujours être présente en haut du fichier généré.
+Les programmes assembleur incluent la librairie standard du projet (`lca_lib.S`) à l'aide de la directive `#include`. Cette ligne doit toujours être présente en haut du fichier généré.
 
 Le programme peut contenir plusieurs fonctions, mais il doit contenir au minimum un label `main:` qui sera exécuté quand le programme est lancé. Cette fonction `main` doit se terminer par un appel à la fonction `exit`.
 
@@ -57,7 +57,7 @@ Il faut se placer dans un terminal dans le dossier `lca_project`.
 
 ## Pour Linux
 
-Exécuter le fichier `build_linux.sh`.
+Exécuter le fichier `./build_linux.sh`.
 
 Ensuite, lancer le programme via `qemu-arm ./lca_programme.exe`.
 
@@ -74,7 +74,7 @@ $ echo $? # on regarde le code de retour pour vérifier que c'est bien le nombre
 
 ## Pour PARM
 
-Exécuter le fichier `build_parm.sh`.
+Exécuter le fichier `./build_parm.sh`.
 
 Votre code assembleur est compilé vers le fichier lca_expanded.raw qui sera lu par Digital.
 
@@ -115,3 +115,39 @@ bl fonction ; on suppose que fonction renvoie une valeur dans r0
 ```
 
 Si une fonction ne renvoie rien, tous les registres sont préservés.
+
+# PARM et utilisation de Digital
+
+## Navigation
+
+Clic-droit-glisser pour se déplacer, molette pour zoomer.
+
+## Exécution
+
+D'abord, choisir l'horloge désirée en faisant clic-droit sur le composant horloge :
+
+![image](https://github.com/zdimension/parm_extended/assets/4533568/8e7bddab-7cb6-4482-9d9e-20c850299c45)
+
+Pour déboguer pas-à-pas, décocher la case. Pour lancer le programme en entier, cocher, et mettre par exemple 100 ou 200 Hz.
+
+Pour lancer l'exécution, utiliser le triangle, pour arrêter, utiliser le carré :
+
+![image](https://github.com/zdimension/parm_extended/assets/4533568/99159e78-9274-4e4b-b171-b7cd5adfe187)
+
+Pendant l'exécution, vous pouvez inspecter l'état du processeur (registres, ...) via la fenêtre Mesure accessible via le menu Simulation → Afficher le tableau des mesures.
+
+# Problèmes courants
+
+## \r command not found
+
+```
+$ ./build_linux.sh
+./build_linux.sh: line 2: $'\r': command not found
+```
+
+Vous êtes probablement sous Windows et Git a mis les fichiers en format Windows. Faites `dos2unix build_linux.sh` pour corriger le fichier et réessayez.
+
+## Impossible de lancer le .jar
+
+Avez-vous installé Java ?
+
