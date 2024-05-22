@@ -308,19 +308,19 @@ def assemble(line, labels, pc, line_num):
 	if instr.lower().endswith(".w") or instr.lower().endswith(".n"):
 		instr = instr[:-2]
 	oline = line = instr + " " + ", ".join(map(str.strip, filter(bool, args.split(","))))
-	if instr[0] == "@":
+	if instr[0] == "$":
 		dl = "." + line[1:]
-		if instr.lower() in ("@long", "@word"):
+		if instr.lower() in ("$long", "$word"):
 			n = parse_imm(args)
 			lo, hi = n & 0xFFFF, n >> 16
 			return (pc, lo, dl, n), (pc+1, hi, dl, n)
-		if instr.lower() == "@short":
+		if instr.lower() == "$short":
 			n = parse_imm(args)
 			return (pc, n, dl, n),
-		if instr.lower() == "@bytes":
+		if instr.lower() == "$bytes":
 			first, second = map(parse_imm, args.split(","))
 			return (pc, (second << 8) | first, dl, f"{first}, {second}"),
-		if instr.lower().startswith("@bl"):
+		if instr.lower().startswith("$bl"):
 			first = instr[3] == "1"
 			n = parse_imm(args) // 2 - (pc + (1 if first else 0)) - 1
 			if first:
@@ -330,7 +330,7 @@ def assemble(line, labels, pc, line_num):
 				if not nojumps:
 					jumps.append((pc, parse_imm(args)//2))
 			return (pc, val, dl, f"{n} ({2*n:x})"),
-		if instr.lower().startswith("@bcond"):
+		if instr.lower().startswith("$bcond"):
 			first = instr[6] == "1"
 			cond, targ = args.strip().split(None, 1)
 			n = parse_imm(targ) // 2 - (pc + (1 if first else 0)) - 1
@@ -341,7 +341,7 @@ def assemble(line, labels, pc, line_num):
 				if not nojumps:
 					jumps.append((pc, parse_imm(targ)//2))
 			return (pc, val, dl, f"{n} ({2*n:x})"),
-		if instr.lower().startswith("@asci"):
+		if instr.lower().startswith("$asci"):
 			bytes = eval("b" + args)
 			if instr[5].lower() == "z":
 				bytes += b"\0"
@@ -398,6 +398,7 @@ bl = re.compile(r"^blx?\s+(?!r\d\d?$)(.*)$", re.IGNORECASE)
 bcond = re.compile(r"^xxb([a-z]{2})\s+((?!r).*)$", re.IGNORECASE)
 instn = re.compile(r"^.inst.n\s+(.*)$", re.IGNORECASE)
 p2align = re.compile(r"^.p2align\s+(\d+)(?:\s*,\s*((?:0x)?\d+))?$", re.IGNORECASE)
+comm = re.compile(r"@.*$", re.IGNORECASE)
 labels = {}
 lines = list(fp.readlines())
 lines = [l.strip() for l in lines]
@@ -405,7 +406,7 @@ ignored_lines = [i for i, l in enumerate(lines[:-1])
 				 if l.lower().startswith("b\t") and lines[i + 1] == f"{l[2:]}:"]  # fix for clang's redundant jumps
 trampoline_need = False
 while True:
-	instrs = [(-1, 0, ".nobranchstart", None, 0)] if nobranch else [(-1, 0, "@bl1 run", None, 1), (-1, 1, "@bl2 run", None, 1)]
+	instrs = [(-1, 0, ".nobranchstart", None, 0)] if nobranch else [(-1, 0, "$bl1 run", None, 1), (-1, 1, "$bl2 run", None, 1)]
 	#instrs = [(-1, 0, ".start", None, 0)]
 	def add_instr(line, val=None, size=1):
 		instrs.append((i + 1, current_pc(), line, val, size))
@@ -417,15 +418,14 @@ while True:
 			if not no_optim:
 				if i in ignored_lines:
 					continue
-			if line in {"@APP", "@NO_APP"}:
-				continue
+			line = comm.sub("", line)
 			while line := line.strip():
 				if byte_val is not None:
 					if line.lower().startswith(".byte"):
 						skip, byte_val2 = True, line.split(None, 1)[1]
 					else:
 						skip, byte_val2 = False, 0
-					add_instr(f"@bytes {byte_val}, {byte_val2}", None, 1)
+					add_instr(f"$bytes {byte_val}, {byte_val2}", None, 1)
 					byte_val = None
 					if skip:
 						break
@@ -440,12 +440,12 @@ while True:
 					add_instr(f".inst.n {inst}", val, 1)
 					break
 				elif m := bl.match(line):
-					add_instr(f"@bl1 {m.group(1)}")
-					add_instr(f"@bl2 {m.group(1)}")
+					add_instr(f"$bl1 {m.group(1)}")
+					add_instr(f"$bl2 {m.group(1)}")
 					break
 				elif m := bcond.match(line):
-					add_instr(f"@bcond1 {m.group(1)} {m.group(2)}")
-					add_instr(f"@bcond2 {m.group(1)} {m.group(2)}")
+					add_instr(f"$bcond1 {m.group(1)} {m.group(2)}")
+					add_instr(f"$bcond2 {m.group(1)} {m.group(2)}")
 					break
 				elif m := pushpop.match(line):
 					regs = sorted(hi_regs.get(x, None) or int(x[1:]) for x in map(str.strip, m.group(2).split(",")))
@@ -511,11 +511,11 @@ while True:
 						s = eval("b" + line.split(None, 1)[1].strip())
 						l = len(s)+1*(line[5]=="z")
 						l += l%2
-						add_instr("@" + line[1:], size=l//2)
+						add_instr("$" + line[1:], size=l//2)
 					elif fpart in (".word", ".long"):
-						add_instr("@" + line[1:], size=2)
+						add_instr("$" + line[1:], size=2)
 					elif fpart in (".short",):
-						add_instr("@" + line[1:], size=1)
+						add_instr("$" + line[1:], size=1)
 					elif fpart == ".byte":
 						byte_val = line.split(None, 1)[1]
 					elif fpart == ".zero":
@@ -525,8 +525,8 @@ while True:
 						else:
 							cnt, val = int(args), 0
 						for n in range((cnt - 1) // 2):
-							add_instr(f"@bytes {val}, {val}", None, 1)
-						add_instr(f"@bytes {val}, {val if cnt % 2 == 0 else 0}", None, 1)
+							add_instr(f"$bytes {val}, {val}", None, 1)
+						add_instr(f"$bytes {val}, {val if cnt % 2 == 0 else 0}", None, 1)
 					elif line[0] != ".":
 						add_instr(line)
 					elif fpart in (".text", ".syntax", ".section", ".type", ".eabi_attribute", ".code", ".file", ".thumb_func", ".fnstart", ".save", ".setfp", ".size", ".cantunwind", ".fnend", ".pad", ".globl", ".hidden", ".set", ".ident"):
