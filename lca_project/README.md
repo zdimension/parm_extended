@@ -82,6 +82,11 @@ Vous pouvez ensuite lancer le circuit dans Digital, le programme est chargé aut
 
 Sur PARM, le code de retour (donné à `exit`) est affiché dans `RES`.
 
+Pour le programme d'exemple, voici à quoi ça ressemble :
+
+https://github.com/zdimension/parm_extended/assets/4533568/04af769a-1932-43f6-950d-55f42555ab5b
+
+
 # Librairie standard
 
 Les fonctions suivantes sont fournies dans la librairie standard :
@@ -92,7 +97,7 @@ Les fonctions suivantes sont fournies dans la librairie standard :
 - `print_char` : affiche un seul caractère
 	- paramètres : `r0` (caractère à afficher, exemple : 65 pour le caractère A majuscule)
 	
-- `print_int` : affiche un nombre entier (non signé)
+- `print_int` : affiche un nombre entier (non signé) suivi d'un saut de ligne
 	- paramètres : `r0` (nombre à afficher)
 	
 - `read_int` : lit un nombre entier (non signé) depuis le clavier
