@@ -54,19 +54,26 @@ print_char:
 	bx lr
 	
 @ prints (unsigned) int in r0 to TTY
-print_int:
+print_int_no_newline:
 	push {r0, r1, lr}
 	movs r1, r0
 	cmp r0, #10
 	blo .print_int_one_digit
 	movs r1, #10
 	bl divmod_uint
-	bl print_int
+	bl print_int_no_newline
 .print_int_one_digit:
 	adds r1, #48
 	movs r0, r1
 	bl print_char	
 	pop {r0, r1, pc}
+	
+print_int:
+	push {r0, lr}
+	bl print_int_no_newline
+	movs r0, #10
+	bl print_char
+	pop {r0, pc}
 
 @ reads int from keyboard, echoing to TTY
 read_int:
