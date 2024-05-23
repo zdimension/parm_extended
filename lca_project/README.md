@@ -156,3 +156,6 @@ Vous êtes probablement sous Windows et Git a mis les fichiers en format Windows
 
 Avez-vous installé Java ?
 
+## Composant "RAM32bit" non trouvé
+
+Menu Édition → Paramètres, onglet Avancé, définir le paramètre Bibliothèque au dossier `lib` situé dans le dossier `Digital`, puis fermer et rouvrir Digital.
