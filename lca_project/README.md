@@ -141,6 +141,8 @@ Pour lancer l'exécution, utiliser le triangle, pour arrêter, utiliser le carr�
 
 Pendant l'exécution, vous pouvez inspecter l'état du processeur (registres, ...) via la fenêtre Mesure accessible via le menu Simulation → Afficher le tableau des mesures.
 
+En mode pas-à-pas, vous pouvez sur l'horloge pour faire un tic de processeur.
+
 # Problèmes courants
 
 ## \r command not found
