@@ -5,6 +5,7 @@
 #![feature(iter_order_by)]
 #![feature(step_trait)]
 #![feature(slice_pattern)]
+#![feature(alloc_error_handler)]
 
 mod parm;
 
@@ -125,8 +126,6 @@ fn read_req() -> Result<HttpRequest, &'static str> {
 }
 
 fn main() {
-    parm::heap::init();
-
     let mut app = WebApp::new();
 
     loop {

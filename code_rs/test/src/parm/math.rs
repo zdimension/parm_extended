@@ -7,7 +7,7 @@ use core::ops::{
     Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, RemAssign, Sub, SubAssign,
 };
 
-#[export_name = "__aeabi_uidiv"]
+#[unsafe(export_name = "__aeabi_uidiv")]
 pub fn __aeabi_uidiv(a: u32, b: u32) -> u32 {
     unsafe {
         core::arch::asm!("uidiv:");
@@ -15,7 +15,7 @@ pub fn __aeabi_uidiv(a: u32, b: u32) -> u32 {
     div(a, b)
 }
 
-#[export_name = "__aeabi_idiv"]
+#[unsafe(export_name = "__aeabi_idiv")]
 pub fn __aeabi_idiv(a: i32, b: i32) -> i32 {
     div(a as u32, b as u32) as i32
 }
@@ -26,7 +26,7 @@ pub struct DivMod<T> {
     remainder: T,
 }
 
-#[export_name = "__aeabi_uidivmod"]
+#[unsafe(export_name = "__aeabi_uidivmod")]
 pub fn __aeabi_uidivmod(a: u32, b: u32) -> DivMod<u32> {
     unsafe {
         core::arch::asm!("__uidivmod_test:");
@@ -38,7 +38,7 @@ pub fn __aeabi_uidivmod(a: u32, b: u32) -> DivMod<u32> {
     }
 }
 
-#[export_name = "__aeabi_idivmod"]
+#[unsafe(export_name = "__aeabi_idivmod")]
 pub fn __aeabi_idivmod(a: i32, b: i32) -> DivMod<i32> {
     let divmod = divmod(a as u32, b as u32);
     DivMod {
@@ -47,7 +47,7 @@ pub fn __aeabi_idivmod(a: i32, b: i32) -> DivMod<i32> {
     }
 }
 
-#[export_name = "__clzsi2"]
+#[unsafe(export_name = "__clzsi2")]
 pub fn __clzsi2(a: u32) -> u32 {
     let mut x = a;
     let mut n = 32;
@@ -140,8 +140,9 @@ impl Default for fp32 {
 }
 
 impl Step for fp32 {
-    fn steps_between(start: &Self, end: &Self) -> Option<usize> {
-        i32::steps_between(&start.0, &end.0).map(|x| x >> 16)
+    fn steps_between(start: &Self, end: &Self) -> (usize, Option<usize>) {
+        let (min, max) = i32::steps_between(&start.0, &end.0);
+        (min >> 16, max.map(|x| x >> 16))
     }
 
     fn forward_checked(start: Self, count: usize) -> Option<Self> {

@@ -5,6 +5,7 @@
 #![feature(iter_order_by)]
 #![feature(step_trait)]
 #![feature(slice_pattern)]
+#![feature(alloc_error_handler)]
 #![allow(dead_code)]
 #![allow(clippy::should_implement_trait)]
 
@@ -21,6 +22,7 @@ use lisp::val::LispVal;
 use crate::parm::heap::string::String;
 use crate::parm::tty::{Display, DisplayTarget};
 use crate::parm::{keyb, telnet, tty};
+use crate::parm::heap::prc::Prc;
 
 mod lisp;
 mod parm;
@@ -50,29 +52,6 @@ fn check_balanced(s: &[char]) -> bool {
     count == 0
 }
 
-impl<T: Display> Display for Prc<T> {
-    fn write(&self, target: &mut impl DisplayTarget) {
-        <T as Display>::write(self, target);
-    }
-}
-
-struct PrcInner<T: ?Sized> {
-    ref_count: usize,
-    val: RefCell<T>,
-}
-
-pub struct Prc<T: ?Sized> {
-    ptr: *mut PrcInner<T>,
-}
-
-impl<T: ?Sized> From<&Prc<T>> for Prc<T> {
-    fn from(other: &Prc<T>) -> Self {
-        other.clone()
-    }
-}
-
-impl<T: Sized + PartialEq> Eq for Prc<T> {}
-
 pub type LispValBox = Prc<LispVal>;
 
 impl LispValBox {
@@ -82,90 +61,7 @@ impl LispValBox {
     }
 }
 
-impl<T: Sized> Prc<T> {
-    fn new(v: T) -> Self {
-        unsafe {
-            let mem = malloc(size_of::<PrcInner<T>>()) as *mut PrcInner<T>;
-            ptr::write(
-                mem,
-                PrcInner {
-                    val: RefCell::new(v),
-                    ref_count: 1,
-                },
-            );
-            Self { ptr: mem }
-        }
-    }
-}
 
-impl<T> Prc<T> {
-    unsafe fn empty() -> Self {
-        Self {
-            ptr: ptr::null_mut(),
-        }
-    }
-
-    unsafe fn from_raw(ptr: *mut PrcInner<T>) -> Self {
-        Self { ptr }
-    }
-
-    pub fn borrow_mut(&self) -> RefMut<'_, T> {
-        unsafe { (*self.ptr).val.borrow_mut() }
-    }
-}
-
-impl<T: ?Sized> Clone for Prc<T> {
-    fn clone(&self) -> Self {
-        unsafe {
-            (*self.ptr).ref_count += 1;
-            Self { ptr: self.ptr }
-        }
-    }
-}
-
-impl<T: PartialEq> PartialEq<Prc<T>> for Prc<T> {
-    fn eq(&self, other: &Prc<T>) -> bool {
-        self.ptr == other.ptr || self.deref() == other.deref()
-    }
-}
-
-impl<T: PartialEq + Hash> Hash for Prc<T> {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.deref().hash(state);
-    }
-}
-
-impl<T: ?Sized> Drop for Prc<T> {
-    fn drop(&mut self) {
-        unsafe {
-            if (*self.ptr).ref_count == 1 {
-                free(self.ptr as *mut u32);
-            } else {
-                (*self.ptr).ref_count -= 1;
-            }
-        }
-    }
-}
-
-impl<T> From<T> for Prc<T> {
-    fn from(v: T) -> Self {
-        Prc::new(v)
-    }
-}
-
-impl<T: ?Sized> AsRef<T> for Prc<T> {
-    fn as_ref(&self) -> &T {
-        unsafe { &*(*self.ptr).val.as_ptr() }
-    }
-}
-
-impl<T: ?Sized> Deref for Prc<T> {
-    type Target = T;
-
-    fn deref(&self) -> &T {
-        unsafe { &*(*self.ptr).val.as_ptr() }
-    }
-}
 
 /*impl<T> DerefMut for Prc<T> {
     fn deref_mut(&mut self) -> &mut T {
@@ -289,7 +185,5 @@ impl LispRepl {
 }
 
 fn main() {
-    parm::heap::init();
-
     LispRepl::new().run();
 }

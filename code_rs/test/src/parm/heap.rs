@@ -1,13 +1,15 @@
 pub mod budmap;
 pub mod string;
 pub mod vec;
+pub mod prc;
 
 use crate::parm::panic;
 use core::alloc::{GlobalAlloc, Layout};
 
 use core::{mem, ptr};
+use crate::println;
 
-pub const HEAP_START: usize = 0x10000;
+pub const HEAP_START: usize = 0x100000;
 
 const HEAP_FREEP: *mut *mut u8 = HEAP_START as _;
 
@@ -15,6 +17,7 @@ pub fn alloc_pos() -> *mut u8 {
     unsafe { *HEAP_FREEP }
 }
 
+#[inline(always)]
 pub fn init() {
     unsafe {
         *HEAP_FREEP = (HEAP_START + 4) as _;
@@ -82,13 +85,26 @@ unsafe impl GlobalAlloc for HeapAllocator {
     }
 }
 
-#[cfg(feature = "alloc_error_handler")]
+#[global_allocator]
+static HEAP_ALLOCATOR: HeapAllocator = HeapAllocator;
+
+
+//#[cfg(feature = "alloc_error_handler")]
+//#[unsafe(export_name = "_ZN5alloc5alloc18handle_alloc_errorXXX")]
 #[alloc_error_handler]
 fn alloc_error_handler(_layout: core::alloc::Layout) -> ! {
     panic("allocation error")
 }
 
-/*#[export_name = "__aeabi_unwind_cpp_pr0"]
+core::arch::global_asm!(
+    r#"
+__rust_no_alloc_shim_is_unstable:
+_RNvCsgdvzLFu2dVu_7___rustc26___rust_alloc_error_handler:
+_RNvCsgdvzLFu2dVu_7___rustc39___rust_alloc_error_handler_should_panic:
+    .long 0
+    "#);
+
+/*#[unsafe(export_name = "__aeabi_unwind_cpp_pr0")]
 pub extern "C" fn __aeabi_unwind_cpp_pr0() {
     panic("unwind")
 }*/
@@ -105,19 +121,19 @@ __rust_realloc:
 "#
 );
 
-#[export_name = "unknown_panic"]
+#[unsafe(export_name = "unknown_panic")]
 pub extern "C" fn unknown_panic() -> ! {
     panic("unknown panic")
 }
 
 #[cfg(feature = "alloc_error_handler")]
-#[export_name = "rust_alloc"]
+#[unsafe(export_name = "rust_alloc")]
 fn __rust_alloc(size: usize, _align: usize) -> *mut u8 {
     malloc(size) as _
 }
 
 #[cfg(feature = "alloc_error_handler")]
-#[export_name = "rust_dealloc"]
+#[unsafe(export_name = "rust_dealloc")]
 fn __rust_dealloc(ptr: *mut u8, _size: usize, _align: usize) {
     free(ptr as _);
 }
@@ -125,7 +141,7 @@ fn __rust_dealloc(ptr: *mut u8, _size: usize, _align: usize) {
 // from redox https://gitlab.redox-os.org/redox-os/kernel/-/blob/master/src/externs.rs
 const WORD_SIZE: usize = 4;
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memcpy(dest: *mut u8, src: *const u8, n: usize) {
     let n_usize: usize = n / WORD_SIZE; // Number of word sized groups
     let mut i: usize = 0;
@@ -144,12 +160,12 @@ unsafe extern "C" fn __aeabi_memcpy(dest: *mut u8, src: *const u8, n: usize) {
     }
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memcpy4(dest: *mut u8, src: *const u8, n: usize) {
     __aeabi_memcpy(dest, src, n);
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memclr(dest: *mut u8, n: usize) {
     let n_usize: usize = n / WORD_SIZE; // Number of word sized groups
     let mut i: usize = 0;
@@ -168,23 +184,23 @@ unsafe extern "C" fn __aeabi_memclr(dest: *mut u8, n: usize) {
     }
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memclr4(dest: *mut u8, n: usize) {
     __aeabi_memclr(dest, n)
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memclr8(dest: *mut u8, n: usize) {
     core::arch::asm!("memclr8:");
     __aeabi_memclr(dest, n)
 }
 
-#[export_name = "__aeabi_memmove4"]
+#[unsafe(export_name = "__aeabi_memmove4")]
 pub unsafe extern "C" fn __aeabi_memmove4(dest: *mut u8, src: *const u8, n: usize) {
     __aeabi_memmove(dest, src, n)
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memmove(dest: *mut u8, src: *const u8, n: usize) {
     if src < dest as *const u8 {
         let n_usize: usize = n / WORD_SIZE; // Number of word sized groups
@@ -222,7 +238,7 @@ unsafe extern "C" fn __aeabi_memmove(dest: *mut u8, src: *const u8, n: usize) {
     }
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memset(dest: *mut u8, c: i32, n: usize) {
     let c: usize = mem::transmute([c as u8; WORD_SIZE]);
     let n_usize: usize = n / WORD_SIZE;
@@ -244,12 +260,12 @@ unsafe extern "C" fn __aeabi_memset(dest: *mut u8, c: i32, n: usize) {
     }
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 unsafe extern "C" fn memcmp(s1: *const u8, s2: *const u8, n: usize) -> i32 {
     __aeabi_memcmp(s1, s2, n)
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memcmp(s1: *const u8, s2: *const u8, n: usize) -> i32 {
     let n_usize: usize = n / WORD_SIZE;
     let mut i: usize = 0;

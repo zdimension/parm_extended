@@ -33,7 +33,7 @@ use crate::println;
 
 type aeabi_float_t = u32;
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 fn __aeabi_ui2f(x: u32) -> aeabi_float_t {
     if x == 0 {
         return 0;
@@ -51,7 +51,7 @@ fn packToF32UI(sign: bool, exp: i16, sig: u32) -> aeabi_float_t {
     (sign << 31) + (exp as u32) << 23 + sig
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 fn softfloat_roundPackToF32(sign: bool, mut exp: i16, sig: u32) -> aeabi_float_t {
     let mut round_increment = 0x40;
     let mut round_bits = sig & 0x7F;
@@ -127,7 +127,7 @@ fn softfloat_countLeadingZeros32(mut a: u32) -> u8 {
     count + softfloat_countLeadingZeros8[(a >> 24) as usize]
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 fn __aeabi_fadd(a: aeabi_float_t, b: aeabi_float_t) -> aeabi_float_t {
     let sign_a = (a >> 31) != 0;
     let sign_b = (b >> 31) != 0;

@@ -164,8 +164,6 @@ impl MidiSpeedSettings {
 }
 
 fn main() {
-    parm::heap::init();
-
     MIDIvol.write(127);
 
     let data_len: [u8; 2] = telnet::read_arr_blocking();

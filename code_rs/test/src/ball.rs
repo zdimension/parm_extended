@@ -5,7 +5,12 @@
 #![feature(iter_order_by)]
 #![feature(step_trait)]
 #![feature(slice_pattern)]
+#![feature(alloc_error_handler)]
 
+extern crate alloc;
+
+use alloc::boxed::Box;
+use alloc::string::ToString;
 use crate::parm::math::fp32;
 use crate::parm::screen;
 
@@ -13,6 +18,7 @@ use crate::parm::screen::{ColorSimple};
 
 use crate::screen::{rect};
 use derive_more::{Add, AddAssign, Mul};
+use crate::parm::heap::vec::Vec;
 
 mod parm;
 
@@ -20,6 +26,46 @@ mod parm;
 struct Vec2(fp32, fp32);
 
 fn main() {
+    /*unsafe {
+        //let block = alloc::alloc::alloc(alloc::alloc::Layout::new::<u32>()) as *mut u32;
+        let st = parm::heap::HEAP_START as *mut u32;
+        *st = 123456;
+        
+        //let block = parm::heap::malloc(4);
+        println!(*st);
+        
+        *st = 654321;
+        
+        println!(*st);
+    }*/
+    // let x = alloc::vec![1, 4, 9];
+    // println!("len:", x.len());
+    // for y in x.iter().map(|x| x.to_string()) {
+    //     println!(y.as_str());
+    // }
+    let x = [1, 4, 9];
+    let y = x.map(|x| x.to_string());
+    for z in y.iter() {
+        println!(z.as_str());
+    }
+    
+    for i in 0..256 {
+        let ram_ptr = (parm::heap::HEAP_START + i) as *mut u8;
+        let val = unsafe { *ram_ptr };
+        let char;
+        if val == 0 {
+            char = '.';
+        } else if val < 32 || val > 126 {
+            char = '?';
+        } else {
+            char = val as char;
+        }
+        //parm::tty::print_char(char);
+        print!(char, ' ');
+    }
+    println!();
+     println!(x.iter().map(|x| x.to_string()).collect::<alloc::vec::Vec<_>>().join(", ").as_str());
+return;
     let mut p = Vec2::default();
     let mut v = Vec2(fp32::from(5), fp32::ZERO);
     let a = Vec2(fp32::ZERO, fp32::from(9.81));

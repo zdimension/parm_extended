@@ -14,8 +14,8 @@ pub mod tty;
 pub mod util;
 pub mod rand;
 
-#[link_section = ".start"]
-#[export_name = "run"]
+#[unsafe(link_section = ".start")]
+#[unsafe(export_name = "run")]
 pub fn _start() -> ! {
     let main: unsafe fn() -> () = crate::main;
 
@@ -23,24 +23,25 @@ pub fn _start() -> ! {
         core::arch::asm!(
             r#"
 					movs r0, #1
-					lsls r0, r0, #20
-					mov sp, r0
+					lsls r0, r0, #23
+					add sp, r0
 					movs r0, #0
 				"#
         );
+        heap::init();
         main();
     }
     loop {}
 }
 
-#[export_name = "_ZN4core9panicking5panicXXX"]
+#[unsafe(export_name = "_ZN4core9panicking5panicXXX")]
 pub fn panic(expr: &'static str) -> ! {
     println!("PANIC:", expr);
     breakpoint();
     loop {}
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub fn expect_failed(msg: &'static str) -> ! {
     unsafe {
         core::arch::asm!("_ZN4core6option13expect_failedXXX:");
@@ -48,17 +49,23 @@ pub fn expect_failed(msg: &'static str) -> ! {
     panic(msg)
 }
 
-#[export_name = "unwrap_failed"]
-#[inline(always)]
-pub fn unwrap_failed() -> ! {
+#[unsafe(export_name = "result_unwrap_failed")]
+pub fn result_unwrap_failed() -> ! {
     unsafe {
         core::arch::asm!("_ZN4core6result13unwrap_failedXXX:");
     }
     panic("unwrap_failed");
 }
 
-#[export_name = "panic_bounds_check"]
-#[inline(always)]
+#[unsafe(export_name = "option_unwrap_failed")]
+pub fn option_unwrap_failed() -> ! {
+    unsafe {
+        core::arch::asm!("_ZN4core6option13unwrap_failedXXX:");
+    }
+    panic("unwrap_failed");
+}
+
+#[unsafe(export_name = "panic_bounds_check")]
 fn panic_bounds_check() -> ! {
     unsafe {
         core::arch::asm!("_ZN4core9panicking18panic_bounds_checkXXX:");
@@ -66,8 +73,7 @@ fn panic_bounds_check() -> ! {
     panic("index out of bounds")
 }
 
-#[export_name = "panic_fmt"]
-#[inline(always)]
+#[unsafe(export_name = "panic_fmt")]
 fn panic_fmt() -> ! {
     unsafe {
         core::arch::asm!("_ZN4core9panicking9panic_fmtXXX:");
@@ -75,8 +81,7 @@ fn panic_fmt() -> ! {
     panic("panic_fmt")
 }
 
-#[export_name = "panic_already_borrowed"]
-#[inline(always)]
+#[unsafe(export_name = "panic_already_borrowed")]
 fn panic_already_borrowed() -> ! {
     unsafe {
         core::arch::asm!("_ZN4core4cell22panic_already_borrowedXXX:");
@@ -84,7 +89,7 @@ fn panic_already_borrowed() -> ! {
     panic("panic_already_borrowed")
 }
 
-#[export_name = "borrow_mut_error"]
+#[unsafe(export_name = "borrow_mut_error")]
 fn borrow_mut_error() -> ! {
     unsafe {
         core::arch::asm!(
@@ -94,7 +99,7 @@ fn borrow_mut_error() -> ! {
     panic("borrow_mut error")
 }
 
-#[export_name = "const_div_by_zero"]
+#[unsafe(export_name = "const_div_by_zero")]
 fn const_div_by_zero() -> ! {
     unsafe {
         core::arch::asm!(
@@ -104,7 +109,17 @@ fn const_div_by_zero() -> ! {
     panic("const div by zero")
 }
 
-#[export_name = "slicee_end_index_len_fail"]
+#[unsafe(export_name = "const_div_overflow")]
+fn const_div_overflow() -> ! {
+    unsafe {
+        core::arch::asm!(
+            "_ZN4core9panicking11panic_const24panic_const_div_overflowXXX:"
+        );
+    }
+    panic("const div overflow")
+}
+
+#[unsafe(export_name = "slicee_end_index_len_fail")]
 fn slice_end_index_len_fail(_index: usize, _len: usize) -> ! {
     unsafe {
         core::arch::asm!("_ZN4core5slice5index26slice_start_index_len_failXXX:");
@@ -114,7 +129,7 @@ fn slice_end_index_len_fail(_index: usize, _len: usize) -> ! {
     panic("slice index out of bounds");
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 fn slice_index_order_fail(_index: usize, _end: usize) -> ! {
     unsafe {
         core::arch::asm!("_ZN4core5slice5index22slice_index_order_failXXX:");
@@ -138,7 +153,7 @@ fn handler(_info: &PanicInfo) -> ! {
     loop {}
 }
 /*
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub unsafe extern "C" fn rust_begn_unwind(
     _args: ::core::fmt::Arguments,
     _file: &'static str,

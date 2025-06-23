@@ -494,10 +494,10 @@ macro_rules! expect {
 impl LispVal {
     pub fn equal(&self, other: &LispVal) -> bool {
         match (self, other) {
-            (LispVal::Symbol(ref a), LispVal::Symbol(ref b)) => a == b,
+            (LispVal::Symbol(a), LispVal::Symbol(b)) => a == b,
             (LispVal::Int(a), LispVal::Int(b)) => a == b,
             (LispVal::Bool(a), LispVal::Bool(b)) => a == b,
-            (LispVal::Str(ref a), LispVal::Str(ref b)) => a == b,
+            (LispVal::Str(a), LispVal::Str(b)) => a == b,
             (LispVal::Eof, LispVal::Eof) => true,
             (LispVal::List(l), LispVal::List(r)) => match (l, r) {
                 (LispList::Empty, LispList::Empty) => true,
@@ -507,12 +507,12 @@ impl LispVal {
             (LispVal::Void, LispVal::Void) => true,
             (
                 LispVal::Procedure(LispProc {
-                    fct: ref _a,
-                    eval_mode: ref _b,
+                    fct: _a,
+                    eval_mode: _b,
                 }),
                 LispVal::Procedure(LispProc {
-                    fct: ref _c,
-                                       eval_mode: ref _d,
+                    fct: _c,
+                                       eval_mode: _d,
                 }),
             ) => false,
             _ => false,

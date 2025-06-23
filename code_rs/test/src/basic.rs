@@ -4,6 +4,7 @@
 #![feature(iter_order_by)]
 #![feature(step_trait)]
 #![feature(slice_pattern)]
+#![feature(alloc_error_handler)]
 
 use core::iter::Peekable;
 
@@ -14,6 +15,7 @@ use crate::parm::heap::string::{FromStr, String};
 use crate::parm::heap::vec::Vec;
 use crate::parm::tty::{clear, print_char, print_hex, read_int, read_line, Display, DisplayTarget};
 use crate::parm::{panic, telnet};
+use crate::parm::control::breakpoint;
 
 mod parm;
 
@@ -325,8 +327,6 @@ fn show_program(code: &Program) {
 }
 
 fn main() {
-    parm::heap::init();
-
     let mut program = Program(Vec::with_capacity(10));
     let mut last = 0;
     let mut line = String::with_capacity(32);
@@ -379,6 +379,7 @@ fn load_telnet(program: &mut Program, last: &mut LineNumber) {
 }
 
 fn process_instruction_input(program: &mut Program, last: &mut LineNumber, line: &String) {
+    breakpoint();
     let space = match line.as_chars().find_char(' ') {
         Some(pos) if pos < line.len() => pos,
         _ => {
@@ -387,6 +388,7 @@ fn process_instruction_input(program: &mut Program, last: &mut LineNumber, line:
         }
     };
     let (line, instr) = unsafe { (line.get_unchecked(..space), line.get_unchecked(space + 1..)) };
+
     let line_no: LineNumber = match line.parse() {
         Ok(no) => no,
         Err(_) => {

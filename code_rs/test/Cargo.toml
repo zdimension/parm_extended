@@ -64,6 +64,10 @@ path = "src/ball.rs"
 name = "midi"
 path = "src/midi.rs"
 
+[[bin]]
+name = "c"
+path = "src/crepl.rs"
+
 [profile.dev]
 panic = "abort"
 
