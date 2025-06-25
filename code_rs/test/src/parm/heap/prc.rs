@@ -3,11 +3,11 @@ use core::hash::{Hash, Hasher};
 use core::ops::Deref;
 use core::ptr;
 use crate::parm::heap::{free, malloc};
-use crate::parm::tty::{Display, DisplayTarget};
+use crate::parm::tty::{ParmDisplay, DisplayTarget};
 
-impl<T: Display> Display for Prc<T> {
+impl<T: ParmDisplay> ParmDisplay for Prc<T> {
     fn write(&self, target: &mut impl DisplayTarget) {
-        <T as Display>::write(self, target);
+        <T as ParmDisplay>::write(self, target);
     }
 }
 

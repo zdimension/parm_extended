@@ -277,7 +277,7 @@ pub use self::default_buf_impl::DefaultBuffer;
 
 mod default_buf_impl {
     use super::*;
-    use crate::parm::heap::vec::Vec;
+    use alloc::vec::Vec;
 
     default_buffer_def! {
         pub struct DefaultBuffer {

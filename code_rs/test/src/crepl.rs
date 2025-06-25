@@ -17,7 +17,7 @@ use core::ops::Deref;
 use core::ptr;
 
 use crate::parm::heap::string::String;
-use crate::parm::tty::{Display, DisplayTarget};
+use crate::parm::tty::{ParmDisplay, DisplayTarget};
 use crate::parm::{keyb, telnet, tty};
 
 mod parm;

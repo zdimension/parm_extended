@@ -1,8 +1,9 @@
+use alloc::vec;
 use crate::lisp::eval::builtins::pairs_lists::list_star;
 use crate::lisp::eval::builtins::Helper;
 use crate::lisp::val::{ClosureArgs, LispProc, LispSymbol, LispVal, ProcEvalMode, ProcType};
 use crate::parm::heap::string::String;
-use crate::{lisplist, LispValBox, parmvec};
+use crate::{lisplist, LispValBox};
 
 pub(crate) fn init(h: &mut Helper) {
     h.builtin("apply", |env, args| {
@@ -40,7 +41,7 @@ pub(crate) fn init(h: &mut Helper) {
         Ok(LispVal::Procedure(LispProc {
             fct: ProcType::Closure {
                 name: None,
-                args: ClosureArgs::Dispatch(parmvec![argname], None),
+                args: ClosureArgs::Dispatch(vec![argname], None),
                 body: lisplist!(x),
                 env: env.make_child(),
             },

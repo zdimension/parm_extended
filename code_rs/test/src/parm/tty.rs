@@ -1,3 +1,4 @@
+use core::fmt;
 use crate::parm::heap::string::String;
 use crate::parm::mmio::{RESbcd, RES};
 use crate::parm::{keyb, mmio};
@@ -79,11 +80,32 @@ impl DisplayTarget for Tty {
     }
 }
 
-pub trait Display {
+impl fmt::Write for Tty {
+    #[inline(always)]
+    fn write_str(&mut self, s: &str) -> fmt::Result {
+        s.bytes().for_each(|c| print_char(c));
+        Ok(())
+    }
+
+    #[inline(always)]
+    fn write_char(&mut self, c: char) -> fmt::Result {
+        print_char(c);
+        Ok(())
+    }
+}
+
+// default impl<T: DisplayTarget> fmt::Write for T {
+//     default fn write_str(&mut self, s: &str) -> fmt::Result {
+//         self.print_rust_str(s);
+//         Ok(())
+//     }}
+
+
+pub trait ParmDisplay {
     fn write(&self, target: &mut impl DisplayTarget);
 }
 
-impl Display for u8 {
+impl ParmDisplay for u8 {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         RES.write(*self as u32);
@@ -91,7 +113,7 @@ impl Display for u8 {
     }
 }
 
-impl Display for u32 {
+impl ParmDisplay for u32 {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         RES.write(*self);
@@ -99,7 +121,7 @@ impl Display for u32 {
     }
 }
 
-impl Display for usize {
+impl ParmDisplay for usize {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         RES.write(*self as u32);
@@ -107,7 +129,7 @@ impl Display for usize {
     }
 }
 
-impl Display for i32 {
+impl ParmDisplay for i32 {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         RES.write(*self as u32);
@@ -115,7 +137,7 @@ impl Display for i32 {
     }
 }
 
-impl Display for u16 {
+impl ParmDisplay for u16 {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         RES.write(*self as u32);
@@ -123,21 +145,21 @@ impl Display for u16 {
     }
 }
 
-impl Display for &str {
+impl ParmDisplay for &str {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         self.bytes().for_each(|c| target.print_char(c));
     }
 }
 
-impl Display for char {
+impl ParmDisplay for char {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         target.print_char(*self as u32 as u8);
     }
 }
 
-impl Display for bool {
+impl ParmDisplay for bool {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         if *self {
@@ -148,9 +170,9 @@ impl Display for bool {
     }
 }
 
-impl<T> Display for &T
+impl<T> ParmDisplay for &T
 where
-    T: Display,
+    T: ParmDisplay,
 {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
@@ -159,7 +181,7 @@ where
 }
 
 #[inline(always)]
-pub fn print_internal<T: Display + ?Sized>(item: &T, target: &mut impl DisplayTarget) {
+pub fn print_internal<T: ParmDisplay + ?Sized>(item: &T, target: &mut impl DisplayTarget) {
     item.write(target);
 }
 

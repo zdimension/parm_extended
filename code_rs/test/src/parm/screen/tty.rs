@@ -3,7 +3,7 @@ pub enum AnsiEscape {
     Sgr(u8),
 }
 
-impl Display for AnsiEscape {
+impl ParmDisplay for AnsiEscape {
     fn write(&self, target: &mut impl DisplayTarget) {
         match self {
             AnsiEscape::Sgr(code) => {
@@ -20,7 +20,7 @@ impl Font57 {
         let ch = if c.is_ascii() { c as u8 } else { b'?' };
         let index = LOOKUP57.iter().position(|&r| r == ch).unwrap_or_else(|| {
             println!("Invalid char: ", c, "(", c as u32, ")");
-            panic("die");
+            panic!("die");
         }) * 5;
         &FONT57[index..(index + 5)]
     }
@@ -138,8 +138,8 @@ static LOOKUP57: &[u8] = &[
 
 use crate::parm::heap::HEAP_START;
 use crate::parm::screen::{rgb32, ColorEncodable, ColorEncoded};
-use crate::parm::tty::{AsciiEncodable, Display, DisplayTarget};
-use crate::parm::{panic, screen};
+use crate::parm::tty::{AsciiEncodable, ParmDisplay, DisplayTarget};
+use crate::parm::{screen};
 use crate::{print, println};
 
 pub const FONT_WIDTH: usize = 5;
@@ -402,7 +402,7 @@ impl DisplayTarget for VideoTty {
                 },
                 0x20..=0x2f | _ => {
                     println!("Csi ", ch as u32);
-                    panic("Invalid escape");
+                    panic!("Invalid escape");
                 }
             },
             AnsiEscapeState::Fe => match ch {
@@ -414,7 +414,7 @@ impl DisplayTarget for VideoTty {
                 }
                 _ => {
                     println!("Fe ", ch as u32);
-                    panic("Invalid escape");
+                    panic!("Invalid escape");
                 }
             },
             AnsiEscapeState::None => match ch {

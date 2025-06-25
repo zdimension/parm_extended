@@ -6,8 +6,9 @@
 #![feature(step_trait)]
 #![feature(slice_pattern)]
 #![feature(core_intrinsics)]
+#![feature(alloc_error_handler)]
 
-use crate::parm::heap::vec::Vec;
+use alloc::vec::Vec;
 use crate::parm::math::fp32;
 use crate::parm::midi::{
     press_key, release_key, set_instr, set_note, set_vol, MidiInstrument, MidiNote,
@@ -47,7 +48,7 @@ impl<I: Iterator<Item = Result<T, midly::Error>>, T> Iterator for UnwrapIter<I, 
     fn next(&mut self) -> Option<Self::Item> {
         self.iter
             .next()
-            .map(|x| x.unwrap_or_else(|e| panic(e.kind().message())))
+            .map(|x| x.unwrap_or_else(|e| panic!(e.kind().message())))
     }
 }
 
@@ -172,7 +173,7 @@ fn main() {
 
     let data = telnet::read_n_blocking(data_len as usize);
     println!("data read");
-    let (_header, tracks) = midly::parse(&data).unwrap_or_else(|_| panic("midi error"));
+    let (_header, tracks) = midly::parse(&data).unwrap_or_else(|_| panic!("midi error"));
     println!("decoded");
     let ev: Vec<Vec<EventAbs>> = UnwrapIter::new(tracks)
         .map(|t| {

@@ -6,14 +6,14 @@
 #![feature(step_trait)]
 #![feature(slice_pattern)]
 #![feature(alloc_error_handler)]
+extern crate alloc;
 
 mod parm;
 
-
+use alloc::vec::Vec;
 use crate::parm::heap::string::{FromStr, String};
-use crate::parm::heap::vec::Vec;
 
-use crate::parm::tty::{Display, DisplayTarget};
+use crate::parm::tty::{ParmDisplay, DisplayTarget};
 use indoc::indoc;
 use parm::heap::string::CharSeq;
 use parm::heap::string::Parse;
@@ -162,7 +162,7 @@ impl HttpRequest {
     }
 }
 
-impl Display for HttpRequest {
+impl ParmDisplay for HttpRequest {
     fn write(&self, target: &mut impl DisplayTarget) {
         println!(self.start, => target);
         for header in self.headers.iter() {
@@ -198,7 +198,7 @@ impl FromStr for HttpRequestStart {
     }
 }
 
-impl Display for HttpRequestStart {
+impl ParmDisplay for HttpRequestStart {
     fn write(&self, target: &mut impl DisplayTarget) {
         print!(self.verb, ' ', self.url, => target);
     }
@@ -229,7 +229,7 @@ macro_rules! string_enum {
             }
         }
 
-        impl Display for $ename {
+        impl ParmDisplay for $ename {
             fn write(&self, target: &mut impl DisplayTarget) {
                 target.print_rust_str(match self {
                     $(
@@ -290,7 +290,7 @@ impl FromStr for HttpHeader {
     }
 }
 
-impl Display for HttpHeader {
+impl ParmDisplay for HttpHeader {
     fn write(&self, target: &mut impl DisplayTarget) {
         print!(self.ty, ": ", self.value, => target);
     }

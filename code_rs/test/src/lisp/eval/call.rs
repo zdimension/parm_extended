@@ -1,7 +1,7 @@
 use crate::lisp::env::SchemeEnv;
 use crate::lisp::val::{ClosureArgs, LispList, LispListIter, LispProc, LispVal, ProcEvalMode, ProcType};
 use crate::parm::heap::string::String;
-use crate::parm::heap::vec::Vec;
+use alloc::vec::Vec;
 use crate::{makestr, println, LispValBox, print};
 use crate::lisp::eval::CallEvaluation;
 

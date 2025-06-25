@@ -1,9 +1,7 @@
 pub mod budmap;
 pub mod string;
-pub mod vec;
 pub mod prc;
 
-use crate::parm::panic;
 use core::alloc::{GlobalAlloc, Layout};
 
 use core::{mem, ptr};
@@ -93,7 +91,7 @@ static HEAP_ALLOCATOR: HeapAllocator = HeapAllocator;
 //#[unsafe(export_name = "_ZN5alloc5alloc18handle_alloc_errorXXX")]
 #[alloc_error_handler]
 fn alloc_error_handler(_layout: core::alloc::Layout) -> ! {
-    panic("allocation error")
+    panic!("allocation error")
 }
 
 core::arch::global_asm!(
@@ -106,7 +104,7 @@ _RNvCsgdvzLFu2dVu_7___rustc39___rust_alloc_error_handler_should_panic:
 
 /*#[unsafe(export_name = "__aeabi_unwind_cpp_pr0")]
 pub extern "C" fn __aeabi_unwind_cpp_pr0() {
-    panic("unwind")
+    panic!("unwind")
 }*/
 
 #[cfg(feature = "alloc_error_handler")]
@@ -121,10 +119,10 @@ __rust_realloc:
 "#
 );
 
-#[unsafe(export_name = "unknown_panic")]
-pub extern "C" fn unknown_panic() -> ! {
-    panic("unknown panic")
-}
+// #[unsafe(export_name = "unknown_panic")]
+// pub extern "C" fn unknown_panic!() -> ! {
+//     panic!("unknown panic")
+// }
 
 #[cfg(feature = "alloc_error_handler")]
 #[unsafe(export_name = "rust_alloc")]

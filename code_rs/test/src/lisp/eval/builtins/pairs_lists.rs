@@ -3,7 +3,7 @@ use crate::lisp::eval::CallEvaluation;
 use crate::lisp::val::{Any, LispList, LispListBuilder, LispVal, ProcType};
 use crate::parm::heap::string::String;
 use crate::{lisplist, LispValBox};
-use crate::parm::heap::vec::Vec;
+use alloc::vec::Vec;
 
 pub(crate) fn init(h: &mut Helper) {
     h.builtin("car", |_, args| {

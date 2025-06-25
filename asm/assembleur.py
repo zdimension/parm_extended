@@ -162,6 +162,13 @@ class Symbol:
 	line_end: int = None
 	size_hint: int = None
 
+	def line_range(self):
+		if self.line_start is None:
+			return None
+		if self.line_end is not None:
+			return range(self.line_start, self.line_end + 1)
+		return range(self.line_start, self.line_start + 1)
+
 
 
 IMM_SHIFT = {"h": 1, "w": 2, "p": 2}
@@ -418,18 +425,19 @@ parser.add_argument("-n", "--nolog", action="store_true", help="Disable all logg
 parser.add_argument("-j", "--nojumps", action="store_true", help="Disable jumps in log.")
 parser.add_argument("-t", "--notrampo", action="store_true", help="Disable trampolining.")
 parser.add_argument("-f", "--function", help="Only show specified function in log.")
+parser.add_argument("-Of", "--optimize-functions", action="store_true", help="Remove unused functions.")
 
-args = parser.parse_args()
+cli_args = parser.parse_args()
 
-no_optim = args.no_optim
-quiet = args.quiet
-nobranch = args.nobranch
-nolog = args.nolog
-nojumps = args.nojumps
-notrampo = args.notrampo
-only_function = args.function
+no_optim = cli_args.no_optim
+quiet = cli_args.quiet
+nobranch = cli_args.nobranch
+nolog = cli_args.nolog
+nojumps = cli_args.nojumps
+notrampo = cli_args.notrampo
+only_function = cli_args.function
 
-input_files = args.files
+input_files = cli_args.files
 
 RE_LBL = re.compile(r"^([.\w_$]+)\s*:")
 RE_PUSHPOP = re.compile(r"^(push|pop)\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
@@ -487,6 +495,8 @@ def tokenize(line):
 labels = {}
 symbols = {}
 
+RE_BUILTINS = re.compile(r"(alloc|core|compiler_builtins)")
+
 def set_symbol(name):
 	name = sanitize_and_local(name)
 	if sym := symbols.get(name):
@@ -496,21 +506,27 @@ def set_symbol(name):
 			pass # override
 		elif sym.is_global:
 			raise Exception(f"Symbol {name} already defined in {sym.source}")
-		elif False and not re.search(r"(alloc|core|compiler_builtins)", current_file):
+		elif False and not RE_BUILTINS.search(current_file):
 			raise Exception(f"{current_file}: Symbol {name} already defined somewhere else (protected in {sym.source})")
 	#print("declaring", name, "in", current_file)
 	if name == "run": print("%06x" % current_pc(), "run")
-	symbols[name] = Symbol(source=current_file, start=current_pc(), line_start=i)
+	symbols[name] = Symbol(source=current_file, line_start=i)
 	return symbols[name]
 
 def get_symbol(name):
 	name = sanitize_and_local(name)
 	if sym := symbols.get(name):
+		if RE_BUILTINS.search(current_file):
+			return sym
 		if sym.source == current_file:
 			return sym
 		elif sym.is_global:
 			return sym
-	raise KeyError(f"Symbol {name} not found")
+	print(sym)
+	if sym:
+		raise Exception(f"Symbol {unsanitize(name)} not found from {current_file} (exists in {sym.source})")
+	else:
+		raise KeyError(f"Symbol {unsanitize(name)} not found from {current_file}")
 
 *includes, main_file = input_files
 fo = open(os.path.splitext(main_file)[0] + ".bin", "w")
@@ -534,6 +550,15 @@ ignored_lines = {i for i, l in enumerate(lines[:-1])
 				if l.lower().startswith("b\t") and lines[i + 1] == f"{l[2:]}:"}  # fix for clang's redundant jumps
 trampoline_need = False
 is_main = False
+def do_trampo():
+	print("RESTART")
+	with open("trampo.s", "w") as tw:
+		tw.write("\n".join(lines))
+	out.clear()
+	instr_log.clear()
+	jumps.clear()
+	labels.clear()
+	symbols.clear()
 while True:
 	current_file = None
 	current_function = None
@@ -680,7 +705,7 @@ while True:
 					elif fpart == ".hidden":
 						sym_name = line.split(None, 1)[1]
 						set_symbol(sym_name).is_hidden = True
-					elif fpart == ".global":
+					elif fpart == ".globl":
 						sym_name = line.split(None, 1)[1]
 						set_symbol(sym_name).is_global = True
 					elif fpart == ".weak":
@@ -692,6 +717,10 @@ while True:
 						if type_ == "%function":
 							current_function = sanitize_and_local(sym_name)
 						set_symbol(sym_name).type = type_.strip()
+					elif fpart == ".thumb_func":
+						sym = get_symbol(current_function)
+						sym.start = current_pc()
+						sym.line_start = i
 					elif fpart == ".fnend":
 						# current_function should exist at this point and be the last symbol we got
 						sym = get_symbol(current_function)
@@ -737,16 +766,35 @@ while True:
 		except Exception as e:
 			print(f"Build error on line {i}: {line}")
 			raise
+	with open("trampo_pre.s", "w") as tw:
+		tw.write("\n".join(lines))
 	if trampo_offset != 0:
-		print("RESTART")
-		with open("trampo.s", "w") as tw:
-			tw.write("\n".join(lines))
-		out.clear()
-		instr_log.clear()
-		jumps.clear()
-		labels.clear()
-		symbols.clear()
+		do_trampo()
 	else:
+		if cli_args.optimize_functions:
+			print("Optimizing functions...")
+			useful = {}
+			#useful = [False] * len(lines)
+			for name, sym in symbols.items():
+				if sym.refs > 0:
+					for line in sym.line_range():
+						useful[line] = unsanitize(name)
+			for name, sym in symbols.items():
+				name = unsanitize(name)
+				if sym.refs == 0:
+					if not any(line in useful for line in sym.line_range()):
+						print(f"Removing unused function {name} from {sym.source}: {sym.line_range()}")
+						for line in sym.line_range():
+							lines[line] = None
+					else:
+						print(f"Unused function {name} ({sym.line_range()}) from {sym.source} contains referenced symbols: {','.join(useful[line] for line in sym.line_range() if line in useful)}")
+			old_length = len(lines)
+			lines = [l for l in lines if l is not None]
+			if old_length != len(lines):
+				do_trampo()
+				continue
+			else:
+				print("No more unused functions found.")
 		break
 if quiet:
 	sys.stdout = open(os.path.splitext(main_file)[0] + ".log", "w")

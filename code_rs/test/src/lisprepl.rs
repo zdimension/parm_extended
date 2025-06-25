@@ -8,6 +8,7 @@
 #![feature(alloc_error_handler)]
 #![allow(dead_code)]
 #![allow(clippy::should_implement_trait)]
+extern crate alloc;
 
 use crate::parm::heap::{free, malloc};
 use core::cell::{RefCell, RefMut};
@@ -20,7 +21,7 @@ use lisp::parse::{ReadError, SchemeParser};
 use lisp::val::LispVal;
 
 use crate::parm::heap::string::String;
-use crate::parm::tty::{Display, DisplayTarget};
+use crate::parm::tty::{ParmDisplay, DisplayTarget};
 use crate::parm::{keyb, telnet, tty};
 use crate::parm::heap::prc::Prc;
 

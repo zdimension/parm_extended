@@ -1,7 +1,7 @@
 use crate::lisp::eval::builtins::Helper;
 use crate::lisp::val::LispVal;
 use crate::parm::heap::string::String;
-use crate::parm::tty::Display;
+use crate::parm::tty::ParmDisplay;
 
 pub(crate) fn init(h: &mut Helper) {
     h.builtin("error", |_, args| {

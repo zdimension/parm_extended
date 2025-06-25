@@ -12,8 +12,8 @@ use crate::parm::heap::string::StrLike;
 use crate::parm::heap::string::ToString;
 use crate::parm::heap::string::{CharSeq, Parse};
 use crate::parm::heap::string::{FromStr, String};
-use crate::parm::heap::vec::Vec;
-use crate::parm::tty::{clear, print_char, print_hex, read_int, read_line, Display, DisplayTarget};
+use alloc::vec::Vec;
+use crate::parm::tty::{clear, print_char, print_hex, read_int, read_line, ParmDisplay, DisplayTarget};
 use crate::parm::{panic, telnet};
 use crate::parm::control::breakpoint;
 
@@ -36,7 +36,7 @@ impl Variable {
     }
 }
 
-impl Display for Variable {
+impl ParmDisplay for Variable {
     fn write(&self, target: &mut impl DisplayTarget) {
         target.print_char(self.get_name());
     }
@@ -87,7 +87,7 @@ impl Operator {
                 Operator::Eq => Value::Number(u32::from(a == b)),
                 Operator::NotEq => Value::Number(u32::from(a != b)),
             },
-            _ => panic("invalid operands"),
+            _ => panic!("invalid operands"),
         }
     }
 }
@@ -122,13 +122,13 @@ impl<'v, T, V: RpnVisitor<Output = T>> RpnEvaluator<'v, T, V> {
                 let a = match self.stack.pop() {
                     Some(a) => a,
                     None => {
-                        panic("stack underflow (a)");
+                        panic!("stack underflow (a)");
                     }
                 };
                 let b = match self.stack.pop() {
                     Some(b) => b,
                     None => {
-                        panic("stack underflow (b)");
+                        panic!("stack underflow (b)");
                     }
                 };
                 self.visitor.visit_operator(op, &a, &b)
@@ -143,7 +143,7 @@ impl<'v, T, V: RpnVisitor<Output = T>> RpnEvaluator<'v, T, V> {
         }
         match self.stack.pop() {
             Some(v) => v,
-            None => panic("Empty stack"),
+            None => panic!("Empty stack"),
         }
     }
 }
@@ -158,7 +158,7 @@ trait RpnVisitor {
     fn visit_operator(&self, o: &Operator, a: &Self::Output, b: &Self::Output) -> Self::Output;
 }
 
-impl Display for Expression {
+impl ParmDisplay for Expression {
     fn write(&self, target: &mut impl DisplayTarget) {
         target.print_slice(RpnEvaluator::new(&RpnStringifier).visit(self).as_chars())
     }
@@ -202,7 +202,7 @@ impl Value {
     }
 }
 
-impl Display for Value {
+impl ParmDisplay for Value {
     fn write(&self, target: &mut impl DisplayTarget) {
         match self {
             Value::Number(n) => n.write(target),
@@ -211,7 +211,7 @@ impl Display for Value {
     }
 }
 
-impl Display for Token {
+impl ParmDisplay for Token {
     fn write(&self, target: &mut impl DisplayTarget) {
         match self {
             Token::Literal(v) => v.write(target),
@@ -221,7 +221,7 @@ impl Display for Token {
     }
 }
 
-impl Display for Operator {
+impl ParmDisplay for Operator {
     fn write(&self, target: &mut impl DisplayTarget) {
         match self {
             Operator::Add => target.print_char('+'),
@@ -495,13 +495,13 @@ impl FromStr for InstructionKind {
     }
 }
 
-impl Display for Instruction {
+impl ParmDisplay for Instruction {
     fn write(&self, target: &mut impl DisplayTarget) {
         print!(self.line_no, ' ', self.content, => target);
     }
 }
 
-impl Display for InstructionKind {
+impl ParmDisplay for InstructionKind {
     fn write(&self, target: &mut impl DisplayTarget) {
         match self {
             InstructionKind::Print(s) => {
@@ -853,7 +853,7 @@ impl Program {
 
 struct Assembly(Vec<u32>);
 
-impl Display for Assembly {
+impl ParmDisplay for Assembly {
     fn write(&self, target: &mut impl DisplayTarget) {
         for val in self.0.iter() {
             print_hex(val & 0xffff, 4, target);

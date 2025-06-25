@@ -1,7 +1,7 @@
 use crate::parm::heap::budmap::BudMap;
 use crate::parm::heap::prc::Prc;
 use crate::parm::heap::string::String;
-use crate::parm::heap::vec::Vec;
+use alloc::vec::Vec;
 
 pub struct NamedType<T> {
     pub identity: Option<()>,

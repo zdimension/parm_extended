@@ -1,15 +1,15 @@
+use alloc::vec::Vec;
 use core::hash::{Hash, Hasher};
 use core::mem::MaybeUninit;
 use core::ptr;
 
 use crate::parm::heap::budmap::BudMap;
 use crate::parm::heap::string::{FromStr, String};
-use crate::parm::tty::{Display, DisplayTarget};
+use crate::parm::tty::{ParmDisplay, DisplayTarget};
 use crate::{makestr, print, LispValBox};
 
 use crate::lisp::env::SchemeEnv;
 use crate::lisp::parse::{ReadError, SchemeParser};
-use crate::parm::heap::vec::Vec;
 use paste::paste;
 use crate::lisp::eval::CallEvaluation;
 use crate::parm::tty;
@@ -649,7 +649,7 @@ impl LispVal {
     }
 }
 
-impl Display for LispVal {
+impl ParmDisplay for LispVal {
     fn write(&self, target: &mut impl DisplayTarget) {
         match self {
             LispVal::Int(i) => print!(i, => target),
@@ -671,7 +671,7 @@ impl Display for LispVal {
     }
 }
 
-impl<'a> Display for LispValDebugDisplay<'a> {
+impl<'a> ParmDisplay for LispValDebugDisplay<'a> {
     fn write(&self, target: &mut impl DisplayTarget) {
         match self.0 {
             LispVal::Str(s) => write_string(s, target),
@@ -682,7 +682,7 @@ impl<'a> Display for LispValDebugDisplay<'a> {
     }
 }
 
-impl Display for LispList {
+impl ParmDisplay for LispList {
     fn write(&self, target: &mut impl DisplayTarget) {
         write_list(self, target)
     }
@@ -734,7 +734,7 @@ fn write_hash(h: &LispHash, target: &mut impl DisplayTarget) {
     print!(")", => target);
 }
 
-impl Display for LispProc {
+impl ParmDisplay for LispProc {
     fn write(&self, target: &mut impl DisplayTarget) {
         let typename = self.type_name();
         if let Some(name) = self.name() {

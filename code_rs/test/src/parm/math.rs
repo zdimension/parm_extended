@@ -443,7 +443,7 @@ pub fn print_fp(x: fp32, target: &mut impl DisplayTarget) {
     }
 }
 
-impl tty::Display for fp32 {
+impl tty::ParmDisplay for fp32 {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         print_fp(*self, target);

@@ -3,7 +3,7 @@ use crate::parm::heap::string::String;
 
 use crate::{InsertionState, LispValBox, Prc, print};
 use core::hash::{Hash, Hasher};
-use crate::parm::tty::{Display, DisplayTarget};
+use crate::parm::tty::{ParmDisplay, DisplayTarget};
 
 #[derive(Hash)]
 pub(crate) struct SymbolMap(BudMap<String, LispValBox>);
@@ -36,7 +36,7 @@ impl SymbolMap {
     }
 }
 
-impl Display for SymbolMap {
+impl ParmDisplay for SymbolMap {
     fn write(&self, target: &mut impl DisplayTarget) {
         print!('{', => target);
         let mut first = true;

@@ -1,6 +1,6 @@
 use crate::lisp::val::{LispList, LispVal};
 use crate::parm::heap::string::{Parse, String};
-use crate::parm::tty::{Display, DisplayTarget};
+use crate::parm::tty::{ParmDisplay, DisplayTarget};
 use crate::{print, LispValBox, LoopResult};
 use core::iter::{Copied, Enumerate, Peekable};
 use core::slice::Iter;
@@ -18,7 +18,7 @@ pub enum ReadError {
     Empty,
 }
 
-impl Display for ReadError {
+impl ParmDisplay for ReadError {
     fn write(&self, target: &mut impl DisplayTarget) {
         match self {
             ReadError::EOFFound => print!("expected input but found EOF", => target),

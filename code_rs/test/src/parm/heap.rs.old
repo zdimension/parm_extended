@@ -201,12 +201,12 @@ unsafe impl GlobalAlloc for HeapAllocator {
 #[cfg(feature = "alloc_error_handler")]
 #[alloc_error_handler]
 fn alloc_error_handler(_layout: core::alloc::Layout) -> ! {
-    panic("allocation error")
+    panic!("allocation error")
 }
 
 /*#[export_name = "__aeabi_unwind_cpp_pr0"]
 pub extern "C" fn __aeabi_unwind_cpp_pr0() {
-    panic("unwind")
+    panic!("unwind")
 }*/
 
 #[cfg(feature = "alloc_error_handler")]
@@ -226,8 +226,8 @@ _ZN4core9panicking18panic_bounds_check17h6f55fa0d21c94988E:
 );
 
 #[export_name = "unknown_panic"]
-pub extern "C" fn unknown_panic() -> ! {
-    panic("unknown panic")
+pub extern "C" fn unknown_panic!() -> ! {
+    panic!("unknown panic")
 }
 
 #[cfg(feature = "alloc_error_handler")]

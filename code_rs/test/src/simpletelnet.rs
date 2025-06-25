@@ -4,7 +4,7 @@
 #![feature(associated_type_defaults)]
 #![feature(iter_order_by)]
 #![feature(step_trait)]
-
+#![feature(alloc_error_handler)]
 mod parm;
 
 use parm::keyb;

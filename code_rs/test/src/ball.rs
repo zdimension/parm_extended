@@ -18,7 +18,7 @@ use crate::parm::screen::{ColorSimple};
 
 use crate::screen::{rect};
 use derive_more::{Add, AddAssign, Mul};
-use crate::parm::heap::vec::Vec;
+use alloc::vec::Vec;
 
 mod parm;
 
@@ -30,12 +30,12 @@ fn main() {
         //let block = alloc::alloc::alloc(alloc::alloc::Layout::new::<u32>()) as *mut u32;
         let st = parm::heap::HEAP_START as *mut u32;
         *st = 123456;
-        
+
         //let block = parm::heap::malloc(4);
         println!(*st);
-        
+
         *st = 654321;
-        
+
         println!(*st);
     }*/
     // let x = alloc::vec![1, 4, 9];
@@ -48,7 +48,7 @@ fn main() {
     for z in y.iter() {
         println!(z.as_str());
     }
-    
+
     for i in 0..256 {
         let ram_ptr = (parm::heap::HEAP_START + i) as *mut u8;
         let val = unsafe { *ram_ptr };

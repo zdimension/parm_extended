@@ -318,57 +318,6 @@ _ZN4ball4parm4heap6malloc17h2142e4119c474623E:
 	add	r7, sp, #8
 	.pad	#24
 	sub	sp, #24
-	movs	r1, #255
-	mvns	r1, r1
-	movs	r2, #0
-	ldr	r3, .LCPI7_0
-.LBB7_1:
-	cmp	r2, #11
-	beq	.LBB7_3
-	ldrb	r4, [r3, r2]
-	str	r4, [r1]
-	adds	r2, r2, #1
-	b	.LBB7_1
-.LBB7_3:
-	str	r0, [r1, #4]
-	ldr	r2, [r1, #44]
-	cmp	r2, #0
-	beq	.LBB7_10
-	mov	r3, r1
-	adds	r3, #248
-.LBB7_5:
-	lsls	r4, r2, #28
-	bne	.LBB7_8
-	adds	r3, r3, #1
-	lsrs	r2, r2, #4
-	b	.LBB7_5
-.LBB7_7:
-	movs	r4, #15
-	ands	r4, r2
-	adds	r4, #48
-	str	r4, [r1]
-	adds	r3, r3, #1
-	lsrs	r2, r2, #4
-.LBB7_8:
-	cmp	r3, #0
-	bne	.LBB7_7
-	movs	r2, #0
-	b	.LBB7_12
-.LBB7_10:
-	movs	r2, #0
-	movs	r3, #48
-.LBB7_11:
-	str	r3, [r1]
-.LBB7_12:
-	cmp	r2, #6
-	beq	.LBB7_14
-	ldr	r3, .LCPI7_1
-	ldrb	r3, [r3, r2]
-	adds	r2, r2, #1
-	b	.LBB7_11
-.LBB7_14:
-	movs	r2, #10
-	str	r2, [r1]
 	movs	r2, #1
 	lsls	r3, r2, #20
 	ldr	r1, [r3]
@@ -378,33 +327,29 @@ _ZN4ball4parm4heap6malloc17h2142e4119c474623E:
 	mov	r5, sp
 	@NO_APP
 	cmp	r5, r4
-	blo	.LBB7_16
+	blo	.LBB7_2
 	stm	r1!, {r0}
 	str	r4, [r3]
 	mov	r0, r1
 	add	sp, #24
 	pop	{r4, r5, r7, pc}
-.LBB7_16:
+.LBB7_2:
 	movs	r0, #0
 	str	r0, [sp, #16]
 	str	r2, [sp, #4]
-	ldr	r1, .LCPI7_2
+	ldr	r1, .LCPI7_0
 	str	r1, [sp]
 	str	r0, [sp, #12]
 	movs	r0, #4
 	str	r0, [sp, #8]
 	mov	r0, sp
-	ldr	r1, .LCPI7_3
+	ldr	r1, .LCPI7_1
 	bl	_ZN4core9panicking9panic_fmt17h4111cec81ccee58dE
 	.p2align	2
 .LCPI7_0:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.14
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.16
 .LCPI7_1:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.15
-.LCPI7_2:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.18
-.LCPI7_3:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.19
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.17
 .Lfunc_end7:
 	.size	_ZN4ball4parm4heap6malloc17h2142e4119c474623E, .Lfunc_end7-_ZN4ball4parm4heap6malloc17h2142e4119c474623E
 	.cantunwind
@@ -427,7 +372,7 @@ unknown_panic:
 	bl	_ZN4core9panicking5panicXXX
 	.p2align	2
 .LCPI8_0:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.20
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.18
 .Lfunc_end8:
 	.size	unknown_panic, .Lfunc_end8-unknown_panic
 	.cantunwind
@@ -1284,7 +1229,7 @@ run:
 .LCPI24_4:
 	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.8
 .LCPI24_5:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.32
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.30
 .Lfunc_end24:
 	.size	run, .Lfunc_end24-run
 	.cantunwind
@@ -1329,7 +1274,7 @@ _ZN4core9panicking5panicXXX:
 	b	.LBB25_6
 	.p2align	2
 .LCPI25_0:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.21
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.19
 .Lfunc_end25:
 	.size	_ZN4core9panicking5panicXXX, .Lfunc_end25-_ZN4core9panicking5panicXXX
 	.cantunwind
@@ -1376,7 +1321,7 @@ _ZN4core6result13unwrap_failedXXX:
 	bl	_ZN4core9panicking5panicXXX
 	.p2align	2
 .LCPI27_0:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.22
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.20
 .Lfunc_end27:
 	.size	result_unwrap_failed, .Lfunc_end27-result_unwrap_failed
 	.cantunwind
@@ -1402,7 +1347,7 @@ _ZN4core6option13unwrap_failedXXX:
 	bl	_ZN4core9panicking5panicXXX
 	.p2align	2
 .LCPI28_0:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.22
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.20
 .Lfunc_end28:
 	.size	option_unwrap_failed, .Lfunc_end28-option_unwrap_failed
 	.cantunwind
@@ -1428,7 +1373,7 @@ _ZN4core9panicking18panic_bounds_checkXXX:
 	bl	_ZN4core9panicking5panicXXX
 	.p2align	2
 .LCPI29_0:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.23
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.21
 .Lfunc_end29:
 	.size	panic_bounds_check, .Lfunc_end29-panic_bounds_check
 	.cantunwind
@@ -1454,7 +1399,7 @@ _ZN4core9panicking9panic_fmtXXX:
 	bl	_ZN4core9panicking5panicXXX
 	.p2align	2
 .LCPI30_0:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.24
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.22
 .Lfunc_end30:
 	.size	panic_fmt, .Lfunc_end30-panic_fmt
 	.cantunwind
@@ -1480,7 +1425,7 @@ _ZN4core4cell22panic_already_borrowedXXX:
 	bl	_ZN4core9panicking5panicXXX
 	.p2align	2
 .LCPI31_0:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.25
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.23
 .Lfunc_end31:
 	.size	panic_already_borrowed, .Lfunc_end31-panic_already_borrowed
 	.cantunwind
@@ -1506,7 +1451,7 @@ _ZN63_$LT$core..cell..BorrowMutError$u20$as$u20$core..fmt..Debug$GT$3fmtXXX:
 	bl	_ZN4core9panicking5panicXXX
 	.p2align	2
 .LCPI32_0:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.26
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.24
 .Lfunc_end32:
 	.size	borrow_mut_error, .Lfunc_end32-borrow_mut_error
 	.cantunwind
@@ -1532,7 +1477,7 @@ _ZN4core9panicking11panic_const23panic_const_div_by_zeroXXX:
 	bl	_ZN4core9panicking5panicXXX
 	.p2align	2
 .LCPI33_0:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.27
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.25
 .Lfunc_end33:
 	.size	const_div_by_zero, .Lfunc_end33-const_div_by_zero
 	.cantunwind
@@ -1558,7 +1503,7 @@ _ZN4core9panicking11panic_const24panic_const_div_overflowXXX:
 	bl	_ZN4core9panicking5panicXXX
 	.p2align	2
 .LCPI34_0:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.28
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.26
 .Lfunc_end34:
 	.size	const_div_overflow, .Lfunc_end34-const_div_overflow
 	.cantunwind
@@ -1590,7 +1535,7 @@ _ZN4core5slice29__DOL_LT_DOL_impl_DOL_u20_DOL__DOL_u5b_DOL_T_DOL_u5d_DOL__DOL_GT
 	bl	_ZN4core9panicking5panicXXX
 	.p2align	2
 .LCPI35_0:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.29
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.27
 .Lfunc_end35:
 	.size	slicee_end_index_len_fail, .Lfunc_end35-slicee_end_index_len_fail
 	.cantunwind
@@ -1616,7 +1561,7 @@ _ZN4core5slice5index22slice_index_order_failXXX:
 	bl	_ZN4core9panicking5panicXXX
 	.p2align	2
 .LCPI36_0:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.30
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.28
 .Lfunc_end36:
 	.size	slice_index_order_fail, .Lfunc_end36-slice_index_order_fail
 	.cantunwind
@@ -1653,7 +1598,7 @@ _RNvCsgdvzLFu2dVu_7___rustc17rust_begin_unwind:
 	b	.LBB37_4
 	.p2align	2
 .LCPI37_0:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.31
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.29
 .Lfunc_end37:
 	.size	_RNvCsgdvzLFu2dVu_7___rustc17rust_begin_unwind, .Lfunc_end37-_RNvCsgdvzLFu2dVu_7___rustc17rust_begin_unwind
 	.cantunwind
@@ -1775,7 +1720,7 @@ _ZN4ball4parm4heap19alloc_error_handler17h11f25e990f5bdebcE:
 	bl	_ZN4core9panicking5panicXXX
 	.p2align	2
 .LCPI42_0:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.33
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.31
 .Lfunc_end42:
 	.size	_ZN4ball4parm4heap19alloc_error_handler17h11f25e990f5bdebcE, .Lfunc_end42-_ZN4ball4parm4heap19alloc_error_handler17h11f25e990f5bdebcE
 	.cantunwind
@@ -1903,128 +1848,116 @@ _RNvCsgdvzLFu2dVu_7___rustc8___rg_oom:
 	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.13, 16
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.14,%object
-	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.14,"a",%progbits
+	.section	.rodata.str1.1,"aMS",%progbits,1
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.14:
-	.ascii	"allocating "
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.14, 11
+	.asciz	"src/parm/heap.rs"
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.14, 17
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.15,%object
 	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.15,"a",%progbits
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.15:
-	.ascii	" bytes"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.15, 6
+	.ascii	"Heap overflow"
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.15, 13
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.16,%object
-	.section	.rodata.str1.1,"aMS",%progbits,1
+	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.16,"a",%progbits
+	.p2align	2, 0x0
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.16:
-	.asciz	"src/parm/heap.rs"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.16, 17
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.15
+	.asciz	"\r\000\000"
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.16, 8
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.17,%object
 	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.17,"a",%progbits
+	.p2align	2, 0x0
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.17:
-	.ascii	"Heap overflow"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.17, 13
+	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.14
+	.asciz	"\021\000\000\000$\000\000\000\t\000\000"
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.17, 16
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.18,%object
 	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.18,"a",%progbits
-	.p2align	2, 0x0
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.18:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.17
-	.asciz	"\r\000\000"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.18, 8
+	.ascii	"unknown panic"
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.18, 13
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.19,%object
 	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.19,"a",%progbits
-	.p2align	2, 0x0
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.19:
-	.long	.Lanon.3bf87869102f7802dc598b6443ab8f9d.16
-	.asciz	"\021\000\000\000%\000\000\000\t\000\000"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.19, 16
+	.ascii	"PANIC:"
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.19, 6
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.20,%object
 	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.20,"a",%progbits
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.20:
-	.ascii	"unknown panic"
+	.ascii	"unwrap_failed"
 	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.20, 13
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.21,%object
 	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.21,"a",%progbits
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.21:
-	.ascii	"PANIC:"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.21, 6
+	.ascii	"index out of bounds"
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.21, 19
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.22,%object
 	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.22,"a",%progbits
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.22:
-	.ascii	"unwrap_failed"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.22, 13
+	.ascii	"panic_fmt"
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.22, 9
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.23,%object
 	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.23,"a",%progbits
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.23:
-	.ascii	"index out of bounds"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.23, 19
+	.ascii	"panic_already_borrowed"
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.23, 22
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.24,%object
-	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.24,"a",%progbits
+	.section	.rodata.cst16,"aM",%progbits,16
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.24:
-	.ascii	"panic_fmt"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.24, 9
+	.ascii	"borrow_mut error"
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.24, 16
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.25,%object
 	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.25,"a",%progbits
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.25:
-	.ascii	"panic_already_borrowed"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.25, 22
+	.ascii	"const div by zero"
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.25, 17
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.26,%object
-	.section	.rodata.cst16,"aM",%progbits,16
+	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.26,"a",%progbits
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.26:
-	.ascii	"borrow_mut error"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.26, 16
+	.ascii	"const div overflow"
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.26, 18
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.27,%object
 	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.27,"a",%progbits
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.27:
-	.ascii	"const div by zero"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.27, 17
+	.ascii	"slice index out of bounds"
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.27, 25
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.28,%object
 	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.28,"a",%progbits
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.28:
-	.ascii	"const div overflow"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.28, 18
+	.ascii	"slice index start is larger than end"
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.28, 36
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.29,%object
 	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.29,"a",%progbits
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.29:
-	.ascii	"slice index out of bounds"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.29, 25
+	.ascii	"handler"
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.29, 7
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.30,%object
 	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.30,"a",%progbits
 .Lanon.3bf87869102f7802dc598b6443ab8f9d.30:
-	.ascii	"slice index start is larger than end"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.30, 36
+	.ascii	", "
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.30, 2
 
 	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.31,%object
-	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.31,"a",%progbits
-.Lanon.3bf87869102f7802dc598b6443ab8f9d.31:
-	.ascii	"handler"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.31, 7
-
-	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.32,%object
-	.section	.rodata..Lanon.3bf87869102f7802dc598b6443ab8f9d.32,"a",%progbits
-.Lanon.3bf87869102f7802dc598b6443ab8f9d.32:
-	.ascii	", "
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.32, 2
-
-	.type	.Lanon.3bf87869102f7802dc598b6443ab8f9d.33,%object
 	.section	.rodata.cst16,"aM",%progbits,16
-.Lanon.3bf87869102f7802dc598b6443ab8f9d.33:
+.Lanon.3bf87869102f7802dc598b6443ab8f9d.31:
 	.ascii	"allocation error"
-	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.33, 16
+	.size	.Lanon.3bf87869102f7802dc598b6443ab8f9d.31, 16
 
 	.ident	"rustc version 1.89.0-nightly (49a8ba068 2025-06-14)"
 	.section	".note.GNU-stack","",%progbits

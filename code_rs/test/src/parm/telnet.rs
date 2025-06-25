@@ -1,5 +1,7 @@
+use core::mem::MaybeUninit;
+use core::ptr;
 use crate::parm::heap::string::String;
-use crate::parm::heap::vec::Vec;
+use alloc::vec::Vec;
 use crate::parm::mmio::{TELNETavail, TELNETdata, RES};
 use crate::parm::tty::{AsciiEncodable, DisplayTarget};
 use crate::print;
@@ -45,14 +47,15 @@ pub fn read_arr_blocking<const N: usize>() -> [u8; N] {
 }
 
 pub fn read_n_blocking(n: usize) -> Vec<u8> {
-    let mut vec = Vec::with_capacity(n);
-    for i in 0..n {
-        RES.write(i as u32);
-        unsafe {
-            vec.push_unchecked(read_blocking());
+    let mut res: Vec<u8> = Vec::with_capacity(n);
+    unsafe {
+        for i in 0..n {
+            RES.write(i as u32);
+            res.as_mut_ptr().add(i).write(read_blocking());
         }
+        res.set_len(n);
     }
-    vec
+    res
 }
 
 pub fn read_all_as<T>(conv: fn(u8) -> T, stop: fn(u8) -> bool) -> Vec<T> {

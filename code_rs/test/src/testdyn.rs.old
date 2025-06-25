@@ -75,7 +75,7 @@ impl Operator {
                     Operator::Div => Value::Number(a / b),
                 }
             },
-            _ => panic("invalid operands"),
+            _ => panic!("invalid operands"),
         }
     }
 }
@@ -490,13 +490,13 @@ impl ProgramContext {
                     let a = match stack.pop() {
                         Some(a) => a,
                         None => {
-                            panic("stack underflow (a)");
+                            panic!("stack underflow (a)");
                         }
                     };
                     let b = match stack.pop() {
                         Some(b) => b,
                         None => {
-                            panic("stack underflow (b)");
+                            panic!("stack underflow (b)");
                         }
                     };
                     stack.push(op.eval(&a, &b));
@@ -505,7 +505,7 @@ impl ProgramContext {
         }
         match stack.pop() {
             Some(v) => v,
-            None => panic("Empty stack"),
+            None => panic!("Empty stack"),
         }
     }
 }

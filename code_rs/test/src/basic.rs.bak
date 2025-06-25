@@ -89,7 +89,7 @@ impl Operator {
                 Operator::Eq => Value::Number(if a == b { 1 } else { 0 }),
                 Operator::NotEq => Value::Number(if a != b { 1 } else { 0 }),
             },
-            _ => panic("invalid operands"),
+            _ => panic!("invalid operands"),
         }
     }
 }
@@ -126,13 +126,13 @@ impl<'v, T, V: RpnVisitor<Output = T>> RpnEvaluator<'v, T, V> {
                 let a = match self.stack.pop() {
                     Some(a) => a,
                     None => {
-                        panic("stack underflow (a)");
+                        panic!("stack underflow (a)");
                     }
                 };
                 let b = match self.stack.pop() {
                     Some(b) => b,
                     None => {
-                        panic("stack underflow (b)");
+                        panic!("stack underflow (b)");
                     }
                 };
                 self.visitor.visit_operator(op, &a, &b)
@@ -148,7 +148,7 @@ impl<'v, T, V: RpnVisitor<Output = T>> RpnEvaluator<'v, T, V> {
         }
         match self.stack.pop() {
             Some(v) => v,
-            None => panic("Empty stack"),
+            None => panic!("Empty stack"),
         }
     }
 }

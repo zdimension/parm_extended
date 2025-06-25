@@ -1,4 +1,4 @@
-use crate::parm::heap::vec::Vec;
+use alloc::vec::Vec;
 use crate::parm::util::fxhash::FxHasher;
 use core::hash::{BuildHasher, Hash, Hasher};
 use core::slice;

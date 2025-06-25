@@ -1,10 +1,12 @@
-use crate::parm::heap::vec::Vec;
+extern crate alloc;
+use alloc::vec;
+use alloc::vec::Vec;
 use core::iter::{Copied, Map, Take};
 use core::ops::{Deref, DerefMut};
 use core::slice::Iter;
 use core::str::Bytes;
 
-use crate::parm::tty::{AsciiEncodable, Display, DisplayTarget};
+use crate::parm::tty::{AsciiEncodable, ParmDisplay, DisplayTarget};
 
 #[repr(transparent)]
 #[derive(Clone, Eq, Hash)]
@@ -108,21 +110,24 @@ impl String {
     }
 
     pub fn from_char(count: usize, ch: char) -> String {
-        let mut res = Vec::with_capacity(count);
+        unsafe { String::from_utf32_unchecked(vec![ch; count]) }
+        /*let mut res = Vec::with_capacity(count);
+        res.resize(count, ch);
         unsafe {
             res.set_len(count);
             for i in 0..count {
-                res.raw_set(i, ch);
+                *res.get_unchecked_mut(i) = ch;
             }
             String::from_utf32_unchecked(res)
-        }
+        }*/
     }
 }
 
 impl From<&[u8]> for String {
     #[inline]
     fn from(s: &[u8]) -> String {
-        let mut res = Vec::with_capacity(s.len());
+        unsafe { String::from_utf32_unchecked(s.iter().map(|&b| b as char).collect()) }
+        /*let mut res = Vec::with_capacity(s.len());
         for (i, val) in s.into_iter().enumerate() {
             unsafe {
                 res.raw_set(i, *val as char);
@@ -131,30 +136,22 @@ impl From<&[u8]> for String {
         unsafe {
             res.set_len(s.len());
             String::from_utf32_unchecked(res)
-        }
+        }*/
     }
 }
 
 impl From<&str> for String {
     #[inline(never)]
     fn from(s: &str) -> String {
-        let mut res = Vec::with_capacity(s.len());
-        for (i, val) in s.chars().enumerate() {
-            unsafe {
-                res.raw_set(i, val);
-            }
-        }
-        unsafe {
-            res.set_len(s.len());
-            String::from_utf32_unchecked(res)
-        }
+        unsafe { String::from_utf32_unchecked(s.chars().collect()) }
     }
 }
 
 impl From<&[char]> for String {
     #[inline]
     fn from(s: &[char]) -> String {
-        let mut res = Vec::with_capacity(s.len());
+        unsafe { String::from_utf32_unchecked(s.to_vec()) }
+        /*let mut res = Vec::with_capacity(s.len());
         for (i, val) in s.iter().enumerate() {
             unsafe {
                 res.raw_set(i, *val);
@@ -163,25 +160,25 @@ impl From<&[char]> for String {
         unsafe {
             res.set_len(s.len());
             String::from_utf32_unchecked(res)
-        }
+        }*/
     }
 }
 
-impl Display for String {
+impl ParmDisplay for String {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         target.print_slice(self);
     }
 }
 
-impl Display for [char] {
+impl ParmDisplay for [char] {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         target.print_slice(self);
     }
 }
 
-impl Display for &[char] {
+impl ParmDisplay for &[char] {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         target.print_slice(self);
@@ -459,16 +456,17 @@ impl DisplayTarget for String {
 
     #[inline(always)]
     fn print_rust_str(&mut self, s: &str) {
-        self.vec.reserve(s.len());
+        self.vec.extend(s.chars());
+        /*self.vec.reserve(s.len());
         for c in s.chars() {
             unsafe {
                 self.vec.push_unchecked(c);
             }
-        }
+        }*/
     }
 }
 
-impl<T: Display + ?Sized> ToString for T {
+impl<T: ParmDisplay + ?Sized> ToString for T {
     // A common guideline is to not inline generic functions. However,
     // removing `#[inline]` from this method causes non-negligible regressions.
     // See <https://github.com/rust-lang/rust/pull/74852>, the last attempt
