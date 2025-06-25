@@ -284,7 +284,9 @@ def try_assemble(pc, m, instr, output, line, line_num):
 					else:
 						val = (lookup[v] // 2 - pc - (2 if cond else 0))
 					dic[k] = (val, width)
-					if not (abs(dic[k][0]) < 2 ** (width - (not pcrel))):
+					if not (abs(val) < 2 ** (width - (not pcrel))):
+						if first_optim_pass:
+							continue  # we'll see later
 						if not notrampo:	
 							new_label = "trampo_" + ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
 							# thanks @Guekka
@@ -559,6 +561,7 @@ def do_trampo():
 	jumps.clear()
 	labels.clear()
 	symbols.clear()
+first_optim_pass = cli_args.optimize_functions
 while True:
 	current_file = None
 	current_function = None
@@ -772,6 +775,8 @@ while True:
 		do_trampo()
 	else:
 		if cli_args.optimize_functions:
+			if first_optim_pass:
+				first_optim_pass = False
 			print("Optimizing functions...")
 			useful = {}
 			#useful = [False] * len(lines)
