@@ -102,40 +102,6 @@ _RNvCsgdvzLFu2dVu_7___rustc39___rust_alloc_error_handler_should_panic:
     .long 0
     "#);
 
-/*#[unsafe(export_name = "__aeabi_unwind_cpp_pr0")]
-pub extern "C" fn __aeabi_unwind_cpp_pr0() {
-    panic!("unwind")
-}*/
-
-#[cfg(feature = "alloc_error_handler")]
-core::arch::global_asm!(
-    r#"
-__rust_alloc:
-    b rust_alloc
-__rust_dealloc:
-    b rust_dealloc
-__rust_realloc:
-    b unknown_panic
-"#
-);
-
-// #[unsafe(export_name = "unknown_panic")]
-// pub extern "C" fn unknown_panic!() -> ! {
-//     panic!("unknown panic")
-// }
-
-#[cfg(feature = "alloc_error_handler")]
-#[unsafe(export_name = "rust_alloc")]
-fn __rust_alloc(size: usize, _align: usize) -> *mut u8 {
-    malloc(size) as _
-}
-
-#[cfg(feature = "alloc_error_handler")]
-#[unsafe(export_name = "rust_dealloc")]
-fn __rust_dealloc(ptr: *mut u8, _size: usize, _align: usize) {
-    free(ptr as _);
-}
-
 // from redox https://gitlab.redox-os.org/redox-os/kernel/-/blob/master/src/externs.rs
 const WORD_SIZE: usize = 4;
 
