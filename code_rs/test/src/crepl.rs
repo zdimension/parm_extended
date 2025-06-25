@@ -5,6 +5,7 @@
 #![feature(iter_order_by)]
 #![feature(step_trait)]
 #![feature(slice_pattern)]
+#![feature(alloc_error_handler)]
 #![allow(dead_code)]
 #![allow(clippy::should_implement_trait)]
 extern crate alloc;
