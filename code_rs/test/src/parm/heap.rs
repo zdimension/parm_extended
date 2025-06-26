@@ -89,18 +89,30 @@ static HEAP_ALLOCATOR: HeapAllocator = HeapAllocator;
 
 //#[cfg(feature = "alloc_error_handler")]
 //#[unsafe(export_name = "_ZN5alloc5alloc18handle_alloc_errorXXX")]
-#[alloc_error_handler]
-fn alloc_error_handler(_layout: core::alloc::Layout) -> ! {
-    panic!("allocation error")
-}
+//#[alloc_error_handler]
+//fn alloc_error_handler(_layout: core::alloc::Layout) -> ! {
+//     panic!("allocation error")
+// }
 
 core::arch::global_asm!(
     r#"
 __rust_no_alloc_shim_is_unstable:
-_RNvCsgdvzLFu2dVu_7___rustc26___rust_alloc_error_handler:
-_RNvCsgdvzLFu2dVu_7___rustc39___rust_alloc_error_handler_should_panic:
+XXX___rust_alloc_error_handler_should_panic:
     .long 0
     "#);
+
+#[unsafe(no_mangle)]
+#[export_name = "XXX__rust_alloc_error_handler"]
+pub unsafe fn __rust_alloc_error_handler(size: usize, align: usize) -> ! {
+    println!("Allocation error: size = {}, align = {}", size, align);
+    panic!("Allocation error");
+}
+
+#[unsafe(no_mangle)]
+#[export_name = "XXX___rust_no_alloc_shim_is_unstable_v2"]
+pub unsafe fn ___rust_no_alloc_shim_is_unstable_v2() {
+    
+}
 
 // from redox https://gitlab.redox-os.org/redox-os/kernel/-/blob/master/src/externs.rs
 const WORD_SIZE: usize = 4;
@@ -204,7 +216,7 @@ unsafe extern "C" fn __aeabi_memmove(dest: *mut u8, src: *const u8, n: usize) {
 
 #[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memset(dest: *mut u8, c: i32, n: usize) {
-    let c: usize = mem::transmute([c as u8; WORD_SIZE]);
+    let c: usize = usize::from_ne_bytes([c as u8; WORD_SIZE]);
     let n_usize: usize = n / WORD_SIZE;
     let mut i: usize = 0;
 
@@ -266,3 +278,4 @@ unsafe extern "C" fn __aeabi_memcmp(s1: *const u8, s2: *const u8, n: usize) -> i
 }
 
 static GLOBAL: HeapAllocator = HeapAllocator;
+

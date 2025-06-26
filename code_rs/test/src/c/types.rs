@@ -2,15 +2,16 @@ use crate::parm::heap::budmap::BudMap;
 use crate::parm::heap::prc::Prc;
 use crate::parm::heap::string::String;
 use alloc::vec::Vec;
+use hashbrown::HashMap;
 
 pub struct NamedType<T> {
     pub identity: Option<()>,
     pub inner: T
 }
 
-type StructImpl = NamedType<BudMap<String, TypeBox>>;
-type UnionImpl = NamedType<BudMap<String, TypeBox>>;
-type EnumImpl = NamedType<Vec<String>>;
+pub type StructImpl = NamedType<HashMap<String, TypeBox>>;
+pub type UnionImpl = NamedType<HashMap<String, TypeBox>>;
+pub type EnumImpl = NamedType<Vec<String>>;
 
 #[derive(Clone, PartialEq, Eq)]
 pub enum UnqualType {

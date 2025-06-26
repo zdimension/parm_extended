@@ -7,7 +7,7 @@ import re
 import sys
 import random
 import string
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from collections import OrderedDict
 class AsmException(Exception):
 	pass
@@ -161,6 +161,7 @@ class Symbol:
 	line_start: int = None
 	line_end: int = None
 	size_hint: int = None
+	label_value: int = None
 
 	def line_range(self):
 		if self.line_start is None:
@@ -175,11 +176,6 @@ IMM_SHIFT = {"h": 1, "w": 2, "p": 2}
 HI_REGS = {"sp": 13, "lr": 14, "pc": 15}
 BNAME = {1: "halfword", 2: "word"}
 SAN_TABLE = {".": "_DOT_", "$": "_DOL_"}
-def sanitize_and_local(s):
-	s = sanitize(s)
-	if s.startswith("_DOT_L"):
-		s = "LL_" + s + f"__{re.sub(r'[^a-zA-Z0-9_]', '_', current_file)}"
-	return s
 def sanitize(s):
 	s = unsanitize(s)
 	#if s.startswith(".L") and "$$" not in s:
@@ -193,26 +189,38 @@ def unsanitize(s):
 	for k, v in SAN_TABLE.items():
 		s = s.replace(v, k)
 	return s
+
+def get_full_current_scope():
+	return {**GLOBAL_SCOPE, **file_scopes[current_file]}
+
+def get_all_file_scopes():
+	return {"": GLOBAL_SCOPE, **file_scopes}
+
 class lookup:
 	def __getitem__(self, key):
-		key = sanitize_and_local(key)
+		sym = None
 		try:
 			sym = get_symbol(key)
 		except KeyError:
-			pass
-		else:
-			sym.refs += 1
-		if (v := labels.get(key)) is not None:
-			return 2 * v
-		for k, v in labels.items():
-			if k[-3:] == "XXX" and key.startswith(k[:-3]):
-				return 2 * v
-		raise KeyError(f"Label {key} not found")
+			for k, v in get_full_current_scope().items():
+				if (k[-3:] == "XXX" and key.startswith(k[:-3])) or (k[:3] == "XXX" and key.endswith(k[3:])):
+					sym = v
+					break
+		if sym is None:
+			raise KeyError(f"Symbol {key} not found")
+		sym.refs += 1
+		if sym.label_value is not None:
+			return sym.label_value * 2
+		raise KeyError(f"Symbol {key} has no value")
 lookup = lookup()
 def parse_imm(s):
 	if not s:
 		return 0
-	res = eval(sanitize(s), {}, lookup)
+	try:
+		res = eval(sanitize(s), {}, lookup)
+	except Exception as e:
+		print(file_scopes[current_file])
+		raise AsmException(f"In {current_file}: {e} while parsing immediate value {s}") from e
 	if type(res) == float and res != (res := int(res)):
 		raise AsmException(s)
 	return res
@@ -268,7 +276,7 @@ def try_assemble(pc, m, instr, output, line, line_num):
 				except Exception as e:
 					raise AsmException(f"Invalid register list: {v}") from e
 			elif k.startswith("label"):
-				v, old_v = sanitize_and_local(v), v
+				v, old_v = sanitize(v), v
 				kw = k[5:]
 				if kw[0] == "p":
 					pcrel = True
@@ -313,11 +321,11 @@ def try_assemble(pc, m, instr, output, line, line_num):
 								print("New code:", lines[line_num-1:line_num+8])
 								raise Trampoline(4)
 						raise Exception(
-							f"Jump too wide : {labels[v]} is {dic[k][0]} which does not fit in {width} bits")
+							f"Jump too wide : {lookup[v]//2} is {dic[k][0]} which does not fit in {width} bits")
 					if not nojumps:
-						jumps.append((pc, labels[v]))
+						jumps.append((pc, lookup[v]//2))
 				except KeyError:
-					raise AsmException(f"Invalid label: {v} (available: {', '.join(map(unsanitize, labels.keys()))})")
+					raise AsmException(f"Invalid label: {v}")
 	for k, v in dic.items():
 		if k[-1] == "_":
 			other = dic[k[:-1]]
@@ -347,7 +355,7 @@ def truncate(line, width=35):
 class Trampoline(Exception):
 	def __init__(self, offset):
 		self.offset = offset
-def assemble(line: str, labels, pc: int, line_num: int) -> tuple[tuple[int, int, str, str], ...]:
+def assemble(line: str, pc: int, line_num: int) -> tuple[tuple[int, int, str, str], ...]:
 	try:
 		instr, args = line.split(None, 1)
 	except:
@@ -494,41 +502,55 @@ def tokenize(line):
 #	print(tokenize(test))
 #exit()
 
-labels = {}
-symbols = {}
+SymList = dict[str, 'Symbol']
+
+GLOBAL_SCOPE: SymList = {}
+file_scopes: dict[str, SymList] = {}
+
 
 RE_BUILTINS = re.compile(r"(alloc|core|compiler_builtins)")
 
-def set_symbol(name):
-	name = sanitize_and_local(name)
-	if sym := symbols.get(name):
-		if sym.source == current_file:
-			return sym
-		elif sym.is_weak:
-			pass # override
-		elif sym.is_global:
-			raise Exception(f"Symbol {name} already defined in {sym.source}")
-		elif False and not RE_BUILTINS.search(current_file):
-			raise Exception(f"{current_file}: Symbol {name} already defined somewhere else (protected in {sym.source})")
-	#print("declaring", name, "in", current_file)
-	if name == "run": print("%06x" % current_pc(), "run")
-	symbols[name] = Symbol(source=current_file, line_start=i)
-	return symbols[name]
+def add_symbol(name, set_global=False):
+	if "XXX" in name:
+		set_global = True  # XXX symbols are always global since they're hacks
+	name = sanitize(name)
+	if glob_sym := GLOBAL_SCOPE.get(name):
+		if glob_sym.source == current_file:
+			return glob_sym
+		elif glob_sym.is_weak:
+			new_sym = Symbol(source=current_file, line_start=i)
+			GLOBAL_SCOPE[name] = new_sym
+			file_scopes[current_file][name] = new_sym
+			return new_sym
+		else:
+			raise Exception(f"Symbol {name} already globally defined in {glob_sym.source}")
+	
+	sym = file_scopes[current_file].get(name)
+	if not sym:
+		sym = Symbol(source=current_file, line_start=i)
+		file_scopes[current_file][name] = sym
+	if set_global:
+		GLOBAL_SCOPE[name] = sym
+	return sym
+
+def add_label(name, value):
+	sym = add_symbol(name)
+	if sym.label_value is None:
+		sym.label_value = value
+	elif sym.label_value == value:
+		pass  # whatever
+	else:
+		raise Exception(f"Label {name} already defined with value {sym.label_value}, cannot redefine to {value}")
+		
 
 def get_symbol(name):
-	name = sanitize_and_local(name)
-	if sym := symbols.get(name):
-		if RE_BUILTINS.search(current_file):
-			return sym
-		if sym.source == current_file:
-			return sym
-		elif sym.is_global:
-			return sym
-	print(sym)
-	if sym:
-		raise Exception(f"Symbol {unsanitize(name)} not found from {current_file} (exists in {sym.source})")
-	else:
-		raise KeyError(f"Symbol {unsanitize(name)} not found from {current_file}")
+	name = sanitize(name)
+	if sym := GLOBAL_SCOPE.get(name):
+		return sym
+	if sym := file_scopes[current_file].get(name):
+		return sym
+	
+	raise KeyError(f"Symbol {unsanitize(name)} not found from {current_file}")
 
 *includes, main_file = input_files
 fo = open(os.path.splitext(main_file)[0] + ".bin", "w")
@@ -559,8 +581,8 @@ def do_trampo():
 	out.clear()
 	instr_log.clear()
 	jumps.clear()
-	labels.clear()
-	symbols.clear()
+	GLOBAL_SCOPE.clear()
+	file_scopes.clear()
 first_optim_pass = cli_args.optimize_functions
 while True:
 	current_file = None
@@ -573,6 +595,7 @@ while True:
 		return instrs[-1][1] + instrs[-1][4]
 	byte_val = None
 	try:
+		print("# lines:", len(lines))
 		for i, line in enumerate(lines):
 			if not no_optim:
 				if i in ignored_lines:
@@ -583,7 +606,7 @@ while True:
 				kind, name = line[6:].strip().split(",", 1)
 				current_file = eval(name.strip())
 				is_main = kind == "main"
-				#labels = {k: v for k, v in labels.items() if k in symbols}
+				file_scopes[current_file] = {}
 				
 			while line := line.strip():
 				if byte_val is not None:
@@ -596,16 +619,17 @@ while True:
 					if skip:
 						break
 				if m := RE_LBL.match(line):  # line is a label
-					lbl_name = sanitize_and_local(m.group(1))
-					labels[lbl_name] = current_pc()
-					set_symbol(lbl_name)
+					lbl_name = sanitize(m.group(1))
+					add_label(lbl_name, current_pc())
 					line = line[line.index(":") + 1:]
+					def fixup(name, meth):
+						for sym in get_full_current_scope().keys():
+							if meth(sym, name):
+								add_label(sym, current_pc())
 					if lbl_name.endswith("XXX"):
-						lbl_name = lbl_name[:-3]
-						for sym in symbols.keys():
-							if sym.startswith(lbl_name):
-								set_symbol(sym)
-								labels[sym] = current_pc()
+						fixup(lbl_name[:-3], str.startswith)
+					elif lbl_name.startswith("XXX"):
+						fixup(lbl_name[3:], str.endswith)
 				elif m := RE_INST_N.match(line):
 					inst = m.group(1)
 					val = eval(inst)
@@ -707,19 +731,19 @@ while True:
 						add_instr(line)
 					elif fpart == ".hidden":
 						sym_name = line.split(None, 1)[1]
-						set_symbol(sym_name).is_hidden = True
+						add_symbol(sym_name).is_hidden = True
 					elif fpart == ".globl":
 						sym_name = line.split(None, 1)[1]
-						set_symbol(sym_name).is_global = True
+						add_symbol(sym_name, True)
 					elif fpart == ".weak":
 						sym_name = line.split(None, 1)[1]
-						set_symbol(sym_name).is_weak = True
+						add_symbol(sym_name, True).is_weak = True  # weak are global by default apparently
 					elif fpart == ".type":
 						args = line.split(None, 1)
 						sym_name, type_ = args[1].split(",")
 						if type_ == "%function":
-							current_function = sanitize_and_local(sym_name)
-						set_symbol(sym_name).type = type_.strip()
+							current_function = sanitize(sym_name)
+						add_symbol(sym_name).type = type_.strip()
 					elif fpart == ".thumb_func":
 						sym = get_symbol(current_function)
 						sym.start = current_pc()
@@ -731,12 +755,11 @@ while True:
 						sym.line_end = i + 1
 					elif fpart == ".set":
 						name, val = line.split(None, 1)[1].split(",")
-						labels[sanitize_and_local(name)] = parse_imm(val.strip())//2 # TODO: maybe store entire labels instead of halfs someday?
-						set_symbol(name)
+						add_label(name, parse_imm(val.strip())//2) # TODO: maybe store entire labels instead of halfs someday?
 					elif fpart == ".size":
 						args = line.split(None, 1)[1]
 						sym_name, size = args.split(",", 1)
-						set_symbol(sym_name).size_hint = parse_imm(size.strip())
+						add_symbol(sym_name).size_hint = parse_imm(size.strip())
 					elif fpart in (".text", ".syntax", ".section", ".type", ".eabi_attribute", ".code", ".file", ".thumb_func", ".fnstart", ".save", ".setfp", ".size", ".cantunwind", ".pad", ".globl", ".hidden", ".ident"):
 						pass
 					else:
@@ -748,6 +771,7 @@ while True:
 		raise
 	out = []
 	trampo_offset = 0
+	print("# instructions:", len(instrs))
 	for i, pc, line, val, size in instrs:
 		try:
 			if val is not None:
@@ -759,7 +783,7 @@ while True:
 			elif line[0] == ".":
 				continue
 			else:
-				for pc, val, code, data in assemble(line, labels, pc, i + trampo_offset):
+				for pc, val, code, data in assemble(line, pc, i + trampo_offset):
 					out.append(val)
 					if not nolog:
 						instr_log.append((pc, val, code, data))
@@ -780,19 +804,22 @@ while True:
 			print("Optimizing functions...")
 			useful = {}
 			#useful = [False] * len(lines)
-			for name, sym in symbols.items():
-				if sym.refs > 0:
-					for line in sym.line_range():
-						useful[line] = unsanitize(name)
-			for name, sym in symbols.items():
-				name = unsanitize(name)
-				if sym.refs == 0:
-					if not any(line in useful for line in sym.line_range()):
-						print(f"Removing unused function {name} from {sym.source}: {sym.line_range()}")
+			for file, symbols in get_all_file_scopes().items():
+				for name, sym in symbols.items():
+					if sym.refs > 0:
 						for line in sym.line_range():
-							lines[line] = None
-					else:
-						print(f"Unused function {name} ({sym.line_range()}) from {sym.source} contains referenced symbols: {','.join(useful[line] for line in sym.line_range() if line in useful)}")
+							useful[line] = file + "::" + unsanitize(name)
+			for file, symbols in get_all_file_scopes().items():
+				for name, sym in symbols.items():
+					name = unsanitize(name)
+					if sym.refs == 0:
+						if not any(line in useful for line in sym.line_range()):
+							if len(sym.line_range()) > 1:
+								print(f"Removing unused function {name} from {sym.source}: {sym.line_range()}")
+							for line in sym.line_range():
+								lines[line] = None
+						else:
+							print(f"Unused function {name} ({sym.line_range()}) from {sym.source} contains referenced symbols: {','.join(useful[line] for line in sym.line_range() if line in useful)}")
 			old_length = len(lines)
 			lines = [l for l in lines if l is not None]
 			if old_length != len(lines):
@@ -847,9 +874,10 @@ if not nolog:
 	print("╚" + "".join("═╧"[c == "│"] for c in columns[1:-1]) + "╝")
 
 print("unref symbols:")
-for name, sym in symbols.items():
-	if sym.refs == 0:
-		print(f"{name} ({sym.source}) from {sym.line_start} to {sym.line_end}, size {sym.size_hint or 'unknown'}")
+for file, symbols in get_all_file_scopes().items():
+	for name, sym in symbols.items():
+		if sym.refs == 0:
+			print(f"{name} ({sym.source}) from {sym.line_start} to {sym.line_end}, size {sym.size_hint or 'unknown'}")
 
 with open(os.path.splitext(main_file)[0] + ".bin", "w") as fo:
 	fo.write("v2.0 raw\n")

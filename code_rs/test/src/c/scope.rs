@@ -1,4 +1,5 @@
-use crate::c::types::QualType;
+use hashbrown::HashMap;
+use crate::c::types::{QualType, StructImpl};
 use crate::parm::heap::budmap::BudMap;
 use crate::parm::heap::prc::Prc;
 use crate::parm::heap::string::String;
@@ -20,10 +21,10 @@ enum SymbolKind {
     Variable(()),
 }
 
-#[derive(Default, Clone)]
+#[derive(Default)]
 pub struct Scope {
-    symbols: BudMap<String, SymbolKind>,
-    structs: BudMap<String, Prc<ScopeBox>>,
+    symbols: HashMap<String, SymbolKind>,
+    structs: HashMap<String, StructImpl>,
 }
 
 type ScopeBox = Prc<Scope>;

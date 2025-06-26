@@ -151,7 +151,7 @@ use crate::parm::control::breakpoint;
 #[panic_handler]
 fn handler(info: &PanicInfo) -> ! {
     //println!("panic: ", info.message());
-    write!(
+    let _ = write!(
         crate::parm::tty::get_tty(),
         "PANIC: {} at {}:{}\n",
         info.message(),

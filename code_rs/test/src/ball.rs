@@ -43,6 +43,7 @@ fn main() {
     // for y in x.iter().map(|x| x.to_string()) {
     //     println!(y.as_str());
     // }
+    println!("hello world");
     let x = [1, 4, 9];
     let y = x.map(|x| x.to_string());
     for z in y.iter() {

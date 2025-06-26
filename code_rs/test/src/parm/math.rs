@@ -452,6 +452,7 @@ impl tty::ParmDisplay for fp32 {
 
 core::arch::global_asm!(
     r#"
+    .globl __aeabi_lmul
 __aeabi_lmul:
 
 	push	{{r4, lr}}
