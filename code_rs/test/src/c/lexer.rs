@@ -14,8 +14,8 @@ pub enum ReadError {
     Empty,
 }
 
-#[derive(Copy, Clone)]
-enum AssignableOperator {
+#[derive(Copy, Clone, Eq, PartialEq, Debug)]
+pub enum AssignableOperator {
     Plus,
     Minus,
     Multiply,
@@ -47,8 +47,8 @@ impl TryFrom<char> for AssignableOperator {
     }
 }
 
-#[derive(Copy, Clone)]
-enum Operator {
+#[derive(Copy, Clone, Eq, PartialEq, Debug)]
+pub enum Operator {
     Simple(AssignableOperator),
     And,
     Or,
@@ -66,8 +66,8 @@ enum Operator {
     Arrow,
 }
 
-#[derive(Copy, Clone)]
-enum Keyword {
+#[derive(Copy, Clone, Eq, PartialEq, Debug)]
+pub enum Keyword {
     Auto,
     Bool,
     Break,
@@ -85,12 +85,16 @@ enum Keyword {
     If,
     Int,
     Return,
+    Signed,
     Sizeof,
+    Static,
     Struct,
     Switch,
     True,
     Typedef,
+    Unsigned,
     Void,
+    Volatile,
     While,
 }
 
@@ -118,18 +122,20 @@ impl TryFrom<&[u8]> for Keyword {
             b"int" => Int,
             b"return" => Return,
             b"sizeof" => Sizeof,
+            b"static" => Static,
             b"struct" => Struct,
             b"switch" => Switch,
             b"true" => True,
             b"typedef" => Typedef,
             b"void" => Void,
+            b"volatile" => Volatile,
             b"while" => While,
             _ => return Err(()),
         })
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq, Debug)]
 pub enum Token {
     // containers
     OpenParen,
@@ -343,6 +349,10 @@ impl<'a> Tokenizer<'a> {
                     Token::Character(ch)
                 }
                 '"' => self.read_string()?,
+                '.' => Token::Dot,
+                ',' => Token::Comma,
+                ';' => Token::Semicolon,
+                ':' => Token::Colon,
                 '0' => {
                     match self.peek() {
                         Some('x' | 'X') => {

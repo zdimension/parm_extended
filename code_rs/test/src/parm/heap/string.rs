@@ -1,6 +1,7 @@
 extern crate alloc;
 use alloc::vec;
 use alloc::vec::Vec;
+use core::fmt::{Display, Write};
 use core::iter::{Copied, Map, Take};
 use core::ops::{Deref, DerefMut};
 use core::slice::Iter;
@@ -9,7 +10,7 @@ use core::str::Bytes;
 use crate::parm::tty::{AsciiEncodable, ParmDisplay, DisplayTarget};
 
 #[repr(transparent)]
-#[derive(Clone, Eq, Hash)]
+#[derive(Clone, Eq, Hash, Debug)]
 pub struct String {
     vec: Vec<char>,
 }
@@ -164,6 +165,15 @@ impl From<&[char]> for String {
     }
 }
 
+impl From<&String> for String {
+    #[inline(always)]
+    fn from(s: &String) -> String {
+        String {
+            vec: s.vec.clone(),
+        }
+    }
+}
+
 impl ParmDisplay for String {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
@@ -182,6 +192,16 @@ impl ParmDisplay for &[char] {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
         target.print_slice(self);
+    }
+}
+
+impl Display for String {
+    #[inline(always)]
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        for ch in &self.vec {
+            f.write_char(*ch)?;
+        }
+        Ok(())
     }
 }
 

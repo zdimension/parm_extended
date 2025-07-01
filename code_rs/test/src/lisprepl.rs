@@ -11,7 +11,6 @@
 #![allow(clippy::should_implement_trait)]
 extern crate alloc;
 
-use crate::parm::heap::{free, malloc};
 use core::cell::{RefCell, RefMut};
 use core::hash::{Hash, Hasher};
 use core::mem::size_of;

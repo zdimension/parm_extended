@@ -1,8 +1,10 @@
+use alloc::alloc::{alloc, dealloc};
+use core::alloc::Layout;
 use core::cell::{RefCell, RefMut};
+use core::fmt::Debug;
 use core::hash::{Hash, Hasher};
 use core::ops::Deref;
 use core::ptr;
-use crate::parm::heap::{free, malloc};
 use crate::parm::tty::{ParmDisplay, DisplayTarget};
 
 impl<T: ParmDisplay> ParmDisplay for Prc<T> {
@@ -11,16 +13,22 @@ impl<T: ParmDisplay> ParmDisplay for Prc<T> {
     }
 }
 
-pub struct PrcInner<T: ?Sized> {
+pub struct PrcInner<T: Sized> {
     pub ref_count: usize,
     pub val: RefCell<T>,
 }
 
-pub struct Prc<T: ?Sized> {
+pub struct Prc<T: Sized> {
     pub ptr: *mut PrcInner<T>,
 }
 
-impl<T: ?Sized> From<&Prc<T>> for Prc<T> {
+impl<T: Sized + Debug> Debug for Prc<T> {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        Debug::fmt(&**self, f)
+    }
+}
+
+impl<T: Sized> From<&Prc<T>> for Prc<T> {
     fn from(other: &Prc<T>) -> Self {
         other.clone()
     }
@@ -31,7 +39,7 @@ impl<T: Sized + PartialEq> Eq for Prc<T> {}
 impl<T: Sized> Prc<T> {
     pub fn new(v: T) -> Self {
         unsafe {
-            let mem = malloc(size_of::<PrcInner<T>>()) as *mut PrcInner<T>;
+            let mem = alloc(Layout::new::<PrcInner<T>>()) as *mut PrcInner<T>;
             ptr::write(
                 mem,
                 PrcInner {
@@ -60,7 +68,7 @@ impl<T> Prc<T> {
     }
 }
 
-impl<T: ?Sized> Clone for Prc<T> {
+impl<T: Sized> Clone for Prc<T> {
     fn clone(&self) -> Self {
         unsafe {
             (*self.ptr).ref_count += 1;
@@ -81,11 +89,11 @@ impl<T: PartialEq + Hash> Hash for Prc<T> {
     }
 }
 
-impl<T: ?Sized> Drop for Prc<T> {
+impl<T: Sized> Drop for Prc<T> {
     fn drop(&mut self) {
         unsafe {
             if (*self.ptr).ref_count == 1 {
-                free(self.ptr as *mut u32);
+                dealloc(self.ptr as _, Layout::new::<PrcInner<T>>());
             } else {
                 (*self.ptr).ref_count -= 1;
             }
@@ -99,13 +107,13 @@ impl<T> From<T> for Prc<T> {
     }
 }
 
-impl<T: ?Sized> AsRef<T> for Prc<T> {
+impl<T: Sized> AsRef<T> for Prc<T> {
     fn as_ref(&self) -> &T {
         unsafe { &*(*self.ptr).val.as_ptr() }
     }
 }
 
-impl<T: ?Sized> Deref for Prc<T> {
+impl<T: Sized> Deref for Prc<T> {
     type Target = T;
 
     fn deref(&self) -> &T {

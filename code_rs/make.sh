@@ -3,19 +3,28 @@
 NAME=$1
 shift 1
 TARGET=thumbv6m-none-eabi
+RELEASE=1
+CARGO_ARG=
+TARGET_KIND=debug
+if [ "$RELEASE" = "1" ]; then
+  CARGO_ARG="--release";
+  TARGET_KIND=release
+fi
+
 
 rm -rf target/$TARGET/release/deps/$NAME-*
 
 export RUSTFLAGS="--emit asm -C relocation-model=static -v -A unsafe_op_in_unsafe_fn -A static_mut_refs"
-cargo -Zbuild-std=core,alloc build --release --bin $NAME || {
+cargo -Zbuild-std=core,alloc build $CARGO_ARG --bin $NAME || {
   echo "Cargo build failed"
   exit 1
 }
-cp target/$TARGET/release/deps/$NAME-*.s bin/$NAME.s
-mv target/$TARGET/release/deps/$NAME-*.s target/$TARGET/release/deps/$NAME.s.bak
+TARGET_DIR=target/$TARGET/$TARGET_KIND
+cp $TARGET_DIR/deps/$NAME-*.s bin/$NAME.s
+mv $TARGET_DIR/deps/$NAME-*.s $TARGET_DIR/deps/$NAME.s.bak
 pushd bin
-../../../asm/assembleur.py ../target/$TARGET/release/deps/*.s ../target/$TARGET/release/deps/$NAME.s.bak $@ &&
-cp ../target/$TARGET/release/deps/$NAME.s.raw digital_out.raw
+../../../asm/assembleur.py ../$TARGET_DIR/deps/*.s ../$TARGET_DIR/deps/$NAME.s.bak $@ &&
+cp ../$TARGET_DIR/deps/$NAME.s.raw digital_out.raw
 
 #if [[ "$*" == *"--disasm"* ]]; then
 #  if [ -z $NAME ]; then

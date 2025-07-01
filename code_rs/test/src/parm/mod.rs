@@ -35,6 +35,11 @@ pub fn _start() -> ! {
     loop {}
 }
 
+#[unsafe(no_mangle)]
+pub fn invalid_instruction() -> ! {
+    panic!("invalid instruction");
+}
+
 // #[unsafe(export_name = "_ZN4core9panicking5panicXXX")]
 // pub fn panic!(expr: &'static str) -> ! {
 //     println!("PANIC:", expr);
@@ -144,9 +149,7 @@ core::arch::global_asm!(
     "#
 );
 
-use crate::println;
 use core::panic::PanicInfo;
-use crate::parm::control::breakpoint;
 
 #[panic_handler]
 fn handler(info: &PanicInfo) -> ! {

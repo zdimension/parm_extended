@@ -1,4 +1,4 @@
-mod parse;
-mod types;
-mod scope;
-mod lexer;
+pub mod parse;
+pub mod types;
+pub mod scope;
+pub mod lexer;

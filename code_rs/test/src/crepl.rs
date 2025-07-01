@@ -6,20 +6,19 @@
 #![feature(step_trait)]
 #![feature(slice_pattern)]
 #![feature(alloc_error_handler)]
+#![feature(maybe_uninit_slice)]
 #![allow(dead_code)]
 #![allow(clippy::should_implement_trait)]
 extern crate alloc;
 
-use crate::parm::heap::{free, malloc};
-use core::cell::{RefCell, RefMut};
-use core::hash::{Hash, Hasher};
-use core::mem::size_of;
-use core::ops::Deref;
-use core::ptr;
-
+use core::{fmt, slice};
+use core::fmt::Write;
+use core::mem::MaybeUninit;
+use hashbrown::HashMap;
+use crate::c::parse::CParser;
 use crate::parm::heap::string::String;
-use crate::parm::tty::{ParmDisplay, DisplayTarget};
 use crate::parm::{keyb, telnet, tty};
+use crate::parm::control::breakpoint;
 
 mod parm;
 mod c;
@@ -79,32 +78,45 @@ impl CRepl {
         if !check_balanced(code) {
             return EvalStatus::ContinueReading;
         }
-        //let mut parser = CParser::new(code);
-        loop {
-            //let read = parser.read_whole();
-            /*match read {
-                Ok(res) => {
-                    //let res = self.env.eval(&res.into());
-                    /*match res {
-                        Ok(res) => {
-                            if !matches!(*res, LispVal::Void) {
-                                println!(res.debug_display());
-                            }
-                            self.env.set_new(String::from("_"), res);
-                        }
-                        Err(msg) => {
-                            println!("eval error: ", msg);
-                        }
-                    }*/
-                }
-                Err(ReadError::Empty) => break,
-                Err(ReadError::EOFFound) => return EvalStatus::ContinueReading,
-                Err(e) => {
-                    println!("parse error: ", e);
-                    break;
-                }
-            };*/
+        let mut parser = CParser::new(code);
+        match parser.read_whole() {
+            Ok(_) => {
+                writeln!(tty::get_tty(), "{:?}", parser.scope);
+            }
+            Err(e) => {
+                writeln!(
+                    tty::get_tty(),
+                    "parse error: {:?}",
+                    e,
+                );
+                //println!("parse error: {}", e);
+            }
         }
+        // loop {
+        //     //let read = parser.read_whole();
+        //     /*match read {
+        //         Ok(res) => {
+        //             //let res = self.env.eval(&res.into());
+        //             /*match res {
+        //                 Ok(res) => {
+        //                     if !matches!(*res, LispVal::Void) {
+        //                         println!(res.debug_display());
+        //                     }
+        //                     self.env.set_new(String::from("_"), res);
+        //                 }
+        //                 Err(msg) => {
+        //                     println!("eval error: ", msg);
+        //                 }
+        //             }*/
+        //         }
+        //         Err(ReadError::Empty) => break,
+        //         Err(ReadError::EOFFound) => return EvalStatus::ContinueReading,
+        //         Err(e) => {
+        //             println!("parse error: ", e);
+        //             break;
+        //         }
+        //     };*/
+        // }
         EvalStatus::Ok
     }
 
@@ -170,5 +182,114 @@ impl CRepl {
 }
 
 fn main() {
-    CRepl::new().run();
+let mut out_r2: u32 = 0;
+let mut out_r3: u32 = 0;
+let mut out_r4: u32 = 0;
+let val_r2: u32 = 0x12345678;
+let val_r3: u32 = 0x12345678;
+let val_r4: u32 = 0x00F0;
+unsafe {
+    core::arch::asm!(
+        // Teste l'instruction REV (reverse byte order in a word)
+        "ldr {r2}, [{val_r2}]",
+        "rev {r2}, {r2}",
+
+        // Teste l'instruction REV16 (reverse byte order in each halfword)
+        "ldr {r3}, [{val_r3}]",
+        "rev16 {r3}, {r3}",
+
+        // Teste l'instruction REVSH (reverse byte order in the lower halfword and sign-extend)
+        "ldr {r4}, [{val_r4}]",
+        "revsh {r4}, {r4}",
+        r2 = out(reg) out_r2,
+        r3 = out(reg) out_r3,
+        r4 = out(reg) out_r4,
+        val_r2 = in(reg) &val_r2,
+        val_r3 = in(reg) &val_r3,
+        val_r4 = in(reg) &val_r4,
+    );
+}
+
+    
+    // writeln!(tty::get_tty(), "REVSH: 0x{:08X}", out_r4);
+
+    type T = usize;
+    fn digit(x: u8) -> u8 {
+        match x {
+            x @  0 ..=  9 => b'0' + x, x @ 10 ..= 15 => b'A' + (x - 10),
+            x => panic!("number not in the range 0..={}: {}", 16 - 1, x),
+        }
+    }
+    struct USwrapper(u32);
+    impl fmt::Display for USwrapper {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            breakpoint();
+            let mut x = self.0;
+            // The radix can be as low as 2, so we need a buffer of at least 128
+            // characters for a base 2 number.
+            let zero = 0 as u32;
+            let is_nonnegative = x >= zero;
+            let mut buf = [MaybeUninit::<u8>::uninit(); 128];
+            let mut curr = buf.len();
+            let base = 16 as u32;
+            if is_nonnegative {
+                // Accumulate each digit of the number from the least significant
+                // to the most significant figure.
+                loop {
+                    let n = x % base; // Get the current place value.
+                    x = x / base; // Deaccumulate the number.
+                    curr = curr.checked_sub(1).unwrap();
+                    buf[curr].write(digit(n as u8)); // Store the digit in the buffer.
+                    if x == zero {
+                        // No more digits left to accumulate.
+                        break;
+                    };
+                }
+            } else {
+                // Do the same as above, but accounting for two's complement.
+                loop {
+                    let n = zero - (x % base); // Get the current place value.
+                    x = x / base; // Deaccumulate the number.
+                    curr = curr.checked_sub(1).unwrap();
+                    buf[curr].write(digit(n as u8)); // Store the digit in the buffer.
+                    if x == zero {
+                        // No more digits left to accumulate.
+                        break;
+                    };
+                }
+            }
+            // SAFETY: `curr` is initialized to `buf.len()` and is only decremented, so it can't overflow. It is
+            // decremented exactly once for each digit. Since u128 is the widest fixed width integer format supported,
+            // the maximum number of digits (bits) is 128 for base-2, so `curr` won't underflow as well.
+            let buf = unsafe { buf.get_unchecked(curr..) };
+            // SAFETY: The only chars in `buf` are created by `Self::digit` which are assumed to be
+            // valid UTF-8
+            let buf = unsafe {
+                str::from_utf8_unchecked(slice::from_raw_parts(
+                    MaybeUninit::slice_as_ptr(buf),
+                    buf.len(),
+                ))
+            };
+            f.pad_integral(is_nonnegative, "0x", buf)
+        }
+    }
+
+    writeln!(tty::get_tty(), "REV: {}", USwrapper(out_r2));
+    writeln!(tty::get_tty(), "REV16: {}", USwrapper(out_r3));
+    writeln!(tty::get_tty(), "REVSH: {}", USwrapper(out_r4));
+
+    writeln!(tty::get_tty(), "REV: 0x{:08X}", out_r2);
+    writeln!(tty::get_tty(), "REV16: 0x{:08X}", out_r3);
+    writeln!(tty::get_tty(), "REVSH: 0x{:08X}", out_r4);
+    
+    
+        
+
+    return;
+
+    let mut dict = HashMap::new();
+    let s = String::from("hello world");
+    dict.insert(s, 123);
+    writeln!(tty::get_tty(), "dict: {:?}", dict);
+    //CRepl::new().run();
 }

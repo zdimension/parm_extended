@@ -1,5 +1,3 @@
-use core::mem::MaybeUninit;
-use core::ptr;
 use crate::parm::heap::string::String;
 use alloc::vec::Vec;
 use crate::parm::mmio::{TELNETavail, TELNETdata, RES};

@@ -1,30 +1,29 @@
 use hashbrown::HashMap;
-use crate::c::types::{QualType, StructImpl};
-use crate::parm::heap::budmap::BudMap;
+use crate::c::types::{QualType, TypeBox};
 use crate::parm::heap::prc::Prc;
 use crate::parm::heap::string::String;
 
-enum TagKind {
+pub enum TagKind {
     Struct,
     Union,
     Enum,
 }
 
-enum ItemName {
+pub enum ItemName {
     Symbol(String),
     TaggedType(TagKind)
 }
 
-#[derive(Clone)]
-enum SymbolKind {
+#[derive(Clone, Debug)]
+pub enum SymbolKind {
     Type(QualType),
-    Variable(()),
+    Variable(QualType),
 }
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct Scope {
-    symbols: HashMap<String, SymbolKind>,
-    structs: HashMap<String, StructImpl>,
+    pub symbols: HashMap<String, SymbolKind>,
+    pub structs: HashMap<String, TypeBox>,
 }
 
 type ScopeBox = Prc<Scope>;
