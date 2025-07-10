@@ -2,7 +2,8 @@
 # Tom Niget - 2020
 
 import math
-import numba
+import time
+
 import os
 import re
 import sys
@@ -10,12 +11,13 @@ import random
 import string
 from dataclasses import dataclass, field
 from collections import OrderedDict, defaultdict
-from typing import Sequence, NewType
+from typing import Sequence, NewType, Any
 
 
 class AsmException(Exception):
     pass
 
+start_time = time.time()
 print(sys.argv)
 #
 os.chdir("../code_rs/test/bin")
@@ -23,9 +25,17 @@ os.chdir("../code_rs/test/bin")
 #             '../target/thumbv6m-none-eabi/release/deps/core-5c146e185925475e.s', '../target/thumbv6m-none-eabi/release/deps/derive_more-def3c3b56183adcf.s', '../target/thumbv6m-none-eabi/release/deps/equivalent-4775723ac70a6265.s', '../target/thumbv6m-none-eabi/release/deps/foldhash-7aa17a38163c09e6.s', '../target/thumbv6m-none-eabi/release/deps/hashbrown-8b9143ce0476d75e.s', '../target/thumbv6m-none-eabi/release/deps/c.s.bak',
 #             '-n', '-Of']
 
-sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/alloc-1674422c22f635cb.s', '../target/thumbv6m-none-eabi/release/deps/allocator_api2-454a206231c78fe2.s', '../target/thumbv6m-none-eabi/release/deps/compiler_builtins-6d31e344585737af.s', '../target/thumbv6m-none-eabi/release/deps/core-5c146e185925475e.s', '../target/thumbv6m-none-eabi/release/deps/derive_more-def3c3b56183adcf.s', '../target/thumbv6m-none-eabi/release/deps/equivalent-4775723ac70a6265.s', '../target/thumbv6m-none-eabi/release/deps/foldhash-7aa17a38163c09e6.s', '../target/thumbv6m-none-eabi/release/deps/hashbrown-8b9143ce0476d75e.s', '../target/thumbv6m-none-eabi/release/deps/lisp.s.bak', '-n', '-Of']
+sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/alloc-1674422c22f635cb.s',
+            '../target/thumbv6m-none-eabi/release/deps/allocator_api2-454a206231c78fe2.s',
+            '../target/thumbv6m-none-eabi/release/deps/compiler_builtins-6d31e344585737af.s',
+            '../target/thumbv6m-none-eabi/release/deps/core-5c146e185925475e.s',
+            '../target/thumbv6m-none-eabi/release/deps/derive_more-def3c3b56183adcf.s',
+            '../target/thumbv6m-none-eabi/release/deps/equivalent-4775723ac70a6265.s',
+            '../target/thumbv6m-none-eabi/release/deps/foldhash-7aa17a38163c09e6.s',
+            '../target/thumbv6m-none-eabi/release/deps/hashbrown-8b9143ce0476d75e.s',
+            '../target/thumbv6m-none-eabi/release/deps/lisp.s.bak', '-n', '-Of']
 
-            # Internal operand regexes
+# Internal operand regexes
 REGEXES_REGS = [
     (r"(?:\{(R\w+)\})", r"(?P<F\1>r(?P<\1>[0-7]))"),
     (r"(?:\{(H\w+)\})", r"(?P<F\1>(?P<\1>r([89]|1[0-5])|sp|lr|pc))"),
@@ -44,10 +54,8 @@ REGEXES = {re.compile(k): v for k, v in REGEXES}
 CONDS = ["eq", "ne", "cs", "cc", "mi", "pl", "vs", "vc", "hi", "ls", "ge", "lt", "gt", "le", "al", "nv"]
 CONDS_ALIAS = {"hs": "cs", "lo": "cc"}
 
-INSTRUCTIONS = defaultdict(dict)
 
-# Instruction definitions
-for k, v in {
+INSTR_DEFS = {
     # 01 - move shifted register
     "lsls {Rd}, {Rm}, {imm5}": (0b000_00, "imm5", "Rm", "Rd"),
     "lsrs {Rd}, {Rm}, {imm5}": (0b000_01, "imm5", "Rm", "Rd"),
@@ -90,31 +98,31 @@ for k, v in {
     "mov {Rd}, {Hs}": (0b010001_10_0_1, "Hs", "Rd"),
     "mov {Hd}, {Rs}": (0b010001_10_1_0, "Rs", "Hd"),
     "mov {Hd}, {Hs}": (0b010001_10_1_1, "Hs", "Hd"),
-    "bx {Rm}":		  (0b010001_11_0_0, "Rm", "000"),
-    "bx {Hm}":		  (0b010001_11_0_1, "Hm", "000"),
-    "blx? {Rm}":	  (0b010001_11_1_0, "Rm", "000"),
-    "blx? {Hm}":	  (0b010001_11_1_1, "Hm", "000"),
+    "bx {Rm}": (0b010001_11_0_0, "Rm", "000"),
+    "bx {Hm}": (0b010001_11_0_1, "Hm", "000"),
+    "blx? {Rm}": (0b010001_11_1_0, "Rm", "000"),
+    "blx? {Hm}": (0b010001_11_1_1, "Hm", "000"),
     # 06 - PC-relative load
-    "ldr {Rd}, [pc(?:, {immw8})?]":	(0b01001, "Rd", "immw8"),
+    "ldr {Rd}, [pc(?:, {immw8})?]": (0b01001, "Rd", "immw8"),
     "ldr {Rd}, {labelp8}": (0b01001, "Rd", "labelp8"),
     # 07 - load/store with register offset
-    "str {Rd}, [{Rb}, {Ro}]": 	(0b0101_0_0_0, "Ro", "Rb", "Rd"),
-    "strb {Rd}, [{Rb}, {Ro}]": 	(0b0101_0_1_0, "Ro", "Rb", "Rd"),
-    "ldr {Rd}, [{Rb}, {Ro}]": 	(0b0101_1_0_0, "Ro", "Rb", "Rd"),
-    "ldrb {Rd}, [{Rb}, {Ro}]": 	(0b0101_1_1_0, "Ro", "Rb", "Rd"),
+    "str {Rd}, [{Rb}, {Ro}]": (0b0101_0_0_0, "Ro", "Rb", "Rd"),
+    "strb {Rd}, [{Rb}, {Ro}]": (0b0101_0_1_0, "Ro", "Rb", "Rd"),
+    "ldr {Rd}, [{Rb}, {Ro}]": (0b0101_1_0_0, "Ro", "Rb", "Rd"),
+    "ldrb {Rd}, [{Rb}, {Ro}]": (0b0101_1_1_0, "Ro", "Rb", "Rd"),
     # 08 - load/store sign-extended byte/halfword
-    "strh {Rd}, [{Rb}, {Ro}]":	(0b0101_0_0_1, "Ro", "Rb", "Rd"),
-    "ldrh {Rd}, [{Rb}, {Ro}]":	(0b0101_1_0_1, "Ro", "Rb", "Rd"),
-    "ldrsb {Rd}, [{Rb}, {Ro}]":	(0b0101_0_1_1, "Ro", "Rb", "Rd"),
-    "ldrsh {Rd}, [{Rb}, {Ro}]":	(0b0101_1_1_1, "Ro", "Rb", "Rd"),
+    "strh {Rd}, [{Rb}, {Ro}]": (0b0101_0_0_1, "Ro", "Rb", "Rd"),
+    "ldrh {Rd}, [{Rb}, {Ro}]": (0b0101_1_0_1, "Ro", "Rb", "Rd"),
+    "ldrsb {Rd}, [{Rb}, {Ro}]": (0b0101_0_1_1, "Ro", "Rb", "Rd"),
+    "ldrsh {Rd}, [{Rb}, {Ro}]": (0b0101_1_1_1, "Ro", "Rb", "Rd"),
     # 09 - load/store with immediate offset
-    "str {Rd}, [{Rb}(?:, {immw5})?]":	(0b011_0_0, "immw5", "Rb", "Rd"),
-    "ldr {Rd}, [{Rb}(?:, {immw5})?]":	(0b011_0_1, "immw5", "Rb", "Rd"),
-    "strb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_0, "imm5", "Rb", "Rd"),
-    "ldrb {Rd}, [{Rb}(?:, {imm5})?]":	(0b011_1_1, "imm5", "Rb", "Rd"),
+    "str {Rd}, [{Rb}(?:, {immw5})?]": (0b011_0_0, "immw5", "Rb", "Rd"),
+    "ldr {Rd}, [{Rb}(?:, {immw5})?]": (0b011_0_1, "immw5", "Rb", "Rd"),
+    "strb {Rd}, [{Rb}(?:, {imm5})?]": (0b011_1_0, "imm5", "Rb", "Rd"),
+    "ldrb {Rd}, [{Rb}(?:, {imm5})?]": (0b011_1_1, "imm5", "Rb", "Rd"),
     # 10 - load/store halfword
-    "strh {Rd}, [{Rb}(?:, {immh5})?]":	(0b1000_0, "immh5", "Rb", "Rd"),
-    "ldrh {Rd}, [{Rb}(?:, {immh5})?]":	(0b1000_1, "immh5", "Rb", "Rd"),
+    "strh {Rd}, [{Rb}(?:, {immh5})?]": (0b1000_0, "immh5", "Rb", "Rd"),
+    "ldrh {Rd}, [{Rb}(?:, {immh5})?]": (0b1000_1, "immh5", "Rb", "Rd"),
     # 11 - SP-relative load/store
     "str {Rt}, [sp(?:, {immw8})?]": (0b1001_0, "Rt", "immw8"),
     "ldr {Rt}, [sp(?:, {immw8})?]": (0b1001_1, "Rt", "immw8"),
@@ -132,8 +140,8 @@ for k, v in {
     "uxth {Rd}, {Rm}": (0b1011_0010_10, "Rm", "Rd"),
     "uxtb {Rd}, {Rm}": (0b1011_0010_11, "Rm", "Rd"),
     # 14.4 - push/pop registers
-    #"push {reglist}": (0b1011_0_10, "reglist"),
-    #"pop {reglist}": (0b1011_1_10, "reglist"),
+    # "push {reglist}": (0b1011_0_10, "reglist"),
+    # "pop {reglist}": (0b1011_1_10, "reglist"),
     # todo, 1011x10x
     # 14.9 - reverse bytes
     "rev {Rd}, {Rn}": (0b1011_1010_00, "Rn", "Rd"),
@@ -149,18 +157,30 @@ for k, v in {
     # 18 - unconditional branch
     "b {label11}": (0b11100, "label11"),
     # 19 - long branch with link
-    #"blx? {label11}": (0b1111_0, "label11"), # todo, long branch
+    # "blx? {label11}": (0b1111_0, "label11"), # todo, long branch
 
     "nop ": "mov r0, r0",
+}
 
-}.items():
-    k = k.replace("[", "\\[").replace("]", "\\]")
-    for rg, sub in REGEXES.items():
-        k = rg.sub(sub, k)
-    INSTRUCTIONS[k[0]][re.compile(f"^{k}$", re.IGNORECASE)] = v
+
+def build_instruction_table():
+    """Build the instruction lookup table from definitions."""
+    instructions = defaultdict(dict)
+
+    for k, v in INSTR_DEFS.items():
+        k = k.replace("[", "\\[").replace("]", "\\]")
+        for rg, sub in REGEXES.items():
+            k = rg.sub(sub, k)
+        instructions[k[0]][re.compile(f"^{k}$", re.IGNORECASE)] = v
+
+    return instructions
+
+
+INSTRUCTIONS = build_instruction_table()
 
 instr_log = []
 jumps = []
+
 
 @dataclass
 class Symbol:
@@ -183,6 +203,7 @@ class Symbol:
         return id(self)
 
     def line_range(self):
+        """Range of line indices this symbol is defined in. All lines are included."""
         if self.line_start is None:
             return None
         if self.line_end is not None:
@@ -195,7 +216,6 @@ class Symbol:
         self.refs = {r for r in self.refs if r not in rang}
 
 
-
 IMM_SHIFT = {"h": 1, "w": 2, "p": 2}
 HI_REGS = {"sp": 13, "lr": 14, "pc": 15}
 BNAME = {1: "halfword", 2: "word"}
@@ -203,15 +223,17 @@ SAN_TABLE = {".": "oo", "$": "Ꞩ"}
 
 Sanitized = NewType("Sanitized", str)
 
-def sanitize(s: str) -> Sanitized:
-    #s = unsanitize(s)
 
-    #if s.startswith(".L") and "$$" not in s:
+def sanitize(s: str) -> Sanitized:
+    # s = unsanitize(s)
+
+    # if s.startswith(".L") and "$$" not in s:
     #	s = s + f"$${re.sub(r'[^a-zA-Z0-9_]', '_', current_file)}"
     for k, v in SAN_TABLE.items():
         if k in s:
             s = s.replace(k, v)
     return s
+
 
 def unsanitize(s: Sanitized) -> str:
     for k, v in SAN_TABLE.items():
@@ -219,12 +241,13 @@ def unsanitize(s: Sanitized) -> str:
             s = s.replace(v, k)
     return s
 
+
 def get_full_current_scope():
     return {**GLOBAL_SCOPE, **file_scopes[current_file]}
 
+
 def get_all_file_scopes():
     return {"": GLOBAL_SCOPE, **file_scopes}
-
 
 
 class lookup:
@@ -248,8 +271,12 @@ class lookup:
             return sym.label_value * 2
         breakpoint()
         raise KeyError(f"Symbol {key} has no value")
+
+
 lookup = lookup()
 RE_IDENT = re.compile(r"^[a-zA-Z_.$][a-zA-Z0-9_.$]*$")
+
+
 def parse_imm(s):
     if not s:
         return 0
@@ -259,22 +286,25 @@ def parse_imm(s):
         else:
             res = eval(sanitize(s), {}, lookup)
     except Exception as e:
-        #print(file_scopes[current_file])
+        # print(file_scopes[current_file])
         raise AsmException(f"In {current_file}: {e} while parsing immediate value {s}") from e
     if type(res) == float and res != (res := int(res)):
         raise AsmException(s)
     return res
+
+
 def check_align(val, sh):
     if (val & ((1 << sh) - 1)) != 0:
         raise AsmException(f"Value {val} must be {BNAME[sh]}-aligned")
     return val >> sh
-def try_assemble(pc, m, instr, output, line, line_num):
+
+
+def try_assemble(pc: int, m: re.Match, instr: str, output, line: str, line_num: int) -> Sequence[tuple[int, int, str, str]] | None:
     dic = m.groupdict()
     for k, v in dic.items():
         if k.startswith("imm"):
             if v is not None and any(re.match(r.replace("\\1", "test"), v) for _, r in REGEXES_REGS):
                 return None
-            fac = 0
             kw = k[3:]
             off = 0
             if (fac := IMM_SHIFT.get(kw[0], 0)) != 0:
@@ -285,7 +315,8 @@ def try_assemble(pc, m, instr, output, line, line_num):
             dic[k] = (parse_imm(v) + off, width)
             valmax = 2 ** (width + fac)
             if not ((-valmax // 2) <= dic[k][0] < valmax):
-                raise AsmException(f"Immediate value out of bounds: {v}, should be >= 0 and < {valmax} or >= {-valmax // 2} and < {valmax // 2 - 1}")
+                raise AsmException(
+                    f"Immediate value out of bounds: {v}, should be >= 0 and < {valmax} or >= {-valmax // 2} and < {valmax // 2 - 1}")
         elif v is not None:
             if k[0] == "R":
                 dic[k] = (int(v), 3)
@@ -342,7 +373,7 @@ def try_assemble(pc, m, instr, output, line, line_num):
                         if not notrampo:
                             new_label = "trampo_" + ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
                             # thanks @Guekka
-                            print("Old code:", lines[line_num-1:line_num+8])
+                            print("Old code:", lines[line_num - 1:line_num + 8])
                             if cond and len(instr) == 3:
                                 print("Trampolining:", line)
                                 cond_id = dic["cond"][0]
@@ -350,7 +381,7 @@ def try_assemble(pc, m, instr, output, line, line_num):
                                 lines[line_num - 1] = f"b{CONDS[opp_id]} {new_label}"
                                 lines.insert(line_num, f"{new_label}:")
                                 lines.insert(line_num, f"b {v}")
-                                print("New code:", lines[line_num-1:line_num+8])
+                                print("New code:", lines[line_num - 1:line_num + 8])
                                 raise Trampoline(2)
                             elif instr == "ldr":
                                 print("Trampolining:", line)
@@ -362,7 +393,7 @@ def try_assemble(pc, m, instr, output, line, line_num):
                                 lines.insert(line_num, f"{tr_data}: .long {v}")
                                 lines.insert(line_num, f".p2align 2")
                                 lines.insert(line_num, f"b {tr_after}")
-                                print("New code:", lines[line_num-1:line_num+8])
+                                print("New code:", lines[line_num - 1:line_num + 8])
                                 raise Trampoline(4)
                             # elif instr.lower() == "b":
                             #     print("Trampolining:", line)
@@ -399,11 +430,17 @@ def try_assemble(pc, m, instr, output, line, line_num):
             val &= 2 ** width - 1
         res += val
     return ((pc, res, line, ', '.join(f'{k}={v[0] if v else str()}' for k, v in dic.items() if k[0] != 'F')),)
+
+
 def truncate(line, width=35):
-    return (line[:width-3] + '...') if len(line) > width-3 else line
+    return (line[:width - 3] + '...') if len(line) > width - 3 else line
+
+
 class Trampoline(Exception):
     def __init__(self, offset):
         self.offset = offset
+
+
 def assemble(line: str, pc: int, line_num: int) -> Sequence[tuple[int, int, str, str]]:
     try:
         instr, args = line.split(None, 1)
@@ -418,13 +455,13 @@ def assemble(line: str, pc: int, line_num: int) -> Sequence[tuple[int, int, str,
                 pass
         return (pc, 0, "", ""),
     instr = instr.lower().removesuffix(".w").removesuffix(".n")
-    oline = line = instr + " " + ", ".join(map(str.strip, args_split)) # why was there a filter(bool, ...) there?
+    oline = line = instr + " " + ", ".join(map(str.strip, args_split))  # why was there a filter(bool, ...) there?
     if instr[0] == "$":
         dl = "." + line[1:]
         if instr in ("$long", "$word"):
             n = parse_imm(args)
             lo, hi = n & 0xFFFF, n >> 16
-            return (pc, lo, dl, n), (pc+1, hi, dl, n)
+            return (pc, lo, dl, n), (pc + 1, hi, dl, n)
         if instr == "$short":
             n = parse_imm(args)
             return (pc, n, dl, n),
@@ -439,8 +476,8 @@ def assemble(line: str, pc: int, line_num: int) -> Sequence[tuple[int, int, str,
             else:
                 val = (0b1111_1 << 11) | (n & 0b111_1111_1111)
                 if not nojumps:
-                    jumps.append((pc, parse_imm(args)//2))
-            return (pc, val, dl, f"{n} ({2*n:x})"),
+                    jumps.append((pc, parse_imm(args) // 2))
+            return (pc, val, dl, f"{n} ({2 * n:x})"),
         if instr.startswith("$bcond"):
             first = instr[6] == "1"
             cond, targ = args.strip().split(None, 1)
@@ -450,15 +487,16 @@ def assemble(line: str, pc: int, line_num: int) -> Sequence[tuple[int, int, str,
             else:
                 val = (0b1111_1 << 11) | (n & 0b111_1111_1111)
                 if not nojumps:
-                    jumps.append((pc, parse_imm(targ)//2))
-            return (pc, val, dl, f"{n} ({2*n:x})"),
+                    jumps.append((pc, parse_imm(targ) // 2))
+            return (pc, val, dl, f"{n} ({2 * n:x})"),
         if instr.startswith("$asci"):
             bytes = eval("b" + args)
             if instr[5] == "z":
                 bytes += b"\0"
             if len(bytes) % 2 == 1:
                 bytes += b"\0"
-            return [(pc+i, ch1 | (ch2 << 8), truncate(dl), f"{ch1} {ch2}") for i, (ch1, ch2) in enumerate(zip(bytes[::2], bytes[1::2]))]
+            return [(pc + i, ch1 | (ch2 << 8), truncate(dl), f"{ch1} {ch2}") for i, (ch1, ch2) in
+                    enumerate(zip(bytes[::2], bytes[1::2]))]
     exc = None
     while True:
         for i, output in INSTRUCTIONS[line[0]].items():
@@ -478,7 +516,9 @@ def assemble(line: str, pc: int, line_num: int) -> Sequence[tuple[int, int, str,
         else:
             raise exc or AsmException(f"Invalid instruction: {oline}")
 
+
 import argparse
+
 parser = argparse.ArgumentParser(description="Assemble ARMv6-M assembly code to binary.")
 
 parser.add_argument("files", nargs="+", help="Input assembly files.")
@@ -516,7 +556,7 @@ RE_INST_N = re.compile(r"^.inst.n\s+(.*)$", re.IGNORECASE)
 RE_P2ALIGN = re.compile(r"^.p2align\s+(\d+)(?:\s*,\s*((?:0x)?\d+))?$", re.IGNORECASE)
 RE_INVALID = re.compile(r"^(dmb)\b.*$", re.IGNORECASE)
 
-@numba.jit(nopython=True)
+
 def tokenize(line: str) -> list[str]:
     """Tokenizes a line of assembly code."""
     tokens = []
@@ -550,15 +590,16 @@ def tokenize(line: str) -> list[str]:
         tokens.append(current_token)
     return tokens
 
-#for test in [
+
+# for test in [
 #	r"	.size	.Lanon.1e0ae0b8383e4aceb0f88ec7b7ce8843.58, 16",
 #	r'	.section	.rodata.str1.1,"aMS",%progbits,1',
 #	r".Lanon.1e0ae0b8383e4aceb0f88ec7b7ce8843.60: @ bc sdfdsf",
 #	r'	.asciz	"u\000\000\000@\003\000\000\020\000\000"',
 #	r"""	.asciz	"A\032\006\032/\001\n\001\004\001\005\027\001\037\001\000\004\f\016\005\007\001\001\001V\001\035\022\001\002\002\004\001\001\006\001\001\003\001\001\001\024\001S\001\213\b\246\001&\002\001\006)'\016\001\001\001\002\001\002\001\001\b\033\004\004\035\013\0058\001\007\016f\001\b\004\b\004\003\n\003\002\001\0200\re\030!\t\002\004\001\005\030\002\023\023\031\007\013\005\030\001\006\b\001\b*\n\f\003\007\006L\001\020\001\003\004\017\r\023\001\b\002\002\002\026\001\007\001\001\003\004\003\b\002\002\002\002\001\001\b\001\004\002\001\005\f\002\n\001\004\003\001\006\004\002\002\026\001\007\001\002\001\002\001\002\004\005\004\002\002\002\004\001\007\004\001\001\021\006\013\003\001\t\001\003\001\026\001\007\001\002\001\005\003\t\001\003\001\002\003\001\017\004\025\004\004\003\001\b\002\002\002\026\001\007\001\002\001\005\003\b\002\002\002\002\t\002\004\002\001\005\r\001\020\002\001\006\003\003\001\004\003\002\001\001\001\002\003\002\003\003\003\f\004\005\003\003\001\003\003\001\006\001(\r\001\003\001\027\001\020\003\b\001\003\001\003\b\002\001\003\002\001\002\004\034\004\001\b\001\003\001\027\001\n\001\005\003\b\001\003\001\003\b\002\006\002\001\004\r\003\f\r\001\003\001)\002\b\001\003\001\003\001\001\005\004\007\005\026\006\001\003\001\022\003\030\001\t\001\001\002\007\b\006\001\001\001\b\022\002\r:\005\007\006\0013\002\001\001\001\005\001\030\001\001\001\023\001\003\002\005\001\001\006\001\016\004 \001?\b\001$\004\023\004\020\001$C7\001\001\002\005\020@\n\004\002&\001\001\005\001\002+\001\000\001\004\002\007\001\001\001\004\002)\001\004\002!\001\004\002\007\001\001\001\004\002\017\0019\001\004\002C%\020\020V\002\006\003\000\002\021\001\032\005K\003\013\007\024\013\025\f\024\f\r\001\003\001\002\f4\002\023\016\001\004\001CY\007+\005F\n\037\001\f\004\t\027\036\002\005\013,\004\0326\034\004?\002\0242\001\027\002\013\00314\001\017\001\b3*\002\004\n,\001\013\0167\026\003\n$\002\013\005+\002\003)\004\001\006\001\002\003\001\005\300\023\"\013\000\002\006\002&\002\006\002\b\001\001\001\001\001\001\001\037\0025\001\007\001\001\003\003\001\007\003\004\002\006\004\r\005\003\001\007t\001\r\001\020\re\001\004\001\002\n\001\001\003\005\006\001\001\001\001\001\001\004\001\013\002\004\005\005\004\001\021)\0004\000\345\006\004\003\002\f&\001\001\005\001\0028\007\001\020\027\t\007\001\007\001\007\001\007\001\007\001\007\001\007\001\007\001 /\001\000\003\031\t\007\005\002\005\004V\006\003\001Z\001\004\005+\001^\021 0\020\000\000@\000C.\002\000\003\020\n\002\024/\005\b\003q'\t\002g\002C\002\002\001\001\001\b\025\024\001!\0304\fD\001\001,\006\003\001\001\003\n!\005#\r\035\0033\001\f\017\001\020\020\n\005\0017\t\016\022\027\003E\001\001\001\001\030\003\002\020\002\004\013\006\002\006\002\006\t\007\001\007\001+\001\016\006{\025\000\f\027\0041\000\000\002j&\007\f\005\005\f\001\r\001\005\001\001\001\002\001\002\001l!\000\022@\0026(\ft\005\001\207$\032\006\032\013Y\003\006\002\006\002\006\002\003#\f\001\032\001\023\001\002\001\017\002\016\"{E5\000\035\0031/ \r\036\005+\005\036\002$\004\b\001\005*\236\022$\004$\004(\b4\f\013\001\017\001\007\001\002\001\013\001\017\001\007\001\002\0034\f\000\t\026\n\b\030\006\001*\001\tE\006\002\001\001,\001\002\003\001\002\027\n\027\t\037A\023\001\002\n\026\n\032F8\006\002@\004\001\002\005\b\001\003\001\035*\035\003\035#\b\001\034\0336\n\026\n\023\r\022nI73\r3\r(\"\034\003\001\005\027\372*\001\002\003\002\020\0037\001\003\035\n\001\b\026*\022.\025\033\027\tF+\005\n9\t\001\r\031\0273\021\004\b#\003\001\t@\001\004\t\002\n\001\001\001#\022\001\"\002\001\006\004>\007\001\001\001\004\001\017\001\n\0079\027\004\001\b\002\002\002\026\001\007\001\002\001\005\003\b\002\002\002\002\003\001\006\001\005\007\034\n\001\001\002\001\001&\001\n\001\001\002\001\001\004\001\002\003\001\001\001,B\001\003\001\004\024\003\036B\002\002\001\001\2706\002\007\031\006\"?\001\001\003\001;6\002\001G\033\002\016\025\007\2719g@\037\b\002\001\002\b\001\002\001\036\001\002\002\002\002\004]\b\002.\002\006\001\001\001\002\0333\002\n\021H\005\001\022I\307!\037\t\001-\001\007\001\0011\036\002\026\001\016I\007\001\002\001,\003\001\001\002\001\003\001\001\002\002\030\006\001\002\001%\001\002\001\004\001\001\000\027\t\021\001)\003\003o\001O\000fo\021\304\000a\017\000\021\006\031\000\005\000\000/\000\000\007\037\021O\021\036\0220\020\004\037\025\005\023\000-\323@\200K\0049\007\021@\002\001\001\f\002\016\000\b\000)\n\000\004\001\007\001\002\001\000\017\001\035\003\002\001\016\004\b\000\000k\005\r\003\t\007\n\004\001\000U\001G\001\002\002\001\002\002\002\004\001\f\001\001\001\007\001A\001\004\002\b\001\007\001\034\001\004\001\005\001\001\003\007\001\000\002\031\001\031\001\037\001\031\001\037\001\031\001\037\001\031\001\037\001\031\001\b\000\037\006\006\325\007\001\021\002\007\001\002\001\005\005>!\001p-\n\007\020\001\000\036\022,\000\034\344\036\002\001\000\007\001\004\001\002\001\017\001\305;D\003\001\003\001\000\004\001\033\001\002\001\001\002\001\001\n\001\004\001\001\001\001\006\001\004\001\001\001\001\001\001\003\001\002\001\001\002\001\001\001\001\001\001\001\001\001\001\002\001\001\002\004\001\007\001\004\001\004\001\001\001\n\001\021\005\003\001\005\001\021\000\032\006\032\006\032\000\000 \000\006\336\002\000\016\000\017\000\000\000\000\000\005\000"""
-#]:
+# ]:
 #	print(tokenize(test))
-#exit()
+# exit()
 
 SymList = dict[str, 'Symbol']
 
@@ -567,8 +608,8 @@ file_scopes: dict[str, SymList] = {}
 
 WILDCARDS: SymList = {}
 
-
 RE_BUILTINS = re.compile(r"(alloc|core|compiler_builtins)")
+
 
 def add_symbol(oname, set_global=False):
     wildcard = False
@@ -599,6 +640,7 @@ def add_symbol(oname, set_global=False):
         GLOBAL_SCOPE[name] = sym
     return sym
 
+
 def add_label(name, value):
     sym = add_symbol(name)
     if sym.label_value is None:
@@ -618,12 +660,14 @@ def get_symbol(name):
 
     raise KeyError(f"Symbol {unsanitize(name)} not found from {current_file}")
 
+
 *includes, main_file = input_files
 fo = open(os.path.splitext(main_file)[0] + ".bin", "w")
 
 entire_code = []
 
 import json
+
 for current_proc_file in includes:
     entire_code.append("#file " + json.dumps(current_proc_file))
     with open(current_proc_file, "r", encoding="utf-8") as fp:
@@ -641,6 +685,8 @@ lines = [l.strip() for l in lines]
 ignored_lines = set()
 trampoline_need = False
 line_refs = defaultdict(set)
+
+
 def do_trampo():
     print("RESTART")
     with open("trampo.s", "w") as tw:
@@ -651,43 +697,55 @@ def do_trampo():
     GLOBAL_SCOPE.clear()
     file_scopes.clear()
     line_refs.clear()
+
+
 optim_done = False
 current_function = None
 while True:
     current_file = None
     current_function_preproc = None
-    instrs = [(-1, 0, f".nobranchstart", None, 0)] if nobranch else [(-1, 0, "$bl1 run", None, 1), (-1, 1, "$bl2 run", None, 1)]
-    #instrs = [(-1, 0, ".start", None, 0)]
+    instrs = [(-1, 0, f".nobranchstart", None, 0)] if nobranch else [(-1, 0, "$bl1 run", None, 1),
+                                                                     (-1, 1, "$bl2 run", None, 1)]
+
+
+    # instrs = [(-1, 0, ".start", None, 0)]
     def add_instr(line, val=None, size=1):
         instrs.append((i + 1, current_pc(), line, val, size))
+
+
     def current_pc():
         return instrs[-1][1] + instrs[-1][4]
+
+
     byte_val = None
     try:
         print("# lines:", len(lines))
         for i, line in enumerate(lines):
-            if len(instrs) > 10*len(lines):
+            if len(instrs) > 10 * len(lines):
                 print("many instrs?", len(instrs), len(lines))
             # if not no_optim:
             #     if i in ignored_lines:
             #         continue
-            #line = comm.sub("", line)
+            # line = comm.sub("", line)
             line = " ".join(tokenize(line))
             if line.startswith("#file "):
                 name = line[6:]
                 current_file = eval(name.strip())
                 file_scopes[current_file] = {}
 
-
             while line := line.strip():
                 if m := RE_LBL.match(line):  # line is a label
                     lbl_name = sanitize(m.group(1))
                     add_label(lbl_name, current_pc())
                     line = line[line.index(":") + 1:]
+
+
                     def fixup(name, meth):
                         for sym in get_full_current_scope().keys():
                             if meth(sym, name):
                                 add_label(sym, current_pc())
+
+
                     if lbl_name.endswith("XXX"):
                         fixup(lbl_name[:-3], str.startswith)
                     elif lbl_name.startswith("XXX"):
@@ -714,10 +772,14 @@ while True:
                 lbl_name = sanitize(m.group(1))
                 add_label(lbl_name, current_pc())
                 line = line[line.index(":") + 1:]
+
+
                 def fixup(name, meth):
                     for sym in get_full_current_scope().keys():
                         if meth(sym, name):
                             add_label(sym, current_pc())
+
+
                 if lbl_name.endswith("XXX"):
                     fixup(lbl_name[:-3], str.startswith)
                 elif lbl_name.startswith("XXX"):
@@ -798,9 +860,9 @@ while True:
                 match fpart:
                     case ".ascii" | ".asciz":
                         s = eval("b" + line.split(None, 1)[1].strip())
-                        l = len(s)+1*(line[5]=="z")
-                        l += l%2
-                        add_instr("$" + line[1:], size=l//2)
+                        l = len(s) + 1 * (line[5] == "z")
+                        l += l % 2
+                        add_instr("$" + line[1:], size=l // 2)
                     case ".word" | ".long":
                         add_instr("$" + line[1:], size=2)
                     case ".short":
@@ -836,7 +898,7 @@ while True:
                     case ".fnstart":
                         sym = get_symbol(current_function_preproc)
                         sym.start = current_pc()
-                        #sym.line_start = i
+                        # sym.line_start = i
                     case ".fnend":
                         # current_function should exist at this point and be the last symbol we got
                         sym = get_symbol(current_function_preproc)
@@ -845,18 +907,19 @@ while True:
                         sym.extend(i)
                     case ".set":
                         name, val = line.split(None, 1)[1].split(",")
-                        add_label(name, parse_imm(val.strip())//2) # TODO: maybe store entire labels instead of halfs someday?
+                        add_label(name, parse_imm(
+                            val.strip()) // 2)  # TODO: maybe store entire labels instead of halfs someday?
                     case ".size":
                         args = line.split(None, 1)[1]
                         sym_name, size = args.split(",", 1)
                         sym = add_symbol(sym_name)
-                        #old_use = sym.refs
+                        # old_use = sym.refs
                         sym.size_hint = parse_imm(size.strip())
-                        #sym.refs = old_use
+                        # sym.refs = old_use
                         sym.extend(i)
                     case ".text" | ".syntax" | ".section" | ".loc" | ".eabi_attribute" | \
-                    ".code" | ".file" | ".thumb_func" | ".save" | ".setfp" | \
-                    ".cantunwind" | ".pad" | ".ident":
+                         ".code" | ".file" | ".thumb_func" | ".save" | ".setfp" | \
+                         ".cantunwind" | ".pad" | ".ident":
                         pass
                     case _:
                         raise Exception("Invalid directive: " + fpart)
@@ -908,7 +971,7 @@ while True:
         if cli_args.optimize_functions and not optim_done:
             print("Optimizing functions...")
             useful = defaultdict(set)
-            #useful = [False] * len(lines)
+            # useful = [False] * len(lines)
             for file, symbols in get_all_file_scopes().items():
                 for name, sym in symbols.items():
                     if len(sym.refs) > 0:
@@ -928,11 +991,14 @@ while True:
                                             if any(r not in sym.line_range() for r in useful_sym.refs):
                                                 yield useful_sym
                                 yield from ()
+
+
                             outside_refs = list(outside_refs())
                             if not outside_refs:
                                 removed_syms.add(name)
                                 if False and len(sym.line_range()) > 1:
-                                    print(f"Removing unused function {unsanitize(name)} from {sym.source}: {sym.line_range()}")
+                                    print(
+                                        f"Removing unused function {unsanitize(name)} from {sym.source}: {sym.line_range()}")
                                 for line in sym.line_range():
                                     if lines[line] is None:
                                         continue
@@ -940,8 +1006,9 @@ while True:
                                     for refd in line_refs[line]:
                                         refd.refs.discard(line)
                             else:
-                                print(f"Unused function {unsanitize(name)} ({sym.line_range()}) from {sym.source} contains referenced symbols: {','.join(s.name for s in outside_refs)}")
-                if not  removed_syms:
+                                print(
+                                    f"Unused function {unsanitize(name)} ({sym.line_range()}) from {sym.source} contains referenced symbols: {','.join(s.name for s in outside_refs)}")
+                if not removed_syms:
                     break
                 for file, symbols in get_all_file_scopes().items():
                     for name in removed_syms:
@@ -968,7 +1035,8 @@ if not nolog:
         try:
             fsym = get_symbol(sanitize(only_function))
         except KeyError as e:
-            matches = [(nam, sym) for symbols in get_all_file_scopes().values() for nam, sym in symbols.items() if only_function in nam]
+            matches = [(nam, sym) for symbols in get_all_file_scopes().values() for nam, sym in symbols.items() if
+                       only_function in nam]
             match matches:
                 case [(_, single)]:
                     fsym = single
@@ -992,17 +1060,23 @@ if not nolog:
     width_args = max(len(str(d[3])) for d in instr_log)
     columns = f"║   PC   │  OP  │ {'Instruction':^{width_instr}} │ {'Arguments':^{width_args}} ║"
     sep = "╠" + "".join("═╪"[c == "│"] for c in columns[1:-1]) + "╣"
+
+
     def statline(pc, val, code, data):
         return f"{pc * 2:06x} │ {val:04x} │ {code:{width_instr}} │ {str(data):{width_args}}"
+
+
     print("╔" + "".join("═╤"[c == "│"] for c in columns[1:-1]) + "╗")
     print(columns)
     print(sep)
     instr_log[:] = ["║ " + statline(*args) + " ║" for args in instr_log]
 
+
     def subst(s, i, c):
         if len(s) < i:
             s = s.ljust(i)
         return s[:i] + c + s[i + len(c):]
+
 
     root = len(columns) + 1
     for depth, (src, dst) in enumerate(jumps):
@@ -1013,7 +1087,8 @@ if not nolog:
         dsh = "─" * 3
         step = 1 if dst >= src else -1
         start, end = ("╮", "╯")[::step]
-        pos = ((max((len(l) for l in instr_log[min(src, dst):max(src, dst)]), default=root) - root + 1) // 6) * (len(dsh) + 3)
+        pos = ((max((len(l) for l in instr_log[min(src, dst):max(src, dst)]), default=root) - root + 1) // 6) * (
+                    len(dsh) + 3)
         instr_log[src] = subst(instr_log[src], root + pos, ">" + dsh + start)
         for i in range(src + step, dst, step):
             instr_log[i] = subst(instr_log[i], root + pos + len(dsh) + 1, "│")
@@ -1033,7 +1108,7 @@ if not nolog:
 with open(os.path.splitext(main_file)[0] + ".bin", "w") as fo:
     fo.write("v2.0 raw\n")
     for word in out:
-        fo.write(f"{word&0xff:02x} {word>>8:02x} ")
+        fo.write(f"{word & 0xff:02x} {word >> 8:02x} ")
     fo.write("\n")
 
 with open(os.path.join(os.path.dirname(__file__), "lisp.s.raw"), "rb") as tf:
@@ -1041,12 +1116,13 @@ with open(os.path.join(os.path.dirname(__file__), "lisp.s.raw"), "rb") as tf:
 
 out_bytes = bytes(byte for word in out for byte in (word & 0xff, word >> 8))
 
-assert(out_bytes == test_bytes)
+assert (out_bytes == test_bytes)
 
 with open(os.path.splitext(main_file)[0] + ".raw", "wb") as fo:
     fo.write(out_bytes)
 if cli_args.call_graph:
     from rust_demangler import demangle
+
     with open(os.path.splitext(main_file)[0] + ".dot", "w") as fo:
         fo.write("digraph {\n")
         for file, symbols in get_all_file_scopes().items():
@@ -1067,3 +1143,5 @@ if cli_args.call_graph:
                         continue
                     fo.write(f'"{id(caller)}" -> "{id(sym)}";\n')
         fo.write("}\n")
+
+print("Total runtime:", time.time() - start_time, "seconds")
