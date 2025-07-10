@@ -182,37 +182,53 @@ impl CRepl {
 }
 
 fn main() {
-let mut out_r2: u32 = 0;
-let mut out_r3: u32 = 0;
+    let inp = 0x12345678;
+    let mut out: u32 = 0;
+    unsafe {
+        core::arch::asm!(
+            "movs r0, {inp}",
+            "ldr r1, [r0]",
+            "adds r0, #1",
+            "ldr r2, [r0]",
+            "adds r0, #1",
+            "ldr r3, [r0]",
+            "adds r0, #1",
+            "ldr r4, [r0]",
+            inp = in(reg) &inp,
+        );
+    }
+    return;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 let mut out_r4: u32 = 0;
-let val_r2: u32 = 0x12345678;
-let val_r3: u32 = 0x12345678;
 let val_r4: u32 = 0x00F0;
 unsafe {
     core::arch::asm!(
-        // Teste l'instruction REV (reverse byte order in a word)
-        "ldr {r2}, [{val_r2}]",
-        "rev {r2}, {r2}",
-
-        // Teste l'instruction REV16 (reverse byte order in each halfword)
-        "ldr {r3}, [{val_r3}]",
-        "rev16 {r3}, {r3}",
 
         // Teste l'instruction REVSH (reverse byte order in the lower halfword and sign-extend)
         "ldr {r4}, [{val_r4}]",
         "revsh {r4}, {r4}",
-        r2 = out(reg) out_r2,
-        r3 = out(reg) out_r3,
         r4 = out(reg) out_r4,
-        val_r2 = in(reg) &val_r2,
-        val_r3 = in(reg) &val_r3,
         val_r4 = in(reg) &val_r4,
     );
 }
 
-    
-    // writeln!(tty::get_tty(), "REVSH: 0x{:08X}", out_r4);
 
+    // writeln!(tty::get_tty(), "REVSH: 0x{:08X}", out_r4);
+    breakpoint();
     type T = usize;
     fn digit(x: u8) -> u8 {
         match x {
@@ -223,22 +239,21 @@ unsafe {
     struct USwrapper(u32);
     impl fmt::Display for USwrapper {
         fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-            breakpoint();
             let mut x = self.0;
             // The radix can be as low as 2, so we need a buffer of at least 128
             // characters for a base 2 number.
-            let zero = 0 as u32;
+            let zero = core::hint::black_box(0 as u32);
             let is_nonnegative = x >= zero;
             let mut buf = [MaybeUninit::<u8>::uninit(); 128];
             let mut curr = buf.len();
-            let base = 16 as u32;
+            let base = (16 as u32);
             if is_nonnegative {
                 // Accumulate each digit of the number from the least significant
                 // to the most significant figure.
                 loop {
                     let n = x % base; // Get the current place value.
                     x = x / base; // Deaccumulate the number.
-                    curr = curr.checked_sub(1).unwrap();
+                    curr -= 1;
                     buf[curr].write(digit(n as u8)); // Store the digit in the buffer.
                     if x == zero {
                         // No more digits left to accumulate.
@@ -250,7 +265,7 @@ unsafe {
                 loop {
                     let n = zero - (x % base); // Get the current place value.
                     x = x / base; // Deaccumulate the number.
-                    curr = curr.checked_sub(1).unwrap();
+                    curr -= 1;
                     buf[curr].write(digit(n as u8)); // Store the digit in the buffer.
                     if x == zero {
                         // No more digits left to accumulate.
@@ -274,16 +289,12 @@ unsafe {
         }
     }
 
-    writeln!(tty::get_tty(), "REV: {}", USwrapper(out_r2));
-    writeln!(tty::get_tty(), "REV16: {}", USwrapper(out_r3));
     writeln!(tty::get_tty(), "REVSH: {}", USwrapper(out_r4));
 
-    writeln!(tty::get_tty(), "REV: 0x{:08X}", out_r2);
-    writeln!(tty::get_tty(), "REV16: 0x{:08X}", out_r3);
     writeln!(tty::get_tty(), "REVSH: 0x{:08X}", out_r4);
-    
-    
-        
+
+
+
 
     return;
 

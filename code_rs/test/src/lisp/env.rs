@@ -1,7 +1,7 @@
 use crate::parm::heap::budmap::{BudMap, Entry, Iter};
 use crate::parm::heap::string::String;
 
-use crate::{InsertionState, LispValBox, Prc, print};
+use crate::{InsertionState, LispValBox, Prc, print, println};
 use core::hash::{Hash, Hasher};
 use crate::parm::tty::{ParmDisplay, DisplayTarget};
 
@@ -28,6 +28,7 @@ impl SymbolMap {
     }
 
     pub(crate) fn set(&mut self, s: String, v: LispValBox) {
+        println!("ss set", s);
         self.0.set(s, v);
     }
 

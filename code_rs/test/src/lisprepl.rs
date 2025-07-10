@@ -11,6 +11,7 @@
 #![allow(clippy::should_implement_trait)]
 extern crate alloc;
 
+use alloc::vec::Vec;
 use core::cell::{RefCell, RefMut};
 use core::hash::{Hash, Hasher};
 use core::mem::size_of;
@@ -23,6 +24,7 @@ use lisp::val::LispVal;
 use crate::parm::heap::string::String;
 use crate::parm::tty::{ParmDisplay, DisplayTarget};
 use crate::parm::{keyb, telnet, tty};
+use crate::parm::heap::budmap::BudMap;
 use crate::parm::heap::prc::Prc;
 
 mod lisp;

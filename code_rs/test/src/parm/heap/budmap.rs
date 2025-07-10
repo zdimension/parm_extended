@@ -2,6 +2,7 @@ use alloc::vec::Vec;
 use crate::parm::util::fxhash::FxHasher;
 use core::hash::{BuildHasher, Hash, Hasher};
 use core::slice;
+use crate::{print, println};
 
 #[derive(Clone)]
 pub struct RandomState;
@@ -626,9 +627,7 @@ where
     /// Inserts `value` into the map for this entry's key.
     pub fn insert(self, value: Value) {
         self.map.grow_for_insert();
-
         let entry_index = self.map.push_entry(self.hash, self.key, value);
-
         insert_into_bin(
             &mut self.map.bins,
             &mut self.map.free_collision_head,
