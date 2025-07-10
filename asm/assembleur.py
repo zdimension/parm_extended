@@ -15,12 +15,15 @@ from typing import Sequence, NewType
 
 class AsmException(Exception):
     pass
+
+print(sys.argv)
 #
-# os.chdir("/mnt/c/GitHub/parm_extended/code_rs/test/bin")
+os.chdir("../code_rs/test/bin")
 # sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/alloc-1674422c22f635cb.s', '../target/thumbv6m-none-eabi/release/deps/allocator_api2-454a206231c78fe2.s', '../target/thumbv6m-none-eabi/release/deps/compiler_builtins-6d31e344585737af.s',
 #             '../target/thumbv6m-none-eabi/release/deps/core-5c146e185925475e.s', '../target/thumbv6m-none-eabi/release/deps/derive_more-def3c3b56183adcf.s', '../target/thumbv6m-none-eabi/release/deps/equivalent-4775723ac70a6265.s', '../target/thumbv6m-none-eabi/release/deps/foldhash-7aa17a38163c09e6.s', '../target/thumbv6m-none-eabi/release/deps/hashbrown-8b9143ce0476d75e.s', '../target/thumbv6m-none-eabi/release/deps/c.s.bak',
 #             '-n', '-Of']
 
+sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/alloc-1674422c22f635cb.s', '../target/thumbv6m-none-eabi/release/deps/allocator_api2-454a206231c78fe2.s', '../target/thumbv6m-none-eabi/release/deps/compiler_builtins-6d31e344585737af.s', '../target/thumbv6m-none-eabi/release/deps/core-5c146e185925475e.s', '../target/thumbv6m-none-eabi/release/deps/derive_more-def3c3b56183adcf.s', '../target/thumbv6m-none-eabi/release/deps/equivalent-4775723ac70a6265.s', '../target/thumbv6m-none-eabi/release/deps/foldhash-7aa17a38163c09e6.s', '../target/thumbv6m-none-eabi/release/deps/hashbrown-8b9143ce0476d75e.s', '../target/thumbv6m-none-eabi/release/deps/lisp.s.bak', '-n', '-Of']
 
             # Internal operand regexes
 REGEXES_REGS = [
@@ -1032,9 +1035,16 @@ with open(os.path.splitext(main_file)[0] + ".bin", "w") as fo:
     for word in out:
         fo.write(f"{word&0xff:02x} {word>>8:02x} ")
     fo.write("\n")
+
+with open(os.path.join(os.path.dirname(__file__), "lisp.s.raw"), "rb") as tf:
+    test_bytes: bytes = tf.read()
+
+out_bytes = bytes(byte for word in out for byte in (word & 0xff, word >> 8))
+
+assert(out_bytes == test_bytes)
+
 with open(os.path.splitext(main_file)[0] + ".raw", "wb") as fo:
-    for word in out:
-        fo.write(bytes([word & 0xff, word >> 8]))
+    fo.write(out_bytes)
 if cli_args.call_graph:
     from rust_demangler import demangle
     with open(os.path.splitext(main_file)[0] + ".dot", "w") as fo:
