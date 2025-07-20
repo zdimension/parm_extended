@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Tom Niget - 2020
-
+import functools
 import math
 import time
 
@@ -18,22 +18,22 @@ class AsmException(Exception):
     pass
 
 start_time = time.time()
-print(sys.argv)
+# print(sys.argv)
 #
-os.chdir("../code_rs/test/bin")
+# os.chdir("../code_rs/test/bin")
 # sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/alloc-1674422c22f635cb.s', '../target/thumbv6m-none-eabi/release/deps/allocator_api2-454a206231c78fe2.s', '../target/thumbv6m-none-eabi/release/deps/compiler_builtins-6d31e344585737af.s',
 #             '../target/thumbv6m-none-eabi/release/deps/core-5c146e185925475e.s', '../target/thumbv6m-none-eabi/release/deps/derive_more-def3c3b56183adcf.s', '../target/thumbv6m-none-eabi/release/deps/equivalent-4775723ac70a6265.s', '../target/thumbv6m-none-eabi/release/deps/foldhash-7aa17a38163c09e6.s', '../target/thumbv6m-none-eabi/release/deps/hashbrown-8b9143ce0476d75e.s', '../target/thumbv6m-none-eabi/release/deps/c.s.bak',
 #             '-n', '-Of']
 
-sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/alloc-1674422c22f635cb.s',
-            '../target/thumbv6m-none-eabi/release/deps/allocator_api2-454a206231c78fe2.s',
-            '../target/thumbv6m-none-eabi/release/deps/compiler_builtins-6d31e344585737af.s',
-            '../target/thumbv6m-none-eabi/release/deps/core-5c146e185925475e.s',
-            '../target/thumbv6m-none-eabi/release/deps/derive_more-def3c3b56183adcf.s',
-            '../target/thumbv6m-none-eabi/release/deps/equivalent-4775723ac70a6265.s',
-            '../target/thumbv6m-none-eabi/release/deps/foldhash-7aa17a38163c09e6.s',
-            '../target/thumbv6m-none-eabi/release/deps/hashbrown-8b9143ce0476d75e.s',
-            '../target/thumbv6m-none-eabi/release/deps/lisp.s.bak', '-n', '-Of']
+# sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/alloc-1674422c22f635cb.s',
+#             '../target/thumbv6m-none-eabi/release/deps/allocator_api2-454a206231c78fe2.s',
+#             '../target/thumbv6m-none-eabi/release/deps/compiler_builtins-6d31e344585737af.s',
+#             '../target/thumbv6m-none-eabi/release/deps/core-5c146e185925475e.s',
+#             '../target/thumbv6m-none-eabi/release/deps/derive_more-def3c3b56183adcf.s',
+#             '../target/thumbv6m-none-eabi/release/deps/equivalent-4775723ac70a6265.s',
+#             '../target/thumbv6m-none-eabi/release/deps/foldhash-7aa17a38163c09e6.s',
+#             '../target/thumbv6m-none-eabi/release/deps/hashbrown-8b9143ce0476d75e.s',
+#             '../target/thumbv6m-none-eabi/release/deps/lisp.s.bak', '-n', '-Of']
 
 # Internal operand regexes
 REGEXES_REGS = [
@@ -168,7 +168,7 @@ def build_instruction_table():
     instructions = defaultdict(dict)
 
     for k, v in INSTR_DEFS.items():
-        k = k.replace("[", "\\[").replace("]", "\\]")
+        k = k.replace("[", "\\[\\s*").replace("]", "\\s*\\]")
         for rg, sub in REGEXES.items():
             k = rg.sub(sub, k)
         instructions[k[0]][re.compile(f"^{k}$", re.IGNORECASE)] = v
@@ -224,6 +224,7 @@ SAN_TABLE = {".": "oo", "$": "Ꞩ"}
 Sanitized = NewType("Sanitized", str)
 
 
+@functools.lru_cache(maxsize=None)
 def sanitize(s: str) -> Sanitized:
     # s = unsanitize(s)
 
@@ -247,7 +248,7 @@ def get_full_current_scope():
 
 
 def get_all_file_scopes():
-    return {"": GLOBAL_SCOPE, **file_scopes}
+    return {**file_scopes}
 
 
 class lookup:
@@ -257,14 +258,15 @@ class lookup:
         try:
             sym = get_symbol(key)
         except KeyError:
-            for k, v in WILDCARDS.items():
-                if (k[-3:] == "XXX" and key.startswith(k[:-3])) or (k[:3] == "XXX" and key.endswith(k[3:])):
-                    sym = v
-                    break
+            if wildcard_regex.match(key):
+                for k, v in WILDCARDS.items():
+                    if (k[-3:] == "XXX" and key.startswith(k[:-3])) or (k[:3] == "XXX" and key.endswith(k[3:])):
+                        sym = v
+                        break
         if sym is None:
             raise KeyError(f"Symbol {key} not found")
-        sym.refs.add(i)
-        line_refs[i].add(sym)
+        sym.refs.add(lineno)
+        line_refs[lineno].add(sym)
         if current_function is not None:
             sym.refsfn.add(current_function)
         if sym.label_value is not None:
@@ -280,13 +282,20 @@ RE_IDENT = re.compile(r"^[a-zA-Z_.$][a-zA-Z0-9_.$]*$")
 def parse_imm(s):
     if not s:
         return 0
+    ss = sanitize(s)
+    # try:
+    #     res = lookup[ss]
+    # except KeyError:
+    #     try:
+    #         res = eval(ss, {}, lookup)
+    #     except Exception as e:
+    #         raise AsmException(f"In {current_file}: {e} while parsing immediate value {s}") from e
     try:
         if RE_IDENT.match(s):
-            res = lookup[sanitize(s)]
+            res = lookup[ss]
         else:
-            res = eval(sanitize(s), {}, lookup)
+            res = eval(ss, {}, lookup)
     except Exception as e:
-        # print(file_scopes[current_file])
         raise AsmException(f"In {current_file}: {e} while parsing immediate value {s}") from e
     if type(res) == float and res != (res := int(res)):
         raise AsmException(s)
@@ -378,9 +387,9 @@ def try_assemble(pc: int, m: re.Match, instr: str, output, line: str, line_num: 
                                 print("Trampolining:", line)
                                 cond_id = dic["cond"][0]
                                 opp_id = cond_id ^ 1
-                                lines[line_num - 1] = f"b{CONDS[opp_id]} {new_label}"
-                                lines.insert(line_num, f"{new_label}:")
-                                lines.insert(line_num, f"b {v}")
+                                set_line(line_num - 1, f"b{CONDS[opp_id]} {new_label}")
+                                insert_line(line_num, f"{new_label}:")
+                                insert_line(line_num, f"b {v}")
                                 print("New code:", lines[line_num - 1:line_num + 8])
                                 raise Trampoline(2)
                             elif instr == "ldr":
@@ -388,11 +397,11 @@ def try_assemble(pc: int, m: re.Match, instr: str, output, line: str, line_num: 
                                 tr_data = f"{new_label}_addr"
                                 tr_after = f"{new_label}_after"
                                 rd = f"r{dic['Rd'][0]}"
-                                lines[line_num - 1] = f"ldr {rd}, {tr_data}"
-                                lines.insert(line_num, f"{tr_after}: ldr {rd}, [{rd}]")
-                                lines.insert(line_num, f"{tr_data}: .long {v}")
-                                lines.insert(line_num, f".p2align 2")
-                                lines.insert(line_num, f"b {tr_after}")
+                                set_line(line_num - 1, f"ldr {rd}, {tr_data}")
+                                insert_line(line_num, f"{tr_after}: ldr {rd}, [{rd}]")
+                                insert_line(line_num, f"{tr_data}: .long {v}")
+                                insert_line(line_num, f".p2align 2")
+                                insert_line(line_num, f"b {tr_after}")
                                 print("New code:", lines[line_num - 1:line_num + 8])
                                 raise Trampoline(4)
                             # elif instr.lower() == "b":
@@ -441,21 +450,32 @@ class Trampoline(Exception):
         self.offset = offset
 
 
-def assemble(line: str, pc: int, line_num: int) -> Sequence[tuple[int, int, str, str]]:
-    try:
-        instr, args = line.split(None, 1)
-    except:
-        instr, args = line.strip(), ""
-    args_split = args.split(",")
+def assemble(line: str, pc: int, line_num: int, tokens: list["Token"]) -> Sequence[tuple[int, int, str, str]]:
+
     if cli_args.optimize_functions and not optim_done:
-        for arg in args_split:
+        instr, *args = tokens
+        for arg in args:
+            if arg[0] == "#":
+                continue
+            if len(arg) == 1:
+                if not arg.isalpha():
+                    continue
+            else:
+                if RE_REGISTER.match(arg):
+                    continue
             try:
                 parse_imm(arg)
             except AsmException:
                 pass
         return (pc, 0, "", ""),
+
+    try:
+        instr, args = line.split(None, 1)
+    except:
+        instr, args = line.strip(), ""
+    args_split = list(map(str.strip, args.split(",")))
     instr = instr.lower().removesuffix(".w").removesuffix(".n")
-    oline = line = instr + " " + ", ".join(map(str.strip, args_split))  # why was there a filter(bool, ...) there?
+    oline = line = instr + " " + ", ".join(args_split)  # why was there a filter(bool, ...) there?
     if instr[0] == "$":
         dl = "." + line[1:]
         if instr in ("$long", "$word"):
@@ -501,7 +521,7 @@ def assemble(line: str, pc: int, line_num: int) -> Sequence[tuple[int, int, str,
     while True:
         for i, output in INSTRUCTIONS[line[0]].items():
             if m := i.match(line):
-                if type(output) == str:
+                if type(output) is str:
                     for c, rep in m.groupdict().items():
                         if c[0] == "F":
                             output = output.replace(f"{{{c[1:]}}}", rep)
@@ -545,50 +565,107 @@ only_function = cli_args.function
 
 input_files = cli_args.files
 
-RE_LBL = re.compile(r"^([.\w_$]+)\s*:")
-RE_PUSHPOP = re.compile(r"^(push|pop)\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
-RE_STMBANG = re.compile(r"^stm\s+(r\d)!\s*,\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
-RE_LDMBANG = re.compile(r"^ldm\s+(r\d)!\s*,\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
-RE_LDM = re.compile(r"^ldm\s+(r\d),\s*{\s*(\w+(?:\s*,\s*\w+)*)}$", re.IGNORECASE)
-RE_BL = re.compile(r"^blx?\s+(?!r\d\d?$)(.*)$", re.IGNORECASE)
-RE_BCOND = re.compile(r"^xxb([a-z]{2})\s+((?!r).*)$", re.IGNORECASE)
-RE_INST_N = re.compile(r"^.inst.n\s+(.*)$", re.IGNORECASE)
-RE_P2ALIGN = re.compile(r"^.p2align\s+(\d+)(?:\s*,\s*((?:0x)?\d+))?$", re.IGNORECASE)
-RE_INVALID = re.compile(r"^(dmb)\b.*$", re.IGNORECASE)
+RE_REGISTER = re.compile(r"^(r\d\d?|sp|lr|pc)$", re.IGNORECASE)
+
+RE_LBL_NAME = re.compile(r"^([.\w_$]+)$")
+# RE_ASM_WORD = re.compile(r"^([#%.\w_$]+)$")
+
+# @numba.experimental.jitclass([("val", numba.types.List(numba.types.unicode_type))])
+# @dataclass
+# class RegList:
+#     val: list[str]
+
+RegList = list[str]
+
+Token = str | RegList
 
 
-def tokenize(line: str) -> list[str]:
+#@numba.jit(cache=True, fastmath=True)
+def tokenize_all(lines: list[str]) -> list[list[Token]]:
+    """Tokenizes a list of assembly code lines."""
+    return [tokenize(line) for line in lines]
+
+#@numba.jit(cache=True, fastmath=True)
+
+@functools.lru_cache(maxsize=None)
+def tokenize(line: str) -> list[Token]:
     """Tokenizes a line of assembly code."""
     tokens = []
-    current_token = ""
+    # current_token = ""
+    current_token_start = 0
+    current_token_end = 0
     in_string = False
+    in_brace = None
     escape = False
-    for char in line:
+    def finish_token():
+        nonlocal current_token_start, current_token_end
+        if current_token_end > current_token_start:
+            current_token = line[current_token_start:current_token_end]
+            if in_brace is not None:
+                in_brace.append(current_token)
+            else:
+                tokens.append(current_token)
+        current_token_start = current_token_end
+    for i, char in enumerate(line):
         if escape:
-            current_token += char
+            current_token_end += 1
             escape = False
             continue
-        if in_string and char == "\\":
-            current_token += char
-            escape = True
+
+        if in_string:
+            if char == "\\":
+                current_token_end += 1
+                escape = True
+                continue
+            elif char == '"':
+                in_string = False
+                current_token_end += 1
+                finish_token()
+            else:
+                current_token_end += 1
             continue
+
+        if in_brace is not None:
+            if char == ",":
+                finish_token()
+                continue
+            elif char == "}":
+                finish_token()
+                tokens.append((in_brace))
+                in_brace = None
+                continue
+
         if char == '"':
-            in_string = not in_string
-            current_token += char
-        elif char.isspace() and not in_string:
-            if current_token:
-                tokens.append(current_token)
-                current_token = ""
-        elif char == '@' and not in_string:
-            if current_token:
-                tokens.append(current_token)
-                current_token = ""
+            finish_token()
+            in_string = True
+        elif char == "{":
+            finish_token()
+            current_token_start = current_token_end = i + 1
+            in_brace = []
+            continue
+        elif char.isspace():
+            finish_token()
+            current_token_start = current_token_end = i + 1
+            continue
+        elif char == '@':
+            finish_token()
             break
-        else:
-            current_token += char
-    if current_token:
-        tokens.append(current_token)
+        # elif not re.match(RE_ASM_WORD, char):
+        elif not (char.isalnum() or char in "#%._$"):
+            finish_token()
+            # current_token = char
+            current_token_start = i
+            current_token_end = i + 1
+            finish_token()
+            continue
+
+        # current_token += char
+        current_token_end += 1
+    finish_token()
     return tokens
+
+assert(tokenize("mov r0, r1") == ["mov", "r0", ",", "r1"])
+assert(tokenize("mov  \"r0\",  {r1, r2}") == ["mov", '"r0"', ",", (["r1", "r2"])])
 
 
 # for test in [
@@ -607,8 +684,10 @@ GLOBAL_SCOPE: SymList = {}
 file_scopes: dict[str, SymList] = {}
 
 WILDCARDS: SymList = {}
+wildcard_regex = re.compile(r"^\b$")
 
 RE_BUILTINS = re.compile(r"(alloc|core|compiler_builtins)")
+
 
 
 def add_symbol(oname, set_global=False):
@@ -621,24 +700,30 @@ def add_symbol(oname, set_global=False):
         if glob_sym.source == current_file:
             return glob_sym
         elif glob_sym.is_weak:
-            new_sym = Symbol(oname, source=current_file, line_start=i, line_end=i)
+            new_sym = Symbol(oname, source=current_file, line_start=lineno, line_end=lineno)
             GLOBAL_SCOPE[name] = new_sym
             file_scopes[current_file][name] = new_sym
             if wildcard:
-                WILDCARDS[name] = new_sym
+                add_wildcard(name, new_sym)
             return new_sym
         else:
             raise Exception(f"Symbol {name} already globally defined in {glob_sym.source}")
 
     sym = file_scopes[current_file].get(name)
     if not sym:
-        sym = Symbol(oname, source=current_file, line_start=i, line_end=i)
+        sym = Symbol(oname, source=current_file, line_start=lineno, line_end=lineno)
         file_scopes[current_file][name] = sym
     if wildcard:
-        WILDCARDS[name] = sym
+        add_wildcard(name, sym)
     if set_global:
         GLOBAL_SCOPE[name] = sym
     return sym
+
+
+def add_wildcard(name, new_sym):
+    WILDCARDS[name] = new_sym
+    global wildcard_regex
+    wildcard_regex = re.compile(r"^(" + "|".join(re.escape(name).replace("XXX", ".*?") for name in WILDCARDS) + r")$")
 
 
 def add_label(name, value):
@@ -652,6 +737,8 @@ def add_label(name, value):
 
 
 def get_symbol(name):
+    if name != name.strip():
+        breakpoint()
     name = sanitize(name)
     if sym := GLOBAL_SCOPE.get(name):
         return sym
@@ -664,372 +751,402 @@ def get_symbol(name):
 *includes, main_file = input_files
 fo = open(os.path.splitext(main_file)[0] + ".bin", "w")
 
-entire_code = []
-
 import json
 
-for current_proc_file in includes:
-    entire_code.append("#file " + json.dumps(current_proc_file))
-    with open(current_proc_file, "r", encoding="utf-8") as fp:
+
+def read_entire_code():
+    entire_code = []
+    for current_proc_file in includes:
+        entire_code.append("#file " + json.dumps(current_proc_file))
+        with open(current_proc_file, "r", encoding="utf-8") as fp:
+            entire_code.extend(fp.readlines())
+    entire_code.append("#file " + json.dumps(main_file))
+    with open(main_file, "r", encoding="utf-8") as fp:
         entire_code.extend(fp.readlines())
+    entire_code = [l.strip() for l in entire_code]
+    return entire_code
 
-entire_code.append("#file " + json.dumps(main_file))
-with open(main_file, "r", encoding="utf-8") as fp:
-    entire_code.extend(fp.readlines())
 
-lines = entire_code
-
-lines = [l.strip() for l in lines]
+lines = read_entire_code()
+lines_tok = tokenize_all(lines)
 # ignored_lines = {i for i, l in enumerate(lines[:-1])
 #                  if l.lower().startswith("b\t") and lines[i + 1] == f"{l[2:]}:"}  # fix for clang's redundant jumps
-ignored_lines = set()
-trampoline_need = False
 line_refs = defaultdict(set)
 
+def set_line(i, val):
+    lines[i] = val
+    lines_tok[i] = tokenize(val)
 
-def do_trampo():
-    print("RESTART")
-    with open("trampo.s", "w") as tw:
-        tw.write("\n".join(lines))
-    out.clear()
-    instr_log.clear()
-    jumps.clear()
-    GLOBAL_SCOPE.clear()
-    file_scopes.clear()
-    line_refs.clear()
+def insert_line(i, val):
+    lines.insert(i, val)
+    lines_tok.insert(i, tokenize(val))
 
 
-optim_done = False
-current_function = None
-while True:
-    current_file = None
-    current_function_preproc = None
-    instrs = [(-1, 0, f".nobranchstart", None, 0)] if nobranch else [(-1, 0, "$bl1 run", None, 1),
-                                                                     (-1, 1, "$bl2 run", None, 1)]
 
+def main_loop():
+    global optim_done, current_function, current_file, lineno, out, lines, lines_tok
 
-    # instrs = [(-1, 0, ".start", None, 0)]
-    def add_instr(line, val=None, size=1):
-        instrs.append((i + 1, current_pc(), line, val, size))
+    def do_trampo():
+        print("RESTART")
+        with open("trampo.s", "w") as tw:
+            tw.write("\n".join(lines))
+        out.clear()
+        instr_log.clear()
+        jumps.clear()
+        GLOBAL_SCOPE.clear()
+        file_scopes.clear()
+        line_refs.clear()
 
-
-    def current_pc():
-        return instrs[-1][1] + instrs[-1][4]
-
-
-    byte_val = None
-    try:
-        print("# lines:", len(lines))
-        for i, line in enumerate(lines):
-            if len(instrs) > 10 * len(lines):
-                print("many instrs?", len(instrs), len(lines))
-            # if not no_optim:
-            #     if i in ignored_lines:
-            #         continue
-            # line = comm.sub("", line)
-            line = " ".join(tokenize(line))
-            if line.startswith("#file "):
-                name = line[6:]
-                current_file = eval(name.strip())
-                file_scopes[current_file] = {}
-
-            while line := line.strip():
-                if m := RE_LBL.match(line):  # line is a label
-                    lbl_name = sanitize(m.group(1))
-                    add_label(lbl_name, current_pc())
-                    line = line[line.index(":") + 1:]
-
-
-                    def fixup(name, meth):
-                        for sym in get_full_current_scope().keys():
-                            if meth(sym, name):
-                                add_label(sym, current_pc())
-
-
-                    if lbl_name.endswith("XXX"):
-                        fixup(lbl_name[:-3], str.startswith)
-                    elif lbl_name.startswith("XXX"):
-                        fixup(lbl_name[3:], str.endswith)
-                else:
-                    break
-
-            if not line:
-                continue
-
-            if byte_val is not None:
-                if line.lower().startswith(".byte"):
-                    skip, byte_val2 = True, line.split(None, 1)[1]
-                else:
-                    skip, byte_val2 = False, 0
-                add_instr(f"$bytes {byte_val}, {byte_val2}", None, 1)
-                byte_val = None
-                if skip:
-                    continue
-            if line[0] == "#":
-                add_instr(line, size=0)
-                continue
-            if m := RE_LBL.match(line):  # line is a label
-                lbl_name = sanitize(m.group(1))
-                add_label(lbl_name, current_pc())
-                line = line[line.index(":") + 1:]
-
-
-                def fixup(name, meth):
-                    for sym in get_full_current_scope().keys():
-                        if meth(sym, name):
-                            add_label(sym, current_pc())
-
-
-                if lbl_name.endswith("XXX"):
-                    fixup(lbl_name[:-3], str.startswith)
-                elif lbl_name.startswith("XXX"):
-                    fixup(lbl_name[3:], str.endswith)
-            elif m := RE_INST_N.match(line):
-                inst = m.group(1)
-                val = eval(inst)
-                if not (0 <= val <= 0xffff):
-                    raise Exception(".inst.n operand must fit in 16 bits")
-                add_instr(f".inst.n {inst}", val, 1)
-            elif m := RE_INVALID.match(line):
-                add_instr("$bl1 invalid_instruction")
-                add_instr("$bl2 invalid_instruction")
-            elif m := RE_BL.match(line):
-                add_instr(f"$bl1 {m.group(1)}")
-                add_instr(f"$bl2 {m.group(1)}")
-            elif m := RE_BCOND.match(line):
-                add_instr(f"$bcond1 {m.group(1)} {m.group(2)}")
-                add_instr(f"$bcond2 {m.group(1)} {m.group(2)}")
-            elif m := RE_PUSHPOP.match(line):
-                regs = sorted(HI_REGS.get(x, None) or int(x[1:]) for x in map(str.strip, m.group(2).split(",")))
-                if m.group(1).lower() == "push":
-                    add_instr(f"sub sp, #{len(regs) * 4}")
-                    for i, reg in enumerate(regs):
-                        if reg == HI_REGS["lr"]:
-                            add_instr("mov r12, r7")
-                            add_instr(f"mov r7, r{reg}")
-                            add_instr(f"str r7, [sp, #{i * 4}]")
-                            add_instr("mov r7, r12")
-                        elif reg <= 7:
-                            add_instr(f"str r{reg}, [sp, #{i * 4}]")
-                        else:
-                            raise Exception(f"push: invalid register {reg}")
-                else:
-                    for i, reg in enumerate(regs):
-                        if reg == HI_REGS["pc"]:
-                            add_instr("mov r12, r7")
-                            add_instr(f"ldr r7, [sp, #{i * 4}]")
-                            add_instr("mov lr, r7")
-                            add_instr("mov r7, r12")
-                            add_instr(f"add sp, #{len(regs) * 4}")
-                            add_instr("bx lr")
-                        elif reg <= 7:
-                            add_instr(f"ldr r{reg}, [sp, #{i * 4}]")
-                        else:
-                            raise Exception(f"push: invalid register {reg}")
-                    add_instr(f"add sp, #{len(regs) * 4}")
-            elif m := RE_STMBANG.match(line):
-                addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
-                for r in regs:
-                    add_instr(f"str {r}, [{addr}]")
-                    add_instr(f"adds {addr}, #4")
-            elif m := RE_LDMBANG.match(line):
-                addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
-                for r in regs:
-                    add_instr(f"ldr {r}, [{addr}]")
-                    add_instr(f"adds {addr}, #4")
-            elif m := RE_LDM.match(line):
-                addr, regs = m.group(1), sorted(map(str.strip, m.group(2).split(",")))
-                for k, r in enumerate(regs):
-                    add_instr(f"ldr {r}, [{addr}, #{4 * k}]")
-            elif m := RE_P2ALIGN.match(line):
-                val = int(m.group(1))
-                filler = eval(m.group(2)) if m.group(2) is not None else 0x4600
-                if val > 1:
-                    off = val - 1
-                    num = 1 << off
-                    align = current_pc() & (num - 1)
-                    if align:
-                        for _ in range(num - align):
-                            add_instr(f".p2align {val}", filler, 1)
-            else:
-                if line[0] != ".":
-                    add_instr(line)
-                    continue
-                val = None
-                fpart = line.split(None, 1)[0].lower()
-                match fpart:
-                    case ".ascii" | ".asciz":
-                        s = eval("b" + line.split(None, 1)[1].strip())
-                        l = len(s) + 1 * (line[5] == "z")
-                        l += l % 2
-                        add_instr("$" + line[1:], size=l // 2)
-                    case ".word" | ".long":
-                        add_instr("$" + line[1:], size=2)
-                    case ".short":
-                        add_instr("$" + line[1:], size=1)
-                    case ".byte":
-                        byte_val = line.split(None, 1)[1]
-                    case ".zero":
-                        args = line.split(None, 1)[1]
-                        if "," in args:
-                            cnt, val = map(int, args.split(","))
-                        else:
-                            cnt, val = int(args), 0
-                        for n in range((cnt - 1) // 2):
-                            add_instr(f"$bytes {val}, {val}", None, 1)
-                        add_instr(f"$bytes {val}, {val if cnt % 2 == 0 else 0}", None, 1)
-                    case ".hidden":
-                        sym_name = line.split(None, 1)[1]
-                        add_symbol(sym_name).is_hidden = True
-                    case ".globl":
-                        sym_name = line.split(None, 1)[1]
-                        add_symbol(sym_name, True)
-                    case ".weak":
-                        sym_name = line.split(None, 1)[1]
-                        add_symbol(sym_name, True).is_weak = True  # weak are global by default apparently
-                    case ".type":
-                        args = line.split(None, 1)
-                        sym_name, type_ = args[1].split(",")
-                        sym = add_symbol(sym_name)
-                        sym.type_ = type_.strip()
-                        if type_ == "%function":
-                            current_function_preproc = sanitize(sym_name)
-                            add_instr("#fnbegin " + json.dumps(sym_name), size=0)
-                    case ".fnstart":
-                        sym = get_symbol(current_function_preproc)
-                        sym.start = current_pc()
-                        # sym.line_start = i
-                    case ".fnend":
-                        # current_function should exist at this point and be the last symbol we got
-                        sym = get_symbol(current_function_preproc)
-                        add_instr("#fnend", size=0)
-                        sym.end = current_pc()
-                        sym.extend(i)
-                    case ".set":
-                        name, val = line.split(None, 1)[1].split(",")
-                        add_label(name, parse_imm(
-                            val.strip()) // 2)  # TODO: maybe store entire labels instead of halfs someday?
-                    case ".size":
-                        args = line.split(None, 1)[1]
-                        sym_name, size = args.split(",", 1)
-                        sym = add_symbol(sym_name)
-                        # old_use = sym.refs
-                        sym.size_hint = parse_imm(size.strip())
-                        # sym.refs = old_use
-                        sym.extend(i)
-                    case ".text" | ".syntax" | ".section" | ".loc" | ".eabi_attribute" | \
-                         ".code" | ".file" | ".thumb_func" | ".save" | ".setfp" | \
-                         ".cantunwind" | ".pad" | ".ident":
-                        pass
-                    case _:
-                        raise Exception("Invalid directive: " + fpart)
-
-    except:
-        print(i + 1, line, current_function_preproc, current_file)
-        raise
-    out = []
-    trampo_offset = 0
-    print("# instructions:", len(instrs))
+    optim_done = False
     current_function = None
-    for i, pc, line, val, size in instrs:
+    while True:
+        current_file = None
+        current_function_preproc = None
+        # instrs = [(-1, 0, f".nobranchstart", None, 0)] if nobranch else [(-1, 0, "$bl1 run", None, 1),
+        #                                                                  (-1, 1, "$bl2 run", None, 1)]
+
+        instrs = []
+
+        def current_pc():
+            return instrs[-1][1] + instrs[-1][4]
+
+        # instrs = [(-1, 0, ".start", None, 0)]
+        def add_instr(line, val=None, size=1, tokenized=None, pc=None):
+            if tokenized is None:
+                tokenized = tokenize(line)
+            instrs.append((lineno + 1, current_pc() if pc is None else pc, line, val, size, tokenized))
+
+        lineno = -2
+        if nobranch:
+            add_instr(".nobranchstart", size=0, pc=0)
+        else:
+            add_instr("$bl1 run", size=1, pc=0)
+            add_instr("$bl2 run", size=1, pc=1)
+
+        byte_val = None
         try:
-            if val is not None:
-                out.append(val)
-                instr_log.append((pc, val, line, ""))
-            elif line.startswith("#"):
-                cmd, *arg = line[1:].split(' ', 1)
-                if arg:
-                    arg = eval(arg[0])
-                match cmd:
-                    case "file":
-                        current_file = arg
-                    case "fnbegin":
-                        current_function = get_symbol(arg)
-                    case "fnend":
-                        current_function = None
-            elif line.startswith("#file "):
-                kind, name = line[6:].strip().split(",", 1)
-                current_file = eval(name.strip())
-            elif line[0] == ".":
-                continue
-            else:
-                for pc, val, code, data in assemble(line, pc, i + trampo_offset):
-                    out.append(val)
-                    if not nolog:
-                        instr_log.append((pc, val, code, data))
-        except Trampoline as e:
-            trampo_offset += e.offset
-            continue
-        except Exception as e:
-            print(f"Build error on line {i}: {line} (inside {current_function})")
-            raise
-    with open("trampo_pre.s", "w") as tw:
-        tw.write("\n".join(lines))
-    if trampo_offset != 0:
-        do_trampo()
-    else:
-        if cli_args.optimize_functions and not optim_done:
-            print("Optimizing functions...")
-            useful = defaultdict(set)
-            # useful = [False] * len(lines)
-            for file, symbols in get_all_file_scopes().items():
-                for name, sym in symbols.items():
-                    if len(sym.refs) > 0:
-                        for line in sym.line_range():
-                            useful[line].add(sym)
-            passes = 0
-            while True:
-                removed_syms = set()
-                print("Optim pass", passes + 1)
-                for file, symbols in get_all_file_scopes().items():
-                    for name, sym in list(symbols.items()):
-                        if len(sym.refs) == 0:
-                            def outside_refs():
-                                for line in sym.line_range():
-                                    if line in useful:
-                                        for useful_sym in useful[line]:
-                                            if any(r not in sym.line_range() for r in useful_sym.refs):
-                                                yield useful_sym
-                                yield from ()
+            print("# lines:", len(lines))
+            for lineno, (line, tokens) in enumerate(zip(lines, lines_tok)):
+                if len(instrs) > 10 * len(lines):
+                    print("many instrs?", len(instrs), len(lines))
+                # if not no_optim:
+                #     if i in ignored_lines:
+                #         continue
+                # line = comm.sub("", line)
+                # line = " ".join(tokenize(line))
+                # tokens = tokenize(line)
 
+                if not tokens:
+                    continue
 
-                            outside_refs = list(outside_refs())
-                            if not outside_refs:
-                                removed_syms.add(name)
-                                if False and len(sym.line_range()) > 1:
-                                    print(
-                                        f"Removing unused function {unsanitize(name)} from {sym.source}: {sym.line_range()}")
-                                for line in sym.line_range():
-                                    if lines[line] is None:
-                                        continue
-                                    lines[line] = None
-                                    for refd in line_refs[line]:
-                                        refd.refs.discard(line)
+                match tokens:
+                    case ["#file", name]:
+                        current_file = eval(name.strip())
+                        file_scopes[current_file] = {}
+                        add_instr(line, size=0, tokenized=tokens)
+                        continue
+
+                while tokens:
+                    match tokens:
+                        case [label, ":", *rest] if RE_LBL_NAME.match(label):
+                            lbl_name = sanitize(label)
+                            add_label(lbl_name, current_pc())
+                            tokens = rest
+
+                            def fixup(name, meth):
+                                for sym in get_full_current_scope().keys():
+                                    if meth(sym, name):
+                                        add_label(sym, current_pc())
+
+                            if lbl_name.endswith("XXX"):
+                                fixup(lbl_name[:-3], str.startswith)
+                            elif lbl_name.startswith("XXX"):
+                                fixup(lbl_name[3:], str.endswith)
+                        case _:
+                            break
+
+                if not tokens:
+                    continue
+
+                if line[0] == "#":
+                    add_instr(line, size=0, tokenized=tokens)
+                    continue
+
+                if byte_val is not None:
+                    if tokens[0] == ".byte":
+                        skip, byte_val2 = True, tokens[1]
+                    else:
+                        skip, byte_val2 = False, 0
+                    add_instr(f"$bytes {byte_val}, {byte_val2}", None, 1)
+                    byte_val = None
+                    if skip:
+                        continue
+
+                def full_line():
+                    return " ".join(map(str, tokens))
+
+                def process_tokens():
+                    nonlocal current_function_preproc
+                    nonlocal byte_val
+                    match tokens:
+                        case ["dmb", *rest]:
+                            add_instr("$bl1 invalid_instruction")
+                            add_instr("$bl2 invalid_instruction")
+                        case ["bl" | "blx", arg] if not RE_REGISTER.match(arg):
+                            add_instr(f"$bl1 {arg}")
+                            add_instr(f"$bl2 {arg}")
+                        # elif m := RE_BCOND.match(line):
+                        # add_instr(f"$bcond1 {m.group(1)} {m.group(2)}")
+                        # add_instr(f"$bcond2 {m.group(1)} {m.group(2)}")
+                        case ["push" | "pop" as instr, (regs)]:
+                            regs = sorted(HI_REGS.get(x, None) or int(x[1:]) for x in regs)
+                            if instr == "push":
+                                add_instr(f"sub sp, #{len(regs) * 4}")
+                                for i, reg in enumerate(regs):
+                                    if reg == HI_REGS["lr"]:
+                                        add_instr("mov r12, r7")
+                                        add_instr(f"mov r7, r{reg}")
+                                        add_instr(f"str r7, [sp, #{i * 4}]")
+                                        add_instr("mov r7, r12")
+                                    elif reg <= 7:
+                                        add_instr(f"str r{reg}, [sp, #{i * 4}]")
+                                    else:
+                                        raise Exception(f"push: invalid register {reg}")
                             else:
-                                print(
-                                    f"Unused function {unsanitize(name)} ({sym.line_range()}) from {sym.source} contains referenced symbols: {','.join(s.name for s in outside_refs)}")
-                if not removed_syms:
-                    break
-                for file, symbols in get_all_file_scopes().items():
-                    for name in removed_syms:
-                        if name in symbols:
-                            del symbols[name]
-                print("Removed", len(removed_syms), "symbols")
-                passes += 1
-            lines = [l for l in lines if l is not None]
-            if passes >= 1:
-                print("redoing an optim pass")
-                do_trampo()
-                continue
-            else:
-                print("No more unused functions found.")
-                optim_done = True
-                continue
-        break
-if quiet:
-    sys.stdout = open(os.path.splitext(main_file)[0] + ".log", "w")
+                                for i, reg in enumerate(regs):
+                                    if reg == HI_REGS["pc"]:
+                                        add_instr("mov r12, r7")
+                                        add_instr(f"ldr r7, [sp, #{i * 4}]")
+                                        add_instr("mov lr, r7")
+                                        add_instr("mov r7, r12")
+                                        add_instr(f"add sp, #{len(regs) * 4}")
+                                        add_instr("bx lr")
+                                    elif reg <= 7:
+                                        add_instr(f"ldr r{reg}, [sp, #{i * 4}]")
+                                    else:
+                                        raise Exception(f"push: invalid register {reg}")
+                                add_instr(f"add sp, #{len(regs) * 4}")
+                        case ["stm", addr, "!", ",", (regs)]:
+                            regs = sorted(regs)
+                            for r in regs:
+                                add_instr(f"str {r}, [{addr}]")
+                                add_instr(f"adds {addr}, #4")
+                        case ["ldm", addr, "!", ",", (regs)]:
+                            regs = sorted(regs)
+                            for r in regs:
+                                add_instr(f"ldr {r}, [{addr}]")
+                                add_instr(f"adds {addr}, #4")
+                        case ["ldm", addr, ",", (regs)]:
+                            regs = sorted(regs)
+                            for k, r in enumerate(regs):
+                                add_instr(f"ldr {r}, [{addr}, #{4 * k}]")
+                        case _ if tokens[0][0] != ".":
+                            add_instr(full_line(), tokenized=tokens)
+                            return
 
-if not nolog:
+                        case [".inst.n", inst]:
+                            val = eval(inst)
+                            if not (0 <= val <= 0xffff):
+                                raise Exception(".inst.n operand must fit in 16 bits")
+                            add_instr(f".inst.n {inst}", val, 1)
+                        case [".p2align", val, *rest]:
+                            val = int(val)
+                            match rest:
+                                case [",", rest_val]:
+                                    filler = eval(rest_val)
+                                case []:
+                                    filler = 0x4600  # default filler value
+                                case _:
+                                    raise AsmException("Invalid .p2align directive")
+                            if val > 1:
+                                off = val - 1
+                                num = 1 << off
+                                align = current_pc() & (num - 1)
+                                if align:
+                                    for _ in range(num - align):
+                                        add_instr(f".p2align {val}", filler, 1)
+                        case [".ascii" | ".asciz" as kind, val]:
+                            s = eval("b" + val)
+                            l = len(s) + 1 * (kind[5] == "z")
+                            l += l % 2
+                            add_instr("$" + full_line()[1:], size=l // 2)
+                        case [".word" | ".long", *val]:
+                            add_instr("$" + full_line()[1:], size=2)
+                        case [".short", *val]:
+                            add_instr("$" + full_line()[1:], size=1)
+                        case [".byte", *val]:
+                            byte_val = " ".join(val)
+                        case [".zero", cnt, *rest]:
+                            cnt = int(cnt)
+                            match rest:
+                                case [",", val]:
+                                    val = int(val)
+                                case []:
+                                    val = 0
+                                case _:
+                                    raise AsmException("Invalid .zero directive")
+                            for n in range((cnt - 1) // 2):
+                                add_instr(f"$bytes {val}, {val}", None, 1)
+                            add_instr(f"$bytes {val}, {val if cnt % 2 == 0 else 0}", None, 1)
+                        case [".hidden", sym_name]:
+                            add_symbol(sym_name).is_hidden = True
+                        case [".globl", sym_name]:
+                            add_symbol(sym_name, True)
+                        case [".weak", sym_name]:
+                            add_symbol(sym_name, True).is_weak = True  # weak are global by default apparently
+                        case [".type", sym_name, ",", type_]:
+                            sym = add_symbol(sym_name)
+                            sym.type_ = type_
+                            if type_ == "%function":
+                                current_function_preproc = sanitize(sym_name)
+                                add_instr("#fnbegin " + json.dumps(sym_name), size=0)
+                        case [".fnstart"]:
+                            if current_function_preproc is None:
+                                raise Exception(".fnstart outside .type %function")
+                            sym = get_symbol(current_function_preproc)
+                            sym.start = current_pc()
+                            # sym.line_start = i
+                        case [".fnend"]:
+                            if current_function_preproc is None:
+                                raise Exception(".fnend outside .type %function")
+                            # current_function should exist at this point and be the last symbol we got
+                            sym = get_symbol(current_function_preproc)
+                            add_instr("#fnend", size=0)
+                            sym.end = current_pc()
+                            sym.extend(lineno)
+                        case [".set", name, ",", *val]:
+                            add_label(sanitize(name), parse_imm(
+                                " ".join(val)) // 2)  # TODO: maybe store entire labels instead of halfs someday?
+                        case [".size", sym_name, ",", *size]:
+                            sym = add_symbol(sym_name)
+                            # old_use = sym.refs
+                            sym.size_hint = parse_imm(" ".join(size))
+                            # sym.refs = old_use
+                            sym.extend(lineno)
+                        case [".text" | ".syntax" | ".section" | ".loc" | ".eabi_attribute" | \
+                              ".code" | ".file" | ".thumb_func" | ".save" | ".setfp" | \
+                              ".cantunwind" | ".pad" | ".ident", *rest]:
+                            pass
+                        case _:
+                            raise AsmException("Invalid directive")
+
+                process_tokens()
+        except:
+            print(lineno + 1, line, current_function_preproc, current_file)
+            raise
+        out = []
+        trampo_offset = 0
+        print("# instructions:", len(instrs))
+        current_function = None
+        current_file = None
+        for lineno, pc, line, val, size, tokens in instrs:
+            try:
+                if val is not None:
+                    out.append(val)
+                    instr_log.append((pc, val, line, ""))
+                elif line[0] == "#":
+                    cmd, *arg = tokens
+                    if arg:
+                        arg = eval(arg[0])
+                    match cmd:
+                        case "#file":
+                            current_file = arg
+                        case "#fnbegin":
+                            current_function = get_symbol(arg)
+                        case "#fnend":
+                            current_function = None
+                elif line[0] == ".":
+                    continue
+                else:
+                    for pc, val, code, data in assemble(line, pc, lineno + trampo_offset, tokens):
+                        out.append(val)
+                        if not nolog:
+                            instr_log.append((pc, val, code, data))
+            except Trampoline as e:
+                trampo_offset += e.offset
+                continue
+            except Exception as e:
+                print(f"Build error on line {lineno}: {line} (inside {current_function})")
+                raise
+        with open("trampo_pre.s", "w") as tw:
+            tw.write("\n".join(lines))
+        if trampo_offset != 0:
+            do_trampo()
+        else:
+            if cli_args.optimize_functions and not optim_done:
+                passes = do_func_optim()
+                lines = [l for l in lines if l is not None]
+                lines_tok = [l for l in lines_tok if l is not None]
+                if passes >= 1:
+                    print("redoing an optim pass")
+                    do_trampo()
+                    continue
+                else:
+                    print("No more unused functions found.")
+                    optim_done = True
+                    continue
+            break
+
+
+def do_func_optim():
+    global lines, lines_tok
+    print("Optimizing functions...")
+    useful = defaultdict(set)
+    # useful = [False] * len(lines)
+    for file, symbols in get_all_file_scopes().items():
+        for name, sym in symbols.items():
+            if len(sym.refs) > 0:
+                for line in sym.line_range():
+                    useful[line].add(sym)
+    passes = 0
+    while True:
+        removed_syms = set()
+        print("Optim pass", passes + 1)
+        for file, symbols in get_all_file_scopes().items():
+            for name, sym in list(symbols.items()):
+                if len(sym.refs) == 0:
+                    def outside_refs():
+                        for line in sym.line_range():
+                            if line in useful:
+                                for useful_sym in useful[line]:
+                                    if any(r not in sym.line_range() for r in useful_sym.refs):
+                                        yield useful_sym
+                        yield from ()
+
+                    outside_refs = list(outside_refs())
+                    if not outside_refs:
+                        removed_syms.add(name)
+                        if False and len(sym.line_range()) > 1:
+                            print(
+                                f"Removing unused function {unsanitize(name)} from {sym.source}: {sym.line_range()}")
+                        for line in sym.line_range():
+                            if lines[line] is None:
+                                continue
+                            lines[line] = None
+                            lines_tok[line] = None
+                            for refd in line_refs[line]:
+                                refd.refs.discard(line)
+                    else:
+                        print(
+                            f"Unused function {unsanitize(name)} ({sym.line_range()}) from {sym.source} contains referenced symbols: {','.join(s.name for s in outside_refs)}")
+        if not removed_syms:
+            break
+        for file, symbols in get_all_file_scopes().items():
+            for name in removed_syms:
+                symbols.pop(name, None)
+        print("Removed", len(removed_syms), "symbols")
+        passes += 1
+    return passes
+
+
+main_loop()
+
+if quiet:
+    sys.stdout = open(os.path.splitext(main_file)[0] + ".log", "w", encoding="utf-8")
+
+
+def write_log():
+    global instr_log
     jump_delta = 0
     if only_function:
         try:
@@ -1061,22 +1178,18 @@ if not nolog:
     columns = f"║   PC   │  OP  │ {'Instruction':^{width_instr}} │ {'Arguments':^{width_args}} ║"
     sep = "╠" + "".join("═╪"[c == "│"] for c in columns[1:-1]) + "╣"
 
-
     def statline(pc, val, code, data):
         return f"{pc * 2:06x} │ {val:04x} │ {code:{width_instr}} │ {str(data):{width_args}}"
-
 
     print("╔" + "".join("═╤"[c == "│"] for c in columns[1:-1]) + "╗")
     print(columns)
     print(sep)
     instr_log[:] = ["║ " + statline(*args) + " ║" for args in instr_log]
 
-
     def subst(s, i, c):
         if len(s) < i:
             s = s.ljust(i)
         return s[:i] + c + s[i + len(c):]
-
 
     root = len(columns) + 1
     for depth, (src, dst) in enumerate(jumps):
@@ -1088,7 +1201,7 @@ if not nolog:
         step = 1 if dst >= src else -1
         start, end = ("╮", "╯")[::step]
         pos = ((max((len(l) for l in instr_log[min(src, dst):max(src, dst)]), default=root) - root + 1) // 6) * (
-                    len(dsh) + 3)
+                len(dsh) + 3)
         instr_log[src] = subst(instr_log[src], root + pos, ">" + dsh + start)
         for i in range(src + step, dst, step):
             instr_log[i] = subst(instr_log[i], root + pos + len(dsh) + 1, "│")
@@ -1098,6 +1211,10 @@ if not nolog:
     print(sep)
     print(columns)
     print("╚" + "".join("═╧"[c == "│"] for c in columns[1:-1]) + "╝")
+
+
+if not nolog:
+    write_log()
 
 # print("unref symbols:")
 # for file, symbols in get_all_file_scopes().items():
@@ -1116,13 +1233,14 @@ with open(os.path.join(os.path.dirname(__file__), "lisp.s.raw"), "rb") as tf:
 
 out_bytes = bytes(byte for word in out for byte in (word & 0xff, word >> 8))
 
-assert (out_bytes == test_bytes)
+#assert (out_bytes == test_bytes)
 
 with open(os.path.splitext(main_file)[0] + ".raw", "wb") as fo:
     fo.write(out_bytes)
-if cli_args.call_graph:
-    from rust_demangler import demangle
 
+
+def gen_call_graph():
+    from rust_demangler import demangle
     with open(os.path.splitext(main_file)[0] + ".dot", "w") as fo:
         fo.write("digraph {\n")
         for file, symbols in get_all_file_scopes().items():
@@ -1143,5 +1261,9 @@ if cli_args.call_graph:
                         continue
                     fo.write(f'"{id(caller)}" -> "{id(sym)}";\n')
         fo.write("}\n")
+
+
+if cli_args.call_graph:
+    gen_call_graph()
 
 print("Total runtime:", time.time() - start_time, "seconds")

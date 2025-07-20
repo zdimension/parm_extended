@@ -103,7 +103,8 @@ static HEAP_ALLOCATOR: HeapAllocator = HeapAllocator;
 
 core::arch::global_asm!(
     r#"
-__rust_no_alloc_shim_is_unstable:
+.globl __rust_no_alloc_shim_is_unstableXXX
+__rust_no_alloc_shim_is_unstableXXX:
 XXX___rust_alloc_error_handler_should_panic:
     .long 0
     "#);

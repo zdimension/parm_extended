@@ -5,7 +5,7 @@
 #![feature(step_trait)]
 #![feature(slice_pattern)]
 #![feature(alloc_error_handler)]
-
+extern crate alloc;
 use core::iter::Peekable;
 
 use crate::parm::heap::string::StrLike;
@@ -14,7 +14,7 @@ use crate::parm::heap::string::{CharSeq, Parse};
 use crate::parm::heap::string::{FromStr, String};
 use alloc::vec::Vec;
 use crate::parm::tty::{clear, print_char, print_hex, read_int, read_line, ParmDisplay, DisplayTarget};
-use crate::parm::{panic, telnet};
+use crate::parm::{telnet};
 use crate::parm::control::breakpoint;
 
 mod parm;
@@ -293,27 +293,25 @@ fn shunting_yard(tokens: Vec<Token>) -> Vec<Token> {
 
     for token in tokens.into_iter() {
         match token {
-            Token::Literal(_) | Token::Variable(_) => unsafe { output.push_unchecked(token) },
+            Token::Literal(_) | Token::Variable(_) => output.push(token),
             Token::Operator(o) => {
                 while let Some(&Token::Operator(op)) = stack.last() {
                     if op.precedence() >= o.precedence() {
                         unsafe {
-                            output.push_unchecked(stack.pop().unwrap_unchecked());
+                            output.push(stack.pop().unwrap_unchecked());
                         }
                     } else {
                         break;
                     }
                 }
-                unsafe {
-                    stack.push_unchecked(token);
-                }
+                stack.push(token);
             }
         }
     }
 
     while let Some(token) = stack.pop() {
         unsafe {
-            output.push_unchecked(token);
+            output.push(token);
         }
     }
     output
@@ -379,7 +377,6 @@ fn load_telnet(program: &mut Program, last: &mut LineNumber) {
 }
 
 fn process_instruction_input(program: &mut Program, last: &mut LineNumber, line: &String) {
-    breakpoint();
     let space = match line.as_chars().find_char(' ') {
         Some(pos) if pos < line.len() => pos,
         _ => {
@@ -432,7 +429,7 @@ fn insert_instruction(program: &mut Program, line_no: LineNumber, idata: Instruc
     let (index, instr) = unsafe { insert.unwrap_unchecked() }; // there must be one
     if instr.line_no == line_no {
         unsafe {
-            program.0.raw_set(index, idata);
+            program.0[index] = idata;
         }
     } else {
         program.0.insert(index, idata);
@@ -643,8 +640,10 @@ impl Program {
             relocations: Vec<Relocation>,
         }
 
+        #[derive(Copy, Clone)]
         struct Relocation(usize, RelocationType);
 
+        #[derive(Copy, Clone)]
         enum RelocationType {
             Goto(usize),
         }
@@ -698,14 +697,14 @@ impl Program {
                     };
                 }
 
-                for Relocation(i, r) in self.relocations.iter() {
+                for Relocation(i, r) in self.relocations.iter().copied() {
                     match r {
                         RelocationType::Goto(line) => {
-                            let line_start = self.instr_starts[*line];
-                            let delta = line_start - i - 1;
+                            let line_start = self.instr_starts[line];
+                            let delta = line_start.wrapping_sub(i) - 1;
                             set_at(
                                 &mut self.code,
-                                *i,
+                                i,
                                 0xe000 | (delta as u16 & 0b00000_11111111111),
                             );
                         }
@@ -866,7 +865,7 @@ impl ParmDisplay for Assembly {
 
 impl Assembly {
     fn run(&self) {
-        let ptr = self.0.ptr();
+        let ptr = self.0.as_ptr();
         let as_fn: extern "C" fn() -> () = unsafe { core::mem::transmute(ptr) };
         as_fn();
         print_char('\n');

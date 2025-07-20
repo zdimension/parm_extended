@@ -184,17 +184,39 @@ impl CRepl {
 fn main() {
     let inp = 0x12345678;
     let mut out: u32 = 0;
+    // unsafe {
+    //     core::arch::asm!(
+    //         "movs r0, {inp}",
+    //         "movs r7, {inp}",
+    //         "ldr r1, [r0]",
+    //         "adds r0, #1",
+    //         "ldr r2, [r0]",
+    //         "adds r0, #1",
+    //         "ldr r3, [r0]",
+    //         "adds r0, #1",
+    //         "ldr r4, [r0]",
+    //         "ldrb r5, [r7]",
+    //         "ldrh r6, [r7]",
+    //         "strb r4, [r7]",
+    //         "ldrh r6, [r7]",
+    //         inp = in(reg) &inp,
+    //     );
+    // }
     unsafe {
         core::arch::asm!(
-            "movs r0, {inp}",
-            "ldr r1, [r0]",
-            "adds r0, #1",
-            "ldr r2, [r0]",
-            "adds r0, #1",
-            "ldr r3, [r0]",
-            "adds r0, #1",
-            "ldr r4, [r0]",
-            inp = in(reg) &inp,
+        "movs r0, #0",
+        "movs r7, #0",
+        "ldr r1, [r0]",
+        "adds r0, #1",
+        "ldr r2, [r0]",
+        "adds r0, #1",
+        "ldr r3, [r0]",
+        "adds r0, #1",
+        "ldr r4, [r0]",
+        "ldrb r5, [r7]",
+        "ldrh r6, [r7]",
+        "strb r4, [r7]",
+        "ldrh r6, [r7]"
         );
     }
     return;
