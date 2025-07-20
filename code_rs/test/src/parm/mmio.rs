@@ -87,10 +87,12 @@ pins! {
     MIDIinstr => 6(out),
     KEYBeof => 6(in),
     KEYBchr => 7(in),
+    R2divR3U => 8(in),
+    R2modR3U => 9(in),
     RNG32 => 10(in),
     RESbcd => 11(in),
-    R2divR3 => 12(in),
-    R2modR3 => 13(in),
+    R2divR3I => 12(in),
+    R2modR3I => 13(in),
     DISPbuf => 14(inout),
     BREAKpin => 15(out)
 }

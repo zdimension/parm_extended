@@ -1,4 +1,4 @@
-use crate::parm::mmio::{R2divR3, R2modR3, RESbcd, RES};
+use crate::parm::mmio::{RESbcd, RES, R2divR3I, R2divR3U, R2modR3I, R2modR3U};
 use crate::parm::tty;
 use crate::parm::tty::DisplayTarget;
 use crate::print;
@@ -12,12 +12,12 @@ pub fn __aeabi_uidiv(a: u32, b: u32) -> u32 {
     unsafe {
         core::arch::asm!("uidiv:");
     }
-    div(a, b)
+    udiv(a, b)
 }
 
 #[unsafe(export_name = "__aeabi_idiv")]
 pub fn __aeabi_idiv(a: i32, b: i32) -> i32 {
-    div(a as u32, b as u32) as i32
+    idiv(a, b)
 }
 
 #[repr(C)]
@@ -31,7 +31,7 @@ pub fn __aeabi_uidivmod(a: u32, b: u32) -> DivMod<u32> {
     unsafe {
         core::arch::asm!("__uidivmod_test:");
     }
-    let divmod = divmod(a, b);
+    let divmod = udivmod(a, b);
     DivMod {
         quotient: divmod.0,
         remainder: divmod.1,
@@ -40,10 +40,10 @@ pub fn __aeabi_uidivmod(a: u32, b: u32) -> DivMod<u32> {
 
 #[unsafe(export_name = "__aeabi_idivmod")]
 pub fn __aeabi_idivmod(a: i32, b: i32) -> DivMod<i32> {
-    let divmod = divmod(a as u32, b as u32);
+    let divmod = idivmod(a, b);
     DivMod {
-        quotient: divmod.0 as i32,
-        remainder: divmod.1 as i32,
+        quotient: divmod.0,
+        remainder: divmod.1,
     }
 }
 
@@ -82,11 +82,11 @@ pub fn __clzsi2(a: u32) -> u32 {
 }
 
 #[inline(always)]
-pub fn div(a: u32, b: u32) -> u32 {
+pub fn udiv(a: u32, b: u32) -> u32 {
     let mut res;
     unsafe {
         core::arch::asm!("ldr {res}, [{addr}]",
-            addr = in(reg) R2divR3.address(),
+            addr = in(reg) R2divR3U.address(),
             res = out(reg) res,
             in("r2") a,
             in("r3") b,
@@ -96,11 +96,25 @@ pub fn div(a: u32, b: u32) -> u32 {
 }
 
 #[inline(always)]
-pub fn r#mod(a: u32, b: u32) -> u32 {
+pub fn idiv(a: i32, b: i32) -> i32 {
     let mut res;
     unsafe {
         core::arch::asm!("ldr {res}, [{addr}]",
-            addr = in(reg) R2modR3.address(),
+        addr = in(reg) R2divR3I.address(),
+        res = out(reg) res,
+        in("r2") a,
+        in("r3") b,
+        )
+    }
+    res
+}
+
+#[inline(always)]
+pub fn umod(a: u32, b: u32) -> u32 {
+    let mut res;
+    unsafe {
+        core::arch::asm!("ldr {res}, [{addr}]",
+            addr = in(reg) R2modR3U.address(),
             res = out(reg) res,
             in("r2") a,
             in("r3") b,
@@ -110,7 +124,21 @@ pub fn r#mod(a: u32, b: u32) -> u32 {
 }
 
 #[inline(always)]
-pub fn divmod(a: u32, b: u32) -> (u32, u32) {
+pub fn imod(a: i32, b: i32) -> i32 {
+    let mut res;
+    unsafe {
+        core::arch::asm!("ldr {res}, [{addr}]",
+        addr = in(reg) R2modR3I.address(),
+        res = out(reg) res,
+        in("r2") a,
+        in("r3") b,
+        )
+    }
+    res
+}
+
+#[inline(always)]
+pub fn udivmod(a: u32, b: u32) -> (u32, u32) {
     let mut div;
     let mut rem;
     unsafe {
@@ -118,8 +146,28 @@ pub fn divmod(a: u32, b: u32) -> (u32, u32) {
             ldr {res1}, [{addr1}]
             ldr {res2}, [{addr2}]
             "#,
-            addr1 = in(reg) R2divR3.address(),
-            addr2 = in(reg) R2modR3.address(),
+            addr1 = in(reg) R2divR3U.address(),
+            addr2 = in(reg) R2modR3U.address(),
+            res1 = out(reg) div,
+            res2 = out(reg) rem,
+            in("r2") a,
+            in("r3") b,
+        );
+    }
+    (div, rem)
+}
+
+#[inline(always)]
+pub fn idivmod(a: i32, b: i32) -> (i32, i32) {
+    let mut div;
+    let mut rem;
+    unsafe {
+        core::arch::asm!(r#"
+            ldr {res1}, [{addr1}]
+            ldr {res2}, [{addr2}]
+            "#,
+            addr1 = in(reg) R2divR3I.address(),
+            addr2 = in(reg) R2modR3I.address(),
             res1 = out(reg) div,
             res2 = out(reg) rem,
             in("r2") a,
@@ -391,13 +439,13 @@ impl Div<i32> for fp32 {
 impl Div<fp32> for fp32 {
     type Output = fp32;
     fn div(self, rhs: fp32) -> Self::Output {
-        fp32((div((self.0 << 8) as u32, rhs.0 as u32) << 8) as i32)
+        fp32((udiv((self.0 << 8) as u32, rhs.0 as u32) << 8) as i32)
     }
 }
 
 impl DivAssign<fp32> for fp32 {
     fn div_assign(&mut self, rhs: fp32) {
-        self.0 = (div((self.0 << 8) as u32, rhs.0 as u32) << 8) as i32;
+        self.0 = (udiv((self.0 << 8) as u32, rhs.0 as u32) << 8) as i32;
     }
 }
 

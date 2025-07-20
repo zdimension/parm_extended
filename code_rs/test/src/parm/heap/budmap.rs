@@ -1,8 +1,10 @@
+extern crate alloc;
 use alloc::vec::Vec;
 use crate::parm::util::fxhash::FxHasher;
 use core::hash::{BuildHasher, Hash, Hasher};
 use core::slice;
 use crate::{print, println};
+use crate::parm::tty::{get_tty, print_hex};
 
 #[derive(Clone)]
 pub struct RandomState;
@@ -209,8 +211,10 @@ where
 
     fn grow(&mut self, minimum_capacity: usize) {
         let old_bin_count = self.bin_mask.into_count();
+        println!("grow obc ", old_bin_count);
         if old_bin_count < minimum_capacity {
             if let Some(new_bin_count) = next_bucket_size(minimum_capacity) {
+                println!("grow nbc ", new_bin_count);
                 let capacity_growth = new_bin_count - self.entries.len();
                 self.entries.reserve_exact(capacity_growth);
 
@@ -248,14 +252,17 @@ where
     /// Inserts the key-value pair into the map. If an existing value was stored
     /// for the given key, it will be returned.
     pub fn insert(&mut self, key: Key, value: Value) -> Option<Value> {
+        println!("bins1 ", self.bins.len());
         self.grow_for_insert();
 
         let entry_index_if_pushed = self.entries.len();
         let hash = self.hash(&key);
+        println!("h =", hash);
 
         // Check to see if we need to overwrite.
         let mut bin_index = hash_to_bin(hash, self.bin_mask);
 
+        println!("bins2 ", self.bins.len());
         let mut bin = &self.bins[bin_index];
         if bin.entry_index.is_none() {
             // Vacant entry
@@ -264,8 +271,12 @@ where
             None
         } else {
             // Occupied entry -- insert or replace into this bin's linked list.
+            println!("occup");
             loop {
                 let next_bin_index = bin.collision_index;
+                print!("next_bin_index1 ");
+                print_hex(next_bin_index.0 as u32, 8, get_tty());
+                println!("next_bin_index ", next_bin_index.0);
 
                 // Check if the current bin contains our key
                 let entry_index = bin.entry_index.0;

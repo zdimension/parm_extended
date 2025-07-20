@@ -49,7 +49,7 @@ macro_rules! println {
     };
 }
 
-pub trait DisplayTarget {
+pub trait DisplayTarget: fmt::Write {
     fn print_char(&mut self, c: impl AsciiEncodable);
     fn print_slice(&mut self, s: &[char]);
     fn print_rust_str(&mut self, s: &str);
@@ -100,7 +100,6 @@ impl fmt::Write for Tty {
 //         Ok(())
 //     }}
 
-
 pub trait ParmDisplay {
     fn write(&self, target: &mut impl DisplayTarget);
 }
@@ -108,40 +107,42 @@ pub trait ParmDisplay {
 impl ParmDisplay for u8 {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
-        RES.write(*self as u32);
-        print_res(false, target);
+        print_res(*self as u32, false, target);
     }
 }
 
 impl ParmDisplay for u32 {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
-        RES.write(*self);
-        print_res(false, target);
+        print_res(*self, false, target);
     }
 }
 
 impl ParmDisplay for usize {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
-        RES.write(*self as u32);
-        print_res(false, target);
+        print_res(*self as u32, false, target);
     }
 }
 
 impl ParmDisplay for i32 {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
-        RES.write(*self as u32);
-        print_res(true, target);
+        print_res(*self as u32, true, target);
     }
 }
 
 impl ParmDisplay for u16 {
     #[inline(always)]
     fn write(&self, target: &mut impl DisplayTarget) {
-        RES.write(*self as u32);
-        print_res(true, target);
+        print_res(*self as u32, true, target);
+    }
+}
+
+impl ParmDisplay for u64 {
+    #[inline(always)]
+    fn write(&self, target: &mut impl DisplayTarget) {
+        write!(target, "{}", *self).expect("Failed to write u64 to target");
     }
 }
 
@@ -257,14 +258,15 @@ pub fn read_int() -> u32 {
     }
 }
 
-pub fn print_res(sign: bool, target: &mut impl DisplayTarget) {
+pub fn print_res(val: u32, sign: bool, target: &mut impl DisplayTarget) {
+    /*RES.write(val);
     let mut bcd = RESbcd.read();
 
     if bcd == 0 {
         target.print_char('0');
         return;
     } else if sign {
-        let signed = RES.read() as i32;
+        let signed = val as i32;
         if signed < 0 {
             target.print_char('-');
             RES.write((-signed) as u32);
@@ -287,7 +289,13 @@ pub fn print_res(sign: bool, target: &mut impl DisplayTarget) {
         bcd >>= 4;
         width -= 1;
         target.print_char(digit as u8 + b'0');
-    }
+    }*/
+
+    if sign {
+        write!(target, "{}", val as i32)
+    } else {
+        write!(target, "{}", val)
+    }.expect("Failed to write to target");
 }
 
 pub fn print_res_fixed(_sign: bool, width: u32, target: &mut impl DisplayTarget) {
@@ -312,6 +320,13 @@ pub fn print_hex_digit(digit: u8, target: &mut impl DisplayTarget) {
     });
 }
 
+///
+///
+/// # Arguments
+///
+/// * `val`: value to print
+/// * `width`: number of hex digits to print
+/// * `target`: target to print to
 pub fn print_hex(val: u32, width: u32, target: &mut impl DisplayTarget) {
     let width_bits = 4 * width;
     let mut val = val << (32 - width_bits);

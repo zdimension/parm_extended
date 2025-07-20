@@ -18,12 +18,10 @@ class AsmException(Exception):
     pass
 
 start_time = time.time()
-# print(sys.argv)
+print(sys.argv)
 #
 # os.chdir("../code_rs/test/bin")
-# sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/alloc-1674422c22f635cb.s', '../target/thumbv6m-none-eabi/release/deps/allocator_api2-454a206231c78fe2.s', '../target/thumbv6m-none-eabi/release/deps/compiler_builtins-6d31e344585737af.s',
-#             '../target/thumbv6m-none-eabi/release/deps/core-5c146e185925475e.s', '../target/thumbv6m-none-eabi/release/deps/derive_more-def3c3b56183adcf.s', '../target/thumbv6m-none-eabi/release/deps/equivalent-4775723ac70a6265.s', '../target/thumbv6m-none-eabi/release/deps/foldhash-7aa17a38163c09e6.s', '../target/thumbv6m-none-eabi/release/deps/hashbrown-8b9143ce0476d75e.s', '../target/thumbv6m-none-eabi/release/deps/c.s.bak',
-#             '-n', '-Of']
+# sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/alloc-1674422c22f635cb.s', '../target/thumbv6m-none-eabi/release/deps/allocator_api2-454a206231c78fe2.s', '../target/thumbv6m-none-eabi/release/deps/compiler_builtins-6d31e344585737af.s', '../target/thumbv6m-none-eabi/release/deps/core-5c146e185925475e.s', '../target/thumbv6m-none-eabi/release/deps/derive_more-def3c3b56183adcf.s', '../target/thumbv6m-none-eabi/release/deps/equivalent-4775723ac70a6265.s', '../target/thumbv6m-none-eabi/release/deps/foldhash-7aa17a38163c09e6.s', '../target/thumbv6m-none-eabi/release/deps/hashbrown-8b9143ce0476d75e.s', '../target/thumbv6m-none-eabi/release/deps/c.s.bak', '-jq', '-Of']
 
 # sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/alloc-1674422c22f635cb.s',
 #             '../target/thumbv6m-none-eabi/release/deps/allocator_api2-454a206231c78fe2.s',
@@ -874,7 +872,7 @@ def main_loop():
 
                 if byte_val is not None:
                     if tokens[0] == ".byte":
-                        skip, byte_val2 = True, tokens[1]
+                        skip, byte_val2 = True, " ".join(tokens[1:])
                     else:
                         skip, byte_val2 = False, 0
                     add_instr(f"$bytes {byte_val}, {byte_val2}", None, 1)
@@ -1023,6 +1021,11 @@ def main_loop():
                             sym.size_hint = parse_imm(" ".join(size))
                             # sym.refs = old_use
                             sym.extend(lineno)
+                        case [".section", sec_name, *rest]:
+                            if sec_name.startswith("\".text."):
+                                sym_name = sec_name[7:-1]
+                                sym = add_symbol(sym_name)
+                                sym.extend(lineno)
                         case [".text" | ".syntax" | ".section" | ".loc" | ".eabi_attribute" | \
                               ".code" | ".file" | ".thumb_func" | ".save" | ".setfp" | \
                               ".cantunwind" | ".pad" | ".ident", *rest]:
@@ -1039,11 +1042,12 @@ def main_loop():
         print("# instructions:", len(instrs))
         current_function = None
         current_file = None
+        instr_log.clear()
         for lineno, pc, line, val, size, tokens in instrs:
             try:
                 if val is not None:
                     out.append(val)
-                    instr_log.append((pc, val, line, ""))
+                    instr_log.append((pc, val, line, "..."))
                 elif line[0] == "#":
                     cmd, *arg = tokens
                     if arg:
@@ -1075,8 +1079,8 @@ def main_loop():
         else:
             if cli_args.optimize_functions and not optim_done:
                 passes = do_func_optim()
-                lines = [l for l in lines if l is not None]
-                lines_tok = [l for l in lines_tok if l is not None]
+                lines = [l for l in lines if l]
+                lines_tok = [l for l in lines_tok if l]
                 if passes >= 1:
                     print("redoing an optim pass")
                     do_trampo()
@@ -1140,6 +1144,7 @@ def do_func_optim():
 
 
 main_loop()
+
 
 if quiet:
     sys.stdout = open(os.path.splitext(main_file)[0] + ".log", "w", encoding="utf-8")
@@ -1241,14 +1246,16 @@ with open(os.path.splitext(main_file)[0] + ".raw", "wb") as fo:
 
 def gen_call_graph():
     from rust_demangler import demangle
+    import networkx as nx
+    g = nx.DiGraph()
     with open(os.path.splitext(main_file)[0] + ".dot", "w") as fo:
         fo.write("digraph {\n")
         for file, symbols in get_all_file_scopes().items():
             for name, sym in symbols.items():
                 if sym.type_ != "%function":
                     continue
-                if sym.source != main_file:
-                    continue
+                # if sym.source != main_file:
+                #     continue
                 name = unsanitize(name)
                 #  ({os.path.basename(sym.source)})
                 try:
@@ -1256,12 +1263,15 @@ def gen_call_graph():
                 except Exception:
                     demangled = name
                 fo.write(f'"{id(sym)}" [label="{demangled}"];\n')
-                for name, caller in sym.refsfn:
-                    if caller.source != main_file:
-                        continue
+                g.add_node(id(sym), label=demangled)
+                for caller in sym.refsfn:
+                    # if caller.source != main_file:
+                    #     continue
                     fo.write(f'"{id(caller)}" -> "{id(sym)}";\n')
+                    g.add_edge(id(caller), id(sym))
         fo.write("}\n")
 
+    nx.write_gexf(g, os.path.splitext(main_file)[0] + ".gexf")
 
 if cli_args.call_graph:
     gen_call_graph()

@@ -136,6 +136,7 @@ static LOOKUP57: &[u8] = &[
     b'~',
 ];
 
+use core::fmt::Write;
 use crate::parm::heap::HEAP_START;
 use crate::parm::screen::{rgb32, ColorEncodable, ColorEncoded};
 use crate::parm::tty::{AsciiEncodable, ParmDisplay, DisplayTarget};
@@ -287,6 +288,18 @@ impl AnsiColor {
 
 pub fn sgr_reset() -> AnsiEscape {
     AnsiEscape::Sgr(0)
+}
+
+impl Write for VideoTty {
+    fn write_str(&mut self, s: &str) -> core::fmt::Result {
+        <Self as DisplayTarget>::print_rust_str(self, s);
+        Ok(())
+    }
+
+    fn write_char(&mut self, c: char) -> core::fmt::Result {
+        <Self as DisplayTarget>::print_char(self, c);
+        Ok(())
+    }
 }
 
 impl DisplayTarget for VideoTty {

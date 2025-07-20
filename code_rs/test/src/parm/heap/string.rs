@@ -463,6 +463,18 @@ impl<'a> CharSeq<'a> for &'a str {
 
 struct StringTarget<'a>(&'a mut String);
 
+impl Write for String {
+    fn write_str(&mut self, s: &str) -> core::fmt::Result {
+        <Self as DisplayTarget>::print_rust_str(self, s);
+        Ok(())
+    }
+
+    fn write_char(&mut self, c: char) -> core::fmt::Result {
+        <Self as DisplayTarget>::print_char(self, c);
+        Ok(())
+    }
+}
+
 impl DisplayTarget for String {
     #[inline(always)]
     fn print_char(&mut self, c: impl AsciiEncodable) {

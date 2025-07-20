@@ -28,7 +28,6 @@ impl SymbolMap {
     }
 
     pub(crate) fn set(&mut self, s: String, v: LispValBox) {
-        println!("ss set", s);
         self.0.set(s, v);
     }
 

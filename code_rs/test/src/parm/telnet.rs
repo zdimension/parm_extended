@@ -1,3 +1,4 @@
+use core::fmt::Write;
 use crate::parm::heap::string::String;
 use alloc::vec::Vec;
 use crate::parm::mmio::{TELNETavail, TELNETdata, RES};
@@ -120,6 +121,18 @@ static mut TELNET: Telnet = Telnet;
 #[inline(always)]
 pub fn get_telnet() -> &'static mut Telnet {
     unsafe { &mut TELNET }
+}
+
+impl Write for Telnet {
+    fn write_str(&mut self, s: &str) -> core::fmt::Result {
+        <Self as DisplayTarget>::print_rust_str(self, s);
+        Ok(())
+    }
+
+    fn write_char(&mut self, c: char) -> core::fmt::Result {
+        <Self as DisplayTarget>::print_char(self, c);
+        Ok(())
+    }
 }
 
 impl DisplayTarget for Telnet {

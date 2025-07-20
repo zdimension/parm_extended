@@ -156,10 +156,12 @@ core::arch::global_asm!(
 );
 
 use core::panic::PanicInfo;
+use crate::parm::control::breakpoint;
 
 #[panic_handler]
 fn handler(info: &PanicInfo) -> ! {
     //println!("panic: ", info.message());
+    breakpoint();
     let _ = write!(
         crate::parm::tty::get_tty(),
         "PANIC: {} at {}:{}\n",
