@@ -18,8 +18,6 @@ pub mod rand;
 #[unsafe(link_section = ".start")]
 #[unsafe(no_mangle)]
 pub fn _start() -> ! {
-    let main: unsafe fn() -> () = crate::main;
-
     unsafe {
         core::arch::asm!(
             r#"
@@ -32,7 +30,13 @@ pub fn _start() -> ! {
 				"#
         );
         heap::init();
-        main();
+        // prevent inlining of main
+        core::arch::asm!(
+            r#"
+                    bl {main}
+               "#,
+            main = sym crate::main
+        );
     }
     loop {}
 }
