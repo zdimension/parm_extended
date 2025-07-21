@@ -50,7 +50,7 @@ pub unsafe fn free(_ptr: *mut u8) {
 }
 
 pub unsafe fn realloc(ptr: *mut u8, size: usize, align: usize) -> *mut u8 {
-    let old_size = *(ptr.sub(4)) as usize;
+    let old_size = *(ptr.sub(4) as *mut usize);
     if size <= old_size {
         return ptr;
     }
