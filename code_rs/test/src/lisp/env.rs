@@ -1,34 +1,32 @@
-use crate::parm::heap::budmap::{BudMap, Entry, Iter};
 use crate::parm::heap::string::String;
 
 use crate::{InsertionState, LispValBox, Prc, print, println};
 use core::hash::{Hash, Hasher};
+use hashbrown::hash_map::{Entry, EntryRef, Iter};
+use hashbrown::{DefaultHashBuilder, HashMap};
 use crate::parm::tty::{ParmDisplay, DisplayTarget};
 
-#[derive(Hash)]
-pub(crate) struct SymbolMap(BudMap<String, LispValBox>);
-
-type SymbolEntry<'map> = Entry<'map, String, LispValBox>;
+pub(crate) struct SymbolMap(HashMap<String, LispValBox>);
 
 impl SymbolMap {
     pub(crate) fn new() -> Self {
-        SymbolMap(BudMap::default())
+        SymbolMap(HashMap::default())
     }
 
     pub(crate) fn get(&self, s: &String) -> Option<LispValBox> {
         self.0.get(s).cloned()
     }
 
-    fn entry(&mut self, s: &String) -> Entry<'_, String, LispValBox> {
+    fn entry<'a, 'b>(&'a mut self, s: &'b String) -> EntryRef<'a, 'b, String, String, LispValBox, DefaultHashBuilder> {
         self.0.entry_ref(s)
     }
 
     fn contains(&self, s: &String) -> bool {
-        self.0.contains(s)
+        self.0.contains_key(s)
     }
 
     pub(crate) fn set(&mut self, s: String, v: LispValBox) {
-        self.0.set(s, v);
+        self.0.insert(s, v);
     }
 
     pub fn len(&self) -> usize {
@@ -60,7 +58,10 @@ pub(crate) struct SchemeEnvData {
 
 impl Hash for SchemeEnvData {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        self.map.hash(state);
+        for (key, value) in self.map.0.iter() {
+            key.hash(state);
+            value.hash(state);
+        }
         self.parent.as_ref().map(|prc| prc.0.ptr).hash(state);
     }
 }
@@ -101,7 +102,7 @@ impl SchemeEnv {
     }
 
     //#[inline(never)]
-    fn set_rec(&mut self, s: String, v: LispValBox, root: bool) -> InsertionState {
+    fn set_rec(&mut self, s: &String, v: LispValBox, root: bool) -> InsertionState {
         let mut bo = self.0.borrow_mut();
         let SchemeEnvData {
             ref mut map,
@@ -110,11 +111,11 @@ impl SchemeEnv {
         } = *bo;
         let entry = map.entry(&s);
         match entry {
-            Entry::Occupied(e) => {
-                let _ = e.replace(v);
+            EntryRef::Occupied(mut e) => {
+                let _ = e.insert(v);
                 InsertionState::Inserted
             }
-            Entry::Vacant(e) => match parent {
+            EntryRef::Vacant(e) => match parent {
                 Some(p) => {
                     let inserted = p.set_rec(s, v, false);
                     if let InsertionState::NotFound(v) = inserted {
@@ -141,7 +142,7 @@ impl SchemeEnv {
     }
 
     pub fn set(&mut self, s: String, v: LispValBox) {
-        self.set_rec(s, v, true);
+        self.set_rec(&s, v, true);
     }
 
     pub(crate) fn make_child(&self) -> SchemeEnv {
