@@ -1,12 +1,15 @@
 use alloc::vec::{IntoIter, Vec};
 use core::iter::{Enumerate, Peekable};
 use hashbrown::hash_map::RawEntryMut;
+use hashbrown::{DefaultHashBuilder, HashMap};
+use indexmap::IndexMap;
+use indexmap::map::Entry;
 use crate::c::scope::*;
 
-pub struct CParser<'a> {
+pub struct CParser<'a, 'b> {
     code: &'a [char],
     iter: Peekable<Enumerate<IntoIter<Token>>>,
-    pub scope: Scope
+    pub scope: &'b mut Scope
 }
 
 enum SkipStop<T> {
@@ -45,9 +48,9 @@ impl From<bool> for SkipStop<()> {
     }
 }
 
-impl<'a> CParser<'a> {
-    pub fn new(s: &'a [char]) -> Self {
-        let scope = Scope::default();
+impl<'a, 'b> CParser<'a, 'b> {
+    #[inline(never)]
+    pub fn new(s: &'a [char], scope: &'b mut Scope) -> Self {
         CParser {
             code: s,
             iter: Tokenizer::new(s).process().unwrap().into_iter().enumerate().peekable(),
@@ -110,6 +113,7 @@ impl<'a> CParser<'a> {
         res
     }
 
+    #[inline(never)]
     fn read_declaration_specifiers(&mut self) -> Result<(Option<StorageClass>, QualType), ParseError> {
         enum PrimType {
             Bool,
@@ -169,21 +173,67 @@ impl<'a> CParser<'a> {
 
                 Token::Keyword(Keyword::Struct) if found_type.is_none() => {
                     self.advance();
-                    let tok = self.next()?;
-                    let Token::Identifier(name) = tok else {
-                        return Err(ParseError::UnexpectedToken(
-                            tok,
-                            "expected name"
-                        ));
+                    let mut name = None;
+                    let has_body = match self.next()? {
+                        Token::Identifier(id) => {
+                            name = Some(id);
+                            self.accept(Token::OpenBrace)
+                        }
+                        Token::OpenBrace => {
+                            // anonymous struct
+                            true
+                        }
+                        tok => {
+                            return Err(ParseError::UnexpectedToken(
+                                tok,
+                                "expected struct name or open brace"
+                            ));
+                        }
                     };
-                    let stru = match self.scope.structs.raw_entry_mut().from_key(&name) {
-                        RawEntryMut::Occupied(e) => e.get().clone(),
-                        RawEntryMut::Vacant(e) => e.insert(name.clone(), UnqualType::Struct(StructImpl {
-                            identity: Some(name),
-                            inner: None
-                        }).into()).1.clone()
+
+                    let inner = if has_body {
+                        // read struct definition
+                        Some(self.read_struct_declaration()?)
+                    } else {
+                        None
                     };
-                    //compl_type = Some(stru);
+
+                    let stru = match name {
+                        Some(name) => {
+                            let name = String::from(name);
+                            match self.scope.structs.raw_entry_mut().from_key(&name) {
+                                RawEntryMut::Occupied(mut e) => {
+                                    let UnqualType::Struct(ref existing) = **e.get() else {
+                                        unreachable!();
+                                    };
+                                    match (has_body, existing.inner.is_some()) {
+                                        (true, true) => {
+                                            return Err(ParseError::Generic("struct with the same name already defined"));
+                                        },
+                                        (true, false) => {
+                                            // update existing struct
+                                            e.insert(UnqualType::Struct(StructImpl {
+                                                identity: Some(name),
+                                                inner
+                                            }).into())
+                                        },
+                                        (false, _) => {
+                                            e.get().clone()
+                                        }
+                                    }
+                                },
+                                RawEntryMut::Vacant(e) => e.insert(name.clone(), UnqualType::Struct(StructImpl {
+                                    identity: Some(name),
+                                    inner
+                                }).into()).1.clone()
+                            }
+                        }
+                        None => UnqualType::Struct(StructImpl {
+                            identity: None,
+                            inner
+                        }).into()
+                    };
+
                     found_type = Some(FoundType::Complex(stru));
                 }
 
@@ -194,7 +244,6 @@ impl<'a> CParser<'a> {
                     let SymbolKind::Type(typ) = item else {
                         return Err(ParseError::Generic("expected type, got value"));
                     };
-                    //qual_type = Some(typ.clone());
                     found_type = Some(FoundType::Qualified(typ.clone()));
                 }
 
@@ -239,6 +288,31 @@ impl<'a> CParser<'a> {
         Ok((class, final_type))
     }
 
+    #[inline(never)]
+    fn read_struct_declaration(&mut self) -> Result<IndexMap<String, TypeBox, DefaultHashBuilder>, ParseError> {
+        let mut fields = IndexMap::default();
+        loop {
+            if self.accept(Token::CloseBrace) {
+                break;
+            }
+            let decls = self.read_declaration()?;
+            for (field_name, field_type) in decls {
+                match field_type {
+                    SymbolKind::Type(_) => {
+                        return Err(ParseError::Generic("typedef not allowed in struct definition"));
+                    }
+                    SymbolKind::Variable(typ) => {
+                        let Entry::Vacant(entry) = fields.entry(field_name) else {
+                            return Err(ParseError::Generic("duplicate field in struct"));
+                        };
+                        entry.insert(typ.unqual);
+                    }
+                }
+            }
+        }
+        Ok(fields)
+    }
+
     fn read_declarator(&mut self, mut base_type: QualType) -> Result<(String, QualType), ParseError> {
         while let Some((_, tok)) = self.iter.peek() {
             match tok {
@@ -264,7 +338,7 @@ impl<'a> CParser<'a> {
     }
 
     fn read_direct_declarator(&mut self, mut base_type: QualType) -> Result<(String, QualType), ParseError> {
-        let mut name: String;
+        let name: String;
 
         match self.next()? {
             Token::Identifier(id) => {
@@ -312,19 +386,20 @@ impl<'a> CParser<'a> {
     }
 
     #[inline(never)]
-    fn read_declaration(&mut self) -> Result<Vec<()>, ParseError> {
+    fn read_declaration(&mut self) -> Result<Vec<(String, SymbolKind)>, ParseError> {
         let (class, type_) = self.read_declaration_specifiers()?;
         let mut res = Vec::new();
+        if self.accept(Token::Semicolon) {
+            // empty declaration, just return
+            return Ok(res);
+        }
         loop {
             let (name, type_) = self.read_declarator(type_.clone())?;
-            use core::fmt::Write;
-            write!(get_tty(), "got {}: {:?}", name, type_).unwrap();
-            self.scope.symbols.insert(name, if class == Some(StorageClass::Typedef) {
+            res.push((name, if class == Some(StorageClass::Typedef) {
                 SymbolKind::Type(type_)
             } else {
                 SymbolKind::Variable(type_)
-            });
-            res.push(());
+            }));
             if !self.accept(Token::Comma) {
                 break;
             }
@@ -333,10 +408,31 @@ impl<'a> CParser<'a> {
         Ok(res)
     }
 
-    pub fn read_whole(&mut self) -> Result<Option<()>, ParseError> {
+    pub fn read_unit(&mut self) -> Result<Option<()>, ParseError> {
         while self.iter.peek().is_some() {
-            self.read_declaration()?;
+            let decls = self.read_declaration()?;
+            for (name, kind) in decls {
+                let Entry::Vacant(entry) = self.scope.symbols.entry(name) else {
+                    return Err(ParseError::Generic("duplicate declaration"));
+                };
+                entry.insert(kind);
+            }
         }
         Ok(None)
     }
+
+    pub fn read_whole(&mut self) -> Result<(), PositionedError<ParseError>> {
+        match self.read_unit() {
+            Ok(_) => Ok(()),
+            Err(e) => Err(PositionedError {
+                pos: self.current_pos(),
+                error: e
+            })
+        }
+    }
+}
+
+pub struct PositionedError<T> {
+    pub pos: usize,
+    pub error: T
 }

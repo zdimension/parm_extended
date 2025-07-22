@@ -23,6 +23,7 @@ use core::mem::MaybeUninit;
 use core::{fmt, slice};
 use core::hash::{BuildHasher, Hash, Hasher};
 use hashbrown::HashMap;
+use crate::c::scope::Scope;
 
 mod c;
 mod parm;
@@ -63,7 +64,9 @@ fn check_balanced(s: &[char]) -> bool {
     NotFound(LispValBox),
 }*/
 
-struct CRepl {}
+struct CRepl {
+    scope: Scope
+}
 
 enum EvalStatus {
     Ok,
@@ -72,20 +75,23 @@ enum EvalStatus {
 
 impl CRepl {
     fn new() -> CRepl {
-        CRepl {}
+        CRepl {
+            scope: Default::default()
+        }
     }
 
+    #[inline(never)]
     fn process(&mut self, code: &[char]) -> EvalStatus {
         if !check_balanced(code) {
             return EvalStatus::ContinueReading;
         }
-        let mut parser = CParser::new(code);
+        let mut parser = CParser::new(code, &mut self.scope);
         match parser.read_whole() {
             Ok(_) => {
-                writeln!(tty::get_tty(), "{:?}", parser.scope);
+                writeln!(tty::get_tty(), "{}", parser.scope);
             }
             Err(e) => {
-                writeln!(tty::get_tty(), "parse error: {:?}", e,);
+                writeln!(tty::get_tty(), "parse error at {}: {:?}", e.pos, e.error);
                 //println!("parse error: {}", e);
             }
         }

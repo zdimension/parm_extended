@@ -12,7 +12,7 @@
         </entry>
         <entry>
           <string>Frequency</string>
-          <int>50000</int>
+          <int>2147483647</int>
         </entry>
       </elementAttributes>
       <pos x="-80" y="40"/>
@@ -10872,7 +10872,7 @@
       <elementAttributes>
         <entry>
           <string>Value</string>
-          <long>24571392</long>
+          <long>34133522</long>
         </entry>
         <entry>
           <string>Bits</string>
