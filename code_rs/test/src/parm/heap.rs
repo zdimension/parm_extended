@@ -221,7 +221,7 @@ unsafe extern "C" fn __aeabi_memmove(dest: *mut u8, src: *const u8, n: usize) {
 }
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memset(dest: *mut u8, c: i32, n: usize) {
+unsafe extern "C" fn __aeabi_memset(dest: *mut u8, n: usize, c: i32) {
     let c: usize = usize::from_ne_bytes([c as u8; WORD_SIZE]);
     let n_usize: usize = n / WORD_SIZE;
     let mut i: usize = 0;
