@@ -1,10 +1,10 @@
+use alloc::format;
 use alloc::vec::{IntoIter, Vec};
 use core::iter::{Enumerate, Peekable};
 use core::ops::Deref;
-use hashbrown::hash_map::RawEntryMut;
-use hashbrown::{DefaultHashBuilder, HashMap};
 use indexmap::IndexMap;
-use indexmap::map::Entry;
+use indexmap::map::{Entry, RawEntryApiV1};
+use indexmap::map::raw_entry_v1::RawEntryMut;
 use crate::c::scope::*;
 
 pub struct CParser<'a, 'b> {
@@ -36,7 +36,8 @@ use crate::println;
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ParseError {
     ReadError(ReadError),
-    UnexpectedToken(Token, &'static str),
+    UnexpectedTokenGeneric { got: Token, msg: &'static str },
+    UnexpectedToken { exp: Token, got: Option<Token> },
     Generic(&'static str)
 }
 
@@ -90,9 +91,16 @@ impl<'a, 'b> CParser<'a, 'b> {
     }
     
     fn expect(&mut self, expected: Token) -> Result<(), ParseError> {
-        match self.next()? {
-            token if token == expected => Ok(()),
-            token => Err(ParseError::UnexpectedToken(token, "expected a different token")),
+        match self.iter.next() {
+            Some((_, token)) if token == expected => Ok(()),
+            Some((_, token)) => Err(ParseError::UnexpectedToken {
+                got: Some(token),
+                exp: expected
+            }),
+            None => Err(ParseError::UnexpectedToken {
+                got: None,
+                exp: expected
+            }),
         }
     }
     
@@ -186,10 +194,10 @@ impl<'a, 'b> CParser<'a, 'b> {
                             true
                         }
                         tok => {
-                            return Err(ParseError::UnexpectedToken(
-                                tok,
-                                "expected struct name or open brace"
-                            ));
+                            return Err(ParseError::UnexpectedTokenGeneric {
+                                got: tok,
+                                msg: "expected struct name or open brace"
+                            });
                         }
                     };
 
@@ -203,7 +211,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                     let stru = match name {
                         Some(name) => {
                             let name = String::from(name);
-                            match self.scope.structs.raw_entry_mut().from_key(&name) {
+                            match self.scope.structs.raw_entry_mut_v1().from_key(&name) {
                                 RawEntryMut::Occupied(mut e) => {
                                     let UnqualType::Struct(ref existing) = **e.get() else {
                                         unreachable!();
@@ -291,8 +299,8 @@ impl<'a, 'b> CParser<'a, 'b> {
     }
 
     #[inline(never)]
-    fn read_struct_declaration(&mut self) -> Result<IndexMap<String, TypeBox, DefaultHashBuilder>, ParseError> {
-        let mut fields = IndexMap::default();
+    fn read_struct_declaration(&mut self) -> Result<OrderedMap<String, TypeBox>, ParseError> {
+        let mut fields = OrderedMap::default();
         loop {
             if self.accept(Token::CloseBrace) {
                 break;
@@ -315,7 +323,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(fields)
     }
 
-    fn read_declarator(&mut self, mut base_type: QualType) -> Result<(String, QualType), ParseError> {
+    fn read_declarator(&mut self, mut base_type: QualType) -> Result<(Option<String>, QualType), ParseError> {
         while let Some((_, tok)) = self.iter.peek() {
             match tok {
                 Token::Operator(Operator::Simple(AssignableOperator::Multiply)) => {
@@ -339,23 +347,29 @@ impl<'a, 'b> CParser<'a, 'b> {
         self.read_direct_declarator(base_type)
     }
 
-    fn read_direct_declarator(&mut self, mut base_type: QualType) -> Result<(String, QualType), ParseError> {
-        let name: String;
+    #[inline(never)]
+    fn read_direct_declarator(&mut self, mut base_type: QualType) -> Result<(Option<String>, QualType), ParseError> {
+        let name;
 
-        match self.next()? {
-            Token::Identifier(id) => {
-                name = id;
+        match self.peek() {
+            Some(Token::Identifier(_)) => {
+                let Token::Identifier(id) = self.next()? else {
+                    unreachable!(); // we checked for Identifier above
+                };
+                name = Some(id);
             }
-            Token::OpenParen => {
+            Some(Token::OpenParen) => {
+                self.advance();
                 (name, base_type) = self.read_declarator(base_type)?;
                 self.expect(Token::CloseParen)?;
             }
-            next => {
+            /*next => {
                 return Err(ParseError::UnexpectedToken(
                     next,
                     "expected identifier or open parenthesis"
                 ));
-            }
+            }*/
+            _ => name = None
         }
 
         loop {
@@ -370,10 +384,10 @@ impl<'a, 'b> CParser<'a, 'b> {
                             self.expect(Token::CloseBracket)?;
                             Some(size as usize)
                         } else {
-                            return Err(ParseError::UnexpectedToken(
-                                size,
-                                "expected integer literal or close bracket"
-                            ));
+                            return Err(ParseError::UnexpectedTokenGeneric {
+                                got: size,
+                                msg: "expected integer literal or close bracket"
+                            });
                         }
                     };
                     base_type = QualType {
@@ -383,28 +397,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                 }
                 Some(Token::OpenParen) => {
                     self.advance();
-                    let mut params = OrderedMap::default();
-                    if !self.accept(Token::CloseParen) {
-                        loop {
-                            let (class, type_) = self.read_declaration_specifiers()?;
-                            if class.is_some() {
-                                return Err(ParseError::Generic("storage class not allowed in function parameters"));
-                            }
-                            let (name, type_) = self.read_declarator(type_)?;
-                            let entry = params.entry(name);
-                            if let Entry::Occupied(mut e) = entry {
-                                return Err(ParseError::Generic("duplicate parameter name in function declaration"));
-                            } else {
-                                entry.insert_entry(type_);
-                            }
-                            if self.accept(Token::CloseParen) {
-                                break;
-                            }
-                            if !self.accept(Token::Comma) {
-                                return Err(ParseError::Generic("expected comma or close parenthesis in function parameters"));
-                            }
-                        }
-                    }
+                    let params = self.read_function_param_list()?;
                     base_type = QualType {
                         unqual: UnqualType::Function(FunctionImpl {
                             ret: base_type.into(),
@@ -419,42 +412,67 @@ impl<'a, 'b> CParser<'a, 'b> {
     }
 
     #[inline(never)]
+    fn read_function_param_list(&mut self) -> Result<OrderedMap<String, QualType>, ParseError> {
+        let mut params = OrderedMap::default();
+        if !self.accept(Token::CloseParen) {
+            loop {
+                let (class, type_) = self.read_declaration_specifiers()?;
+                if class.is_some() {
+                    return Err(ParseError::Generic("storage class not allowed in function parameters"));
+                }
+                let (name, type_) = self.read_declarator(type_)?;
+                let entry = params.entry(name.unwrap_or_else(|| String::from(format!("_{}", params.len()))));
+                if let Entry::Vacant(mut e) = entry {
+                    e.insert(type_);
+                } else {
+                    return Err(ParseError::Generic("duplicate parameter name in function declaration"));
+                }
+                if self.accept(Token::CloseParen) {
+                    break;
+                }
+                if !self.accept(Token::Comma) {
+                    return Err(ParseError::Generic("expected comma or close parenthesis in function parameters"));
+                }
+            }
+        }
+        Ok(params)
+    }
+
+    #[inline(never)]
     fn read_declaration(&mut self) -> Result<Vec<(String, SymbolKind)>, ParseError> {
         let (class, type_) = self.read_declaration_specifiers()?;
         let mut res = Vec::new();
-        if self.accept(Token::Semicolon) {
-            // empty declaration, just return
-            return Ok(res);
-        }
         loop {
             let (name, type_) = self.read_declarator(type_.clone())?;
-            if class == Some(StorageClass::Typedef) {
-                res.push((name, SymbolKind::Type(type_)));
-            } else {
-                if let UnqualType::Function(inner) = &*type_.unqual {
-                    if !res.is_empty() {
-                        return Err(ParseError::Generic("cannot declare function inside another declaration"));
-                    }
-
-                    if self.accept(Token::OpenBrace) {
-                        // function definition
-                        let mut body = Vec::new();
-                        while let Some((_, tok)) = self.iter.peek() {
-                            if *tok == Token::CloseBrace {
-                                self.advance();
-                                break;
-                            }
-                            body.push(self.next()?);
-                        }
-                        res.push((name, SymbolKind::Function(inner.clone(), Some(body))));
-                    } else {
-                        // function prototype
-                        res.push((name, SymbolKind::Function(inner.clone(), None)));
-                    }
-
-                    return Ok(res); // only one function declaration per declaration
+            if let Some(name) = name {
+                if class == Some(StorageClass::Typedef) {
+                    res.push((name, SymbolKind::Type(type_)));
                 } else {
-                    res.push((name, SymbolKind::Variable(type_)));
+                    if let UnqualType::Function(inner) = &*type_.unqual {
+                        if !res.is_empty() {
+                            return Err(ParseError::Generic("cannot declare function inside another declaration"));
+                        }
+
+                        if self.accept(Token::OpenBrace) {
+                            // function definition
+                            let mut body = Vec::new();
+                            while let Some((_, tok)) = self.iter.peek() {
+                                if *tok == Token::CloseBrace {
+                                    self.advance();
+                                    break;
+                                }
+                                body.push(self.next()?);
+                            }
+                            res.push((name, SymbolKind::Function(inner.clone(), Some(body))));
+                        } else {
+                            // function prototype
+                            res.push((name, SymbolKind::Function(inner.clone(), None)));
+                        }
+
+                        return Ok(res); // only one function declaration per declaration
+                    } else {
+                        res.push((name, SymbolKind::Variable(type_)));
+                    }
                 }
             }
 
@@ -470,7 +488,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         while self.iter.peek().is_some() {
             let decls = self.read_declaration()?;
             for (name, kind) in decls {
-                let hashbrown::hash_map::Entry::Vacant(entry) = self.scope.symbols.entry(name) else {
+                let Entry::Vacant(entry) = self.scope.symbols.entry(name) else {
                     return Err(ParseError::Generic("duplicate declaration"));
                 };
                 entry.insert(kind);

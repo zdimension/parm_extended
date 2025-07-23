@@ -145,6 +145,13 @@ impl From<&str> for String {
     }
 }
 
+impl From<alloc::string::String> for String {
+    #[inline]
+    fn from(s: alloc::string::String) -> String {
+        unsafe { String::from_utf32_unchecked(s.chars().collect()) }
+    }
+}
+
 impl From<&[char]> for String {
     #[inline]
     fn from(s: &[char]) -> String {

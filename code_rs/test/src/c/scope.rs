@@ -5,6 +5,7 @@ use crate::c::lexer::Token;
 use crate::c::types::{FunctionImpl, QualType, TypeBox, UnqualType};
 use crate::parm::heap::prc::Prc;
 use crate::parm::heap::string::String;
+use crate::parm::OrderedMap;
 
 pub enum TagKind {
     Struct,
@@ -26,8 +27,8 @@ pub enum SymbolKind {
 
 #[derive(Default, Debug)]
 pub struct Scope {
-    pub symbols: HashMap<String, SymbolKind>,
-    pub structs: HashMap<String, TypeBox>,
+    pub symbols: OrderedMap<String, SymbolKind>,
+    pub structs: OrderedMap<String, TypeBox>,
 }
 
 impl Display for Scope {
@@ -43,11 +44,11 @@ impl Display for Scope {
                 }
                 SymbolKind::Function(t, body) => {
                     write!(f, "{} {}(", t.ret, key)?;
-                    for (i, param) in t.args.iter().enumerate() {
+                    for (i, (name, ty)) in t.args.iter().enumerate() {
                         if i > 0 {
                             write!(f, ", ")?;
                         }
-                        write!(f, "{}", param)?;
+                        write!(f, "{} {}", ty, name)?;
                     }
                     write!(f, ")")?;
                     if let Some(b) = body {

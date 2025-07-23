@@ -351,7 +351,7 @@ impl<'a> Tokenizer<'a> {
                 Err(ReadError::CharacterExpected(expected, Some(ch)))
             }
         } else {
-            Err(ReadError::EOFFound)
+            Err(ReadError::CharacterExpected(expected, None))
         }
     }
 
