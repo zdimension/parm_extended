@@ -1,4 +1,6 @@
 use alloc::vec::Vec;
+use core::fmt;
+use core::fmt::Display;
 use crate::parm::heap::string::String;
 use crate::parm::tty::{DisplayTarget, ParmDisplay};
 use crate::print;
@@ -26,6 +28,25 @@ pub enum AssignableOperator {
     BitwiseXor,
     LeftShift,
     RightShift
+}
+
+impl Display for AssignableOperator {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        use AssignableOperator::*;
+        let op_str = match self {
+            Plus => "+",
+            Minus => "-",
+            Multiply => "*",
+            Divide => "/",
+            Modulo => "%",
+            BitwiseAnd => "&",
+            BitwiseOr => "|",
+            BitwiseXor => "^",
+            LeftShift => "<<",
+            RightShift => ">>",
+        };
+        write!(f, "{op_str}")
+    }
 }
 
 impl TryFrom<char> for AssignableOperator {
@@ -66,6 +87,30 @@ pub enum Operator {
     Arrow,
 }
 
+impl Display for Operator {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        use Operator::*;
+        match self {
+            Simple(op) => write!(f, "{}", op),
+            And => write!(f, "&&"),
+            Or => write!(f, "||"),
+            Not => write!(f, "!"),
+            Equal => write!(f, "=="),
+            NotEqual => write!(f, "!="),
+            LessThan => write!(f, "<"),
+            GreaterThan => write!(f, ">"),
+            LessThanOrEqual => write!(f, "<="),
+            GreaterThanOrEqual => write!(f, ">="),
+            Assignment(Some(op)) => write!(f, "{}=", op),
+            Assignment(None) => write!(f, "="),
+            Increment => write!(f, "++"),
+            Decrement => write!(f, "--"),
+            BitwiseNot => write!(f, "~"),
+            Arrow => write!(f, "->"),
+        }
+    }
+}
+
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum Keyword {
     Auto,
@@ -96,6 +141,43 @@ pub enum Keyword {
     Void,
     Volatile,
     While,
+}
+
+impl Display for Keyword {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        use Keyword::*;
+        let keyword_str = match self {
+            Auto => "auto",
+            Bool => "bool",
+            Break => "break",
+            Case => "case",
+            Char => "char",
+            Const => "const",
+            Continue => "continue",
+            Default => "default",
+            Do => "do",
+            Else => "else",
+            Enum => "enum",
+            False => "false",
+            For => "for",
+            Goto => "goto",
+            If => "if",
+            Int => "int",
+            Return => "return",
+            Signed => "signed",
+            Sizeof => "sizeof",
+            Static => "static",
+            Struct => "struct",
+            Switch => "switch",
+            True => "true",
+            Typedef => "typedef",
+            Unsigned => "unsigned",
+            Void => "void",
+            Volatile => "volatile",
+            While => "while",
+        };
+        write!(f, "{keyword_str}")
+    }
 }
 
 impl TryFrom<&[u8]> for Keyword {
@@ -158,6 +240,29 @@ pub enum Token {
     // identifiers
     Identifier(String),
     Keyword(Keyword),
+}
+
+impl Display for Token {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Token::OpenParen => write!(f, "("),
+            Token::CloseParen => write!(f, ")"),
+            Token::OpenBracket => write!(f, "["),
+            Token::CloseBracket => write!(f, "]"),
+            Token::OpenBrace => write!(f, "{{"),
+            Token::CloseBrace => write!(f, "}}"),
+            Token::Comma => write!(f, ","),
+            Token::Semicolon => write!(f, ";"),
+            Token::Colon => write!(f, ":"),
+            Token::Dot => write!(f, "."),
+            Token::Operator(op) => write!(f, "{}", op),
+            Token::Character(c) => write!(f, "{:?}", c),
+            Token::String(s) => write!(f, "{:?}", s),
+            Token::Integer(i) => write!(f, "{}", i),
+            Token::Identifier(id) => write!(f, "{}", id),
+            Token::Keyword(kw) => write!(f, "{}", kw),
+        }
+    }
 }
 
 impl ParmDisplay for ReadError {

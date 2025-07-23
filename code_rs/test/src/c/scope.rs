@@ -1,6 +1,8 @@
+use alloc::vec::Vec;
 use core::fmt::Display;
 use hashbrown::HashMap;
-use crate::c::types::{QualType, TypeBox, UnqualType};
+use crate::c::lexer::Token;
+use crate::c::types::{FunctionImpl, QualType, TypeBox, UnqualType};
 use crate::parm::heap::prc::Prc;
 use crate::parm::heap::string::String;
 
@@ -15,10 +17,11 @@ pub enum ItemName {
     TaggedType(TagKind)
 }
 
-#[derive(Clone, Debug)]
+#[derive(Debug)]
 pub enum SymbolKind {
     Type(QualType),
     Variable(QualType),
+    Function(FunctionImpl, Option<Vec<Token>>),
 }
 
 #[derive(Default, Debug)]
@@ -37,6 +40,28 @@ impl Display for Scope {
                 }
                 SymbolKind::Variable(t) => {
                     writeln!(f, "{} {};", t, key)?;
+                }
+                SymbolKind::Function(t, body) => {
+                    write!(f, "{} {}(", t.ret, key)?;
+                    for (i, param) in t.args.iter().enumerate() {
+                        if i > 0 {
+                            write!(f, ", ")?;
+                        }
+                        write!(f, "{}", param)?;
+                    }
+                    write!(f, ")")?;
+                    if let Some(b) = body {
+                        writeln!(f, " {{")?;
+                        for token in b {
+                            write!(f, "{} ", token)?;
+                            if matches!(token, Token::Semicolon | Token::OpenBrace | Token::CloseBrace) {
+                                writeln!(f)?;
+                            }
+                        }
+                        writeln!(f, "\n}}")?;
+                    } else {
+                        writeln!(f, ";")?;
+                    }
                 }
             }
         }

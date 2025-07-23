@@ -128,16 +128,13 @@ impl From<&[u8]> for String {
     #[inline]
     fn from(s: &[u8]) -> String {
         unsafe { String::from_utf32_unchecked(s.iter().map(|&b| b as char).collect()) }
-        /*let mut res = Vec::with_capacity(s.len());
-        for (i, val) in s.into_iter().enumerate() {
-            unsafe {
-                res.raw_set(i, *val as char);
-            }
-        }
-        unsafe {
-            res.set_len(s.len());
-            String::from_utf32_unchecked(res)
-        }*/
+    }
+}
+
+impl<const N: usize> From<&[u8; N]> for String {
+    #[inline]
+    fn from(s: &[u8; N]) -> String {
+        unsafe { String::from_utf32_unchecked(s.iter().map(|&b| b as char).collect()) }
     }
 }
 

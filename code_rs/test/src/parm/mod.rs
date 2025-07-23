@@ -156,6 +156,8 @@ core::arch::global_asm!(
 );
 
 use core::panic::PanicInfo;
+use hashbrown::DefaultHashBuilder;
+use indexmap::IndexMap;
 use crate::parm::control::breakpoint;
 
 #[panic_handler]
@@ -180,3 +182,5 @@ pub unsafe extern "C" fn rust_begn_unwind(
 ) -> ! {
     panic!("unwind");
 }*/
+
+pub type OrderedMap<K, V> = IndexMap<K, V, DefaultHashBuilder>;

@@ -5,6 +5,7 @@ use core::fmt::Display;
 use derive_more::{BitOr, BitOrAssign};
 use hashbrown::{DefaultHashBuilder, HashMap};
 use indexmap::IndexMap;
+use crate::parm::OrderedMap;
 
 #[derive(Eq, Debug)]
 pub struct NamedType<T> {
@@ -18,14 +19,40 @@ impl<T> PartialEq for NamedType<T> {
     }
 }
 
-pub type StructImpl = NamedType<IndexMap<String, TypeBox, DefaultHashBuilder>>;
-pub type UnionImpl = NamedType<IndexMap <String, TypeBox, DefaultHashBuilder>>;
+pub type StructImpl = NamedType<OrderedMap<String, TypeBox>>;
+pub type UnionImpl = NamedType<OrderedMap<String, TypeBox>>;
 pub type EnumImpl = NamedType<Vec<String>>;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Signedness {
     Signed,
     Unsigned,
+}
+
+/*
+TODO
+pub struct DeclFmt<'n, 't> {
+    pub name: &'n String,
+    pub ty: &'t QualType,
+}*/
+
+#[derive(PartialEq, Eq, Debug, Clone)]
+pub struct FunctionImpl {
+    pub ret: QualType,
+    pub args: OrderedMap<String, QualType>,
+}
+
+impl Display for FunctionImpl {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        write!(f, "{}(", self.ret)?;
+        for (i, (name, ty)) in self.args.iter().enumerate() {
+            if i > 0 {
+                write!(f, ", ")?;
+            }
+            write!(f, "{} {}", ty, name)?;
+        }
+        write!(f, ")")
+    }
 }
 
 #[derive(PartialEq, Eq, Debug)]
@@ -39,10 +66,7 @@ pub enum UnqualType {
     Struct(StructImpl),
     //Union(UnionImpl),
     //Enum(EnumImpl),
-    // Function {
-   //     ret: TypeBox,
-   //     args: Vec<TypeBox>,
-   // },
+    Function(FunctionImpl),
 }
 
 impl Display for UnqualType {
@@ -64,6 +88,9 @@ impl Display for UnqualType {
                 } else {
                     write!(f, "struct")
                 }
+            },
+            UnqualType::Function(inner) => {
+                write!(f, "{}", inner)
             },
         }
     }

@@ -124,6 +124,12 @@ impl CRepl {
     }
 
     fn run(&mut self) {
+        let code = String::from(br#"
+        int sub(int a, int b){return a-b;}
+        "#);
+
+        self.process(&code);
+
         let mut input = String::with_capacity(16384);
         enum TelnetMode {
             Off,
