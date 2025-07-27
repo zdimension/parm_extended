@@ -69,6 +69,21 @@ pub enum UnqualType {
     Function(FunctionImpl),
 }
 
+impl UnqualType {
+    pub fn size(&self) -> usize {
+        match self {
+            UnqualType::Char(_) => 1,
+            UnqualType::Bool => 1,
+            UnqualType::Int(_) => 4,
+            UnqualType::Pointer(_) => 4,
+            UnqualType::Array(ty, Some(size)) => size * ty.unqual.size(),
+            UnqualType::Array(_, None) => todo!(),
+            UnqualType::Struct(_) => todo!(),
+            UnqualType::Function(_) => todo!(),
+        }
+    }
+}
+
 impl Display for UnqualType {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {

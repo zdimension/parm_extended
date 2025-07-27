@@ -1,3 +1,4 @@
+extern crate alloc;
 use core::fmt::Write;
 use crate::parm::heap::string::String;
 use alloc::vec::Vec;

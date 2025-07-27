@@ -26,8 +26,8 @@ pub enum AssignableOperator {
     BitwiseAnd,
     BitwiseOr,
     BitwiseXor,
-    LeftShift,
-    RightShift
+    ShiftLeft,
+    ShiftRight
 }
 
 impl Display for AssignableOperator {
@@ -42,8 +42,8 @@ impl Display for AssignableOperator {
             BitwiseAnd => "&",
             BitwiseOr => "|",
             BitwiseXor => "^",
-            LeftShift => "<<",
-            RightShift => ">>",
+            ShiftLeft => "<<",
+            ShiftRight => ">>",
         };
         write!(f, "{op_str}")
     }
@@ -69,22 +69,55 @@ impl TryFrom<char> for AssignableOperator {
 }
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
-pub enum Operator {
-    Simple(AssignableOperator),
-    And,
-    Or,
-    Not,
+pub enum Comparison {
     Equal,
     NotEqual,
     LessThan,
     GreaterThan,
     LessThanOrEqual,
     GreaterThanOrEqual,
+}
+
+#[derive(Copy, Clone, Eq, PartialEq, Debug)]
+pub enum BoolOp {
+    And,
+    Or,
+}
+
+#[derive(Copy, Clone, Eq, PartialEq, Debug)]
+pub enum Operator {
+    Simple(AssignableOperator),
+    BoolOp(BoolOp),
+    Not,
+    Comparison(Comparison),
     Assignment(Option<AssignableOperator>),
     Increment,
     Decrement,
     BitwiseNot,
-    Arrow,
+}
+
+impl Display for BoolOp {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        use BoolOp::*;
+        match self {
+            And => write!(f, "&&"),
+            Or => write!(f, "||"),
+        }
+    }
+}
+
+impl Display for Comparison {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        use Comparison::*;
+        match self {
+            Equal => write!(f, "=="),
+            NotEqual => write!(f, "!="),
+            LessThan => write!(f, "<"),
+            GreaterThan => write!(f, ">"),
+            LessThanOrEqual => write!(f, "<="),
+            GreaterThanOrEqual => write!(f, ">="),
+        }
+    }
 }
 
 impl Display for Operator {
@@ -92,21 +125,14 @@ impl Display for Operator {
         use Operator::*;
         match self {
             Simple(op) => write!(f, "{}", op),
-            And => write!(f, "&&"),
-            Or => write!(f, "||"),
+            BoolOp(op) => write!(f, "{}", op),
             Not => write!(f, "!"),
-            Equal => write!(f, "=="),
-            NotEqual => write!(f, "!="),
-            LessThan => write!(f, "<"),
-            GreaterThan => write!(f, ">"),
-            LessThanOrEqual => write!(f, "<="),
-            GreaterThanOrEqual => write!(f, ">="),
+            Comparison(op) => write!(f, "{}", op),
             Assignment(Some(op)) => write!(f, "{}=", op),
             Assignment(None) => write!(f, "="),
             Increment => write!(f, "++"),
             Decrement => write!(f, "--"),
             BitwiseNot => write!(f, "~"),
-            Arrow => write!(f, "->"),
         }
     }
 }
@@ -231,6 +257,8 @@ pub enum Token {
     Semicolon,
     Colon,
     Dot,
+    Arrow,
+    Question,
     // operators
     Operator(Operator),
     // literals
@@ -255,6 +283,8 @@ impl Display for Token {
             Token::Semicolon => write!(f, ";"),
             Token::Colon => write!(f, ":"),
             Token::Dot => write!(f, "."),
+            Token::Arrow => write!(f, "->"),
+            Token::Question => write!(f, "?"),
             Token::Operator(op) => write!(f, "{}", op),
             Token::Character(c) => write!(f, "{:?}", c),
             Token::String(s) => write!(f, "{:?}", s),
@@ -455,6 +485,7 @@ impl<'a> Tokenizer<'a> {
                 }
                 '"' => self.read_string()?,
                 '.' => Token::Dot,
+                '?' => Token::Question,
                 ',' => Token::Comma,
                 ';' => Token::Semicolon,
                 ':' => Token::Colon,
@@ -547,7 +578,7 @@ impl<'a> Tokenizer<'a> {
                     Token::Integer(value as i32)
                 }
                 '-' if self.accept('>') => {
-                    Token::Operator(Operator::Arrow)
+                    Token::Arrow
                 }
                 '-' if self.accept('-') => {
                     Token::Operator(Operator::Decrement)
@@ -557,38 +588,38 @@ impl<'a> Tokenizer<'a> {
                 }
                 '<' => {
                     if self.accept('=') {
-                        Token::Operator(Operator::LessThanOrEqual)
+                        Token::Operator(Operator::Comparison(Comparison::LessThanOrEqual))
                     } else if self.accept('<') {
                         if self.accept('=') {
-                            Token::Operator(Operator::Assignment(Some(AssignableOperator::LeftShift)))
+                            Token::Operator(Operator::Assignment(Some(AssignableOperator::ShiftLeft)))
                         } else {
-                            Token::Operator(Operator::Simple(AssignableOperator::LeftShift))
+                            Token::Operator(Operator::Simple(AssignableOperator::ShiftLeft))
                         }
                     } else {
-                        Token::Operator(Operator::LessThan)
+                        Token::Operator(Operator::Comparison(Comparison::LessThan))
                     }
                 }
                 '>' => {
                     if self.accept('=') {
-                        Token::Operator(Operator::GreaterThanOrEqual)
+                        Token::Operator(Operator::Comparison(Comparison::GreaterThanOrEqual))
                     } else if self.accept('>') {
                         if self.accept('=') {
-                            Token::Operator(Operator::Assignment(Some(AssignableOperator::RightShift)))
+                            Token::Operator(Operator::Assignment(Some(AssignableOperator::ShiftRight)))
                         } else {
-                            Token::Operator(Operator::Simple(AssignableOperator::RightShift))
+                            Token::Operator(Operator::Simple(AssignableOperator::ShiftRight))
                         }
                     } else {
-                        Token::Operator(Operator::GreaterThan)
+                        Token::Operator(Operator::Comparison(Comparison::GreaterThan))
                     }
                 }
                 '&' if self.accept('&') => {
-                    Token::Operator(Operator::And)
+                    Token::Operator(Operator::BoolOp(BoolOp::And))
                 }
                 '|' if self.accept('|') => {
-                    Token::Operator(Operator::Or)
+                    Token::Operator(Operator::BoolOp(BoolOp::Or))
                 }
                 '!' => if self.accept('=') {
-                    Token::Operator(Operator::NotEqual)
+                    Token::Operator(Operator::Comparison(Comparison::NotEqual))
                 } else {
                     Token::Operator(Operator::Not)
                 }

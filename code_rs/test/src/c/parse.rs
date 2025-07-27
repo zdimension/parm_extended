@@ -6,11 +6,13 @@ use indexmap::IndexMap;
 use indexmap::map::{Entry, RawEntryApiV1};
 use indexmap::map::raw_entry_v1::RawEntryMut;
 use crate::c::scope::*;
+use core::fmt::Write;
 
 pub struct CParser<'a, 'b> {
     code: &'a [char],
-    iter: Peekable<Enumerate<IntoIter<Token>>>,
-    pub scope: &'b mut Scope
+    pub(super) iter: Peekable<Enumerate<IntoIter<Token>>>,
+    pub scope: &'b mut Scope,
+    pub compiler: &'b mut Compiler
 }
 
 enum SkipStop<T> {
@@ -19,13 +21,14 @@ enum SkipStop<T> {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-enum StorageClass {
+pub enum StorageClass {
     Auto,
     Static,
     Typedef
 }
 
 use SkipStop::*;
+use crate::c::compiler::Compiler;
 use crate::c::lexer::{AssignableOperator, Keyword, Operator, ReadError, Token, Tokenizer};
 use crate::c::types::{FunctionImpl, QualType, Signedness, StructImpl, TypeBox, TypeQualifiers, UnqualType};
 use crate::parm::heap::string::String;
@@ -36,9 +39,15 @@ use crate::println;
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ParseError {
     ReadError(ReadError),
-    UnexpectedTokenGeneric { got: Token, msg: &'static str },
+    UnexpectedTokenGeneric { got: Option<Token>, msg: &'static str },
     UnexpectedToken { exp: Token, got: Option<Token> },
-    Generic(&'static str)
+    Generic(&'static str),
+    GenericDyn(alloc::string::String),
+    GenericBacktrack(&'static str, Option<Token>)
+}
+
+pub fn plog(s: &'static str) {
+    //println!(s);
 }
 
 impl From<bool> for SkipStop<()> {
@@ -53,11 +62,12 @@ impl From<bool> for SkipStop<()> {
 
 impl<'a, 'b> CParser<'a, 'b> {
     #[inline(never)]
-    pub fn new(s: &'a [char], scope: &'b mut Scope) -> Self {
+    pub fn new(s: &'a [char], scope: &'b mut Scope, compiler: &'b mut Compiler) -> Self {
         CParser {
             code: s,
             iter: Tokenizer::new(s).process().unwrap().into_iter().enumerate().peekable(),
-            scope
+            scope,
+            compiler
         }
     }
     
@@ -71,26 +81,26 @@ impl<'a, 'b> CParser<'a, 'b> {
         None
     }
 
-    fn current_pos(&mut self) -> usize {
+    pub(super) fn current_pos(&mut self) -> usize {
         self.iter.peek().map(|&(pos, _)| pos).unwrap_or(self.code.len())
     }
 
-    fn peek(&mut self) -> Option<&Token> {
+    pub(super) fn peek(&mut self) -> Option<&Token> {
         self.iter.peek().map(|&(_, ref token)| token)
     }
 
-    fn next(&mut self) -> Result<Token, ParseError> {
+    pub(super) fn next(&mut self) -> Result<Token, ParseError> {
         match self.iter.next() {
             Some((_, token)) => Ok(token),
             None => Err(ParseError::ReadError(ReadError::EOFFound)),
         }
     }
 
-    fn advance(&mut self) {
+    pub(super) fn advance(&mut self) {
         let _ = self.iter.next();
     }
-    
-    fn expect(&mut self, expected: Token) -> Result<(), ParseError> {
+
+    pub(super) fn expect(&mut self, expected: Token) -> Result<(), ParseError> {
         match self.iter.next() {
             Some((_, token)) if token == expected => Ok(()),
             Some((_, token)) => Err(ParseError::UnexpectedToken {
@@ -104,7 +114,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         }
     }
     
-    fn accept(&mut self, expected: Token) -> bool {
+    pub(super) fn accept(&mut self, expected: Token) -> bool {
         match self.peek() {
             Some(token) if token == &expected => {
                 self.advance();
@@ -124,7 +134,8 @@ impl<'a, 'b> CParser<'a, 'b> {
     }
 
     #[inline(never)]
-    fn read_declaration_specifiers(&mut self) -> Result<(Option<StorageClass>, QualType), ParseError> {
+    pub(super) fn read_declaration_specifiers(&mut self) -> Result<(Option<StorageClass>, QualType), ParseError> {
+        plog("read_decl_spec");
         enum PrimType {
             Bool,
             Char,
@@ -165,6 +176,8 @@ impl<'a, 'b> CParser<'a, 'b> {
             }
         }
 
+        let mut first = true;
+
         while let Some((_, tok)) = self.iter.peek() {
             match tok {
                 Token::Keyword(Keyword::Const) => set!(qualifiers.is_const, true),
@@ -195,7 +208,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                         }
                         tok => {
                             return Err(ParseError::UnexpectedTokenGeneric {
-                                got: tok,
+                                got: Some(tok),
                                 msg: "expected struct name or open brace"
                             });
                         }
@@ -247,18 +260,32 @@ impl<'a, 'b> CParser<'a, 'b> {
                     found_type = Some(FoundType::Complex(stru));
                 }
 
-                Token::Identifier(name) if found_type.is_none() => {
+                /*Token::Identifier(name) if found_type.is_none() => {
                     let Some(item) = self.scope.symbols.get(name) else {
                         return Err(ParseError::Generic("unknown identifier"));
                     };
                     let SymbolKind::Type(typ) = item else {
-                        return Err(ParseError::Generic("expected type, got value"));
+                        return Err(ParseError::GenericBacktrack("expected type, got value"));
                     };
                     found_type = Some(FoundType::Qualified(typ.clone()));
+                    self.advance();
+                }*/
+
+                Token::Identifier(name) if found_type.is_none() && let Some(SymbolKind::Type(typ)) = self.scope.symbols.get(name) => {
+                    // struct type
+                    found_type = Some(FoundType::Qualified(typ.clone()));
+                    self.advance();
                 }
 
-                _ => break // stop on any other token
+                other => if first {
+                    // first token must be a type specifier
+                    return Err(ParseError::GenericBacktrack("expected type specifier or storage class", Some(other.clone())));
+                } else {
+                    // no more type specifiers, break
+                    break;
+                }
             };
+            first = false;
         }
         
         let found_type = found_type.unwrap_or(FoundType::Prim(PrimType::Int)); // default to int if nothing found
@@ -300,6 +327,7 @@ impl<'a, 'b> CParser<'a, 'b> {
 
     #[inline(never)]
     fn read_struct_declaration(&mut self) -> Result<OrderedMap<String, TypeBox>, ParseError> {
+        plog("read_struct_declaration");
         let mut fields = OrderedMap::default();
         loop {
             if self.accept(Token::CloseBrace) {
@@ -308,7 +336,7 @@ impl<'a, 'b> CParser<'a, 'b> {
             let decls = self.read_declaration()?;
             for (field_name, field_type) in decls {
                 match field_type {
-                    SymbolKind::Variable(typ) => {
+                    SymbolKind::Variable { ty: typ, .. } => {
                         let Entry::Vacant(entry) = fields.entry(field_name) else {
                             return Err(ParseError::Generic("duplicate field in struct"));
                         };
@@ -323,7 +351,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(fields)
     }
 
-    fn read_declarator(&mut self, mut base_type: QualType) -> Result<(Option<String>, QualType), ParseError> {
+    pub(super) fn read_declarator(&mut self, mut base_type: QualType) -> Result<(Option<String>, QualType), ParseError> {
         while let Some((_, tok)) = self.iter.peek() {
             match tok {
                 Token::Operator(Operator::Simple(AssignableOperator::Multiply)) => {
@@ -363,12 +391,6 @@ impl<'a, 'b> CParser<'a, 'b> {
                 (name, base_type) = self.read_declarator(base_type)?;
                 self.expect(Token::CloseParen)?;
             }
-            /*next => {
-                return Err(ParseError::UnexpectedToken(
-                    next,
-                    "expected identifier or open parenthesis"
-                ));
-            }*/
             _ => name = None
         }
 
@@ -385,7 +407,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                             Some(size as usize)
                         } else {
                             return Err(ParseError::UnexpectedTokenGeneric {
-                                got: size,
+                                got: Some(size),
                                 msg: "expected integer literal or close bracket"
                             });
                         }
@@ -413,6 +435,7 @@ impl<'a, 'b> CParser<'a, 'b> {
 
     #[inline(never)]
     fn read_function_param_list(&mut self) -> Result<OrderedMap<String, QualType>, ParseError> {
+        plog("read_function_param_list");
         let mut params = OrderedMap::default();
         if !self.accept(Token::CloseParen) {
             loop {
@@ -438,8 +461,57 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(params)
     }
 
+
+
+    fn read_compound(&mut self) -> Result<(), ParseError> {
+        plog("read_compound");
+        loop {
+            match self.read_declaration_specifiers() {
+                Err(ParseError::GenericBacktrack(_, _)) => {
+                    // no declaration specifiers, we can move on to statements
+                    break;
+                }
+                Err(e) => return Err(e),
+                Ok((class, type_)) => {
+                    use core::fmt::Write;
+
+                    writeln!(get_tty(), "Declaration specifiers: {:?} {:?}", class, type_);
+                }
+            }
+        }
+        while let Some(tok) = self.peek() {
+            match tok {
+                Token::CloseBrace => {
+                    self.advance();
+                    break;
+                }
+                Token::OpenBrace => {
+                    // nested compound statement
+                    self.advance();
+                    self.read_compound()?;
+                }
+                Token::Keyword(Keyword::Return) => {
+                    self.advance();
+                    if self.accept(Token::Semicolon) {
+                        // return without value
+                    } else {
+                        // return with value
+                        self.read_expression()?;
+                        self.expect(Token::Semicolon)?;
+                    }
+                }
+                _ => return Err(ParseError::UnexpectedTokenGeneric {
+                    got: Some(tok.clone()),
+                    msg: "expected close brace, open brace or return statement"
+                }),
+            }
+        }
+        Ok(())
+    }
+
     #[inline(never)]
     fn read_declaration(&mut self) -> Result<Vec<(String, SymbolKind)>, ParseError> {
+        plog("read_declaration");
         let (class, type_) = self.read_declaration_specifiers()?;
         let mut res = Vec::new();
         loop {
@@ -456,13 +528,14 @@ impl<'a, 'b> CParser<'a, 'b> {
                         if self.accept(Token::OpenBrace) {
                             // function definition
                             let mut body = Vec::new();
-                            while let Some((_, tok)) = self.iter.peek() {
+                            /*while let Some((_, tok)) = self.iter.peek() {
                                 if *tok == Token::CloseBrace {
                                     self.advance();
                                     break;
                                 }
                                 body.push(self.next()?);
-                            }
+                            }*/
+                            self.read_compound()?;
                             res.push((name, SymbolKind::Function(inner.clone(), Some(body))));
                         } else {
                             // function prototype
@@ -471,7 +544,7 @@ impl<'a, 'b> CParser<'a, 'b> {
 
                         return Ok(res); // only one function declaration per declaration
                     } else {
-                        res.push((name, SymbolKind::Variable(type_)));
+                        res.push((name, SymbolKind::Variable { ty: type_, offset: 0 }));
                     }
                 }
             }
@@ -485,13 +558,23 @@ impl<'a, 'b> CParser<'a, 'b> {
     }
 
     pub fn read_unit(&mut self) -> Result<Option<()>, ParseError> {
+        plog("read_unit");
         while self.iter.peek().is_some() {
+            plog("read_unit iter");
             let decls = self.read_declaration()?;
             for (name, kind) in decls {
                 let Entry::Vacant(entry) = self.scope.symbols.entry(name) else {
                     return Err(ParseError::Generic("duplicate declaration"));
                 };
-                entry.insert(kind);
+                entry.insert(match kind {
+                    SymbolKind::Variable { ty, offset } => {
+                        let size = ty.unqual.size();
+                        let res = SymbolKind::Variable { ty, offset: self.scope.var_size };
+                        self.scope.var_size += size;
+                        res
+                    },
+                    _ => kind
+                });
             }
         }
         Ok(None)

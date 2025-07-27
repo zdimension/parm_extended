@@ -7,6 +7,7 @@
 #![feature(slice_pattern)]
 #![feature(alloc_error_handler)]
 #![feature(maybe_uninit_slice)]
+#![feature(if_let_guard)]
 #![allow(dead_code)]
 #![allow(clippy::should_implement_trait)]
 extern crate alloc;
@@ -23,6 +24,7 @@ use core::mem::MaybeUninit;
 use core::{fmt, slice};
 use core::hash::{BuildHasher, Hash, Hasher};
 use hashbrown::HashMap;
+use crate::c::compiler::Compiler;
 use crate::c::scope::Scope;
 
 mod c;
@@ -64,8 +66,10 @@ fn check_balanced(s: &[char]) -> bool {
     NotFound(LispValBox),
 }*/
 
+#[derive(Default)]
 struct CRepl {
-    scope: Scope
+    scope: Scope,
+    compiler: Compiler
 }
 
 enum EvalStatus {
@@ -75,9 +79,7 @@ enum EvalStatus {
 
 impl CRepl {
     fn new() -> CRepl {
-        CRepl {
-            scope: Default::default()
-        }
+        Default::default()
     }
 
     #[inline(never)]
@@ -85,7 +87,7 @@ impl CRepl {
         if !check_balanced(code) {
             return EvalStatus::ContinueReading;
         }
-        let mut parser = CParser::new(code, &mut self.scope);
+        let mut parser = CParser::new(code, &mut self.scope, &mut self.compiler);
         match parser.read_whole() {
             Ok(_) => {
                 writeln!(tty::get_tty(), "{}", parser.scope);
@@ -125,7 +127,7 @@ impl CRepl {
 
     fn run(&mut self) {
         let code = String::from(br#"
-        int sub(int a, int b){return a-b;}
+        int sub(int a, int b){return 3-1;}
         "#);
 
         self.process(&code);

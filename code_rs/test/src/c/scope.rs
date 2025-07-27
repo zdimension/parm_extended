@@ -18,10 +18,10 @@ pub enum ItemName {
     TaggedType(TagKind)
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum SymbolKind {
     Type(QualType),
-    Variable(QualType),
+    Variable { ty: QualType, offset: usize },
     Function(FunctionImpl, Option<Vec<Token>>),
 }
 
@@ -29,6 +29,7 @@ pub enum SymbolKind {
 pub struct Scope {
     pub symbols: OrderedMap<String, SymbolKind>,
     pub structs: OrderedMap<String, TypeBox>,
+    pub var_size: usize
 }
 
 impl Display for Scope {
@@ -39,7 +40,7 @@ impl Display for Scope {
                 SymbolKind::Type(t) => {
                     writeln!(f, "typedef {} {};", t, key)?;
                 }
-                SymbolKind::Variable(t) => {
+                SymbolKind::Variable { ty: t, .. } => {
                     writeln!(f, "{} {};", t, key)?;
                 }
                 SymbolKind::Function(t, body) => {

@@ -7,6 +7,7 @@
 #![feature(slice_pattern)]
 #![feature(core_intrinsics)]
 #![feature(alloc_error_handler)]
+extern crate alloc;
 
 use alloc::vec::Vec;
 use crate::parm::math::fp32;

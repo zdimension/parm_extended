@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+arbitrary-int = "1.3.0"
 derive_more = { version = "2.0.1", default-features = false, features = ["full"] }
 hashbrown = { version = "0.15.4"}
 indexmap = { version = "2.10.0", default-features = false }
