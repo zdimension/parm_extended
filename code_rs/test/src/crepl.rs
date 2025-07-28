@@ -127,7 +127,7 @@ impl CRepl {
 
     fn run(&mut self) {
         let code = String::from(br#"
-        int sub(int a, int b){return 3-1;}
+        int sub(int a, int b){return (3*4)-1 + 10;}
         "#);
 
         self.process(&code);

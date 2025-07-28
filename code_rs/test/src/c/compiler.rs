@@ -1,23 +1,98 @@
-use crate::c::lexer::Token;
+use alloc::vec;
+use crate::c::lexer::{AssignableOperator, Comparison, Token};
 use crate::c::types::FunctionImpl;
 use alloc::vec::Vec;
 use core::fmt::Display;
-use arbitrary_int::{u10, u11, u13, u3, u5, u6, u7, u9, UInt};
+use core::ops::{BitAnd, Not};
+use arbitrary_int::{u10, u11, u13, u3, u5, u6, u7, u9, Number, UInt};
+use const_for::const_for;
+use strum::{EnumIter, IntoEnumIterator};
+use crate::c::parse::{Block, Statement};
+use crate::c::scope::Scope;
 use crate::parm::tty::get_tty;
+
+use Instruction::*;
+use Reg::*;
+use HiReg::*;
+use crate::c::lexer::Comparison::Equal;
+use crate::c::lexer::Operator::BoolOp;
+use crate::c::parse_expr::{BinOp, Expression};
 /*pub fn compile(proto: &FunctionImpl, body: &[Token]) {
 
 }*/
 
+#[derive(Debug)]
+pub struct Jump {
+    pub cond: Condition,
+    pub instr_pos: usize, // where the jump instruction is located
+    pub target: usize, // where the jump should go
+}
+
 #[derive(Default, Debug)]
 pub struct Compiler {
     pub instructions: Vec<Instruction>,
+    pub labels: Vec<Option<usize>>,
+    pub jumps: Vec<Jump>,
+    pub depth: usize
+}
+
+fn fit_signed_into< const BITS: usize>(val: usize) -> Result<usize, ()> {
+    let ival = val as isize;
+    if ival >= -(1 << (BITS - 1)) && ival < (1 << (BITS - 1)) {
+        Ok(val & ((1 << BITS) - 1))
+    } else {
+        Err(())
+    }
 }
 
 impl Compiler {
     pub fn new() -> Self {
         Compiler {
             instructions: Vec::new(),
+            labels: vec![None],
+            jumps: Default::default(),
+            depth: 0,
         }
+    }
+
+    pub fn new_label(&mut self) -> usize {
+        self.labels.push(None);
+        self.labels.len() - 1
+    }
+
+    pub fn new_label_here(&mut self) -> usize {
+        self.labels.push(Some(self.instructions.len()));
+        self.labels.len() - 1
+    }
+
+    pub fn set_label_here(&mut self, label: usize) {
+        if label >= self.labels.len() {
+            panic!("Label index out of bounds: {}", label);
+        }
+        self.labels[label] = Some(self.instructions.len());
+    }
+
+    #[inline(never)]
+    pub fn link(mut self) -> Vec<Instruction> {
+        for Jump { cond, instr_pos, target } in self.jumps {
+            let Some(target) = self.labels[target] else {
+                panic!("Jump target {} not found", target);
+            };
+
+            let delta = target.wrapping_sub(instr_pos).wrapping_sub(2);
+
+            self.instructions[instr_pos] = if cond == Condition::Al {
+                // Unconditional jump, use B instruction
+                B { label11: u11::new(fit_signed_into::<11>(delta)
+                    .expect("Jump target out of range for unconditional jump") as u16) }
+            } else {
+                // Conditional jump, use BCond instruction
+                BCond { cond, label8: fit_signed_into::<8>(delta)
+                    .expect("Jump target out of range for conditional jump") as u8 }
+            };
+        }
+
+        self.instructions
     }
 
     pub fn emit(&mut self, instruction: Instruction) {
@@ -25,9 +100,146 @@ impl Compiler {
         writeln!(get_tty(), "emit: {:?}", instruction).unwrap();
         self.instructions.push(instruction);
     }
+
+    pub fn emit_push(&mut self, regs: RegList) {
+        let len = regs.len();
+        self.emit(SubSp { immw7: u9::new((len * 4) as u16) });
+        let regs = regs.regs.value();
+        for (i, r) in Reg::iter().filter(|r| regs & (1 << (*r as u16)) != 0).enumerate() {
+            self.emit(StrSp { rt: Reg::from(r), immw8: u10::new((i * 4) as u16) });
+        }
+        if regs & (1 << 8) != 0 { // LR
+            self.emit(MovHiLo { rd: R12, rs: R7 });
+            self.emit(MovLoHi { rd: R7, rs: LR });
+            self.emit(StrSp { rt: R7, immw8: u10::new(((len - 1) * 4) as u16) });
+            self.emit(MovLoHi { rd: R7, rs: R12 });
+        }
+    }
+
+    pub fn emit_pop(&mut self, regs: RegList) {
+        let len = regs.len();
+        let regs = regs.regs.value();
+        for (i, r) in Reg::iter().filter(|r| regs & (1 << (*r as u16)) != 0).enumerate() {
+            self.emit(LdrSp { rt: Reg::from(r), immw8: u10::new((i * 4) as u16) });
+        }
+        if regs & (1 << 8) != 0 { // PC
+            self.emit(MovHiLo { rd: R12, rs: R7 });
+            self.emit(LdrSp { rt: R7, immw8: u10::new(((len - 1) * 4) as u16) });
+            self.emit(MovHiLo { rd: LR, rs: R7 });
+            self.emit(MovLoHi { rd: R7, rs: R12 });
+            self.emit(AddSp { immw7: u9::new((len * 4) as u16) });
+            self.emit(BxHi { rm: LR });
+        } else {
+            self.emit(AddSp { immw7: u9::new((len * 4) as u16) });
+        }
+    }
+
+    #[inline(never)]
+    pub fn emit_function(&mut self, proto: &FunctionImpl, body: &Block) {
+        self.emit_push(RegList::new([R7], true));
+
+        for stmt in &body.stmts {
+            self.emit_statement(stmt);
+        }
+
+        self.set_label_here(0); // Set the label for the function return
+        self.emit_pop(RegList::new([R7], true));
+    }
+
+    pub fn jump_to(&mut self, label: usize, condition: Condition) {
+        self.jumps.push(Jump {
+            cond: condition,
+            instr_pos: self.instructions.len(),
+            target: label,
+        });
+        self.emit(Nop)
+    }
+
+    pub fn emit_statement(&mut self, statement: &Statement) {
+        use Statement::*;
+        match statement {
+            Block(block) => self.emit_block(block),
+            Expression(expr) => {
+                self.emit_expression(expr);
+                self.emit_pop(RegList::new([R0], false)); // Discard the result to r0
+            },
+            Return(expr) => {
+                if let Some(expr) = expr {
+                    self.emit_expression(expr);
+                    self.emit_pop(RegList::new([R0], false)); // Move result to r0
+                } else {
+                    self.emit(Movs { rd: R0, rm: R0 }); // Ensure r0 is set to 0
+                }
+                self.jump_to(0, Condition::Al); // Jump to the function return label
+            },
+            _ => todo!()
+        }
+    }
+
+    pub fn emit_expression(&mut self, expr: &Expression) {
+        match expr {
+            &Expression::Literal(val) => {
+                /*match *val {
+                    0..=255 => {
+                        self.emit(MovsImm { rd: R0, imm8: u8::try_from(val).unwrap() });
+                    }
+                }*/
+                if let Ok(imm8) = u8::try_from(val) {
+                    self.emit(MovsImm { rd: R0, imm8 });
+                } else if let Ok(imm8n) = u8::try_from(val.not()) {
+                    self.emit(MovsImm { rd: R0, imm8: imm8n });
+                    self.emit(Mvns { rd: R0, rm: R0 }); // Invert
+                } else {
+                    panic!("Literal value out of range for MOVS instruction: {}", val);
+                }
+                self.emit_push(RegList::new([R0], false));
+            }
+            Expression::SymRef(_) => {}
+            Expression::Cast(_, _) => {}
+            Expression::ArrayAccess(_, _) => {}
+            Expression::FuncCall(_, _) => {}
+            Expression::MemberAccess(_, _, _) => {}
+            Expression::UnaryOp(_, _) => {}
+            Expression::BinOp(op, a, b) => {
+                self.emit_expression(a);
+                self.emit_expression(b);
+                self.emit_pop(RegList::new([R1], false)); // Pop second operand to R1
+                self.emit_pop(RegList::new([R0], false)); // Pop first operand to R0
+                use BinOp::*;
+                use AssignableOperator::*;
+                match *op {
+                    Simple(Plus) => self.emit(Adds { rd: R0, rn: R0, rm: R1 }),
+                    Simple(Minus) => self.emit(Subs { rd: R0, rn: R0, rm: R1 }),
+                    Simple(Multiply) => self.emit(Muls { rdm: R0, rn: R1 }),
+                    Simple(Divide) => {
+                        // ARM does not have a direct divide instruction, so we would need to implement it
+                        // using a library or custom assembly code.
+                        panic!("Division operation is not implemented in the compiler");
+                    }
+                    Simple(Modulo) => {
+                        // ARM does not have a direct modulo instruction, so we would need to implement it
+                        // using a library or custom assembly code.
+                        panic!("Modulo operation is not implemented in the compiler");
+                    }
+                    Simple(BitwiseAnd) => self.emit(Ands { rdn: R0, rm: R1 }),
+                    Simple(BitwiseOr) => self.emit(Orrs { rdn: R0, rm: R1 }),
+                    Simple(BitwiseXor) => self.emit(Eors { rdn: R0, rm: R1 }),
+                    Simple(ShiftLeft) => self.emit(Lsls { rdn: R0, rm: R1 }),
+                    Simple(ShiftRight) => self.emit(Lsrs { rdn: R0, rm: R1 }),
+
+                    _ => todo!()
+                }
+                self.emit_push(RegList::new([R0], false)); // Push result to R0
+            }
+            Expression::Conditional(_, _, _) => {}
+            Expression::Comma(_, _) => {}
+        }
+    }
+
+    pub fn emit_block(&mut self, block: &Block) {}
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, EnumIter)]
 pub enum Reg {
     R0,
     R1,
@@ -39,17 +251,68 @@ pub enum Reg {
     R7,
 }
 
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+pub enum HiReg {
+    R8,
+    R9,
+    R10,
+    R11,
+    R12,
+    SP, // SP
+    LR, // LR
+    PC, // PC
+}
+
+struct RegList {
+    regs: u9,
+}
+
+impl RegList {
+    pub const fn new<const N: usize>(regs: [Reg; N], pc_or_lr: bool) -> Self {
+        let mut result = 0;
+        const_for!(reg in 0..N => {
+            result |= 1 << (regs[reg] as u16);
+        });
+        if pc_or_lr {
+            result |= 1 << 8; // Set the 9th bit for PC or LR
+        }
+        RegList {
+            regs: u9::new(result),
+        }
+    }
+
+    pub fn len(&self) -> usize {
+        self.regs.count_ones() as usize
+    }
+}
+
 impl Display for Reg {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         let reg_str = match self {
-            Reg::R0 => "r0",
-            Reg::R1 => "r1",
-            Reg::R2 => "r2",
-            Reg::R3 => "r3",
-            Reg::R4 => "r4",
-            Reg::R5 => "r5",
-            Reg::R6 => "r6",
-            Reg::R7 => "r7",
+            R0 => "r0",
+            R1 => "r1",
+            R2 => "r2",
+            R3 => "r3",
+            R4 => "r4",
+            R5 => "r5",
+            R6 => "r6",
+            R7 => "r7",
+        };
+        write!(f, "{reg_str}")
+    }
+}
+
+impl Display for HiReg {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        let reg_str = match self {
+            R8 => "r8",
+            R9 => "r9",
+            R10 => "r10",
+            R11 => "r11",
+            R12 => "r12",
+            SP => "sp",
+            LR => "lr",
+            PC => "pc",
         };
         write!(f, "{reg_str}")
     }
@@ -58,6 +321,12 @@ impl Display for Reg {
 impl From<Reg> for u16 {
     fn from(reg: Reg) -> Self {
         reg as u16
+    }
+}
+
+impl From<HiReg> for u16 {
+    fn from(reg: HiReg) -> Self {
+        (reg as u16) & 0b111
     }
 }
 
@@ -115,23 +384,37 @@ impl BitSize for Condition {
     const SIZE: usize = 4; // 4 bits for condition codes
 }
 
+macro_rules! write_list {
+    ($fmt:expr, $first:ident $( , $rest:ident )* $(,)?) => {
+        {
+            write!($fmt, "{}", $first)?;
+            $(
+                write!($fmt, ", {}", $rest)?;
+            )*
+        }
+    };
+}
+
 macro_rules! instructions {
-    ($($name:ident $asm:literal { $($field:ident: $ty:ty),* $(,)? } => ($prefix:expr, $($enc:expr),*)),* $(,)?) => {
-        #[derive(Copy, Clone, PartialEq, Eq)]
+    ($($name:ident $asm:literal { $( $($field:ident: $ty:ty),+ )? } => ($prefix:expr $(, $($enc:expr),*)?)),* $(,)?) => {
+        #[derive(Copy, Clone, PartialEq, Eq, Debug)]
         pub enum Instruction {
             $(
-                $name { $($field: $ty),* },
+                $name $( {  $($field: $ty),+ } )?,
             )*
         }
 
-        impl core::fmt::Debug for Instruction {
+        impl core::fmt::Display for Instruction {
             fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
                 match self {
-                    $(Self::$name { $($field),*, .. } => {
+                    $(Self::$name $( { $($field),+, .. } )? => {
                         write!(f, "{} ", $asm)?;
                         $(
+                        /*$(
                             write!(f, "{} ", $field)?;
-                        )*
+                        )+*/
+                        write_list!(f, $($field),+);
+                        )?
                         Ok(())
                     }),*
                 }
@@ -142,17 +425,19 @@ macro_rules! instructions {
             pub fn encode(self) -> u16 {
                 let mut result: u16;
                 match self {
-                    $(Self::$name { $($field),*, .. } => {
+                    $(Self::$name $( {  $($field),+, .. } )? => {
                         // todo: find a way to make this work
                         // const CHECK_BITS: () = assert!(0
                         //     $(+ get_bit_size($enc))* <= 16, "Instruction {} exceeds 16 bits", stringify!($name)
                         // );
                         result = $prefix;
                         $(
+                        $(
                             result <<= $enc.get_bit_size();
-                            let tmp: u16 = $field.into();
+                            let tmp: u16 = $enc.into();
                             result |= tmp;
                         )*
+                        )?
                     }),*
                 }
                 result
@@ -170,6 +455,10 @@ trait BitSize: Copy {
 }
 
 impl BitSize for Reg {
+    const SIZE: usize = 3;
+}
+
+impl BitSize for HiReg {
     const SIZE: usize = 3;
 }
 
@@ -219,8 +508,34 @@ instructions! {
     Mvns "mvn" { rd: Reg, rm: Reg } => (0b010000_1111, rm, rd),
     Negs "neg" { rd: Reg, rn: Reg } => (0b010000_1001, rn, rd), // same as Rsbs with imm = 0
 
+    /*
+      "add {Rd}, {Rs}": (0b010001_00_0_0, "Rs", "Rd"),
+    "add {Rd}, {Hs}": (0b010001_00_0_1, "Hs", "Rd"),
+    "add {Hd}, {Rs}": (0b010001_00_1_0, "Rs", "Hd"),
+    "add {Hd}, {Hs}": (0b010001_00_1_1, "Rs", "Hd"),
+    "mov {Rd}, {Rs}": (0b010001_10_0_0, "Rs", "Rd"),
+    "mov {Rd}, {Hs}": (0b010001_10_0_1, "Hs", "Rd"),
+    "mov {Hd}, {Rs}": (0b010001_10_1_0, "Rs", "Hd"),
+    "mov {Hd}, {Hs}": (0b010001_10_1_1, "Hs", "Hd"),
+    "bx {Rm}": (0b010001_11_0_0, "Rm", "000"),
+    "bx {Hm}": (0b010001_11_0_1, "Hm", "000"),
+    "blx? {Rm}": (0b010001_11_1_0, "Rm", "000"),
+    "blx? {Hm}": (0b010001_11_1_1, "Hm", "000"),
+     */
+
     // 05 - Hi register operations/branch exchange
-    // ignored for now
+    AddLoLo "add" { rd: Reg, rs: Reg } => (0b010001_00_0_0, rs, rd),
+    AddLoHi "add" { rd: Reg, rs: HiReg } => (0b010001_00_0_1, rs, rd),
+    AddHiLo "add" { rd: HiReg, rs: Reg } => (0b010001_00_1_0, rs, rd),
+    AddHiHi "add" { rd: HiReg, rs: HiReg } => (0b010001_00_1_1, rs, rd),
+    MovLoLo "mov" { rd: Reg, rs: Reg } => (0b010001_10_0_0, rs, rd),
+    MovLoHi "mov" { rd: Reg, rs: HiReg } => (0b010001_10_0_1, rs, rd),
+    MovHiLo "mov" { rd: HiReg, rs: Reg } => (0b010001_10_1_0, rs, rd),
+    MovHiHi "mov" { rd: HiReg, rs: HiReg } => (0b010001_10_1_1, rs, rd),
+    Bx "bx" { rm: Reg } => (0b010001_11_0_0, rm, u3::new(0)),
+    BxHi "bx" { rm: HiReg } => (0b010001_11_0_1, rm, u3::new(0)),
+    BlxLo "blx" { rm: Reg } => (0b010001_11_1_0, rm, u3::new(0)),
+    BlxHi "blx" { rm: HiReg } => (0b010001_11_1_1, rm, u3::new(0)),
 
     // 06 - PC-relative load
     // ignored for now
@@ -245,15 +560,15 @@ instructions! {
     LdrhRegImm "ldrh" { rd: Reg, rb: Reg, immh5: u6 } => (0b1000_1, u5::new(immh5.value() >> 1), rb, rd),
 
     // 11 - SP-relative load/store
-    StrSp "str" { rt: Reg, immw8: u10 } => (0b1001_0, rt, (immw8.value() >> 2) as u8),
-    LdrSp "ldr" { rt: Reg, immw8: u10 } => (0b1001_1, rt, (immw8.value() >> 2) as u8),
+    StrSp "str sp, " { rt: Reg, immw8: u10 } => (0b1001_0, rt, (immw8.value() >> 2) as u8),
+    LdrSp "ldr sp, " { rt: Reg, immw8: u10 } => (0b1001_1, rt, (immw8.value() >> 2) as u8),
 
     // 12 - load address
     // ignored for maintenant
 
     // 13 - add offset to Stack Pointer
-    AddSp "add" { immw7: u9 } => (0b1011_0000_0, u7::new((immw7.value() >> 2) as u8)),
-    SubSp "sub" { immw7: u9 } => (0b1011_0000_1, u7::new((immw7.value() >> 2) as u8)),
+    AddSp "add sp, " { immw7: u9 } => (0b1011_0000_0, u7::new((immw7.value() >> 2) as u8)),
+    SubSp "sub sp, " { immw7: u9 } => (0b1011_0000_1, u7::new((immw7.value() >> 2) as u8)),
 
     // 14 - everything ignored for maintenant
 
@@ -262,12 +577,14 @@ instructions! {
 
     // 18 - unconditional branch
     B "b" { label11: u11 } => (0b11100, label11),
+
+    Nop "nop" { } => (MovHiHi { rd: R8, rs: R8 }.encode())
 }
 
 
 pub enum Address {
     /// Local variable, offset from the stack pointer
     Local(u8),
-    /// Global variable, offset from the data segment
+    // Global variable, offset from the data segment
     // todo
 }

@@ -1,3 +1,4 @@
+use alloc::boxed::Box;
 use alloc::format;
 use alloc::vec::{IntoIter, Vec};
 use core::iter::{Enumerate, Peekable};
@@ -30,8 +31,10 @@ pub enum StorageClass {
 use SkipStop::*;
 use crate::c::compiler::Compiler;
 use crate::c::lexer::{AssignableOperator, Keyword, Operator, ReadError, Token, Tokenizer};
+use crate::c::parse_expr::Expression;
 use crate::c::types::{FunctionImpl, QualType, Signedness, StructImpl, TypeBox, TypeQualifiers, UnqualType};
 use crate::parm::heap::string::String;
+use crate::parm::midi::Pitch::B;
 use crate::parm::OrderedMap;
 use crate::parm::tty::get_tty;
 use crate::println;
@@ -58,6 +61,24 @@ impl From<bool> for SkipStop<()> {
             Stop(())
         }
     }
+}
+
+#[derive(Debug)]
+pub struct Block {
+    pub decls: Scope,
+    pub stmts: Vec<Statement>
+}
+
+#[derive(Debug)]
+pub enum Statement {
+    Expression(Expression),
+    Return(Option<Expression>),
+    If(Expression, Vec<Statement>, Option<Vec<Statement>>),
+    While(Expression, Vec<Statement>),
+    For(Option<Box<Statement>>, Option<Expression>, Option<Box<Statement>>, Vec<Statement>),
+    Break,
+    Continue,
+    Block(Block),
 }
 
 impl<'a, 'b> CParser<'a, 'b> {
@@ -462,9 +483,13 @@ impl<'a, 'b> CParser<'a, 'b> {
     }
 
 
-
-    fn read_compound(&mut self) -> Result<(), ParseError> {
+    #[inline(never)]
+    fn read_compound(&mut self) -> Result<Block, ParseError> {
         plog("read_compound");
+        let mut block = Block {
+            decls: Default::default(),
+            stmts: Vec::new()
+        };
         loop {
             match self.read_declaration_specifiers() {
                 Err(ParseError::GenericBacktrack(_, _)) => {
@@ -488,17 +513,21 @@ impl<'a, 'b> CParser<'a, 'b> {
                 Token::OpenBrace => {
                     // nested compound statement
                     self.advance();
-                    self.read_compound()?;
+                    let inner_block = self.read_compound()?;
+                    block.stmts.push(Statement::Block(inner_block));
                 }
                 Token::Keyword(Keyword::Return) => {
                     self.advance();
-                    if self.accept(Token::Semicolon) {
+                    let val = if self.accept(Token::Semicolon) {
                         // return without value
+                        None
                     } else {
                         // return with value
-                        self.read_expression()?;
+                        let expr = self.read_expression()?;
                         self.expect(Token::Semicolon)?;
-                    }
+                        Some(expr)
+                    };
+                    block.stmts.push(Statement::Return(val));
                 }
                 _ => return Err(ParseError::UnexpectedTokenGeneric {
                     got: Some(tok.clone()),
@@ -506,7 +535,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                 }),
             }
         }
-        Ok(())
+        Ok(block)
     }
 
     #[inline(never)]
@@ -527,7 +556,7 @@ impl<'a, 'b> CParser<'a, 'b> {
 
                         if self.accept(Token::OpenBrace) {
                             // function definition
-                            let mut body = Vec::new();
+                            //let mut body = Vec::new();
                             /*while let Some((_, tok)) = self.iter.peek() {
                                 if *tok == Token::CloseBrace {
                                     self.advance();
@@ -535,8 +564,10 @@ impl<'a, 'b> CParser<'a, 'b> {
                                 }
                                 body.push(self.next()?);
                             }*/
-                            self.read_compound()?;
-                            res.push((name, SymbolKind::Function(inner.clone(), Some(body))));
+
+                            let block = self.read_function_body(inner)?;
+
+                            res.push((name, SymbolKind::Function(inner.clone(), Some(block))));
                         } else {
                             // function prototype
                             res.push((name, SymbolKind::Function(inner.clone(), None)));
@@ -555,6 +586,29 @@ impl<'a, 'b> CParser<'a, 'b> {
         }
         self.expect(Token::Semicolon)?;
         Ok(res)
+    }
+
+    #[inline(never)]
+    fn read_function_body(&mut self, inner: &FunctionImpl) -> Result<Block, ParseError> {
+        let block = self.read_compound()?;
+        writeln!(get_tty(), "Function: {:?}", block);
+
+        let mut comp = Compiler::new();
+        comp.emit_function(inner, &block);
+        let instrs = comp.link();
+
+        for i in &instrs {
+            writeln!(get_tty(), "{}", i);
+        }
+
+        let encoded = instrs.iter().map(|i| i.encode()).collect::<Vec<_>>();
+        unsafe {
+            let ptr: fn() -> usize = core::mem::transmute(encoded.as_ptr());
+            writeln!(get_tty(), "Function pointer: {:p}", ptr);
+            let res = ptr();
+            writeln!(get_tty(), "Function result: {}", res);
+        }
+        Ok(block)
     }
 
     pub fn read_unit(&mut self) -> Result<Option<()>, ParseError> {

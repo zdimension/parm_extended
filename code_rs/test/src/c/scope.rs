@@ -2,6 +2,7 @@ use alloc::vec::Vec;
 use core::fmt::Display;
 use hashbrown::HashMap;
 use crate::c::lexer::Token;
+use crate::c::parse::Block;
 use crate::c::types::{FunctionImpl, QualType, TypeBox, UnqualType};
 use crate::parm::heap::prc::Prc;
 use crate::parm::heap::string::String;
@@ -18,11 +19,11 @@ pub enum ItemName {
     TaggedType(TagKind)
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub enum SymbolKind {
     Type(QualType),
     Variable { ty: QualType, offset: usize },
-    Function(FunctionImpl, Option<Vec<Token>>),
+    Function(FunctionImpl, Option<Block>),
 }
 
 #[derive(Default, Debug)]
@@ -54,12 +55,12 @@ impl Display for Scope {
                     write!(f, ")")?;
                     if let Some(b) = body {
                         writeln!(f, " {{")?;
-                        for token in b {
+                        /*for token in b {
                             write!(f, "{} ", token)?;
                             if matches!(token, Token::Semicolon | Token::OpenBrace | Token::CloseBrace) {
                                 writeln!(f)?;
                             }
-                        }
+                        }*/
                         writeln!(f, "\n}}")?;
                     } else {
                         writeln!(f, ";")?;
