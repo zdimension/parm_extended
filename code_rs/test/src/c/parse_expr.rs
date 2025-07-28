@@ -13,7 +13,7 @@ use crate::parm::heap::string::String;
 use crate::println;
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
-enum AccessType {
+pub enum AccessType {
     Dot,
     Arrow,
 }
@@ -56,13 +56,13 @@ impl<'a, 'b> CParser<'a, 'b> {
         match self.iter.peek().map(|t| &t.1) {
             Some(&Token::Identifier(ref name)) => {
                 // identifier
-                let Some(val) = self.scope.symbols.get(name).cloned() else {
+                /*let Some(val) = self.scope.symbols.get(name).cloned() else {
                     /*return Err(ParseError::GenericDyn(format!(
                         "undefined identifier: {}",
                         name
                     )));*/
                     return Err(ParseError::Generic("unknown identifier"));
-                };
+                };*/
                 println!("3");
                 self.advance();
                 /*match val {
@@ -111,20 +111,22 @@ impl<'a, 'b> CParser<'a, 'b> {
 
                 println!("got prim");
                 println!("1");
-                Ok(Expression::SymRef(val.clone()))
+                Ok(todo!())
+                //Ok(Expression::SymRef(val.clone()))
             }
             Some(&Token::Integer(val)) => {
                 // integer literal
                 self.advance();
                 Ok(Expression::Literal(val))
             }
-            Some(Token::OpenParen) => {
+            // handled in read_cast_expression
+            /*Some(Token::OpenParen) => {
                 // parenthesized expression
                 self.advance();
                 let res = self.read_expression()?;
                 self.expect(Token::CloseParen)?;
                 Ok(res)
-            }
+            }*/
             other => Err(ParseError::UnexpectedTokenGeneric {
                 got: other.cloned(),
                 msg: "expected identifier, integer literal or open parenthesis",
@@ -194,21 +196,33 @@ impl<'a, 'b> CParser<'a, 'b> {
         plog("read_cast_expression");
         if self.accept(Token::OpenParen) {
             // cast expression
-            let (class, type_) = self.read_declaration_specifiers()?;
-            if class.is_some() {
-                return Err(ParseError::Generic(
-                    "storage class not allowed in cast expression",
-                ));
+            match self.read_declaration_specifiers() {
+                Ok((class, type_)) => {
+                    let (class, type_) = self.read_declaration_specifiers()?;
+                    if class.is_some() {
+                        return Err(ParseError::Generic(
+                            "storage class not allowed in cast expression",
+                        ));
+                    }
+                    let (name, type_) = self.read_declarator(type_)?;
+                    if name.is_some() {
+                        return Err(ParseError::Generic("name not allowed in cast expression"));
+                    }
+                    self.expect(Token::CloseParen)?;
+                    return Ok(Expression::Cast(
+                        type_,
+                        Box::new(self.read_unary_expression()?),
+                    ));
+                }
+                Err(ParseError::GenericBacktrack(_, _)) => {
+                    // regular (), not cast
+                    let res = self.read_expression()?;
+                    self.expect(Token::CloseParen)?;
+                    return Ok(res);
+                }
+                Err(e) => return Err(e),
             }
-            let (name, type_) = self.read_declarator(type_)?;
-            if name.is_some() {
-                return Err(ParseError::Generic("name not allowed in cast expression"));
-            }
-            self.expect(Token::CloseParen)?;
-            return Ok(Expression::Cast(
-                type_,
-                Box::new(self.read_unary_expression()?),
-            ));
+
         }
         self.read_unary_expression()
     }
