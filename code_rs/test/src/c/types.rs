@@ -125,6 +125,15 @@ pub struct QualType {
     pub type_qualifiers: TypeQualifiers,
 }
 
+impl From<UnqualType> for QualType {
+    fn from(unqual: UnqualType) -> Self {
+        QualType {
+            unqual: unqual.into(),
+            type_qualifiers: TypeQualifiers::default(),
+        }
+    }
+}
+
 impl Display for QualType {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(f, "{}", *self.unqual);

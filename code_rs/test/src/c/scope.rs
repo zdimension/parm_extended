@@ -1,3 +1,4 @@
+use alloc::boxed::Box;
 use alloc::vec::Vec;
 use core::fmt::Display;
 use hashbrown::HashMap;
@@ -23,7 +24,7 @@ pub enum ItemName {
 pub enum SymbolKind {
     Type(QualType),
     Variable { ty: QualType, offset: usize },
-    Function(FunctionImpl, Option<Block>),
+    Function { proto: FunctionImpl, body: Option<Block>, jump: Box<[u16]> },
 }
 
 #[derive(Default, Debug)]
@@ -44,7 +45,7 @@ impl Display for Scope {
                 SymbolKind::Variable { ty: t, .. } => {
                     writeln!(f, "{} {};", t, key)?;
                 }
-                SymbolKind::Function(t, body) => {
+                SymbolKind::Function { proto: t, body, .. } => {
                     write!(f, "{} {}(", t.ret, key)?;
                     for (i, (name, ty)) in t.args.iter().enumerate() {
                         if i > 0 {

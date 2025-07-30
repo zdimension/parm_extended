@@ -1,6 +1,7 @@
+use alloc::string::ToString;
 use alloc::vec;
 use crate::c::lexer::{AssignableOperator, Comparison, Token};
-use crate::c::types::FunctionImpl;
+use crate::c::types::{FunctionImpl, QualType, UnqualType};
 use alloc::vec::Vec;
 use core::fmt::Display;
 use core::ops::{BitAnd, Not};
@@ -8,7 +9,7 @@ use arbitrary_int::{u10, u11, u13, u3, u5, u6, u7, u9, Number, UInt};
 use const_for::const_for;
 use strum::{EnumIter, IntoEnumIterator};
 use crate::c::parse::{Block, Statement};
-use crate::c::scope::Scope;
+use crate::c::scope::{Scope, SymbolKind};
 use crate::parm::tty::get_tty;
 
 use Instruction::*;
@@ -16,7 +17,8 @@ use Reg::*;
 use HiReg::*;
 use crate::c::lexer::Comparison::Equal;
 use crate::c::lexer::Operator::BoolOp;
-use crate::c::parse_expr::{BinOp, Expression};
+use crate::c::parse_expr::{BinOp, Expression, SizeOfOp, UnaryOp};
+use crate::parm::heap::string::String;
 /*pub fn compile(proto: &FunctionImpl, body: &[Token]) {
 
 }*/
@@ -28,12 +30,14 @@ pub struct Jump {
     pub target: usize, // where the jump should go
 }
 
-#[derive(Default, Debug)]
-pub struct Compiler {
+#[derive(Debug)]
+pub struct Compiler<'a> {
     pub instructions: Vec<Instruction>,
     pub labels: Vec<Option<usize>>,
     pub jumps: Vec<Jump>,
-    pub depth: usize
+    pub depth: usize,
+    pub locals_size: usize,
+    pub scope: Vec<&'a Scope>
 }
 
 fn fit_signed_into< const BITS: usize>(val: usize) -> Result<usize, ()> {
@@ -45,13 +49,20 @@ fn fit_signed_into< const BITS: usize>(val: usize) -> Result<usize, ()> {
     }
 }
 
-impl Compiler {
+struct Analysis {
+    ty: QualType,
+    addr: Option<Address>
+}
+
+impl<'a> Compiler<'a> {
     pub fn new() -> Self {
         Compiler {
             instructions: Vec::new(),
             labels: vec![None],
             jumps: Default::default(),
             depth: 0,
+            locals_size: 0,
+            scope: vec![]
         }
     }
 
@@ -134,15 +145,40 @@ impl Compiler {
         }
     }
 
-    #[inline(never)]
-    pub fn emit_function(&mut self, proto: &FunctionImpl, body: &Block) {
-        self.emit_push(RegList::new([R7], true));
+    fn enter(&mut self, scope: &'a Scope) {
+        self.scope.push(scope);
+        self.depth += scope.var_size;
+    }
 
-        for stmt in &body.stmts {
-            self.emit_statement(stmt);
+    fn leave(&mut self) {
+        if let Some(scope) = self.scope.pop() {
+            self.depth -= scope.var_size;
+        } else {
+            panic!("Cannot leave scope, no scope to leave");
         }
+    }
+
+    fn get_max_local_size(body: &'a Block) -> usize {
+        body.decls.var_size + body.stmts.iter().filter_map(|s| match s {
+            Statement::Block(b) => Some(Self::get_max_local_size(b)),
+            _ => None
+        }).max().unwrap_or(0)
+    }
+
+    #[inline(never)]
+    pub fn emit_function(&mut self, proto: &FunctionImpl, body: &'a Block, scope: &'a Scope) {
+        self.emit_push(RegList::new([R7], true));
+        self.locals_size = Self::get_max_local_size(body);
+        self.emit(SubSp { immw7: u9::new(self.locals_size as u16) });
+        self.emit(AddRegSpImm { rd: R7, immw8: u10::new(0) }); // use r7 as frame pointer
+        self.enter(scope);
+
+        self.emit_block(body);
+
+        self.leave();
 
         self.set_label_here(0); // Set the label for the function return
+        self.emit(AddSp { immw7: u9::new(self.locals_size as u16) }); // Restore stack pointer
         self.emit_pop(RegList::new([R7], true));
     }
 
@@ -155,20 +191,20 @@ impl Compiler {
         self.emit(Nop)
     }
 
-    pub fn emit_statement(&mut self, statement: &Statement) {
+    pub fn emit_statement(&mut self, statement: &'a Statement) {
         use Statement::*;
         match statement {
             Block(block) => self.emit_block(block),
             Expression(expr) => {
                 self.emit_expression(expr);
-                self.emit_pop(RegList::new([R0], false)); // Discard the result to r0
+                self.emit_pop(RegList::new([R0], false)); // Discard the result to R0
             },
             Return(expr) => {
                 if let Some(expr) = expr {
                     self.emit_expression(expr);
-                    self.emit_pop(RegList::new([R0], false)); // Move result to r0
+                    self.emit_pop(RegList::new([R0], false)); // Move result to R0
                 } else {
-                    self.emit(Movs { rd: R0, rm: R0 }); // Ensure r0 is set to 0
+                    self.emit(MovsImm { rd: R0, imm8: 0 }); // Return 0 if no expression
                 }
                 self.jump_to(0, Condition::Al); // Jump to the function return label
             },
@@ -176,7 +212,107 @@ impl Compiler {
         }
     }
 
+    fn lookup(&self, name: &String) -> Analysis {
+        let mut base = 0;
+        for scope in self.scope.iter().rev() {
+            if let Some(symbol) = scope.symbols.get(name) {
+                return match symbol {
+                    SymbolKind::Variable { ty, offset } => {
+                        Analysis {
+                            ty: ty.clone(),
+                            addr: Some(Address::Local((base + *offset) as u8)),
+                        }
+                    }
+                    SymbolKind::Function { proto, jump, .. } => {
+                        Analysis {
+                            ty: UnqualType::Function(proto.clone()).into(),
+                            addr: Some(Address::Global(jump.as_ptr() as _)),
+                        }
+                    }
+                    SymbolKind::Type(_) => {
+                        panic!("Cannot reference type as an expression: {}", name);
+                    }
+                }
+            }
+            base += scope.var_size;
+        }
+        panic!("Symbol not found: {}", name);
+    }
+
+    fn analyze_expression(&mut self, expr: &Expression) -> Analysis {
+        match expr {
+            Expression::SymRef(name) => {
+                self.lookup(name)
+            }
+            Expression::ArrayAccess(arr, idx) => todo!(),
+            Expression::MemberAccess(_, _, _) => todo!(),
+            Expression::UnaryOp(_, _) => todo!(),
+            Expression::Comma(_, _) => todo!(),
+            Expression::Literal(_) => Analysis {
+                ty: UnqualType::Int(None).into(),
+                addr: None,
+            },
+            Expression::Cast(ty, expr) => {
+                // todo: check cast
+                Analysis {
+                    ty: ty.clone(),
+                    addr: None,
+                }
+            }
+            Expression::FuncCall(_, _) => todo!(),
+            Expression::BinOp(op, l, r) => {
+                use BinOp::*;
+                use AssignableOperator::*;
+                let Analysis { ty: lty, .. } = self.analyze_expression(l);
+                let Analysis { ty: rty, .. } = self.analyze_expression(r);
+                let ty = match *op {
+                    Simple(Plus) => {
+                        UnqualType::Int(None).into()
+                    }
+                    Bool(_) => {
+                        // todo
+                        UnqualType::Bool.into()
+                    }
+                    Comparison(_) => {
+                        // For now, we assume the result type of a comparison is bool
+                        UnqualType::Bool.into()
+                    }
+                    Assignment(_) => {
+                        // todo
+                        lty
+                    }
+                    _ => todo!()
+                };
+                Analysis {
+                    ty: ty, // For now, we assume the left type is the result type
+                    addr: None, // No address for binary operations
+                }
+            }
+            Expression::Conditional(_, _, _) => todo!(),
+            Expression::SizeOf(_) => {
+                // SizeOf returns the size of the type in bytes
+                Analysis {
+                    ty: UnqualType::Int(None).into(),
+                    addr: None,
+                }
+            }
+        }
+    }
+
+    fn emit_address_to_r0(&mut self, address: Address) {
+        match address {
+            Address::Local(offset) => {
+                self.emit(MovsImm { rd: R0, imm8: offset });
+                self.emit(AddLoLo { rd: R0, rs: R7 });
+            }
+            Address::Global(addr) => {
+                self.emit_expression(&Expression::Literal(addr as i32))
+            }
+        }
+    }
+
     pub fn emit_expression(&mut self, expr: &Expression) {
+        let Analysis { ty, addr } = self.analyze_expression(expr);
         match expr {
             &Expression::Literal(val) => {
                 /*match *val {
@@ -194,19 +330,70 @@ impl Compiler {
                 }
                 self.emit_push(RegList::new([R0], false));
             }
-            Expression::SymRef(_) => {}
-            Expression::Cast(_, _) => {}
-            Expression::ArrayAccess(_, _) => {}
-            Expression::FuncCall(_, _) => {}
-            Expression::MemberAccess(_, _, _) => {}
-            Expression::UnaryOp(_, _) => {}
+            Expression::SizeOf(op) => {
+                let size = match op {
+                    SizeOfOp::Type(ty) => ty.unqual.size(),
+                    SizeOfOp::Expression(expr) => self.analyze_expression(expr).ty.unqual.size(),
+                };
+                self.emit_expression(&Expression::Literal(size as i32))
+            }
+            Expression::SymRef(_) => {
+                match *ty.unqual {
+                    UnqualType::Int(_) => {
+                        match addr {
+                            Some(Address::Local(offset)) => {
+                                self.emit(LdrRegImm { rd: R0, rb: R7, immw5: u7::new(offset as u8) });
+                                self.emit_push(RegList::new([R0], false));
+                            }
+                            _ => {
+                                panic!("Expected local address for symbol reference");
+                            }
+                        }
+                    }
+                    _ => panic!("Unsupported type for symbol reference: {:?}", ty),
+                }
+            }
+            Expression::Cast(ty, expr) => todo!(),
+            Expression::ArrayAccess(arr, idx) => todo!(),
+            Expression::FuncCall(f, args) => {
+                let Analysis { ty, addr } = self.analyze_expression(f);
+                let UnqualType::Function(fi) = &*ty.unqual else {
+                    panic!("Expected function type for function call, found: {:?}", ty);
+                };
+                if args.len() != fi.args.len() {
+                    panic!("Function call argument count mismatch: expected {}, found {}", fi.args.len(), args.len());
+                }
+                for a in args {
+                    self.emit_expression(a);
+                }
+                // all args are on the stack, they will be read in the function
+                self.emit_expression(f);
+                self.emit_pop(RegList::new([R0], false)); // Pop function address to R0
+                self.emit(BlxLo { rm: R0 });
+                self.emit(AddSp { immw7: u9::new((args.len() * 4) as u16) });
+                self.emit_push(RegList::new([R0], false)); // Push return value to stack
+            }
+            Expression::MemberAccess(x, member, access) => todo!(),
+            Expression::UnaryOp(op, x) => {
+                self.emit_expression(x);
+                self.emit_pop(RegList::new([R0], false));
+                match *op {
+                    UnaryOp::Address => todo!(),
+                    UnaryOp::Deref => todo!(),
+                    UnaryOp::Plus => { /* nop */ }
+                    UnaryOp::Minus => self.emit(Negs { rd: R0, rn: R0 }),
+                    UnaryOp::BitwiseNot => self.emit(Mvns { rd: R0, rm: R0 }),
+                    UnaryOp::Not => todo!(),
+                }
+                self.emit_push(RegList::new([R0], false));
+            }
             Expression::BinOp(op, a, b) => {
+                use BinOp::*;
+                use AssignableOperator::*;
                 self.emit_expression(a);
                 self.emit_expression(b);
                 self.emit_pop(RegList::new([R1], false)); // Pop second operand to R1
                 self.emit_pop(RegList::new([R0], false)); // Pop first operand to R0
-                use BinOp::*;
-                use AssignableOperator::*;
                 match *op {
                     Simple(Plus) => self.emit(Adds { rd: R0, rn: R0, rm: R1 }),
                     Simple(Minus) => self.emit(Subs { rd: R0, rn: R0, rm: R1 }),
@@ -231,12 +418,18 @@ impl Compiler {
                 }
                 self.emit_push(RegList::new([R0], false)); // Push result to R0
             }
-            Expression::Conditional(_, _, _) => {}
-            Expression::Comma(_, _) => {}
+            Expression::Conditional(_, _, _) => todo!(),
+            Expression::Comma(_, _) => todo!(),
         }
     }
 
-    pub fn emit_block(&mut self, block: &Block) {}
+    pub fn emit_block(&mut self, block: &'a Block) {
+        self.enter(&block.decls);
+        for stmt in &block.stmts {
+            self.emit_statement(stmt);
+        }
+        self.leave();
+    }
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, EnumIter)]
@@ -263,7 +456,7 @@ pub enum HiReg {
     PC, // PC
 }
 
-struct RegList {
+pub(crate) struct RegList {
     regs: u9,
 }
 
@@ -563,8 +756,18 @@ instructions! {
     StrSp "str sp, " { rt: Reg, immw8: u10 } => (0b1001_0, rt, (immw8.value() >> 2) as u8),
     LdrSp "ldr sp, " { rt: Reg, immw8: u10 } => (0b1001_1, rt, (immw8.value() >> 2) as u8),
 
+    /*
+        "add {Rd}, pc, {immw8}": (0b1010_0, "Rd", "immw8"),
+    "adr {Rd}, {labelp8}": (0b1010_0, "Rd", "labelp8"),
+    "add {Rd}, sp, {immw8}": (0b1010_1, "Rd", "immw8"),
+    "mov {Rd}, sp": "add {Rd}, sp, #0",
+     */
+
     // 12 - load address
-    // ignored for maintenant
+    AddRegPcImm "add pc, " { rd: Reg, immw8: u10 } => (0b1010_0, rd, (immw8.value() >> 2) as u8),
+    Adr "adr" { rd: Reg, labelp8: u8 } => (0b1010_0, rd, labelp8),
+    AddRegSpImm "add sp, " { rd: Reg, immw8: u10 } => (0b1010_1, rd, (immw8.value() >> 2) as u8),
+    MovRegSp "mov sp, " { rd: Reg } => (0b1010_1, rd, 0u8),
 
     // 13 - add offset to Stack Pointer
     AddSp "add sp, " { immw7: u9 } => (0b1011_0000_0, u7::new((immw7.value() >> 2) as u8)),
@@ -578,13 +781,15 @@ instructions! {
     // 18 - unconditional branch
     B "b" { label11: u11 } => (0b11100, label11),
 
-    Nop "nop" { } => (MovHiHi { rd: R8, rs: R8 }.encode())
+    Nop "nop" { } => (MovHiHi { rd: R8, rs: R8 }.encode()),
+
+    U16 "u16" { value: u16 } => (value), // Placeholder for u16 values
 }
 
-
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Address {
-    /// Local variable, offset from the stack pointer
+    /// Local variable, offset from the frame pointer (R7)
     Local(u8),
     // Global variable, offset from the data segment
-    // todo
+    Global(usize)
 }

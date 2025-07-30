@@ -106,6 +106,7 @@ core::arch::global_asm!(
 .globl __rust_no_alloc_shim_is_unstableXXX
 __rust_no_alloc_shim_is_unstableXXX:
 XXX___rust_alloc_error_handler_should_panic:
+XXX___rust_alloc_error_handler_should_panic_v2:
     .long 0
     "#);
 

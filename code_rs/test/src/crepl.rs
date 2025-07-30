@@ -24,7 +24,8 @@ use core::mem::MaybeUninit;
 use core::{fmt, slice};
 use core::hash::{BuildHasher, Hash, Hasher};
 use hashbrown::HashMap;
-use crate::c::compiler::Compiler;
+use crate::c::compiler::{Compiler, HiReg, Instruction, RegList};
+use crate::c::compiler::Reg::R0;
 use crate::c::scope::Scope;
 
 mod c;
@@ -69,7 +70,7 @@ fn check_balanced(s: &[char]) -> bool {
 #[derive(Default)]
 struct CRepl {
     scope: Scope,
-    compiler: Compiler
+    //compiler: Compiler
 }
 
 enum EvalStatus {
@@ -87,16 +88,40 @@ impl CRepl {
         if !check_balanced(code) {
             return EvalStatus::ContinueReading;
         }
-        let mut parser = CParser::new(code, &mut self.scope, &mut self.compiler);
-        match parser.read_whole() {
-            Ok(_) => {
-                writeln!(tty::get_tty(), "{}", parser.scope);
+        if code[0] == '=' {
+            let mut parser = CParser::new(&code[1..], &mut self.scope);
+            match parser.read_expression() {
+                Ok(expr) => {
+                    let mut comp = Compiler::new();
+                    comp.emit_expression(&expr);
+                    comp.emit_pop(RegList::new([R0], false));
+                    comp.emit(Instruction::BxHi { rm: HiReg::LR });
+                    let code = comp.link();
+                    let asm = code.into_iter().map(Instruction::encode).collect::<Vec<_>>();
+                    unsafe {
+                        let ptr: fn() -> u32 = core::mem::transmute(asm.as_ptr());
+                        writeln!(tty::get_tty(), "-> {}", ptr());
+                    }
+                }
+                Err(e) => {
+                    writeln!(tty::get_tty(), "parse error {:?}", e);
+
+                    //println!("parse error: {}", e);
+                }
             }
-            Err(e) => {
-                writeln!(tty::get_tty(), "parse error at {}: {:?}", e.pos, e.error);
-                //println!("parse error: {}", e);
+        } else {
+            let mut parser = CParser::new(code, &mut self.scope);
+            match parser.read_whole() {
+                Ok(_) => {
+                    writeln!(tty::get_tty(), "{}", parser.scope);
+                }
+                Err(e) => {
+                    writeln!(tty::get_tty(), "parse error at {}: {:?}", e.pos, e.error);
+                    //println!("parse error: {}", e);
+                }
             }
         }
+
         // loop {
         //     //let read = parser.read_whole();
         //     /*match read {
@@ -126,8 +151,11 @@ impl CRepl {
     }
 
     fn run(&mut self) {
-        let code = String::from(br#"
+        /*let code = String::from(br#"
         int sub(int a, int b){return (3*4)-1 + 10;}
+        "#);*/
+        let code = String::from(br#"
+        int id(int a, int b, int c) { return a+b+c; }
         "#);
 
         self.process(&code);

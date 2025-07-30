@@ -1,4 +1,4 @@
-use crate::c::lexer::{AssignableOperator, BoolOp, Comparison, Operator, Token};
+use crate::c::lexer::{AssignableOperator, BoolOp, Comparison, Keyword, Operator, Token};
 use crate::c::parse::{plog, CParser, ParseError};
 use crate::c::scope::SymbolKind;
 use alloc::boxed::Box;
@@ -37,14 +37,21 @@ pub enum UnaryOp {
 }
 
 #[derive(Debug)]
+pub enum SizeOfOp {
+    Type(QualType),
+    Expression(Box<Expression>),
+}
+
+#[derive(Debug)]
 pub enum Expression {
     Literal(i32),
-    SymRef(SymbolKind),
+    SymRef(String),
     Cast(QualType, Box<Expression>),
     ArrayAccess(Box<Expression>, Box<Expression>),
     FuncCall(Box<Expression>, Vec<Expression>),
     MemberAccess(Box<Expression>, String, AccessType),
     UnaryOp(UnaryOp, Box<Expression>),
+    SizeOf(SizeOfOp),
     BinOp(BinOp, Box<Expression>, Box<Expression>),
     Conditional(Box<Expression>, Box<Expression>, Box<Expression>),
     Comma(Vec<Expression>, Box<Expression>),
@@ -63,7 +70,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                     )));*/
                     return Err(ParseError::Generic("unknown identifier"));
                 };*/
-                println!("3");
+                let name = name.clone();
                 self.advance();
                 /*match val {
                     SymbolKind::Variable { ty, offset } => {
@@ -109,10 +116,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                     }
                 }*/
 
-                println!("got prim");
-                println!("1");
-                Ok(todo!())
-                //Ok(Expression::SymRef(val.clone()))
+                Ok(Expression::SymRef(name))
             }
             Some(&Token::Integer(val)) => {
                 // integer literal
@@ -198,7 +202,6 @@ impl<'a, 'b> CParser<'a, 'b> {
             // cast expression
             match self.read_declaration_specifiers() {
                 Ok((class, type_)) => {
-                    let (class, type_) = self.read_declaration_specifiers()?;
                     if class.is_some() {
                         return Err(ParseError::Generic(
                             "storage class not allowed in cast expression",
@@ -230,6 +233,38 @@ impl<'a, 'b> CParser<'a, 'b> {
     fn read_unary_expression(&mut self) -> Result<Expression, ParseError> {
         plog("read_unary_expression");
         match self.peek() {
+            Some(Token::Keyword(Keyword::Sizeof)) => {
+                self.advance();
+                if self.accept(Token::OpenParen) {
+                    match self.read_declaration_specifiers() {
+                        Ok((class, type_)) => {
+                            if class.is_some() {
+                                return Err(ParseError::Generic(
+                                    "storage class not allowed in sizeof expression",
+                                ));
+                            }
+                            let (name, type_) = self.read_declarator(type_)?;
+                            if name.is_some() {
+                                return Err(ParseError::Generic(
+                                    "name not allowed in sizeof expression",
+                                ));
+                            }
+                            self.expect(Token::CloseParen)?;
+                            Ok(Expression::SizeOf(SizeOfOp::Type(type_)))
+                        }
+                        Err(ParseError::GenericBacktrack(_, _)) => {
+                            // sizeof expression with type failed, try expression
+                            let expr = self.read_unary_expression()?;
+                            self.expect(Token::CloseParen)?;
+                            Ok(Expression::SizeOf(SizeOfOp::Expression(Box::new(expr))))
+                        }
+                        Err(e) => Err(e),
+                    }
+                } else {
+                    let expr = self.read_unary_expression()?;
+                    Ok(Expression::SizeOf(SizeOfOp::Expression(Box::new(expr))))
+                }
+            }
             Some(Token::Operator(Operator::Increment | Operator::Decrement)) => {
                 // prefix increment/decrement
                 self.advance();
@@ -482,7 +517,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         }
     }
 
-    pub(super) fn read_expression(&mut self) -> Result<Expression, ParseError> {
+    pub(crate) fn read_expression(&mut self) -> Result<Expression, ParseError> {
         let left = self.read_assignment_expression()?;
         if self.accept(Token::Comma) {
             // expression can be a comma-separated list

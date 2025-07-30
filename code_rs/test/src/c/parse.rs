@@ -1,6 +1,7 @@
 use alloc::boxed::Box;
 use alloc::format;
 use alloc::vec::{IntoIter, Vec};
+use core::arch::asm;
 use core::iter::{Enumerate, Peekable};
 use core::ops::Deref;
 use indexmap::IndexMap;
@@ -13,7 +14,7 @@ pub struct CParser<'a, 'b> {
     code: &'a [char],
     pub(super) iter: Peekable<Enumerate<IntoIter<Token>>>,
     pub scope: &'b mut Scope,
-    pub compiler: &'b mut Compiler
+    //pub compiler: &'b mut Compiler
 }
 
 enum SkipStop<T> {
@@ -29,7 +30,9 @@ pub enum StorageClass {
 }
 
 use SkipStop::*;
-use crate::c::compiler::Compiler;
+use crate::c::compiler::{Compiler, RegList};
+use crate::c::compiler::Instruction::*;
+use crate::c::compiler::Reg::*;
 use crate::c::lexer::{AssignableOperator, Keyword, Operator, ReadError, Token, Tokenizer};
 use crate::c::parse_expr::Expression;
 use crate::c::types::{FunctionImpl, QualType, Signedness, StructImpl, TypeBox, TypeQualifiers, UnqualType};
@@ -83,12 +86,12 @@ pub enum Statement {
 
 impl<'a, 'b> CParser<'a, 'b> {
     #[inline(never)]
-    pub fn new(s: &'a [char], scope: &'b mut Scope, compiler: &'b mut Compiler) -> Self {
+    pub fn new(s: &'a [char], scope: &'b mut Scope) -> Self {
         CParser {
             code: s,
             iter: Tokenizer::new(s).process().unwrap().into_iter().enumerate().peekable(),
             scope,
-            compiler
+            //compiler
         }
     }
     
@@ -554,24 +557,15 @@ impl<'a, 'b> CParser<'a, 'b> {
                             return Err(ParseError::Generic("cannot declare function inside another declaration"));
                         }
 
-                        if self.accept(Token::OpenBrace) {
-                            // function definition
-                            //let mut body = Vec::new();
-                            /*while let Some((_, tok)) = self.iter.peek() {
-                                if *tok == Token::CloseBrace {
-                                    self.advance();
-                                    break;
-                                }
-                                body.push(self.next()?);
-                            }*/
-
-                            let block = self.read_function_body(inner)?;
-
-                            res.push((name, SymbolKind::Function(inner.clone(), Some(block))));
-                        } else {
-                            // function prototype
-                            res.push((name, SymbolKind::Function(inner.clone(), None)));
-                        }
+                        res.push((name, SymbolKind::Function {
+                            proto: inner.clone(),
+                            body: if self.accept(Token::OpenBrace) {
+                                Some(self.read_function_body(inner)?)
+                            } else {
+                                None
+                            },
+                            jump: Box::new([0, 0]),
+                        }));
 
                         return Ok(res); // only one function declaration per declaration
                     } else {
@@ -593,8 +587,27 @@ impl<'a, 'b> CParser<'a, 'b> {
         let block = self.read_compound()?;
         writeln!(get_tty(), "Function: {:?}", block);
 
+        let mut fct_scope = Scope::default();
+        fct_scope.symbols.insert(String::from("_r7"), SymbolKind::Variable {
+            ty: UnqualType::Int(None).into(),
+            offset: 0
+        });
+        fct_scope.symbols.insert(String::from("_lr"), SymbolKind::Variable {
+            ty: UnqualType::Int(None).into(),
+            offset: 4
+        });
+        fct_scope.var_size = 8;
+        for (name, ty) in &inner.args {
+            let size = ty.unqual.size();
+            fct_scope.symbols.insert(name.clone(), SymbolKind::Variable {ty: ty.clone(), offset: fct_scope.var_size });
+            fct_scope.var_size += size;
+        }
         let mut comp = Compiler::new();
-        comp.emit_function(inner, &block);
+        comp.emit(MovsImm { rd: R1, imm8: 1 });
+        comp.emit(MovsImm { rd: R2, imm8: 2 });
+        comp.emit(MovsImm { rd: R3, imm8: 4 });
+        comp.emit_push(RegList::new([R1, R2, R3], false));
+        comp.emit_function(inner, &block, &fct_scope);
         let instrs = comp.link();
 
         for i in &instrs {
@@ -602,12 +615,23 @@ impl<'a, 'b> CParser<'a, 'b> {
         }
 
         let encoded = instrs.iter().map(|i| i.encode()).collect::<Vec<_>>();
+        let mut res: usize;
         unsafe {
+            asm!(
+                "mov r0, {0}",
+                "blx r0",
+                "add sp, sp, #12", // pop 3 registers
+                in(reg) encoded.as_ptr(),
+                out("r0") res,
+            )
+        }
+        writeln!(get_tty(), "Function result: {}", res);
+        /*unsafe {
             let ptr: fn() -> usize = core::mem::transmute(encoded.as_ptr());
             writeln!(get_tty(), "Function pointer: {:p}", ptr);
             let res = ptr();
             writeln!(get_tty(), "Function result: {}", res);
-        }
+        }*/
         Ok(block)
     }
 
