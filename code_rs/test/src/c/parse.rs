@@ -9,6 +9,8 @@ use indexmap::map::{Entry, RawEntryApiV1};
 use indexmap::map::raw_entry_v1::RawEntryMut;
 use crate::c::scope::*;
 use core::fmt::Write;
+use aligned_vec::avec;
+use arbitrary_int::u10;
 
 pub struct CParser<'a, 'b> {
     code: &'a [char],
@@ -30,7 +32,8 @@ pub enum StorageClass {
 }
 
 use SkipStop::*;
-use crate::c::compiler::{Compiler, RegList};
+use crate::c::compiler::{CodeBox, CodeVec, Compiler, RegList};
+use crate::c::compiler::HiReg::LR;
 use crate::c::compiler::Instruction::*;
 use crate::c::compiler::Reg::*;
 use crate::c::lexer::{AssignableOperator, Keyword, Operator, ReadError, Token, Tokenizer};
@@ -311,6 +314,11 @@ impl<'a, 'b> CParser<'a, 'b> {
             };
             first = false;
         }
+
+        if first {
+            // first token must be a type specifier
+            return Err(ParseError::GenericBacktrack("expected type specifier or storage class", None));
+        }
         
         let found_type = found_type.unwrap_or(FoundType::Prim(PrimType::Int)); // default to int if nothing found
         
@@ -503,6 +511,8 @@ impl<'a, 'b> CParser<'a, 'b> {
                 Ok((class, type_)) => {
                     use core::fmt::Write;
 
+                    writeln!(get_tty(), "next: {:?}", self.peek());
+
                     writeln!(get_tty(), "Declaration specifiers: {:?} {:?}", class, type_);
                 }
             }
@@ -557,7 +567,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                             return Err(ParseError::Generic("cannot declare function inside another declaration"));
                         }
 
-                        res.push((name, SymbolKind::Function {
+                        /*res.push((name, SymbolKind::Function {
                             proto: inner.clone(),
                             body: if self.accept(Token::OpenBrace) {
                                 Some(self.read_function_body(inner)?)
@@ -565,7 +575,63 @@ impl<'a, 'b> CParser<'a, 'b> {
                                 None
                             },
                             jump: Box::new([0, 0]),
-                        }));
+                        }));*/
+
+                        if self.accept(Token::OpenBrace) {
+                            let block = self.read_compound()?;
+
+                            let mut fct_scope = Scope::default();
+                            fct_scope.symbols.insert(String::from("_r7"), SymbolKind::Variable {
+                                ty: UnqualType::Int(None).into(),
+                                offset: 0
+                            });
+                            fct_scope.symbols.insert(String::from("_lr"), SymbolKind::Variable {
+                                ty: UnqualType::Int(None).into(),
+                                offset: 4
+                            });
+                            fct_scope.var_size = 8;
+                            for (name, ty) in &inner.args {
+                                let size = ty.unqual.size();
+                                fct_scope.symbols.insert(name.clone(), SymbolKind::Variable {ty: ty.clone(), offset: fct_scope.var_size });
+                                fct_scope.var_size += size;
+                            }
+                            let mut comp = Compiler::new();
+                            comp.scope.push(&self.scope);
+                            writeln!(get_tty(), "<fcode>");
+                            comp.emit_function(inner, &block, &fct_scope);
+                            writeln!(get_tty(), "</fcode>");
+                            let encoded = comp.link_asm().into_boxed_slice();
+                            let addr = encoded.as_ptr() as usize;
+                            writeln!(get_tty(), "fcode addr: {:x}", addr);
+                            let mut jcomp = Compiler::new();
+                            writeln!(get_tty(), "<jcode>");
+                            jcomp.emit(LdrPcImm { rd: R0, immw8: u10::new(4) });
+                            jcomp.emit(BxLo { rm: R0 });
+                            //jcomp.emit(BxHi { rm: LR });
+                            //jcomp.emit(Nop);
+                            jcomp.emit(U16 { value: addr as u16 });
+                            jcomp.emit(U16 { value: (addr >> 16) as u16 });
+                            writeln!(get_tty(), "</jcode>");
+                            let code = jcomp.link_asm().into_boxed_slice();
+                            writeln!(get_tty(), "jcode addr: {:x}", code.as_ptr() as usize);
+
+
+
+                            res.push((name, SymbolKind::Function {
+                                proto: inner.clone(),
+                                body: Some(self.read_function_body(inner)?),
+                                jump: code,
+                                code: Some(encoded)
+                            }));
+                        } else {
+                            // function prototype
+                            res.push((name, SymbolKind::Function {
+                                proto: inner.clone(),
+                                body: None,
+                                jump: avec![[4]| 0, 0].into_boxed_slice(),
+                                code: None
+                            }));
+                        }
 
                         return Ok(res); // only one function declaration per declaration
                     } else {
@@ -603,19 +669,17 @@ impl<'a, 'b> CParser<'a, 'b> {
             fct_scope.var_size += size;
         }
         let mut comp = Compiler::new();
-        comp.emit(MovsImm { rd: R1, imm8: 1 });
+        /*comp.emit(MovsImm { rd: R1, imm8: 1 });
         comp.emit(MovsImm { rd: R2, imm8: 2 });
         comp.emit(MovsImm { rd: R3, imm8: 4 });
-        comp.emit_push(RegList::new([R1, R2, R3], false));
+        comp.emit_push(RegList::new([R1, R2, R3], false));*/
         comp.emit_function(inner, &block, &fct_scope);
         let instrs = comp.link();
 
-        for i in &instrs {
-            writeln!(get_tty(), "{}", i);
-        }
 
         let encoded = instrs.iter().map(|i| i.encode()).collect::<Vec<_>>();
-        let mut res: usize;
+
+        /*let mut res: usize;
         unsafe {
             asm!(
                 "mov r0, {0}",
@@ -625,7 +689,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                 out("r0") res,
             )
         }
-        writeln!(get_tty(), "Function result: {}", res);
+        writeln!(get_tty(), "Function result: {}", res);*/
         /*unsafe {
             let ptr: fn() -> usize = core::mem::transmute(encoded.as_ptr());
             writeln!(get_tty(), "Function pointer: {:p}", ptr);
@@ -641,6 +705,7 @@ impl<'a, 'b> CParser<'a, 'b> {
             plog("read_unit iter");
             let decls = self.read_declaration()?;
             for (name, kind) in decls {
+                writeln!(get_tty(), "Inserting {}: {:?}", name, kind);
                 let Entry::Vacant(entry) = self.scope.symbols.entry(name) else {
                     return Err(ParseError::Generic("duplicate declaration"));
                 };

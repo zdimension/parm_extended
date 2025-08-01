@@ -11,7 +11,8 @@ use strum::{EnumIter, IntoEnumIterator};
 use crate::c::parse::{Block, Statement};
 use crate::c::scope::{Scope, SymbolKind};
 use crate::parm::tty::get_tty;
-
+use core::fmt::Write;
+use aligned_vec::{ABox, AVec, ConstAlign};
 use Instruction::*;
 use Reg::*;
 use HiReg::*;
@@ -22,6 +23,9 @@ use crate::parm::heap::string::String;
 /*pub fn compile(proto: &FunctionImpl, body: &[Token]) {
 
 }*/
+
+pub type CodeVec = AVec<u16, ConstAlign<4>>;
+pub type CodeBox = ABox<[u16], ConstAlign<4>>;
 
 #[derive(Debug)]
 pub struct Jump {
@@ -37,7 +41,7 @@ pub struct Compiler<'a> {
     pub jumps: Vec<Jump>,
     pub depth: usize,
     pub locals_size: usize,
-    pub scope: Vec<&'a Scope>
+    pub scope: Vec<&'a Scope>,
 }
 
 fn fit_signed_into< const BITS: usize>(val: usize) -> Result<usize, ()> {
@@ -62,7 +66,7 @@ impl<'a> Compiler<'a> {
             jumps: Default::default(),
             depth: 0,
             locals_size: 0,
-            scope: vec![]
+            scope: vec![],
         }
     }
 
@@ -106,9 +110,13 @@ impl<'a> Compiler<'a> {
         self.instructions
     }
 
+    pub fn link_asm(mut self) -> CodeVec {
+        CodeVec::from_iter(4, self.link().into_iter().map(Instruction::encode))
+    }
+
     pub fn emit(&mut self, instruction: Instruction) {
         use core::fmt::Write;
-        writeln!(get_tty(), "emit: {:?}", instruction).unwrap();
+        writeln!(get_tty(), "emit: {:04x} {:?}", instruction.encode(), instruction).unwrap();
         self.instructions.push(instruction);
     }
 
@@ -188,7 +196,7 @@ impl<'a> Compiler<'a> {
             instr_pos: self.instructions.len(),
             target: label,
         });
-        self.emit(Nop)
+        self.emit(Placeholder)
     }
 
     pub fn emit_statement(&mut self, statement: &'a Statement) {
@@ -215,6 +223,7 @@ impl<'a> Compiler<'a> {
     fn lookup(&self, name: &String) -> Analysis {
         let mut base = 0;
         for scope in self.scope.iter().rev() {
+            writeln!(get_tty(), "[{}] Looking up '{}' in scope: {}", base, name, scope).unwrap();
             if let Some(symbol) = scope.symbols.get(name) {
                 return match symbol {
                     SymbolKind::Variable { ty, offset } => {
@@ -259,7 +268,25 @@ impl<'a> Compiler<'a> {
                     addr: None,
                 }
             }
-            Expression::FuncCall(_, _) => todo!(),
+            Expression::FuncCall(f, args) => {
+                let Analysis { ty, addr } = self.analyze_expression(f);
+                let UnqualType::Function(fi) = &*ty.unqual else {
+                    panic!("Expected function type for function call, found: {:?}", ty);
+                };
+                if args.len() != fi.args.len() {
+                    panic!("Function call argument count mismatch: expected {}, found {}", fi.args.len(), args.len());
+                }
+                for (arg, (name, arg_ty)) in args.iter().zip(fi.args.iter()) {
+                    let Analysis { ty: arg_ty_actual, addr: _ } = self.analyze_expression(arg);
+                    if arg_ty_actual != *arg_ty {
+                        panic!("Function call argument type mismatch for '{}': expected {:?}, found {:?}", name, arg_ty, arg_ty_actual);
+                    }
+                }
+                Analysis {
+                    ty: fi.ret.clone(),
+                    addr: None,
+                }
+            }
             Expression::BinOp(op, l, r) => {
                 use BinOp::*;
                 use AssignableOperator::*;
@@ -299,6 +326,12 @@ impl<'a> Compiler<'a> {
         }
     }
 
+    fn align_to_word(&mut self) {
+        if self.instructions.len() % 2 != 0 {
+            self.emit(Nop); // Align to word boundary
+        }
+    }
+
     fn emit_address_to_r0(&mut self, address: Address) {
         match address {
             Address::Local(offset) => {
@@ -306,7 +339,15 @@ impl<'a> Compiler<'a> {
                 self.emit(AddLoLo { rd: R0, rs: R7 });
             }
             Address::Global(addr) => {
-                self.emit_expression(&Expression::Literal(addr as i32))
+                writeln!(get_tty(), "addr={:x}", addr).unwrap();
+                let lbl = self.new_label();
+
+                self.align_to_word();
+                self.emit(LdrPcImm { rd: R0, immw8: u10::new(0) });
+                self.jump_to(lbl, Condition::Al);
+                self.emit(U16 { value: addr as u16 });
+                self.emit(U16 { value: (addr >> 16) as u16 });
+                self.set_label_here(lbl);
             }
         }
     }
@@ -357,18 +398,15 @@ impl<'a> Compiler<'a> {
             Expression::ArrayAccess(arr, idx) => todo!(),
             Expression::FuncCall(f, args) => {
                 let Analysis { ty, addr } = self.analyze_expression(f);
-                let UnqualType::Function(fi) = &*ty.unqual else {
-                    panic!("Expected function type for function call, found: {:?}", ty);
+                let Some(addr) = addr else {
+                    panic!("Function call without address");
                 };
-                if args.len() != fi.args.len() {
-                    panic!("Function call argument count mismatch: expected {}, found {}", fi.args.len(), args.len());
-                }
                 for a in args {
                     self.emit_expression(a);
                 }
                 // all args are on the stack, they will be read in the function
-                self.emit_expression(f);
-                self.emit_pop(RegList::new([R0], false)); // Pop function address to R0
+                writeln!(get_tty(), "Calling {:?}", f);
+                self.emit_address_to_r0(addr);
                 self.emit(BlxLo { rm: R0 });
                 self.emit(AddSp { immw7: u9::new((args.len() * 4) as u16) });
                 self.emit_push(RegList::new([R0], false)); // Push return value to stack
@@ -725,13 +763,14 @@ instructions! {
     MovLoHi "mov" { rd: Reg, rs: HiReg } => (0b010001_10_0_1, rs, rd),
     MovHiLo "mov" { rd: HiReg, rs: Reg } => (0b010001_10_1_0, rs, rd),
     MovHiHi "mov" { rd: HiReg, rs: HiReg } => (0b010001_10_1_1, rs, rd),
-    Bx "bx" { rm: Reg } => (0b010001_11_0_0, rm, u3::new(0)),
+    BxLo "bx" { rm: Reg } => (0b010001_11_0_0, rm, u3::new(0)),
     BxHi "bx" { rm: HiReg } => (0b010001_11_0_1, rm, u3::new(0)),
     BlxLo "blx" { rm: Reg } => (0b010001_11_1_0, rm, u3::new(0)),
     BlxHi "blx" { rm: HiReg } => (0b010001_11_1_1, rm, u3::new(0)),
 
     // 06 - PC-relative load
-    // ignored for now
+    LdrPcImm "ldr" { rd: Reg, immw8: u10 } => (0b01001, rd, (immw8.value() >> 2) as u8),
+    LdrPc "ldr" { rd: Reg, labelp8: u8 } => (0b01001, rd, labelp8),
 
     // 07 - load/store with register offset
     Str "str" { rd: Reg, rb: Reg, ro: Reg } => (0b0101_0_0_0, ro, rb, rd),
@@ -782,6 +821,7 @@ instructions! {
     B "b" { label11: u11 } => (0b11100, label11),
 
     Nop "nop" { } => (MovHiHi { rd: R8, rs: R8 }.encode()),
+    Placeholder "udf" { } => (0xaa55u16),
 
     U16 "u16" { value: u16 } => (value), // Placeholder for u16 values
 }

@@ -2,9 +2,13 @@ pub mod budmap;
 pub mod string;
 pub mod prc;
 
+use core::fmt::Write;
+
 use core::alloc::{GlobalAlloc, Layout};
 
 use core::ptr;
+use crate::parm::control::breakpoint;
+use crate::parm::tty::get_tty;
 use crate::println;
 
 pub const HEAP_START: usize = 0x100000;
@@ -38,10 +42,13 @@ pub unsafe fn malloc_aligned(spec_size: usize, align: usize) -> *mut u8 {
         sp
     };
     if next as usize > cur_sp {
-        panic!("Heap overflow");
+        breakpoint();
+        return 0x1234 as _;
+        panic!("Heap overflow:size={} next={:x}, sp={:x}", size, next as usize, cur_sp);
     }
     (size_ptr as *mut u32).write(size as _);
     *HEAP_FREEP = next;
+    writeln!(get_tty(), "malloc_aligned: size = {}, align = {}, block_start = {:x}, next = {:x}", size, align, block_start as usize, next as usize);
     block_start as _
 }
 

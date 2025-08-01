@@ -93,14 +93,16 @@ impl CRepl {
             match parser.read_expression() {
                 Ok(expr) => {
                     let mut comp = Compiler::new();
+                    comp.scope.push(&self.scope);
                     comp.emit_expression(&expr);
                     comp.emit_pop(RegList::new([R0], false));
                     comp.emit(Instruction::BxHi { rm: HiReg::LR });
-                    let code = comp.link();
-                    let asm = code.into_iter().map(Instruction::encode).collect::<Vec<_>>();
+                    let code = comp.link_asm();
                     unsafe {
-                        let ptr: fn() -> u32 = core::mem::transmute(asm.as_ptr());
-                        writeln!(tty::get_tty(), "-> {}", ptr());
+                        let ptr: fn() -> u32 = core::mem::transmute(code.as_ptr());
+                        //breakpoint();
+                        ptr();
+                        //writeln!(tty::get_tty(), "-> {}", ptr());
                     }
                 }
                 Err(e) => {
@@ -154,8 +156,11 @@ impl CRepl {
         /*let code = String::from(br#"
         int sub(int a, int b){return (3*4)-1 + 10;}
         "#);*/
-        let code = String::from(br#"
+        /*let code = String::from(br#"
         int id(int a, int b, int c) { return a+b+c; }
+        "#);*/
+        let code = String::from(br#"
+        int id(int a) { return a; }
         "#);
 
         self.process(&code);

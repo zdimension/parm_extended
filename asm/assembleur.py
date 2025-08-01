@@ -2,6 +2,9 @@
 # Tom Niget - 2020
 import functools
 import math
+import platform
+import socket
+import struct
 import time
 
 import os
@@ -149,7 +152,7 @@ INSTR_DEFS = {
     # todo, 1100
     # 16 - conditional branch
     "b({cond}) {label8}": (0b1101, "cond", "label8"),
-    "udf #254": (0b1101, 0b1110, 0b1111_1110),
+    #"udf #254": (0b1101, 0b1110, 0b1111_1110),  TODO: is this ever used?
     # 17 - software interrupt
     "swi {imm8}": (0b1101_1111, "imm8"),
     # 18 - unconditional branch
@@ -159,6 +162,53 @@ INSTR_DEFS = {
 
     "nop ": "mov r0, r0",
 }
+
+RE_INT = re.compile("(\d+)")
+
+
+def disasm(instr: int) -> str:
+    """Disassemble an instruction into a human-readable string."""
+    orig = instr
+    for k, v in INSTR_DEFS.items():
+        instr = orig
+        def read_op(width):
+            nonlocal instr
+            res = instr & ((1 << width) - 1)
+            instr >>= width
+            return res
+        if not isinstance(v, tuple):
+            continue
+        ops = {}
+        for arg in reversed(v):
+            if type(arg) == int:
+                if arg != instr:
+                    break
+            elif arg[0] in ("R", "H"):
+                reg = read_op(3)
+                ops[arg] = f"r{reg}" if arg[0] == "R" else (HI_REGS_REV.get(reg + 8, None) or f"r{reg + 8}")
+            elif arg.startswith("label"):
+                label = read_op(int(RE_INT.search(arg).group(1)))
+                ops[arg] = f"0x{label:04x}"
+            elif arg.startswith("imm"):
+                val = read_op(int(RE_INT.search(arg).group(1)))
+                if arg[3] in ("w", "p"):
+                    val *= 4  # word or pc-relative
+                elif arg[3] == "h":
+                    val *= 2  # halfword
+                ops[arg] = f"0x{val:04x}"
+            elif arg == "cond":
+                val = read_op(4)
+                ops[arg] = CONDS[val]
+            else:
+                val = read_op(len(arg))
+                if val != int(arg, 2):
+                    break
+        else:
+            instr_str = k.format(**ops)
+            return instr_str
+
+
+    return f"<unknown instruction {instr:04x}>"
 
 
 def build_instruction_table():
@@ -179,6 +229,12 @@ INSTRUCTIONS = build_instruction_table()
 instr_log = []
 jumps = []
 
+def make_range(start: int | None, end: int | None) -> range | None:
+    if start is None:
+        return None
+    if end is not None:
+        return range(start, end + 1)
+    return range(start, start + 1)
 
 @dataclass
 class Symbol:
@@ -202,11 +258,11 @@ class Symbol:
 
     def line_range(self):
         """Range of line indices this symbol is defined in. All lines are included."""
-        if self.line_start is None:
-            return None
-        if self.line_end is not None:
-            return range(self.line_start, self.line_end + 1)
-        return range(self.line_start, self.line_start + 1)
+        return make_range(self.line_start, self.line_end)
+
+    def code_range(self):
+        """Range of code addresses this symbol is defined in. All addresses are included."""
+        return make_range(self.start, self.end)
 
     def extend(self, new_end):
         self.line_end = max(self.line_end, new_end)
@@ -216,6 +272,7 @@ class Symbol:
 
 IMM_SHIFT = {"h": 1, "w": 2, "p": 2}
 HI_REGS = {"sp": 13, "lr": 14, "pc": 15}
+HI_REGS_REV = {v: k for k, v in HI_REGS.items()}
 BNAME = {1: "halfword", 2: "word"}
 SAN_TABLE = {".": "oo", "$": "Ꞩ"}
 
@@ -550,6 +607,7 @@ parser.add_argument("--ignore-large-jumps", action="store_true", help="Debug: ig
 parser.add_argument("-f", "--function", help="Only show specified function in log.")
 parser.add_argument("-G", "--call-graph", action="store_true", help="Generate call graph.")
 parser.add_argument("-Of", "--optimize-functions", action="store_true", help="Remove unused functions.")
+parser.add_argument("-D", "--debug", action="store_true", help="Enable debug mode (connects to Digital by telnet).")
 
 cli_args = parser.parse_args()
 
@@ -1010,7 +1068,7 @@ def main_loop():
                             # current_function should exist at this point and be the last symbol we got
                             sym = get_symbol(current_function_preproc)
                             add_instr("#fnend", size=0)
-                            sym.end = current_pc()
+                            sym.end = current_pc() - 1
                             sym.extend(lineno)
                         case [".set", name, ",", *val]:
                             add_label(sanitize(name), parse_imm(
@@ -1151,7 +1209,7 @@ if quiet:
 
 
 def write_log():
-    global instr_log
+    disp_log = instr_log.copy()
     jump_delta = 0
     if only_function:
         try:
@@ -1176,10 +1234,10 @@ def write_log():
                         except ValueError:
                             pass
 
-        instr_log = instr_log[fsym.start:fsym.end]
+        disp_log = disp_log[fsym.start:fsym.end]
         jump_delta = fsym.start
-    width_instr = max(len(d[2]) for d in instr_log)
-    width_args = max(len(str(d[3])) for d in instr_log)
+    width_instr = max(len(d[2]) for d in disp_log)
+    width_args = max(len(str(d[3])) for d in disp_log)
     columns = f"║   PC   │  OP  │ {'Instruction':^{width_instr}} │ {'Arguments':^{width_args}} ║"
     sep = "╠" + "".join("═╪"[c == "│"] for c in columns[1:-1]) + "╣"
 
@@ -1189,7 +1247,7 @@ def write_log():
     print("╔" + "".join("═╤"[c == "│"] for c in columns[1:-1]) + "╗")
     print(columns)
     print(sep)
-    instr_log[:] = ["║ " + statline(*args) + " ║" for args in instr_log]
+    disp_log[:] = ["║ " + statline(*args) + " ║" for args in disp_log]
 
     def subst(s, i, c):
         if len(s) < i:
@@ -1200,18 +1258,18 @@ def write_log():
     for depth, (src, dst) in enumerate(jumps):
         src = src - jump_delta
         dst = dst - jump_delta
-        if not (0 <= src < len(instr_log) and 0 <= dst < len(instr_log)):
+        if not (0 <= src < len(disp_log) and 0 <= dst < len(disp_log)):
             continue
         dsh = "─" * 3
         step = 1 if dst >= src else -1
         start, end = ("╮", "╯")[::step]
-        pos = ((max((len(l) for l in instr_log[min(src, dst):max(src, dst)]), default=root) - root + 1) // 6) * (
+        pos = ((max((len(l) for l in disp_log[min(src, dst):max(src, dst)]), default=root) - root + 1) // 6) * (
                 len(dsh) + 3)
-        instr_log[src] = subst(instr_log[src], root + pos, ">" + dsh + start)
+        disp_log[src] = subst(disp_log[src], root + pos, ">" + dsh + start)
         for i in range(src + step, dst, step):
-            instr_log[i] = subst(instr_log[i], root + pos + len(dsh) + 1, "│")
-        instr_log[dst] = subst(instr_log[dst], root + pos, "<" + dsh + end)
-    for line in instr_log:
+            disp_log[i] = subst(disp_log[i], root + pos + len(dsh) + 1, "│")
+        disp_log[dst] = subst(disp_log[dst], root + pos, "<" + dsh + end)
+    for line in disp_log:
         print(line)
     print(sep)
     print(columns)
@@ -1240,7 +1298,8 @@ out_bytes = bytes(byte for word in out for byte in (word & 0xff, word >> 8))
 
 #assert (out_bytes == test_bytes)
 
-with open(os.path.splitext(main_file)[0] + ".raw", "wb") as fo:
+raw_file = os.path.splitext(main_file)[0] + ".raw"
+with open(raw_file, "wb") as fo:
     fo.write(out_bytes)
 
 
@@ -1276,4 +1335,99 @@ def gen_call_graph():
 if cli_args.call_graph:
     gen_call_graph()
 
+# restore stdout
+if quiet:
+    sys.stdout.close()
+    sys.stdout = sys.__stdout__
+
 print("Total runtime:", time.time() - start_time, "seconds")
+"""
+  private String sendRequest(String command, String args) throws RemoteException {
+        try {
+            Socket s = new Socket(localHost, 41114);
+            DataOutputStream out = new DataOutputStream(s.getOutputStream());
+            if (args != null)
+                command = command + ":" + args;
+            out.writeUTF(command);
+            // writeUTF writes at first the length of the string as a two byte value (high byte first) to
+            // the stream, followed by the utf-8 encoded string. Length means the number of bytes needed to
+            // store the UTF-8 encoded string, not the number of characters.
+            out.flush();
+            DataInputStream in = new DataInputStream(s.getInputStream());
+            String response = in.readUTF();
+            if (!(response.equals("ok") || response.startsWith("ok:")))
+                throw new RemoteException("Error received from simulator:\n" + response);
+            return response;
+        } catch (IOException e) {
+            throw new RemoteException("Error communicating with simulator!", e);
+        }
+    }"""
+def digital_debugger():
+    def send_request(cmd: str, args: str | None = None, timeout: int | None = 2):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(timeout)
+        try:
+            s.connect(("127.0.0.1", 41114))
+            if args is not None:
+                cmd = f"{cmd}:{args}"
+            s.sendall(struct.pack(">H", len(cmd)) + cmd.encode("utf-8"))
+            resp = s.recv(2)
+            if len(resp) < 2:
+                raise Exception("No response received from simulator")
+            length = struct.unpack(">H", resp)[0]
+            response = s.recv(length).decode("utf-8")
+            if not (response == "ok" or response.startswith("ok:")):
+                raise Exception(f"Error received from simulator: {response}")
+            return response
+        finally:
+            s.close()
+    funcs: list[Symbol] = [None] * len(out)
+    for file, symbols in get_all_file_scopes().items():
+        for name, sym in symbols.items():
+            if sym.type_ != "%function":
+                continue
+            if sym.code_range() is None:
+                continue
+            for addr in sym.code_range():
+                if funcs[addr] is not None:
+                    raise Exception(f"Symbol overlap at {addr} for {name} and {funcs[addr].name}")
+                funcs[addr] = sym
+    raw_path = os.path.abspath(raw_file)
+    if "icrosoft" in platform.uname().release and raw_path.startswith("/mnt/"):  # wsl
+        raw_path = raw_path.removeprefix("/mnt/").replace("/", "\\")
+        raw_path = raw_path[0] + ":" + raw_path[2:]
+    assert send_request("start", raw_path) == "ok"
+    while (pc := int(send_request("run", None, None)[3:], 16)) == 0:
+        print("* starting...")
+        time.sleep(0.2)
+    while True:
+        print(f"* stopped at {pc:#08x} ", end="")
+        pcfix = pc // 2
+        if pcfix < len(funcs):
+            _, _, code, data = instr_log[pcfix]
+            print(f"in {funcs[pcfix].name} : {code} ({data})")
+        else:
+            mes = json.loads(send_request("measure", None)[3:])
+            ins = mes["Instr"]
+            idis = disasm(ins)
+            print(f": [{ins:04x}] {idis}")
+        cmd = input(">>> ").strip()
+        match cmd:
+            case "q" | "quit" | "exit":
+                print("Exiting debugger")
+                break
+            case "r" | "run":
+                pc = int(send_request("run", None, None)[3:], 16)
+            case "s" | "step":
+                pc = int(send_request("step", None)[3:], 16)
+            case "c" | "continue":
+                pc = int(send_request("continue", None)[3:], 16)
+            case "m" | "measure":
+                response = send_request("measure", None)
+                print(response)
+            case _:
+                print(f"Unknown command: {cmd}")
+    breakpoint()
+
+if cli_args.debug:
+    digital_debugger()

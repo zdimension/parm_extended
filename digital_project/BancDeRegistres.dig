@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <circuit>
-  <version>1</version>
+  <version>2</version>
   <attributes/>
   <visualElements>
     <visualElement>
@@ -1768,6 +1768,29 @@
       </elementAttributes>
       <pos x="660" y="2500"/>
     </visualElement>
+    <visualElement>
+      <elementName>Register</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>PcReg</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>32</int>
+        </entry>
+        <entry>
+          <string>isProgramCounter</string>
+          <boolean>true</boolean>
+        </entry>
+      </elementAttributes>
+      <pos x="420" y="2460"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Const</elementName>
+      <elementAttributes/>
+      <pos x="400" y="2500"/>
+    </visualElement>
   </visualElements>
   <wires>
     <wire>
@@ -1911,6 +1934,10 @@
       <p2 x="180" y="2460"/>
     </wire>
     <wire>
+      <p1 x="360" y="2460"/>
+      <p2 x="420" y="2460"/>
+    </wire>
+    <wire>
       <p1 x="0" y="800"/>
       <p2 x="140" y="800"/>
     </wire>
@@ -1995,6 +2022,10 @@
       <p2 x="260" y="2480"/>
     </wire>
     <wire>
+      <p1 x="380" y="2480"/>
+      <p2 x="420" y="2480"/>
+    </wire>
+    <wire>
       <p1 x="260" y="2480"/>
       <p2 x="320" y="2480"/>
     </wire>
@@ -2024,7 +2055,7 @@
     </wire>
     <wire>
       <p1 x="320" y="2360"/>
-      <p2 x="420" y="2360"/>
+      <p2 x="360" y="2360"/>
     </wire>
     <wire>
       <p1 x="-40" y="2360"/>
@@ -2033,6 +2064,10 @@
     <wire>
       <p1 x="160" y="2360"/>
       <p2 x="180" y="2360"/>
+    </wire>
+    <wire>
+      <p1 x="360" y="2360"/>
+      <p2 x="420" y="2360"/>
     </wire>
     <wire>
       <p1 x="340" y="700"/>
@@ -2097,6 +2132,10 @@
     <wire>
       <p1 x="660" y="2500"/>
       <p2 x="680" y="2500"/>
+    </wire>
+    <wire>
+      <p1 x="400" y="2500"/>
+      <p2 x="420" y="2500"/>
     </wire>
     <wire>
       <p1 x="0" y="840"/>
@@ -2635,6 +2674,10 @@
       <p2 x="360" y="2300"/>
     </wire>
     <wire>
+      <p1 x="360" y="2360"/>
+      <p2 x="360" y="2460"/>
+    </wire>
+    <wire>
       <p1 x="1640" y="180"/>
       <p2 x="1640" y="1260"/>
     </wire>
@@ -2688,6 +2731,10 @@
     </wire>
     <wire>
       <p1 x="380" y="2380"/>
+      <p2 x="380" y="2480"/>
+    </wire>
+    <wire>
+      <p1 x="380" y="2480"/>
       <p2 x="380" y="2540"/>
     </wire>
   </wires>
