@@ -8,6 +8,9 @@
 #![feature(alloc_error_handler)]
 #![feature(maybe_uninit_slice)]
 #![feature(if_let_guard)]
+#![feature(macro_metavar_expr_concat)]
+#![feature(type_alias_impl_trait)]
+#![feature(const_trait_impl)]
 #![allow(dead_code)]
 #![allow(clippy::should_implement_trait)]
 extern crate alloc;

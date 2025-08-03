@@ -711,9 +711,29 @@ impl From<Condition> for u16 {
     }
 }
 
-impl BitSize for Condition {
+impl const BitSize for Condition {
     const SIZE: usize = 4; // 4 bits for condition codes
+    fn to_u16(self) -> u16 {
+        self as u16
+    }
 }
+
+macro_rules! check_instr_size {
+    ($prefix:expr, [$id:ident $(, $rid:ident)*], $head:expr $(, $rest:expr)*) => {
+        type ${ concat(T, $id) } = impl BitSize;
+        let _: &${ concat(T, $id) } = &$head;
+        const $id: usize = ${ concat(T, $id) }::SIZE;
+        check_instr_size!($prefix, [${ concat(I, $id) }, $id $(, $rid)*], $($rest),*);
+    };
+    ($prefix:expr, [$_:ident $(,$id:ident)*], ) => {
+        const TOTAL: usize = ($prefix as usize) $(+ $id)*;
+        const CHECK: () = assert!(TOTAL <= 16, "Instruction exceeds 16 bits");
+    };
+    ($prefix:expr, $($lst:expr),*) => {
+        check_instr_size!($prefix, [I], $($lst),*);
+    }
+}
+
 
 macro_rules! write_list {
     ($fmt:expr, $first:ident $( , $rest:ident )* $(,)?) => {
@@ -753,19 +773,16 @@ macro_rules! instructions {
         }
 
         impl Instruction {
-            pub fn encode(self) -> u16 {
+            pub const fn encode(self) -> u16 {
                 let mut result: u16;
                 match self {
                     $(Self::$name $( {  $($field),+, .. } )? => {
-                        // todo: find a way to make this work
-                        // const CHECK_BITS: () = assert!(0
-                        //     $(+ get_bit_size($enc))* <= 16, "Instruction {} exceeds 16 bits", stringify!($name)
-                        // );
+                        check_instr_size!(get_min_bit_size($prefix as usize), $( $($enc),* )?);
                         result = $prefix;
                         $(
                         $(
                             result <<= $enc.get_bit_size();
-                            let tmp: u16 = $enc.into();
+                            let tmp: u16 = $enc.to_u16();
                             result |= tmp;
                         )*
                         )?
@@ -777,28 +794,65 @@ macro_rules! instructions {
     };
 }
 
+#[const_trait]
 trait BitSize: Copy {
     const SIZE: usize;
 
     fn get_bit_size(&self) -> usize {
         Self::SIZE
     }
+
+    fn to_u16(self) -> u16;
 }
 
-impl BitSize for Reg {
+const fn get_min_bit_size(value: usize) -> usize {
+    if value == 0 {
+        0 // workaround so Instruction::U16 checks
+    } else {
+        (value.ilog2() + 1) as usize // Number of bits needed to represent the value
+    }
+}
+
+impl const BitSize for Reg {
     const SIZE: usize = 3;
+    fn to_u16(self) -> u16 {
+        self as u16
+    }
 }
 
-impl BitSize for HiReg {
+impl const BitSize for HiReg {
     const SIZE: usize = 3;
+    fn to_u16(self) -> u16 {
+        self as u16
+    }
 }
 
-impl BitSize for u8 {
+impl const BitSize for u8 {
     const SIZE: usize = 8;
+    fn to_u16(self) -> u16 {
+        self as u16
+    }
 }
 
-impl<const N: usize, T: Copy> BitSize for UInt<T, N> {
+impl const BitSize for u16 {
+    const SIZE: usize = 16;
+    fn to_u16(self) -> u16 {
+        self
+    }
+}
+
+impl<const N: usize> const BitSize for UInt<u16, N> {
     const SIZE: usize = N;
+    fn to_u16(self) -> u16 {
+        self.value()
+    }
+}
+
+impl<const N: usize> const BitSize for UInt<u8, N> {
+    const SIZE: usize = N;
+    fn to_u16(self) -> u16 {
+        self.value() as u16
+    }
 }
 
 instructions! {
@@ -926,7 +980,7 @@ instructions! {
     Nop "nop" { } => (MovHiHi { rd: R8, rs: R8 }.encode()),
     Placeholder "udf" { } => (0xaa55u16),
 
-    U16 "u16" { value: u16 } => (value), // Placeholder for u16 values
+    U16 "u16" { value: u16 } => (0, value), // Placeholder for u16 values
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
