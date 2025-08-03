@@ -134,6 +134,15 @@ impl From<UnqualType> for QualType {
     }
 }
 
+impl From<TypeBox> for QualType {
+    fn from(unqual: TypeBox) -> Self {
+        QualType {
+            unqual,
+            type_qualifiers: TypeQualifiers::default(),
+        }
+    }
+}
+
 impl Display for QualType {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(f, "{}", *self.unqual);

@@ -27,6 +27,18 @@ pub enum BinOp {
 }
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
+pub enum OpPosition {
+    Prefix,
+    Postfix
+}
+
+#[derive(Copy, Clone, Eq, PartialEq, Debug)]
+pub enum IncDec {
+    Increment,
+    Decrement,
+}
+
+#[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum UnaryOp {
     Address,
     Deref,
@@ -34,6 +46,7 @@ pub enum UnaryOp {
     Minus,
     BitwiseNot,
     Not,
+    IncDec(IncDec, OpPosition),
 }
 
 #[derive(Debug)]
@@ -188,10 +201,19 @@ impl<'a, 'b> CParser<'a, 'b> {
                         });
                     }
                 }
-                Token::Operator(Operator::Increment) | Token::Operator(Operator::Decrement) => {
-                    // postfix increment/decrement
+                Token::Operator(Operator::Increment) => {
                     self.advance();
-                    todo!();
+                    head = Expression::UnaryOp(
+                        UnaryOp::IncDec(IncDec::Increment, OpPosition::Postfix),
+                        Box::new(head),
+                    );
+                }
+                Token::Operator(Operator::Decrement) => {
+                    self.advance();
+                    head = Expression::UnaryOp(
+                        UnaryOp::IncDec(IncDec::Decrement, OpPosition::Postfix),
+                        Box::new(head),
+                    );
                 }
                 _ => break, // no more postfix expressions
             }
@@ -203,7 +225,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         plog("read_cast_expression");
         if self.accept(Token::OpenParen) {
             // cast expression
-            match self.read_declaration_specifiers() {
+            return match self.read_declaration_specifiers() {
                 Ok((class, type_)) => {
                     if class.is_some() {
                         return Err(ParseError::Generic(
@@ -215,18 +237,18 @@ impl<'a, 'b> CParser<'a, 'b> {
                         return Err(ParseError::Generic("name not allowed in cast expression"));
                     }
                     self.expect(Token::CloseParen)?;
-                    return Ok(Expression::Cast(
+                    Ok(Expression::Cast(
                         type_,
-                        Box::new(self.read_unary_expression()?),
-                    ));
+                        Box::new(self.read_cast_expression()?),
+                    ))
                 }
                 Err(ParseError::GenericBacktrack(_, _)) => {
                     // regular (), not cast
                     let res = self.read_expression()?;
                     self.expect(Token::CloseParen)?;
-                    return Ok(res);
+                    Ok(res)
                 }
-                Err(e) => return Err(e),
+                Err(e) => Err(e),
             }
 
         }
@@ -268,11 +290,19 @@ impl<'a, 'b> CParser<'a, 'b> {
                     Ok(Expression::SizeOf(SizeOfOp::Expression(Box::new(expr))))
                 }
             }
-            Some(Token::Operator(Operator::Increment | Operator::Decrement)) => {
-                // prefix increment/decrement
+            Some(Token::Operator(Operator::Increment)) => {
                 self.advance();
-                self.read_postfix_expression();
-                todo!()
+                Ok(Expression::UnaryOp(
+                    UnaryOp::IncDec(IncDec::Increment, OpPosition::Prefix),
+                    Box::new(self.read_unary_expression()?),
+                ))
+            }
+            Some(Token::Operator(Operator::Decrement)) => {
+                self.advance();
+                Ok(Expression::UnaryOp(
+                    UnaryOp::IncDec(IncDec::Decrement, OpPosition::Prefix),
+                    Box::new(self.read_unary_expression()?),
+                ))
             }
             Some(Token::Operator(op)) => {
                 let uop = match op {

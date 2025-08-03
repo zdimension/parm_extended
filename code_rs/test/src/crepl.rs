@@ -260,6 +260,17 @@ impl CRepl {
         }
         "#,
         );
+        let code = String::from(
+            br#"
+        int testp(int x) {
+            int res;
+            int* ptr;
+            ptr = &res;
+            *ptr = x;
+            return res;
+        }
+        "#,
+        );
 
         self.process(&code);
 
