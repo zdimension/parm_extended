@@ -615,21 +615,18 @@ impl<'a, 'b> CParser<'a, 'b> {
                             let code = jcomp.link_asm().into_boxed_slice();
                             writeln!(get_tty(), "jcode addr: {:x}", code.as_ptr() as usize);
 
-
-
                             res.push((name, SymbolKind::Function {
                                 proto: inner.clone(),
-                                body: Some(self.read_function_body(inner)?),
+                                body: Some((block, encoded)),
                                 jump: code,
-                                code: Some(encoded)
                             }));
                         } else {
+                            self.expect(Token::Semicolon)?;
                             // function prototype
                             res.push((name, SymbolKind::Function {
                                 proto: inner.clone(),
                                 body: None,
-                                jump: avec![[4]| 0, 0].into_boxed_slice(),
-                                code: None
+                                jump: avec![[4]| 0, 0, 0, 0].into_boxed_slice(),
                             }));
                         }
 
@@ -648,56 +645,57 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(res)
     }
 
-    #[inline(never)]
-    fn read_function_body(&mut self, inner: &FunctionImpl) -> Result<Block, ParseError> {
-        let block = self.read_compound()?;
-        writeln!(get_tty(), "Function: {:?}", block);
-
-        let mut fct_scope = Scope::default();
-        fct_scope.symbols.insert(String::from("_r7"), SymbolKind::Variable {
-            ty: UnqualType::Int(None).into(),
-            offset: 0
-        });
-        fct_scope.symbols.insert(String::from("_lr"), SymbolKind::Variable {
-            ty: UnqualType::Int(None).into(),
-            offset: 4
-        });
-        fct_scope.var_size = 8;
-        for (name, ty) in &inner.args {
-            let size = ty.unqual.size();
-            fct_scope.symbols.insert(name.clone(), SymbolKind::Variable {ty: ty.clone(), offset: fct_scope.var_size });
-            fct_scope.var_size += size;
-        }
-        let mut comp = Compiler::new();
-        /*comp.emit(MovsImm { rd: R1, imm8: 1 });
-        comp.emit(MovsImm { rd: R2, imm8: 2 });
-        comp.emit(MovsImm { rd: R3, imm8: 4 });
-        comp.emit_push(RegList::new([R1, R2, R3], false));*/
-        comp.emit_function(inner, &block, &fct_scope);
-        let instrs = comp.link();
-
-
-        let encoded = instrs.iter().map(|i| i.encode()).collect::<Vec<_>>();
-
-        /*let mut res: usize;
-        unsafe {
-            asm!(
-                "mov r0, {0}",
-                "blx r0",
-                "add sp, sp, #12", // pop 3 registers
-                in(reg) encoded.as_ptr(),
-                out("r0") res,
-            )
-        }
-        writeln!(get_tty(), "Function result: {}", res);*/
-        /*unsafe {
-            let ptr: fn() -> usize = core::mem::transmute(encoded.as_ptr());
-            writeln!(get_tty(), "Function pointer: {:p}", ptr);
-            let res = ptr();
-            writeln!(get_tty(), "Function result: {}", res);
-        }*/
-        Ok(block)
-    }
+    // #[inline(never)]
+    // fn read_function_body(&mut self, inner: &FunctionImpl) -> Result<Block, ParseError> {
+    //     writeln!(get_tty(), "read_body");
+    //     let block = self.read_compound()?;
+    //     writeln!(get_tty(), "Function: {:?}", block);
+    //
+    //     let mut fct_scope = Scope::default();
+    //     fct_scope.symbols.insert(String::from("_r7"), SymbolKind::Variable {
+    //         ty: UnqualType::Int(None).into(),
+    //         offset: 0
+    //     });
+    //     fct_scope.symbols.insert(String::from("_lr"), SymbolKind::Variable {
+    //         ty: UnqualType::Int(None).into(),
+    //         offset: 4
+    //     });
+    //     fct_scope.var_size = 8;
+    //     for (name, ty) in &inner.args {
+    //         let size = ty.unqual.size();
+    //         fct_scope.symbols.insert(name.clone(), SymbolKind::Variable {ty: ty.clone(), offset: fct_scope.var_size });
+    //         fct_scope.var_size += size;
+    //     }
+    //     let mut comp = Compiler::new();
+    //     /*comp.emit(MovsImm { rd: R1, imm8: 1 });
+    //     comp.emit(MovsImm { rd: R2, imm8: 2 });
+    //     comp.emit(MovsImm { rd: R3, imm8: 4 });
+    //     comp.emit_push(RegList::new([R1, R2, R3], false));*/
+    //     comp.emit_function(inner, &block, &fct_scope);
+    //     let instrs = comp.link();
+    //
+    //
+    //     let encoded = instrs.iter().map(|i| i.encode()).collect::<Vec<_>>();
+    //
+    //     /*let mut res: usize;
+    //     unsafe {
+    //         asm!(
+    //             "mov r0, {0}",
+    //             "blx r0",
+    //             "add sp, sp, #12", // pop 3 registers
+    //             in(reg) encoded.as_ptr(),
+    //             out("r0") res,
+    //         )
+    //     }
+    //     writeln!(get_tty(), "Function result: {}", res);*/
+    //     /*unsafe {
+    //         let ptr: fn() -> usize = core::mem::transmute(encoded.as_ptr());
+    //         writeln!(get_tty(), "Function pointer: {:p}", ptr);
+    //         let res = ptr();
+    //         writeln!(get_tty(), "Function result: {}", res);
+    //     }*/
+    //     Ok(block)
+    // }
 
     pub fn read_unit(&mut self) -> Result<Option<()>, ParseError> {
         plog("read_unit");
@@ -706,18 +704,49 @@ impl<'a, 'b> CParser<'a, 'b> {
             let decls = self.read_declaration()?;
             for (name, kind) in decls {
                 writeln!(get_tty(), "Inserting {}: {:?}", name, kind);
-                let Entry::Vacant(entry) = self.scope.symbols.entry(name) else {
+                /*let Entry::Vacant(entry) = self.scope.symbols.entry(name) else {
                     return Err(ParseError::Generic("duplicate declaration"));
-                };
-                entry.insert(match kind {
-                    SymbolKind::Variable { ty, offset } => {
-                        let size = ty.unqual.size();
-                        let res = SymbolKind::Variable { ty, offset: self.scope.var_size };
-                        self.scope.var_size += size;
-                        res
-                    },
-                    _ => kind
-                });
+                };*/
+
+                match self.scope.symbols.entry(name) {
+                    Entry::Occupied(mut entry) => {
+                        match (entry.get_mut(), kind) {
+                            (SymbolKind::Function { body: Some(_), .. }, SymbolKind::Function { .. }) => {
+                                return Err(ParseError::GenericDyn(format!("function {} already has body", entry.key())));
+                            }
+                            (SymbolKind::Function { proto: eproto, body: None, jump: ejump }, SymbolKind::Function { proto: nproto, body, jump: njump }) => {
+                                if *eproto != nproto {
+                                    return Err(ParseError::GenericDyn(format!("function {} already declared with different prototype", entry.key())));
+                                }
+                                if let Some(_) = body {
+                                    ejump[..].copy_from_slice(&njump[..]);
+                                    // function with body, replace the entry
+                                    entry.insert(SymbolKind::Function {
+                                        proto: nproto,
+                                        body,
+                                        jump: njump
+                                    });
+                                } else {
+                                    // no change, do nothing
+                                }
+                            }
+                            _ => {
+                                return Err(ParseError::GenericDyn(format!("cannot redefine {}", entry.key())));
+                            }
+                        }
+                    }
+                    Entry::Vacant(entry) => {
+                        entry.insert(match kind {
+                            SymbolKind::Variable { ty, offset } => {
+                                let size = ty.unqual.size();
+                                let res = SymbolKind::Variable { ty, offset: self.scope.var_size };
+                                self.scope.var_size += size;
+                                res
+                            },
+                            _ => kind
+                        });
+                    }
+                }
             }
         }
         Ok(None)

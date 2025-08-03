@@ -25,7 +25,7 @@ pub enum ItemName {
 pub enum SymbolKind {
     Type(QualType),
     Variable { ty: QualType, offset: usize },
-    Function { proto: FunctionImpl, body: Option<Block>, jump: CodeBox, code: Option<CodeBox> },
+    Function { proto: FunctionImpl, body: Option<(Block, CodeBox)>, jump: CodeBox },
 }
 
 #[derive(Default, Debug)]
@@ -55,7 +55,7 @@ impl Display for Scope {
                         write!(f, "{} {}", ty, name)?;
                     }
                     write!(f, ")")?;
-                    if let Some(b) = body {
+                    if let Some((b, _)) = body {
                         writeln!(f, " {{")?;
                         /*for token in b {
                             write!(f, "{} ", token)?;

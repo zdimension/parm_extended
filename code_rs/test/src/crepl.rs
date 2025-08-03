@@ -172,6 +172,8 @@ impl CRepl {
         int id(int a, int b, int c) { return a+b+c; }
         "#);*/
         let code = String::from(br#"
+        int id(int a);
+        int inc(int x) { return id(x) + 1; }
         int id(int a) { return a; }
         "#);
 
