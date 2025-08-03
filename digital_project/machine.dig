@@ -11378,7 +11378,16 @@
     </visualElement>
     <visualElement>
       <elementName>D_FF_AS</elementName>
-      <elementAttributes/>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>BreakReg</string>
+        </entry>
+        <entry>
+          <string>valueIsProbe</string>
+          <boolean>true</boolean>
+        </entry>
+      </elementAttributes>
       <pos x="-780" y="-220"/>
     </visualElement>
     <visualElement>

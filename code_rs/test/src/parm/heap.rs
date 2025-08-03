@@ -42,13 +42,10 @@ pub unsafe fn malloc_aligned(spec_size: usize, align: usize) -> *mut u8 {
         sp
     };
     if next as usize > cur_sp {
-        breakpoint();
-        return 0x1234 as _;
         panic!("Heap overflow:size={} next={:x}, sp={:x}", size, next as usize, cur_sp);
     }
     (size_ptr as *mut u32).write(size as _);
     *HEAP_FREEP = next;
-    writeln!(get_tty(), "malloc_aligned: size = {}, align = {}, block_start = {:x}, next = {:x}", size, align, block_start as usize, next as usize);
     block_start as _
 }
 

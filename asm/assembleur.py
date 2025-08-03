@@ -1397,37 +1397,73 @@ def digital_debugger():
         raw_path = raw_path.removeprefix("/mnt/").replace("/", "\\")
         raw_path = raw_path[0] + ":" + raw_path[2:]
     assert send_request("start", raw_path) == "ok"
-    while (pc := int(send_request("run", None, None)[3:], 16)) == 0:
-        print("* starting...")
-        time.sleep(0.2)
+    # while (pc := int(send_request("run", None, None)[3:], 16)) == 0:
+    #     print("* starting...")
+    #     time.sleep(0.2)
+    pc = 0
+    last_func = None
+    exec_mode = None
+    step_out = False
     while True:
-        print(f"* stopped at {pc:#08x} ", end="")
         pcfix = pc // 2
         if pcfix < len(funcs):
+            func = funcs[pcfix]
             _, _, code, data = instr_log[pcfix]
-            print(f"in {funcs[pcfix].name} : {code} ({data})")
         else:
+            func = None
             mes = json.loads(send_request("measure", None)[3:])
             ins = mes["Instr"]
-            idis = disasm(ins)
-            print(f": [{ins:04x}] {idis}")
-        cmd = input(">>> ").strip()
-        match cmd:
-            case "q" | "quit" | "exit":
-                print("Exiting debugger")
-                break
-            case "r" | "run":
-                pc = int(send_request("run", None, None)[3:], 16)
-            case "s" | "step":
-                pc = int(send_request("step", None)[3:], 16)
-            case "c" | "continue":
-                pc = int(send_request("continue", None)[3:], 16)
-            case "m" | "measure":
-                response = send_request("measure", None)
-                print(response)
-            case _:
-                print(f"Unknown command: {cmd}")
-    breakpoint()
+            code = f"[{ins:04x}] {disasm(ins)}"
+        match exec_mode:
+            case "out":
+                if func is not last_func:
+                    exec_mode = None
+                else:
+                    pc = int(send_request("step", None)[3:], 16)
+            case "debug":
+                mes = json.loads(send_request("measure", None)[3:])
+                if mes["BreakReg"] == 1:
+                    exec_mode = None
+                else:
+                    pc = int(send_request("step", None)[3:], 16)
+        # if exec_mode:
+        #     match exec_mode:
+        #         case "out":
+        #             if func is not last_func:
+        #                 exec_mode = None
+        #         case "debug":
+        #             mes = json.loads(send_request("measure", None)[3:])
+        #             if mes["BreakReg"] == 1:
+        #                 exec_mode = None
+        #
+        #     if func is not last_func:
+        #         exec_mode = None
+        #     else:
+        #         pc = int(send_request("step", None)[3:], 16)
+        last_func = func
+        if not exec_mode:
+            print(f"* stopped at {pc:#08x} in {func.name if func else '<???>'} : {code}")
+            cmd = input(">>> ").strip()
+            match cmd:
+                case "q" | "quit" | "exit":
+                    print("Exiting debugger")
+                    break
+                case "r" | "run":
+                    pc = int(send_request("run", None, None)[3:], 16)
+                case "s" | "step":
+                    pc = int(send_request("step", None)[3:], 16)
+                case "c" | "continue":
+                    pc = int(send_request("continue", None)[3:], 16)
+                case "m" | "measure":
+                    response = send_request("measure", None)
+                    print(response)
+                case "o" | "stepout":
+                    step_out = True
+                    exec_mode = "out"
+                case "d" | "debug":
+                    exec_mode = "debug"
+                case _:
+                    print(f"Unknown command: {cmd}")
 
 if cli_args.debug:
     digital_debugger()

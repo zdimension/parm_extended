@@ -155,9 +155,9 @@ impl<'a, 'b> CParser<'a, 'b> {
                     self.advance();
                     if !self.accept(Token::CloseParen) {
                         // read function arguments
-                        let mut args = vec![self.read_expression()?];
+                        let mut args = vec![self.read_assignment_expression()?];
                         while self.accept(Token::Comma) {
-                            args.push(self.read_expression()?);
+                            args.push(self.read_assignment_expression()?);
                         }
                         self.expect(Token::CloseParen)?;
                         head = Expression::FuncCall(Box::new(head), args);

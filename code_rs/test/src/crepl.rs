@@ -22,6 +22,7 @@ use alloc::vec::Vec;
 use core::fmt::{Display, Write};
 use core::mem::MaybeUninit;
 use core::{fmt, slice};
+use core::arch::asm;
 use core::hash::{BuildHasher, Hash, Hasher};
 use hashbrown::HashMap;
 use crate::c::compiler::{Compiler, HiReg, Instruction, RegList};
@@ -94,15 +95,26 @@ impl CRepl {
                 Ok(expr) => {
                     let mut comp = Compiler::new();
                     comp.scope.push(&self.scope);
+                    comp.emit_push(RegList::new([], true));
                     comp.emit_expression(&expr);
-                    comp.emit_pop(RegList::new([R0], false));
-                    comp.emit(Instruction::BxHi { rm: HiReg::LR });
+                    comp.emit_pop(RegList::new([R0], true));
                     let code = comp.link_asm();
+                    writeln!(tty::get_tty(), "addr={:x}", code.as_ptr() as usize);
                     unsafe {
                         let ptr: fn() -> u32 = core::mem::transmute(code.as_ptr());
                         //breakpoint();
+                        //ptr();
+                        asm!(
+                            "mov r10, sp"
+                        );
+                        breakpoint();
                         ptr();
-                        //writeln!(tty::get_tty(), "-> {}", ptr());
+
+                        asm!(
+                        "mov r11, sp"
+                        );
+                        breakpoint();
+                        writeln!(tty::get_tty(), "-> {}", ptr());
                     }
                 }
                 Err(e) => {

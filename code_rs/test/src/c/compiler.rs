@@ -116,7 +116,7 @@ impl<'a> Compiler<'a> {
 
     pub fn emit(&mut self, instruction: Instruction) {
         use core::fmt::Write;
-        writeln!(get_tty(), "emit: {:04x} {:?}", instruction.encode(), instruction).unwrap();
+        //writeln!(get_tty(), "emit: {:04x} {:?}", instruction.encode(), instruction).unwrap();
         self.instructions.push(instruction);
     }
 
@@ -401,7 +401,7 @@ impl<'a> Compiler<'a> {
                 let Some(addr) = addr else {
                     panic!("Function call without address");
                 };
-                for a in args {
+                for a in args.iter().rev() {
                     self.emit_expression(a);
                 }
                 // all args are on the stack, they will be read in the function
