@@ -171,10 +171,23 @@ impl CRepl {
         /*let code = String::from(br#"
         int id(int a, int b, int c) { return a+b+c; }
         "#);*/
-        let code = String::from(br#"
+        /*let code = String::from(br#"
         int id(int a);
         int inc(int x) { return id(x) + 1; }
         int id(int a) { return a; }
+        "#);*/
+        let code = String::from(br#"
+        int b(int x) {
+            int a, b;
+            {
+                int c, d;
+                c = 2 * x;
+                b = c + 1;
+                d = b * 3;
+                a = d - 1;
+            }
+            return a;
+        }
         "#);
 
         self.process(&code);

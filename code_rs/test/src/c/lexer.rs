@@ -489,6 +489,13 @@ impl<'a> Tokenizer<'a> {
                 ',' => Token::Comma,
                 ';' => Token::Semicolon,
                 ':' => Token::Colon,
+                '=' => {
+                    if self.accept('=') {
+                        Token::Operator(Operator::Comparison(Comparison::Equal))
+                    } else {
+                        Token::Operator(Operator::Assignment(None))
+                    }
+                }
                 '0' => {
                     match self.peek() {
                         Some('x' | 'X') => {

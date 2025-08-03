@@ -502,18 +502,14 @@ impl<'a, 'b> CParser<'a, 'b> {
             stmts: Vec::new()
         };
         loop {
-            match self.read_declaration_specifiers() {
+            match self.read_declaration() {
                 Err(ParseError::GenericBacktrack(_, _)) => {
                     // no declaration specifiers, we can move on to statements
                     break;
                 }
                 Err(e) => return Err(e),
-                Ok((class, type_)) => {
-                    use core::fmt::Write;
-
-                    writeln!(get_tty(), "next: {:?}", self.peek());
-
-                    writeln!(get_tty(), "Declaration specifiers: {:?} {:?}", class, type_);
+                Ok(decls) => {
+                    Self::insert_decls(&mut block.decls, decls)?;
                 }
             }
         }
@@ -542,10 +538,34 @@ impl<'a, 'b> CParser<'a, 'b> {
                     };
                     block.stmts.push(Statement::Return(val));
                 }
-                _ => return Err(ParseError::UnexpectedTokenGeneric {
+                Token::Semicolon => {
+                    // empty statement
+                    self.advance();
+                }
+                /*Token::Keyword(Keyword::While | Keyword::For | Keyword::Do) => {
+                    // loop
+                    todo!()
+                }
+                Token::Keyword(Keyword::If | Keyword::Switch) => {
+                    // selection
+                    todo!()
+                }*/
+                /*_ => return Err(ParseError::UnexpectedTokenGeneric {
                     got: Some(tok.clone()),
                     msg: "expected close brace, open brace or return statement"
-                }),
+                }),*/
+                _ => {
+                    let expr = self.read_expression()?;
+                    if self.accept(Token::Semicolon) {
+                        // expression statement
+                        block.stmts.push(Statement::Expression(expr));
+                    } else {
+                        return Err(ParseError::UnexpectedTokenGeneric {
+                            got: self.peek().cloned(),
+                            msg: "expected semicolon after expression"
+                        });
+                    }
+                }
             }
         }
         Ok(block)
@@ -697,57 +717,58 @@ impl<'a, 'b> CParser<'a, 'b> {
     //     Ok(block)
     // }
 
+    fn insert_decls(scope: &mut Scope, decls: Vec<(String, SymbolKind)>) -> Result<(), ParseError> {
+        for (name, kind) in decls {
+            writeln!(get_tty(), "Inserting {}: {:?}", name, kind);
+            match scope.symbols.entry(name) {
+                Entry::Occupied(mut entry) => {
+                    match (entry.get_mut(), kind) {
+                        (SymbolKind::Function { body: Some(_), .. }, SymbolKind::Function { .. }) => {
+                            return Err(ParseError::GenericDyn(format!("function {} already has body", entry.key())));
+                        }
+                        (SymbolKind::Function { proto: eproto, body: None, jump: ejump }, SymbolKind::Function { proto: nproto, body, jump: njump }) => {
+                            if *eproto != nproto {
+                                return Err(ParseError::GenericDyn(format!("function {} already declared with different prototype", entry.key())));
+                            }
+                            if let Some(_) = body {
+                                ejump[..].copy_from_slice(&njump[..]);
+                                // function with body, replace the entry
+                                entry.insert(SymbolKind::Function {
+                                    proto: nproto,
+                                    body,
+                                    jump: njump
+                                });
+                            } else {
+                                // no change, do nothing
+                            }
+                        }
+                        _ => {
+                            return Err(ParseError::GenericDyn(format!("cannot redefine {}", entry.key())));
+                        }
+                    }
+                }
+                Entry::Vacant(entry) => {
+                    entry.insert(match kind {
+                        SymbolKind::Variable { ty, offset } => {
+                            let size = ty.unqual.size();
+                            let res = SymbolKind::Variable { ty, offset: scope.var_size };
+                            scope.var_size += size;
+                            res
+                        },
+                        _ => kind
+                    });
+                }
+            }
+        }
+        Ok(())
+    }
+
     pub fn read_unit(&mut self) -> Result<Option<()>, ParseError> {
         plog("read_unit");
         while self.iter.peek().is_some() {
             plog("read_unit iter");
             let decls = self.read_declaration()?;
-            for (name, kind) in decls {
-                writeln!(get_tty(), "Inserting {}: {:?}", name, kind);
-                /*let Entry::Vacant(entry) = self.scope.symbols.entry(name) else {
-                    return Err(ParseError::Generic("duplicate declaration"));
-                };*/
-
-                match self.scope.symbols.entry(name) {
-                    Entry::Occupied(mut entry) => {
-                        match (entry.get_mut(), kind) {
-                            (SymbolKind::Function { body: Some(_), .. }, SymbolKind::Function { .. }) => {
-                                return Err(ParseError::GenericDyn(format!("function {} already has body", entry.key())));
-                            }
-                            (SymbolKind::Function { proto: eproto, body: None, jump: ejump }, SymbolKind::Function { proto: nproto, body, jump: njump }) => {
-                                if *eproto != nproto {
-                                    return Err(ParseError::GenericDyn(format!("function {} already declared with different prototype", entry.key())));
-                                }
-                                if let Some(_) = body {
-                                    ejump[..].copy_from_slice(&njump[..]);
-                                    // function with body, replace the entry
-                                    entry.insert(SymbolKind::Function {
-                                        proto: nproto,
-                                        body,
-                                        jump: njump
-                                    });
-                                } else {
-                                    // no change, do nothing
-                                }
-                            }
-                            _ => {
-                                return Err(ParseError::GenericDyn(format!("cannot redefine {}", entry.key())));
-                            }
-                        }
-                    }
-                    Entry::Vacant(entry) => {
-                        entry.insert(match kind {
-                            SymbolKind::Variable { ty, offset } => {
-                                let size = ty.unqual.size();
-                                let res = SymbolKind::Variable { ty, offset: self.scope.var_size };
-                                self.scope.var_size += size;
-                                res
-                            },
-                            _ => kind
-                        });
-                    }
-                }
-            }
+            Self::insert_decls(&mut self.scope, decls)?;
         }
         Ok(None)
     }

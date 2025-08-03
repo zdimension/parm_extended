@@ -154,12 +154,14 @@ impl<'a> Compiler<'a> {
     }
 
     fn enter(&mut self, scope: &'a Scope) {
+        self.emit(SubsImm8 { rd: R7, imm8: u8::try_from(scope.var_size).unwrap() });
         self.scope.push(scope);
         self.depth += scope.var_size;
     }
 
     fn leave(&mut self) {
         if let Some(scope) = self.scope.pop() {
+            self.emit(AddsImm8 { rd: R7, imm8: u8::try_from(scope.var_size).unwrap() });
             self.depth -= scope.var_size;
         } else {
             panic!("Cannot leave scope, no scope to leave");
@@ -177,8 +179,10 @@ impl<'a> Compiler<'a> {
     pub fn emit_function(&mut self, proto: &FunctionImpl, body: &'a Block, scope: &'a Scope) {
         self.emit_push(RegList::new([R7], true));
         self.locals_size = Self::get_max_local_size(body);
+        writeln!(get_tty(), "Function with locals size: {}", self.locals_size).unwrap();
+        self.emit(AddRegSpImm { rd: R7, immw8: u10::new(scope.var_size as u16) }); // use r7 as frame pointer
         self.emit(SubSp { immw7: u9::new(self.locals_size as u16) });
-        self.emit(AddRegSpImm { rd: R7, immw8: u10::new(0) }); // use r7 as frame pointer
+        //self.emit(AddRegSpImm { rd: R7, immw8: u10::new(0) }); // use r7 as frame pointer
         self.enter(scope);
 
         self.emit_block(body);
@@ -227,6 +231,7 @@ impl<'a> Compiler<'a> {
             if let Some(symbol) = scope.symbols.get(name) {
                 return match symbol {
                     SymbolKind::Variable { ty, offset } => {
+                        writeln!(get_tty(), "[{}] Found variable '{}' with offset {}", base, name, offset).unwrap();
                         Analysis {
                             ty: ty.clone(),
                             addr: Some(Address::Local((base + *offset) as u8)),
@@ -290,10 +295,10 @@ impl<'a> Compiler<'a> {
             Expression::BinOp(op, l, r) => {
                 use BinOp::*;
                 use AssignableOperator::*;
-                let Analysis { ty: lty, .. } = self.analyze_expression(l);
+                let Analysis { ty: lty, addr: laddr } = self.analyze_expression(l);
                 let Analysis { ty: rty, .. } = self.analyze_expression(r);
                 let ty = match *op {
-                    Simple(Plus) => {
+                    Simple(Plus | Minus | Multiply) => {
                         UnqualType::Int(None).into()
                     }
                     Bool(_) => {
@@ -306,9 +311,13 @@ impl<'a> Compiler<'a> {
                     }
                     Assignment(_) => {
                         // todo
+
+                        if lty != rty {
+                            panic!("Assignment type mismatch: left type {:?} does not match right type {:?}", lty, rty);
+                        }
                         lty
                     }
-                    _ => todo!()
+                    _ => todo!("Binary operation not implemented: {:?}", op),
                 };
                 Analysis {
                     ty: ty, // For now, we assume the left type is the result type
@@ -332,18 +341,18 @@ impl<'a> Compiler<'a> {
         }
     }
 
-    fn emit_address_to_r0(&mut self, address: Address) {
+    fn emit_address_to_reg(&mut self, address: Address, reg: Reg) {
         match address {
             Address::Local(offset) => {
-                self.emit(MovsImm { rd: R0, imm8: offset });
-                self.emit(AddLoLo { rd: R0, rs: R7 });
+                self.emit(MovsImm { rd: reg, imm8: offset });
+                self.emit(AddLoLo { rd: reg, rs: R7 });
             }
             Address::Global(addr) => {
                 writeln!(get_tty(), "addr={:x}", addr).unwrap();
                 let lbl = self.new_label();
 
                 self.align_to_word();
-                self.emit(LdrPcImm { rd: R0, immw8: u10::new(0) });
+                self.emit(LdrPcImm { rd: reg, immw8: u10::new(0) });
                 self.jump_to(lbl, Condition::Al);
                 self.emit(U16 { value: addr as u16 });
                 self.emit(U16 { value: (addr >> 16) as u16 });
@@ -406,7 +415,7 @@ impl<'a> Compiler<'a> {
                 }
                 // all args are on the stack, they will be read in the function
                 writeln!(get_tty(), "Calling {:?}", f);
-                self.emit_address_to_r0(addr);
+                self.emit_address_to_reg(addr, R0);
                 self.emit(BlxLo { rm: R0 });
                 self.emit(AddSp { immw7: u9::new((args.len() * 4) as u16) });
                 self.emit_push(RegList::new([R0], false)); // Push return value to stack
@@ -428,6 +437,22 @@ impl<'a> Compiler<'a> {
             Expression::BinOp(op, a, b) => {
                 use BinOp::*;
                 use AssignableOperator::*;
+                match *op {
+                    Assignment(None) => {
+                        let Analysis { ty: lty, addr: laddr } = self.analyze_expression(a);
+                        let Some(laddr) = laddr else {
+                            panic!("Left side of assignment must be an lvalue (have an address)");
+                        };
+                        self.emit_expression(b);
+                        self.emit_pop(RegList::new([R0], false)); // Pop result to R0
+                        self.emit_address_to_reg(laddr, R1);
+                        self.emit(StrRegImm { rd: R0, rb: R1, immw5: u7::new(0) });
+                        // Push the result back to the stack
+                        self.emit_push(RegList::new([R0], false)); // Push result to stack
+                        return;
+                    }
+                    _ => {}
+                }
                 self.emit_expression(a);
                 self.emit_expression(b);
                 self.emit_pop(RegList::new([R1], false)); // Pop second operand to R1

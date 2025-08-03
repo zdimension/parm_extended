@@ -539,9 +539,12 @@ def assemble(line: str, pc: int, line_num: int, tokens: list["Token"]) -> Sequen
             return (pc, lo, dl, n), (pc + 1, hi, dl, n)
         if instr == "$short":
             n = parse_imm(args)
+            assert 0 <= n <= 0xffff
             return (pc, n, dl, n),
         if instr == "$bytes":
             first, second = map(parse_imm, args_split)
+            assert 0 <= first <= 255, first
+            assert 0 <= second <= 255, second
             return (pc, (second << 8) | first, dl, f"{first}, {second}"),
         if instr.startswith("$bl"):
             first = instr[3] == "1"
@@ -1104,6 +1107,7 @@ def main_loop():
         for lineno, pc, line, val, size, tokens in instrs:
             try:
                 if val is not None:
+                    assert 0 <= val <= 0xffff
                     out.append(val)
                     instr_log.append((pc, val, line, "..."))
                 elif line[0] == "#":
@@ -1121,6 +1125,7 @@ def main_loop():
                     continue
                 else:
                     for pc, val, code, data in assemble(line, pc, lineno + trampo_offset, tokens):
+                        assert 0 <= val <= 0xffff
                         out.append(val)
                         if not nolog:
                             instr_log.append((pc, val, code, data))
@@ -1341,27 +1346,7 @@ if quiet:
     sys.stdout = sys.__stdout__
 
 print("Total runtime:", time.time() - start_time, "seconds")
-"""
-  private String sendRequest(String command, String args) throws RemoteException {
-        try {
-            Socket s = new Socket(localHost, 41114);
-            DataOutputStream out = new DataOutputStream(s.getOutputStream());
-            if (args != null)
-                command = command + ":" + args;
-            out.writeUTF(command);
-            // writeUTF writes at first the length of the string as a two byte value (high byte first) to
-            // the stream, followed by the utf-8 encoded string. Length means the number of bytes needed to
-            // store the UTF-8 encoded string, not the number of characters.
-            out.flush();
-            DataInputStream in = new DataInputStream(s.getInputStream());
-            String response = in.readUTF();
-            if (!(response.equals("ok") || response.startsWith("ok:")))
-                throw new RemoteException("Error received from simulator:\n" + response);
-            return response;
-        } catch (IOException e) {
-            throw new RemoteException("Error communicating with simulator!", e);
-        }
-    }"""
+
 def digital_debugger():
     def send_request(cmd: str, args: str | None = None, timeout: int | None = 2):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

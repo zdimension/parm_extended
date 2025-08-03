@@ -517,6 +517,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         }
     }
 
+    #[inline(never)]
     pub(crate) fn read_expression(&mut self) -> Result<Expression, ParseError> {
         let left = self.read_assignment_expression()?;
         if self.accept(Token::Comma) {
