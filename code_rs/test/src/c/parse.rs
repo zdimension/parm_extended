@@ -89,7 +89,7 @@ pub enum Statement {
     Return(Option<Expression>),
     If(Expression, Box<Statement>, Option<Box<Statement>>),
     While(Expression, Box<Statement>),
-    For(Option<Box<Statement>>, Option<Expression>, Option<Box<Statement>>, Box<Statement>),
+    For(Option<Expression>, Option<Expression>, Option<Expression>, Box<Statement>),
     Break,
     Continue,
     Block(Block),
@@ -501,6 +501,33 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(params)
     }
 
+    fn read_expression_statement(&mut self) -> Result<Option<Expression>, ParseError> {
+        plog("read_expression_statement");
+        if let Some(tok) = self.peek() {
+            match tok {
+                Token::Semicolon => {
+                    // empty statement
+                    self.advance();
+                    Ok(None)
+                }
+                _ => {
+                    let expr = self.read_expression()?;
+                    if self.accept(Token::Semicolon) {
+                        // expression statement
+                        Ok(Some(expr))
+                    } else {
+                        Err(ParseError::UnexpectedTokenGeneric {
+                            got: self.peek().cloned(),
+                            msg: "expected semicolon after expression"
+                        })
+                    }
+                }
+            }
+        } else {
+            Err(ParseError::Generic("unexpected end of input while reading expression statement"))
+        }
+    }
+
     fn read_statement(&mut self) -> Result<Statement, ParseError> {
         if let Some(tok) = self.peek() {
             Ok(match tok {
@@ -523,11 +550,6 @@ impl<'a, 'b> CParser<'a, 'b> {
                     };
                     Statement::Return(val)
                 }
-                Token::Semicolon => {
-                    // empty statement
-                    self.advance();
-                    Statement::Empty
-                }
                 Token::Keyword(Keyword::If) => {
                     self.advance();
                     self.expect(Token::OpenParen)?;
@@ -540,6 +562,21 @@ impl<'a, 'b> CParser<'a, 'b> {
                         None
                     };
                     Statement::If(condition, then_block.into(), else_block.map(Into::into))
+                }
+                Token::Keyword(Keyword::For) => {
+                    self.advance();
+                    self.expect(Token::OpenParen)?;
+                    let init = self.read_expression_statement()?;
+                    let condition = self.read_expression_statement()?;
+                    let increment = if self.accept(Token::CloseParen) {
+                        None
+                    } else {
+                        let inc = self.read_expression()?;
+                        self.expect(Token::CloseParen)?;
+                        Some(inc)
+                    };
+                    let body = self.read_statement()?;
+                    Statement::For(init, condition, increment, body.into())
                 }
                 /*Token::Keyword(Keyword::While | Keyword::For | Keyword::Do) => {
                     // loop
@@ -554,15 +591,9 @@ impl<'a, 'b> CParser<'a, 'b> {
                     msg: "expected close brace, open brace or return statement"
                 }),*/
                 _ => {
-                    let expr = self.read_expression()?;
-                    if self.accept(Token::Semicolon) {
-                        // expression statement
-                        Statement::Expression(expr)
-                    } else {
-                        return Err(ParseError::UnexpectedTokenGeneric {
-                            got: self.peek().cloned(),
-                            msg: "expected semicolon after expression"
-                        });
+                    match self.read_expression_statement()? {
+                        Some(expr) => Statement::Expression(expr),
+                        None => Statement::Empty,
                     }
                 }
             })

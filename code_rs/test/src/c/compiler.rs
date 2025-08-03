@@ -17,6 +17,7 @@ use Instruction::*;
 use Reg::*;
 use HiReg::*;
 use crate::c::compiler::CompileError::GenericDyn;
+use crate::c::lexer::Comparison::LessThan;
 use crate::c::lexer::Operator::BoolOp;
 use crate::c::parse_expr::{BinOp, Expression, SizeOfOp, UnaryOp};
 use crate::parm::heap::string::String;
@@ -131,7 +132,17 @@ impl<'a> Compiler<'a> {
 
         rprintln!("Function with locals size: {}", self.locals_size);
 
+        //self.dump();
+
         self.instructions
+    }
+
+    #[inline(never)]
+    fn dump(&self) {
+        for i in &self.instructions {
+            rprintln!("{:04x} {}", i.encode(), i);
+        }
+
     }
 
     pub fn link_asm(mut self) -> CodeVec {
@@ -139,8 +150,7 @@ impl<'a> Compiler<'a> {
     }
 
     pub fn emit(&mut self, instruction: Instruction) {
-        use core::fmt::Write;
-        //rprintln!("emit: {:04x} {:?}", instruction.encode(), instruction).unwrap();
+        //rprintln!("emit: {:04x} {:?}", instruction.encode(), instruction);
         self.instructions.push(instruction);
     }
 
@@ -186,11 +196,13 @@ impl<'a> Compiler<'a> {
         self.emit(SubsImm8 { rd: R7, imm8: u8::try_from(scope.var_size).unwrap() });
         self.scope.push(scope);
         self.depth = self.depth.wrapping_add(scope.var_size);
+        rprintln!("entering scope with {}", scope.var_size);
         self.locals_size = self.locals_size.max(self.depth);
     }
 
     fn leave(&mut self) {
         if let Some(scope) = self.scope.pop() {
+            rprintln!("leaving scope with {}", scope.var_size);
             self.emit(AddsImm8 { rd: R7, imm8: u8::try_from(scope.var_size).unwrap() });
             self.depth -= scope.var_size;
         } else {
@@ -276,6 +288,28 @@ impl<'a> Compiler<'a> {
                 // End label
                 self.set_label_here(end_label);
             }
+            For(init, cond, incr, body) => {
+                if let Some(init) = init {
+                    self.emit_expression(init)?;
+                    self.emit_pop(RegList::new([R0], false));
+                }
+                let cond_label = self.new_label();
+                let end_label = self.new_label();
+                self.set_label_here(cond_label);
+                if let Some(cond_expr) = cond {
+                    self.emit_expression(cond_expr)?;
+                    self.emit_pop(RegList::new([R0], false)); // Pop condition result to R0
+                    self.emit(CmpImm { rd: R0, imm8: 0 }); // Compare with 0
+                    self.jump_to(end_label, Condition::Eq); // Jump to end if condition is false
+                }
+                self.emit_statement(body)?;
+                if let Some(incr_expr) = incr {
+                    self.emit_expression(incr_expr)?;
+                    self.emit_pop(RegList::new([R0], false)); // Pop increment result to R0
+                }
+                self.jump_to(cond_label, Condition::Al); // Jump back to condition check
+                self.set_label_here(end_label); // Set end label
+            }
             _ => todo!()
         }
         Ok(())
@@ -284,11 +318,11 @@ impl<'a> Compiler<'a> {
     fn lookup(&self, name: &String) -> Analysis {
         let mut base = 0;
         for scope in self.scope.iter().rev() {
-            rprintln!("[{}] Looking up '{}' in scope: {}", base, name, scope);
+            //rprintln!("[{}] Looking up '{}' in scope: {}", base, name, scope);
             if let Some(symbol) = scope.symbols.get(name) {
                 return match symbol {
                     SymbolKind::Variable { ty, offset } => {
-                        rprintln!("[{}] Found variable '{}' with offset {}", base, name, offset);
+                        //rprintln!("[{}] Found variable '{}' with offset {}", base, name, offset);
                         Analysis {
                             ty: ty.clone(),
                             addr: Some(Address::Local((base + *offset) as u8)),
@@ -392,7 +426,7 @@ impl<'a> Compiler<'a> {
         })
     }
 
-    fn align_to_word(&mut self) {
+    pub fn align_to_word(&mut self) {
         if self.instructions.len() % 2 != 0 {
             self.emit(Nop); // Align to word boundary
         }
@@ -597,6 +631,26 @@ impl<'a> Compiler<'a> {
                         self.emit(SubsImm { rd: R1, rn: R0, imm3: u3::new(1) }); // R1 = R0 - 1. If equal, the sub borrows so C = 0.
                         self.emit(Sbcs { rdn: R0, rm: R1 }); // R0 = R0 - R1 - !C = (a - b) - (a - b - 1) - !C = 1 - !C = C = 0 if equal, 1 if different
                     }
+                    Comparison(LessThan) => {
+                        self.emit(Cmp { rn: R0, rm: R1 }); // does a - b, sets C=1 if R0 >= R1 (because no borrow)
+                        self.emit(Sbcs { rdn: R0, rm: R0 }); // R0 = R0 - R0 - !C = 0 - !C = 0 if R0 >= R1, -1 if R0 < R1
+                        self.emit(Negs { rd: R0, rn: R0 }); // Negate R0, so it becomes 1 if R0 < R1, 0 if R0 >= R1
+                    }
+                    Comparison(LessThanOrEqual) => {
+                        self.emit(Cmp { rn: R1, rm: R0 }); // does b - a, sets C=1 if R1 >= R0 (because no borrow)
+                        self.emit(MovsImm { rd: R0, imm8: 0 }); // Set R0 to 0
+                        self.emit(Adcs { rdn: R0, rm: R0 }); // If R1 < R0, C=1, so R0 = 1, else R0 = 0
+                    }
+                    Comparison(GreaterThan) => { // see LessThan
+                        self.emit(Cmp { rn: R1, rm: R0 });
+                        self.emit(Sbcs { rdn: R0, rm: R0 });
+                        self.emit(Negs { rd: R0, rn: R0 });
+                    }
+                    Comparison(GreaterThanOrEqual) => { // see LessThanOrEqual
+                        self.emit(Cmp { rn: R0, rm: R1 });
+                        self.emit(MovsImm { rd: R0, imm8: 0 });
+                        self.emit(Adcs { rdn: R0, rm: R0 });
+                    }
 
 
                     _ => todo!()
@@ -779,12 +833,14 @@ macro_rules! check_instr_size {
         check_instr_size!($prefix, [${ concat(I, $id) }, $id => $head $(, $rid => $rval)*], $($rest),*);
     };
     ($prefix:expr, [$_:ident $(, $id:ident => $val:expr)*], ) => {
-        const fn assert_helper< $( $id: BitSize ),* >( $( _: [$id; 0] ),* ) {
-            const {
-                assert!((0 $(+ $id::SIZE)*) <= 16, "Instruction exceeds 16 bits");
+        {
+            const fn assert_helper< $( $id: BitSize ),* >( $( _: [$id; 0] ),* ) {
+                const {
+                    assert!((0 $(+ $id::SIZE)*) <= 16, "Instruction exceeds 16 bits");
+                }
             }
+            assert_helper( $( if false { [$val; 0] } else { [] } ),* );
         }
-        assert_helper( $( if false { [$val; 0] } else { [] } ),* );
     };
     ($prefix:expr, $($lst:expr),*) => {
         check_instr_size!($prefix, [I], $($lst),*);

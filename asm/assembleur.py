@@ -204,7 +204,7 @@ def disasm(instr: int) -> str:
                 if val != int(arg, 2):
                     break
         else:
-            instr_str = k.format(**ops)
+            instr_str = k.replace("_}", "}").format(**ops)
             return instr_str
 
 

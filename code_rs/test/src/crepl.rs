@@ -15,22 +15,25 @@
 #![allow(clippy::should_implement_trait)]
 extern crate alloc;
 
+use crate::c::compiler::Reg::*;
+use crate::c::compiler::{Compiler, HiReg, Instruction, Reg, RegList};
 use crate::c::parse::CParser;
+use crate::c::scope::{Scope, SymbolKind};
+use crate::c::types::{FunctionImpl, UnqualType};
 use crate::parm::control::breakpoint;
 use crate::parm::heap::budmap::{BudMap, RandomState};
 use crate::parm::heap::string::String;
 use crate::parm::tty::{get_tty, print_hex};
-use crate::parm::{keyb, telnet, tty};
+use crate::parm::{keyb, telnet, tty, OrderedMap};
 use alloc::vec::Vec;
+use core::arch::asm;
 use core::fmt::{Display, Write};
+use core::hash::{BuildHasher, Hash, Hasher};
 use core::mem::MaybeUninit;
 use core::{fmt, slice};
-use core::arch::asm;
-use core::hash::{BuildHasher, Hash, Hasher};
+use arbitrary_int::u10;
 use hashbrown::HashMap;
-use crate::c::compiler::{Compiler, HiReg, Instruction, RegList};
-use crate::c::compiler::Reg::R0;
-use crate::c::scope::Scope;
+use crate::c::compiler::Instruction::{BxLo, LdrPcImm, LdrSp, U16};
 
 mod c;
 mod parm;
@@ -74,7 +77,6 @@ fn check_balanced(s: &[char]) -> bool {
 #[derive(Default)]
 struct CRepl {
     scope: Scope,
-    //compiler: Compiler
 }
 
 enum EvalStatus {
@@ -82,9 +84,40 @@ enum EvalStatus {
     ContinueReading,
 }
 
+fn c_print(x: usize) -> usize {
+    rprintln!("c: {}", x);
+    breakpoint();
+    x
+}
+
 impl CRepl {
     fn new() -> CRepl {
-        Default::default()
+        let addr = c_print as usize;
+        let mut jcomp = Compiler::new();
+        jcomp.emit(LdrSp { rt: R0, immw8: u10::new(0) });
+        jcomp.align_to_word();
+        jcomp.emit(LdrPcImm { rd: R1, immw8: u10::new(0) });
+        jcomp.emit(BxLo { rm: R1 });
+        jcomp.emit(U16 { value: addr as u16 });
+        jcomp.emit(U16 { value: (addr >> 16) as u16 });
+        let code = jcomp.link_asm().into_boxed_slice();
+
+        let mut scope = Scope::default();
+        scope.symbols.insert(
+            String::from("print"),
+            SymbolKind::Function {
+                proto: FunctionImpl {
+                    ret: UnqualType::Int(None).into(),
+                    args: OrderedMap::from_iter([(
+                        String::from("x"),
+                        UnqualType::Int(None).into(),
+                    )]),
+                },
+                body: None,
+                jump: code,
+            },
+        );
+        CRepl { scope }
     }
 
     #[inline(never)]
@@ -96,10 +129,11 @@ impl CRepl {
             let mut parser = CParser::new(&code[1..], &mut self.scope);
             match parser.read_expression() {
                 Ok(expr) => {
+                    rprintln!("expr: {:?}", expr);
                     let mut comp = Compiler::new();
                     comp.scope.push(&self.scope);
                     comp.emit_push(RegList::new([], true));
-                    comp.emit_expression(&expr);
+                    comp.emit_expression(&expr).unwrap();
                     comp.emit_pop(RegList::new([R0], true));
                     let code = comp.link_asm();
                     rprintln!("addr={:x}", code.as_ptr() as usize);
@@ -107,16 +141,12 @@ impl CRepl {
                         let ptr: fn() -> u32 = core::mem::transmute(code.as_ptr());
                         //breakpoint();
                         //ptr();
-                        asm!(
-                            "mov r10, sp"
-                        );
+                        /*asm!("mov r10, sp");
                         breakpoint();
                         ptr();
 
-                        asm!(
-                        "mov r11, sp"
-                        );
-                        breakpoint();
+                        asm!("mov r11, sp");
+                        breakpoint();*/
                         rprintln!("-> {}", ptr());
                     }
                 }
@@ -192,7 +222,7 @@ impl CRepl {
         //     return a;
         // }
         // "#);
-        let code = String::from(br#"
+        /*let code = String::from(br#"
         int even(int x) {
             if ((x & 1) == 1) {
                 return 0;
@@ -200,7 +230,7 @@ impl CRepl {
                 return 1;
             }
         }
-        "#);
+        "#);*/
         // let code = String::from(br#"
         // int even(int x) {
         //     char a;
@@ -208,6 +238,28 @@ impl CRepl {
         //     return (int)a;
         // }
         // "#);
+        let code = String::from(
+            br#"
+        int sum(int upto) {
+            int i, res;
+            res = 0;
+            for (i = 1; i <= upto; i = i + 1) {
+                res = res + i;
+            }
+
+            return res;
+        }
+
+        int fact(int x) {
+            int res, i;
+            res = 1;
+            for (i = 1; i <= x; i = i + 1) {
+                res = res * i;
+            }
+            return res;
+        }
+        "#,
+        );
 
         self.process(&code);
 
