@@ -21,6 +21,26 @@ macro_rules! print {
 }
 
 #[macro_export]
+macro_rules! rprint {
+    ($($t:tt)*) => {
+        {
+            use core::fmt::Write;
+            let _ = write!($crate::parm::tty::get_tty(), $($t)*);
+        }
+    };
+}
+
+#[macro_export]
+macro_rules! rprintln {
+    ($($t:tt)*) => {
+        {
+            use core::fmt::Write;
+            let _ = writeln!($crate::parm::tty::get_tty(), $($t)*);
+        }
+    };
+}
+
+#[macro_export]
 macro_rules! makestr {
     ($($args:expr),*) => {
         {

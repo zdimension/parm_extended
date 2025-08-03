@@ -72,8 +72,8 @@ pub enum UnqualType {
 impl UnqualType {
     pub fn size(&self) -> usize {
         match self {
-            UnqualType::Char(_) => 1,
-            UnqualType::Bool => 1,
+            UnqualType::Char(_) => 4, // todo: handling things smaller than a word sucks
+            UnqualType::Bool => 4,
             UnqualType::Int(_) => 4,
             UnqualType::Pointer(_) => 4,
             UnqualType::Array(ty, Some(size)) => size * ty.unqual.size(),

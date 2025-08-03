@@ -99,7 +99,7 @@ impl CRepl {
                     comp.emit_expression(&expr);
                     comp.emit_pop(RegList::new([R0], true));
                     let code = comp.link_asm();
-                    writeln!(tty::get_tty(), "addr={:x}", code.as_ptr() as usize);
+                    rprintln!("addr={:x}", code.as_ptr() as usize);
                     unsafe {
                         let ptr: fn() -> u32 = core::mem::transmute(code.as_ptr());
                         //breakpoint();
@@ -114,11 +114,11 @@ impl CRepl {
                         "mov r11, sp"
                         );
                         breakpoint();
-                        writeln!(tty::get_tty(), "-> {}", ptr());
+                        rprintln!("-> {}", ptr());
                     }
                 }
                 Err(e) => {
-                    writeln!(tty::get_tty(), "parse error {:?}", e);
+                    rprintln!("parse error {:?}", e);
 
                     //println!("parse error: {}", e);
                 }
@@ -127,10 +127,10 @@ impl CRepl {
             let mut parser = CParser::new(code, &mut self.scope);
             match parser.read_whole() {
                 Ok(_) => {
-                    writeln!(tty::get_tty(), "{}", parser.scope);
+                    rprintln!("{}", parser.scope);
                 }
                 Err(e) => {
-                    writeln!(tty::get_tty(), "parse error at {}: {:?}", e.pos, e.error);
+                    rprintln!("parse error at {}: {:?}", e.pos, e.error);
                     //println!("parse error: {}", e);
                 }
             }
@@ -176,17 +176,33 @@ impl CRepl {
         int inc(int x) { return id(x) + 1; }
         int id(int a) { return a; }
         "#);*/
-        let code = String::from(br#"
-        int b(int x) {
-            int a, b;
-            {
-                int c, d;
-                c = 2 * x;
-                b = c + 1;
-                d = b * 3;
-                a = d - 1;
+        // let code = String::from(br#"
+        // int b(int x) {
+        //     int a, b;
+        //     {
+        //         int c, d;
+        //         c = 2 * x;
+        //         b = c + 1;
+        //         d = b * 3;
+        //         a = d - 1;
+        //     }
+        //     return a;
+        // }
+        // "#);
+        /*let code = String::from(br#"
+        int even(int x) {
+            if ((x & 1) == 1) {
+                return 0;
+            } else {
+                return 1;
             }
-            return a;
+        }
+        "#);*/
+        let code = String::from(br#"
+        int even(int x) {
+            char a;
+            a = (char)x;
+            return (int)a;
         }
         "#);
 

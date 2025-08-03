@@ -32,7 +32,7 @@ pub enum StorageClass {
 }
 
 use SkipStop::*;
-use crate::c::compiler::{CodeBox, CodeVec, Compiler, RegList};
+use crate::c::compiler::{CodeBox, CodeVec, CompileError, Compiler, RegList};
 use crate::c::compiler::HiReg::LR;
 use crate::c::compiler::Instruction::*;
 use crate::c::compiler::Reg::*;
@@ -43,7 +43,7 @@ use crate::parm::heap::string::String;
 use crate::parm::midi::Pitch::B;
 use crate::parm::OrderedMap;
 use crate::parm::tty::get_tty;
-use crate::println;
+use crate::{println, rprintln};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ParseError {
@@ -52,7 +52,14 @@ pub enum ParseError {
     UnexpectedToken { exp: Token, got: Option<Token> },
     Generic(&'static str),
     GenericDyn(alloc::string::String),
-    GenericBacktrack(&'static str, Option<Token>)
+    GenericBacktrack(&'static str, Option<Token>),
+    Compiler(CompileError)
+}
+
+impl From<CompileError> for ParseError {
+    fn from(e: CompileError) -> Self {
+        ParseError::Compiler(e)
+    }
 }
 
 pub fn plog(s: &'static str) {
@@ -77,11 +84,12 @@ pub struct Block {
 
 #[derive(Debug)]
 pub enum Statement {
+    Empty,
     Expression(Expression),
     Return(Option<Expression>),
-    If(Expression, Vec<Statement>, Option<Vec<Statement>>),
-    While(Expression, Vec<Statement>),
-    For(Option<Box<Statement>>, Option<Expression>, Option<Box<Statement>>, Vec<Statement>),
+    If(Expression, Box<Statement>, Option<Box<Statement>>),
+    While(Expression, Box<Statement>),
+    For(Option<Box<Statement>>, Option<Expression>, Option<Box<Statement>>, Box<Statement>),
     Break,
     Continue,
     Block(Block),
@@ -493,6 +501,77 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(params)
     }
 
+    fn read_statement(&mut self) -> Result<Statement, ParseError> {
+        if let Some(tok) = self.peek() {
+            Ok(match tok {
+                Token::OpenBrace => {
+                    // nested compound statement
+                    self.advance();
+                    let inner_block = self.read_compound()?;
+                    Statement::Block(inner_block)
+                }
+                Token::Keyword(Keyword::Return) => {
+                    self.advance();
+                    let val = if self.accept(Token::Semicolon) {
+                        // return without value
+                        None
+                    } else {
+                        // return with value
+                        let expr = self.read_expression()?;
+                        self.expect(Token::Semicolon)?;
+                        Some(expr)
+                    };
+                    Statement::Return(val)
+                }
+                Token::Semicolon => {
+                    // empty statement
+                    self.advance();
+                    Statement::Empty
+                }
+                Token::Keyword(Keyword::If) => {
+                    self.advance();
+                    self.expect(Token::OpenParen)?;
+                    let condition = self.read_expression()?;
+                    self.expect(Token::CloseParen)?;
+                    let then_block = self.read_statement()?;
+                    let else_block = if self.accept(Token::Keyword(Keyword::Else)) {
+                        Some(self.read_statement()?)
+                    } else {
+                        None
+                    };
+                    Statement::If(condition, then_block.into(), else_block.map(Into::into))
+                }
+                /*Token::Keyword(Keyword::While | Keyword::For | Keyword::Do) => {
+                    // loop
+                    todo!()
+                }
+                Token::Keyword(Keyword::If | Keyword::Switch) => {
+                    // selection
+                    todo!()
+                }*/
+                /*_ => return Err(ParseError::UnexpectedTokenGeneric {
+                    got: Some(tok.clone()),
+                    msg: "expected close brace, open brace or return statement"
+                }),*/
+                _ => {
+                    let expr = self.read_expression()?;
+                    if self.accept(Token::Semicolon) {
+                        // expression statement
+                        Statement::Expression(expr)
+                    } else {
+                        return Err(ParseError::UnexpectedTokenGeneric {
+                            got: self.peek().cloned(),
+                            msg: "expected semicolon after expression"
+                        });
+                    }
+                }
+            })
+        }
+        else {
+            Err(ParseError::Generic("unexpected end of input while reading statement"))
+        }
+    }
+
 
     #[inline(never)]
     fn read_compound(&mut self) -> Result<Block, ParseError> {
@@ -514,59 +593,17 @@ impl<'a, 'b> CParser<'a, 'b> {
             }
         }
         while let Some(tok) = self.peek() {
-            match tok {
-                Token::CloseBrace => {
-                    self.advance();
-                    break;
-                }
-                Token::OpenBrace => {
-                    // nested compound statement
-                    self.advance();
-                    let inner_block = self.read_compound()?;
-                    block.stmts.push(Statement::Block(inner_block));
-                }
-                Token::Keyword(Keyword::Return) => {
-                    self.advance();
-                    let val = if self.accept(Token::Semicolon) {
-                        // return without value
-                        None
-                    } else {
-                        // return with value
-                        let expr = self.read_expression()?;
-                        self.expect(Token::Semicolon)?;
-                        Some(expr)
-                    };
-                    block.stmts.push(Statement::Return(val));
-                }
-                Token::Semicolon => {
-                    // empty statement
-                    self.advance();
-                }
-                /*Token::Keyword(Keyword::While | Keyword::For | Keyword::Do) => {
-                    // loop
-                    todo!()
-                }
-                Token::Keyword(Keyword::If | Keyword::Switch) => {
-                    // selection
-                    todo!()
-                }*/
-                /*_ => return Err(ParseError::UnexpectedTokenGeneric {
-                    got: Some(tok.clone()),
-                    msg: "expected close brace, open brace or return statement"
-                }),*/
-                _ => {
-                    let expr = self.read_expression()?;
-                    if self.accept(Token::Semicolon) {
-                        // expression statement
-                        block.stmts.push(Statement::Expression(expr));
-                    } else {
-                        return Err(ParseError::UnexpectedTokenGeneric {
-                            got: self.peek().cloned(),
-                            msg: "expected semicolon after expression"
-                        });
-                    }
-                }
+            if tok == &Token::CloseBrace {
+                // end of compound statement
+                self.advance();
+                break;
             }
+            let stmt = self.read_statement()?;
+            if let Statement::Empty = stmt {
+                // empty statement, skip it
+                continue;
+            }
+            block.stmts.push(stmt);
         }
         Ok(block)
     }
@@ -617,23 +654,23 @@ impl<'a, 'b> CParser<'a, 'b> {
                             }
                             let mut comp = Compiler::new();
                             comp.scope.push(&self.scope);
-                            writeln!(get_tty(), "<fcode>");
-                            comp.emit_function(inner, &block, &fct_scope);
-                            writeln!(get_tty(), "</fcode>");
+                            rprintln!("<fcode>");
+                            comp.emit_function(inner, &block, &fct_scope)?;
+                            rprintln!("</fcode>");
                             let encoded = comp.link_asm().into_boxed_slice();
                             let addr = encoded.as_ptr() as usize;
-                            writeln!(get_tty(), "fcode addr: {:x}", addr);
+                            rprintln!("fcode addr: {:x}", addr);
                             let mut jcomp = Compiler::new();
-                            writeln!(get_tty(), "<jcode>");
+                            rprintln!("<jcode>");
                             jcomp.emit(LdrPcImm { rd: R0, immw8: u10::new(0) });
                             jcomp.emit(BxLo { rm: R0 });
                             //jcomp.emit(BxHi { rm: LR });
                             //jcomp.emit(Nop);
                             jcomp.emit(U16 { value: addr as u16 });
                             jcomp.emit(U16 { value: (addr >> 16) as u16 });
-                            writeln!(get_tty(), "</jcode>");
+                            rprintln!("</jcode>");
                             let code = jcomp.link_asm().into_boxed_slice();
-                            writeln!(get_tty(), "jcode addr: {:x}", code.as_ptr() as usize);
+                            rprintln!("jcode addr: {:x}", code.as_ptr() as usize);
 
                             res.push((name, SymbolKind::Function {
                                 proto: inner.clone(),
@@ -665,61 +702,9 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(res)
     }
 
-    // #[inline(never)]
-    // fn read_function_body(&mut self, inner: &FunctionImpl) -> Result<Block, ParseError> {
-    //     writeln!(get_tty(), "read_body");
-    //     let block = self.read_compound()?;
-    //     writeln!(get_tty(), "Function: {:?}", block);
-    //
-    //     let mut fct_scope = Scope::default();
-    //     fct_scope.symbols.insert(String::from("_r7"), SymbolKind::Variable {
-    //         ty: UnqualType::Int(None).into(),
-    //         offset: 0
-    //     });
-    //     fct_scope.symbols.insert(String::from("_lr"), SymbolKind::Variable {
-    //         ty: UnqualType::Int(None).into(),
-    //         offset: 4
-    //     });
-    //     fct_scope.var_size = 8;
-    //     for (name, ty) in &inner.args {
-    //         let size = ty.unqual.size();
-    //         fct_scope.symbols.insert(name.clone(), SymbolKind::Variable {ty: ty.clone(), offset: fct_scope.var_size });
-    //         fct_scope.var_size += size;
-    //     }
-    //     let mut comp = Compiler::new();
-    //     /*comp.emit(MovsImm { rd: R1, imm8: 1 });
-    //     comp.emit(MovsImm { rd: R2, imm8: 2 });
-    //     comp.emit(MovsImm { rd: R3, imm8: 4 });
-    //     comp.emit_push(RegList::new([R1, R2, R3], false));*/
-    //     comp.emit_function(inner, &block, &fct_scope);
-    //     let instrs = comp.link();
-    //
-    //
-    //     let encoded = instrs.iter().map(|i| i.encode()).collect::<Vec<_>>();
-    //
-    //     /*let mut res: usize;
-    //     unsafe {
-    //         asm!(
-    //             "mov r0, {0}",
-    //             "blx r0",
-    //             "add sp, sp, #12", // pop 3 registers
-    //             in(reg) encoded.as_ptr(),
-    //             out("r0") res,
-    //         )
-    //     }
-    //     writeln!(get_tty(), "Function result: {}", res);*/
-    //     /*unsafe {
-    //         let ptr: fn() -> usize = core::mem::transmute(encoded.as_ptr());
-    //         writeln!(get_tty(), "Function pointer: {:p}", ptr);
-    //         let res = ptr();
-    //         writeln!(get_tty(), "Function result: {}", res);
-    //     }*/
-    //     Ok(block)
-    // }
-
     fn insert_decls(scope: &mut Scope, decls: Vec<(String, SymbolKind)>) -> Result<(), ParseError> {
         for (name, kind) in decls {
-            writeln!(get_tty(), "Inserting {}: {:?}", name, kind);
+            rprintln!("Inserting {}: {:?}", name, kind);
             match scope.symbols.entry(name) {
                 Entry::Occupied(mut entry) => {
                     match (entry.get_mut(), kind) {
