@@ -16218,12 +16218,12 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ldr	r5, [sp, #56]
 	add	r0, sp, #48
 	movs	r1, #4
-	ldr	r3, .LCPI233_19
+	ldr	r3, .LCPI233_17
 	mov	r2, r5
 	bl	_ZN11aligned_vec17AVec$LT$T$C$A$GT$13with_capacity17h874cd52386eed841E
 	cmp	r5, #0
 	bne	.LBB233_1
-	b	.LBB233_109
+	b	.LBB233_107
 .LBB233_1:
 	str	r6, [sp, #8]
 	str	r4, [sp, #12]
@@ -16253,7 +16253,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ldr	r0, [sp, #44]
 	cmp	r3, r0
 	bne	.LBB233_3
-	b	.LBB233_108
+	b	.LBB233_106
 .LBB233_3:
 	ldrh	r0, [r3]
 	ldrh	r1, [r3, #2]
@@ -16297,7 +16297,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	.long	.LBB233_23+1
 	.long	.LBB233_22+1
 	.long	.LBB233_68+1
-	.long	.LBB233_89+1
+	.long	.LBB233_87+1
 	.long	.LBB233_63+1
 	.long	.LBB233_6+1
 	.long	.LBB233_67+1
@@ -16306,27 +16306,27 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	.long	.LBB233_39+1
 	.long	.LBB233_16+1
 	.long	.LBB233_15+1
-	.long	.LBB233_93+1
+	.long	.LBB233_91+1
 	.long	.LBB233_11+1
 	.long	.LBB233_9+1
-	.long	.LBB233_85+1
+	.long	.LBB233_74+1
 	.long	.LBB233_64+1
 	.long	.LBB233_24+1
 	.long	.LBB233_36+1
 	.long	.LBB233_65+1
-	.long	.LBB233_99+1
+	.long	.LBB233_97+1
 	.long	.LBB233_18+1
 	.long	.LBB233_60+1
-	.long	.LBB233_95+1
+	.long	.LBB233_93+1
 	.long	.LBB233_10+1
 	.long	.LBB233_21+1
 	.long	.LBB233_27+1
-	.long	.LBB233_103+1
-	.long	.LBB233_100+1
-	.long	.LBB233_97+1
+	.long	.LBB233_101+1
+	.long	.LBB233_98+1
+	.long	.LBB233_95+1
 	.long	.LBB233_13+1
-	.long	.LBB233_87+1
-	.long	.LBB233_92+1
+	.long	.LBB233_85+1
+	.long	.LBB233_90+1
 	.long	.LBB233_14+1
 	.long	.LBB233_71+1
 	.long	.LBB233_25+1
@@ -16340,7 +16340,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	.long	.LBB233_12+1
 	.long	.LBB233_4+1
 	.long	.LBB233_19+1
-	.long	.LBB233_107+1
+	.long	.LBB233_105+1
 .LBB233_6:
 	ldr	r1, [sp, #24]
 	adds	r1, #128
@@ -16348,13 +16348,13 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ands	r2, r1
 	lsrs	r1, r0, #8
 	orrs	r1, r2
-	ldr	r0, .LCPI233_20
+	ldr	r0, .LCPI233_18
 	b	.LBB233_52
 	.p2align	2
-.LCPI233_19:
+.LCPI233_17:
 	.long	.Lanon.6cc129d740caabbbb4553a23288c0a22.1
 	.p2align	2
-.LCPI233_20:
+.LCPI233_18:
 	.long	16832
 	.p2align	1
 .LBB233_9:
@@ -16364,7 +16364,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	movs	r0, #71
 	lsls	r0, r0, #8
 	adds	r0, r1, r0
-	b	.LBB233_106
+	b	.LBB233_104
 .LBB233_10:
 	ldr	r1, [sp, #24]
 	adds	r1, #192
@@ -16377,7 +16377,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	orrs	r3, r1
 	orrs	r3, r2
 	movs	r0, #41
-	b	.LBB233_104
+	b	.LBB233_102
 .LBB233_11:
 	lsrs	r1, r6, #13
 	ldr	r2, [sp, #20]
@@ -16388,11 +16388,11 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	lsls	r1, r1, #9
 	adds	r1, r0, r1
 	movs	r0, #192
-	b	.LBB233_98
+	b	.LBB233_96
 .LBB233_12:
 	lsrs	r1, r6, #16
-	ldr	r0, .LCPI233_21
-	b	.LBB233_98
+	ldr	r0, .LCPI233_19
+	b	.LBB233_96
 .LBB233_13:
 	movs	r0, #63
 	lsls	r0, r0, #6
@@ -16408,20 +16408,15 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	orrs	r0, r1
 	movs	r1, #7
 	lsls	r1, r1, #12
-	b	.LBB233_102
+	b	.LBB233_100
 .LBB233_14:
 	lsls	r0, r6, #16
 	lsrs	r0, r0, #25
 	str	r0, [sp]
 	str	r3, [sp, #28]
-	ldr	r1, .LCPI233_22
-	blx	r1
+	bl	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h6ea9dda1436fa4e0E
 	ldr	r0, [sp]
-	ldr	r1, .LCPI233_22
-	blx	r1
-	ldr	r0, [sp]
-	ldr	r1, .LCPI233_22
-	blx	r1
+	bl	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h6ea9dda1436fa4e0E
 	ldr	r3, [sp, #28]
 	ldr	r0, [sp, #36]
 	adds	r0, #192
@@ -16433,8 +16428,8 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ldr	r1, [sp]
 	lsls	r1, r1, #6
 	adds	r1, r0, r1
-	ldr	r0, .LCPI233_23
-	b	.LBB233_98
+	ldr	r0, .LCPI233_20
+	b	.LBB233_96
 .LBB233_15:
 	ldr	r1, [sp, #20]
 	adds	r1, #128
@@ -16446,7 +16441,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	lsls	r1, r1, #9
 	orrs	r1, r0
 	movs	r0, #64
-	b	.LBB233_98
+	b	.LBB233_96
 .LBB233_16:
 	ldr	r1, [sp, #20]
 	adds	r1, #192
@@ -16456,7 +16451,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	orrs	r1, r2
 	movs	r0, #35
 	lsls	r0, r0, #9
-	b	.LBB233_98
+	b	.LBB233_96
 .LBB233_17:
 	lsrs	r1, r6, #13
 	movs	r2, #199
@@ -16465,7 +16460,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ands	r2, r1
 	lsrs	r0, r0, #8
 	orrs	r0, r2
-	ldr	r1, .LCPI233_24
+	ldr	r1, .LCPI233_21
 	b	.LBB233_57
 .LBB233_18:
 	ldr	r1, [sp, #16]
@@ -16479,10 +16474,10 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	orrs	r3, r1
 	orrs	r3, r2
 	movs	r0, #21
-	b	.LBB233_96
+	b	.LBB233_94
 .LBB233_19:
-	ldr	r0, .LCPI233_25
-	b	.LBB233_106
+	ldr	r0, .LCPI233_22
+	b	.LBB233_104
 .LBB233_20:
 	ldr	r1, [sp, #36]
 	adds	r1, #64
@@ -16505,7 +16500,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	orrs	r3, r1
 	orrs	r3, r2
 	movs	r0, #45
-	b	.LBB233_104
+	b	.LBB233_102
 .LBB233_22:
 	lsrs	r1, r6, #13
 	movs	r2, #135
@@ -16514,7 +16509,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ands	r2, r1
 	lsrs	r0, r0, #8
 	orrs	r0, r2
-	ldr	r1, .LCPI233_26
+	ldr	r1, .LCPI233_23
 	b	.LBB233_57
 .LBB233_23:
 	lsrs	r1, r6, #13
@@ -16522,7 +16517,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ands	r1, r2
 	lsrs	r2, r0, #8
 	orrs	r2, r1
-	ldr	r0, .LCPI233_26
+	ldr	r0, .LCPI233_23
 	b	.LBB233_41
 .LBB233_24:
 	lsrs	r0, r6, #5
@@ -16531,15 +16526,15 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	movs	r0, #71
 	lsls	r0, r0, #8
 	adds	r0, r1, r0
-	b	.LBB233_91
+	b	.LBB233_89
 .LBB233_25:
 	movs	r0, #255
 	lsrs	r1, r6, #18
 	bics	r6, r0
 	uxtb	r0, r1
 	adds	r0, r6, r0
-	ldr	r1, .LCPI233_27
-	b	.LBB233_102
+	ldr	r1, .LCPI233_24
+	b	.LBB233_100
 .LBB233_26:
 	lsrs	r1, r6, #16
 	lsls	r1, r1, #8
@@ -16559,7 +16554,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	orrs	r3, r1
 	orrs	r3, r2
 	movs	r0, #43
-	b	.LBB233_104
+	b	.LBB233_102
 .LBB233_28:
 	ldr	r1, [sp, #36]
 	adds	r1, #192
@@ -16572,28 +16567,23 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	orrs	r3, r1
 	orrs	r3, r2
 	movs	r0, #3
-	b	.LBB233_88
+	b	.LBB233_86
 .LBB233_29:
 	lsrs	r0, r0, #8
-	ldr	r1, .LCPI233_28
+	ldr	r1, .LCPI233_25
 	b	.LBB233_66
 .LBB233_30:
 	lsrs	r6, r6, #18
 	mov	r0, r6
 	str	r3, [sp, #28]
-	ldr	r1, .LCPI233_29
-	blx	r1
+	bl	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h89a873aad23f5af5E
 	mov	r0, r6
-	ldr	r1, .LCPI233_29
-	blx	r1
-	mov	r0, r6
-	ldr	r1, .LCPI233_29
-	blx	r1
+	bl	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h89a873aad23f5af5E
 	ldr	r3, [sp, #28]
 	uxtb	r0, r6
-	ldr	r1, .LCPI233_30
+	ldr	r1, .LCPI233_26
 	adds	r1, r0, r1
-	b	.LBB233_94
+	b	.LBB233_92
 .LBB233_31:
 	ldr	r1, [sp, #16]
 	adds	r1, #64
@@ -16601,7 +16591,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ands	r2, r1
 	lsrs	r1, r0, #8
 	orrs	r1, r2
-	ldr	r0, .LCPI233_31
+	ldr	r0, .LCPI233_27
 	b	.LBB233_62
 .LBB233_32:
 	ldr	r1, [sp, #36]
@@ -16640,7 +16630,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ands	r1, r2
 	lsrs	r2, r0, #8
 	orrs	r2, r1
-	ldr	r0, .LCPI233_24
+	ldr	r0, .LCPI233_15
 	b	.LBB233_41
 .LBB233_36:
 	movs	r0, #255
@@ -16650,23 +16640,18 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	adds	r0, r6, r0
 	movs	r1, #9
 	lsls	r1, r1, #11
-	b	.LBB233_102
+	b	.LBB233_100
 .LBB233_37:
 	lsrs	r6, r6, #18
 	mov	r0, r6
 	str	r3, [sp, #28]
-	ldr	r1, .LCPI233_5
-	blx	r1
+	bl	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h89a873aad23f5af5E
 	mov	r0, r6
-	ldr	r1, .LCPI233_5
-	blx	r1
-	mov	r0, r6
-	ldr	r1, .LCPI233_5
-	blx	r1
+	bl	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h89a873aad23f5af5E
 	ldr	r3, [sp, #28]
 	uxtb	r0, r6
-	ldr	r1, .LCPI233_6
-	b	.LBB233_102
+	ldr	r1, .LCPI233_5
+	b	.LBB233_100
 .LBB233_38:
 	ldr	r1, [sp, #16]
 	adds	r1, #128
@@ -16674,7 +16659,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ands	r2, r1
 	lsrs	r1, r0, #8
 	orrs	r1, r2
-	ldr	r0, .LCPI233_15
+	ldr	r0, .LCPI233_13
 	b	.LBB233_52
 .LBB233_39:
 	lsrs	r1, r6, #13
@@ -16682,7 +16667,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ands	r1, r2
 	lsrs	r2, r0, #8
 	orrs	r2, r1
-	ldr	r0, .LCPI233_14
+	ldr	r0, .LCPI233_12
 	b	.LBB233_41
 .LBB233_40:
 	ldr	r1, [sp, #36]
@@ -16692,7 +16677,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	lsrs	r0, r0, #8
 .LBB233_41:
 	orrs	r0, r2
-	b	.LBB233_106
+	b	.LBB233_104
 .LBB233_42:
 	movs	r0, #135
 	lsls	r0, r0, #6
@@ -16708,7 +16693,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	orrs	r3, r2
 	orrs	r3, r1
 	movs	r0, #15
-	b	.LBB233_104
+	b	.LBB233_102
 .LBB233_43:
 	movs	r0, #255
 	lsls	r0, r0, #6
@@ -16721,7 +16706,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	lsrs	r0, r6, #16
 	uxtb	r0, r0
 	orrs	r0, r2
-	b	.LBB233_98
+	b	.LBB233_96
 .LBB233_44:
 	movs	r0, #223
 	lsls	r0, r0, #6
@@ -16740,7 +16725,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	adds	r0, r3, r0
 	ldr	r3, [sp, #28]
 	adds	r0, #200
-	b	.LBB233_106
+	b	.LBB233_104
 .LBB233_45:
 	lsrs	r0, r6, #13
 	movs	r1, #199
@@ -16752,7 +16737,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ands	r0, r6
 	lsrs	r0, r0, #8
 	orrs	r0, r1
-	ldr	r1, .LCPI233_17
+	ldr	r1, .LCPI233_15
 	b	.LBB233_69
 .LBB233_46:
 	movs	r0, #255
@@ -16760,21 +16745,21 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	bics	r6, r0
 	uxtb	r0, r1
 	adds	r0, r6, r0
-	ldr	r1, .LCPI233_7
-	b	.LBB233_102
+	ldr	r1, .LCPI233_6
+	b	.LBB233_100
 .LBB233_47:
 	lsrs	r0, r0, #8
 	lsrs	r1, r6, #16
 	lsls	r1, r1, #8
 	adds	r0, r1, r0
 	ldr	r1, .LCPI233_4
-	b	.LBB233_102
+	b	.LBB233_100
 .LBB233_48:
 	movs	r0, #255
 	bics	r6, r0
-	ldr	r0, .LCPI233_7
+	ldr	r0, .LCPI233_6
 	adds	r0, r6, r0
-	b	.LBB233_106
+	b	.LBB233_104
 .LBB233_49:
 	ldr	r1, [sp, #24]
 	adds	r1, #192
@@ -16783,7 +16768,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	lsrs	r0, r0, #8
 	orrs	r0, r2
 	ldr	r1, .LCPI233_1
-	b	.LBB233_86
+	b	.LBB233_75
 .LBB233_50:
 	ldr	r1, [sp, #24]
 	adds	r1, #192
@@ -16796,7 +16781,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	orrs	r3, r1
 	orrs	r3, r2
 	movs	r0, #13
-	b	.LBB233_104
+	b	.LBB233_102
 .LBB233_51:
 	ldr	r1, [sp, #36]
 	adds	r1, #128
@@ -16808,7 +16793,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	lsls	r0, r0, #6
 .LBB233_52:
 	adds	r0, #128
-	b	.LBB233_98
+	b	.LBB233_96
 .LBB233_53:
 	movs	r0, #143
 	lsls	r0, r0, #6
@@ -16824,7 +16809,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	orrs	r3, r2
 	orrs	r3, r1
 	movs	r0, #7
-	b	.LBB233_96
+	b	.LBB233_94
 .LBB233_54:
 	lsrs	r0, r6, #13
 	movs	r1, #199
@@ -16836,8 +16821,8 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ands	r0, r6
 	lsrs	r0, r0, #8
 	orrs	r0, r1
-	ldr	r1, .LCPI233_17
-	b	.LBB233_90
+	ldr	r1, .LCPI233_15
+	b	.LBB233_88
 .LBB233_55:
 	lsrs	r1, r6, #16
 	lsls	r1, r1, #8
@@ -16850,14 +16835,14 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	adds	r0, r0, r1
 .LBB233_58:
 	adds	r0, #64
-	b	.LBB233_106
+	b	.LBB233_104
 .LBB233_59:
 	lsrs	r0, r0, #8
 	lsrs	r1, r6, #16
 	lsls	r1, r1, #8
 	adds	r0, r1, r0
 	movs	r1, #1
-	b	.LBB233_101
+	b	.LBB233_99
 .LBB233_60:
 	ldr	r1, [sp, #36]
 	adds	r1, #192
@@ -16870,7 +16855,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	orrs	r3, r1
 	orrs	r3, r2
 	movs	r0, #11
-	b	.LBB233_88
+	b	.LBB233_86
 .LBB233_61:
 	ldr	r1, [sp, #24]
 	adds	r1, #64
@@ -16881,7 +16866,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ldr	r0, .LCPI233_1
 .LBB233_62:
 	adds	r0, #192
-	b	.LBB233_98
+	b	.LBB233_96
 .LBB233_63:
 	movs	r1, #135
 	lsls	r1, r1, #3
@@ -16889,8 +16874,8 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ands	r2, r1
 	lsrs	r1, r0, #8
 	orrs	r1, r2
-	ldr	r0, .LCPI233_15
-	b	.LBB233_98
+	ldr	r0, .LCPI233_13
+	b	.LBB233_96
 .LBB233_64:
 	lsrs	r0, r6, #5
 	movs	r1, #120
@@ -16907,7 +16892,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	adds	r0, r0, r1
 	lsrs	r1, r6, #16
 	lsls	r1, r1, #8
-	b	.LBB233_102
+	b	.LBB233_100
 .LBB233_67:
 	ldr	r1, [sp, #16]
 	adds	r1, #192
@@ -16915,7 +16900,7 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ands	r2, r1
 	lsrs	r0, r0, #8
 	orrs	r0, r2
-	ldr	r1, .LCPI233_15
+	ldr	r1, .LCPI233_13
 	b	.LBB233_57
 .LBB233_68:
 	lsrs	r0, r6, #13
@@ -16928,20 +16913,20 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ands	r0, r6
 	lsrs	r0, r0, #8
 	orrs	r0, r1
-	ldr	r1, .LCPI233_16
+	ldr	r1, .LCPI233_14
 .LBB233_69:
 	adds	r0, r0, r1
 .LBB233_70:
 	adds	r0, #128
-	b	.LBB233_106
+	b	.LBB233_104
 .LBB233_71:
 	movs	r0, #255
 	lsrs	r1, r6, #18
 	bics	r6, r0
 	uxtb	r0, r1
 	adds	r0, r6, r0
-	ldr	r1, .LCPI233_10
-	b	.LBB233_102
+	ldr	r1, .LCPI233_9
+	b	.LBB233_100
 .LBB233_72:
 	movs	r1, #199
 	lsls	r1, r1, #3
@@ -16950,59 +16935,53 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	lsrs	r0, r0, #8
 	orrs	r0, r2
 	ldr	r1, .LCPI233_1
-	b	.LBB233_98
+	b	.LBB233_96
 .LBB233_73:
 	movs	r0, #255
 	lsrs	r1, r6, #18
 	bics	r6, r0
 	uxtb	r0, r1
 	adds	r0, r6, r0
-	ldr	r1, .LCPI233_8
-	b	.LBB233_102
-	.p2align	2
-.LCPI233_21:
-	.long	4294959104
-	.p2align	2
-.LCPI233_22:
-	.long	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h6ea9dda1436fa4e0E
-	.p2align	2
-.LCPI233_23:
-	.long	4294936576
-	.p2align	2
-.LCPI233_24:
-	.long	16576
-	.p2align	2
-.LCPI233_25:
-	.long	43605
-	.p2align	2
-.LCPI233_26:
-	.long	17088
-	.p2align	2
-.LCPI233_27:
-	.long	4294940672
-	.p2align	2
-.LCPI233_28:
-	.long	4294942720
-	.p2align	2
-.LCPI233_29:
-	.long	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h89a873aad23f5af5E
-	.p2align	2
-.LCPI233_30:
-	.long	4294946816
-	.p2align	2
-.LCPI233_31:
-	.long	17344
-	.p2align	1
-.LBB233_85:
+	ldr	r1, .LCPI233_7
+	b	.LBB233_100
+.LBB233_74:
 	lsrs	r0, r6, #5
 	movs	r1, #184
 	ands	r1, r0
 	movs	r0, #71
 	lsls	r0, r0, #8
-.LBB233_86:
+.LBB233_75:
 	adds	r0, r1, r0
 	b	.LBB233_58
-.LBB233_87:
+	.p2align	2
+.LCPI233_19:
+	.long	4294959104
+	.p2align	2
+.LCPI233_20:
+	.long	4294936576
+	.p2align	2
+.LCPI233_21:
+	.long	16576
+	.p2align	2
+.LCPI233_22:
+	.long	43605
+	.p2align	2
+.LCPI233_23:
+	.long	17088
+	.p2align	2
+.LCPI233_24:
+	.long	4294940672
+	.p2align	2
+.LCPI233_25:
+	.long	4294942720
+	.p2align	2
+.LCPI233_26:
+	.long	4294946816
+	.p2align	2
+.LCPI233_27:
+	.long	17344
+	.p2align	1
+.LBB233_85:
 	ldr	r2, [sp, #36]
 	mov	r0, r2
 	adds	r0, #136
@@ -17018,10 +16997,10 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	orrs	r3, r2
 	orrs	r3, r1
 	movs	r0, #15
-.LBB233_88:
+.LBB233_86:
 	lsls	r0, r0, #11
-	b	.LBB233_105
-.LBB233_89:
+	b	.LBB233_103
+.LBB233_87:
 	lsrs	r0, r6, #13
 	movs	r1, #135
 	lsls	r1, r1, #3
@@ -17032,25 +17011,20 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ands	r0, r6
 	lsrs	r0, r0, #8
 	orrs	r0, r1
-	ldr	r1, .LCPI233_16
-.LBB233_90:
+	ldr	r1, .LCPI233_14
+.LBB233_88:
 	adds	r0, r0, r1
-.LBB233_91:
+.LBB233_89:
 	adds	r0, #192
-	b	.LBB233_106
-.LBB233_92:
+	b	.LBB233_104
+.LBB233_90:
 	lsls	r0, r6, #16
 	lsrs	r0, r0, #25
 	str	r0, [sp]
 	str	r3, [sp, #28]
-	ldr	r1, .LCPI233_11
-	blx	r1
+	bl	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h6ea9dda1436fa4e0E
 	ldr	r0, [sp]
-	ldr	r1, .LCPI233_11
-	blx	r1
-	ldr	r0, [sp]
-	ldr	r1, .LCPI233_11
-	blx	r1
+	bl	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h6ea9dda1436fa4e0E
 	ldr	r3, [sp, #28]
 	ldr	r0, [sp, #36]
 	adds	r0, #192
@@ -17062,9 +17036,9 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	ldr	r1, [sp]
 	lsls	r1, r1, #6
 	adds	r0, r1, r0
-	ldr	r1, .LCPI233_13
-	b	.LBB233_102
-.LBB233_93:
+	ldr	r1, .LCPI233_11
+	b	.LBB233_100
+.LBB233_91:
 	ldr	r1, [sp, #20]
 	adds	r1, #64
 	lsrs	r2, r6, #13
@@ -17074,10 +17048,10 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	movs	r1, #35
 	lsls	r1, r1, #9
 	orrs	r1, r0
-.LBB233_94:
+.LBB233_92:
 	movs	r0, #128
-	b	.LBB233_98
-.LBB233_95:
+	b	.LBB233_96
+.LBB233_93:
 	ldr	r1, [sp, #16]
 	adds	r1, #192
 	lsrs	r2, r6, #13
@@ -17089,22 +17063,17 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	orrs	r3, r1
 	orrs	r3, r2
 	movs	r0, #23
-.LBB233_96:
+.LBB233_94:
 	lsls	r0, r0, #10
-	b	.LBB233_105
-.LBB233_97:
+	b	.LBB233_103
+.LBB233_95:
 	lsls	r0, r6, #16
 	lsrs	r0, r0, #26
 	str	r0, [sp]
 	str	r3, [sp, #28]
-	ldr	r1, .LCPI233_11
-	blx	r1
+	bl	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h6ea9dda1436fa4e0E
 	ldr	r0, [sp]
-	ldr	r1, .LCPI233_11
-	blx	r1
-	ldr	r0, [sp]
-	ldr	r1, .LCPI233_11
-	blx	r1
+	bl	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h6ea9dda1436fa4e0E
 	ldr	r3, [sp, #28]
 	ldr	r0, [sp, #36]
 	adds	r0, #192
@@ -17118,10 +17087,10 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	adds	r1, r0, r1
 	movs	r0, #13
 	lsls	r0, r0, #11
-.LBB233_98:
+.LBB233_96:
 	orrs	r0, r1
-	b	.LBB233_106
-.LBB233_99:
+	b	.LBB233_104
+.LBB233_97:
 	ldr	r1, [sp, #36]
 	adds	r1, #192
 	lsrs	r2, r6, #13
@@ -17134,20 +17103,15 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	orrs	r3, r2
 	movs	r0, #5
 	lsls	r0, r0, #12
-	b	.LBB233_105
-.LBB233_100:
+	b	.LBB233_103
+.LBB233_98:
 	lsls	r0, r6, #16
 	lsrs	r0, r0, #26
 	str	r0, [sp]
 	str	r3, [sp, #28]
-	ldr	r1, .LCPI233_11
-	blx	r1
+	bl	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h6ea9dda1436fa4e0E
 	ldr	r0, [sp]
-	ldr	r1, .LCPI233_11
-	blx	r1
-	ldr	r0, [sp]
-	ldr	r1, .LCPI233_11
-	blx	r1
+	bl	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h6ea9dda1436fa4e0E
 	ldr	r3, [sp, #28]
 	ldr	r0, [sp, #36]
 	adds	r0, #192
@@ -17160,12 +17124,12 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	lsls	r1, r1, #6
 	adds	r0, r1, r0
 	movs	r1, #3
-.LBB233_101:
+.LBB233_99:
 	lsls	r1, r1, #13
-.LBB233_102:
+.LBB233_100:
 	adds	r0, r0, r1
-	b	.LBB233_106
-.LBB233_103:
+	b	.LBB233_104
+.LBB233_101:
 	ldr	r1, [sp, #20]
 	adds	r1, #192
 	lsrs	r2, r6, #13
@@ -17177,28 +17141,28 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 	orrs	r3, r1
 	orrs	r3, r2
 	movs	r0, #47
-.LBB233_104:
+.LBB233_102:
 	lsls	r0, r0, #9
-.LBB233_105:
+.LBB233_103:
 	orrs	r0, r3
 	mov	r3, r6
-.LBB233_106:
+.LBB233_104:
 	lsls	r1, r4, #1
 	ldr	r2, [sp, #40]
 	strh	r0, [r2, r1]
 	adds	r4, r4, #1
 	subs	r5, r5, #1
-	beq	.LBB233_108
+	beq	.LBB233_106
 	b	.LBB233_2
-.LBB233_107:
+.LBB233_105:
 	lsrs	r0, r6, #16
-	b	.LBB233_106
-.LBB233_108:
+	b	.LBB233_104
+.LBB233_106:
 	ldr	r0, [sp, #4]
 	str	r0, [sp, #56]
 	ldr	r4, [sp, #12]
 	ldr	r6, [sp, #8]
-.LBB233_109:
+.LBB233_107:
 	ldr	r0, [sp, #32]
 	str	r0, [sp, #64]
 	str	r6, [sp, #60]
@@ -17215,26 +17179,22 @@ _ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E:
 .LCPI233_4:
 	.long	4294955008
 .LCPI233_5:
-	.long	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h89a873aad23f5af5E
-.LCPI233_6:
 	.long	4294946816
-.LCPI233_7:
+.LCPI233_6:
 	.long	4294944768
-.LCPI233_8:
+.LCPI233_7:
 	.long	4294942720
-.LCPI233_10:
+.LCPI233_9:
 	.long	4294938624
 .LCPI233_11:
-	.long	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h6ea9dda1436fa4e0E
-.LCPI233_13:
 	.long	4294934528
-.LCPI233_14:
+.LCPI233_12:
 	.long	17600
-.LCPI233_15:
+.LCPI233_13:
 	.long	17344
-.LCPI233_16:
+.LCPI233_14:
 	.long	17088
-.LCPI233_17:
+.LCPI233_15:
 	.long	16576
 .Lfunc_end233:
 	.size	_ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E, .Lfunc_end233-_ZN1c1c8compiler8Compiler8link_asm17h9ea42e86dec98448E

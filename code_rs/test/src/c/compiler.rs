@@ -718,7 +718,7 @@ impl const BitSize for Condition {
     }
 }
 
-macro_rules! check_instr_size {
+/*macro_rules! check_instr_size {
     ($prefix:expr, [$id:ident $(, $rid:ident)*], $head:expr $(, $rest:expr)*) => {
         type ${ concat(T, $id) } = impl BitSize;
         let _: &${ concat(T, $id) } = &$head;
@@ -728,6 +728,24 @@ macro_rules! check_instr_size {
     ($prefix:expr, [$_:ident $(,$id:ident)*], ) => {
         const TOTAL: usize = ($prefix as usize) $(+ $id)*;
         const CHECK: () = assert!(TOTAL <= 16, "Instruction exceeds 16 bits");
+    };
+    ($prefix:expr, $($lst:expr),*) => {
+        check_instr_size!($prefix, [I], $($lst),*);
+    }
+}*/
+
+// https://users.rust-lang.org/t/any-way-to-use-const-member-of-non-const-values-type-in-a-const-context/132598/3
+macro_rules! check_instr_size {
+    ($prefix:expr, [$id:ident $(, $rid:ident => $rval:expr)*], $head:expr $(, $rest:expr)*) => {
+        check_instr_size!($prefix, [${ concat(i, $id) }, $id => $head $(, $rid => $rval)*], $($rest),*);
+    };
+    ($prefix:expr, [$_:ident $(, $id:ident => $val:expr)*], ) => {
+        const fn assert_helper< $( $id: BitSize ),* >( $( _: [$id; 0] ),* ) {
+            const {
+                assert!((0 $(+ $id::SIZE)*) <= 16, "Instruction exceeds 16 bits");
+            }
+        }
+        assert_helper( $( if false { [$val; 0] } else { [] } ),* );
     };
     ($prefix:expr, $($lst:expr),*) => {
         check_instr_size!($prefix, [I], $($lst),*);
