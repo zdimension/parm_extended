@@ -605,7 +605,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                             writeln!(get_tty(), "fcode addr: {:x}", addr);
                             let mut jcomp = Compiler::new();
                             writeln!(get_tty(), "<jcode>");
-                            jcomp.emit(LdrPcImm { rd: R0, immw8: u10::new(4) });
+                            jcomp.emit(LdrPcImm { rd: R0, immw8: u10::new(0) });
                             jcomp.emit(BxLo { rm: R0 });
                             //jcomp.emit(BxHi { rm: LR });
                             //jcomp.emit(Nop);
