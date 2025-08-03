@@ -17,7 +17,6 @@ use Instruction::*;
 use Reg::*;
 use HiReg::*;
 use crate::c::compiler::CompileError::GenericDyn;
-use crate::c::lexer::Comparison::Equal;
 use crate::c::lexer::Operator::BoolOp;
 use crate::c::parse_expr::{BinOp, Expression, SizeOfOp, UnaryOp};
 use crate::parm::heap::string::String;
@@ -40,7 +39,7 @@ macro_rules! comperr {
 pub type CodeVec = AVec<u16, ConstAlign<4>>;
 pub type CodeBox = ABox<[u16], ConstAlign<4>>;
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct Jump {
     pub cond: Condition,
     pub instr_pos: usize, // where the jump instruction is located
@@ -55,6 +54,7 @@ pub struct Compiler<'a> {
     pub depth: usize,
     pub locals_size: usize,
     pub scope: Vec<&'a Scope>,
+    pub deferred: Vec<(usize, fn(&Compiler<'a>) -> Instruction)>
 }
 
 fn fit_signed_into< const BITS: usize>(val: usize) -> Result<usize, ()> {
@@ -80,6 +80,7 @@ impl<'a> Compiler<'a> {
             depth: 0,
             locals_size: 0,
             scope: vec![],
+            deferred: vec![],
         }
     }
 
@@ -102,7 +103,7 @@ impl<'a> Compiler<'a> {
 
     #[inline(never)]
     pub fn link(mut self) -> Vec<Instruction> {
-        for Jump { cond, instr_pos, target } in self.jumps {
+        for Jump { cond, instr_pos, target } in self.jumps.iter().copied() {
             let Some(target) = self.labels[target] else {
                 panic!("Jump target {} not found", target);
             };
@@ -120,6 +121,16 @@ impl<'a> Compiler<'a> {
             };
         }
 
+        for (deferred_pos, f) in self.deferred.iter().copied() {
+            if deferred_pos >= self.instructions.len() {
+                panic!("Deferred instruction position out of bounds: {}", deferred_pos);
+            }
+            let instruction = f(&self);
+            self.instructions[deferred_pos] = instruction;
+        }
+
+        rprintln!("Function with locals size: {}", self.locals_size);
+
         self.instructions
     }
 
@@ -131,6 +142,11 @@ impl<'a> Compiler<'a> {
         use core::fmt::Write;
         //rprintln!("emit: {:04x} {:?}", instruction.encode(), instruction).unwrap();
         self.instructions.push(instruction);
+    }
+
+    pub fn emit_deferred(&mut self, f: fn(&Compiler<'a>) -> Instruction) {
+        self.deferred.push((self.instructions.len(), f));
+        self.emit(Placeholder);
     }
 
     pub fn emit_push(&mut self, regs: RegList) {
@@ -169,7 +185,8 @@ impl<'a> Compiler<'a> {
     fn enter(&mut self, scope: &'a Scope) {
         self.emit(SubsImm8 { rd: R7, imm8: u8::try_from(scope.var_size).unwrap() });
         self.scope.push(scope);
-        self.depth += scope.var_size;
+        self.depth = self.depth.wrapping_add(scope.var_size);
+        self.locals_size = self.locals_size.max(self.depth);
     }
 
     fn leave(&mut self) {
@@ -191,11 +208,11 @@ impl<'a> Compiler<'a> {
     #[inline(never)]
     pub fn emit_function(&mut self, proto: &FunctionImpl, body: &'a Block, scope: &'a Scope) -> Result<(), CompileError> {
         self.emit_push(RegList::new([R7], true));
-        self.locals_size = Self::get_max_local_size(body);
-        rprintln!("Function with locals size: {}", self.locals_size);
+        //rprintln!("Function with locals size: {}", self.locals_size);
         self.emit(AddRegSpImm { rd: R7, immw8: u10::new(scope.var_size as u16) }); // use r7 as frame pointer
-        self.emit(SubSp { immw7: u9::new(self.locals_size as u16) });
+        self.emit_deferred(|self_| SubSp { immw7: u9::new(self_.locals_size as u16) });
         //self.emit(AddRegSpImm { rd: R7, immw8: u10::new(0) }); // use r7 as frame pointer
+        self.depth = 0usize.wrapping_sub(scope.var_size);
         self.enter(scope);
 
         self.emit_block(body)?;
@@ -203,7 +220,7 @@ impl<'a> Compiler<'a> {
         self.leave();
 
         self.set_label_here(0); // Set the label for the function return
-        self.emit(AddSp { immw7: u9::new(self.locals_size as u16) }); // Restore stack pointer
+        self.emit_deferred(|self_| AddSp { immw7: u9::new(self_.locals_size as u16) }); // Restore stack pointer
         self.emit_pop(RegList::new([R7], true));
         Ok(())
     }
@@ -234,6 +251,31 @@ impl<'a> Compiler<'a> {
                 }
                 self.jump_to(0, Condition::Al); // Jump to the function return label
             },
+            If(cond, then, else_) => {
+                let else_label = self.new_label();
+                let end_label = self.new_label();
+                self.emit_expression(cond)?;
+                self.emit_pop(RegList::new([R0], false)); // Pop condition result to R0
+                self.emit(CmpImm { rd: R0, imm8: 0 }); // Compare with 0
+                self.jump_to(else_label, Condition::Eq); // Jump to else if condition is false
+
+                // Emit then block
+                self.emit_statement(then)?;
+
+                // Jump to end after then block
+                self.jump_to(end_label, Condition::Al);
+
+                // Emit else block if present
+                if let Some(else_block) = else_ {
+                    self.set_label_here(else_label);
+                    self.emit_statement(else_block)?;
+                } else {
+                    self.set_label_here(else_label);
+                }
+
+                // End label
+                self.set_label_here(end_label);
+            }
             _ => todo!()
         }
         Ok(())
@@ -313,7 +355,7 @@ impl<'a> Compiler<'a> {
                 let Analysis { ty: lty, addr: laddr } = self.analyze_expression(l)?;
                 let Analysis { ty: rty, .. } = self.analyze_expression(r)?;
                 let ty = match *op {
-                    Simple(Plus | Minus | Multiply) => {
+                    Simple(Plus | Minus | Multiply | BitwiseAnd | BitwiseOr | BitwiseXor) => {
                         UnqualType::Int(None).into()
                     }
                     Bool(_) => {
@@ -502,6 +544,7 @@ impl<'a> Compiler<'a> {
                 self.emit_push(RegList::new([R0], false));
             }
             Expression::BinOp(op, a, b) => {
+                use self::Comparison::*;
                 use BinOp::*;
                 use AssignableOperator::*;
                 match *op {
@@ -543,6 +586,18 @@ impl<'a> Compiler<'a> {
                     Simple(BitwiseXor) => self.emit(Eors { rdn: R0, rm: R1 }),
                     Simple(ShiftLeft) => self.emit(Lsls { rdn: R0, rm: R1 }),
                     Simple(ShiftRight) => self.emit(Lsrs { rdn: R0, rm: R1 }),
+
+                    Comparison(Equal) => {
+                        self.emit(Subs { rd: R1, rn: R0, rm: R1 }); // R1 = a - b. 0 if equal, ≠ 0 if different
+                        self.emit(Rsbs { rd: R0, rn: R1 }); // R0 = 0 - R1 = b - a. Sets C if R1 = 0 (equal).
+                        self.emit(Adcs { rdn: R0, rm: R1 }); // R0 = R0 + R1 + C = (b - a) + (a - b) + C = 1 if equal, 0 if different
+                    }
+                    Comparison(NotEqual) => {
+                        self.emit(Subs { rd: R0, rn: R0, rm: R1 }); // R0 = a - b. 0 if equal, ≠ 0 if different
+                        self.emit(SubsImm { rd: R1, rn: R0, imm3: u3::new(1) }); // R1 = R0 - 1. If equal, the sub borrows so C = 0.
+                        self.emit(Sbcs { rdn: R0, rm: R1 }); // R0 = R0 - R1 - !C = (a - b) - (a - b - 1) - !C = 1 - !C = C = 0 if equal, 1 if different
+                    }
+
 
                     _ => todo!()
                 }
@@ -718,26 +773,10 @@ impl const BitSize for Condition {
     }
 }
 
-/*macro_rules! check_instr_size {
-    ($prefix:expr, [$id:ident $(, $rid:ident)*], $head:expr $(, $rest:expr)*) => {
-        type ${ concat(T, $id) } = impl BitSize;
-        let _: &${ concat(T, $id) } = &$head;
-        const $id: usize = ${ concat(T, $id) }::SIZE;
-        check_instr_size!($prefix, [${ concat(I, $id) }, $id $(, $rid)*], $($rest),*);
-    };
-    ($prefix:expr, [$_:ident $(,$id:ident)*], ) => {
-        const TOTAL: usize = ($prefix as usize) $(+ $id)*;
-        const CHECK: () = assert!(TOTAL <= 16, "Instruction exceeds 16 bits");
-    };
-    ($prefix:expr, $($lst:expr),*) => {
-        check_instr_size!($prefix, [I], $($lst),*);
-    }
-}*/
-
 // https://users.rust-lang.org/t/any-way-to-use-const-member-of-non-const-values-type-in-a-const-context/132598/3
 macro_rules! check_instr_size {
     ($prefix:expr, [$id:ident $(, $rid:ident => $rval:expr)*], $head:expr $(, $rest:expr)*) => {
-        check_instr_size!($prefix, [${ concat(i, $id) }, $id => $head $(, $rid => $rval)*], $($rest),*);
+        check_instr_size!($prefix, [${ concat(I, $id) }, $id => $head $(, $rid => $rval)*], $($rest),*);
     };
     ($prefix:expr, [$_:ident $(, $id:ident => $val:expr)*], ) => {
         const fn assert_helper< $( $id: BitSize ),* >( $( _: [$id; 0] ),* ) {

@@ -546,12 +546,9 @@ impl<'a> Tokenizer<'a> {
                             }
                             Token::Integer(value as i32)
                         }
-                        None => {
+                        _ => {
                             // Just a single '0'
                             Token::Integer(0)
-                        }
-                        _ => {
-                            return Err(ReadError::IntParseError);
                         }
                     }
                 }

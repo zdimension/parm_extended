@@ -192,7 +192,7 @@ impl CRepl {
         //     return a;
         // }
         // "#);
-        /*let code = String::from(br#"
+        let code = String::from(br#"
         int even(int x) {
             if ((x & 1) == 1) {
                 return 0;
@@ -200,14 +200,14 @@ impl CRepl {
                 return 1;
             }
         }
-        "#);*/
-        let code = String::from(br#"
-        int even(int x) {
-            char a;
-            a = (char)x;
-            return (int)a;
-        }
         "#);
+        // let code = String::from(br#"
+        // int even(int x) {
+        //     char a;
+        //     a = (char)x;
+        //     return (int)a;
+        // }
+        // "#);
 
         self.process(&code);
 
