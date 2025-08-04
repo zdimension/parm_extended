@@ -1,10 +1,8 @@
 #file "ldrstuff.s"
-movs r0, #0xab
-lsls r0, r0, #4
-movs r1, #0xcd
-orrs r0, r0, r1
-movs r1, #0x12
-lsls r1, r1, #4
-orrs r0, r0, r1
-movs r1, #0x34
-orrs r0, r0, r1
+.byte	4
+.byte	5
+.byte	3
+.zero	5
+.byte 8
+movs r0, #1
+.$END:

@@ -142,7 +142,7 @@ impl<'a> Compiler<'a> {
     }
 
     #[inline(never)]
-    fn dump(&self) {
+    pub fn dump(&self) {
         for i in &self.instructions {
             rprintln!("{:04x} {}", i.encode(), i);
         }
@@ -375,6 +375,27 @@ impl<'a> Compiler<'a> {
         panic!("Symbol not found: {}", name);
     }
 
+    fn assert_scalar<'t, T: AsRef<UnqualType> + Display + 't>(ty: T) -> Result<T, CompileError> {
+        match ty.as_ref() {
+            UnqualType::Int(_) | UnqualType::Char(_) | UnqualType::Pointer(_) => Ok(ty),
+            _ => comperr!("Expected scalar type, found: {}", ty),
+        }
+    }
+
+    fn assert_arithmetic<'t, T: AsRef<UnqualType> + Display + 't>(ty: T) -> Result<T, CompileError> {
+        match ty.as_ref() {
+            UnqualType::Int(_) | UnqualType::Char(_) => Ok(ty),
+            _ => comperr!("Expected arithmetic type, found: {}", ty),
+        }
+    }
+
+    fn assert_integer<'t, T: AsRef<UnqualType> + Display + 't>(ty: T) -> Result<T, CompileError> {
+        match ty.as_ref() {
+            UnqualType::Int(_) | UnqualType::Char(_) | UnqualType::Bool => Ok(ty),
+            _ => comperr!("Expected integer type, found: {}", ty),
+        }
+    }
+
     fn analyze_expression<'e>(&mut self, expr: &'e Expression) -> Result<Analysis<'e>, CompileError> {
         Ok(match expr {
             Expression::SymRef(name) => {
@@ -389,21 +410,24 @@ impl<'a> Compiler<'a> {
                     Address => UnqualType::Pointer(ty).into(),
                     Deref => {
                         let UnqualType::Pointer(ref inner) = *ty.unqual else {
-                            return Err(GenericDyn(format!("Expected pointer type for dereference, found: {:?}", ty)));
+                            return Err(GenericDyn(format!("Expected pointer type for dereference, found: {}", ty)));
                         };
                         return Ok(Analysis {
                             ty: inner.clone(),
                             addr: Some(self::Address::Dynamic(&*val))
                         });
                     }
-                    Plus => ty.unqual,
-                    Minus => ty.unqual,
-                    BitwiseNot => ty.unqual,
-                    Not => UnqualType::Bool.into(),
-                    IncDec(_, _) => ty.unqual,
+                    Plus => Self::assert_arithmetic(ty)?.into(),
+                    Minus => Self::assert_arithmetic(ty)?.into(),
+                    BitwiseNot => Self::assert_integer(ty)?.into(),
+                    Not => {
+                        Self::assert_scalar(ty)?;
+                        UnqualType::Bool.into()
+                    }
+                    IncDec(_, _) => ty,
                 };
                 Analysis {
-                    ty: rty.into(),
+                    ty: rty,
                     addr: None
                 }
             }
@@ -422,7 +446,7 @@ impl<'a> Compiler<'a> {
             Expression::FuncCall(f, args) => {
                 let Analysis { ty, addr } = self.analyze_expression(f)?;
                 let UnqualType::Function(fi) = &*ty.unqual else {
-                    comperr!("Expected function type for function call, found: {:?}", ty);
+                    comperr!("Expected function type for function call, found: {}", ty);
                 };
                 if args.len() != fi.args.len() {
                     comperr!("Function call argument count mismatch: expected {}, found {}", fi.args.len(), args.len());
@@ -459,7 +483,7 @@ impl<'a> Compiler<'a> {
                         // todo
 
                         if lty != rty {
-                            comperr!("{:?} Assignment type mismatch: left type {} does not match right type {}", expr, lty, rty);
+                            comperr!("Assignment type mismatch: left type {} does not match right type {}", lty, rty);
                         }
                         lty
                     }
@@ -488,6 +512,7 @@ impl<'a> Compiler<'a> {
         }
     }
 
+    /// Clobbers `reg`, potentially R0 and R1 (emit_expression). Preserves stack.
     fn emit_address_to_reg(&mut self, address: Address, reg: Reg) -> Result<(), CompileError> {
         match address {
             Address::Local(offset) => {
@@ -505,6 +530,7 @@ impl<'a> Compiler<'a> {
         Ok(())
     }
 
+    /// Clobbers `reg`. Preserves stack.
     fn emit_imm32_to_reg(&mut self, reg: Reg, imm32: usize) {
         let lbl = self.new_label();
 
@@ -516,16 +542,18 @@ impl<'a> Compiler<'a> {
         self.set_label_here(lbl);
     }
 
+    /// Clobbers `reg`, potentially R0 and R1 (emit_expression). Preserves stack.
     fn emit_assignment(&mut self, src: Reg, dst: &Expression) -> Result<(), CompileError> {
         let Analysis { ty: lty, addr: laddr } = self.analyze_expression(dst)?;
         let Some(laddr) = laddr else {
             comperr!("Left side of assignment must be an lvalue (have an address)");
         };
         self.emit_address_to_reg(laddr, R1)?;
-        self.emit(StrRegImm { rd: R0, rb: R1, immw5: u7::new(0) });
+        self.emit(StrRegImm { rd: src, rb: R1, immw5: u7::new(0) });
         Ok(())
     }
 
+    /// Clobbers R0 and R1. Pushes result to stack.
     fn load_from(&mut self, ty: &QualType, addr: &Address) -> Result<(), CompileError> {
         match *ty.unqual {
             UnqualType::Char(sign) => {
@@ -540,22 +568,41 @@ impl<'a> Compiler<'a> {
                                 self.emit(LdrbRegImm { rd: R0, rb: R7, imm5: u5::new(offset) });
                             }
                         }
-                        self.emit(LdrbRegImm { rd: R0, rb: R7, imm5: u5::new(offset) });
+                        self.emit_push(RegList::new([R0], false));
+                    }
+                    &Address::Dynamic(expr) => {
+                        self.emit_expression(expr)?;
+                        self.emit_pop(RegList::new([R0], false));
+                        match sign {
+                            Some(Signedness::Signed) => {
+                                self.emit(MovsImm { rd: R1, imm8: 0 });
+                                self.emit(Ldrsb { rd: R0, rb: R0, ro: R1 });
+                            }
+                            Some(Signedness::Unsigned) | None => {
+                                self.emit(LdrbRegImm { rd: R0, rb: R0, imm5: u5::new(0) });
+                            }
+                        }
                         self.emit_push(RegList::new([R0], false));
                     }
                     _ => todo!()
                 }
             }
-            UnqualType::Int(_) => {
+            UnqualType::Int(_) | UnqualType::Pointer(_) => {
                 match addr {
                     &Address::Local(offset) => {
                         self.emit(LdrRegImm { rd: R0, rb: R7, immw5: u7::new(offset) });
                         self.emit_push(RegList::new([R0], false));
                     }
+                    &Address::Dynamic(expr) => {
+                        self.emit_expression(expr)?;
+                        self.emit_pop(RegList::new([R0], false));
+                        self.emit(LdrRegImm { rd: R0, rb: R0, immw5: u7::new(0) });
+                        self.emit_push(RegList::new([R0], false));
+                    }
                     _ => todo!()
                 }
             }
-            _ => comperr!("Unsupported type for symbol reference: {:?}", ty),
+            _ => comperr!("Unsupported type for symbol reference: {}", ty),
         }
         Ok(())
     }
@@ -596,9 +643,25 @@ impl<'a> Compiler<'a> {
                         // No cast needed, types are the same
                         self.emit_expression(expr)?;
                     }
-                    (UnqualType::Int(_), UnqualType::Char(_)) => {
-                        // Cast from char to int
+                    (UnqualType::Int(_), UnqualType::Char(Some(Signedness::Unsigned) | None)) => {
+                        // Cast from unsigned char to int, nothing to do
                         self.emit_expression(expr)?;
+                    }
+                    (UnqualType::Int(_), UnqualType::Pointer(_)) => {
+                        // Cast from T* to int, nothing to do
+                        self.emit_expression(expr)?;
+                    }
+                    (UnqualType::Pointer(_), UnqualType::Int(_)) => {
+                        // Cast from T* to int, nothing to do
+                        self.emit_expression(expr)?;
+                    }
+                    (UnqualType::Int(Some(Signedness::Signed) | None), UnqualType::Char(Some(Signedness::Signed))) => {
+                        // Cast from signed char to int, we need to sign-extend
+                        self.emit_expression(expr)?;
+                        self.emit_pop(RegList::new([R0], false)); // Pop result to R
+                        self.emit(LslImm { rd: R0, rm: R0, imm5: u5::new(24) }); // Shift left to clear upper bits
+                        self.emit(AsrImm { rd: R0, rm: R0, imm5: u5::new(24) }); // Shift right to sign-extend
+                        self.emit_push(RegList::new([R0], false)); // Push result back to stack
                     }
                     (UnqualType::Char(_), UnqualType::Int(_)) => {
                         // Cast from int to char (truncate to 8 bits)
@@ -620,7 +683,7 @@ impl<'a> Compiler<'a> {
                         self.emit(Sbcs { rdn: R0, rm: R1 }); // R0 = R0 - R1 - !C = R0 - (R0 - 1) - !C = 1 - !C = (R0 > 1)
                         self.emit_push(RegList::new([R0], false)); // Push result back to stack
                     }
-                    _ => comperr!("Unsupported cast from {:?} to {:?}", expr_ty, ty),
+                    _ => comperr!("Unsupported cast from {} to {}", expr_ty, ty),
                 }
             }
             Expression::ArrayAccess(arr, idx) => todo!(),
@@ -641,21 +704,31 @@ impl<'a> Compiler<'a> {
             }
             Expression::MemberAccess(x, member, access) => todo!(),
             Expression::UnaryOp(op, x) => {
-                self.emit_expression(x)?;
-                self.emit_pop(RegList::new([R0], false));
+                let Analysis { ty, addr } = self.analyze_expression(x)?;
                 match *op {
                     UnaryOp::Address => {
-                        let Analysis { ty, addr } = self.analyze_expression(x)?;
                         let Some(addr) = addr else {
                             comperr!("Address of expression without address");
                         };
                         self.emit_address_to_reg(addr, R0)?;
+                        return Ok(());
                     }
-                    UnaryOp::Deref => todo!(),
+                    UnaryOp::Deref => {
+                        self.load_from(&ty, &Address::Dynamic(x))?;
+                        return Ok(());
+                    }
+                    _ => {}
+                }
+                self.emit_expression(x)?;
+                self.emit_pop(RegList::new([R0], false));
+                match *op {
                     UnaryOp::Plus => { /* nop */ }
                     UnaryOp::Minus => self.emit(Negs { rd: R0, rn: R0 }),
                     UnaryOp::BitwiseNot => self.emit(Mvns { rd: R0, rm: R0 }),
-                    UnaryOp::Not => todo!(),
+                    UnaryOp::Not => {
+                        self.emit(Rsbs { rd: R1, rn: R0 }); // R1 = 0 - R0, sets C if R0 = 0 (true)
+                        self.emit(Adcs { rdn: R0, rm: R1 }); // R0 = R0 + R1 + C = R0 - R0 + C = C = 1 if R0 = 0 (true), 0 if R0 ≠ 0 (false)
+                    },
                     UnaryOp::IncDec(kind, pos) => {
                         use IncDec::*;
                         use OpPosition::*;
@@ -669,6 +742,7 @@ impl<'a> Compiler<'a> {
                         }
                         self.emit_assignment(op_target, x)?;
                     }
+                    _ => unreachable!()
                 }
                 self.emit_push(RegList::new([R0], false));
             }
@@ -676,6 +750,8 @@ impl<'a> Compiler<'a> {
                 use self::Comparison::*;
                 use BinOp::*;
                 use AssignableOperator::*;
+                let Analysis { ty: aty, addr: aaddr } = self.analyze_expression(a)?;
+                let Analysis { ty: bty, addr: baddr } = self.analyze_expression(b)?;
                 match *op {
                     Assignment(None) => {
                         self.emit_expression(b)?;
@@ -721,6 +797,7 @@ impl<'a> Compiler<'a> {
                         self.emit(SubsImm { rd: R1, rn: R0, imm3: u3::new(1) }); // R1 = R0 - 1. If equal, the sub borrows so C = 0.
                         self.emit(Sbcs { rdn: R0, rm: R1 }); // R0 = R0 - R1 - !C = (a - b) - (a - b - 1) - !C = 1 - !C = C = 0 if equal, 1 if different
                     }
+                    // todo: signed comparison
                     Comparison(LessThan) => {
                         self.emit(Cmp { rn: R0, rm: R1 }); // does a - b, sets C=1 if R0 >= R1 (because no borrow)
                         self.emit(Sbcs { rdn: R0, rm: R0 }); // R0 = R0 - R0 - !C = 0 - !C = 0 if R0 >= R1, -1 if R0 < R1
@@ -741,7 +818,6 @@ impl<'a> Compiler<'a> {
                         self.emit(MovsImm { rd: R0, imm8: 0 });
                         self.emit(Adcs { rdn: R0, rm: R0 });
                     }
-
 
                     _ => todo!()
                 }

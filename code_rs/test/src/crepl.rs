@@ -140,6 +140,7 @@ impl CRepl {
                         return EvalStatus::Ok;
                     }
                     comp.emit_pop(RegList::new([R0], true));
+                    comp.dump();
                     let code = comp.link_asm();
                     rprintln!("addr={:x}", code.as_ptr() as usize);
                     unsafe {

@@ -11,6 +11,7 @@ use crate::c::compiler::Instruction::*;
 use crate::c::compiler::Reg::*;
 use crate::c::types::{QualType, TypeBox, UnqualType};
 use crate::{println, rprintln};
+use crate::parm::control::breakpoint;
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum AccessType {
@@ -151,6 +152,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         }
     }
 
+    #[inline(never)]
     fn read_postfix_expression(&mut self) -> Result<Expression, ParseError> {
         plog("read_postfix_expression");
         let mut head = self.read_primary_expression()?;
@@ -221,6 +223,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(head)
     }
 
+    #[inline(never)]
     fn read_cast_expression(&mut self) -> Result<Expression, ParseError> {
         plog("read_cast_expression");
         if self.accept(Token::OpenParen) {
@@ -305,11 +308,9 @@ impl<'a, 'b> CParser<'a, 'b> {
                 ))
             }
             Some(Token::Operator(op)) => {
+                breakpoint();
                 let uop = match op {
-                    Operator::Simple(AssignableOperator::BitwiseAnd) => {
-                        //rprintln!("unddary {:?} {:?}", *op, UnaryOp::Address );
-                        UnaryOp::Address
-                    },
+                    Operator::Simple(AssignableOperator::BitwiseAnd) => UnaryOp::Address,
                     Operator::Simple(AssignableOperator::Multiply) => UnaryOp::Deref,
                     Operator::Simple(AssignableOperator::Plus) => UnaryOp::Plus,
                     Operator::Simple(AssignableOperator::Minus) => UnaryOp::Minus,
@@ -319,13 +320,10 @@ impl<'a, 'b> CParser<'a, 'b> {
                     _ => return self.read_postfix_expression(),
                 };
                 // unary operator
-                rprintln!("unary {:?} {:?}", *op, uop);
                 self.advance();
-                let expression = self.read_cast_expression()?;
-                rprintln!(" on {:?}", expression);
                 Ok(Expression::UnaryOp(
                     uop,
-                    Box::new(expression),
+                    Box::new(self.read_cast_expression()?),
                 ))
             }
 

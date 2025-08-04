@@ -827,6 +827,8 @@ def read_entire_code():
 
 
 lines = read_entire_code()
+lines += [".$END:"]
+
 lines_tok = tokenize_all(lines)
 # ignored_lines = {i for i, l in enumerate(lines[:-1])
 #                  if l.lower().startswith("b\t") and lines[i + 1] == f"{l[2:]}:"}  # fix for clang's redundant jumps
@@ -924,22 +926,34 @@ def main_loop():
                         case _:
                             break
 
-                if not tokens:
-                    continue
-
                 if line[0] == "#":
                     add_instr(line, size=0, tokenized=tokens)
                     continue
 
                 if byte_val is not None:
-                    if tokens[0] == ".byte":
-                        skip, byte_val2 = True, " ".join(tokens[1:])
-                    else:
-                        skip, byte_val2 = False, 0
+                    match tokens:
+                        case [".byte", *val]:
+                            skip, byte_val2 = True, " ".join(val)
+                        case [".zero", cnt, *rest]:
+                            cnt = int(cnt)
+                            match rest:
+                                case [",", val]:
+                                    val = int(val)
+                                case []:
+                                    val = 0
+                                case _:
+                                    raise AsmException("Invalid .zero directive")
+                            skip, byte_val2 = cnt == 1, val
+                            tokens = [".zero", str(cnt - 1), *rest]
+                        case _:
+                            skip, byte_val2 = False, 0
                     add_instr(f"$bytes {byte_val}, {byte_val2}", None, 1)
                     byte_val = None
                     if skip:
                         continue
+
+                if not tokens:
+                    continue
 
                 def full_line():
                     return " ".join(map(str, tokens))
@@ -1003,6 +1017,22 @@ def main_loop():
                             add_instr(full_line(), tokenized=tokens)
                             return
 
+                        case [".byte", *val]:
+                            byte_val = " ".join(val)
+                        case [".zero", cnt, *rest]:
+                            cnt = int(cnt)
+                            match rest:
+                                case [",", val]:
+                                    val = int(val)
+                                case []:
+                                    val = 0
+                                case _:
+                                    raise AsmException("Invalid .zero directive")
+                            for n in range(cnt // 2):
+                                add_instr(f"$bytes {val}, {val}", None, 1)
+                            if cnt % 2 == 1:
+                                byte_val = val
+
                         case [".inst.n", inst]:
                             val = eval(inst)
                             if not (0 <= val <= 0xffff):
@@ -1033,20 +1063,6 @@ def main_loop():
                             add_instr("$" + full_line()[1:], size=2)
                         case [".short", *val]:
                             add_instr("$" + full_line()[1:], size=1)
-                        case [".byte", *val]:
-                            byte_val = " ".join(val)
-                        case [".zero", cnt, *rest]:
-                            cnt = int(cnt)
-                            match rest:
-                                case [",", val]:
-                                    val = int(val)
-                                case []:
-                                    val = 0
-                                case _:
-                                    raise AsmException("Invalid .zero directive")
-                            for n in range((cnt - 1) // 2):
-                                add_instr(f"$bytes {val}, {val}", None, 1)
-                            add_instr(f"$bytes {val}, {val if cnt % 2 == 0 else 0}", None, 1)
                         case [".hidden", sym_name]:
                             add_symbol(sym_name).is_hidden = True
                         case [".globl", sym_name]:

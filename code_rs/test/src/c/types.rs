@@ -21,7 +21,7 @@ impl<T> PartialEq for NamedType<T> {
 
 pub type StructImpl = NamedType<OrderedMap<String, TypeBox>>;
 pub type UnionImpl = NamedType<OrderedMap<String, TypeBox>>;
-pub type EnumImpl = NamedType<Vec<String>>;
+pub type EnumImpl = NamedType<()>;
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Signedness {
@@ -65,7 +65,7 @@ pub enum UnqualType {
     Array(QualType, Option<usize>),
     Struct(StructImpl),
     //Union(UnionImpl),
-    //Enum(EnumImpl),
+    Enum(EnumImpl),
     Function(FunctionImpl),
 }
 
@@ -79,6 +79,7 @@ impl UnqualType {
             UnqualType::Array(ty, Some(size)) => size * ty.unqual.size(),
             UnqualType::Array(_, None) => todo!(),
             UnqualType::Struct(_) => todo!(),
+            UnqualType::Enum(_) => 4, // enum are always int backed
             UnqualType::Function(_) => todo!(),
         }
     }
@@ -98,11 +99,10 @@ impl Display for UnqualType {
             UnqualType::Array(qt, Some(size)) => write!(f, "{}[{}]", qt, size),
             UnqualType::Array(qt, None) => write!(f, "{}[]", qt),
             UnqualType::Struct(impl_) => {
-                if let Some(identity) = &impl_.identity {
-                    write!(f, "struct {}", identity)
-                } else {
-                    write!(f, "struct")
-                }
+                write!(f, "struct {}", impl_.identity.as_deref().unwrap_or("<anonymous>"))
+            },
+            UnqualType::Enum(impl_) => {
+                write!(f, "enum {}", impl_.identity.as_deref().unwrap_or("<anonymous>"))
             },
             UnqualType::Function(inner) => {
                 write!(f, "{}", inner)
@@ -125,7 +125,22 @@ pub struct QualType {
     pub type_qualifiers: TypeQualifiers,
 }
 
-impl From<UnqualType> for QualType {
+impl AsRef<UnqualType> for QualType {
+    fn as_ref(&self) -> &UnqualType {
+        &*self.unqual
+    }
+}
+
+impl<T: Into<TypeBox>> From<T> for QualType {
+    fn from(unqual: T) -> Self {
+        QualType {
+            unqual: unqual.into(),
+            type_qualifiers: TypeQualifiers::default(),
+        }
+    }
+}
+
+/*impl From<UnqualType> for QualType {
     fn from(unqual: UnqualType) -> Self {
         QualType {
             unqual: unqual.into(),
@@ -141,7 +156,7 @@ impl From<TypeBox> for QualType {
             type_qualifiers: TypeQualifiers::default(),
         }
     }
-}
+}*/
 
 impl Display for QualType {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
