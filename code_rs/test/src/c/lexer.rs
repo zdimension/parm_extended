@@ -1,7 +1,8 @@
+use alloc::string::String;
 use alloc::vec::Vec;
 use core::fmt;
 use core::fmt::Display;
-use crate::parm::heap::string::String;
+use core::str::Chars;
 use crate::parm::tty::{DisplayTarget, ParmDisplay};
 use crate::print;
 
@@ -315,16 +316,16 @@ impl ParmDisplay for ReadError {
 }
 
 pub struct Tokenizer<'a> {
-    code: &'a [char],
-    position: usize
+    code: &'a [u8],
+    position: usize,
 }
 
 impl<'a> Tokenizer<'a> {
-    pub fn new(code: &'a [char]) -> Self {
-        Tokenizer { code, position: 0 }
+    pub fn new(code: &'a str) -> Self {
+        Tokenizer { code: code.as_bytes(), position: 0 }
     }
 
-    fn skip_while(&mut self, predicate: impl Fn(char) -> bool) {
+    fn skip_while(&mut self, predicate: impl Fn(u8) -> bool) {
         while self.position < self.code.len() && predicate(self.code[self.position]) {
             self.position += 1;
         }
@@ -332,15 +333,15 @@ impl<'a> Tokenizer<'a> {
 
     fn skip_spaces(&mut self) {
         self.skip_while(|c| c.is_ascii_whitespace());
-        if self.position < self.code.len() - 1 && self.code[self.position] == '/'{
-            if self.code[self.position + 1] == '/' {
+        if self.position < self.code.len() - 1 && self.code[self.position] == b'/' {
+            if self.code[self.position + 1] == b'/' {
                 self.position += 2; // Skip "//"
-                self.skip_while(|c| c != '\n' && c != '\r'); // Skip to end of line
+                self.skip_while(|c| c != b'\n' && c != b'\r'); // Skip to end of line
                 self.skip_spaces();
-            } else if self.code[self.position + 1] == '*' {
+            } else if self.code[self.position + 1] == b'*' {
                 self.position += 2; // Skip "/*"f
                 while self.position < self.code.len() - 1 {
-                    if self.code[self.position] == '*' && self.code[self.position + 1] == '/' {
+                    if self.code[self.position] == b'*' && self.code[self.position + 1] == b'/' {
                         self.position += 2; // Skip "*/"
                         break;
                     }
@@ -351,11 +352,11 @@ impl<'a> Tokenizer<'a> {
         }
     }
 
-    fn read(&mut self) -> Result<char, ReadError> {
+    fn read(&mut self) -> Result<u8, ReadError> {
         self.advance().ok_or(ReadError::EOFFound)
     }
 
-    fn advance(&mut self) -> Option<char> {
+    fn advance(&mut self) -> Option<u8> {
         if self.position < self.code.len() {
             let ch = self.code[self.position];
             self.position += 1;
@@ -365,7 +366,7 @@ impl<'a> Tokenizer<'a> {
         }
     }
 
-    fn peek(&self) -> Option<char> {
+    fn peek(&self) -> Option<u8> {
         if self.position < self.code.len() {
             Some(self.code[self.position])
         } else {
@@ -373,19 +374,19 @@ impl<'a> Tokenizer<'a> {
         }
     }
 
-    fn expect(&mut self, expected: char) -> Result<(), ReadError> {
+    fn expect(&mut self, expected: u8) -> Result<(), ReadError> {
         if let Some(ch) = self.advance() {
             if ch == expected {
                 Ok(())
             } else {
-                Err(ReadError::CharacterExpected(expected, Some(ch)))
+                Err(ReadError::CharacterExpected(expected as char, Some(ch as char)))
             }
         } else {
-            Err(ReadError::CharacterExpected(expected, None))
+            Err(ReadError::CharacterExpected(expected as char, None))
         }
     }
 
-    fn accept(&mut self, expected: char) -> bool {
+    fn accept(&mut self, expected: u8) -> bool {
         if let Some(ch) = self.peek() {
             if ch == expected {
                 self.advance();
@@ -401,23 +402,23 @@ impl<'a> Tokenizer<'a> {
     fn read_char(&mut self) -> Result<char, ReadError> {
         if let Some(ch) = self.advance() {
             match ch {
-                'a' => Ok('\x07'),
-                'b' => Ok('\x08'),
-                'e' => Ok('\x1B'),
-                'f' => Ok('\x0C'),
-                'n' => Ok('\n'),
-                'r' => Ok('\r'),
-                't' => Ok('\t'),
-                'v' => Ok('\x0B'),
-                '\\' => Ok('\\'),
-                '\'' => Ok('\''), // Single quote
-                '"' => Ok('"'), // Double quote
-                '?' => Ok('?'),
-                '0'..='7' => { // between 1 and 3 octal digits
-                    let mut value = ch.to_digit(8).unwrap();
+                b'a' => Ok('\x07'),
+                b'b' => Ok('\x08'),
+                b'e' => Ok('\x1B'),
+                b'f' => Ok('\x0C'),
+                b'n' => Ok('\n'),
+                b'r' => Ok('\r'),
+                b't' => Ok('\t'),
+                b'v' => Ok('\x0B'),
+                b'\\' => Ok('\\'),
+                b'\'' => Ok('\''), // Single quote
+                b'"' => Ok('"'), // Double quote
+                b'?' => Ok('?'),
+                b'0'..=b'7' => { // between 1 and 3 octal digits
+                    let mut value = (ch as char).to_digit(8).unwrap();
                     for _ in 0..2 {
                         if let Some(next_ch) = self.peek() {
-                            if let Some(digit) = next_ch.to_digit(8) {
+                            if let Some(digit) = (next_ch as char).to_digit(8) {
                                 value = (value << 3) | digit;
                                 self.advance(); // Consume the digit
                             } else {
@@ -429,24 +430,24 @@ impl<'a> Tokenizer<'a> {
                     }
                     Ok(value as u8 as char)
                 }
-                'x' => { // Hexadecimal escape
-                    let Some(mut value) = ch.to_digit(16) else {
+                b'x' => { // Hexadecimal escape
+                    let Some(mut value) = (self.read()? as char).to_digit(16) else {
                         return Err(ReadError::CharParseError);
                     };
                     if let Some(next_ch) = self.peek() {
-                        if let Some(digit) = next_ch.to_digit(16) {
+                        if let Some(digit) = (next_ch as char).to_digit(16) {
                             value = (value << 4) | digit;
                             self.advance(); // Consume the digit
                         }
                     }
                     Ok(value as u8 as char)
                 }
-                'u' | 'U' => { // Unicode escape
+                b'u' | b'U' => { // Unicode escape
                     let mut value = 0u32;
-                    let digits = if ch == 'u' { 4 } else { 8 }; // must be exactly 4 or 8
+                    let digits = if ch == b'u' { 4 } else { 8 }; // must be exactly 4 or 8
                     for _ in 0..digits {
                         if let Some(next_ch) = self.peek() {
-                            if let Some(digit) = next_ch.to_digit(16) {
+                            if let Some(digit) = (next_ch as char).to_digit(16) {
                                 value = (value << 4) | digit;
                                 self.advance(); // Consume the digit
                             } else {
@@ -472,39 +473,39 @@ impl<'a> Tokenizer<'a> {
             let Some(ch) = self.advance() else { break };
 
             let tok = match ch {
-                '(' => Token::OpenParen,
-                ')' => Token::CloseParen,
-                '[' => Token::OpenBracket,
-                ']' => Token::CloseBracket,
-                '{' => Token::OpenBrace,
-                '}' => Token::CloseBrace,
-                '\'' => {
+                b'(' => Token::OpenParen,
+                b')' => Token::CloseParen,
+                b'[' => Token::OpenBracket,
+                b']' => Token::CloseBracket,
+                b'{' => Token::OpenBrace,
+                b'}' => Token::CloseBrace,
+                b'\'' => {
                     let ch = self.read_char()?;
-                    self.expect('\'')?;
+                    self.expect(b'\'')?;
                     Token::Character(ch)
                 }
-                '"' => self.read_string()?,
-                '.' => Token::Dot,
-                '?' => Token::Question,
-                ',' => Token::Comma,
-                ';' => Token::Semicolon,
-                ':' => Token::Colon,
-                '=' => {
-                    if self.accept('=') {
+                b'"' => self.read_string()?,
+                b'.' => Token::Dot,
+                b'?' => Token::Question,
+                b',' => Token::Comma,
+                b';' => Token::Semicolon,
+                b':' => Token::Colon,
+                b'=' => {
+                    if self.accept(b'=') {
                         Token::Operator(Operator::Comparison(Comparison::Equal))
                     } else {
                         Token::Operator(Operator::Assignment(None))
                     }
                 }
-                '0' => {
+                b'0' => {
                     match self.peek() {
-                        Some('x' | 'X') => {
+                        Some(b'x' | b'X') => {
                             self.advance(); // Consume 'x'
-                            let Some(mut value) = ch.to_digit(16) else {
+                            let Some(mut value) = (ch as char).to_digit(16) else {
                                 return Err(ReadError::IntParseError);
                             };
                             while let Some(next_ch) = self.peek() {
-                                if let Some(digit) = next_ch.to_digit(16) {
+                                if let Some(digit) = (next_ch as char).to_digit(16) {
                                     value = (value << 4) | digit;
                                     self.advance(); // Consume the digit
                                 } else {
@@ -513,13 +514,13 @@ impl<'a> Tokenizer<'a> {
                             }
                             Token::Integer(value as i32)
                         }
-                        Some('b' | 'B') => {
+                        Some(b'b' | b'B') => {
                             self.advance(); // Consume 'b'
-                            let Some(mut value) = ch.to_digit(2) else {
+                            let Some(mut value) = (ch as char).to_digit(2) else {
                                 return Err(ReadError::IntParseError);
                             };
                             while let Some(next_ch) = self.peek() {
-                                if let Some(digit) = next_ch.to_digit(2) {
+                                if let Some(digit) = (next_ch as char).to_digit(2) {
                                     value = (value << 1) | digit;
                                     self.advance(); // Consume the digit
                                 } else {
@@ -528,11 +529,11 @@ impl<'a> Tokenizer<'a> {
                             }
                             Token::Integer(value as i32)
                         }
-                        Some('0'..='7') => {
+                        Some(b'0'..=b'7') => {
                             let mut value = 0u32;
                             let mut count = 0;
                             while let Some(next_ch) = self.peek() {
-                                if let Some(digit) = next_ch.to_digit(8) {
+                                if let Some(digit) = (next_ch as char).to_digit(8) {
                                     value = (value << 3) | digit;
                                     self.advance(); // Consume the digit
                                     count += 1;
@@ -552,11 +553,11 @@ impl<'a> Tokenizer<'a> {
                         }
                     }
                 }
-                'a'..='z' | 'A'..='Z' | '_' => {
+                b'a'..=b'z' | b'A'..=b'Z' | b'_' => {
                     let mut identifier: Vec<u8> = Vec::new();
                     identifier.push(ch as u8); // TODO: unicode identifiers?
                     while let Some(next_ch) = self.peek() {
-                        if next_ch.is_ascii_alphanumeric() || next_ch == '_' {
+                        if next_ch.is_ascii_alphanumeric() || next_ch == b'_' {
                             self.advance();
                             identifier.push(next_ch as u8); // Consume the character
                         } else {
@@ -566,13 +567,13 @@ impl<'a> Tokenizer<'a> {
                     if let Ok(keyword) = Keyword::try_from(identifier.as_slice()) {
                         Token::Keyword(keyword)
                     } else {
-                        Token::Identifier(String::from(identifier.as_slice()))
+                        Token::Identifier(String::from_utf8(identifier).unwrap())
                     }
                 }
-                '1'..='9' => {
-                    let mut value = ch.to_digit(10).unwrap();
+                b'1'..=b'9' => {
+                    let mut value = (ch as char).to_digit(10).unwrap();
                     while let Some(next_ch) = self.peek() {
-                        if let Some(digit) = next_ch.to_digit(10) {
+                        if let Some(digit) = (next_ch as char).to_digit(10) {
                             value = (value * 10) + digit;
                             self.advance(); // Consume the digit
                         } else {
@@ -581,20 +582,20 @@ impl<'a> Tokenizer<'a> {
                     }
                     Token::Integer(value as i32)
                 }
-                '-' if self.accept('>') => {
+                b'-' if self.accept(b'>') => {
                     Token::Arrow
                 }
-                '-' if self.accept('-') => {
+                b'-' if self.accept(b'-') => {
                     Token::Operator(Operator::Decrement)
                 }
-                '+' if self.accept('+') => {
+                b'+' if self.accept(b'+') => {
                     Token::Operator(Operator::Increment)
                 }
-                '<' => {
-                    if self.accept('=') {
+                b'<' => {
+                    if self.accept(b'=') {
                         Token::Operator(Operator::Comparison(Comparison::LessThanOrEqual))
-                    } else if self.accept('<') {
-                        if self.accept('=') {
+                    } else if self.accept(b'<') {
+                        if self.accept(b'=') {
                             Token::Operator(Operator::Assignment(Some(AssignableOperator::ShiftLeft)))
                         } else {
                             Token::Operator(Operator::Simple(AssignableOperator::ShiftLeft))
@@ -603,11 +604,11 @@ impl<'a> Tokenizer<'a> {
                         Token::Operator(Operator::Comparison(Comparison::LessThan))
                     }
                 }
-                '>' => {
-                    if self.accept('=') {
+                b'>' => {
+                    if self.accept(b'=') {
                         Token::Operator(Operator::Comparison(Comparison::GreaterThanOrEqual))
-                    } else if self.accept('>') {
-                        if self.accept('=') {
+                    } else if self.accept(b'>') {
+                        if self.accept(b'=') {
                             Token::Operator(Operator::Assignment(Some(AssignableOperator::ShiftRight)))
                         } else {
                             Token::Operator(Operator::Simple(AssignableOperator::ShiftRight))
@@ -616,29 +617,29 @@ impl<'a> Tokenizer<'a> {
                         Token::Operator(Operator::Comparison(Comparison::GreaterThan))
                     }
                 }
-                '&' if self.accept('&') => {
+                b'&' if self.accept(b'&') => {
                     Token::Operator(Operator::BoolOp(BoolOp::And))
                 }
-                '|' if self.accept('|') => {
+                b'|' if self.accept(b'|') => {
                     Token::Operator(Operator::BoolOp(BoolOp::Or))
                 }
-                '!' => if self.accept('=') {
+                b'!' => if self.accept(b'=') {
                     Token::Operator(Operator::Comparison(Comparison::NotEqual))
                 } else {
                     Token::Operator(Operator::Not)
                 }
-                '~' => {
+                b'~' => {
                     Token::Operator(Operator::BitwiseNot)
                 }
-                '+' | '-' | '*' | '/' | '%' | '&' | '|' | '^' => {
-                    let aop = AssignableOperator::try_from(ch).unwrap();
-                    if self.accept('=') {
+                b'+' | b'-' | b'*' | b'/' | b'%' | b'&' | b'|' | b'^' => {
+                    let aop = AssignableOperator::try_from(ch as char).unwrap();
+                    if self.accept(b'=') {
                         Token::Operator(Operator::Assignment(Some(aop)))
                     } else {
                         Token::Operator(Operator::Simple(aop))
                     }
                 }
-                _ => return Err(ReadError::Unexpected(ch)),
+                _ => return Err(ReadError::Unexpected(ch as char)),
             };
 
             tokens.push(tok);
@@ -650,18 +651,18 @@ impl<'a> Tokenizer<'a> {
         let mut string = String::new();
         'string: loop {
             while let Some(next_ch) = self.peek() {
-                if next_ch == '"' {
+                if next_ch == b'"' {
                     self.advance(); // Consume the closing quote
                     self.skip_spaces();
-                    if self.accept('"') {
+                    if self.accept(b'"') {
                         continue; // Two adjacent strings
                     }
                     break 'string;
-                } else if next_ch == '\\' {
+                } else if next_ch == b'\\' {
                     self.advance(); // Consume the backslash
                     string.push(self.read_char()?);
                 } else {
-                    string.push(self.advance().unwrap());
+                    string.push(self.read()? as char);
                 }
             }
             return Err(ReadError::EOFFound);

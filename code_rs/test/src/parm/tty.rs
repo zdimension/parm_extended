@@ -417,3 +417,25 @@ pub fn read_line(res: &mut String) {
         }
     }
 }
+
+pub fn read_line_rust(res: &mut alloc::string::String) {
+    loop {
+        let c = keyb::read_char();
+        match c {
+            '\x08' => {
+                if !res.is_empty() {
+                    res.pop();
+                    print_char('\x08');
+                }
+            }
+            '\n' => {
+                print_char('\n');
+                break;
+            }
+            _ => {
+                res.push(c);
+                print_char(c);
+            }
+        }
+    }
+}

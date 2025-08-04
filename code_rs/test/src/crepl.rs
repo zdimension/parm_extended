@@ -15,6 +15,8 @@
 #![allow(clippy::should_implement_trait)]
 extern crate alloc;
 
+use alloc::format;
+use alloc::string::String;
 use crate::c::compiler::Reg::*;
 use crate::c::compiler::{Compiler, HiReg, Instruction, Reg, RegList};
 use crate::c::parse::CParser;
@@ -22,7 +24,7 @@ use crate::c::scope::{Scope, SymbolKind};
 use crate::c::types::{FunctionImpl, UnqualType};
 use crate::parm::control::breakpoint;
 use crate::parm::heap::budmap::{BudMap, RandomState};
-use crate::parm::heap::string::String;
+//use crate::parm::heap::string::String;
 use crate::parm::tty::{get_tty, print_hex};
 use crate::parm::{keyb, telnet, tty, OrderedMap};
 use alloc::vec::Vec;
@@ -44,13 +46,13 @@ enum LoopResult {
     EndList,
 }
 
-fn check_balanced(s: &[char]) -> bool {
+fn check_balanced(s: &str) -> bool {
     let mut count = 0;
 
-    for bracket in s {
+    for bracket in s.bytes() {
         let change = match bracket {
-            '(' | '[' | '{' => 1,
-            ')' | ']' | '}' => -1,
+            b'(' | b'[' | b'{' => 1,
+            b')' | b']' | b'}' => -1,
             _ => continue,
         };
 
@@ -121,11 +123,11 @@ impl CRepl {
     }
 
     #[inline(never)]
-    fn process(&mut self, code: &[char]) -> EvalStatus {
+    fn process(&mut self, code: &str) -> EvalStatus {
         if !check_balanced(code) {
             return EvalStatus::ContinueReading;
         }
-        if code[0] == '=' {
+        if code.starts_with('=') {
             let mut parser = CParser::new(&code[1..], &mut self.scope);
             match parser.read_expression() {
                 Ok(expr) => {
@@ -133,7 +135,10 @@ impl CRepl {
                     let mut comp = Compiler::new();
                     comp.scope.push(&self.scope);
                     comp.emit_push(RegList::new([], true));
-                    comp.emit_expression(&expr).unwrap();
+                    if let Err(e) = comp.emit_expression(&expr) {
+                        rprintln!("error: {:?}", e);
+                        return EvalStatus::Ok;
+                    }
                     comp.emit_pop(RegList::new([R0], true));
                     let code = comp.link_asm();
                     rprintln!("addr={:x}", code.as_ptr() as usize);
@@ -238,8 +243,7 @@ impl CRepl {
         //     return (int)a;
         // }
         // "#);
-        let code = String::from(
-            br#"
+        let code = r#"
         int sum(int upto) {
             int i, res;
             res = 0;
@@ -258,10 +262,8 @@ impl CRepl {
             }
             return res;
         }
-        "#,
-        );
-        let code = String::from(
-            br#"
+        "#;
+        let code =  r#"
         int testp(int x) {
             int res;
             int* ptr;
@@ -269,8 +271,7 @@ impl CRepl {
             *ptr = x;
             return res;
         }
-        "#,
-        );
+        "#;
 
         self.process(&code);
 
@@ -313,8 +314,8 @@ impl CRepl {
                     }
                 }
             } else {
-                tty::read_line(&mut input);
-                print!('\n', => &mut input);
+                tty::read_line_rust(&mut input);
+                input.push('\n');
                 if input == ".load\n" {
                     // telnet load
                     telnet = On { long: false };

@@ -1,4 +1,4 @@
-use alloc::string::ToString;
+use alloc::string::{String, ToString};
 use alloc::{format, vec};
 use crate::c::lexer::{AssignableOperator, Comparison, Token};
 use crate::c::types::{FunctionImpl, QualType, Signedness, UnqualType};
@@ -21,7 +21,6 @@ use crate::c::compiler::CompileError::GenericDyn;
 use crate::c::lexer::Comparison::LessThan;
 use crate::c::lexer::Operator::BoolOp;
 use crate::c::parse_expr::{BinOp, Expression, IncDec, OpPosition, SizeOfOp, UnaryOp};
-use crate::parm::heap::string::String;
 use crate::rprintln;
 /*pub fn compile(proto: &FunctionImpl, body: &[Token]) {
 

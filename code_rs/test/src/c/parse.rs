@@ -1,5 +1,6 @@
 use alloc::boxed::Box;
 use alloc::format;
+use alloc::string::String;
 use alloc::vec::{IntoIter, Vec};
 use core::arch::asm;
 use core::iter::{Enumerate, Peekable};
@@ -13,7 +14,7 @@ use aligned_vec::avec;
 use arbitrary_int::u10;
 
 pub struct CParser<'a, 'b> {
-    code: &'a [char],
+    code: &'a str,
     pub(super) iter: Peekable<Enumerate<IntoIter<Token>>>,
     pub scope: &'b mut Scope,
     //pub compiler: &'b mut Compiler
@@ -39,7 +40,6 @@ use crate::c::compiler::Reg::*;
 use crate::c::lexer::{AssignableOperator, Keyword, Operator, ReadError, Token, Tokenizer};
 use crate::c::parse_expr::Expression;
 use crate::c::types::{FunctionImpl, QualType, Signedness, StructImpl, TypeBox, TypeQualifiers, UnqualType};
-use crate::parm::heap::string::String;
 use crate::parm::midi::Pitch::B;
 use crate::parm::OrderedMap;
 use crate::parm::tty::get_tty;
@@ -97,10 +97,10 @@ pub enum Statement {
 
 impl<'a, 'b> CParser<'a, 'b> {
     #[inline(never)]
-    pub fn new(s: &'a [char], scope: &'b mut Scope) -> Self {
+    pub fn new(s: &'a str, scope: &'b mut Scope) -> Self {
         CParser {
             code: s,
-            iter: Tokenizer::new(s).process().unwrap().into_iter().enumerate().peekable(),
+            iter: Tokenizer::new(s).process().expect("token").into_iter().enumerate().peekable(),
             scope,
             //compiler
         }
@@ -258,7 +258,6 @@ impl<'a, 'b> CParser<'a, 'b> {
 
                     let stru = match name {
                         Some(name) => {
-                            let name = String::from(name);
                             match self.scope.structs.raw_entry_mut_v1().from_key(&name) {
                                 RawEntryMut::Occupied(mut e) => {
                                     let UnqualType::Struct(ref existing) = **e.get() else {

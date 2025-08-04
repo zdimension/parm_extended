@@ -1,4 +1,5 @@
 use alloc::boxed::Box;
+use alloc::string::String;
 use alloc::vec::Vec;
 use core::fmt::Display;
 use hashbrown::HashMap;
@@ -7,7 +8,6 @@ use crate::c::lexer::Token;
 use crate::c::parse::Block;
 use crate::c::types::{FunctionImpl, QualType, TypeBox, UnqualType};
 use crate::parm::heap::prc::Prc;
-use crate::parm::heap::string::String;
 use crate::parm::OrderedMap;
 
 pub enum TagKind {

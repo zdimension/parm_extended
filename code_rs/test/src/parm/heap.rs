@@ -9,7 +9,7 @@ use core::alloc::{GlobalAlloc, Layout};
 use core::ptr;
 use crate::parm::control::breakpoint;
 use crate::parm::tty::get_tty;
-use crate::println;
+use crate::{println, rprintln};
 
 pub const HEAP_START: usize = 0x100000;
 
@@ -66,7 +66,11 @@ pub unsafe fn realloc(ptr: *mut u8, size: usize, align: usize) -> *mut u8 {
 
 pub unsafe fn calloc(size: usize, align: usize) -> *mut u8 {
     let ptr = malloc_aligned(size, align);
-    __aeabi_memclr(ptr as _, size);
+    if align % 4 == 0 {
+        __aeabi_memclr4(ptr as _, size);
+    } else {
+        __aeabi_memclr(ptr as _, size);
+    }
     ptr
 }
 
@@ -129,18 +133,48 @@ pub unsafe fn ___rust_no_alloc_shim_is_unstable_v2() {
 const WORD_SIZE: usize = 4;
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memcpy(dest: *mut u8, src: *const u8, n: usize) {
-    let n_usize: usize = n / WORD_SIZE; // Number of word sized groups
-    let mut i: usize = 0;
-
-    // Copy `WORD_SIZE` bytes at a time
-    let n_fast = n_usize * WORD_SIZE;
-    while i < n_fast {
-        *((dest as usize + i) as *mut usize) = *((src as usize + i) as *const usize);
-        i += WORD_SIZE;
+unsafe extern "C" fn __aeabi_memcpy(mut dest: *mut u8, mut src: *const u8, mut n: usize) {
+    // Prologue: Copy bytes until destination is aligned
+    while n > 0 && dest as usize % WORD_SIZE != 0 {
+        *dest = *src;
+        dest = dest.add(1);
+        src = src.add(1);
+        n -= 1;
     }
 
-    // Copy 1 byte at a time
+    // Only proceed with word copies if destination is now aligned
+    if n >= WORD_SIZE && dest as usize % WORD_SIZE == 0 {
+        // Calculate word-aligned chunk size
+        let word_count = n / WORD_SIZE;
+        let byte_count = word_count * WORD_SIZE;
+
+        // Copy word-aligned chunks
+        for i in 0..word_count {
+            let word = (src as *const u32).add(i).read_unaligned();
+            (dest as *mut u32).add(i).write(word);
+        }
+
+        // Update pointers and remaining size
+        dest = dest.add(byte_count);
+        src = src.add(byte_count);
+        n -= byte_count;
+    }
+
+    // Epilogue: Copy any remaining bytes
+    for i in 0..n {
+        *dest.add(i) = *src.add(i);
+    }
+}
+
+#[unsafe(no_mangle)]
+unsafe extern "C" fn __aeabi_memcpy4(dest: *mut u8, src: *const u8, n: usize) {
+    let n_usize: usize = n / WORD_SIZE; // Number of word sized groups
+    let n_fast = n_usize * WORD_SIZE;
+    let mut i = 0;
+    while i < n_fast {
+        *((dest as usize + i) as *mut u32) = *((src as usize + i) as *const u32);
+        i += WORD_SIZE;
+    }
     while i < n {
         *((dest as usize + i) as *mut u8) = *((src as usize + i) as *const u8);
         i += 1;
@@ -148,19 +182,30 @@ unsafe extern "C" fn __aeabi_memcpy(dest: *mut u8, src: *const u8, n: usize) {
 }
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memcpy4(dest: *mut u8, src: *const u8, n: usize) {
-    __aeabi_memcpy(dest, src, n);
+unsafe extern "C" fn __aeabi_memclr(mut dest: *mut u8, mut n: usize) {
+    // dest can be unaligned, so we clear the first few bytes one by one
+
+    if dest as usize % WORD_SIZE != 0 {
+        while n > 0 && dest as usize % WORD_SIZE != 0 {
+            *dest = 0;
+            dest = dest.add(1);
+            n -= 1;
+        }
+    }
+
+    // Now we can clear the rest of the memory in word-sized chunks
+    __aeabi_memclr4(dest, n);
 }
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memclr(dest: *mut u8, n: usize) {
+unsafe extern "C" fn __aeabi_memclr4(dest: *mut u8, n: usize) {
     let n_usize: usize = n / WORD_SIZE; // Number of word sized groups
     let mut i: usize = 0;
 
     // Copy `WORD_SIZE` bytes at a time
     let n_fast = n_usize * WORD_SIZE;
     while i < n_fast {
-        *((dest as usize + i) as *mut usize) = 0;
+        *((dest as usize + i) as *mut u32) = 0;
         i += WORD_SIZE;
     }
 
@@ -172,14 +217,22 @@ unsafe extern "C" fn __aeabi_memclr(dest: *mut u8, n: usize) {
 }
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memclr4(dest: *mut u8, n: usize) {
-    __aeabi_memclr(dest, n)
-}
-
-#[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memclr8(dest: *mut u8, n: usize) {
-    core::arch::asm!("memclr8:");
-    __aeabi_memclr(dest, n)
+    let n_usize: usize = n / (WORD_SIZE * 2); // Number of double word sized groups
+    let mut i: usize = 0;
+
+    // Copy `WORD_SIZE * 2` bytes at a time
+    let n_fast = n_usize * WORD_SIZE * 2;
+    while i < n_fast {
+        *((dest as usize + i) as *mut u64) = 0;
+        i += WORD_SIZE * 2;
+    }
+
+    // Copy 1 byte at a time
+    while i < n {
+        *((dest as usize + i) as *mut u8) = 0;
+        i += 1;
+    }
 }
 
 #[unsafe(export_name = "__aeabi_memmove4")]
@@ -189,6 +242,13 @@ pub unsafe extern "C" fn __aeabi_memmove4(dest: *mut u8, src: *const u8, n: usiz
 
 #[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memmove(dest: *mut u8, src: *const u8, n: usize) {
+    if src as usize % WORD_SIZE != 0 {
+        panic!("memmove: Source pointer is not word-aligned");
+    }
+    if dest as usize % WORD_SIZE != 0 {
+        panic!("memmove: Destination pointer is not word-aligned");
+    }
+
     if src < dest as *const u8 {
         let n_usize: usize = n / WORD_SIZE; // Number of word sized groups
         let mut i: usize = n_usize * WORD_SIZE;
@@ -226,65 +286,133 @@ unsafe extern "C" fn __aeabi_memmove(dest: *mut u8, src: *const u8, n: usize) {
 }
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memset(dest: *mut u8, n: usize, c: i32) {
-    let c: usize = usize::from_ne_bytes([c as u8; WORD_SIZE]);
-    let n_usize: usize = n / WORD_SIZE;
-    let mut i: usize = 0;
+pub unsafe extern "C" fn __aeabi_memset(dest: *mut u8, n: usize, c: i32) {
+    let c_byte = c as u8;
 
-    // Set `WORD_SIZE` bytes at a time
-    let n_fast = n_usize * WORD_SIZE;
-    while i < n_fast {
-        *((dest as usize + i) as *mut usize) = c;
-        i += WORD_SIZE;
+    // Handle small copies immediately
+    if n < WORD_SIZE {
+        for i in 0..n {
+            *dest.add(i) = c_byte;
+        }
+        return;
     }
 
-    let c = c as u8;
+    let mut dest_ptr = dest;
+    let mut remaining = n;
 
-    // Set 1 byte at a time
-    while i < n {
-        *((dest as usize + i) as *mut u8) = c;
-        i += 1;
+    // Create a word with all bytes equal to c_byte
+    let word_value = usize::from_ne_bytes([c_byte; WORD_SIZE]);
+
+    // Prologue: Set bytes until destination is aligned
+    while remaining > 0 && dest_ptr as usize % WORD_SIZE != 0 {
+        *dest_ptr = c_byte;
+        dest_ptr = dest_ptr.add(1);
+        remaining -= 1;
+    }
+
+    // Main: Set aligned words
+    let word_count = remaining / WORD_SIZE;
+    let word_ptr = dest_ptr as *mut usize;
+
+    for i in 0..word_count {
+        word_ptr.add(i).write(word_value);
+    }
+
+    // Update pointer position
+    let bytes_written = word_count * WORD_SIZE;
+    dest_ptr = dest_ptr.add(bytes_written);
+    remaining -= bytes_written;
+
+    // Epilogue: Set remaining bytes
+    for i in 0..remaining {
+        *dest_ptr.add(i) = c_byte;
     }
 }
 
 #[unsafe(no_mangle)]
 unsafe extern "C" fn memcmp(s1: *const u8, s2: *const u8, n: usize) -> i32 {
-    __aeabi_memcmp(s1, s2, n)
+    if (s1 as usize | s2 as usize) % WORD_SIZE == 0 {
+        __aeabi_memcmp4(s1 as _, s2 as _, n)
+    } else {
+        __aeabi_memcmp(s1, s2, n)
+    }
 }
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memcmp(s1: *const u8, s2: *const u8, n: usize) -> i32 {
-    let n_usize: usize = n / WORD_SIZE;
-    let mut i: usize = 0;
+unsafe extern "C" fn __aeabi_memcmp4(s1: *const u8, s2: *const u8, mut n: usize) -> i32 {
+    let mut s1 = s1 as *const u32;
+    let mut s2 = s2 as *const u32;
+    let word_count = n / WORD_SIZE;
+    for _ in 0..word_count {
+        let word1 = *s1;
+        let word2 = *s2;
+        if word1 != word2 {
+            return cmp_bytes(s1 as *const u8, s2 as *const u8, WORD_SIZE);
+        }
+        s1 = s1.add(1);
+        s2 = s2.add(1);
+    }
 
-    let n_fast = n_usize * WORD_SIZE;
-    while i < n_fast {
-        let a = *((s1 as usize + i) as *const usize);
-        let b = *((s2 as usize + i) as *const usize);
-        if a != b {
-            let n: usize = i + WORD_SIZE;
-            // Find the one byte that is not equal
-            while i < n {
-                let a = *((s1 as usize + i) as *const u8);
-                let b = *((s2 as usize + i) as *const u8);
-                if a != b {
-                    return a as i32 - b as i32;
+    // Epilogue: Compare remaining bytes
+    cmp_bytes(s1 as *const u8, s2 as *const u8, n % WORD_SIZE)
+}
+
+#[unsafe(no_mangle)]
+unsafe extern "C" fn __aeabi_memcmp(mut s1: *const u8, mut s2: *const u8, mut n: usize) -> i32 {
+    // Handle small comparisons immediately
+    if n < WORD_SIZE {
+        return cmp_bytes(s1, s2, n);
+    }
+
+    // Prologue: Compare bytes until either pointer is word-aligned
+    while n > 0
+        && ((s1 as usize | s2 as usize) & (WORD_SIZE - 1)) != 0
+    {
+        let b1 = *s1;
+        let b2 = *s2;
+        if b1 != b2 {
+            return b1 as i32 - b2 as i32;
+        }
+        s1 = s1.add(1);
+        s2 = s2.add(1);
+        n -= 1;
+    }
+
+    // Main: Compare word-aligned chunks
+    let word_count = n / WORD_SIZE;
+    for i in 0..word_count {
+        let word1 = (s1 as *const usize).add(i).read_unaligned();
+        let word2 = (s2 as *const usize).add(i).read_unaligned();
+        if word1 != word2 {
+            // Find first differing byte in word
+            for j in 0..WORD_SIZE {
+                let b1 = *s1.add(i * WORD_SIZE + j);
+                let b2 = *s2.add(i * WORD_SIZE + j);
+                if b1 != b2 {
+                    return b1 as i32 - b2 as i32;
                 }
-                i += 1;
             }
         }
-        i += WORD_SIZE;
     }
 
-    while i < n {
-        let a = *((s1 as usize + i) as *const u8);
-        let b = *((s2 as usize + i) as *const u8);
-        if a != b {
-            return a as i32 - b as i32;
+    // Update pointer position
+    let words_processed = word_count * WORD_SIZE;
+    s1 = s1.add(words_processed);
+    s2 = s2.add(words_processed);
+    n -= words_processed;
+
+    // Epilogue: Compare remaining bytes
+    cmp_bytes(s1, s2, n)
+}
+
+unsafe fn cmp_bytes(mut s1: *const u8, mut s2: *const u8, mut n: usize) -> i32 {
+    for i in 0..n {
+        let b1 = *s1.add(i);
+        let b2 = *s2.add(i);
+        if b1 != b2 {
+            return b1 as i32 - b2 as i32;
         }
-        i += 1;
     }
-
     0
 }
 

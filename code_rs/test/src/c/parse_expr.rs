@@ -4,13 +4,13 @@ use crate::c::scope::SymbolKind;
 use alloc::boxed::Box;
 use alloc::vec::Vec;
 use alloc::{format, vec};
+use alloc::string::String;
 use arbitrary_int::{u5, u6, u7};
 
 use crate::c::compiler::Instruction::*;
 use crate::c::compiler::Reg::*;
 use crate::c::types::{QualType, TypeBox, UnqualType};
-use crate::parm::heap::string::String;
-use crate::println;
+use crate::{println, rprintln};
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum AccessType {
@@ -306,7 +306,10 @@ impl<'a, 'b> CParser<'a, 'b> {
             }
             Some(Token::Operator(op)) => {
                 let uop = match op {
-                    Operator::Simple(AssignableOperator::BitwiseAnd) => UnaryOp::Address,
+                    Operator::Simple(AssignableOperator::BitwiseAnd) => {
+                        //rprintln!("unddary {:?} {:?}", *op, UnaryOp::Address );
+                        UnaryOp::Address
+                    },
                     Operator::Simple(AssignableOperator::Multiply) => UnaryOp::Deref,
                     Operator::Simple(AssignableOperator::Plus) => UnaryOp::Plus,
                     Operator::Simple(AssignableOperator::Minus) => UnaryOp::Minus,
@@ -316,10 +319,13 @@ impl<'a, 'b> CParser<'a, 'b> {
                     _ => return self.read_postfix_expression(),
                 };
                 // unary operator
+                rprintln!("unary {:?} {:?}", *op, uop);
                 self.advance();
+                let expression = self.read_cast_expression()?;
+                rprintln!(" on {:?}", expression);
                 Ok(Expression::UnaryOp(
                     uop,
-                    Box::new(self.read_cast_expression()?),
+                    Box::new(expression),
                 ))
             }
 
