@@ -71,11 +71,21 @@ pub enum UnqualType {
 }
 
 impl UnqualType {
+    pub fn integer_rank(&self) -> usize {
+        match self {
+            UnqualType::Bool => 1,
+            UnqualType::Char(_) => 2,
+            UnqualType::Int(_) => 3,
+            UnqualType::Enum(_) => 3, // enum are always int backed
+            _ => 0 // non-integers
+        }
+    }
+
     pub fn size(&self) -> usize {
         match self {
             UnqualType::Void => 0,
-            UnqualType::Char(_) => 4, // todo: handling things smaller than a word sucks
-            UnqualType::Bool => 4,
+            UnqualType::Char(_) => 1, // todo: handling things smaller than a word sucks
+            UnqualType::Bool => 1,
             UnqualType::Int(_) => 4,
             UnqualType::Pointer(_) => 4,
             UnqualType::Array(ty, Some(size)) => size * ty.unqual.size(),
@@ -84,6 +94,10 @@ impl UnqualType {
             UnqualType::Enum(_) => 4, // enum are always int backed
             UnqualType::Function(_) => todo!(),
         }
+    }
+
+    pub fn size_aligned(&self) -> usize {
+        self.size().next_multiple_of(4)
     }
 }
 

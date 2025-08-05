@@ -2,10 +2,7 @@ use alloc::boxed::Box;
 use alloc::format;
 use alloc::string::String;
 use alloc::vec::{IntoIter, Vec};
-use core::arch::asm;
 use core::iter::{Enumerate, Peekable};
-use core::ops::Deref;
-use indexmap::IndexMap;
 use indexmap::map::{Entry, RawEntryApiV1};
 use indexmap::map::raw_entry_v1::RawEntryMut;
 use crate::c::scope::*;
@@ -33,18 +30,14 @@ pub enum StorageClass {
 }
 
 use SkipStop::*;
-use crate::c::compiler::{CodeBox, CodeVec, CompileError, Compiler, RegList};
-use crate::c::compiler::HiReg::LR;
-use crate::c::compiler::Instruction::*;
-use crate::c::compiler::Reg::*;
+use crate::c::compiler::{CompileError, Compiler};
+use crate::c::arm::Instruction::*;
+use crate::c::arm::Reg::*;
 use crate::c::lexer::{AssignableOperator, Keyword, Operator, ReadError, Token, Tokenizer};
 use crate::c::parse_expr::Expression;
 use crate::c::types::{FunctionImpl, QualType, Signedness, StructImpl, TypeBox, TypeQualifiers, UnqualType};
-use crate::parm::midi::Pitch::B;
 use crate::parm::OrderedMap;
-use crate::parm::tty::get_tty;
-use crate::{println, rprintln};
-
+use crate::rprintln;
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ParseError {
     ReadError(ReadError),
@@ -684,7 +677,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                             });
                             fct_scope.var_size = 8;
                             for (name, ty) in &inner.args {
-                                let size = ty.unqual.size();
+                                let size = ty.unqual.size_aligned();
                                 fct_scope.symbols.insert(name.clone(), SymbolKind::Variable {ty: ty.clone(), offset: fct_scope.var_size });
                                 fct_scope.var_size += size;
                             }
@@ -770,7 +763,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                 Entry::Vacant(entry) => {
                     entry.insert(match kind {
                         SymbolKind::Variable { ty, offset } => {
-                            let size = ty.unqual.size();
+                            let size = ty.unqual.size_aligned();
                             let res = SymbolKind::Variable { ty, offset: scope.var_size };
                             scope.var_size += size;
                             res

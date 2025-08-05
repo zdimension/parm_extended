@@ -13,31 +13,24 @@
 #![feature(const_trait_impl)]
 #![feature(auto_traits)]
 #![feature(negative_impls)]
+#![feature(try_blocks)]
 #![allow(dead_code)]
 #![allow(clippy::should_implement_trait)]
 extern crate alloc;
 
-use alloc::format;
 use alloc::string::String;
-use crate::c::compiler::Reg::*;
-use crate::c::compiler::{Compiler, HiReg, Instruction, Reg, RegList};
+use crate::c::arm::Reg::*;
+use crate::c::compiler::{Analysis, CompileError, Compiler};
 use crate::c::parse::CParser;
 use crate::c::scope::{Scope, SymbolKind};
 use crate::c::types::{FunctionImpl, UnqualType};
 use crate::parm::control::breakpoint;
-use crate::parm::heap::budmap::{BudMap, RandomState};
-//use crate::parm::heap::string::String;
-use crate::parm::tty::{get_tty, print_hex};
 use crate::parm::{keyb, telnet, tty, OrderedMap};
-use alloc::vec::Vec;
-use core::arch::asm;
 use core::fmt::{Display, Write};
 use core::hash::{BuildHasher, Hash, Hasher};
-use core::mem::MaybeUninit;
-use core::{fmt, slice};
 use arbitrary_int::u10;
-use hashbrown::HashMap;
-use crate::c::compiler::Instruction::{BxLo, LdrPcImm, LdrSp, U16};
+use crate::c::arm::Instruction::*;
+use crate::c::arm::RegList;
 
 mod c;
 mod parm;
@@ -137,14 +130,24 @@ impl CRepl {
                     let mut comp = Compiler::new();
                     comp.scope.push(&self.scope);
                     comp.emit_push(RegList::new([], true));
-                    if let Err(e) = comp.emit_expression(&expr) {
-                        rprintln!("error: {:?}", e);
-                        return EvalStatus::Ok;
-                    }
-                    comp.emit_pop(RegList::new([R0], true));
+                    let an: Result<Analysis, CompileError> = try {
+                        let an = comp.analyze_expression(&expr)?;
+                        comp.emit_expression(&expr)?;
+                        an
+                    };
+                    let Analysis { ty, addr } = match an {
+                        Ok(an) => an,
+                        Err(e) => {
+                            rprintln!("error: {:?}", e);
+                            return EvalStatus::Ok;
+                        }
+                    };
+                    comp.emit_pop(RegList::new([R0], false)); // separate calls so it can merge with the last push
+                    comp.emit_pop(RegList::new([], true));
+                    comp.dump();
                     let code = comp.link_asm();
                     rprintln!("addr={:x}", code.as_ptr() as usize);
-                    unsafe {
+                    let res = unsafe {
                         let ptr: fn() -> u32 = core::mem::transmute(code.as_ptr());
                         //breakpoint();
                         //ptr();
@@ -155,8 +158,22 @@ impl CRepl {
                         asm!("mov r11, sp");
                         breakpoint();*/
                         breakpoint();
-                        let res = ptr();
-                        rprintln!("-> {res} (0x{res:#08x})");
+                        ptr()
+                    };
+                    rprint!("-> {}: ", ty);
+                    match &*ty.unqual {
+                        UnqualType::Int(_) | UnqualType::Pointer(_) => {
+                            rprintln!("{} (0x{:08x})", res, res);
+                        }
+                        UnqualType::Char(_) => {
+                            rprintln!("{:?} (0x{:02x})", res as u8 as char, res as u8);
+                        }
+                        UnqualType::Bool => {
+                            rprintln!("{}", if res != 0 { "true" } else { "false" });
+                        }
+                        _ => {
+                            rprintln!("(no display)");
+                        }
                     }
                 }
                 Err(e) => {
@@ -270,11 +287,9 @@ impl CRepl {
         "#;
         let code =  r#"
         int testp(int x) {
-            int res;
-            int* ptr;
-            ptr = &res;
-            *ptr = x;
-            return res;
+            char* p;
+            p = "hello";
+            return p[x];
         }
         "#;
 

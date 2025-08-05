@@ -5,10 +5,11 @@ use alloc::boxed::Box;
 use alloc::vec::Vec;
 use alloc::{format, vec};
 use alloc::string::String;
+use core::fmt::Display;
 use arbitrary_int::{u5, u6, u7};
 
-use crate::c::compiler::Instruction::*;
-use crate::c::compiler::Reg::*;
+use crate::c::arm::Instruction::*;
+use crate::c::arm::Reg::*;
 use crate::c::types::{QualType, TypeBox, UnqualType};
 use crate::{println, rprintln};
 use crate::parm::control::breakpoint;
@@ -25,6 +26,18 @@ pub enum BinOp {
     Bool(BoolOp),
     Comparison(Comparison),
     Assignment(Option<AssignableOperator>),
+}
+
+impl Display for BinOp {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        match self {
+            BinOp::Simple(op) => write!(f, "{}", op),
+            BinOp::Bool(op) => write!(f, "{}", op),
+            BinOp::Comparison(op) => write!(f, "{}", op),
+            BinOp::Assignment(Some(op)) => write!(f, "{}=", op),
+            BinOp::Assignment(None) => write!(f, "="),
+        }
+    }
 }
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
@@ -59,9 +72,9 @@ pub enum SizeOfOp {
 #[derive(Debug)]
 pub enum Expression {
     Literal(i32),
+    StringLiteral(String),
     SymRef(String),
     Cast(QualType, Box<Expression>),
-    ArrayAccess(Box<Expression>, Box<Expression>),
     FuncCall(Box<Expression>, Vec<Expression>),
     MemberAccess(Box<Expression>, String, AccessType),
     UnaryOp(UnaryOp, Box<Expression>),
@@ -142,6 +155,13 @@ impl<'a, 'b> CParser<'a, 'b> {
                 self.advance();
                 Ok(Expression::Literal(ch as i32)) // convert char to i32
             }
+            Some(&Token::String(ref s)) => {
+                // string literal
+                let Ok(Token::String(s)) = self.next() else {
+                    unreachable!();
+                };
+                Ok(Expression::StringLiteral(s))
+            }
             // handled in read_cast_expression
             /*Some(Token::OpenParen) => {
                 // parenthesized expression
@@ -168,7 +188,15 @@ impl<'a, 'b> CParser<'a, 'b> {
                     self.advance();
                     let idx = self.read_expression()?;
                     self.expect(Token::CloseBracket)?;
-                    head = Expression::ArrayAccess(Box::new(head), Box::new(idx));
+                    //head = Expression::ArrayAccess(Box::new(head), Box::new(idx));
+                    head = Expression::UnaryOp(
+                        UnaryOp::Deref,
+                        Box::new(Expression::BinOp(
+                            BinOp::Simple(AssignableOperator::Plus),
+                            Box::new(head),
+                            Box::new(idx),
+                        )),
+                    );
                 }
                 Token::OpenParen => {
                     // function call

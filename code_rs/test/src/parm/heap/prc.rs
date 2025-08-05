@@ -2,7 +2,7 @@ extern crate alloc;
 use alloc::alloc::{alloc, dealloc};
 use core::alloc::Layout;
 use core::cell::{RefCell, RefMut};
-use core::fmt::Debug;
+use core::fmt::{Debug, Display};
 use core::hash::{Hash, Hasher};
 use core::ops::Deref;
 use core::ptr;
@@ -21,6 +21,12 @@ pub struct PrcInner<T: Sized> {
 
 pub struct Prc<T: Sized> {
     pub ptr: *mut PrcInner<T>,
+}
+
+impl<T: Display> Display for Prc<T> {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        Display::fmt(&**self, f)
+    }
 }
 
 impl<T: Sized + Debug> Debug for Prc<T> {
