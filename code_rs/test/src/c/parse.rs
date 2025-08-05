@@ -62,6 +62,12 @@ impl From<CompileError> for ParseError {
     }
 }
 
+impl From<ReadError> for ParseError {
+    fn from(e: ReadError) -> Self {
+        ParseError::ReadError(e)
+    }
+}
+
 pub fn plog(s: &'static str) {
     //println!(s);
 }
@@ -97,13 +103,13 @@ pub enum Statement {
 
 impl<'a, 'b> CParser<'a, 'b> {
     #[inline(never)]
-    pub fn new(s: &'a str, scope: &'b mut Scope) -> Self {
-        CParser {
+    pub fn new(s: &'a str, scope: &'b mut Scope) -> Result<Self, PositionedError<ParseError>> {
+        Ok(CParser {
             code: s,
-            iter: Tokenizer::new(s).process().expect("token").into_iter().enumerate().peekable(),
+            iter: Tokenizer::new(s).process()?.into_iter().enumerate().peekable(),
             scope,
             //compiler
-        }
+        })
     }
     
     fn skip_while<T, U: Into<SkipStop<T>>>(&mut self, p: impl Fn(&Token) -> U) -> Option<T> {
@@ -734,7 +740,6 @@ impl<'a, 'b> CParser<'a, 'b> {
 
     fn insert_decls(scope: &mut Scope, decls: Vec<(String, SymbolKind)>) -> Result<(), ParseError> {
         for (name, kind) in decls {
-            rprintln!("Inserting {}: {:?}", name, kind);
             match scope.symbols.entry(name) {
                 Entry::Occupied(mut entry) => {
                     match (entry.get_mut(), kind) {
@@ -788,9 +793,19 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(None)
     }
 
-    pub fn read_whole(&mut self) -> Result<(), PositionedError<ParseError>> {
+    pub fn read_whole(mut self) -> Result<Self, PositionedError<ParseError>> {
         match self.read_unit() {
-            Ok(_) => Ok(()),
+            Ok(_) => Ok(self),
+            Err(e) => Err(PositionedError {
+                pos: self.current_pos(),
+                error: e
+            })
+        }
+    }
+
+    pub fn read_whole_expr(mut self) -> Result<Expression, PositionedError<ParseError>> {
+        match self.read_expression() {
+            Ok(expr) => Ok(expr),
             Err(e) => Err(PositionedError {
                 pos: self.current_pos(),
                 error: e
@@ -799,7 +814,25 @@ impl<'a, 'b> CParser<'a, 'b> {
     }
 }
 
+#[derive(Debug)]
 pub struct PositionedError<T> {
     pub pos: usize,
     pub error: T
+}
+
+auto trait NotSame {}
+
+impl<T> !NotSame for (T, T) {}
+
+impl NotSame for (ReadError, ParseError) {} // sigh...
+
+impl<T: Into<U>, U> From<PositionedError<T>> for PositionedError<U>
+where (T, U): NotSame
+{
+    fn from(e: PositionedError<T>) -> Self {
+        PositionedError {
+            pos: e.pos,
+            error: e.error.into()
+        }
+    }
 }

@@ -137,6 +137,11 @@ impl<'a, 'b> CParser<'a, 'b> {
                 self.advance();
                 Ok(Expression::Literal(val))
             }
+            Some(&Token::Character(ch)) => {
+                // character literal
+                self.advance();
+                Ok(Expression::Literal(ch as i32)) // convert char to i32
+            }
             // handled in read_cast_expression
             /*Some(Token::OpenParen) => {
                 // parenthesized expression
@@ -308,7 +313,6 @@ impl<'a, 'b> CParser<'a, 'b> {
                 ))
             }
             Some(Token::Operator(op)) => {
-                breakpoint();
                 let uop = match op {
                     Operator::Simple(AssignableOperator::BitwiseAnd) => UnaryOp::Address,
                     Operator::Simple(AssignableOperator::Multiply) => UnaryOp::Deref,

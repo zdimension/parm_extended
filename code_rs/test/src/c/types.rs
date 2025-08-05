@@ -1,6 +1,7 @@
 use alloc::string::String;
 use crate::parm::heap::prc::Prc;
 use alloc::vec::Vec;
+use core::borrow::Borrow;
 use core::fmt::Display;
 use derive_more::{BitOr, BitOrAssign};
 use hashbrown::{DefaultHashBuilder, HashMap};
@@ -57,21 +58,22 @@ impl Display for FunctionImpl {
 
 #[derive(PartialEq, Eq, Debug)]
 pub enum UnqualType {
-    //Void,
+    Int(Option<Signedness>),
     Char(Option<Signedness>),
     Bool,
-    Int(Option<Signedness>),
+    Enum(EnumImpl),
     Pointer(QualType),
     Array(QualType, Option<usize>),
     Struct(StructImpl),
+    Void,
     //Union(UnionImpl),
-    Enum(EnumImpl),
     Function(FunctionImpl),
 }
 
 impl UnqualType {
     pub fn size(&self) -> usize {
         match self {
+            UnqualType::Void => 0,
             UnqualType::Char(_) => 4, // todo: handling things smaller than a word sucks
             UnqualType::Bool => 4,
             UnqualType::Int(_) => 4,
@@ -88,6 +90,7 @@ impl UnqualType {
 impl Display for UnqualType {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
+            UnqualType::Void => write!(f, "void"),
             UnqualType::Char(Some(Signedness::Signed)) => write!(f, "signed char"),
             UnqualType::Char(Some(Signedness::Unsigned)) => write!(f, "unsigned char"),
             UnqualType::Char(None) => write!(f, "char"),
@@ -127,6 +130,18 @@ pub struct QualType {
 
 impl AsRef<UnqualType> for QualType {
     fn as_ref(&self) -> &UnqualType {
+        &*self.unqual
+    }
+}
+
+impl Borrow<UnqualType> for QualType {
+    fn borrow(&self) -> &UnqualType {
+        &*self.unqual
+    }
+}
+
+impl Borrow<UnqualType> for &QualType {
+    fn borrow(&self) -> &UnqualType {
         &*self.unqual
     }
 }

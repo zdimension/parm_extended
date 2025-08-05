@@ -3,6 +3,7 @@ use alloc::vec::Vec;
 use core::fmt;
 use core::fmt::Display;
 use core::str::Chars;
+use crate::c::parse::PositionedError;
 use crate::parm::tty::{DisplayTarget, ParmDisplay};
 use crate::print;
 
@@ -400,7 +401,9 @@ impl<'a> Tokenizer<'a> {
     }
 
     fn read_char(&mut self) -> Result<char, ReadError> {
-        if let Some(ch) = self.advance() {
+        let ch = self.read()?;
+        if ch == b'\\' {
+            let ch = self.read()?;
             match ch {
                 b'a' => Ok('\x07'),
                 b'b' => Ok('\x08'),
@@ -462,11 +465,11 @@ impl<'a> Tokenizer<'a> {
                 _ => Err(ReadError::CharParseError),
             }
         } else {
-            Err(ReadError::EOFFound)
+            Ok(ch as char)
         }
     }
 
-    pub fn process(mut self) -> Result<Vec<Token>, ReadError> {
+    fn process_inner(&mut self) -> Result<Vec<Token>, ReadError> {
         let mut tokens = Vec::new();
         loop {
             self.skip_spaces();
@@ -645,6 +648,13 @@ impl<'a> Tokenizer<'a> {
             tokens.push(tok);
         }
         Ok(tokens)
+    }
+
+    pub(crate) fn process(mut self) -> Result<Vec<Token>, PositionedError<ReadError>> {
+        match self.process_inner() {
+            Ok(tokens) => Ok(tokens),
+            Err(err) => Err(PositionedError { pos: self.position, error: err }),
+        }
     }
 
     fn read_string(&mut self) -> Result<Token, ReadError> {

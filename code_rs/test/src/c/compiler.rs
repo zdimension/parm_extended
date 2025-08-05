@@ -1,27 +1,29 @@
-use alloc::string::{String, ToString};
-use alloc::{format, vec};
-use crate::c::lexer::{AssignableOperator, Comparison, Token};
-use crate::c::types::{FunctionImpl, QualType, Signedness, UnqualType};
-use alloc::vec::Vec;
-use core::cmp::PartialEq;
-use core::fmt::Display;
-use core::ops::{BitAnd, Not};
-use arbitrary_int::{u10, u11, u13, u3, u5, u6, u7, u9, Number, UInt};
-use const_for::const_for;
-use strum::{EnumIter, FromRepr, IntoEnumIterator};
-use crate::c::parse::{Block, Statement};
-use crate::c::scope::{Scope, SymbolKind};
-use crate::parm::tty::get_tty;
-use core::fmt::Write;
-use aligned_vec::{ABox, AVec, ConstAlign};
-use Instruction::*;
-use Reg::*;
-use HiReg::*;
 use crate::c::compiler::CompileError::GenericDyn;
 use crate::c::lexer::Comparison::LessThan;
 use crate::c::lexer::Operator::BoolOp;
+use crate::c::lexer::{AssignableOperator, Comparison, Token};
+use crate::c::parse::{Block, Statement};
 use crate::c::parse_expr::{BinOp, Expression, IncDec, OpPosition, SizeOfOp, UnaryOp};
+use crate::c::scope::{Scope, SymbolKind};
+use crate::c::types::{FunctionImpl, QualType, Signedness, UnqualType};
+use crate::parm::tty::get_tty;
 use crate::rprintln;
+use aligned_vec::{ABox, AVec, ConstAlign};
+use alloc::string::{String, ToString};
+use alloc::vec::Vec;
+use alloc::{format, vec};
+use arbitrary_int::{u10, u11, u13, u3, u5, u6, u7, u9, Number, UInt};
+use const_for::const_for;
+use core::borrow::Borrow;
+use core::cmp::PartialEq;
+use core::fmt::Display;
+use core::fmt::Write;
+use core::ops::{BitAnd, Not};
+use strum::{EnumIter, FromRepr, IntoEnumIterator};
+use HiReg::*;
+use Instruction::*;
+use Reg::*;
+use crate::c::types::Signedness::Unsigned;
 /*pub fn compile(proto: &FunctionImpl, body: &[Token]) {
 
 }*/
@@ -44,7 +46,7 @@ pub type CodeBox = ABox<[u16], ConstAlign<4>>;
 pub struct Jump {
     pub cond: Condition,
     pub instr_pos: usize, // where the jump instruction is located
-    pub target: usize, // where the jump should go
+    pub target: usize,    // where the jump should go
 }
 
 #[derive(Debug)]
@@ -56,10 +58,12 @@ pub struct Compiler<'a> {
     pub locals_size: usize,
     pub scope: Vec<&'a Scope>,
     pub deferred: Vec<(usize, fn(&Compiler<'a>) -> Instruction)>,
-    pub last_push: Option<(usize, RegList)>
+    pub last_push: Option<(usize, RegList)>,
+    proto: Option<&'a FunctionImpl>,
+    loops: Vec<LoopInfo>
 }
 
-fn fit_signed_into< const BITS: usize>(val: usize) -> Result<usize, ()> {
+fn fit_signed_into<const BITS: usize>(val: usize) -> Result<usize, ()> {
     let ival = val as isize;
     if ival >= -(1 << (BITS - 1)) && ival < (1 << (BITS - 1)) {
         Ok(val & ((1 << BITS) - 1))
@@ -70,7 +74,14 @@ fn fit_signed_into< const BITS: usize>(val: usize) -> Result<usize, ()> {
 
 struct Analysis<'a> {
     ty: QualType,
-    addr: Option<Address<'a>>
+    addr: Option<Address<'a>>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct LoopInfo {
+    cond_label: usize,
+    end_label: usize,
+    scope_id: usize // scope id for the loop, for nonlocal jumps
 }
 
 impl<'a> Compiler<'a> {
@@ -84,6 +95,8 @@ impl<'a> Compiler<'a> {
             scope: vec![],
             deferred: vec![],
             last_push: None,
+            proto: None,
+            loops: vec![]
         }
     }
 
@@ -117,26 +130,36 @@ impl<'a> Compiler<'a> {
 
             self.instructions[instr_pos] = if cond == Condition::Al {
                 // Unconditional jump, use B instruction
-                B { label11: u11::new(fit_signed_into::<11>(delta)
-                    .expect("Jump target out of range for unconditional jump") as u16) }
+                B {
+                    label11: u11::new(
+                        fit_signed_into::<11>(delta)
+                            .expect("Jump target out of range for unconditional jump")
+                            as u16,
+                    ),
+                }
             } else {
                 // Conditional jump, use BCond instruction
-                BCond { cond, label8: fit_signed_into::<8>(delta)
-                    .expect("Jump target out of range for conditional jump") as u8 }
+                BCond {
+                    cond,
+                    label8: fit_signed_into::<8>(delta)
+                        .expect("Jump target out of range for conditional jump")
+                        as u8,
+                }
             };
         }
 
         for (deferred_pos, f) in self.deferred.iter().copied() {
             if deferred_pos >= self.instructions.len() {
-                panic!("Deferred instruction position out of bounds: {}", deferred_pos);
+                panic!(
+                    "Deferred instruction position out of bounds: {}",
+                    deferred_pos
+                );
             }
             let instruction = f(&self);
             self.instructions[deferred_pos] = instruction;
         }
 
         rprintln!("Function with locals size: {}", self.locals_size);
-
-        //self.dump();
 
         self.instructions
     }
@@ -146,7 +169,6 @@ impl<'a> Compiler<'a> {
         for i in &self.instructions {
             rprintln!("{:04x} {}", i.encode(), i);
         }
-
     }
 
     pub fn link_asm(self) -> CodeVec {
@@ -154,7 +176,7 @@ impl<'a> Compiler<'a> {
     }
 
     pub fn emit(&mut self, instruction: Instruction) {
-        //rprintln!("emit: {:04x} {:?}", instruction.encode(), instruction);
+        //rprintln!("emit: {:04x} {}", instruction.encode(), instruction);
         self.last_push = None;
         self.instructions.push(instruction);
     }
@@ -165,13 +187,15 @@ impl<'a> Compiler<'a> {
     }
 
     pub fn emit_push(&mut self, regs: RegList) {
+        //rprintln!("emit_push: {:?}", regs);
         let orig_len = self.instructions.len();
         let len = regs.len();
         self.emit(SubSp { immw7: u9::new((len * 4) as u16) });
         for (i, r) in regs.iter_regs().enumerate() {
             self.emit(StrSp { rt: r, immw8: u10::new((i * 4) as u16) });
         }
-        if regs.has(8) { // LR
+        if regs.has(8) {
+            // LR
             self.emit(MovHiLo { rd: R12, rs: R7 });
             self.emit(MovLoHi { rd: R7, rs: LR });
             self.emit(StrSp { rt: R7, immw8: u10::new(((len - 1) * 4) as u16) });
@@ -181,6 +205,7 @@ impl<'a> Compiler<'a> {
     }
 
     pub fn emit_pop(&mut self, regs: RegList) {
+        //rprintln!("emit_pop: {:?}", regs);
         let len = regs.len();
 
         if let Some((ilen, lpregs)) = self.last_push.take() {
@@ -211,7 +236,8 @@ impl<'a> Compiler<'a> {
         for (i, r) in regs.iter_regs().enumerate() {
             self.emit(LdrSp { rt: r, immw8: u10::new((i * 4) as u16) });
         }
-        if regs.has(8) { // PC
+        if regs.has(8) {
+            // PC
             self.emit(MovHiLo { rd: R12, rs: R7 });
             self.emit(LdrSp { rt: R7, immw8: u10::new(((len - 1) * 4) as u16) });
             self.emit(MovHiLo { rd: LR, rs: R7 });
@@ -231,6 +257,16 @@ impl<'a> Compiler<'a> {
         self.locals_size = self.locals_size.max(self.depth);
     }
 
+    /// emits code to float up to the given scope
+    ///
+    /// used for nonlocal jumps in loops (e.g. continue, break)
+    fn get_back_to(&mut self, scope_id: usize) {
+        self.emit(AddsImm8 {
+            rd: R7,
+            imm8: u8::try_from(self.scope[scope_id+1..].iter().map(|s| s.var_size).sum::<usize>()).unwrap()
+        });
+    }
+
     fn leave(&mut self) {
         if let Some(scope) = self.scope.pop() {
             rprintln!("leaving scope with {}", scope.var_size);
@@ -242,14 +278,26 @@ impl<'a> Compiler<'a> {
     }
 
     fn get_max_local_size(body: &'a Block) -> usize {
-        body.decls.var_size + body.stmts.iter().filter_map(|s| match s {
-            Statement::Block(b) => Some(Self::get_max_local_size(b)),
-            _ => None
-        }).max().unwrap_or(0)
+        body.decls.var_size
+            + body
+                .stmts
+                .iter()
+                .filter_map(|s| match s {
+                    Statement::Block(b) => Some(Self::get_max_local_size(b)),
+                    _ => None,
+                })
+                .max()
+                .unwrap_or(0)
     }
 
     #[inline(never)]
-    pub fn emit_function(&mut self, proto: &FunctionImpl, body: &'a Block, scope: &'a Scope) -> Result<(), CompileError> {
+    pub fn emit_function(
+        &mut self,
+        proto: &'a FunctionImpl,
+        body: &'a Block,
+        scope: &'a Scope,
+    ) -> Result<(), CompileError> {
+        self.proto = Some(proto);
         self.emit_push(RegList::new([R7], true));
         //rprintln!("Function with locals size: {}", self.locals_size);
         self.emit(AddRegSpImm { rd: R7, immw8: u10::new(scope.var_size as u16) }); // use r7 as frame pointer
@@ -265,6 +313,8 @@ impl<'a> Compiler<'a> {
         self.set_label_here(0); // Set the label for the function return
         self.emit_deferred(|self_| AddSp { immw7: u9::new(self_.locals_size as u16) }); // Restore stack pointer
         self.emit_pop(RegList::new([R7], true));
+        self.proto = None;
+
         Ok(())
     }
 
@@ -284,19 +334,33 @@ impl<'a> Compiler<'a> {
             Expression(expr) => {
                 self.emit_expression(expr)?;
                 self.emit_pop(RegList::new([R0], false)); // Discard the result to R0
-            },
+            }
             Return(expr) => {
+                let Some(fi) = self.proto else {
+                    comperr!("Return statement outside of function");
+                };
                 if let Some(expr) = expr {
-                    self.emit_expression(expr)?;
+                    if *fi.ret.unqual == UnqualType::Void {
+                        comperr!("Return with value in void function");
+                    }
+                    let Analysis { ty: ety, addr: _ } = self.analyze_expression(expr)?;
+                    self.emit_auto_convert(expr, &ety.unqual, &fi.ret.unqual)?;
                     self.emit_pop(RegList::new([R0], false)); // Move result to R0
                 } else {
+                    if *fi.ret.unqual != UnqualType::Void {
+                        comperr!("Return with no value in non-void function");
+                    }
                     self.emit(MovsImm { rd: R0, imm8: 0 }); // Return 0 if no expression
                 }
                 self.jump_to(0, Condition::Al); // Jump to the function return label
-            },
+            }
             If(cond, then, else_) => {
                 let else_label = self.new_label();
                 let end_label = self.new_label();
+                let Analysis { ty: cty, addr: _ } = self.analyze_expression(cond)?;
+                Self::assert_scalar(&cty).or_else(|_| {
+                    comperr!("Condition in if statement must be scalar, found: {}", cty)
+                })?;
                 self.emit_expression(cond)?;
                 self.emit_pop(RegList::new([R0], false)); // Pop condition result to R0
                 self.emit(CmpImm { rd: R0, imm8: 0 }); // Compare with 0
@@ -326,8 +390,17 @@ impl<'a> Compiler<'a> {
                 }
                 let cond_label = self.new_label();
                 let end_label = self.new_label();
+                self.loops.push(LoopInfo {
+                    cond_label,
+                    end_label,
+                    scope_id: self.scope.len(),
+                });
                 self.set_label_here(cond_label);
                 if let Some(cond_expr) = cond {
+                    let Analysis { ty: cty, addr: _ } = self.analyze_expression(cond_expr)?;
+                    Self::assert_scalar(&cty).or_else(|_| {
+                        comperr!("Condition in for loop must be scalar, found: {}", cty)
+                    })?;
                     self.emit_expression(cond_expr)?;
                     self.emit_pop(RegList::new([R0], false)); // Pop condition result to R0
                     self.emit(CmpImm { rd: R0, imm8: 0 }); // Compare with 0
@@ -340,8 +413,47 @@ impl<'a> Compiler<'a> {
                 }
                 self.jump_to(cond_label, Condition::Al); // Jump back to condition check
                 self.set_label_here(end_label); // Set end label
+                self.loops.pop();
             }
-            _ => todo!()
+            While(cond, body) => {
+                let cond_label = self.new_label();
+                let end_label = self.new_label();
+                self.loops.push(LoopInfo {
+                    cond_label,
+                    end_label,
+                    scope_id: self.scope.len(),
+                });
+                self.set_label_here(cond_label);
+                let Analysis { ty: cty, addr: _ } = self.analyze_expression(cond)?;
+                Self::assert_scalar(&cty).or_else(|_| {
+                    comperr!("Condition in while loop must be scalar, found: {}", cty)
+                })?;
+                self.emit_expression(cond)?;
+                self.emit_pop(RegList::new([R0], false)); // Pop condition result to R0
+                self.emit(CmpImm { rd: R0, imm8: 0 }); // Compare with 0
+                self.jump_to(end_label, Condition::Eq); // Jump to end if condition is false
+                self.emit_statement(body)?;
+                self.jump_to(cond_label, Condition::Al); // Jump back to condition check
+                self.set_label_here(end_label); // Set end label
+                self.loops.pop();
+            }
+            Break => {
+                if let Some(&loop_info) = self.loops.last() {
+                    self.get_back_to(loop_info.scope_id);
+                    self.jump_to(loop_info.end_label, Condition::Al); // Jump to end of loop
+                } else {
+                    comperr!("Break statement outside of loop");
+                }
+            }
+            Continue => {
+                if let Some(&loop_info) = self.loops.last() {
+                    self.get_back_to(loop_info.scope_id);
+                    self.jump_to(loop_info.cond_label, Condition::Al); // Jump to loop condition
+                } else {
+                    comperr!("Continue statement outside of loop");
+                }
+            }
+            _ => todo!(),
         }
         Ok(())
     }
@@ -359,48 +471,91 @@ impl<'a> Compiler<'a> {
                             addr: Some(Address::Local((base + *offset) as u8)),
                         }
                     }
-                    SymbolKind::Function { proto, jump, .. } => {
-                        Analysis {
-                            ty: UnqualType::Function(proto.clone()).into(),
-                            addr: Some(Address::Global(jump.as_ptr() as _)),
-                        }
-                    }
+                    SymbolKind::Function { proto, jump, .. } => Analysis {
+                        ty: UnqualType::Function(proto.clone()).into(),
+                        addr: Some(Address::Global(jump.as_ptr() as _)),
+                    },
                     SymbolKind::Type(_) => {
                         panic!("Cannot reference type as an expression: {}", name);
                     }
-                }
+                };
             }
             base += scope.var_size;
         }
         panic!("Symbol not found: {}", name);
     }
 
-    fn assert_scalar<'t, T: AsRef<UnqualType> + Display + 't>(ty: T) -> Result<T, CompileError> {
-        match ty.as_ref() {
-            UnqualType::Int(_) | UnqualType::Char(_) | UnqualType::Pointer(_) => Ok(ty),
+    fn assert_scalar<T: Borrow<UnqualType> + Display>(ty: T) -> Result<T, CompileError> {
+        match ty.borrow() {
+            UnqualType::Pointer(_) => Ok(ty),
+            _ if matches!(Self::assert_integer(ty.borrow()), Ok(_)) => Ok(ty),
             _ => comperr!("Expected scalar type, found: {}", ty),
         }
     }
 
-    fn assert_arithmetic<'t, T: AsRef<UnqualType> + Display + 't>(ty: T) -> Result<T, CompileError> {
-        match ty.as_ref() {
-            UnqualType::Int(_) | UnqualType::Char(_) => Ok(ty),
-            _ => comperr!("Expected arithmetic type, found: {}", ty),
-        }
+    fn assert_arithmetic<T: Borrow<UnqualType> + Display>(ty: T) -> Result<T, CompileError> {
+        // the others are floats which we don't support
+        Self::assert_integer(ty)
     }
 
-    fn assert_integer<'t, T: AsRef<UnqualType> + Display + 't>(ty: T) -> Result<T, CompileError> {
-        match ty.as_ref() {
-            UnqualType::Int(_) | UnqualType::Char(_) | UnqualType::Bool => Ok(ty),
+    fn assert_integer<T: Borrow<UnqualType> + Display>(ty: T) -> Result<T, CompileError> {
+        match ty.borrow() {
+            UnqualType::Int(_) | UnqualType::Char(_) | UnqualType::Bool | UnqualType::Enum(_) => {
+                Ok(ty)
+            }
             _ => comperr!("Expected integer type, found: {}", ty),
         }
     }
 
-    fn analyze_expression<'e>(&mut self, expr: &'e Expression) -> Result<Analysis<'e>, CompileError> {
-        Ok(match expr {
-            Expression::SymRef(name) => {
-                self.lookup(name)
+    /// emit expr while performing automatic conversions to desired type if possible
+    fn emit_auto_convert(&mut self, expr: &Expression, src: &UnqualType, dst: &UnqualType) -> Result<bool, CompileError> {
+        match (dst, src) {
+            (a, b) if a == b => {
+                // No conversion needed, types are the same
+                self.emit_expression(expr)?;
             }
+            (UnqualType::Int(_) | UnqualType::Enum(_), t)
+            if Self::assert_integer(t).is_ok() => {
+                // Conversion from integer to int or enum, nothing to do
+                self.emit_expression(expr)?;
+            }
+            (UnqualType::Char(sign), t)
+            if Self::assert_integer(t).is_ok() => {
+                // Conversion from integer to char, truncate and fix
+                self.emit_expression(expr)?;
+                self.emit_pop(RegList::new([R0], false)); // Pop result to R0
+                self.emit_char_extend(R0, *sign); // Truncate to char, sign/zero-extend if necessary
+                self.emit_push(RegList::new([R0], false)); // Push result back to stack
+            }
+            (UnqualType::Bool, t) if Self::assert_scalar(t).is_ok() => {
+                // Conversion from scalar to bool
+                self.emit_expression(expr)?;
+                self.emit_pop(RegList::new([R0], false)); // Pop result to R0
+                self.emit(SubsImm { rd: R1, rn: R0, imm3: u3::new(1) }); // R1 = R0 - 1, if R0 < 1 then C = !B = 0
+                self.emit(Sbcs { rdn: R0, rm: R1 }); // R0 = R0 - R1 - !C = R0 - (R0 - 1) - !C = 1 - !C = (R0 > 1)
+                self.emit_push(RegList::new([R0], false)); // Push result back to stack
+            }
+            _ => return Ok(false)
+        }
+        Ok(true)
+    }
+
+    fn get_promoted_int(ty: &UnqualType) -> Result<QualType, CompileError> {
+        match ty {
+            UnqualType::Int(Some(Unsigned)) => Ok(UnqualType::Int(Some(Unsigned)).into()),
+            _ => {
+                Self::assert_integer(ty)?;
+                Ok(UnqualType::Int(None).into())
+            }
+        }
+    }
+
+    fn analyze_expression<'e>(
+        &mut self,
+        expr: &'e Expression,
+    ) -> Result<Analysis<'e>, CompileError> {
+        Ok(match expr {
+            Expression::SymRef(name) => self.lookup(name),
             Expression::ArrayAccess(arr, idx) => todo!(),
             Expression::MemberAccess(_, _, _) => todo!(),
             Expression::UnaryOp(op, val) => {
@@ -410,38 +565,30 @@ impl<'a> Compiler<'a> {
                     Address => UnqualType::Pointer(ty).into(),
                     Deref => {
                         let UnqualType::Pointer(ref inner) = *ty.unqual else {
-                            return Err(GenericDyn(format!("Expected pointer type for dereference, found: {}", ty)));
+                            return Err(GenericDyn(format!(
+                                "Expected pointer type for dereference, found: {}",
+                                ty
+                            )));
                         };
                         return Ok(Analysis {
                             ty: inner.clone(),
-                            addr: Some(self::Address::Dynamic(&*val))
+                            addr: Some(self::Address::Dynamic(&*val)),
                         });
                     }
-                    Plus => Self::assert_arithmetic(ty)?.into(),
-                    Minus => Self::assert_arithmetic(ty)?.into(),
-                    BitwiseNot => Self::assert_integer(ty)?.into(),
+                    Plus | Minus | BitwiseNot => Self::get_promoted_int(&ty.unqual)?.into(),
                     Not => {
                         Self::assert_scalar(ty)?;
-                        UnqualType::Bool.into()
+                        UnqualType::Int(None).into()
                     }
                     IncDec(_, _) => ty,
                 };
-                Analysis {
-                    ty: rty,
-                    addr: None
-                }
+                Analysis { ty: rty, addr: None }
             }
             Expression::Comma(_, _) => todo!(),
-            Expression::Literal(_) => Analysis {
-                ty: UnqualType::Int(None).into(),
-                addr: None,
-            },
+            Expression::Literal(_) => Analysis { ty: UnqualType::Int(None).into(), addr: None },
             Expression::Cast(ty, expr) => {
-                // todo: check cast
-                Analysis {
-                    ty: ty.clone(),
-                    addr: None,
-                }
+                // cast will be checked at emission time
+                Analysis { ty: ty.clone(), addr: None }
             }
             Expression::FuncCall(f, args) => {
                 let Analysis { ty, addr } = self.analyze_expression(f)?;
@@ -449,22 +596,17 @@ impl<'a> Compiler<'a> {
                     comperr!("Expected function type for function call, found: {}", ty);
                 };
                 if args.len() != fi.args.len() {
-                    comperr!("Function call argument count mismatch: expected {}, found {}", fi.args.len(), args.len());
+                    comperr!(
+                        "Function call argument count mismatch: expected {}, found {}",
+                        fi.args.len(),
+                        args.len()
+                    );
                 }
-                for (arg, (name, arg_ty)) in args.iter().zip(fi.args.iter()) {
-                    let Analysis { ty: arg_ty_actual, addr: _ } = self.analyze_expression(arg)?;
-                    if arg_ty_actual != *arg_ty {
-                        comperr!("Function call argument type mismatch for '{}': expected {}, found {}", name, arg_ty, arg_ty_actual);
-                    }
-                }
-                Analysis {
-                    ty: fi.ret.clone(),
-                    addr: None,
-                }
+                Analysis { ty: fi.ret.clone(), addr: None }
             }
             Expression::BinOp(op, l, r) => {
-                use BinOp::*;
                 use AssignableOperator::*;
+                use BinOp::*;
                 let Analysis { ty: lty, addr: laddr } = self.analyze_expression(l)?;
                 let Analysis { ty: rty, .. } = self.analyze_expression(r)?;
                 let ty = match *op {
@@ -480,27 +622,20 @@ impl<'a> Compiler<'a> {
                         UnqualType::Bool.into()
                     }
                     Assignment(_) => {
-                        // todo
-
-                        if lty != rty {
-                            comperr!("Assignment type mismatch: left type {} does not match right type {}", lty, rty);
-                        }
+                        // type will be checked at emission type
                         lty
                     }
                     _ => todo!("Binary operation not implemented: {:?}", op),
                 };
                 Analysis {
-                    ty: ty, // For now, we assume the left type is the result type
+                    ty: ty,     // For now, we assume the left type is the result type
                     addr: None, // No address for binary operations
                 }
             }
             Expression::Conditional(_, _, _) => todo!(),
             Expression::SizeOf(_) => {
                 // SizeOf returns the size of the type in bytes
-                Analysis {
-                    ty: UnqualType::Int(None).into(),
-                    addr: None,
-                }
+                Analysis { ty: UnqualType::Int(None).into(), addr: None }
             }
         })
     }
@@ -523,8 +658,15 @@ impl<'a> Compiler<'a> {
                 self.emit_imm32_to_reg(reg, addr);
             }
             Address::Dynamic(expr) => {
+                let preserve = match reg {
+                    R0 => [R1, R1],
+                    R1 => [R0, R0],
+                    _ => [R0, R1],
+                };
+                self.emit_push(RegList::new(preserve, false)); // Preserve R0 and R1
                 self.emit_expression(expr)?;
                 self.emit_pop(RegList::new([reg], false)); // Pop the address to the specified register
+                self.emit_pop(RegList::new(preserve, false)); // Restore R0 and R1
             }
         }
         Ok(())
@@ -542,7 +684,7 @@ impl<'a> Compiler<'a> {
         self.set_label_here(lbl);
     }
 
-    /// Clobbers `reg`, potentially R0 and R1 (emit_expression). Preserves stack.
+    /// Clobbers `reg`. Preserves stack.
     fn emit_assignment(&mut self, src: Reg, dst: &Expression) -> Result<(), CompileError> {
         let Analysis { ty: lty, addr: laddr } = self.analyze_expression(dst)?;
         let Some(laddr) = laddr else {
@@ -553,55 +695,60 @@ impl<'a> Compiler<'a> {
         Ok(())
     }
 
+    fn emit_char_extend(&mut self, reg: Reg, sign: Option<Signedness>) {
+        if sign == Some(Signedness::Signed) {
+            self.emit(Sxtb { rd: reg, rm: reg }); // Sign-extend to 32 bits
+        } else {
+            self.emit(Uxtb { rd: reg, rm: reg }); // Zero-extend to 32 bits
+        }
+    }
+
+    fn emit_extend_if(&mut self, reg: Reg, ty: &QualType) {
+        match *ty.unqual {
+            UnqualType::Char(sign) => self.emit_char_extend(reg, sign),
+            _ => {
+                // No extension needed for int or pointer types
+            }
+        }
+    }
+
     /// Clobbers R0 and R1. Pushes result to stack.
     fn load_from(&mut self, ty: &QualType, addr: &Address) -> Result<(), CompileError> {
         match *ty.unqual {
             UnqualType::Char(sign) => {
                 match addr {
                     &Address::Local(offset) => {
-                        match sign {
-                            Some(Signedness::Signed) => {
-                                self.emit(MovsImm { rd: R0, imm8: offset });
-                                self.emit(Ldrsb { rd: R0, rb: R7, ro: R0 });
-                            }
-                            Some(Signedness::Unsigned) | None => {
-                                self.emit(LdrbRegImm { rd: R0, rb: R7, imm5: u5::new(offset) });
-                            }
+                        self.emit(LdrbRegImm { rd: R0, rb: R7, imm5: u5::new(offset) });
+                        if sign == Some(Signedness::Signed) {
+                            self.emit(Sxtb { rd: R0, rm: R0 }); // Sign-extend to 32 bits
                         }
                         self.emit_push(RegList::new([R0], false));
                     }
                     &Address::Dynamic(expr) => {
                         self.emit_expression(expr)?;
                         self.emit_pop(RegList::new([R0], false));
-                        match sign {
-                            Some(Signedness::Signed) => {
-                                self.emit(MovsImm { rd: R1, imm8: 0 });
-                                self.emit(Ldrsb { rd: R0, rb: R0, ro: R1 });
-                            }
-                            Some(Signedness::Unsigned) | None => {
-                                self.emit(LdrbRegImm { rd: R0, rb: R0, imm5: u5::new(0) });
-                            }
+                        self.emit(LdrbRegImm { rd: R0, rb: R0, imm5: u5::new(0) });
+                        if sign == Some(Signedness::Signed) {
+                            self.emit(Sxtb { rd: R0, rm: R0 }); // Sign-extend to 32 bits
                         }
                         self.emit_push(RegList::new([R0], false));
                     }
-                    _ => todo!()
+                    _ => todo!(),
                 }
             }
-            UnqualType::Int(_) | UnqualType::Pointer(_) => {
-                match addr {
-                    &Address::Local(offset) => {
-                        self.emit(LdrRegImm { rd: R0, rb: R7, immw5: u7::new(offset) });
-                        self.emit_push(RegList::new([R0], false));
-                    }
-                    &Address::Dynamic(expr) => {
-                        self.emit_expression(expr)?;
-                        self.emit_pop(RegList::new([R0], false));
-                        self.emit(LdrRegImm { rd: R0, rb: R0, immw5: u7::new(0) });
-                        self.emit_push(RegList::new([R0], false));
-                    }
-                    _ => todo!()
+            UnqualType::Int(_) | UnqualType::Pointer(_) => match addr {
+                &Address::Local(offset) => {
+                    self.emit(LdrRegImm { rd: R0, rb: R7, immw5: u7::new(offset) });
+                    self.emit_push(RegList::new([R0], false));
                 }
-            }
+                &Address::Dynamic(expr) => {
+                    self.emit_expression(expr)?;
+                    self.emit_pop(RegList::new([R0], false));
+                    self.emit(LdrRegImm { rd: R0, rb: R0, immw5: u7::new(0) });
+                    self.emit_push(RegList::new([R0], false));
+                }
+                _ => todo!(),
+            },
             _ => comperr!("Unsupported type for symbol reference: {}", ty),
         }
         Ok(())
@@ -610,7 +757,7 @@ impl<'a> Compiler<'a> {
     /// Pushes the result as a word on the stack.
     /// Clobbers R0 and R1.
     pub fn emit_expression(&mut self, expr: &Expression) -> Result<(), CompileError> {
-        let Analysis { ty, addr } = self.analyze_expression(expr)?;
+        let Analysis { ty: ety, addr: eaddr } = self.analyze_expression(expr)?;
         match expr {
             &Expression::Literal(val) => {
                 if let Ok(imm8) = u8::try_from(val) {
@@ -631,70 +778,52 @@ impl<'a> Compiler<'a> {
                 self.emit_expression(&Expression::Literal(size as i32))?;
             }
             Expression::SymRef(_) => {
-                let Some(addr) = addr else {
+                let Some(addr) = eaddr else {
                     comperr!("Symbol reference without address");
                 };
-                self.load_from(&ty, &addr)?;
+                self.load_from(&ety, &addr)?;
             }
             Expression::Cast(ty, expr) => {
-                let Analysis { ty: expr_ty, addr } = self.analyze_expression(expr)?;
-                match (&*ty.unqual, &*expr_ty.unqual) {
-                    (a, b) if a == b => {
-                        // No cast needed, types are the same
-                        self.emit_expression(expr)?;
+                let Analysis { ty: expr_ty, .. } = self.analyze_expression(expr)?;
+                if !self.emit_auto_convert(expr, &expr_ty.unqual, &ty.unqual)? {
+                    match (&*ty.unqual, &*expr_ty.unqual) {
+                        (UnqualType::Int(_) | UnqualType::Pointer(_) | UnqualType::Enum(_), UnqualType::Pointer(_)) =>
+                        {
+                            // Cast from pointer to word integer, nothing to do
+                            self.emit_expression(expr)?;
+                        }
+                        (UnqualType::Pointer(_), t)
+                        if Self::assert_integer(t).is_ok() =>
+                        {
+                            // Cast from integer to pointer, nothing to do
+                            self.emit_expression(expr)?;
+                        }
+                        _ => comperr!("No cast from {} to {}", expr_ty, ty),
                     }
-                    (UnqualType::Int(_), UnqualType::Char(Some(Signedness::Unsigned) | None)) => {
-                        // Cast from unsigned char to int, nothing to do
-                        self.emit_expression(expr)?;
-                    }
-                    (UnqualType::Int(_), UnqualType::Pointer(_)) => {
-                        // Cast from T* to int, nothing to do
-                        self.emit_expression(expr)?;
-                    }
-                    (UnqualType::Pointer(_), UnqualType::Int(_)) => {
-                        // Cast from T* to int, nothing to do
-                        self.emit_expression(expr)?;
-                    }
-                    (UnqualType::Int(Some(Signedness::Signed) | None), UnqualType::Char(Some(Signedness::Signed))) => {
-                        // Cast from signed char to int, we need to sign-extend
-                        self.emit_expression(expr)?;
-                        self.emit_pop(RegList::new([R0], false)); // Pop result to R
-                        self.emit(LslImm { rd: R0, rm: R0, imm5: u5::new(24) }); // Shift left to clear upper bits
-                        self.emit(AsrImm { rd: R0, rm: R0, imm5: u5::new(24) }); // Shift right to sign-extend
-                        self.emit_push(RegList::new([R0], false)); // Push result back to stack
-                    }
-                    (UnqualType::Char(_), UnqualType::Int(_)) => {
-                        // Cast from int to char (truncate to 8 bits)
-                        self.emit_expression(expr)?;
-                        self.emit_pop(RegList::new([R0], false)); // Pop result to R0
-                        self.emit(MovsImm { rd: R1, imm8: 0xff });
-                        self.emit(Ands { rdn: R0, rm: R1 }); // Clear upper bits
-                        self.emit_push(RegList::new([R0], false)); // Push result back to stack
-                    }
-                    (UnqualType::Int(_) | UnqualType::Char(_), UnqualType::Bool) => {
-                        // Cast from int or char to bool : nop (already stored as 0 or 1)
-                        self.emit_expression(expr)?;
-                    }
-                    (UnqualType::Bool, UnqualType::Int(_) | UnqualType::Char(_)) => {
-                        // Cast from bool to int or char : compare with zero
-                        self.emit_expression(expr)?;
-                        self.emit_pop(RegList::new([R0], false)); // Pop result to R0
-                        self.emit(SubsImm { rd: R1, rn: R0, imm3: u3::new(1) }); // R1 = R0 - 1, if R0 < 1 then C = !B = 0
-                        self.emit(Sbcs { rdn: R0, rm: R1 }); // R0 = R0 - R1 - !C = R0 - (R0 - 1) - !C = 1 - !C = (R0 > 1)
-                        self.emit_push(RegList::new([R0], false)); // Push result back to stack
-                    }
-                    _ => comperr!("Unsupported cast from {} to {}", expr_ty, ty),
                 }
             }
             Expression::ArrayAccess(arr, idx) => todo!(),
             Expression::FuncCall(f, args) => {
                 let Analysis { ty, addr } = self.analyze_expression(f)?;
+                let UnqualType::Function(fi) = &*ty.unqual else {
+                    unreachable!(); // already checked in analyze_expression
+                };
                 let Some(addr) = addr else {
                     comperr!("Function call without address");
                 };
-                for a in args.iter().rev() {
-                    self.emit_expression(a)?;
+
+                for (arg, (name, arg_ty)) in args.iter().zip(fi.args.iter()).rev() {
+                    let Analysis { ty: arg_ty_actual, addr: _ } = self.analyze_expression(arg)?;
+                    if !self.emit_auto_convert(arg, &arg_ty_actual.unqual, &arg_ty.unqual)? {
+                        comperr!(
+                            "Function call argument type mismatch for '{}': expected {}, found {}",
+                            name,
+                            arg_ty,
+                            arg_ty_actual
+                        );
+                    }
                 }
+
                 // all args are on the stack, they will be read in the function
                 rprintln!("Calling {:?}", f);
                 self.emit_address_to_reg(addr, R0)?;
@@ -704,31 +833,45 @@ impl<'a> Compiler<'a> {
             }
             Expression::MemberAccess(x, member, access) => todo!(),
             Expression::UnaryOp(op, x) => {
-                let Analysis { ty, addr } = self.analyze_expression(x)?;
+                let Analysis { ty: xty, addr: xaddr } = self.analyze_expression(x)?;
                 match *op {
                     UnaryOp::Address => {
-                        let Some(addr) = addr else {
+                        let Some(addr) = xaddr else {
                             comperr!("Address of expression without address");
                         };
                         self.emit_address_to_reg(addr, R0)?;
+                        self.emit_push(RegList::new([R0], false)); // Push address to stack
                         return Ok(());
                     }
                     UnaryOp::Deref => {
-                        self.load_from(&ty, &Address::Dynamic(x))?;
+                        self.load_from(&ety, &Address::Dynamic(x))?;
                         return Ok(());
                     }
                     _ => {}
                 }
                 self.emit_expression(x)?;
+                if *op == UnaryOp::Plus {
+                    // nothing to do
+                    return Ok(());
+                }
                 self.emit_pop(RegList::new([R0], false));
                 match *op {
-                    UnaryOp::Plus => { /* nop */ }
-                    UnaryOp::Minus => self.emit(Negs { rd: R0, rn: R0 }),
-                    UnaryOp::BitwiseNot => self.emit(Mvns { rd: R0, rm: R0 }),
+                    UnaryOp::Minus => {
+                        if let UnqualType::Bool = *ety.unqual {
+                            // no-op: 0 becomes 0, 1 becomes -1 which is true
+                        } else {
+                            self.emit(Negs { rd: R0, rn: R0 }); // Negate the value
+                            self.emit_extend_if(R0, &ety);
+                        }
+                    }
+                    UnaryOp::BitwiseNot => {
+                        self.emit(Mvns { rd: R0, rm: R0 });
+                        self.emit_extend_if(R0, &ety);
+                    }
                     UnaryOp::Not => {
                         self.emit(Rsbs { rd: R1, rn: R0 }); // R1 = 0 - R0, sets C if R0 = 0 (true)
                         self.emit(Adcs { rdn: R0, rm: R1 }); // R0 = R0 + R1 + C = R0 - R0 + C = C = 1 if R0 = 0 (true), 0 if R0 ≠ 0 (false)
-                    },
+                    }
                     UnaryOp::IncDec(kind, pos) => {
                         use IncDec::*;
                         use OpPosition::*;
@@ -737,27 +880,33 @@ impl<'a> Compiler<'a> {
                             Postfix => R1,
                         };
                         match kind {
-                            Increment => self.emit(AddsImm { rd: op_target, rn: R0, imm3: u3::new(1) }),
-                            Decrement => self.emit(SubsImm { rd: op_target, rn: R0, imm3: u3::new(1) }),
+                            Increment => {
+                                self.emit(AddsImm { rd: op_target, rn: R0, imm3: u3::new(1) })
+                            }
+                            Decrement => {
+                                self.emit(SubsImm { rd: op_target, rn: R0, imm3: u3::new(1) })
+                            }
+                        }
+                        if pos == Prefix {
+                            self.emit_extend_if(op_target, &ety);
                         }
                         self.emit_assignment(op_target, x)?;
                     }
-                    _ => unreachable!()
+                    _ => unreachable!(),
                 }
                 self.emit_push(RegList::new([R0], false));
             }
             Expression::BinOp(op, a, b) => {
                 use self::Comparison::*;
-                use BinOp::*;
                 use AssignableOperator::*;
+                use BinOp::*;
                 let Analysis { ty: aty, addr: aaddr } = self.analyze_expression(a)?;
                 let Analysis { ty: bty, addr: baddr } = self.analyze_expression(b)?;
                 match *op {
                     Assignment(None) => {
                         self.emit_expression(b)?;
                         self.emit_pop(RegList::new([R0], false)); // Pop result to R0
-                        self.emit_assignment(R0, a)?;
-                        // Push the result back to the stack
+                        self.emit_assignment(R0, a)?; // Assign it
                         self.emit_push(RegList::new([R0], false)); // Push result to stack
                         return Ok(());
                     }
@@ -768,9 +917,18 @@ impl<'a> Compiler<'a> {
                 self.emit_pop(RegList::new([R1], false)); // Pop second operand to R1
                 self.emit_pop(RegList::new([R0], false)); // Pop first operand to R0
                 match *op {
-                    Simple(Plus) => self.emit(Adds { rd: R0, rn: R0, rm: R1 }),
-                    Simple(Minus) => self.emit(Subs { rd: R0, rn: R0, rm: R1 }),
-                    Simple(Multiply) => self.emit(Muls { rdm: R0, rn: R1 }),
+                    Simple(Plus) => {
+                        self.emit(Adds { rd: R0, rn: R0, rm: R1 });
+                        self.emit_extend_if(R0, &ety);
+                    }
+                    Simple(Minus) => {
+                        self.emit(Subs { rd: R0, rn: R0, rm: R1 });
+                        self.emit_extend_if(R0, &ety);
+                    }
+                    Simple(Multiply) => {
+                        self.emit(Muls { rdm: R0, rn: R1 });
+                        self.emit_extend_if(R0, &ety);
+                    },
                     Simple(Divide) => {
                         // ARM does not have a direct divide instruction, so we would need to implement it
                         // using a library or custom assembly code.
@@ -808,18 +966,20 @@ impl<'a> Compiler<'a> {
                         self.emit(MovsImm { rd: R0, imm8: 0 }); // Set R0 to 0
                         self.emit(Adcs { rdn: R0, rm: R0 }); // If R1 < R0, C=1, so R0 = 1, else R0 = 0
                     }
-                    Comparison(GreaterThan) => { // see LessThan
+                    Comparison(GreaterThan) => {
+                        // see LessThan
                         self.emit(Cmp { rn: R1, rm: R0 });
                         self.emit(Sbcs { rdn: R0, rm: R0 });
                         self.emit(Negs { rd: R0, rn: R0 });
                     }
-                    Comparison(GreaterThanOrEqual) => { // see LessThanOrEqual
+                    Comparison(GreaterThanOrEqual) => {
+                        // see LessThanOrEqual
                         self.emit(Cmp { rn: R0, rm: R1 });
                         self.emit(MovsImm { rd: R0, imm8: 0 });
                         self.emit(Adcs { rdn: R0, rm: R0 });
                     }
 
-                    _ => todo!()
+                    _ => todo!(),
                 }
                 self.emit_push(RegList::new([R0], false)); // Push result to R0
             }
@@ -830,7 +990,7 @@ impl<'a> Compiler<'a> {
                     self.emit_pop(RegList::new([R0], false)); // Discard the result
                 }
                 self.emit_expression(tail)?;
-            },
+            }
         }
         Ok(())
     }
@@ -883,9 +1043,7 @@ impl RegList {
         if pc_or_lr {
             result |= 1 << 8; // Set the 9th bit for PC or LR
         }
-        RegList {
-            regs: u9::new(result),
-        }
+        RegList { regs: u9::new(result) }
     }
 
     pub const fn len(&self) -> usize {
@@ -1022,7 +1180,6 @@ macro_rules! check_instr_size {
     }
 }
 
-
 macro_rules! write_list {
     ($fmt:expr, $first:ident $( , $rest:ident )* $(,)?) => {
         {
@@ -1035,7 +1192,21 @@ macro_rules! write_list {
 }
 
 macro_rules! instructions {
-    ($($name:ident $asm:literal { $( $($field:ident: $ty:ty),+ )? } => ($prefix:expr $(, $($enc:expr),*)?)),* $(,)?) => {
+    (@fmt $f:expr, $asm:literal $( { $($field:ident),+ } )?) => {
+        {
+            write!($f, concat!($asm, " "))?;
+            $(
+            write_list!($f, $($field),+);
+            )?
+        }
+    };
+    (@fmt $f:expr, ($($asm:tt)*) $( { $($field:ident),+ } )?) => {
+        {
+            write!($f, $($asm)*)?;
+        }
+    };
+
+    ($($name:ident $asm:tt { $( $($field:ident: $ty:ty),+ )? } => ($prefix:expr $(, $($enc:expr),*)?)),* $(,)?) => {
         #[derive(Copy, Clone, PartialEq, Eq, Debug)]
         pub enum Instruction {
             $(
@@ -1045,15 +1216,9 @@ macro_rules! instructions {
 
         impl core::fmt::Display for Instruction {
             fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-                match self {
+                match *self {
                     $(Self::$name $( { $($field),+, .. } )? => {
-                        write!(f, "{} ", $asm)?;
-                        $(
-                        /*$(
-                            write!(f, "{} ", $field)?;
-                        )+*/
-                        write_list!(f, $($field),+);
-                        )?
+                        instructions!(@fmt f, $asm $( { $($field),+ } )?);
                         Ok(())
                     }),*
                 }
@@ -1172,7 +1337,7 @@ instructions! {
     Sbcs "sbc" { rdn: Reg, rm: Reg } => (0b010000_0110, rm, rdn),
     Rors "ror" { rdn: Reg, rm: Reg } => (0b010000_0111, rm, rdn),
     Tst "tst" { rn: Reg, rm: Reg } => (0b010000_1000, rm, rn),
-    Rsbs "rsb" { rd: Reg, rn: Reg } => (0b010000_1001, rn, rd),
+    Rsbs ("rsb {rd}, {rn}, #0") { rd: Reg, rn: Reg } => (0b010000_1001, rn, rd),
     Cmp "cmp" { rn: Reg, rm: Reg } => (0b010000_1010, rm, rn),
     Cmn "cmn" { rn: Reg, rm: Reg } => (0b010000_1011, rm, rn),
     Orrs "orr" { rdn: Reg, rm: Reg } => (0b010000_1100, rm, rdn),
@@ -1180,21 +1345,6 @@ instructions! {
     Bics "bic" { rdn: Reg, rm: Reg } => (0b010000_1110, rm, rdn),
     Mvns "mvn" { rd: Reg, rm: Reg } => (0b010000_1111, rm, rd),
     Negs "neg" { rd: Reg, rn: Reg } => (0b010000_1001, rn, rd), // same as Rsbs with imm = 0
-
-    /*
-      "add {Rd}, {Rs}": (0b010001_00_0_0, "Rs", "Rd"),
-    "add {Rd}, {Hs}": (0b010001_00_0_1, "Hs", "Rd"),
-    "add {Hd}, {Rs}": (0b010001_00_1_0, "Rs", "Hd"),
-    "add {Hd}, {Hs}": (0b010001_00_1_1, "Rs", "Hd"),
-    "mov {Rd}, {Rs}": (0b010001_10_0_0, "Rs", "Rd"),
-    "mov {Rd}, {Hs}": (0b010001_10_0_1, "Hs", "Rd"),
-    "mov {Hd}, {Rs}": (0b010001_10_1_0, "Rs", "Hd"),
-    "mov {Hd}, {Hs}": (0b010001_10_1_1, "Hs", "Hd"),
-    "bx {Rm}": (0b010001_11_0_0, "Rm", "000"),
-    "bx {Hm}": (0b010001_11_0_1, "Hm", "000"),
-    "blx? {Rm}": (0b010001_11_1_0, "Rm", "000"),
-    "blx? {Hm}": (0b010001_11_1_1, "Hm", "000"),
-     */
 
     // 05 - Hi register operations/branch exchange
     AddLoLo "add" { rd: Reg, rs: Reg } => (0b010001_00_0_0, rs, rd),
@@ -1211,34 +1361,34 @@ instructions! {
     BlxHi "blx" { rm: HiReg } => (0b010001_11_1_1, rm, u3::new(0)),
 
     // 06 - PC-relative load
-    LdrPcImm "ldr" { rd: Reg, immw8: u10 } => (0b01001, rd, (immw8.value() >> 2) as u8),
-    LdrPc "ldr" { rd: Reg, labelp8: u8 } => (0b01001, rd, labelp8),
+    LdrPcImm ("ldr {rd}, [pc, {immw8}]") { rd: Reg, immw8: u10 } => (0b01001, rd, (immw8.value() >> 2) as u8),
+    LdrPc ("ldr {rd}, {labelp8}") { rd: Reg, labelp8: u8 } => (0b01001, rd, labelp8),
 
     // 07 - load/store with register offset
-    Str "str" { rd: Reg, rb: Reg, ro: Reg } => (0b0101_0_0_0, ro, rb, rd),
-    Strb "strb" { rd: Reg, rb: Reg, ro: Reg } => (0b0101_0_1_0, ro, rb, rd),
-    Ldr "ldr" { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_0_0, ro, rb, rd),
-    Ldrb "ldrb" { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_1_0, ro, rb, rd),
+    Str ("str {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_0_0_0, ro, rb, rd),
+    Strb ("strb {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_0_1_0, ro, rb, rd),
+    Ldr ("ldr {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_0_0, ro, rb, rd),
+    Ldrb ("ldrb {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_1_0, ro, rb, rd),
 
     // 08 - load/store sign-extended byte/halfword
-    Strh "strh" { rd: Reg, rb: Reg, ro: Reg } => (0b0101_0_0_1, ro, rb, rd),
-    Ldrh "ldrh" { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_0_1, ro, rb, rd),
-    Ldrsb "ldrsb" { rd: Reg, rb: Reg, ro: Reg } => (0b0101_0_1_1, ro, rb, rd),
-    Ldrsh "ldrsh" { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_1_1, ro, rb, rd),
+    Strh ("strh {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_0_0_1, ro, rb, rd),
+    Ldrh ("ldrh {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_0_1, ro, rb, rd),
+    Ldrsb ("ldrsb {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_0_1_1, ro, rb, rd),
+    Ldrsh ("ldrsh {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_1_1, ro, rb, rd),
 
     // 09 - load/store with immediate offset
-    StrRegImm "str" { rd: Reg, rb: Reg, immw5: u7 } => (0b011_0_0, u5::new(immw5.value() >> 2), rb, rd),
-    LdrRegImm "ldr" { rd: Reg, rb: Reg, immw5: u7 } => (0b011_0_1, u5::new(immw5.value() >> 2), rb, rd),
-    StrbRegImm "strb" { rd: Reg, rb: Reg, imm5: u5 } => (0b011_1_0, imm5, rb, rd),
-    LdrbRegImm "ldrb" { rd: Reg, rb: Reg, imm5: u5 } => (0b011_1_1, imm5, rb, rd),
+    StrRegImm ("str {rd}, [{rb}, {immw5}]") { rd: Reg, rb: Reg, immw5: u7 } => (0b011_0_0, u5::new(immw5.value() >> 2), rb, rd),
+    LdrRegImm ("ldr {rd}, [{rb}, {immw5}]") { rd: Reg, rb: Reg, immw5: u7 } => (0b011_0_1, u5::new(immw5.value() >> 2), rb, rd),
+    StrbRegImm ("strb {rd}, [{rb}, {imm5}]") { rd: Reg, rb: Reg, imm5: u5 } => (0b011_1_0, imm5, rb, rd),
+    LdrbRegImm ("ldrb {rd}, [{rb}, {imm5}]") { rd: Reg, rb: Reg, imm5: u5 } => (0b011_1_1, imm5, rb, rd),
 
     // 10 - load/store halfword
-    StrhRegImm "strh" { rd: Reg, rb: Reg, immh5: u6 } => (0b1000_0, u5::new(immh5.value() >> 1), rb, rd),
-    LdrhRegImm "ldrh" { rd: Reg, rb: Reg, immh5: u6 } => (0b1000_1, u5::new(immh5.value() >> 1), rb, rd),
+    StrhRegImm ("strh {rd}, [{rb}, {immh5}]") { rd: Reg, rb: Reg, immh5: u6 } => (0b1000_0, u5::new(immh5.value() >> 1), rb, rd),
+    LdrhRegImm ("ldrh {rd}, [{rb}, {immh5}]") { rd: Reg, rb: Reg, immh5: u6 } => (0b1000_1, u5::new(immh5.value() >> 1), rb, rd),
 
     // 11 - SP-relative load/store
-    StrSp "str sp, " { rt: Reg, immw8: u10 } => (0b1001_0, rt, (immw8.value() >> 2) as u8),
-    LdrSp "ldr sp, " { rt: Reg, immw8: u10 } => (0b1001_1, rt, (immw8.value() >> 2) as u8),
+    StrSp ("str {rt}, [sp, {immw8}]") { rt: Reg, immw8: u10 } => (0b1001_0, rt, (immw8.value() >> 2) as u8),
+    LdrSp ("ldr {rt}, [sp, {immw8}]") { rt: Reg, immw8: u10 } => (0b1001_1, rt, (immw8.value() >> 2) as u8),
 
     /*
         "add {Rd}, pc, {immw8}": (0b1010_0, "Rd", "immw8"),
@@ -1248,19 +1398,25 @@ instructions! {
      */
 
     // 12 - load address
-    AddRegPcImm "add pc, " { rd: Reg, immw8: u10 } => (0b1010_0, rd, (immw8.value() >> 2) as u8),
-    Adr "adr" { rd: Reg, labelp8: u8 } => (0b1010_0, rd, labelp8),
-    AddRegSpImm "add sp, " { rd: Reg, immw8: u10 } => (0b1010_1, rd, (immw8.value() >> 2) as u8),
-    MovRegSp "mov sp, " { rd: Reg } => (0b1010_1, rd, 0u8),
+    AddRegPcImm ("add {rd}, pc, {immw8}") { rd: Reg, immw8: u10 } => (0b1010_0, rd, (immw8.value() >> 2) as u8),
+    Adr ("adr {rd}, {labelp8}") { rd: Reg, labelp8: u8 } => (0b1010_0, rd, labelp8),
+    AddRegSpImm ("add {rd}, sp, {immw8}") { rd: Reg, immw8: u10 } => (0b1010_1, rd, (immw8.value() >> 2) as u8),
+    MovRegSp ("mov {rd}, sp") { rd: Reg } => (0b1010_1, rd, 0u8),
 
     // 13 - add offset to Stack Pointer
-    AddSp "add sp, " { immw7: u9 } => (0b1011_0000_0, u7::new((immw7.value() >> 2) as u8)),
-    SubSp "sub sp, " { immw7: u9 } => (0b1011_0000_1, u7::new((immw7.value() >> 2) as u8)),
+    AddSp ("add sp, {immw7}") { immw7: u9 } => (0b1011_0000_0, u7::new((immw7.value() >> 2) as u8)),
+    SubSp ("sub sp, {immw7}") { immw7: u9 } => (0b1011_0000_1, u7::new((immw7.value() >> 2) as u8)),
 
     // 14 - everything ignored for maintenant
 
+    // 14.2 - sign/zero extend
+    Sxth "sxth" { rd: Reg, rm: Reg } => (0b1011_0010_00, rm, rd),
+    Sxtb "sxtb" { rd: Reg, rm: Reg } => (0b1011_0010_01, rm, rd),
+    Uxth "uxth" { rd: Reg, rm: Reg } => (0b1011_0010_10, rm, rd),
+    Uxtb "uxtb" { rd: Reg, rm: Reg } => (0b1011_0010_11, rm, rd),
+
     // 16 - conditional branch
-    BCond "b" { cond: Condition, label8: u8 } => (0b1101, cond, label8),
+    BCond ("b{cond} {label8}") { cond: Condition, label8: u8 } => (0b1101, cond, label8),
 
     // 18 - unconditional branch
     B "b" { label11: u11 } => (0b11100, label11),
@@ -1278,5 +1434,5 @@ pub enum Address<'a> {
     // Global variable, offset from the data segment
     Global(usize),
     // Dynamic
-    Dynamic(&'a Expression)
+    Dynamic(&'a Expression),
 }

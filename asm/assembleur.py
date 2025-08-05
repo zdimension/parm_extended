@@ -16,7 +16,7 @@ from dataclasses import dataclass, field
 from collections import OrderedDict, defaultdict
 from typing import Sequence, NewType, Any
 
-
+"""C:\GitHub\parm_extended\code_rs\test\bin\digital_out.raw"""
 class AsmException(Exception):
     pass
 
@@ -94,7 +94,7 @@ INSTR_DEFS = {
     "add {Rd}, {Rs}": (0b010001_00_0_0, "Rs", "Rd"),
     "add {Rd}, {Hs}": (0b010001_00_0_1, "Hs", "Rd"),
     "add {Hd}, {Rs}": (0b010001_00_1_0, "Rs", "Hd"),
-    "add {Hd}, {Hs}": (0b010001_00_1_1, "Rs", "Hd"),
+    "add {Hd}, {Hs}": (0b010001_00_1_1, "Hs", "Hd"),
     "mov {Rd}, {Rs}": (0b010001_10_0_0, "Rs", "Rd"),
     "mov {Rd}, {Hs}": (0b010001_10_0_1, "Hs", "Rd"),
     "mov {Hd}, {Rs}": (0b010001_10_1_0, "Rs", "Hd"),
@@ -439,6 +439,13 @@ def try_assemble(pc: int, m: re.Match, instr: str, output, line: str, line_num: 
                             # thanks @Guekka
                             print("Old code:", lines[line_num - 1:line_num + 8])
                             if cond and len(instr) == 3:
+                                """
+                                b{cond} label
+                                becomes
+                                b{not cond} new_label
+                                b label
+                                new_label:
+                                """
                                 print("Trampolining:", line)
                                 cond_id = dic["cond"][0]
                                 opp_id = cond_id ^ 1
@@ -448,6 +455,15 @@ def try_assemble(pc: int, m: re.Match, instr: str, output, line: str, line_num: 
                                 print("New code:", lines[line_num - 1:line_num + 8])
                                 raise Trampoline(2)
                             elif instr == "ldr":
+                                """
+                                ldr Rd, label_value
+                                becomes
+                                ldr Rd, trampo_addr
+                                b trampo_after
+                                .p2align 2
+                                trampo_addr: .long label_value
+                                trampo_after: ldr Rd, [Rd]
+                                """
                                 print("Trampolining:", line)
                                 tr_data = f"{new_label}_addr"
                                 tr_after = f"{new_label}_after"
@@ -459,11 +475,32 @@ def try_assemble(pc: int, m: re.Match, instr: str, output, line: str, line_num: 
                                 insert_line(line_num, f"b {tr_after}")
                                 print("New code:", lines[line_num - 1:line_num + 8])
                                 raise Trampoline(4)
-                            # elif instr.lower() == "b":
-                            #     print("Trampolining:", line)
-                            #     data_name = f"{new_label}_off"
-                            #     lines.insert(line_num, f"{data_name}: .long {val}")
-                            #     lines[line_num - 1] = f"ldr r0, {data_name}"
+                            elif instr.lower() == "b":
+                                """
+                                b label
+                                becomes
+                                mov r12, r7 ; backup r7
+                                ldr r7, trampo_target
+                                b trampo_after
+                                .p2align 2
+                                trampo_target: .long label-CURPC-8
+                                trampo_after: mov r11, r7
+                                mov r7, r12 ; restore r7
+                                add pc, r11
+                                """
+                                print("Trampolining:", line)
+                                tr_target = f"{new_label}_target"
+                                tr_after = f"{new_label}_after"
+                                set_line(line_num - 1, f"mov r12, r7")
+                                insert_line(line_num, f"add pc, r11")
+                                insert_line(line_num, f"mov r7, r12")
+                                insert_line(line_num, f"{tr_after}: mov r11, r7")
+                                insert_line(line_num, f"{tr_target}: .long {v} - CURPC - 8")
+                                insert_line(line_num, f".p2align 2")
+                                insert_line(line_num, f"b {tr_after}")
+                                insert_line(line_num, f"ldr r7, {tr_target}")
+                                print("New code:", lines[line_num - 1:line_num + 8])
+                                raise Trampoline(7)
                         raise Exception(
                             f"Jump too wide : {lbl_value} is {dic[k][0]} which does not fit in {width} bits")
                     if not nojumps:
@@ -888,8 +925,8 @@ def main_loop():
         try:
             print("# lines:", len(lines))
             for lineno, (line, tokens) in enumerate(zip(lines, lines_tok)):
-                if len(instrs) > 10 * len(lines):
-                    print("many instrs?", len(instrs), len(lines))
+                # if len(instrs) > 10 * len(lines):
+                #     print("many instrs?", len(instrs), len(lines))
                 # if not no_optim:
                 #     if i in ignored_lines:
                 #         continue
@@ -1001,14 +1038,20 @@ def main_loop():
                                 add_instr(f"add sp, #{len(regs) * 4}")
                         case ["stm", addr, "!", ",", (regs)]:
                             regs = sorted(regs)
-                            for r in regs:
-                                add_instr(f"str {r}, [{addr}]")
-                                add_instr(f"adds {addr}, #4")
+                            # for r in regs:
+                            #     add_instr(f"str {r}, [{addr}]")
+                            #     add_instr(f"adds {addr}, #4")
+                            for k, r in enumerate(regs):
+                                add_instr(f"str {r}, [{addr}, #{4 * k}]")
+                            add_instr(f"adds {addr}, #{4 * len(regs)}")
                         case ["ldm", addr, "!", ",", (regs)]:
                             regs = sorted(regs)
-                            for r in regs:
-                                add_instr(f"ldr {r}, [{addr}]")
-                                add_instr(f"adds {addr}, #4")
+                            # for r in regs:
+                            #     add_instr(f"ldr {r}, [{addr}]")
+                            #     add_instr(f"adds {addr}, #4")
+                            for k, r in enumerate(regs):
+                                add_instr(f"ldr {r}, [{addr}, #{4 * k}]")
+                            add_instr(f"adds {addr}, #{4 * len(regs)}")
                         case ["ldm", addr, ",", (regs)]:
                             regs = sorted(regs)
                             for k, r in enumerate(regs):
@@ -1120,7 +1163,9 @@ def main_loop():
         current_function = None
         current_file = None
         instr_log.clear()
+        GLOBAL_SCOPE["CURPC"] = Symbol("CURPC", "<global>")
         for lineno, pc, line, val, size, tokens in instrs:
+            GLOBAL_SCOPE["CURPC"].label_value = pc
             try:
                 if val is not None:
                     assert 0 <= val <= 0xffff

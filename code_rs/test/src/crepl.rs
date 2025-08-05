@@ -11,6 +11,8 @@
 #![feature(macro_metavar_expr_concat)]
 #![feature(type_alias_impl_trait)]
 #![feature(const_trait_impl)]
+#![feature(auto_traits)]
+#![feature(negative_impls)]
 #![allow(dead_code)]
 #![allow(clippy::should_implement_trait)]
 extern crate alloc;
@@ -88,7 +90,6 @@ enum EvalStatus {
 
 fn c_print(x: usize) -> usize {
     rprintln!("c: {}", x);
-    breakpoint();
     x
 }
 
@@ -128,8 +129,9 @@ impl CRepl {
             return EvalStatus::ContinueReading;
         }
         if code.starts_with('=') {
-            let mut parser = CParser::new(&code[1..], &mut self.scope);
-            match parser.read_expression() {
+            let parser = CParser::new(&code[1..], &mut self.scope);
+            let res = parser.and_then(|mut p| p.read_whole_expr());
+            match res {
                 Ok(expr) => {
                     rprintln!("expr: {:?}", expr);
                     let mut comp = Compiler::new();
@@ -140,7 +142,6 @@ impl CRepl {
                         return EvalStatus::Ok;
                     }
                     comp.emit_pop(RegList::new([R0], true));
-                    comp.dump();
                     let code = comp.link_asm();
                     rprintln!("addr={:x}", code.as_ptr() as usize);
                     unsafe {
@@ -153,7 +154,9 @@ impl CRepl {
 
                         asm!("mov r11, sp");
                         breakpoint();*/
-                        rprintln!("-> {}", ptr());
+                        breakpoint();
+                        let res = ptr();
+                        rprintln!("-> {res} (0x{res:#08x})");
                     }
                 }
                 Err(e) => {
@@ -163,9 +166,10 @@ impl CRepl {
                 }
             }
         } else {
-            let mut parser = CParser::new(code, &mut self.scope);
-            match parser.read_whole() {
-                Ok(_) => {
+            let parser = CParser::new(code, &mut self.scope);
+            let res = parser.and_then(|mut p| p.read_whole());
+            match res {
+                Ok(parser) => {
                     rprintln!("{}", parser.scope);
                 }
                 Err(e) => {
