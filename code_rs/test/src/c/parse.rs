@@ -82,13 +82,19 @@ pub struct Block {
 }
 
 #[derive(Debug)]
+pub enum DeclOrExpr {
+    Declaration(Block),
+    Expression(Expression)
+}
+
+#[derive(Debug)]
 pub enum Statement {
     Empty,
     Expression(Expression),
     Return(Option<Expression>),
     If(Expression, Box<Statement>, Option<Box<Statement>>),
     While(Expression, Box<Statement>),
-    For(Option<Expression>, Option<Expression>, Option<Expression>, Box<Statement>),
+    For(Block, Option<Expression>, Option<Expression>, Box<Statement>),
     Break,
     Continue,
     Block(Block),
@@ -577,7 +583,24 @@ impl<'a, 'b> CParser<'a, 'b> {
                 Token::Keyword(Keyword::For) => {
                     self.advance();
                     self.expect(Token::OpenParen)?;
-                    let init = self.read_expression_statement()?;
+                    let mut block = Block {
+                        decls: Default::default(),
+                        stmts: Vec::new()
+                    };
+                    if self.accept(Token::Semicolon) {
+                        //
+                    } else {
+                        match self.read_declaration() {
+                            Err(ParseError::GenericBacktrack(_, _)) => {
+                                // no declaration specifiers, we can move on to statements
+                                block.stmts.push(Statement::Expression(self.read_expression()?));
+                            }
+                            Err(e) => return Err(e),
+                            Ok(decls) => {
+                                Self::insert_decls(&mut block.decls, &mut block.stmts, decls)?;
+                            }
+                        }
+                    }
                     let condition = self.read_expression_statement()?;
                     let increment = if self.accept(Token::CloseParen) {
                         None
@@ -587,7 +610,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                         Some(inc)
                     };
                     let body = self.read_statement()?;
-                    Statement::For(init, condition, increment, body.into())
+                    Statement::For(block, condition, increment, body.into())
                 }
                 Token::Keyword(Keyword::While) => {
                     self.advance();

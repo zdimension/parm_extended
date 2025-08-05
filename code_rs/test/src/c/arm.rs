@@ -391,13 +391,6 @@ instructions! {
     StrSp ("str {rt}, [sp, {immw8}]") { rt: Reg, immw8: u10 } => (0b1001_0, rt, (immw8.value() >> 2) as u8),
     LdrSp ("ldr {rt}, [sp, {immw8}]") { rt: Reg, immw8: u10 } => (0b1001_1, rt, (immw8.value() >> 2) as u8),
 
-    /*
-        "add {Rd}, pc, {immw8}": (0b1010_0, "Rd", "immw8"),
-    "adr {Rd}, {labelp8}": (0b1010_0, "Rd", "labelp8"),
-    "add {Rd}, sp, {immw8}": (0b1010_1, "Rd", "immw8"),
-    "mov {Rd}, sp": "add {Rd}, sp, #0",
-     */
-
     // 12 - load address
     AddRegPcImm ("add {rd}, pc, {immw8}") { rd: Reg, immw8: u10 } => (0b1010_0, rd, (immw8.value() >> 2) as u8),
     Adr ("adr {rd}, {labelp8}") { rd: Reg, labelp8: u8 } => (0b1010_0, rd, labelp8),

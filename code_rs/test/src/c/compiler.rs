@@ -1,7 +1,7 @@
 use crate::c::compiler::CompileError::GenericDyn;
 use crate::c::lexer::Comparison::{Equal, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, NotEqual};
 use crate::c::lexer::{AssignableOperator, BoolOp, Comparison, Token};
-use crate::c::parse::{Block, Statement};
+use crate::c::parse::{Block, DeclOrExpr, Statement};
 use crate::c::parse_expr::{BinOp, Expression, IncDec, OpPosition, SizeOfOp, UnaryOp};
 use crate::c::scope::{Scope, SymbolKind};
 use crate::c::types::{FunctionImpl, QualType, Signedness, TypeBox, UnqualType};
@@ -389,10 +389,6 @@ impl<'a> Compiler<'a> {
                 self.set_label_here(end_label);
             }
             For(init, cond, incr, body) => {
-                if let Some(init) = init {
-                    self.emit_expression(init)?;
-                    self.emit_pop(RegList::new([R0], false));
-                }
                 let cond_label = self.new_label();
                 let end_label = self.new_label();
                 self.loops.push(LoopInfo {
@@ -400,6 +396,10 @@ impl<'a> Compiler<'a> {
                     end_label,
                     scope_id: self.scope.len(),
                 });
+                self.enter(&init.decls);
+                for stmt in &init.stmts {
+                    self.emit_statement(stmt)?;
+                }
                 self.set_label_here(cond_label);
                 if let Some(cond_expr) = cond {
                     let Analysis { ty: cty, addr: _ } = self.analyze_expression(cond_expr)?;
@@ -419,6 +419,7 @@ impl<'a> Compiler<'a> {
                 self.jump_to(cond_label, Condition::Al); // Jump back to condition check
                 self.set_label_here(end_label); // Set end label
                 self.loops.pop();
+                self.leave();
             }
             While(cond, body) => {
                 let cond_label = self.new_label();

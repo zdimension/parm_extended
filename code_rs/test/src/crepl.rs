@@ -287,17 +287,16 @@ impl CRepl {
         "#;
         let code = r#"
         int sum(int upto) {
-            int i = 1, res = 0;
-            for (; i <= upto; ++i) {
+            int res = 0;
+            for (int i = 1; i <= upto; ++i) {
                 res += i;
             }
-
             return res;
         }
 
         int fact(int x) {
-            int res = 1, i = 1;
-            for (; i <= x; i++) {
+            int res = 1;
+            for (int i = 1; i <= x; i++) {
                 res *= i;
             }
             return res;
