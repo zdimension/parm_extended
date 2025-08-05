@@ -10,7 +10,7 @@ use arbitrary_int::{u5, u6, u7};
 
 use crate::c::arm::Instruction::*;
 use crate::c::arm::Reg::*;
-use crate::c::types::{QualType, TypeBox, UnqualType};
+use crate::c::types::{QualType, Signedness, TypeBox, UnqualType};
 use crate::{println, rprintln};
 use crate::parm::control::breakpoint;
 
@@ -71,7 +71,7 @@ pub enum SizeOfOp {
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Expression {
-    Literal(i32),
+    IntegerLiteral(u32, Signedness),
     StringLiteral(String),
     SymRef(String),
     Cast(QualType, Box<Expression>),
@@ -148,12 +148,16 @@ impl<'a, 'b> CParser<'a, 'b> {
             Some(&Token::Integer(val)) => {
                 // integer literal
                 self.advance();
-                Ok(Expression::Literal(val))
+                Ok(Expression::IntegerLiteral(val, if val > i32::MAX as u32 {
+                    Signedness::Unsigned
+                } else {
+                    Signedness::Signed
+                }))
             }
             Some(&Token::Character(ch)) => {
                 // character literal
                 self.advance();
-                Ok(Expression::Literal(ch as i32)) // convert char to i32
+                Ok(Expression::IntegerLiteral(ch as u32, Signedness::Signed)) // convert char to i32
             }
             Some(&Token::String(ref s)) => {
                 // string literal

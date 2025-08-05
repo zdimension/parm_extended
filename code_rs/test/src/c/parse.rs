@@ -36,6 +36,7 @@ use crate::c::arm::Reg::*;
 use crate::c::lexer::{AssignableOperator, Keyword, Operator, ReadError, Token, Tokenizer};
 use crate::c::parse_expr::{BinOp, Expression};
 use crate::c::types::{FunctionImpl, QualType, Signedness, StructImpl, TypeBox, TypeQualifiers, UnqualType};
+use crate::c::types::Signedness::{Signed, Unsigned};
 use crate::parm::OrderedMap;
 use crate::rprintln;
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -120,7 +121,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         None
     }
 
-    pub(super) fn current_pos(&mut self) -> usize {
+    pub fn current_pos(&mut self) -> usize {
         self.iter.peek().map(|&(pos, _)| pos).unwrap_or(self.code.len())
     }
 
@@ -172,7 +173,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         res
     }
 
-    pub(super) fn read_declaration_specifiers(&mut self) -> Result<(Option<StorageClass>, QualType), ParseError> {
+    pub fn read_declaration_specifiers(&mut self) -> Result<(Option<StorageClass>, QualType), ParseError> {
         plog("read_decl_spec");
         enum PrimType {
             Bool,
@@ -337,7 +338,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                 let unqual = match prim {
                     PrimType::Bool => UnqualType::Bool,
                     PrimType::Char => UnqualType::Char(signedness),
-                    PrimType::Int  => UnqualType::Int(signedness), // int is default
+                    PrimType::Int  => UnqualType::Int(signedness.unwrap_or(Signed)), // int is default
                 };
                 QualType {
                     unqual: unqual.into(),
@@ -687,11 +688,11 @@ impl<'a, 'b> CParser<'a, 'b> {
 
                             let mut fct_scope = Scope::default();
                             fct_scope.symbols.insert(String::from("_r7"), SymbolKind::Variable {
-                                ty: UnqualType::Int(None).into(),
+                                ty: UnqualType::Int(Unsigned).into(),
                                 offset: 0
                             });
                             fct_scope.symbols.insert(String::from("_lr"), SymbolKind::Variable {
-                                ty: UnqualType::Int(None).into(),
+                                ty: UnqualType::Int(Unsigned).into(),
                                 offset: 4
                             });
                             fct_scope.var_size = 8;
@@ -848,6 +849,7 @@ auto trait NotSame {}
 impl<T> !NotSame for (T, T) {}
 
 impl NotSame for (ReadError, ParseError) {} // sigh...
+impl NotSame for (ParseError, CompileError) {} // sigh...
 
 impl<T: Into<U>, U> From<PositionedError<T>> for PositionedError<U>
 where (T, U): NotSame

@@ -58,8 +58,8 @@ impl Display for FunctionImpl {
 
 #[derive(PartialEq, Eq, Debug)]
 pub enum UnqualType {
-    Int(Option<Signedness>), // signed by default
-    Char(Option<Signedness>), // unsigned by default
+    Int(Signedness), // signed by default
+    Char(Option<Signedness>), // spec mandates that char is different from both signed and unsigned char
     Bool,
     Enum(EnumImpl),
     Pointer(QualType),
@@ -109,9 +109,8 @@ impl Display for UnqualType {
             UnqualType::Char(Some(Signedness::Unsigned)) => write!(f, "unsigned char"),
             UnqualType::Char(None) => write!(f, "char"),
             UnqualType::Bool => write!(f, "_Bool"),
-            UnqualType::Int(Some(Signedness::Signed)) => write!(f, "int"),
-            UnqualType::Int(Some(Signedness::Unsigned)) => write!(f, "unsigned int"),
-            UnqualType::Int(None) => write!(f, "int"),
+            UnqualType::Int(Signedness::Signed) => write!(f, "int"),
+            UnqualType::Int(Signedness::Unsigned) => write!(f, "unsigned int"),
             UnqualType::Pointer(qt) => write!(f, "{}*", qt),
             UnqualType::Array(qt, Some(size)) => write!(f, "{}[{}]", qt, size),
             UnqualType::Array(qt, None) => write!(f, "{}[]", qt),

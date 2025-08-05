@@ -14,6 +14,7 @@
 #![feature(auto_traits)]
 #![feature(negative_impls)]
 #![feature(try_blocks)]
+#![feature(yeet_expr)]
 #![allow(dead_code)]
 #![allow(clippy::should_implement_trait)]
 extern crate alloc;
@@ -21,7 +22,7 @@ extern crate alloc;
 use alloc::string::String;
 use crate::c::arm::Reg::*;
 use crate::c::compiler::{Analysis, CompileError, Compiler};
-use crate::c::parse::CParser;
+use crate::c::parse::{CParser, ParseError, PositionedError, StorageClass};
 use crate::c::scope::{Scope, SymbolKind};
 use crate::c::types::{FunctionImpl, QualType, Signedness, TypeQualifiers, UnqualType};
 use crate::parm::control::breakpoint;
@@ -31,6 +32,7 @@ use core::hash::{BuildHasher, Hash, Hasher};
 use arbitrary_int::u10;
 use crate::c::arm::Instruction::*;
 use crate::c::arm::RegList;
+use crate::parm::midi::Pitch::C;
 
 mod c;
 mod parm;
@@ -93,13 +95,13 @@ trait ToUnqualType {
 
 impl ToUnqualType for usize {
     fn unqual_type() -> UnqualType {
-        UnqualType::Int(Some(Signedness::Unsigned))
+        UnqualType::Int(Signedness::Unsigned)
     }
 }
 
 impl ToUnqualType for u32 {
     fn unqual_type() -> UnqualType {
-        UnqualType::Int(Some(Signedness::Unsigned))
+        UnqualType::Int(Signedness::Unsigned)
     }
 }
 
@@ -206,109 +208,80 @@ impl CRepl {
         CRepl { scope }
     }
 
+    fn try_process(&mut self, code: &str) -> Result<(), PositionedError<ParseError>> {
+        let mut parser1 = CParser::new(code, &mut self.scope)?;
+        let is_expr = match parser1.read_declaration_specifiers() {
+            Ok(_) => false,
+            Err(ParseError::GenericBacktrack(..)) => true,
+            Err(e) => return Err(PositionedError {
+                pos: parser1.current_pos(),
+                error: e,
+            })
+        };
+
+        let mut parser = CParser::new(code, &mut self.scope)?;
+
+        if is_expr {
+            let expr = parser.read_whole_expr()?;
+            rprintln!("expr: {:?}", expr);
+            let mut comp = Compiler::new();
+            comp.scope.push(&self.scope);
+            comp.emit_push(RegList::new([], true));
+            let Analysis { ty, .. } = comp.analyze_expression(&expr).map_err(|e| {
+                PositionedError {
+                    pos: 0,
+                    error: e,
+                }
+            })?;
+            comp.emit_expression(&expr).map_err(|e| {
+                PositionedError {
+                    pos: 0,
+                    error: e,
+                }
+            })?;
+            comp.emit_pop(RegList::new([R0], false)); // separate calls so it can merge with the last push
+            comp.emit_pop(RegList::new([], true));
+            let code = comp.link_asm();
+            rprintln!("addr={:x}", code.as_ptr() as usize);
+            let res = unsafe {
+                let ptr: fn() -> u32 = core::mem::transmute(code.as_ptr());
+                breakpoint();
+                ptr()
+            };
+            rprint!("-> {}: ", ty);
+            match &*ty.unqual {
+                UnqualType::Int(Signedness::Unsigned) | UnqualType::Pointer(_) => {
+                    rprintln!("{} (0x{:08x})", res, res);
+                }
+                UnqualType::Int(_) => {
+                    rprintln!("{} (0x{:08x})", res as i32, res);
+                }
+                UnqualType::Char(_) => {
+                    rprintln!("{:?} (0x{:02x})", res as u8 as char, res as u8);
+                }
+                UnqualType::Bool => {
+                    rprintln!("{}", if res != 0 { "true" } else { "false" });
+                }
+                _ => {
+                    rprintln!("(no display)");
+                }
+            }
+        } else {
+            let parser = parser.read_whole()?;
+            rprintln!("{}", parser.scope);
+        }
+        Ok(())
+    }
+
     fn process(&mut self, code: &str) -> EvalStatus {
         if !check_balanced(code) {
             return EvalStatus::ContinueReading;
         }
-        if code.starts_with('=') {
-            let parser = CParser::new(&code[1..], &mut self.scope);
-            let res = parser.and_then(|mut p| p.read_whole_expr());
-            match res {
-                Ok(expr) => {
-                    rprintln!("expr: {:?}", expr);
-                    let mut comp = Compiler::new();
-                    comp.scope.push(&self.scope);
-                    comp.emit_push(RegList::new([], true));
-                    let an: Result<Analysis, CompileError> = try {
-                        let an = comp.analyze_expression(&expr)?;
-                        comp.emit_expression(&expr)?;
-                        an
-                    };
-                    let Analysis { ty, addr } = match an {
-                        Ok(an) => an,
-                        Err(e) => {
-                            rprintln!("error: {:?}", e);
-                            return EvalStatus::Ok;
-                        }
-                    };
-                    comp.emit_pop(RegList::new([R0], false)); // separate calls so it can merge with the last push
-                    comp.emit_pop(RegList::new([], true));
-                    let code = comp.link_asm();
-                    rprintln!("addr={:x}", code.as_ptr() as usize);
-                    let res = unsafe {
-                        let ptr: fn() -> u32 = core::mem::transmute(code.as_ptr());
-                        //breakpoint();
-                        //ptr();
-                        /*asm!("mov r10, sp");
-                        breakpoint();
-                        ptr();
 
-                        asm!("mov r11, sp");
-                        breakpoint();*/
-                        breakpoint();
-                        ptr()
-                    };
-                    rprint!("-> {}: ", ty);
-                    match &*ty.unqual {
-                        UnqualType::Int(_) | UnqualType::Pointer(_) => {
-                            rprintln!("{} (0x{:08x})", res, res);
-                        }
-                        UnqualType::Char(_) => {
-                            rprintln!("{:?} (0x{:02x})", res as u8 as char, res as u8);
-                        }
-                        UnqualType::Bool => {
-                            rprintln!("{}", if res != 0 { "true" } else { "false" });
-                        }
-                        _ => {
-                            rprintln!("(no display)");
-                        }
-                    }
-                }
-                Err(e) => {
-                    rprintln!("parse error {:?}", e);
-
-                    //println!("parse error: {}", e);
-                }
-            }
-        } else {
-            let parser = CParser::new(code, &mut self.scope);
-            let res = parser.and_then(|mut p| p.read_whole());
-            match res {
-                Ok(parser) => {
-                    rprintln!("{}", parser.scope);
-                }
-                Err(e) => {
-                    rprintln!("parse error at {}: {:?}", e.pos, e.error);
-                    //println!("parse error: {}", e);
-                }
-            }
+        if let Err(e) = self.try_process(code) {
+            rprintln!("error: {:?}", e);
         }
 
-        // loop {
-        //     //let read = parser.read_whole();
-        //     /*match read {
-        //         Ok(res) => {
-        //             //let res = self.env.eval(&res.into());
-        //             /*match res {
-        //                 Ok(res) => {
-        //                     if !matches!(*res, LispVal::Void) {
-        //                         println!(res.debug_display());
-        //                     }
-        //                     self.env.set_new(String::from("_"), res);
-        //                 }
-        //                 Err(msg) => {
-        //                     println!("eval error: ", msg);
-        //                 }
-        //             }*/
-        //         }
-        //         Err(ReadError::Empty) => break,
-        //         Err(ReadError::EOFFound) => return EvalStatus::ContinueReading,
-        //         Err(e) => {
-        //             println!("parse error: ", e);
-        //             break;
-        //         }
-        //     };*/
-        // }
         EvalStatus::Ok
     }
 

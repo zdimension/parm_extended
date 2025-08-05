@@ -268,7 +268,7 @@ pub enum Token {
     // literals
     Character(char),
     String(String),
-    Integer(i32),
+    Integer(u32),
     // identifiers
     Identifier(String),
     Keyword(Keyword),
@@ -517,7 +517,7 @@ impl<'a> Tokenizer<'a> {
                                     break; // Not a hex digit, stop reading
                                 }
                             }
-                            Token::Integer(value as i32)
+                            Token::Integer(value)
                         }
                         Some(b'b' | b'B') => {
                             self.advance(); // Consume 'b'
@@ -532,7 +532,7 @@ impl<'a> Tokenizer<'a> {
                                     break; // Not a binary digit, stop reading
                                 }
                             }
-                            Token::Integer(value as i32)
+                            Token::Integer(value)
                         }
                         Some(b'0'..=b'7') => {
                             let mut value = 0u32;
@@ -550,7 +550,7 @@ impl<'a> Tokenizer<'a> {
                             if count == 0 {
                                 return Err(ReadError::IntParseError);
                             }
-                            Token::Integer(value as i32)
+                            Token::Integer(value)
                         }
                         _ => {
                             // Just a single '0'
@@ -585,7 +585,7 @@ impl<'a> Tokenizer<'a> {
                             break; // Not a digit, stop reading
                         }
                     }
-                    Token::Integer(value as i32)
+                    Token::Integer(value)
                 }
                 b'-' if self.accept(b'>') => {
                     Token::Arrow

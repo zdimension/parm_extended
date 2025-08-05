@@ -1,7 +1,7 @@
 use crate::c::compiler::CompileError::GenericDyn;
 use crate::c::lexer::Comparison::{Equal, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, NotEqual};
 use crate::c::lexer::{AssignableOperator, BoolOp, Comparison, Token};
-use crate::c::parse::{Block, DeclOrExpr, Statement};
+use crate::c::parse::{Block, DeclOrExpr, ParseError, Statement};
 use crate::c::parse_expr::{BinOp, Expression, IncDec, OpPosition, SizeOfOp, UnaryOp};
 use crate::c::scope::{Scope, SymbolKind};
 use crate::c::types::{FunctionImpl, QualType, Signedness, TypeBox, UnqualType};
@@ -15,7 +15,7 @@ use arbitrary_int::{u10, u11, u13, u3, u5, u6, u7, u9, Number, UInt};
 use const_for::const_for;
 use core::borrow::Borrow;
 use core::cmp::PartialEq;
-use core::fmt::Display;
+use core::fmt::{Display};
 use core::fmt::Write;
 use core::ops::{BitAnd, Not};
 use strum::{EnumIter, FromRepr, IntoEnumIterator};
@@ -25,7 +25,7 @@ use crate::c::arm::{BitSize, Condition, Instruction, Reg, RegList};
 use crate::c::arm::Reg::*;
 use crate::c::lexer::AssignableOperator::{BitwiseAnd, BitwiseOr, BitwiseXor, Divide, Minus, Modulo, Multiply, Plus, ShiftLeft, ShiftRight};
 use crate::c::parse_expr::IncDec::{Decrement, Increment};
-use crate::c::types::Signedness::Unsigned;
+use crate::c::types::Signedness::{Signed, Unsigned};
 /*pub fn compile(proto: &FunctionImpl, body: &[Token]) {
 
 }*/
@@ -590,14 +590,46 @@ impl<'a> Compiler<'a> {
         Ok(Ok(()))
     }
 
+    #[inline(always)]
     fn get_promoted_int(ty: &UnqualType) -> Result<QualType, CompileError> {
         match ty {
-            UnqualType::Int(Some(Unsigned)) => Ok(UnqualType::Int(Some(Unsigned)).into()),
+            UnqualType::Int(Unsigned) => Ok(UnqualType::Int(Unsigned).into()),
             _ => {
                 Self::assert_integer(ty)?;
-                Ok(UnqualType::Int(None).into())
+                Ok(UnqualType::Int(Signed).into())
             }
         }
+    }
+
+    /// expects two alread promoted ints
+    #[inline(always)]
+    fn usual_arithmetic_conversion(ty1: &UnqualType, ty2: &UnqualType) -> Result<QualType, CompileError> {
+        use UnqualType::*;
+        use Signedness::*;
+        match (ty1, ty2) {
+            (&Int(sl), &Int(sr)) => Ok(Int(if sl == sr { sl } else { Unsigned }).into()),
+            _ => comperr!("Unable to perform the usual arithmetic conversions")
+        }
+        /*let lty = Self::get_promoted_int(ty1).unwrap_or_else(|_| ty1.into());
+        let rty = Self::get_promoted_int(ty2).unwrap_or_else(|_| ty2.into());
+        if lty.unqual == rty.unqual {
+            return Ok(lty);
+        }
+        // we don't support anything bigger than int anyway
+        Ok(UnqualType::Int(Unsigned).into())*/
+        /*use UnqualType::*;
+        use Signedness::*;
+        match (&*lty.unqual, &*rty.unqual) {
+            (&Int(sl), &Int(sr)) => Int(if sl == sr { sl } else { Unsigned }),
+            (&Char(sl), &Char(sr)) => {
+                let (sl, sr) = (sl.unwrap_or(Unsigned), sr.unwrap_or(Unsigned));
+                Char(if sl == sr { sl } else { Unsigned })
+            }
+            (&Int(si), &Char(sc)) | (&Char(sc), &Int(si)) => {
+                Int(si)
+            }
+            _ => todo!()
+        }.into()*/
     }
 
     pub fn analyze_bin_op<'e>(
@@ -610,14 +642,14 @@ impl<'a> Compiler<'a> {
         use BinOp::*;
         let Analysis { ty: lty, addr: laddr } = self.analyze_expression(l)?;
         let Analysis { ty: rty, .. } = self.analyze_expression(r)?;
-        // if they're integers, now they're either int or unsigned int
         let lty = Self::get_promoted_int(&lty.unqual).unwrap_or(lty);
         let rty = Self::get_promoted_int(&rty.unqual).unwrap_or(rty);
+        // here, lty and rty are either Int(_), or a non-integer type
         let ty = match op {
             Simple(Plus) => {
                 match (&*lty.unqual, &*rty.unqual) {
-                    (UnqualType::Int(_), UnqualType::Int(_)) => {
-                        UnqualType::Int(None).into()
+                    (l @ &UnqualType::Int(_), r @ &UnqualType::Int(_)) => {
+                        Self::usual_arithmetic_conversion(l, r).unwrap_or_else(|_| unreachable!())
                     }
                     (UnqualType::Int(_), UnqualType::Pointer(p)) | (UnqualType::Pointer(p), UnqualType::Int(_)) => {
                         // Pointer + int is pointer arithmetic
@@ -628,8 +660,8 @@ impl<'a> Compiler<'a> {
             }
             Simple(Minus) => {
                 match (&*lty.unqual, &*rty.unqual) {
-                    (UnqualType::Int(_), UnqualType::Int(_)) => {
-                        UnqualType::Int(None).into()
+                    (l @ &UnqualType::Int(_), r @ &UnqualType::Int(_)) => {
+                        Self::usual_arithmetic_conversion(l, r).unwrap_or_else(|_| unreachable!())
                     }
                     (UnqualType::Pointer(p), UnqualType::Int(_)) => {
                         // Pointer - int is pointer arithmetic
@@ -637,7 +669,7 @@ impl<'a> Compiler<'a> {
                     }
                     (UnqualType::Pointer(lt), UnqualType::Pointer(rt)) if Self::are_compatible(lt, rt) => {
                         // pointer distance
-                        UnqualType::Int(None).into()
+                        UnqualType::Int(Signed).into()
                     }
                     _ => comperr!("Invalid types for subtraction: {} - {}", lty, rty),
                 }
@@ -649,7 +681,7 @@ impl<'a> Compiler<'a> {
                 Self::assert_arithmetic(&rty).or_else(|_| {
                     comperr!("Right operand of multiplicative operation must be arithmetic, found: {}", rty)
                 })?;
-                UnqualType::Int(None).into()
+                Self::usual_arithmetic_conversion(&*lty.unqual, &*rty.unqual).unwrap_or_else(|_| unreachable!())
             }
             Simple(ShiftLeft | ShiftRight | BitwiseOr | BitwiseAnd | BitwiseXor) => {
                 Self::assert_integer(&lty).or_else(|_| {
@@ -658,7 +690,7 @@ impl<'a> Compiler<'a> {
                 Self::assert_integer(&rty).or_else(|_| {
                     comperr!("Right operand of bitwise operation must be integer, found: {}", rty)
                 })?;
-                UnqualType::Int(None).into()
+                Self::usual_arithmetic_conversion(&*lty.unqual, &*rty.unqual).unwrap_or_else(|_| unreachable!())
             }
             Bool(_) => {
                 Self::assert_scalar(&lty).or_else(|_| {
@@ -667,7 +699,7 @@ impl<'a> Compiler<'a> {
                 Self::assert_scalar(&rty).or_else(|_| {
                     comperr!("Right operand of boolean operation must be scalar, found: {}", rty)
                 })?;
-                UnqualType::Int(None).into()
+                UnqualType::Int(Signed).into()
             }
             Comparison(_) => {
                 // For now, we assume the result type of a comparison is bool
@@ -711,14 +743,14 @@ impl<'a> Compiler<'a> {
                     Plus | Minus | BitwiseNot => Self::get_promoted_int(&ty.unqual)?.into(),
                     Not => {
                         Self::assert_scalar(ty)?;
-                        UnqualType::Int(None).into()
+                        UnqualType::Int(Signed).into()
                     }
                     IncDec(_, _) => ty,
                 };
                 Analysis { ty: rty, addr: None }
             }
             Expression::Comma(_, _) => todo!(),
-            Expression::Literal(_) => Analysis { ty: UnqualType::Int(None).into(), addr: None },
+            Expression::IntegerLiteral(_, sign) => Analysis { ty: UnqualType::Int(*sign).into(), addr: None },
             Expression::Cast(ty, expr) => {
                 // cast will be checked at emission time
                 Analysis { ty: ty.clone(), addr: None }
@@ -752,10 +784,10 @@ impl<'a> Compiler<'a> {
                     yty
                 } else if Self::assert_arithmetic(&yty).is_ok() && Self::assert_arithmetic(&nty).is_ok() {
                     // If both branches are arithmetic, promote to int
-                    // todo: handle unsigned!
-                    UnqualType::Int(None).into()
+                    let yty = Self::get_promoted_int(&*yty.unqual)?;
+                    let nty = Self::get_promoted_int(&*nty.unqual)?;
+                    Self::usual_arithmetic_conversion(&*yty.unqual, &*nty.unqual).unwrap_or_else(|_| unreachable!())
                 } else if let (UnqualType::Pointer(pty), UnqualType::Pointer(ptn)) = (&*yty.unqual, &*nty.unqual) {
-                    // todo: use are_compatible
                     if !Self::are_compatible(pty, ptn) {
                         comperr!(
                             "Conditional branches have different pointer types: {} and {}",
@@ -777,7 +809,7 @@ impl<'a> Compiler<'a> {
             }
             Expression::SizeOf(_) => {
                 // SizeOf returns the size of the type in bytes
-                Analysis { ty: UnqualType::Int(None).into(), addr: None }
+                Analysis { ty: UnqualType::Int(Unsigned).into(), addr: None }
             }
             Expression::StringLiteral(_) => {
                 Analysis {
@@ -909,7 +941,7 @@ impl<'a> Compiler<'a> {
     pub fn emit_expression(&mut self, expr: &Expression) -> Result<(), CompileError> {
         let Analysis { ty: ety, addr: eaddr } = self.analyze_expression(expr)?;
         match expr {
-            &Expression::Literal(val) => {
+            &Expression::IntegerLiteral(val, _sign) => {
                 if let Ok(imm8) = u8::try_from(val) {
                     self.emit(MovsImm { rd: R0, imm8 });
                 } else if let Ok(imm8n) = u8::try_from(val.not()) {
@@ -948,7 +980,7 @@ impl<'a> Compiler<'a> {
                     SizeOfOp::Type(ty) => ty.unqual.size(),
                     SizeOfOp::Expression(expr) => self.analyze_expression(expr)?.ty.unqual.size(),
                 };
-                self.emit_expression(&Expression::Literal(size as i32))?;
+                self.emit_expression(&Expression::IntegerLiteral(size as u32, Unsigned))?;
             }
             Expression::SymRef(_) => {
                 let Some(addr) = eaddr else {
@@ -1175,49 +1207,24 @@ impl<'a> Compiler<'a> {
             }
             _ => {}
         }
-        macro_rules! emit_op {
-            (both) => {
-                {
-                    self.emit_cast(a, &aty.unqual, &UnqualType::Int(None))?.or_else(|_| {
-                        unreachable!(); // analyze already checked for us
-                    })?;
-                    self.emit_cast(b, &bty.unqual, &UnqualType::Int(None))?.or_else(|_| {
-                        unreachable!(); // analyze already checked for us
-                    })?;
-                    self.emit_pop(RegList::new([R1], false)); // Pop b to R1
-                    self.emit_pop(RegList::new([R0], false)); // Pop a to R0
-                }
-            };
-            (a) => {
-                {
-                    self.emit_cast(a, &aty.unqual, &UnqualType::Int(None))?.or_else(|_| {
-                        unreachable!(); // analyze already checked for us
-                    })?;
-                    self.emit_pop(RegList::new([R0], false)); // Pop a to R
-                }
-            };
-            (b) => {
-                {
-                    self.emit_cast(b, &bty.unqual, &UnqualType::Int(None))?.or_else(|_| {
-                        unreachable!(); // analyze already checked for us
-                    })?;
-                    self.emit_pop(RegList::new([R0], false)); // Pop b to R0
-                }
-            }
-        };
+        self.emit_cast(a, &aty.unqual, &UnqualType::Int(Signed))?.or_else(|_| {
+            comperr!("Left operand of binary operation must be scalar, found: {}", aty)
+        })?;
+        self.emit_cast(b, &bty.unqual, &UnqualType::Int(Signed))?.or_else(|_| {
+            comperr!("Right operand of binary operation must be scalar, found: {}", bty)
+        })?;
+        self.emit_pop(RegList::new([R1], false)); // Pop b to R1
+        self.emit_pop(RegList::new([R0], false)); // Pop a to R0
         match op {
             Simple(Plus) => {
-                if matches!(a, Expression::Literal(0)) {
-                    emit_op!(b);
+                if matches!(a, Expression::IntegerLiteral(0, _)) {
+                    self.emit_push(RegList::new([R1], false));
+                    return Ok(());
+                }
+                if matches!(b, Expression::IntegerLiteral(0, _)) {
                     self.emit_push(RegList::new([R0], false));
                     return Ok(());
                 }
-                if matches!(b, Expression::Literal(0)) {
-                    emit_op!(a);
-                    self.emit_push(RegList::new([R0], false));
-                    return Ok(());
-                }
-                emit_op!(both);
                 match (&*aty.unqual, &*bty.unqual) {
                     (UnqualType::Pointer(aptr), _) => {
                         // Pointer + int
@@ -1239,12 +1246,10 @@ impl<'a> Compiler<'a> {
                 }
             }
             Simple(Minus) => {
-                if matches!(b, Expression::Literal(0)) {
-                    emit_op!(a);
+                if matches!(b, Expression::IntegerLiteral(0, _)) {
                     self.emit_push(RegList::new([R0], false));
                     return Ok(());
                 }
-                emit_op!(both);
                 match (&*aty.unqual, &*bty.unqual) {
                     (UnqualType::Pointer(tptr), UnqualType::Pointer(_)) => {
                         // Pointer subtraction, calculate distance
@@ -1264,26 +1269,22 @@ impl<'a> Compiler<'a> {
                 }
             }
             Simple(Multiply) => {
-                if matches!(a, Expression::Literal(0)) || matches!(b, Expression::Literal(0)) {
-                    self.emit(MovsImm { rd: R0, imm8: 0 }); // Multiplication by 0
-                    self.emit_push(RegList::new([R0], false)); // Push result to stack
-                    return Ok(());
-                }
+                // can't optimize more than 1 instruction...
                 self.emit(Muls { rdm: R0, rn: R1 })
             },
             Simple(Divide) => {
-                if let &Expression::Literal(lit) = b {
+                if let &Expression::IntegerLiteral(lit, _) = b {
                     match lit {
                         0 => comperr!("Division by zero is not allowed"),
                         1 => {
                             self.emit_push(RegList::new([R0], false)); // No division by 1, just push R0
                             return Ok(());
                         }
-                        -1 => {
+                        /*-1 => {
                             self.emit(Rsbs { rd: R0, rn: R0 }); // Negate R0
                             self.emit_push(RegList::new([R0], false)); // Push result to stack
                             return Ok(());
-                        }
+                        }*/
                         _ => {}
                     }
                     if *aty.unqual == UnqualType::Bool {
@@ -1298,7 +1299,7 @@ impl<'a> Compiler<'a> {
                         if lit.is_power_of_two() {
                             let shift = lit.trailing_zeros() as u8; // will be between 1 and 31
                             match &*aty.unqual {
-                                UnqualType::Char(Some(Signedness::Signed)) => {
+                                UnqualType::Char(Some(Signed)) => {
                                     //self.emit(Uxtb { rd: R1, rm: R0 }); // Zero-extend char to int
                                     self.emit(LsrImm { rd: R1, rm: R0, imm5: u5::new(32 - shift) });
                                     self.emit(Adds { rd: R0, rn: R0, rm: R1 });
@@ -1307,7 +1308,7 @@ impl<'a> Compiler<'a> {
                                     }
                                     self.emit(AsrImm { rd: R0, rm: R0, imm5: u5::new(shift) });
                                 }
-                                UnqualType::Int(Some(Signedness::Signed) | None) => {
+                                UnqualType::Int(Signed) => {
                                     if shift > 1 {
                                         self.emit(AsrImm { rd: R1, rm: R0, imm5: u5::new(31) });
                                         self.emit(LsrImm { rd: R1, rm: R1, imm5: u5::new(32 - shift) });
@@ -1317,7 +1318,7 @@ impl<'a> Compiler<'a> {
                                     self.emit(Adds { rd: R0, rn: R0, rm: R1 });
                                     self.emit(AsrImm { rd: R0, rm: R0, imm5: u5::new(shift) });
                                 }
-                                UnqualType::Int(_) | UnqualType::Char(_) => {
+                                UnqualType::Int(Unsigned) | UnqualType::Char(_) => {
                                     self.emit(LsrImm { rd: R0, rm: R0, imm5: u5::new(shift) });
                                 }
                                 _ => unreachable!(),
