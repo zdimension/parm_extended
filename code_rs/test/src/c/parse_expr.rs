@@ -568,7 +568,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(cond)
     }
 
-    fn read_assignment_expression(&mut self) -> Result<Expression, ParseError> {
+    pub fn read_assignment_expression(&mut self) -> Result<Expression, ParseError> {
         let target = self.read_conditional_expression()?;
         if let Some(Token::Operator(Operator::Assignment(op))) = self.peek() {
             let op = *op;

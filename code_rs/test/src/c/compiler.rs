@@ -1,5 +1,5 @@
 use crate::c::compiler::CompileError::GenericDyn;
-use crate::c::lexer::Comparison::LessThan;
+use crate::c::lexer::Comparison::{Equal, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, NotEqual};
 use crate::c::lexer::{AssignableOperator, BoolOp, Comparison, Token};
 use crate::c::parse::{Block, Statement};
 use crate::c::parse_expr::{BinOp, Expression, IncDec, OpPosition, SizeOfOp, UnaryOp};
@@ -23,6 +23,7 @@ use crate::c::arm::HiReg::*;
 use crate::c::arm::Instruction::*;
 use crate::c::arm::{BitSize, Condition, Instruction, Reg, RegList};
 use crate::c::arm::Reg::*;
+use crate::c::lexer::AssignableOperator::{BitwiseAnd, BitwiseOr, BitwiseXor, Divide, Minus, Modulo, Multiply, Plus, ShiftLeft, ShiftRight};
 use crate::c::parse_expr::IncDec::{Decrement, Increment};
 use crate::c::types::Signedness::Unsigned;
 /*pub fn compile(proto: &FunctionImpl, body: &[Token]) {
@@ -577,6 +578,73 @@ impl<'a> Compiler<'a> {
         }
     }
 
+    pub fn analyze_bin_op<'e>(
+        &mut self,
+        op: BinOp,
+        l: &'e Expression,
+        r: &'e Expression,
+    ) -> Result<Analysis<'e>, CompileError> {
+        use AssignableOperator::*;
+        use BinOp::*;
+        let Analysis { ty: lty, addr: laddr } = self.analyze_expression(l)?;
+        let Analysis { ty: rty, .. } = self.analyze_expression(r)?;
+        // if they're integers, now they're either int or unsigned int
+        let lty = Self::get_promoted_int(&lty.unqual).unwrap_or(lty);
+        let rty = Self::get_promoted_int(&rty.unqual).unwrap_or(rty);
+        let ty = match op {
+            Simple(Plus) => {
+                match (&*lty.unqual, &*rty.unqual) {
+                    (UnqualType::Int(_), UnqualType::Int(_)) => {
+                        UnqualType::Int(None).into()
+                    }
+                    (UnqualType::Int(_), UnqualType::Pointer(p)) | (UnqualType::Pointer(p), UnqualType::Int(_)) => {
+                        // Pointer + int is pointer arithmetic
+                        UnqualType::Pointer(p.clone()).into()
+                    }
+                    _ => comperr!("Invalid types for addition: {} + {}", lty, rty),
+                }
+            }
+            Simple(Minus) => {
+                match (&*lty.unqual, &*rty.unqual) {
+                    (UnqualType::Int(_), UnqualType::Int(_)) => {
+                        UnqualType::Int(None).into()
+                    }
+                    (UnqualType::Pointer(p), UnqualType::Int(_)) => {
+                        // Pointer - int is pointer arithmetic
+                        UnqualType::Pointer(p.clone()).into()
+                    }
+                    (UnqualType::Pointer(lt), UnqualType::Pointer(rt)) if lt.unqual == rt.unqual => {
+                        // pointer distance
+                        UnqualType::Int(None).into()
+                    }
+                    _ => comperr!("Invalid types for subtraction: {} - {}", lty, rty),
+                }
+            }
+            Simple(Multiply | Divide | Modulo) => {
+                UnqualType::Int(None).into()
+            }
+            Simple(ShiftLeft | ShiftRight | BitwiseOr | BitwiseAnd | BitwiseXor) => {
+                UnqualType::Int(None).into()
+            }
+            Bool(_) => {
+                // type will be checked at emission type
+                UnqualType::Int(None).into()
+            }
+            Comparison(_) => {
+                // For now, we assume the result type of a comparison is bool
+                UnqualType::Bool.into()
+            }
+            Assignment(_) => {
+                // type will be checked at emission type
+                lty
+            }
+        };
+        Ok(Analysis {
+            ty: ty,     // For now, we assume the left type is the result type
+            addr: None, // No address for binary operations
+        })
+    }
+
     pub(crate) fn analyze_expression<'e>(
         &mut self,
         expr: &'e Expression,
@@ -631,65 +699,7 @@ impl<'a> Compiler<'a> {
                 Analysis { ty: fi.ret.clone(), addr: None }
             }
             Expression::BinOp(op, l, r) => {
-                use AssignableOperator::*;
-                use BinOp::*;
-                let Analysis { ty: lty, addr: laddr } = self.analyze_expression(l)?;
-                let Analysis { ty: rty, .. } = self.analyze_expression(r)?;
-                // if they're integers, now they're either int or unsigned int
-                let lty = Self::get_promoted_int(&lty.unqual).unwrap_or(lty);
-                let rty = Self::get_promoted_int(&rty.unqual).unwrap_or(rty);
-                let ty = match *op {
-                    Simple(Plus) => {
-                        match (&*lty.unqual, &*rty.unqual) {
-                            (UnqualType::Int(_), UnqualType::Int(_)) => {
-                                UnqualType::Int(None).into()
-                            }
-                            (UnqualType::Int(_), UnqualType::Pointer(p)) | (UnqualType::Pointer(p), UnqualType::Int(_)) => {
-                                // Pointer + int is pointer arithmetic
-                                UnqualType::Pointer(p.clone()).into()
-                            }
-                            _ => comperr!("Invalid types for addition: {} + {}", lty, rty),
-                        }
-                    }
-                    Simple(Minus) => {
-                        match (&*lty.unqual, &*rty.unqual) {
-                            (UnqualType::Int(_), UnqualType::Int(_)) => {
-                                UnqualType::Int(None).into()
-                            }
-                            (UnqualType::Pointer(p), UnqualType::Int(_)) => {
-                                // Pointer - int is pointer arithmetic
-                                UnqualType::Pointer(p.clone()).into()
-                            }
-                            (UnqualType::Pointer(lt), UnqualType::Pointer(rt)) if lt.unqual == rt.unqual => {
-                                // pointer distance
-                                UnqualType::Int(None).into()
-                            }
-                            _ => comperr!("Invalid types for subtraction: {} - {}", lty, rty),
-                        }
-                    }
-                    Simple(Multiply | Divide | Modulo) => {
-                        UnqualType::Int(None).into()
-                    }
-                    Simple(ShiftLeft | ShiftRight | BitwiseOr | BitwiseAnd | BitwiseXor) => {
-                        UnqualType::Int(None).into()
-                    }
-                    Bool(_) => {
-                        // type will be checked at emission type
-                        UnqualType::Int(None).into()
-                    }
-                    Comparison(_) => {
-                        // For now, we assume the result type of a comparison is bool
-                        UnqualType::Bool.into()
-                    }
-                    Assignment(_) => {
-                        // type will be checked at emission type
-                        lty
-                    }
-                };
-                Analysis {
-                    ty: ty,     // For now, we assume the left type is the result type
-                    addr: None, // No address for binary operations
-                }
+                self.analyze_bin_op(*op, l, r)?
             }
             Expression::Conditional(cond, yes, no) => {
                 let Analysis { ty: cty, addr: _ } = self.analyze_expression(cond)?;
@@ -780,14 +790,15 @@ impl<'a> Compiler<'a> {
         self.set_label_here(lbl);
     }
 
-    /// Clobbers `reg`. Preserves stack.
+    /// Clobbers `reg` and  R0/R1. Preserves stack.
     fn emit_assignment(&mut self, src: Reg, dst: &Expression) -> Result<(), CompileError> {
         let Analysis { ty: lty, addr: laddr } = self.analyze_expression(dst)?;
         let Some(laddr) = laddr else {
             comperr!("Left side of assignment must be an lvalue (have an address)");
         };
-        self.emit_address_to_reg(laddr, R1)?;
-        self.emit(StrRegImm { rd: src, rb: R1, immw5: u7::new(0) });
+        let addr_reg = if src == R1 { R0 } else { R1 };
+        self.emit_address_to_reg(laddr, addr_reg)?;
+        self.emit(StrRegImm { rd: src, rb: addr_reg, immw5: u7::new(0) });
         Ok(())
     }
 
@@ -955,7 +966,9 @@ impl<'a> Compiler<'a> {
                     }
                     _ => {}
                 }
-                self.emit_expression(x)?;
+                self.emit_cast(x, &xty.unqual, &ety.unqual)?.or_else(|_| {
+                    comperr!("Operand of unary operation must be scalar, found: {}", xty)
+                })?;
                 if *op == UnaryOp::Plus {
                     // nothing to do
                     return Ok(());
@@ -1028,173 +1041,7 @@ impl<'a> Compiler<'a> {
                 }
                 self.emit_push(RegList::new([R0], false));
             }
-            Expression::BinOp(op, a, b) => {
-                use self::Comparison::*;
-                use AssignableOperator::*;
-                use BinOp::*;
-                let Analysis { ty: aty, addr: aaddr } = self.analyze_expression(a)?;
-                let Analysis { ty: bty, addr: baddr } = self.analyze_expression(b)?;
-                match *op {
-                    Assignment(None) => {
-                        self.emit_expression(b)?;
-                        self.emit_pop(RegList::new([R0], false)); // Pop result to R0
-                        self.emit_assignment(R0, a)?; // Assign it
-                        self.emit_push(RegList::new([R0], false)); // Push result to stack
-                        return Ok(());
-                    }
-                    Bool(BoolOp::And) => {
-                        if *aty.unqual == UnqualType::Bool {
-                            self.emit_expression(a)?;
-                            self.emit_pop(RegList::new([R0], false)); // Pop a to R0
-                            self.emit(CmpImm { rd: R0, imm8: 0 }); // Compare a with 0
-                        } else {
-                            self.emit_auto_convert(a, &aty.unqual, &UnqualType::Bool)?.or_else(|_| {
-                                comperr!("Left operand of '&&' must be convertible to bool, found: {}", aty)
-                            })?;
-                            self.emit_pop(RegList::new([R0], false)); // Pop a to R0
-                            // If a is falsy, then the SBC from auto_convert will have set the Z flag
-                        }
-                        let false_label = self.new_label();
-                        self.jump_to(false_label, Condition::Eq);
-
-                        self.emit_auto_convert(b, &bty.unqual, &UnqualType::Bool)?.or_else(|_| {
-                            comperr!("Right operand of '&&' must be convertible to bool, found: {}", aty)
-                        })?;
-                        self.emit_pop(RegList::new([R0], false)); // Pop b to R1
-
-                        self.set_label_here(false_label);
-
-                        self.emit_push(RegList::new([R0], false)); // Push result to stack
-                        return Ok(());
-                    }
-                    Bool(BoolOp::Or) => {
-                        self.emit_auto_convert(a, &aty.unqual, &UnqualType::Int(None))?.or_else(|_| {
-                            comperr!("Left operand of '||' must be convertible to int, found: {}", aty)
-                        })?;
-                        self.emit_pop(RegList::new([R1], false)); // Pop a to R0
-                        self.emit(MovsImm { rd: R0, imm8: 0 });
-                        self.emit(CmpImm { rd: R0, imm8: 0 }); // Compare a with 0
-
-                        let true_label = self.new_label();
-                        self.jump_to(true_label, Condition::Ne); // Jump if a is true (non-zero)
-
-                        self.emit_auto_convert(b, &bty.unqual, &UnqualType::Bool)?.or_else(|_| {
-                            comperr!("Right operand of '||' must be convertible to bool, found: {}", bty)
-                        })?;
-                        self.emit_pop(RegList::new([R0], false)); // Pop b to R1
-
-                        self.set_label_here(true_label);
-
-                        self.emit_push(RegList::new([R0], false)); // Push result to stack
-                        return Ok(());
-                    }
-                    _ => {}
-                }
-                self.emit_cast(a, &aty.unqual, &UnqualType::Int(None))?.or_else(|_| {
-                    comperr!("Left operand of binary operation must be scalar, found: {}", aty)
-                })?;
-                self.emit_cast(b, &bty.unqual, &UnqualType::Int(None))?.or_else(|_| {
-                    comperr!("Right operand of binary operation must be scalar, found: {}", bty)
-                })?;
-                self.emit_pop(RegList::new([R1], false)); // Pop b to R1
-                self.emit_pop(RegList::new([R0], false)); // Pop a to R0
-                match *op {
-                    Simple(Plus) => {
-                        match (&*aty.unqual, &*bty.unqual) {
-                            (UnqualType::Pointer(aptr), _) => {
-                                // Pointer + int
-                                self.emit(MovsImm { rd: R2, imm8: aptr.unqual.size() as u8 });
-                                self.emit(Muls { rdm: R1, rn: R2 });
-                                self.emit(Adds { rd: R0, rn: R0, rm: R1 });
-                            }
-                            (_, UnqualType::Pointer(bptr)) => {
-                                // int + Pointer
-                                self.emit(MovsImm { rd: R2, imm8: bptr.unqual.size() as u8 });
-                                self.emit(Muls { rdm: R0, rn: R2 });
-                                self.emit(Adds { rd: R0, rn: R0, rm: R1 });
-                            }
-                            _ => {
-                                // Integer addition
-                                self.emit(Adds { rd: R0, rn: R0, rm: R1 });
-                                //TODO:unneeded? self.emit_extend_if(R0, &ety);
-                            }
-                        }
-                    }
-                    Simple(Minus) => {
-                        match (&*aty.unqual, &*bty.unqual) {
-                            (UnqualType::Pointer(tptr), UnqualType::Pointer(_)) => {
-                                // Pointer subtraction, calculate distance
-                                todo!() // we'll need to divide by size of type
-                            }
-                            (UnqualType::Pointer(tptr), _) => {
-                                // Pointer - int
-                                self.emit(MovsImm { rd: R2, imm8: tptr.unqual.size() as u8 });
-                                self.emit(Muls { rdm: R1, rn: R2 });
-                                self.emit(Subs { rd: R0, rn: R0, rm: R1 });
-                            }
-                            _ => {
-                                // Integer subtraction
-                                self.emit(Subs { rd: R0, rn: R0, rm: R1 });
-                                //TODO:unneeded? self.emit_extend_if(R0, &ety);
-                            }
-                        }
-                    }
-                    Simple(Multiply) => self.emit(Muls { rdm: R0, rn: R1 }),
-                    Simple(Divide) => {
-                        // ARM does not have a direct divide instruction, so we would need to implement it
-                        // using a library or custom assembly code.
-                        comperr!("Division operation is not implemented in the compiler");
-                    }
-                    Simple(Modulo) => {
-                        // ARM does not have a direct modulo instruction, so we would need to implement it
-                        // using a library or custom assembly code.
-                        comperr!("Modulo operation is not implemented in the compiler");
-                    }
-                    Simple(BitwiseAnd) => self.emit(Ands { rdn: R0, rm: R1 }),
-                    Simple(BitwiseOr) => self.emit(Orrs { rdn: R0, rm: R1 }),
-                    Simple(BitwiseXor) => self.emit(Eors { rdn: R0, rm: R1 }),
-                    Simple(ShiftLeft) => self.emit(Lsls { rdn: R0, rm: R1 }),
-                    Simple(ShiftRight) => self.emit(Lsrs { rdn: R0, rm: R1 }),
-
-                    Comparison(Equal) => {
-                        self.emit(Subs { rd: R1, rn: R0, rm: R1 }); // R1 = a - b. 0 if equal, ≠ 0 if different
-                        self.emit(Rsbs { rd: R0, rn: R1 }); // R0 = 0 - R1 = b - a. Sets C if R1 = 0 (equal).
-                        self.emit(Adcs { rdn: R0, rm: R1 }); // R0 = R0 + R1 + C = (b - a) + (a - b) + C = 1 if equal, 0 if different
-                    }
-                    Comparison(NotEqual) => {
-                        self.emit(Subs { rd: R0, rn: R0, rm: R1 }); // R0 = a - b. 0 if equal, ≠ 0 if different
-                        self.emit(SubsImm { rd: R1, rn: R0, imm3: u3::new(1) }); // R1 = R0 - 1. If equal, the sub borrows so C = 0.
-                        self.emit(Sbcs { rdn: R0, rm: R1 }); // R0 = R0 - R1 - !C = (a - b) - (a - b - 1) - !C = 1 - !C = C = 0 if equal, 1 if different
-                    }
-                    // todo: signed comparison
-                    Comparison(LessThan) => {
-                        self.emit(Cmp { rn: R0, rm: R1 }); // does a - b, sets C=1 if R0 >= R1 (because no borrow)
-                        self.emit(Sbcs { rdn: R0, rm: R0 }); // R0 = R0 - R0 - !C = 0 - !C = 0 if R0 >= R1, -1 if R0 < R1
-                        self.emit(Negs { rd: R0, rn: R0 }); // Negate R0, so it becomes 1 if R0 < R1, 0 if R0 >= R1
-                    }
-                    Comparison(LessThanOrEqual) => {
-                        self.emit(Cmp { rn: R1, rm: R0 }); // does b - a, sets C=1 if R1 >= R0 (because no borrow)
-                        self.emit(MovsImm { rd: R0, imm8: 0 }); // Set R0 to 0
-                        self.emit(Adcs { rdn: R0, rm: R0 }); // If R1 < R0, C=1, so R0 = 1, else R0 = 0
-                    }
-                    Comparison(GreaterThan) => {
-                        // see LessThan
-                        self.emit(Cmp { rn: R1, rm: R0 });
-                        self.emit(Sbcs { rdn: R0, rm: R0 });
-                        self.emit(Negs { rd: R0, rn: R0 });
-                    }
-                    Comparison(GreaterThanOrEqual) => {
-                        // see LessThanOrEqual
-                        self.emit(Cmp { rn: R0, rm: R1 });
-                        self.emit(MovsImm { rd: R0, imm8: 0 });
-                        self.emit(Adcs { rdn: R0, rm: R0 });
-                    }
-
-                    Bool(_) => unreachable!(), // Handled above
-                    Assignment(_) => unreachable!(), // Handled above
-                }
-                self.emit_push(RegList::new([R0], false)); // Push result to R0
-            }
+            Expression::BinOp(op, a, b) => self.emit_bin_op(*op, a, b)?,
             Expression::Conditional(cond, yes, no) => {
                 self.emit_expression(cond)?;
                 self.emit_pop(RegList::new([R0], false)); // Pop condition to R0
@@ -1217,6 +1064,180 @@ impl<'a> Compiler<'a> {
                 self.emit_expression(tail)?;
             }
         }
+        Ok(())
+    }
+
+    pub fn emit_bin_op(&mut self, op: BinOp, a: &Expression, b: &Expression) -> Result<(), CompileError> {
+        self.analyze_bin_op(op, a, b)?;
+        use self::Comparison::*;
+        use AssignableOperator::*;
+        use BinOp::*;
+        let Analysis { ty: aty, addr: aaddr } = self.analyze_expression(a)?;
+        let Analysis { ty: bty, addr: baddr } = self.analyze_expression(b)?;
+        match op {
+            Assignment(op) => {
+                if let Some(op) = op {
+                    self.emit_bin_op(Simple(op), a, b)?;
+                } else {
+                    self.emit_expression(b)?;
+                }
+                self.emit_pop(RegList::new([R0], false)); // Pop result to R0
+                self.emit_assignment(R0, a)?; // Assign it
+                self.emit_push(RegList::new([R0], false)); // Push result to stack
+                return Ok(());
+            }
+            Bool(BoolOp::And) => {
+                if *aty.unqual == UnqualType::Bool {
+                    self.emit_expression(a)?;
+                    self.emit_pop(RegList::new([R0], false)); // Pop a to R0
+                    self.emit(CmpImm { rd: R0, imm8: 0 }); // Compare a with 0
+                } else {
+                    self.emit_auto_convert(a, &aty.unqual, &UnqualType::Bool)?.or_else(|_| {
+                        comperr!("Left operand of '&&' must be convertible to bool, found: {}", aty)
+                    })?;
+                    self.emit_pop(RegList::new([R0], false)); // Pop a to R0
+                    // If a is falsy, then the SBC from auto_convert will have set the Z flag
+                }
+                let false_label = self.new_label();
+                self.jump_to(false_label, Condition::Eq);
+
+                self.emit_auto_convert(b, &bty.unqual, &UnqualType::Bool)?.or_else(|_| {
+                    comperr!("Right operand of '&&' must be convertible to bool, found: {}", aty)
+                })?;
+                self.emit_pop(RegList::new([R0], false)); // Pop b to R1
+
+                self.set_label_here(false_label);
+
+                self.emit_push(RegList::new([R0], false)); // Push result to stack
+                return Ok(());
+            }
+            Bool(BoolOp::Or) => {
+                self.emit_auto_convert(a, &aty.unqual, &UnqualType::Int(None))?.or_else(|_| {
+                    comperr!("Left operand of '||' must be convertible to int, found: {}", aty)
+                })?;
+                self.emit_pop(RegList::new([R1], false)); // Pop a to R0
+                self.emit(MovsImm { rd: R0, imm8: 0 });
+                self.emit(CmpImm { rd: R0, imm8: 0 }); // Compare a with 0
+
+                let true_label = self.new_label();
+                self.jump_to(true_label, Condition::Ne); // Jump if a is true (non-zero)
+
+                self.emit_auto_convert(b, &bty.unqual, &UnqualType::Bool)?.or_else(|_| {
+                    comperr!("Right operand of '||' must be convertible to bool, found: {}", bty)
+                })?;
+                self.emit_pop(RegList::new([R0], false)); // Pop b to R1
+
+                self.set_label_here(true_label);
+
+                self.emit_push(RegList::new([R0], false)); // Push result to stack
+                return Ok(());
+            }
+            _ => {}
+        }
+        self.emit_cast(a, &aty.unqual, &UnqualType::Int(None))?.or_else(|_| {
+            comperr!("Left operand of binary operation must be scalar, found: {}", aty)
+        })?;
+        self.emit_cast(b, &bty.unqual, &UnqualType::Int(None))?.or_else(|_| {
+            comperr!("Right operand of binary operation must be scalar, found: {}", bty)
+        })?;
+        self.emit_pop(RegList::new([R1], false)); // Pop b to R1
+        self.emit_pop(RegList::new([R0], false)); // Pop a to R0
+        match op {
+            Simple(Plus) => {
+                match (&*aty.unqual, &*bty.unqual) {
+                    (UnqualType::Pointer(aptr), _) => {
+                        // Pointer + int
+                        self.emit(MovsImm { rd: R2, imm8: aptr.unqual.size() as u8 });
+                        self.emit(Muls { rdm: R1, rn: R2 });
+                        self.emit(Adds { rd: R0, rn: R0, rm: R1 });
+                    }
+                    (_, UnqualType::Pointer(bptr)) => {
+                        // int + Pointer
+                        self.emit(MovsImm { rd: R2, imm8: bptr.unqual.size() as u8 });
+                        self.emit(Muls { rdm: R0, rn: R2 });
+                        self.emit(Adds { rd: R0, rn: R0, rm: R1 });
+                    }
+                    _ => {
+                        // Integer addition
+                        self.emit(Adds { rd: R0, rn: R0, rm: R1 });
+                        //TODO:unneeded? self.emit_extend_if(R0, &ety);
+                    }
+                }
+            }
+            Simple(Minus) => {
+                match (&*aty.unqual, &*bty.unqual) {
+                    (UnqualType::Pointer(tptr), UnqualType::Pointer(_)) => {
+                        // Pointer subtraction, calculate distance
+                        todo!() // we'll need to divide by size of type
+                    }
+                    (UnqualType::Pointer(tptr), _) => {
+                        // Pointer - int
+                        self.emit(MovsImm { rd: R2, imm8: tptr.unqual.size() as u8 });
+                        self.emit(Muls { rdm: R1, rn: R2 });
+                        self.emit(Subs { rd: R0, rn: R0, rm: R1 });
+                    }
+                    _ => {
+                        // Integer subtraction
+                        self.emit(Subs { rd: R0, rn: R0, rm: R1 });
+                        //TODO:unneeded? self.emit_extend_if(R0, &ety);
+                    }
+                }
+            }
+            Simple(Multiply) => self.emit(Muls { rdm: R0, rn: R1 }),
+            Simple(Divide) => {
+                // ARM does not have a direct divide instruction, so we would need to implement it
+                // using a library or custom assembly code.
+                comperr!("Division operation is not implemented in the compiler");
+            }
+            Simple(Modulo) => {
+                // ARM does not have a direct modulo instruction, so we would need to implement it
+                // using a library or custom assembly code.
+                comperr!("Modulo operation is not implemented in the compiler");
+            }
+            Simple(BitwiseAnd) => self.emit(Ands { rdn: R0, rm: R1 }),
+            Simple(BitwiseOr) => self.emit(Orrs { rdn: R0, rm: R1 }),
+            Simple(BitwiseXor) => self.emit(Eors { rdn: R0, rm: R1 }),
+            Simple(ShiftLeft) => self.emit(Lsls { rdn: R0, rm: R1 }),
+            Simple(ShiftRight) => self.emit(Lsrs { rdn: R0, rm: R1 }),
+
+            Comparison(Equal) => {
+                self.emit(Subs { rd: R1, rn: R0, rm: R1 }); // R1 = a - b. 0 if equal, ≠ 0 if different
+                self.emit(Rsbs { rd: R0, rn: R1 }); // R0 = 0 - R1 = b - a. Sets C if R1 = 0 (equal).
+                self.emit(Adcs { rdn: R0, rm: R1 }); // R0 = R0 + R1 + C = (b - a) + (a - b) + C = 1 if equal, 0 if different
+            }
+            Comparison(NotEqual) => {
+                self.emit(Subs { rd: R0, rn: R0, rm: R1 }); // R0 = a - b. 0 if equal, ≠ 0 if different
+                self.emit(SubsImm { rd: R1, rn: R0, imm3: u3::new(1) }); // R1 = R0 - 1. If equal, the sub borrows so C = 0.
+                self.emit(Sbcs { rdn: R0, rm: R1 }); // R0 = R0 - R1 - !C = (a - b) - (a - b - 1) - !C = 1 - !C = C = 0 if equal, 1 if different
+            }
+            // todo: signed comparison
+            Comparison(LessThan) => {
+                self.emit(Cmp { rn: R0, rm: R1 }); // does a - b, sets C=1 if R0 >= R1 (because no borrow)
+                self.emit(Sbcs { rdn: R0, rm: R0 }); // R0 = R0 - R0 - !C = 0 - !C = 0 if R0 >= R1, -1 if R0 < R1
+                self.emit(Negs { rd: R0, rn: R0 }); // Negate R0, so it becomes 1 if R0 < R1, 0 if R0 >= R1
+            }
+            Comparison(LessThanOrEqual) => {
+                self.emit(Cmp { rn: R1, rm: R0 }); // does b - a, sets C=1 if R1 >= R0 (because no borrow)
+                self.emit(MovsImm { rd: R0, imm8: 0 }); // Set R0 to 0
+                self.emit(Adcs { rdn: R0, rm: R0 }); // If R1 < R0, C=1, so R0 = 1, else R0 = 0
+            }
+            Comparison(GreaterThan) => {
+                // see LessThan
+                self.emit(Cmp { rn: R1, rm: R0 });
+                self.emit(Sbcs { rdn: R0, rm: R0 });
+                self.emit(Negs { rd: R0, rn: R0 });
+            }
+            Comparison(GreaterThanOrEqual) => {
+                // see LessThanOrEqual
+                self.emit(Cmp { rn: R0, rm: R1 });
+                self.emit(MovsImm { rd: R0, imm8: 0 });
+                self.emit(Adcs { rdn: R0, rm: R0 });
+            }
+
+            Bool(_) => unreachable!(), // Handled above
+            Assignment(_) => unreachable!(), // Handled above
+        }
+        self.emit_push(RegList::new([R0], false)); // Push result to R0
         Ok(())
     }
 

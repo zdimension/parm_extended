@@ -34,7 +34,7 @@ use crate::c::compiler::{CompileError, Compiler};
 use crate::c::arm::Instruction::*;
 use crate::c::arm::Reg::*;
 use crate::c::lexer::{AssignableOperator, Keyword, Operator, ReadError, Token, Tokenizer};
-use crate::c::parse_expr::Expression;
+use crate::c::parse_expr::{BinOp, Expression};
 use crate::c::types::{FunctionImpl, QualType, Signedness, StructImpl, TypeBox, TypeQualifiers, UnqualType};
 use crate::parm::OrderedMap;
 use crate::rprintln;
@@ -372,7 +372,10 @@ impl<'a, 'b> CParser<'a, 'b> {
                 break;
             }
             let decls = self.read_declaration()?;
-            for (field_name, field_type) in decls {
+            for (field_name, field_type, initializer) in decls {
+                if !initializer.is_none() {
+                    return Err(ParseError::Generic("initializer not allowed in struct field declaration"));
+                }
                 match field_type {
                     SymbolKind::Variable { ty: typ, .. } => {
                         let Entry::Vacant(entry) = fields.entry(field_name) else {
@@ -623,7 +626,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                 }
                 Err(e) => return Err(e),
                 Ok(decls) => {
-                    Self::insert_decls(&mut block.decls, decls)?;
+                    Self::insert_decls(&mut block.decls, &mut block.stmts, decls)?;
                 }
             }
         }
@@ -644,7 +647,7 @@ impl<'a, 'b> CParser<'a, 'b> {
     }
 
     #[inline(never)]
-    fn read_declaration(&mut self) -> Result<Vec<(String, SymbolKind)>, ParseError> {
+    fn read_declaration(&mut self) -> Result<Vec<(String, SymbolKind, Option<Expression>)>, ParseError> {
         plog("read_declaration");
         let (class, type_) = self.read_declaration_specifiers()?;
         let mut res = Vec::new();
@@ -652,22 +655,16 @@ impl<'a, 'b> CParser<'a, 'b> {
             let (name, type_) = self.read_declarator(type_.clone())?;
             if let Some(name) = name {
                 if class == Some(StorageClass::Typedef) {
-                    res.push((name, SymbolKind::Type(type_)));
+                    res.push((name, SymbolKind::Type(type_), None));
                 } else {
-                    if let UnqualType::Function(inner) = &*type_.unqual {
+                    if self.accept(Token::Operator(Operator::Assignment(None))) {
+                        // variable declaration with initialization
+                        let init_expr = self.read_assignment_expression()?;
+                        res.push((name, SymbolKind::Variable { ty: type_, offset: 0 }, Some(init_expr)));
+                    } else if let UnqualType::Function(inner) = &*type_.unqual {
                         if !res.is_empty() {
                             return Err(ParseError::Generic("cannot declare function inside another declaration"));
                         }
-
-                        /*res.push((name, SymbolKind::Function {
-                            proto: inner.clone(),
-                            body: if self.accept(Token::OpenBrace) {
-                                Some(self.read_function_body(inner)?)
-                            } else {
-                                None
-                            },
-                            jump: Box::new([0, 0]),
-                        }));*/
 
                         if self.accept(Token::OpenBrace) {
                             let block = self.read_compound()?;
@@ -699,8 +696,6 @@ impl<'a, 'b> CParser<'a, 'b> {
                             rprintln!("<jcode>");
                             jcomp.emit(LdrPcImm { rd: R0, immw8: u10::new(0) });
                             jcomp.emit(BxLo { rm: R0 });
-                            //jcomp.emit(BxHi { rm: LR });
-                            //jcomp.emit(Nop);
                             jcomp.emit(U16 { value: addr as u16 });
                             jcomp.emit(U16 { value: (addr >> 16) as u16 });
                             rprintln!("</jcode>");
@@ -711,7 +706,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                                 proto: inner.clone(),
                                 body: Some((block, encoded)),
                                 jump: code,
-                            }));
+                            }, None));
                         } else {
                             self.expect(Token::Semicolon)?;
                             // function prototype
@@ -719,12 +714,12 @@ impl<'a, 'b> CParser<'a, 'b> {
                                 proto: inner.clone(),
                                 body: None,
                                 jump: avec![[4]| 0, 0, 0, 0].into_boxed_slice(),
-                            }));
+                            }, None));
                         }
 
                         return Ok(res); // only one function declaration per declaration
                     } else {
-                        res.push((name, SymbolKind::Variable { ty: type_, offset: 0 }));
+                        res.push((name, SymbolKind::Variable { ty: type_, offset: 0 }, None));
                     }
                 }
             }
@@ -737,8 +732,20 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(res)
     }
 
-    fn insert_decls(scope: &mut Scope, decls: Vec<(String, SymbolKind)>) -> Result<(), ParseError> {
-        for (name, kind) in decls {
+    fn insert_decls(scope: &mut Scope, stmts: &mut Vec<Statement>, decls: Vec<(String, SymbolKind, Option<Expression>)>) -> Result<(), ParseError> {
+        for (name, kind, initializer) in decls {
+            if let Some(expr) = initializer {
+                // handle initializer
+                if let SymbolKind::Variable { .. } = &kind {
+                    stmts.push(Statement::Expression(Expression::BinOp(
+                        BinOp::Assignment(None),
+                        Box::new(Expression::SymRef(name.clone())),
+                        Box::new(expr)
+                    )));
+                } else {
+                    return Err(ParseError::GenericDyn(format!("initializer not allowed for {:?}", kind)));
+                }
+            }
             match scope.symbols.entry(name) {
                 Entry::Occupied(mut entry) => {
                     match (entry.get_mut(), kind) {
@@ -787,7 +794,8 @@ impl<'a, 'b> CParser<'a, 'b> {
         while self.iter.peek().is_some() {
             plog("read_unit iter");
             let decls = self.read_declaration()?;
-            Self::insert_decls(&mut self.scope, decls)?;
+            let mut stmts = Vec::new(); // todo: globals
+            Self::insert_decls(&mut self.scope, &mut stmts, decls)?;
         }
         Ok(None)
     }

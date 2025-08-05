@@ -264,26 +264,7 @@ impl CRepl {
         //     return (int)a;
         // }
         // "#);
-        let code = r#"
-        int sum(int upto) {
-            int i, res;
-            res = 0;
-            for (i = 1; i <= upto; i = i + 1) {
-                res = res + i;
-            }
 
-            return res;
-        }
-
-        int fact(int x) {
-            int res, i;
-            res = 1;
-            for (i = 1; i <= x; i = i + 1) {
-                res = res * i;
-            }
-            return res;
-        }
-        "#;
         let code =  r#"
         int testp(int x) {
             char* p;
@@ -302,6 +283,24 @@ impl CRepl {
                 x = x - 1;
             }
             return x;
+        }
+        "#;
+        let code = r#"
+        int sum(int upto) {
+            int i = 1, res = 0;
+            for (; i <= upto; ++i) {
+                res += i;
+            }
+
+            return res;
+        }
+
+        int fact(int x) {
+            int res = 1, i = 1;
+            for (; i <= x; i++) {
+                res *= i;
+            }
+            return res;
         }
         "#;
 
