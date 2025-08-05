@@ -177,7 +177,6 @@ impl<'a, 'b> CParser<'a, 'b> {
         }
     }
 
-    #[inline(never)]
     fn read_postfix_expression(&mut self) -> Result<Expression, ParseError> {
         plog("read_postfix_expression");
         let mut head = self.read_primary_expression()?;
@@ -256,7 +255,6 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(head)
     }
 
-    #[inline(never)]
     fn read_cast_expression(&mut self) -> Result<Expression, ParseError> {
         plog("read_cast_expression");
         if self.accept(Token::OpenParen) {
@@ -586,7 +584,6 @@ impl<'a, 'b> CParser<'a, 'b> {
         }
     }
 
-    #[inline(never)]
     pub(crate) fn read_expression(&mut self) -> Result<Expression, ParseError> {
         let left = self.read_assignment_expression()?;
         if self.accept(Token::Comma) {

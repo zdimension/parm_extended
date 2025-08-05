@@ -101,7 +101,6 @@ pub enum Statement {
 }
 
 impl<'a, 'b> CParser<'a, 'b> {
-    #[inline(never)]
     pub fn new(s: &'a str, scope: &'b mut Scope) -> Result<Self, PositionedError<ParseError>> {
         Ok(CParser {
             code: s,
@@ -173,7 +172,6 @@ impl<'a, 'b> CParser<'a, 'b> {
         res
     }
 
-    #[inline(never)]
     pub(super) fn read_declaration_specifiers(&mut self) -> Result<(Option<StorageClass>, QualType), ParseError> {
         plog("read_decl_spec");
         enum PrimType {
@@ -369,7 +367,6 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok((class, final_type))
     }
 
-    #[inline(never)]
     fn read_struct_declaration(&mut self) -> Result<OrderedMap<String, TypeBox>, ParseError> {
         plog("read_struct_declaration");
         let mut fields = OrderedMap::default();
@@ -422,7 +419,6 @@ impl<'a, 'b> CParser<'a, 'b> {
         self.read_direct_declarator(base_type)
     }
 
-    #[inline(never)]
     fn read_direct_declarator(&mut self, mut base_type: QualType) -> Result<(Option<String>, QualType), ParseError> {
         let name;
 
@@ -480,7 +476,6 @@ impl<'a, 'b> CParser<'a, 'b> {
         }
     }
 
-    #[inline(never)]
     fn read_function_param_list(&mut self) -> Result<OrderedMap<String, QualType>, ParseError> {
         plog("read_function_param_list");
         let mut params = OrderedMap::default();
@@ -634,7 +629,6 @@ impl<'a, 'b> CParser<'a, 'b> {
     }
 
 
-    #[inline(never)]
     fn read_compound(&mut self) -> Result<Block, ParseError> {
         plog("read_compound");
         let mut block = Block {
@@ -669,7 +663,6 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(block)
     }
 
-    #[inline(never)]
     fn read_declaration(&mut self) -> Result<Vec<(String, SymbolKind, Option<Expression>)>, ParseError> {
         plog("read_declaration");
         let (class, type_) = self.read_declaration_specifiers()?;

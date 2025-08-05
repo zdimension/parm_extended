@@ -206,7 +206,6 @@ impl CRepl {
         CRepl { scope }
     }
 
-    #[inline(never)]
     fn process(&mut self, code: &str) -> EvalStatus {
         if !check_balanced(code) {
             return EvalStatus::ContinueReading;

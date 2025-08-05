@@ -122,7 +122,6 @@ impl<'a> Compiler<'a> {
         self.labels[label] = Some(self.instructions.len());
     }
 
-    #[inline(never)]
     pub fn link(mut self) -> Vec<Instruction> {
         for Jump { cond, instr_pos, target } in self.jumps.iter().copied() {
             let Some(target) = self.labels[target] else {
@@ -165,7 +164,6 @@ impl<'a> Compiler<'a> {
         self.instructions
     }
 
-    #[inline(never)]
     pub fn dump(&self) {
         for i in &self.instructions {
             rprintln!("{:04x} {}", i.encode(), i);
@@ -291,7 +289,6 @@ impl<'a> Compiler<'a> {
                 .unwrap_or(0)
     }
 
-    #[inline(never)]
     pub fn emit_function(
         &mut self,
         proto: &'a FunctionImpl,
