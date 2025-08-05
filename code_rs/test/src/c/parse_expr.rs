@@ -63,13 +63,13 @@ pub enum UnaryOp {
     IncDec(IncDec, OpPosition),
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum SizeOfOp {
     Type(QualType),
     Expression(Box<Expression>),
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum Expression {
     Literal(i32),
     StringLiteral(String),

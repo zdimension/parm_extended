@@ -52,6 +52,13 @@ pub struct Jump {
     pub target: usize,    // where the jump should go
 }
 
+pub struct CompilerState {
+    nb_instrs: usize,
+    nb_labels: usize,
+    nb_jumps: usize,
+    locals_size: usize,
+}
+
 #[derive(Debug)]
 pub struct Compiler<'a> {
     pub instructions: Vec<Instruction>,
@@ -636,13 +643,30 @@ impl<'a> Compiler<'a> {
                 }
             }
             Simple(Multiply | Divide | Modulo) => {
+                Self::assert_arithmetic(&lty).or_else(|_| {
+                    comperr!("Left operand of multiplicative operation must be arithmetic, found: {}", lty)
+                })?;
+                Self::assert_arithmetic(&rty).or_else(|_| {
+                    comperr!("Right operand of multiplicative operation must be arithmetic, found: {}", rty)
+                })?;
                 UnqualType::Int(None).into()
             }
             Simple(ShiftLeft | ShiftRight | BitwiseOr | BitwiseAnd | BitwiseXor) => {
+                Self::assert_integer(&lty).or_else(|_| {
+                    comperr!("Left operand of bitwise operation must be integer, found: {}", lty)
+                })?;
+                Self::assert_integer(&rty).or_else(|_| {
+                    comperr!("Right operand of bitwise operation must be integer, found: {}", rty)
+                })?;
                 UnqualType::Int(None).into()
             }
             Bool(_) => {
-                // type will be checked at emission type
+                Self::assert_scalar(&lty).or_else(|_| {
+                    comperr!("Left operand of boolean operation must be scalar, found: {}", lty)
+                })?;
+                Self::assert_scalar(&rty).or_else(|_| {
+                    comperr!("Right operand of boolean operation must be scalar, found: {}", rty)
+                })?;
                 UnqualType::Int(None).into()
             }
             Comparison(_) => {
@@ -1112,7 +1136,7 @@ impl<'a> Compiler<'a> {
                     self.emit(CmpImm { rd: R0, imm8: 0 }); // Compare a with 0
                 } else {
                     self.emit_auto_convert(a, &aty.unqual, &UnqualType::Bool)?.or_else(|_| {
-                        comperr!("Left operand of '&&' must be convertible to bool, found: {}", aty)
+                        unreachable!(); // analyze already checked for us
                     })?;
                     self.emit_pop(RegList::new([R0], false)); // Pop a to R0
                     // If a is falsy, then the SBC from auto_convert will have set the Z flag
@@ -1121,7 +1145,7 @@ impl<'a> Compiler<'a> {
                 self.jump_to(false_label, Condition::Eq);
 
                 self.emit_auto_convert(b, &bty.unqual, &UnqualType::Bool)?.or_else(|_| {
-                    comperr!("Right operand of '&&' must be convertible to bool, found: {}", aty)
+                    unreachable!(); // analyze already checked for us
                 })?;
                 self.emit_pop(RegList::new([R0], false)); // Pop b to R1
 
@@ -1131,18 +1155,16 @@ impl<'a> Compiler<'a> {
                 return Ok(());
             }
             Bool(BoolOp::Or) => {
-                self.emit_auto_convert(a, &aty.unqual, &UnqualType::Int(None))?.or_else(|_| {
-                    comperr!("Left operand of '||' must be convertible to int, found: {}", aty)
-                })?;
+                self.emit_expression(a)?; // a is known to be scalar so we can just emit it as is
                 self.emit_pop(RegList::new([R1], false)); // Pop a to R0
-                self.emit(MovsImm { rd: R0, imm8: 0 });
-                self.emit(CmpImm { rd: R0, imm8: 0 }); // Compare a with 0
+                self.emit(MovsImm { rd: R0, imm8: 1 });
+                self.emit(CmpImm { rd: R1, imm8: 0 }); // Compare a with 0
 
                 let true_label = self.new_label();
                 self.jump_to(true_label, Condition::Ne); // Jump if a is true (non-zero)
 
                 self.emit_auto_convert(b, &bty.unqual, &UnqualType::Bool)?.or_else(|_| {
-                    comperr!("Right operand of '||' must be convertible to bool, found: {}", bty)
+                    unreachable!(); // analyze already checked for us
                 })?;
                 self.emit_pop(RegList::new([R0], false)); // Pop b to R1
 
@@ -1153,16 +1175,49 @@ impl<'a> Compiler<'a> {
             }
             _ => {}
         }
-        self.emit_cast(a, &aty.unqual, &UnqualType::Int(None))?.or_else(|_| {
-            comperr!("Left operand of binary operation must be scalar, found: {}", aty)
-        })?;
-        self.emit_cast(b, &bty.unqual, &UnqualType::Int(None))?.or_else(|_| {
-            comperr!("Right operand of binary operation must be scalar, found: {}", bty)
-        })?;
-        self.emit_pop(RegList::new([R1], false)); // Pop b to R1
-        self.emit_pop(RegList::new([R0], false)); // Pop a to R0
+        macro_rules! emit_op {
+            (both) => {
+                {
+                    self.emit_cast(a, &aty.unqual, &UnqualType::Int(None))?.or_else(|_| {
+                        unreachable!(); // analyze already checked for us
+                    })?;
+                    self.emit_cast(b, &bty.unqual, &UnqualType::Int(None))?.or_else(|_| {
+                        unreachable!(); // analyze already checked for us
+                    })?;
+                    self.emit_pop(RegList::new([R1], false)); // Pop b to R1
+                    self.emit_pop(RegList::new([R0], false)); // Pop a to R0
+                }
+            };
+            (a) => {
+                {
+                    self.emit_cast(a, &aty.unqual, &UnqualType::Int(None))?.or_else(|_| {
+                        unreachable!(); // analyze already checked for us
+                    })?;
+                    self.emit_pop(RegList::new([R0], false)); // Pop a to R
+                }
+            };
+            (b) => {
+                {
+                    self.emit_cast(b, &bty.unqual, &UnqualType::Int(None))?.or_else(|_| {
+                        unreachable!(); // analyze already checked for us
+                    })?;
+                    self.emit_pop(RegList::new([R0], false)); // Pop b to R0
+                }
+            }
+        };
         match op {
             Simple(Plus) => {
+                if matches!(a, Expression::Literal(0)) {
+                    emit_op!(b);
+                    self.emit_push(RegList::new([R0], false));
+                    return Ok(());
+                }
+                if matches!(b, Expression::Literal(0)) {
+                    emit_op!(a);
+                    self.emit_push(RegList::new([R0], false));
+                    return Ok(());
+                }
+                emit_op!(both);
                 match (&*aty.unqual, &*bty.unqual) {
                     (UnqualType::Pointer(aptr), _) => {
                         // Pointer + int
@@ -1184,6 +1239,12 @@ impl<'a> Compiler<'a> {
                 }
             }
             Simple(Minus) => {
+                if matches!(b, Expression::Literal(0)) {
+                    emit_op!(a);
+                    self.emit_push(RegList::new([R0], false));
+                    return Ok(());
+                }
+                emit_op!(both);
                 match (&*aty.unqual, &*bty.unqual) {
                     (UnqualType::Pointer(tptr), UnqualType::Pointer(_)) => {
                         // Pointer subtraction, calculate distance
@@ -1202,8 +1263,70 @@ impl<'a> Compiler<'a> {
                     }
                 }
             }
-            Simple(Multiply) => self.emit(Muls { rdm: R0, rn: R1 }),
+            Simple(Multiply) => {
+                if matches!(a, Expression::Literal(0)) || matches!(b, Expression::Literal(0)) {
+                    self.emit(MovsImm { rd: R0, imm8: 0 }); // Multiplication by 0
+                    self.emit_push(RegList::new([R0], false)); // Push result to stack
+                    return Ok(());
+                }
+                self.emit(Muls { rdm: R0, rn: R1 })
+            },
             Simple(Divide) => {
+                if let &Expression::Literal(lit) = b {
+                    match lit {
+                        0 => comperr!("Division by zero is not allowed"),
+                        1 => {
+                            self.emit_push(RegList::new([R0], false)); // No division by 1, just push R0
+                            return Ok(());
+                        }
+                        -1 => {
+                            self.emit(Rsbs { rd: R0, rn: R0 }); // Negate R0
+                            self.emit_push(RegList::new([R0], false)); // Push result to stack
+                            return Ok(());
+                        }
+                        _ => {}
+                    }
+                    if *aty.unqual == UnqualType::Bool {
+                        // at this point, abs(lit) > 1
+                        self.emit(MovsImm { rd: R0, imm8: 0 });
+                        self.emit_push(RegList::new([R0], false)); // Push result to stack
+                        return Ok(());
+                    }
+                    // if power of 2, we can use a shift
+                    if lit >= 2 {
+                        let lit = lit as u32;
+                        if lit.is_power_of_two() {
+                            let shift = lit.trailing_zeros() as u8; // will be between 1 and 31
+                            match &*aty.unqual {
+                                UnqualType::Char(Some(Signedness::Signed)) => {
+                                    //self.emit(Uxtb { rd: R1, rm: R0 }); // Zero-extend char to int
+                                    self.emit(LsrImm { rd: R1, rm: R0, imm5: u5::new(32 - shift) });
+                                    self.emit(Adds { rd: R0, rn: R0, rm: R1 });
+                                    if shift > 1 {
+                                        self.emit(Sxtb { rd: R0, rm: R0 }); // Sign-extend to 32 bits
+                                    }
+                                    self.emit(AsrImm { rd: R0, rm: R0, imm5: u5::new(shift) });
+                                }
+                                UnqualType::Int(Some(Signedness::Signed) | None) => {
+                                    if shift > 1 {
+                                        self.emit(AsrImm { rd: R1, rm: R0, imm5: u5::new(31) });
+                                        self.emit(LsrImm { rd: R1, rm: R1, imm5: u5::new(32 - shift) });
+                                    } else {
+                                        self.emit(LsrImm { rd: R1, rm: R0, imm5: u5::new(32 - shift) });
+                                    }
+                                    self.emit(Adds { rd: R0, rn: R0, rm: R1 });
+                                    self.emit(AsrImm { rd: R0, rm: R0, imm5: u5::new(shift) });
+                                }
+                                UnqualType::Int(_) | UnqualType::Char(_) => {
+                                    self.emit(LsrImm { rd: R0, rm: R0, imm5: u5::new(shift) });
+                                }
+                                _ => unreachable!(),
+                            }
+                            self.emit_push(RegList::new([R0], false)); // Push result to stack
+                            return Ok(());
+                        }
+                    }
+                }
                 // ARM does not have a direct divide instruction, so we would need to implement it
                 // using a library or custom assembly code.
                 comperr!("Division operation is not implemented in the compiler");
