@@ -254,7 +254,7 @@ impl<'a> Compiler<'a> {
         self.emit(SubsImm8 { rd: R7, imm8: u8::try_from(scope.var_size).unwrap() });
         self.scope.push(scope);
         self.depth = self.depth.wrapping_add(scope.var_size);
-        rprintln!("entering scope with {}", scope.var_size);
+        // rprintln!("entering scope with {}", scope.var_size);
         self.locals_size = self.locals_size.max(self.depth);
     }
 
@@ -270,7 +270,7 @@ impl<'a> Compiler<'a> {
 
     fn leave(&mut self) {
         if let Some(scope) = self.scope.pop() {
-            rprintln!("leaving scope with {}", scope.var_size);
+            // rprintln!("leaving scope with {}", scope.var_size);
             self.emit(AddsImm8 { rd: R7, imm8: u8::try_from(scope.var_size).unwrap() });
             self.depth -= scope.var_size;
         } else {
@@ -513,13 +513,30 @@ impl<'a> Compiler<'a> {
         }
     }
 
+    fn are_compatible(a: impl Borrow<UnqualType>, b: impl Borrow<UnqualType>) -> bool {
+        let a = a.borrow();
+        let b = b.borrow();
+        if a == b {
+            return true; // Types are exactly the same
+        }
+
+        match (a, b) {
+            (UnqualType::Int(_), UnqualType::Int(_)) => true,
+            (UnqualType::Char(_), UnqualType::Char(_)) => true,
+            (UnqualType::Pointer(p1), UnqualType::Pointer(p2)) => {
+                Self::are_compatible(p1, p2)
+            }
+            _ => false
+        }
+    }
+
     /// emit expr while performing automatic conversions to desired type if possible
     ///
     /// returns Err if no implicit conversion exists
     /// otherwise returns whatever the emission did
     fn emit_auto_convert(&mut self, expr: &Expression, src: &UnqualType, dst: &UnqualType) -> Result<Result<(), ()>, CompileError> {
         match (dst, src) {
-            (a, b) if a == b => {
+            (a, b) if Self::are_compatible(a, b) => {
                 // No conversion needed, types are the same
                 self.emit_expression(expr)?;
             }
@@ -614,7 +631,7 @@ impl<'a> Compiler<'a> {
                         // Pointer - int is pointer arithmetic
                         UnqualType::Pointer(p.clone()).into()
                     }
-                    (UnqualType::Pointer(lt), UnqualType::Pointer(rt)) if lt.unqual == rt.unqual => {
+                    (UnqualType::Pointer(lt), UnqualType::Pointer(rt)) if Self::are_compatible(lt, rt) => {
                         // pointer distance
                         UnqualType::Int(None).into()
                     }
@@ -709,7 +726,7 @@ impl<'a> Compiler<'a> {
                 })?;
                 let Analysis { ty: yty, addr: _ } = self.analyze_expression(yes)?;
                 let Analysis { ty: nty, addr: _ } = self.analyze_expression(no)?;
-                let rty = if yty.unqual == nty.unqual {
+                let rty = if Self::are_compatible(&yty, &nty) {
                     // If both branches are the same type, use that type
                     yty
                 } else if Self::assert_arithmetic(&yty).is_ok() && Self::assert_arithmetic(&nty).is_ok() {
@@ -717,13 +734,17 @@ impl<'a> Compiler<'a> {
                     // todo: handle unsigned!
                     UnqualType::Int(None).into()
                 } else if let (UnqualType::Pointer(pty), UnqualType::Pointer(ptn)) = (&*yty.unqual, &*nty.unqual) {
-                    if pty.unqual != ptn.unqual {
+                    // todo: use are_compatible
+                    if !Self::are_compatible(pty, ptn) {
                         comperr!(
                             "Conditional branches have different pointer types: {} and {}",
                             yty, nty
                         );
                     }
-                    pty.unqual.clone().into()
+                    QualType {
+                        unqual: pty.unqual.clone(),
+                        type_qualifiers: pty.type_qualifiers | ptn.type_qualifiers,
+                    }
                 } else {
                     comperr!(
                         "Conditional branches have different types: {} and {}",

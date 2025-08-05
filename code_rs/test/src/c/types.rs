@@ -58,8 +58,8 @@ impl Display for FunctionImpl {
 
 #[derive(PartialEq, Eq, Debug)]
 pub enum UnqualType {
-    Int(Option<Signedness>),
-    Char(Option<Signedness>),
+    Int(Option<Signedness>), // signed by default
+    Char(Option<Signedness>), // unsigned by default
     Bool,
     Enum(EnumImpl),
     Pointer(QualType),

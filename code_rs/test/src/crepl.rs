@@ -23,7 +23,7 @@ use crate::c::arm::Reg::*;
 use crate::c::compiler::{Analysis, CompileError, Compiler};
 use crate::c::parse::CParser;
 use crate::c::scope::{Scope, SymbolKind};
-use crate::c::types::{FunctionImpl, UnqualType};
+use crate::c::types::{FunctionImpl, QualType, Signedness, TypeQualifiers, UnqualType};
 use crate::parm::control::breakpoint;
 use crate::parm::{keyb, telnet, tty, OrderedMap};
 use core::fmt::{Display, Write};
@@ -81,38 +81,128 @@ enum EvalStatus {
     ContinueReading,
 }
 
-fn c_print(x: usize) -> usize {
-    rprintln!("c: {}", x);
-    x
+macro_rules! type_to_tt {
+    ($($t:tt)*) => {
+        $($t:tt)*
+    };
+}
+
+trait ToUnqualType {
+    fn unqual_type() -> UnqualType;
+}
+
+impl ToUnqualType for usize {
+    fn unqual_type() -> UnqualType {
+        UnqualType::Int(Some(Signedness::Unsigned))
+    }
+}
+
+impl ToUnqualType for u32 {
+    fn unqual_type() -> UnqualType {
+        UnqualType::Int(Some(Signedness::Unsigned))
+    }
+}
+
+impl ToUnqualType for () {
+    fn unqual_type() -> UnqualType {
+        UnqualType::Void
+    }
+}
+
+impl ToUnqualType for u8 {
+    fn unqual_type() -> UnqualType {
+        UnqualType::Char(None)
+    }
+}
+
+impl<T: ToUnqualType> ToUnqualType for *const T {
+    fn unqual_type() -> UnqualType {
+        UnqualType::Pointer(QualType {
+            unqual: T::unqual_type().into(),
+            type_qualifiers: TypeQualifiers {
+                is_const: true,
+                is_volatile: false,
+            }
+        })
+    }
+}
+
+impl<T: ToUnqualType> ToUnqualType for *mut T {
+    fn unqual_type() -> UnqualType {
+        UnqualType::Pointer(QualType {
+            unqual: T::unqual_type().into(),
+            type_qualifiers: TypeQualifiers {
+                is_const: false,
+                is_volatile: false,
+            }
+        })
+    }
+}
+
+macro_rules! expose_func {
+    (@t $t:ty) => {
+        <$t as ToUnqualType>::unqual_type()
+    };
+    (@t) => {
+        UnqualType::Void
+    };
+
+    ($(
+        fn $name:ident ( $( $arg_name:ident : $arg_ty:ty ),* $(,)? ) $( -> $ret_ty:ty )? { $($tt:tt)* }
+    )*
+    ) => {
+        mod cfuncs {
+            use super::*;
+            $(
+            pub(super) fn $name ( $( $arg_name : $arg_ty ),* ) $( -> $ret_ty )? { $($tt)* }
+            )*
+        }
+
+        fn add_exposed_functions(scope: &mut Scope) {
+            $({
+                let addr = cfuncs::$name as usize;
+                let mut jcomp = Compiler::new();
+                jcomp.emit(LdrSp { rt: R0, immw8: u10::new(0) });
+                jcomp.align_to_word();
+                jcomp.emit(LdrPcImm { rd: R1, immw8: u10::new(0) });
+                jcomp.emit(BxLo { rm: R1 });
+                jcomp.emit(U16 { value: addr as u16 });
+                jcomp.emit(U16 { value: (addr >> 16) as u16 });
+                let code = jcomp.link_asm().into_boxed_slice();
+                scope.symbols.insert(
+                    String::from(stringify!($name)),
+                    SymbolKind::Function {
+                        proto: FunctionImpl {
+                            ret: expose_func!(@t $($ret_ty)*).into(),
+                            args: OrderedMap::from_iter([ $(
+                            (String::from(stringify!($arg_name)),
+                                expose_func!(@t $arg_ty).into())
+                            ),* ]),
+                        },
+                        body: None,
+                        jump: code,
+                    },
+                );
+            })*
+        }
+    }
+}
+
+
+expose_func! {
+    fn print_uint(x: u32) {
+        rprintln!("{}", x);
+    }
+
+    fn print_str(x: *const u8) {
+        rprintln!("{}", unsafe { core::ffi::CStr::from_ptr(x) }.to_str().unwrap_or("(invalid UTF-8)"));
+    }
 }
 
 impl CRepl {
     fn new() -> CRepl {
-        let addr = c_print as usize;
-        let mut jcomp = Compiler::new();
-        jcomp.emit(LdrSp { rt: R0, immw8: u10::new(0) });
-        jcomp.align_to_word();
-        jcomp.emit(LdrPcImm { rd: R1, immw8: u10::new(0) });
-        jcomp.emit(BxLo { rm: R1 });
-        jcomp.emit(U16 { value: addr as u16 });
-        jcomp.emit(U16 { value: (addr >> 16) as u16 });
-        let code = jcomp.link_asm().into_boxed_slice();
-
         let mut scope = Scope::default();
-        scope.symbols.insert(
-            String::from("print"),
-            SymbolKind::Function {
-                proto: FunctionImpl {
-                    ret: UnqualType::Int(None).into(),
-                    args: OrderedMap::from_iter([(
-                        String::from("x"),
-                        UnqualType::Int(None).into(),
-                    )]),
-                },
-                body: None,
-                jump: code,
-            },
-        );
+        add_exposed_functions(&mut scope);
         CRepl { scope }
     }
 
