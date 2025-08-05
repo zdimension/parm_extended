@@ -486,7 +486,13 @@ impl<'a, 'b> CParser<'a, 'b> {
                 if class.is_some() {
                     return Err(ParseError::Generic("storage class not allowed in function parameters"));
                 }
-                let (name, type_) = self.read_declarator(type_)?;
+                let (name, mut type_) = self.read_declarator(type_)?;
+                if let UnqualType::Array(item, size) = &*type_.unqual {
+                    type_ = QualType {
+                        unqual: UnqualType::Pointer(item.clone()).into(),
+                        type_qualifiers: type_.type_qualifiers
+                    };
+                }
                 let entry = params.entry(name.unwrap_or_else(|| String::from(format!("_{}", params.len()))));
                 if let Entry::Vacant(mut e) = entry {
                     e.insert(type_);
@@ -849,7 +855,7 @@ auto trait NotSame {}
 impl<T> !NotSame for (T, T) {}
 
 impl NotSame for (ReadError, ParseError) {} // sigh...
-impl NotSame for (ParseError, CompileError) {} // sigh...
+impl NotSame for (CompileError, ParseError) {}
 
 impl<T: Into<U>, U> From<PositionedError<T>> for PositionedError<U>
 where (T, U): NotSame

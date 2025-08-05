@@ -17,7 +17,7 @@ use core::borrow::Borrow;
 use core::cmp::PartialEq;
 use core::fmt::{Display};
 use core::fmt::Write;
-use core::ops::{BitAnd, Not};
+use core::ops::{BitAnd};
 use strum::{EnumIter, FromRepr, IntoEnumIterator};
 use crate::c::arm::HiReg::*;
 use crate::c::arm::Instruction::*;
@@ -25,6 +25,7 @@ use crate::c::arm::{BitSize, Condition, Instruction, Reg, RegList};
 use crate::c::arm::Reg::*;
 use crate::c::lexer::AssignableOperator::{BitwiseAnd, BitwiseOr, BitwiseXor, Divide, Minus, Modulo, Multiply, Plus, ShiftLeft, ShiftRight};
 use crate::c::parse_expr::IncDec::{Decrement, Increment};
+use crate::c::parse_expr::UnaryOp::{BitwiseNot, Deref, Not};
 use crate::c::types::Signedness::{Signed, Unsigned};
 /*pub fn compile(proto: &FunctionImpl, body: &[Token]) {
 
@@ -720,32 +721,62 @@ impl<'a> Compiler<'a> {
         &mut self,
         expr: &'e Expression,
     ) -> Result<Analysis<'e>, CompileError> {
+        let Analysis { ty, addr } = self.analyze_expression_raw(expr)?;
+        // decay array to pointer
+        if let UnqualType::Array(item, _) = &*ty.unqual {
+            Ok(Analysis {
+                ty: UnqualType::Pointer(item.clone()).into(),
+                addr: None // the array itself is not an lvalue, so no address
+            })
+        } else {
+            Ok(Analysis { ty, addr })
+        }
+    }
+
+    fn decay(ty: QualType) -> QualType {
+        // Decay array to pointer
+        if let UnqualType::Array(item, _) = &*ty.unqual {
+            UnqualType::Pointer(item.clone()).into()
+        } else {
+            ty
+        }
+    }
+
+    pub(crate) fn analyze_expression_raw<'e>(
+        &mut self,
+        expr: &'e Expression,
+    ) -> Result<Analysis<'e>, CompileError> {
         Ok(match expr {
             Expression::SymRef(name) => self.lookup(name),
             Expression::MemberAccess(_, _, _) => todo!(),
             Expression::UnaryOp(op, val) => {
                 use UnaryOp::*;
-                let Analysis { ty, addr } = self.analyze_expression(val)?;
-                let rty = match op {
-                    Address => UnqualType::Pointer(ty).into(),
-                    Deref => {
-                        let UnqualType::Pointer(ref inner) = *ty.unqual else {
-                            return Err(GenericDyn(format!(
-                                "Expected pointer type for dereference, found: {}",
-                                ty
-                            )));
-                        };
-                        return Ok(Analysis {
-                            ty: inner.clone(),
-                            addr: Some(self::Address::Dynamic(&*val)),
-                        });
+                let Analysis { ty, .. } = self.analyze_expression_raw(val)?;
+                let rty = if *op == Address {
+                    UnqualType::Pointer(ty).into()
+                } else {
+                    let ty = Self::decay(ty);
+                    match op {
+                        Deref => {
+                            let UnqualType::Pointer(ref inner) = *ty.unqual else {
+                                return Err(GenericDyn(format!(
+                                    "Expected pointer type for dereference, found: {}",
+                                    ty
+                                )));
+                            };
+                            return Ok(Analysis {
+                                ty: inner.clone(),
+                                addr: Some(self::Address::Dynamic(&*val)),
+                            });
+                        }
+                        Plus | Minus | BitwiseNot => Self::get_promoted_int(&ty.unqual)?.into(),
+                        Not => {
+                            Self::assert_scalar(ty)?;
+                            UnqualType::Int(Signed).into()
+                        }
+                        IncDec(_, _) => ty,
+                        _ => unreachable!(),
                     }
-                    Plus | Minus | BitwiseNot => Self::get_promoted_int(&ty.unqual)?.into(),
-                    Not => {
-                        Self::assert_scalar(ty)?;
-                        UnqualType::Int(Signed).into()
-                    }
-                    IncDec(_, _) => ty,
                 };
                 Analysis { ty: rty, addr: None }
             }
@@ -895,7 +926,8 @@ impl<'a> Compiler<'a> {
     }
 
     /// Clobbers R0 and R1. Pushes result to stack.
-    fn load_from(&mut self, ty: &QualType, addr: &Address) -> Result<(), CompileError> {
+    fn load_from(&mut self, ty: QualType, addr: &Address) -> Result<(), CompileError> {
+        let ty = Self::decay(ty);
         match *ty.unqual {
             UnqualType::Char(sign) => {
                 match addr {
@@ -939,12 +971,12 @@ impl<'a> Compiler<'a> {
     /// Pushes the result as a word on the stack.
     /// Clobbers R0, R1, R2.
     pub fn emit_expression(&mut self, expr: &Expression) -> Result<(), CompileError> {
-        let Analysis { ty: ety, addr: eaddr } = self.analyze_expression(expr)?;
+        let Analysis { ty: ety, addr: eaddr } = self.analyze_expression_raw(expr)?;
         match expr {
             &Expression::IntegerLiteral(val, _sign) => {
                 if let Ok(imm8) = u8::try_from(val) {
                     self.emit(MovsImm { rd: R0, imm8 });
-                } else if let Ok(imm8n) = u8::try_from(val.not()) {
+                } else if let Ok(imm8n) = u8::try_from(!val) {
                     self.emit(MovsImm { rd: R0, imm8: imm8n });
                     self.emit(Mvns { rd: R0, rm: R0 }); // Invert
                 } else {
@@ -986,7 +1018,13 @@ impl<'a> Compiler<'a> {
                 let Some(addr) = eaddr else {
                     comperr!("Symbol reference without address");
                 };
-                self.load_from(&ety, &addr)?;
+                if let UnqualType::Array(_, _) = &*ety.unqual {
+                    // If it's an array, we need to load the address of the first element
+                    self.emit_address_to_reg(addr, R0)?;
+                    self.emit_push(RegList::new([R0], false)); // Push address to stack
+                } else {
+                    self.load_from(ety, &addr)?;
+                }
             }
             Expression::Cast(ty, expr) => {
                 let Analysis { ty: expr_ty, .. } = self.analyze_expression(expr)?;
@@ -1036,7 +1074,7 @@ impl<'a> Compiler<'a> {
                         return Ok(());
                     }
                     UnaryOp::Deref => {
-                        self.load_from(&ety, &Address::Dynamic(x))?;
+                        self.load_from(ety, &Address::Dynamic(x))?;
                         return Ok(());
                     }
                     _ => {}
