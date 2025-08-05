@@ -695,7 +695,37 @@ impl<'a> Compiler<'a> {
                     addr: None, // No address for binary operations
                 }
             }
-            Expression::Conditional(_, _, _) => todo!(),
+            Expression::Conditional(cond, yes, no) => {
+                let Analysis { ty: cty, addr: _ } = self.analyze_expression(cond)?;
+                Self::assert_scalar(&cty).or_else(|_| {
+                    comperr!("Condition in conditional expression must be scalar, found: {}", cty)
+                })?;
+                let Analysis { ty: yty, addr: _ } = self.analyze_expression(yes)?;
+                let Analysis { ty: nty, addr: _ } = self.analyze_expression(no)?;
+                let rty = if yty.unqual == nty.unqual {
+                    // If both branches are the same type, use that type
+                    yty
+                } else if Self::assert_arithmetic(yty).is_ok() && Self::assert_arithmetic(nty).is_ok() {
+                    // If both branches are arithmetic, promote to int
+                    // todo: handle unsigned!
+                    UnqualType::Int(None).into()
+                } else if let (UnqualType::Pointer(pty), UnqualType::Pointer(ptn)) = (&*yty.unqual, &*nty.unqual) {
+                    if pty.unqual != ptn.unqual {
+                        comperr!(
+                            "Conditional branches have different pointer types: {} and {}",
+                            yty, nty
+                        );
+                    }
+                    pty.unqual.clone().into()
+                } else {
+                    comperr!(
+                        "Conditional branches have different types: {} and {}",
+                        yty,
+                        nty
+                    );
+                };
+                Analysis { ty: rty, addr: None }
+            }
             Expression::SizeOf(_) => {
                 // SizeOf returns the size of the type in bytes
                 Analysis { ty: UnqualType::Int(None).into(), addr: None }
@@ -1164,11 +1194,25 @@ impl<'a> Compiler<'a> {
                         self.emit(Adcs { rdn: R0, rm: R0 });
                     }
 
-                    _ => todo!(),
+                    Bool(_) => unreachable!(), // Handled above
+                    Assignment(_) => unreachable!(), // Handled above
                 }
                 self.emit_push(RegList::new([R0], false)); // Push result to R0
             }
-            Expression::Conditional(_, _, _) => todo!(),
+            Expression::Conditional(cond, yes, no) => {
+                self.emit_expression(cond)?;
+                self.emit_pop(RegList::new([R0], false)); // Pop condition to R0
+                self.emit(CmpImm { rd: R0, imm8: 0 }); // Compare condition with 0
+                let false_label = self.new_label();
+                self.jump_to(false_label, Condition::Eq); // Jump if condition is false (0
+                self.emit_expression(yes)?;
+                let end_label = self.new_label();
+                self.jump_to(end_label, Condition::Al); // Jump to end after yes branch
+                self.set_label_here(false_label); // Set label for false branch
+                self.emit_expression(no)?;
+                self.set_label_here(end_label); // Set label for end of conditional
+                // The result is already on the stack from the last expression
+            }
             Expression::Comma(lst, tail) => {
                 for expr in lst.iter() {
                     self.emit_expression(expr)?;
