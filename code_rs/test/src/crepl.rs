@@ -144,7 +144,6 @@ impl CRepl {
                     };
                     comp.emit_pop(RegList::new([R0], false)); // separate calls so it can merge with the last push
                     comp.emit_pop(RegList::new([], true));
-                    comp.dump();
                     let code = comp.link_asm();
                     rprintln!("addr={:x}", code.as_ptr() as usize);
                     let res = unsafe {
@@ -290,6 +289,19 @@ impl CRepl {
             char* p;
             p = "hello";
             return p[x];
+        }
+        "#;
+        let code =  r#"
+        int testp(unsigned int x) {
+            while (x > 0) {
+                int rem;
+                rem = x & 3;
+                if (!rem) {
+                    break;
+                }
+                x = x - 1;
+            }
+            return x;
         }
         "#;
 

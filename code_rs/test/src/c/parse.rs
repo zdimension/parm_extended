@@ -548,6 +548,16 @@ impl<'a, 'b> CParser<'a, 'b> {
                     };
                     Statement::Return(val)
                 }
+                Token::Keyword(Keyword::Break) => {
+                    self.advance();
+                    self.expect(Token::Semicolon)?;
+                    Statement::Break
+                }
+                Token::Keyword(Keyword::Continue) => {
+                    self.advance();
+                    self.expect(Token::Semicolon)?;
+                    Statement::Continue
+                }
                 Token::Keyword(Keyword::If) => {
                     self.advance();
                     self.expect(Token::OpenParen)?;
@@ -576,18 +586,14 @@ impl<'a, 'b> CParser<'a, 'b> {
                     let body = self.read_statement()?;
                     Statement::For(init, condition, increment, body.into())
                 }
-                /*Token::Keyword(Keyword::While | Keyword::For | Keyword::Do) => {
-                    // loop
-                    todo!()
+                Token::Keyword(Keyword::While) => {
+                    self.advance();
+                    self.expect(Token::OpenParen)?;
+                    let condition = self.read_expression()?;
+                    self.expect(Token::CloseParen)?;
+                    let body = self.read_statement()?;
+                    Statement::While(condition, body.into())
                 }
-                Token::Keyword(Keyword::If | Keyword::Switch) => {
-                    // selection
-                    todo!()
-                }*/
-                /*_ => return Err(ParseError::UnexpectedTokenGeneric {
-                    got: Some(tok.clone()),
-                    msg: "expected close brace, open brace or return statement"
-                }),*/
                 _ => {
                     match self.read_expression_statement()? {
                         Some(expr) => Statement::Expression(expr),

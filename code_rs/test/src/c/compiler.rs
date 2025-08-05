@@ -161,8 +161,6 @@ impl<'a> Compiler<'a> {
             self.instructions[deferred_pos] = instruction;
         }
 
-        rprintln!("Function with locals size: {}", self.locals_size);
-
         self.instructions
     }
 
@@ -265,7 +263,7 @@ impl<'a> Compiler<'a> {
     fn get_back_to(&mut self, scope_id: usize) {
         self.emit(AddsImm8 {
             rd: R7,
-            imm8: u8::try_from(self.scope[scope_id+1..].iter().map(|s| s.var_size).sum::<usize>()).unwrap()
+            imm8: u8::try_from(self.scope[scope_id..].iter().map(|s| s.var_size).sum::<usize>()).unwrap()
         });
     }
 
@@ -301,10 +299,8 @@ impl<'a> Compiler<'a> {
     ) -> Result<(), CompileError> {
         self.proto = Some(proto);
         self.emit_push(RegList::new([R7], true));
-        //rprintln!("Function with locals size: {}", self.locals_size);
         self.emit(AddRegSpImm { rd: R7, immw8: u10::new(scope.var_size as u16) }); // use r7 as frame pointer
         self.emit_deferred(|self_| SubSp { immw7: u9::new(self_.locals_size as u16) });
-        //self.emit(AddRegSpImm { rd: R7, immw8: u10::new(0) }); // use r7 as frame pointer
         self.depth = 0usize.wrapping_sub(scope.var_size);
         self.enter(scope);
 
@@ -705,7 +701,7 @@ impl<'a> Compiler<'a> {
                 let rty = if yty.unqual == nty.unqual {
                     // If both branches are the same type, use that type
                     yty
-                } else if Self::assert_arithmetic(yty).is_ok() && Self::assert_arithmetic(nty).is_ok() {
+                } else if Self::assert_arithmetic(&yty).is_ok() && Self::assert_arithmetic(&nty).is_ok() {
                     // If both branches are arithmetic, promote to int
                     // todo: handle unsigned!
                     UnqualType::Int(None).into()
