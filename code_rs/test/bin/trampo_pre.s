@@ -2786,9 +2786,9 @@ adds	r4, r1, r6
 mov	r6, r4
 ands	r6, r0
 str	r4, [sp, #32]
-bne trampo_nf9pg
+bne trampo_zr6na
 b .LBB896_23
-trampo_nf9pg:
+trampo_zr6na:
 str	r2, [sp, #12]
 movs	r4, #0
 str	r4, [sp, #60]
@@ -27339,11 +27339,11 @@ cmp	r0, #3
 str	r5, [sp, #128]
 beq	.LBB255_1
 mov r12, r7
-ldr r7, trampo_7nzic_target
-b trampo_7nzic_after
+ldr r7, trampo_2mpuo_target
+b trampo_2mpuo_after
 .p2align 2
-trampo_7nzic_target: .long .LBB255_122 - CURPC - 8
-trampo_7nzic_after: mov r11, r7
+trampo_2mpuo_target: .long .LBB255_122 - CURPC - 8
+trampo_2mpuo_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .LBB255_8:
@@ -27532,11 +27532,11 @@ cmp	r0, #16
 ldr	r6, [sp, #132]
 beq	.LBB255_32
 mov r12, r7
-ldr r7, trampo_ep7ga_target
-b trampo_ep7ga_after
+ldr r7, trampo_i4pg7_target
+b trampo_i4pg7_after
 .p2align 2
-trampo_ep7ga_target: .long .LBB255_133 - CURPC - 8
-trampo_ep7ga_after: mov r11, r7
+trampo_i4pg7_target: .long .LBB255_133 - CURPC - 8
+trampo_i4pg7_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .LBB255_32:
@@ -28046,11 +28046,11 @@ add	r4, sp, #248
 add	r6, sp, #704
 mov	r0, r4
 mov	r1, r6
-ldr r2, trampo_yd8w1_addr
-b trampo_yd8w1_after
+ldr r2, trampo_9iizb_addr
+b trampo_9iizb_after
 .p2align 2
-trampo_yd8w1_addr: .long .LCPI255_10
-trampo_yd8w1_after: ldr r2, [r2]
+trampo_9iizb_addr: .long .LCPI255_10
+trampo_9iizb_after: ldr r2, [r2]
 bl	_ZN60_$LT$alloc..string..String$u20$as$u20$core..clone..Clone$GT$5clone17h902ae7cadcdeb7a1E
 ldr	r0, [sp, #48]
 ldm	r6!, {r1, r2, r3}
@@ -28760,11 +28760,11 @@ mov	r0, r5
 bl	_ZN1c1c5parse7CParser7advance17h5a1a263df7d248c6E
 bl	_ZN8foldhash4seed19gen_per_hasher_seed17h924132b4f0af41aaE
 str	r0, [sp, #88]
-ldr r0, trampo_26u42_addr
-b trampo_26u42_after
+ldr r0, trampo_1ubp3_addr
+b trampo_1ubp3_after
 .p2align 2
-trampo_26u42_addr: .long .LCPI256_9
-trampo_26u42_after: ldr r0, [r0]
+trampo_1ubp3_addr: .long .LCPI256_9
+trampo_1ubp3_after: ldr r0, [r0]
 ldr	r3, [sp, #28]
 ldm	r0!, {r2, r4, r5, r6}
 stm	r3!, {r2, r4, r5, r6}
@@ -29673,11 +29673,11 @@ str	r0, [r4]
 b	.LBB258_70
 .LBB258_14:
 movs	r0, #47
-ldr r1, trampo_vd2h8_addr
-b trampo_vd2h8_after
+ldr r1, trampo_aico7_addr
+b trampo_aico7_after
 .p2align 2
-trampo_vd2h8_addr: .long .LCPI258_6
-trampo_vd2h8_after: ldr r1, [r1]
+trampo_aico7_addr: .long .LCPI258_6
+trampo_aico7_after: ldr r1, [r1]
 str	r1, [r4, #8]
 str	r0, [r4, #12]
 movs	r0, #21
@@ -29692,15 +29692,15 @@ ldrb	r5, [r6]
 cmp	r5, #25
 bne	.LBB258_21
 ldr	r0, [sp, #852]
-ldr r1, trampo_dxwdu_addr
-b trampo_dxwdu_after
+ldr r1, trampo_oiv86_addr
+b trampo_oiv86_after
 .p2align 2
-trampo_dxwdu_addr: .long .LCPI258_5
-trampo_dxwdu_after: ldr r1, [r1]
+trampo_oiv86_addr: .long .LCPI258_5
+trampo_oiv86_after: ldr r1, [r1]
 cmp	r0, r1
-beq trampo_urcaq
+beq trampo_af9q2
 b .LBB258_24
-trampo_urcaq:
+trampo_af9q2:
 movs	r6, #0
 .LBB258_18:
 b	.LBB258_36
@@ -29711,11 +29711,11 @@ bl	_ZN1c1c5parse7CParser7advance17h5a1a263df7d248c6E
 add	r0, sp, #848
 mov	r1, r5
 bl	_ZN1c1c5parse7CParser13read_compound17h8972f316fd0fb8a9E
-ldr r0, trampo_15p64_addr
-b trampo_15p64_after
+ldr r0, trampo_l7ztk_addr
+b trampo_l7ztk_after
 .p2align 2
-trampo_15p64_addr: .long .LCPI258_5
-trampo_15p64_after: ldr r0, [r0]
+trampo_l7ztk_addr: .long .LCPI258_5
+trampo_l7ztk_after: ldr r0, [r0]
 subs	r0, #11
 ldr	r3, [sp, #856]
 cmp	r3, r0
@@ -30870,9 +30870,9 @@ ldr	r6, [sp, #740]
 ldr	r0, .LCPI260_26
 subs	r5, r0, #1
 cmp	r6, r5
-bne trampo_rjt66
+bne trampo_pk8uo
 b .LBB260_12
-trampo_rjt66:
+trampo_pk8uo:
 str	r5, [sp, #60]
 str	r4, [sp, #80]
 ldr	r0, [sp, #748]
@@ -31764,11 +31764,11 @@ adds	r2, #168
 str	r2, [sp, #40]
 mov	r0, r5
 adds	r0, #184
-ldr r6, trampo_ocsok_addr
-b trampo_ocsok_after
+ldr r6, trampo_0wpks_addr
+b trampo_0wpks_after
 .p2align 2
-trampo_ocsok_addr: .long .LCPI261_0
-trampo_ocsok_after: ldr r6, [r6]
+trampo_0wpks_addr: .long .LCPI261_0
+trampo_0wpks_after: ldr r6, [r6]
 .LBB261_1:
 cmp	r4, #0
 bne	.LBB261_2
@@ -33019,16 +33019,16 @@ mov	r5, r0
 ldr	r0, [sp, #8]
 bl	_ZN1c1c5lexer9Tokenizer4peek17ha19cc231bd07d0c8E
 lsls	r0, r0, #31
-bne trampo_06mit
+bne trampo_4p1bo
 b .LBB270_54
-trampo_06mit:
+trampo_4p1bo:
 uxtb	r0, r1
 movs	r1, #8
 bl	_ZN4core4char7methods22_$LT$impl$u20$char$GT$8to_digit17h7549e9360f2773c8E
 lsls	r0, r0, #31
-bne trampo_rqg5h
+bne trampo_9404i
 b .LBB270_54
-trampo_rqg5h:
+trampo_9404i:
 mov	r6, r1
 ldr	r0, [sp, #8]
 bl	_ZN1c1c5lexer9Tokenizer7advance17hb2bc19f9be6767ddE
@@ -33666,11 +33666,11 @@ b	.LBB274_88
 .p2align	1
 .LBB274_36:
 lsrs	r1, r5, #16
-ldr r0, trampo_iotpe_addr
-b trampo_iotpe_after
+ldr r0, trampo_qs0c6_addr
+b trampo_qs0c6_after
 .p2align 2
-trampo_iotpe_addr: .long .LCPI274_42
-trampo_iotpe_after: ldr r0, [r0]
+trampo_qs0c6_addr: .long .LCPI274_42
+trampo_qs0c6_after: ldr r0, [r0]
 b	.LBB274_139
 .LBB274_37:
 ldr	r1, [sp, #24]
@@ -34014,11 +34014,11 @@ mov	r0, r5
 bl	_ZN13arbitrary_int18UInt$LT$u8$C$_$GT$3new17h89a873aad23f5af5E
 ldr	r3, [sp, #28]
 uxtb	r0, r5
-ldr r1, trampo_cf6xs_addr
-b trampo_cf6xs_after
+ldr r1, trampo_dsjed_addr
+b trampo_dsjed_after
 .p2align 2
-trampo_cf6xs_addr: .long .LCPI274_20
-trampo_cf6xs_after: ldr r1, [r1]
+trampo_dsjed_addr: .long .LCPI274_20
+trampo_dsjed_after: ldr r1, [r1]
 b	.LBB274_136
 .LBB274_72:
 lsrs	r1, r5, #13
@@ -35622,22 +35622,22 @@ movs	r0, #0
 str	r0, [sp, #112]
 movs	r1, #1
 str	r1, [sp, #100]
-ldr r1, trampo_e5i7p_addr
-b trampo_e5i7p_after
+ldr r1, trampo_s4s9j_addr
+b trampo_s4s9j_after
 .p2align 2
-trampo_e5i7p_addr: .long .LCPI283_4
-trampo_e5i7p_after: ldr r1, [r1]
+trampo_s4s9j_addr: .long .LCPI283_4
+trampo_s4s9j_after: ldr r1, [r1]
 b	.LBB283_39
 .LBB283_38:
 movs	r0, #0
 str	r0, [sp, #112]
 movs	r1, #1
 str	r1, [sp, #100]
-ldr r1, trampo_9301y_addr
-b trampo_9301y_after
+ldr r1, trampo_1omop_addr
+b trampo_1omop_after
 .p2align 2
-trampo_9301y_addr: .long .LCPI283_3
-trampo_9301y_after: ldr r1, [r1]
+trampo_1omop_addr: .long .LCPI283_3
+trampo_1omop_after: ldr r1, [r1]
 .LBB283_39:
 str	r1, [sp, #96]
 str	r0, [sp, #108]
@@ -37133,9 +37133,9 @@ bl	_ZN4core3ptr49drop_in_place$LT$c..c..compiler..CompileError$GT$17h78a7f4e24fd
 ldr	r0, [sp, #56]
 ldr	r1, .LCPI290_0
 cmp	r0, r1
-beq trampo_4hh4m
+beq trampo_rujvp
 b .LBB290_53
-trampo_4hh4m:
+trampo_rujvp:
 .LBB290_42:
 add	r0, sp, #88
 movs	r4, #0
@@ -38158,20 +38158,20 @@ str	r0, [sp, #48]
 movs	r0, #0
 str	r0, [sp, #168]
 str	r6, [sp, #156]
-ldr r0, trampo_hh2r3_addr
-b trampo_hh2r3_after
+ldr r0, trampo_mn4c5_addr
+b trampo_mn4c5_after
 .p2align 2
-trampo_hh2r3_addr: .long .LCPI293_35
-trampo_hh2r3_after: ldr r0, [r0]
+trampo_mn4c5_addr: .long .LCPI293_35
+trampo_mn4c5_after: ldr r0, [r0]
 str	r0, [sp, #152]
 str	r6, [sp, #164]
 add	r0, sp, #80
 str	r0, [sp, #160]
-ldr r0, trampo_u2yz2_addr
-b trampo_u2yz2_after
+ldr r0, trampo_qil92_addr
+b trampo_qil92_after
 .p2align 2
-trampo_u2yz2_addr: .long .LCPI293_33
-trampo_u2yz2_after: ldr r0, [r0]
+trampo_qil92_addr: .long .LCPI293_33
+trampo_qil92_after: ldr r0, [r0]
 str	r0, [sp, #92]
 add	r1, sp, #48
 str	r1, [sp, #88]
@@ -40047,11 +40047,11 @@ b	.LBB299_159
 ldr	r6, [sp, #52]
 mov	r0, r6
 adds	r0, #8
-ldr r1, trampo_al8r8_addr
-b trampo_al8r8_after
+ldr r1, trampo_2gkpi_addr
+b trampo_2gkpi_after
 .p2align 2
-trampo_al8r8_addr: .long .LCPI299_4
-trampo_al8r8_after: ldr r1, [r1]
+trampo_2gkpi_addr: .long .LCPI299_4
+trampo_2gkpi_after: ldr r1, [r1]
 bl	_ZN66_$LT$c..c..parse_expr..UnaryOp$u20$as$u20$core..cmp..PartialEq$GT$2eq17h5eec6c6025065c4bE
 cmp	r0, #0
 ldr	r4, [sp, #48]
@@ -41741,11 +41741,11 @@ b	.LBB302_16
 add	r0, sp, #104
 adds	r0, #8
 adds	r3, #8
-ldr r2, trampo_cgdkv_addr
-b trampo_cgdkv_after
+ldr r2, trampo_9yzwx_addr
+b trampo_9yzwx_after
 .p2align 2
-trampo_cgdkv_addr: .long .LCPI302_11
-trampo_cgdkv_after: ldr r2, [r2]
+trampo_9yzwx_addr: .long .LCPI302_11
+trampo_9yzwx_after: ldr r2, [r2]
 mov	r1, r3
 bl	_ZN60_$LT$alloc..string..String$u20$as$u20$core..clone..Clone$GT$5clone17h902ae7cadcdeb7a1E
 mov	r0, r5
@@ -47616,9 +47616,8 @@ blx	r4
 mov	r0, r5
 bl	_ZN1c1c8compiler8Compiler13align_to_word17h1dd67ab4d751a1a1E
 movs	r0, #1
-str	r0, [sp, #28]
+str	r0, [sp, #32]
 lsls	r6, r0, #8
-str	r6, [sp, #60]
 mov	r1, r6
 adds	r1, #41
 str	r1, [sp, #44]
@@ -47626,122 +47625,125 @@ mov	r0, r5
 blx	r4
 mov	r1, r6
 adds	r1, #37
-str	r1, [sp, #36]
+str	r1, [sp, #40]
 mov	r0, r5
 blx	r4
-ldr	r6, .LCPI348_1
-lsls	r1, r6, #16
+ldr	r4, .LCPI348_1
+lsls	r1, r4, #16
 adds	r1, #73
 mov	r0, r5
-blx	r4
+ldr	r2, .LCPI348_0
+blx	r2
 ldr	r0, .LCPI348_2
-ands	r6, r0
-adds	r6, #73
+ands	r4, r0
+adds	r4, #73
 mov	r0, r5
-mov	r1, r6
-blx	r4
-add	r6, sp, #496
+mov	r1, r4
+ldr	r2, .LCPI348_0
+blx	r2
+add	r4, sp, #496
 movs	r2, #96
 str	r2, [sp, #24]
-mov	r0, r6
+mov	r0, r4
 mov	r1, r5
 bl	__aeabi_memcpy4
 add	r5, sp, #312
 mov	r0, r5
-mov	r1, r6
+mov	r1, r4
 bl	_ZN1c1c8compiler8Compiler8link_asm17h89e809071fd96abfE
 mov	r0, r5
 bl	_ZN11aligned_vec17AVec$LT$T$C$A$GT$16into_boxed_slice17h4ccf54a30b5c69dcE
-str	r0, [sp, #40]
+str	r0, [sp, #28]
 str	r1, [sp, #12]
 add	r0, sp, #668
 str	r0, [sp, #16]
 ldr	r1, .LCPI348_3
 movs	r2, #10
-ldr	r6, .LCPI348_4
-str	r2, [sp, #32]
-blx	r6
+ldr	r3, .LCPI348_4
+str	r2, [sp, #36]
+blx	r3
 add	r0, sp, #152
 str	r0, [sp, #20]
 movs	r1, #7
 strb	r1, [r0]
-ldr	r5, .LCPI348_5
-blx	r5
+ldr	r4, .LCPI348_5
+blx	r4
 str	r0, [sp, #8]
 add	r0, sp, #312
 str	r0, [sp, #4]
 ldr	r1, .LCPI348_6
-ldr	r4, [sp, #28]
-mov	r2, r4
-blx	r6
+ldr	r5, [sp, #32]
+mov	r2, r5
+ldr	r3, .LCPI348_4
+blx	r3
 add	r0, sp, #496
-ldr	r1, [sp, #60]
-strh	r1, [r0]
-blx	r5
-movs	r5, #0
-str	r5, [sp, #328]
-str	r5, [sp, #52]
+str	r6, [sp, #60]
+strh	r6, [r0]
+blx	r4
+movs	r6, #0
+str	r6, [sp, #328]
+str	r6, [sp, #52]
 str	r0, [sp, #324]
-add	r6, sp, #496
-mov	r0, r6
+add	r4, sp, #496
+mov	r0, r4
 ldr	r1, [sp, #4]
 bl	_ZN123_$LT$indexmap..map..IndexMap$LT$K$C$V$C$S$GT$$u20$as$u20$core..iter..traits..collect..FromIterator$LT$$LP$K$C$V$RP$$GT$$GT$9from_iter17h9bbe20796a677922E
-mov	r0, r6
+mov	r0, r4
 adds	r0, #160
 ldr	r1, [sp, #12]
 str	r1, [r0, #4]
-str	r5, [sp, #540]
+str	r6, [sp, #540]
 ldr	r0, [sp, #8]
 str	r0, [sp, #536]
-ldr	r0, [sp, #40]
+ldr	r0, [sp, #28]
 str	r0, [sp, #656]
-lsls	r0, r4, #31
-str	r0, [sp, #40]
+lsls	r0, r5, #31
+str	r0, [sp, #28]
 str	r0, [sp, #552]
-add	r4, sp, #312
-mov	r0, r4
+add	r5, sp, #312
+mov	r0, r5
 ldr	r1, [sp, #56]
 ldr	r2, [sp, #16]
-mov	r3, r6
+mov	r3, r4
 bl	_ZN8indexmap3map25IndexMap$LT$K$C$V$C$S$GT$6insert17h0fd38f1637cd8af2E
-mov	r0, r4
+mov	r0, r5
 bl	_ZN4core3ptr72drop_in_place$LT$core..option..Option$LT$c..c..scope..SymbolKind$GT$$GT$17h6e8eae87c3b1fc8aE
-add	r4, sp, #216
-mov	r0, r4
+add	r5, sp, #216
+mov	r0, r5
 bl	_ZN1c1c8compiler8Compiler3new17he7f3d179a246d6c5E
-mov	r0, r4
+mov	r0, r5
 ldr	r1, [sp, #48]
-ldr	r5, .LCPI348_0
-blx	r5
-mov	r0, r4
+ldr	r6, .LCPI348_0
+blx	r6
+mov	r0, r5
 bl	_ZN1c1c8compiler8Compiler13align_to_word17h1dd67ab4d751a1a1E
-mov	r0, r4
+mov	r0, r5
 ldr	r1, [sp, #44]
-blx	r5
-mov	r0, r4
-ldr	r1, [sp, #36]
-blx	r5
-ldr	r6, .LCPI348_7
-lsls	r1, r6, #16
+blx	r6
+mov	r0, r5
+ldr	r1, [sp, #40]
+blx	r6
+ldr	r4, .LCPI348_7
+lsls	r1, r4, #16
 adds	r1, #73
-mov	r0, r4
-blx	r5
+mov	r0, r5
+blx	r6
 ldr	r0, .LCPI348_2
-ands	r6, r0
-adds	r6, #73
-mov	r0, r4
-mov	r1, r6
-blx	r5
-add	r5, sp, #496
+ands	r4, r0
+adds	r4, #73
 mov	r0, r5
 mov	r1, r4
-ldr	r2, [sp, #24]
-bl	__aeabi_memcpy4
-add	r6, sp, #312
+blx	r6
+add	r6, sp, #496
 mov	r0, r6
 mov	r1, r5
+ldr	r2, [sp, #24]
+bl	__aeabi_memcpy4
+add	r4, sp, #312
+mov	r0, r4
+mov	r1, r6
 bl	_ZN1c1c8compiler8Compiler8link_asm17h89e809071fd96abfE
-mov	r0, r6
+mov	r0, r4
 bl	_ZN11aligned_vec17AVec$LT$T$C$A$GT$16into_boxed_slice17h4ccf54a30b5c69dcE
 str	r0, [sp, #48]
 str	r1, [sp, #24]
@@ -47752,35 +47754,35 @@ movs	r2, #9
 ldr	r6, .LCPI348_4
 blx	r6
 ldr	r0, [sp, #20]
-ldr	r5, .LCPI348_5
-blx	r5
+ldr	r4, .LCPI348_5
+blx	r4
 str	r0, [sp, #20]
 add	r0, sp, #668
 str	r0, [sp, #16]
 ldr	r1, .LCPI348_6
-ldr	r4, [sp, #28]
-mov	r2, r4
+ldr	r5, [sp, #32]
+mov	r2, r5
 blx	r6
 add	r0, sp, #496
 ldr	r1, .LCPI348_9
 strh	r1, [r0]
-blx	r5
+blx	r4
 add	r1, sp, #312
-strh	r4, [r1, #8]
+strh	r5, [r1, #8]
 movs	r2, #4
-str	r2, [sp, #36]
+str	r2, [sp, #40]
 strb	r2, [r1]
 str	r0, [sp, #316]
 mov	r0, r1
-blx	r5
+blx	r4
 ldr	r5, [sp, #52]
 str	r5, [sp, #684]
 str	r0, [sp, #680]
-add	r6, sp, #496
-mov	r0, r6
+add	r4, sp, #496
+mov	r0, r4
 ldr	r1, [sp, #16]
 bl	_ZN123_$LT$indexmap..map..IndexMap$LT$K$C$V$C$S$GT$$u20$as$u20$core..iter..traits..collect..FromIterator$LT$$LP$K$C$V$RP$$GT$$GT$9from_iter17h9bbe20796a677922E
-mov	r0, r6
+mov	r0, r4
 adds	r0, #160
 ldr	r1, [sp, #24]
 str	r1, [r0, #4]
@@ -47789,30 +47791,29 @@ ldr	r0, [sp, #20]
 str	r0, [sp, #536]
 ldr	r0, [sp, #48]
 str	r0, [sp, #656]
-ldr	r0, [sp, #40]
+ldr	r0, [sp, #28]
 str	r0, [sp, #552]
-add	r4, sp, #312
-mov	r0, r4
-ldr	r5, [sp, #56]
-mov	r1, r5
+add	r5, sp, #312
+mov	r0, r5
+ldr	r1, [sp, #56]
+mov	r6, r1
 ldr	r2, [sp, #44]
-mov	r3, r6
+mov	r3, r4
 bl	_ZN8indexmap3map25IndexMap$LT$K$C$V$C$S$GT$6insert17h0fd38f1637cd8af2E
-mov	r0, r4
+mov	r0, r5
 bl	_ZN4core3ptr72drop_in_place$LT$core..option..Option$LT$c..c..scope..SymbolKind$GT$$GT$17h6e8eae87c3b1fc8aE
-add	r6, sp, #496
+add	r4, sp, #496
 movs	r2, #88
-mov	r0, r6
-mov	r1, r5
+mov	r0, r4
+mov	r1, r6
 bl	__aeabi_memcpy8
-ldr	r2, [sp, #60]
-adds	r2, #14
 ldr	r1, .LCPI348_10
-mov	r0, r6
+ldr	r2, .LCPI348_11
+mov	r0, r4
 bl	_ZN1c5CRepl7process17h7f8790b2fd17fd6eE
-ldr	r1, [sp, #28]
+ldr	r1, [sp, #32]
 lsls	r0, r1, #14
-ldr	r3, .LCPI348_11
+ldr	r3, .LCPI348_12
 mov	r2, r1
 bl	_ZN5alloc7raw_vec20RawVecInner$LT$A$GT$16with_capacity_in17h70d2b859bbcd7f71E
 ldr	r2, [sp, #52]
@@ -47823,26 +47824,26 @@ movs	r0, #17
 lsls	r0, r0, #16
 str	r0, [sp, #48]
 movs	r0, #255
-mvns	r6, r0
+mvns	r4, r0
 movs	r5, #2
 .LBB348_1:
 cmp	r2, #0
 uxtb	r0, r5
-ldr	r1, [sp, #36]
-ldr	r2, .LCPI348_12
+ldr	r1, [sp, #40]
+ldr	r2, .LCPI348_13
 bne	.LBB348_6
 cmp	r0, #2
 bne	.LBB348_4
-ldr	r1, [sp, #36]
-ldr	r2, .LCPI348_14
+ldr	r1, [sp, #40]
+ldr	r2, .LCPI348_15
 b	.LBB348_6
 .LBB348_4:
 movs	r1, #3
-ldr	r2, .LCPI348_13
+ldr	r2, .LCPI348_14
 b	.LBB348_6
 .LBB348_5:
 ldrb	r3, [r2]
-str	r3, [r6]
+str	r3, [r4]
 subs	r1, r1, #1
 adds	r2, r2, #1
 .LBB348_6:
@@ -47851,17 +47852,17 @@ bne	.LBB348_5
 cmp	r0, #2
 bne	.LBB348_31
 .LBB348_8:
-ldr	r0, [r6, #24]
+ldr	r0, [r4, #24]
 cmp	r0, #0
 beq	.LBB348_8
-ldr	r5, [r6, #28]
+ldr	r5, [r4, #28]
 cmp	r5, #8
 beq	.LBB348_13
 cmp	r5, #10
 beq	.LBB348_42
 add	r0, sp, #312
 mov	r1, r5
-ldr	r2, .LCPI348_20
+ldr	r2, .LCPI348_21
 bl	_ZN5alloc6string6String4push17hf4787eab0c0a1958E
 ldr	r0, [sp, #60]
 cmp	r5, r0
@@ -47873,11 +47874,11 @@ ldr	r0, [sp, #320]
 cmp	r0, #0
 beq	.LBB348_8
 ldr	r1, [sp, #316]
-adds	r4, r1, r0
+adds	r6, r1, r0
 movs	r1, #0
 mvns	r1, r1
-ldrsb	r2, [r4, r1]
-mov	r1, r6
+ldrsb	r2, [r6, r1]
+mov	r1, r4
 adds	r1, #255
 cmp	r2, #0
 bmi	.LBB348_18
@@ -47887,121 +47888,122 @@ str	r0, [sp, #320]
 .LBB348_16:
 movs	r5, #8
 .LBB348_17:
-str	r5, [r6]
+str	r5, [r4]
 b	.LBB348_8
 .LBB348_18:
-subs	r3, r4, #2
+subs	r3, r6, #2
 ldrb	r3, [r3]
 str	r3, [sp, #52]
-sxtb	r5, r3
-movs	r3, #64
-mvns	r3, r3
-str	r5, [sp, #56]
-cmp	r5, r3
+sxtb	r3, r3
+movs	r5, #64
+mvns	r5, r5
+str	r3, [sp, #56]
+cmp	r3, r5
 bgt	.LBB348_21
-subs	r3, r4, #3
+subs	r3, r6, #3
 ldrb	r3, [r3]
-str	r3, [sp, #40]
-sxtb	r5, r3
-movs	r3, #63
-str	r3, [sp, #52]
-mvns	r3, r3
-str	r5, [sp, #44]
-cmp	r5, r3
+str	r3, [sp, #44]
+sxtb	r3, r3
+movs	r5, #63
+str	r5, [sp, #52]
+mvns	r5, r5
+cmp	r3, r5
 bge	.LBB348_22
+mov	r5, r3
 ldr	r3, [sp, #52]
-ldr	r5, [sp, #44]
 ands	r5, r3
-subs	r3, r4, #4
+subs	r3, r6, #4
 ldrb	r3, [r3]
 lsls	r3, r3, #29
 lsrs	r3, r3, #23
-adds	r5, r3, r5
+adds	r3, r3, r5
 b	.LBB348_23
 .LBB348_21:
-movs	r3, #31
-ldr	r4, [sp, #52]
-ands	r4, r3
+movs	r5, #31
+ldr	r3, [sp, #52]
+ands	r3, r5
 b	.LBB348_24
 .LBB348_22:
-movs	r3, #15
-ldr	r5, [sp, #40]
-ands	r5, r3
+movs	r5, #15
+ldr	r3, [sp, #44]
+ands	r3, r5
 .LBB348_23:
-ldr	r4, [sp, #56]
-ldr	r3, [sp, #52]
-ands	r4, r3
-lsls	r3, r5, #6
-adds	r4, r3, r4
+ldr	r5, [sp, #56]
+ldr	r6, [sp, #52]
+ands	r5, r6
+lsls	r3, r3, #6
+adds	r3, r3, r5
 .LBB348_24:
-movs	r3, #63
-ands	r2, r3
-lsls	r3, r4, #6
-adds	r2, r3, r2
-ldr	r3, [sp, #48]
-cmp	r2, r3
+movs	r5, #63
+ands	r2, r5
+lsls	r5, r3, #6
+adds	r2, r5, r2
+ldr	r5, [sp, #48]
+cmp	r2, r5
 beq	.LBB348_16
-cmp	r4, #2
+cmp	r3, #2
 blo	.LBB348_15
-cmp	r4, #32
+cmp	r3, #32
 bhs	.LBB348_28
-mov	r1, r6
+mov	r1, r4
 adds	r1, #254
 b	.LBB348_15
 .LBB348_28:
-lsrs	r1, r4, #10
-beq	.LBB348_30
-mov	r1, r6
+ldr	r1, .LCPI348_11
+adds	r1, #58
+cmp	r3, r1
+blo	.LBB348_30
+mov	r1, r4
 adds	r1, #252
 b	.LBB348_15
 .LBB348_30:
-mov	r1, r6
+mov	r1, r4
 adds	r1, #253
 b	.LBB348_15
 .LBB348_31:
-ldr	r0, [r6, #24]
+ldr	r0, [r4, #24]
 cmp	r0, #0
 bne	.LBB348_39
-ldr	r0, [r6, #12]
+ldr	r0, [r4, #12]
 cmp	r0, #0
 beq	.LBB348_31
-ldr	r0, [r6, #8]
+ldr	r0, [r4, #8]
 uxtb	r1, r0
 cmp	r1, #4
 beq	.LBB348_46
-str	r1, [r6]
+str	r1, [r4]
 lsls	r0, r5, #31
 bne	.LBB348_36
 cmp	r1, #10
 beq	.LBB348_50
 .LBB348_36:
 add	r0, sp, #312
-ldr	r2, .LCPI348_15
+ldr	r2, .LCPI348_16
 bl	_ZN5alloc6string6String4push17hf4787eab0c0a1958E
 b	.LBB348_31
 .LBB348_37:
-ldr	r0, [r6, #24]
+ldr	r0, [r4, #24]
 cmp	r0, #0
 beq	.LBB348_37
-ldr	r0, [r6, #28]
+ldr	r0, [r4, #28]
 .LBB348_39:
-ldr	r0, [r6, #24]
+ldr	r0, [r4, #24]
 cmp	r0, #0
 bne	.LBB348_37
 movs	r5, #2
 .LBB348_41:
-ldr	r0, [sp, #32]
-str	r0, [r6]
+ldr	r0, [sp, #36]
+str	r0, [r4]
 b	.LBB348_50
 .LBB348_42:
-ldr	r1, [sp, #32]
-str	r1, [r6]
+ldr	r1, [sp, #36]
+str	r1, [r4]
 add	r5, sp, #312
 mov	r0, r5
-ldr	r2, .LCPI348_17
+ldr	r2, .LCPI348_18
 bl	_ZN5alloc6string6String4push17hf4787eab0c0a1958E
 mov	r0, r5
-ldr	r1, .LCPI348_18
+ldr	r1, .LCPI348_19
 bl	_ZN77_$LT$alloc..string..String$u20$as$u20$core..cmp..PartialEq$LT$$RF$str$GT$$GT$2eq17haed986a7336c1277E
 cmp	r0, #0
 beq	.LBB348_44
@@ -48011,22 +48013,22 @@ mov	r5, r2
 b	.LBB348_1
 .LBB348_44:
 add	r0, sp, #312
-ldr	r1, .LCPI348_19
+ldr	r1, .LCPI348_20
 bl	_ZN77_$LT$alloc..string..String$u20$as$u20$core..cmp..PartialEq$LT$$RF$str$GT$$GT$2eq17haed986a7336c1277E
 cmp	r0, #0
 beq	.LBB348_49
 movs	r2, #0
 str	r2, [sp, #320]
-ldr	r5, [sp, #28]
+ldr	r5, [sp, #32]
 b	.LBB348_1
 .LBB348_46:
 movs	r0, #0
 .LBB348_47:
 cmp	r0, #5
 beq	.LBB348_41
-ldr	r1, .LCPI348_16
+ldr	r1, .LCPI348_17
 ldrb	r1, [r1, r0]
-str	r1, [r6]
+str	r1, [r4]
 adds	r0, r0, #1
 b	.LBB348_47
 .LBB348_49:
@@ -48068,24 +48070,26 @@ b	.LBB348_1
 .LCPI348_10:
 .long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.459
 .LCPI348_11:
-.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.32
+.long	966
 .LCPI348_12:
-.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.460
+.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.32
 .LCPI348_13:
-.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.461
+.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.460
 .LCPI348_14:
-.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.462
+.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.461
 .LCPI348_15:
-.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.464
+.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.462
 .LCPI348_16:
-.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.463
+.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.464
 .LCPI348_17:
-.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.465
+.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.463
 .LCPI348_18:
-.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.467
+.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.465
 .LCPI348_19:
-.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.469
+.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.467
 .LCPI348_20:
+.long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.469
+.LCPI348_21:
 .long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.431
 .Lfunc_end348:
 .size	_ZN1c4main17h8966f452582b37f0E, .Lfunc_end348-_ZN1c4main17h8966f452582b37f0E
@@ -53401,8 +53405,8 @@ _ZN1c4parm3tty3TTY17hd6d604862ac70293E:
 .type	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.459,%object
 .section	.rodata..Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.459,"a",%progbits
 .Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.459:
-.ascii	"\n        int testar(int x) {\n            int arr[5], sum = 0;\n            for (int i = 0; i < 5; ++i) {\n                arr[i] = i * x;\n            }\n            for (int i = 0; i < 5; ++i) {\n                sum += arr[i];\n            }\n            return sum;\n        }"
-.size	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.459, 270
+.ascii	"\n        int rechercheBinaire(int tab[],int x,int i, int j){\n            int gau,droite,milieu;\n            gau=i;droite=j;\n            while (gau<=droite) {\n                milieu = (gau+droite)/2;\n                if (tab[milieu]==x)\n                    return milieu;\n                if (tab[milieu]>x)\n                    droite = milieu-1;\n                else\n                    gau = milieu+1;\n            }\n            return -1;\n        }\n\n        int recherche(int tab[],int x,int size) {\n            return rechercheBinaire(tab,x,0,size-1);\n        }\n\n        int search() {\n            int nums[10], res;\n            nums[0] = 1;\n            nums[1] = 3;\n            nums[2] = 4;\n            nums[3] = 8;\n            nums[4] = 9;\n            nums[5] = 13;\n            nums[6] = 15;\n            nums[7] = 16;\n            nums[8] = 20;\n            nums[9] = 25;\n            res = recherche(nums, 9, 10); // should return 4\n            return res;\n        }"
+.size	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.459, 966
 .type	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.460,%object
 .section	.rodata.cst4,"aM",%progbits,4
 .Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.460:
@@ -53428,14 +53432,14 @@ _ZN1c4parm3tty3TTY17hd6d604862ac70293E:
 .p2align	2, 0x0
 .Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.464:
 .long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.439
-.asciz	"\f\000\000\000\264\001\000\000\037\000\000"
+.asciz	"\f\000\000\000\270\001\000\000\037\000\000"
 .size	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.464, 16
 .type	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.465,%object
 .section	.rodata..Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.465,"a",%progbits
 .p2align	2, 0x0
 .Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.465:
 .long	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.439
-.asciz	"\f\000\000\000\271\001\000\000\027\000\000"
+.asciz	"\f\000\000\000\275\001\000\000\027\000\000"
 .size	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.465, 16
 .type	.Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.466,%object
 .section	.rodata..Lanon.e0a1bb2f9a620de2a397ba440eaa9dc5.466,"a",%progbits

@@ -383,17 +383,21 @@ impl CRepl {
         int recherche(int tab[],int x,int size) {
             return rechercheBinaire(tab,x,0,size-1);
         }
-        "#;
-        let code = r#"
-        int testar(int x) {
-            int arr[5], sum = 0;
-            for (int i = 0; i < 5; ++i) {
-                arr[i] = i * x;
-            }
-            for (int i = 0; i < 5; ++i) {
-                sum += arr[i];
-            }
-            return sum;
+
+        int search() {
+            int nums[10], res;
+            nums[0] = 1;
+            nums[1] = 3;
+            nums[2] = 4;
+            nums[3] = 8;
+            nums[4] = 9;
+            nums[5] = 13;
+            nums[6] = 15;
+            nums[7] = 16;
+            nums[8] = 20;
+            nums[9] = 25;
+            res = recherche(nums, 9, 10); // should return 4
+            return res;
         }"#;
 
         self.process(&code);
