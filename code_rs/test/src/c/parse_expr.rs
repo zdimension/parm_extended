@@ -1,5 +1,5 @@
 use crate::c::lexer::{AssignableOperator, BoolOp, Comparison, Keyword, Operator, Token};
-use crate::c::parse::{plog, CParser, ParseError};
+use crate::c::parse::{plog, CParser, Designator, InitializerList, ParseError};
 use crate::c::scope::SymbolKind;
 use alloc::boxed::Box;
 use alloc::vec::Vec;
@@ -63,13 +63,13 @@ pub enum UnaryOp {
     IncDec(IncDec, OpPosition),
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub enum SizeOfOp {
     Type(QualType),
     Expression(Box<Expression>),
 }
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub enum Expression {
     IntegerLiteral(u32, Signedness),
     StringLiteral(String),
@@ -82,6 +82,7 @@ pub enum Expression {
     BinOp(BinOp, Box<Expression>, Box<Expression>),
     Conditional(Box<Expression>, Box<Expression>, Box<Expression>),
     Comma(Vec<Expression>, Box<Expression>),
+    Initializer(InitializerList),
 }
 
 impl<'a, 'b> CParser<'a, 'b> {
@@ -571,6 +572,11 @@ impl<'a, 'b> CParser<'a, 'b> {
     }
 
     pub fn read_assignment_expression(&mut self) -> Result<Expression, ParseError> {
+        if self.accept(Token::OpenBrace) {
+            // expression can be an initializer list
+            let init_list = self.read_initializer_list()?;
+            return Ok(Expression::Initializer(init_list));
+        }
         let target = self.read_conditional_expression()?;
         if let Some(Token::Operator(Operator::Assignment(op))) = self.peek() {
             let op = *op;
@@ -586,6 +592,47 @@ impl<'a, 'b> CParser<'a, 'b> {
             // no assignment, just return the target expression
             Ok(target)
         }
+    }
+
+    pub fn read_initializer_list(&mut self) -> Result<InitializerList, ParseError> {
+        plog("read_initializer_list");
+        let mut init_list = Vec::new();
+        while !self.accept(Token::CloseBrace) {
+            let mut designators = Vec::new();
+            loop {
+                if self.accept(Token::Dot) {
+                    let Token::Identifier(name) = self.next()? else {
+                        return Err(ParseError::UnexpectedTokenGeneric {
+                            got: self.peek().cloned(),
+                            msg: "expected identifier after dot in initializer list",
+                        });
+                    };
+                    designators.push(Designator::Member(name));
+                } else if self.accept(Token::OpenBracket) {
+                    let Token::Integer(idx) = self.next()? else {
+                        return Err(ParseError::UnexpectedTokenGeneric {
+                            got: self.peek().cloned(),
+                            msg: "expected integer index after open bracket in initializer list",
+                        });
+                    };
+                    self.expect(Token::CloseBracket)?;
+                    designators.push(Designator::Index(idx));
+                } else {
+                    // no more designators, break
+                    break;
+                }
+            }
+            if !designators.is_empty() {
+                self.expect(Token::Operator(Operator::Assignment(None)))?;
+            }
+            init_list.push((designators, self.read_assignment_expression()?));
+            if !self.accept(Token::Comma) {
+                // no more initializers, break
+                self.expect(Token::CloseBrace)?;
+                break;
+            }
+        }
+        Ok(InitializerList { items: init_list })
     }
 
     pub(crate) fn read_expression(&mut self) -> Result<Expression, ParseError> {

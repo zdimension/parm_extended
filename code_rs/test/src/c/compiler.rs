@@ -1,8 +1,8 @@
 use crate::c::compiler::CompileError::GenericDyn;
 use crate::c::lexer::Comparison::{Equal, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, NotEqual};
 use crate::c::lexer::{AssignableOperator, BoolOp, Comparison, Token};
-use crate::c::parse::{Block, DeclOrExpr, ParseError, Statement};
-use crate::c::parse_expr::{BinOp, Expression, IncDec, OpPosition, SizeOfOp, UnaryOp};
+use crate::c::parse::{Block, DeclOrExpr, Designator, InitializerList, ParseError, Statement};
+use crate::c::parse_expr::{AccessType, BinOp, Expression, IncDec, OpPosition, SizeOfOp, UnaryOp};
 use crate::c::scope::{Scope, SymbolKind};
 use crate::c::types::{FunctionImpl, QualType, Signedness, TypeBox, UnqualType};
 use crate::parm::tty::get_tty;
@@ -642,73 +642,77 @@ impl<'a> Compiler<'a> {
         use AssignableOperator::*;
         use BinOp::*;
         let Analysis { ty: lty, addr: laddr } = self.analyze_expression(l)?;
-        let Analysis { ty: rty, .. } = self.analyze_expression(r)?;
-        let lty = Self::get_promoted_int(&lty.unqual).unwrap_or(lty);
-        let rty = Self::get_promoted_int(&rty.unqual).unwrap_or(rty);
-        // here, lty and rty are either Int(_), or a non-integer type
-        let ty = match op {
-            Simple(Plus) => {
-                match (&*lty.unqual, &*rty.unqual) {
-                    (l @ &UnqualType::Int(_), r @ &UnqualType::Int(_)) => {
-                        Self::usual_arithmetic_conversion(l, r).unwrap_or_else(|_| unreachable!())
+        let ty = if op == Assignment(None) {
+            lty
+        } else {
+            let Analysis { ty: rty, .. } = self.analyze_expression(r)?;
+            let lty = Self::get_promoted_int(&lty.unqual).unwrap_or(lty);
+            let rty = Self::get_promoted_int(&rty.unqual).unwrap_or(rty);
+            // here, lty and rty are either Int(_), or a non-integer type
+            match op {
+                Simple(Plus) => {
+                    match (&*lty.unqual, &*rty.unqual) {
+                        (l @ &UnqualType::Int(_), r @ &UnqualType::Int(_)) => {
+                            Self::usual_arithmetic_conversion(l, r).unwrap_or_else(|_| unreachable!())
+                        }
+                        (UnqualType::Int(_), UnqualType::Pointer(p)) | (UnqualType::Pointer(p), UnqualType::Int(_)) => {
+                            // Pointer + int is pointer arithmetic
+                            UnqualType::Pointer(p.clone()).into()
+                        }
+                        _ => comperr!("Invalid types for addition: {} + {}", lty, rty),
                     }
-                    (UnqualType::Int(_), UnqualType::Pointer(p)) | (UnqualType::Pointer(p), UnqualType::Int(_)) => {
-                        // Pointer + int is pointer arithmetic
-                        UnqualType::Pointer(p.clone()).into()
-                    }
-                    _ => comperr!("Invalid types for addition: {} + {}", lty, rty),
                 }
-            }
-            Simple(Minus) => {
-                match (&*lty.unqual, &*rty.unqual) {
-                    (l @ &UnqualType::Int(_), r @ &UnqualType::Int(_)) => {
-                        Self::usual_arithmetic_conversion(l, r).unwrap_or_else(|_| unreachable!())
+                Simple(Minus) => {
+                    match (&*lty.unqual, &*rty.unqual) {
+                        (l @ &UnqualType::Int(_), r @ &UnqualType::Int(_)) => {
+                            Self::usual_arithmetic_conversion(l, r).unwrap_or_else(|_| unreachable!())
+                        }
+                        (UnqualType::Pointer(p), UnqualType::Int(_)) => {
+                            // Pointer - int is pointer arithmetic
+                            UnqualType::Pointer(p.clone()).into()
+                        }
+                        (UnqualType::Pointer(lt), UnqualType::Pointer(rt)) if Self::are_compatible(lt, rt) => {
+                            // pointer distance
+                            UnqualType::Int(Signed).into()
+                        }
+                        _ => comperr!("Invalid types for subtraction: {} - {}", lty, rty),
                     }
-                    (UnqualType::Pointer(p), UnqualType::Int(_)) => {
-                        // Pointer - int is pointer arithmetic
-                        UnqualType::Pointer(p.clone()).into()
-                    }
-                    (UnqualType::Pointer(lt), UnqualType::Pointer(rt)) if Self::are_compatible(lt, rt) => {
-                        // pointer distance
-                        UnqualType::Int(Signed).into()
-                    }
-                    _ => comperr!("Invalid types for subtraction: {} - {}", lty, rty),
                 }
-            }
-            Simple(Multiply | Divide | Modulo) => {
-                Self::assert_arithmetic(&lty).or_else(|_| {
-                    comperr!("Left operand of multiplicative operation must be arithmetic, found: {}", lty)
-                })?;
-                Self::assert_arithmetic(&rty).or_else(|_| {
-                    comperr!("Right operand of multiplicative operation must be arithmetic, found: {}", rty)
-                })?;
-                Self::usual_arithmetic_conversion(&*lty.unqual, &*rty.unqual).unwrap_or_else(|_| unreachable!())
-            }
-            Simple(ShiftLeft | ShiftRight | BitwiseOr | BitwiseAnd | BitwiseXor) => {
-                Self::assert_integer(&lty).or_else(|_| {
-                    comperr!("Left operand of bitwise operation must be integer, found: {}", lty)
-                })?;
-                Self::assert_integer(&rty).or_else(|_| {
-                    comperr!("Right operand of bitwise operation must be integer, found: {}", rty)
-                })?;
-                Self::usual_arithmetic_conversion(&*lty.unqual, &*rty.unqual).unwrap_or_else(|_| unreachable!())
-            }
-            Bool(_) => {
-                Self::assert_scalar(&lty).or_else(|_| {
-                    comperr!("Left operand of boolean operation must be scalar, found: {}", lty)
-                })?;
-                Self::assert_scalar(&rty).or_else(|_| {
-                    comperr!("Right operand of boolean operation must be scalar, found: {}", rty)
-                })?;
-                UnqualType::Int(Signed).into()
-            }
-            Comparison(_) => {
-                // For now, we assume the result type of a comparison is bool
-                UnqualType::Bool.into()
-            }
-            Assignment(_) => {
-                // type will be checked at emission type
-                lty
+                Simple(Multiply | Divide | Modulo) => {
+                    Self::assert_arithmetic(&lty).or_else(|_| {
+                        comperr!("Left operand of multiplicative operation must be arithmetic, found: {}", lty)
+                    })?;
+                    Self::assert_arithmetic(&rty).or_else(|_| {
+                        comperr!("Right operand of multiplicative operation must be arithmetic, found: {}", rty)
+                    })?;
+                    Self::usual_arithmetic_conversion(&*lty.unqual, &*rty.unqual).unwrap_or_else(|_| unreachable!())
+                }
+                Simple(ShiftLeft | ShiftRight | BitwiseOr | BitwiseAnd | BitwiseXor) => {
+                    Self::assert_integer(&lty).or_else(|_| {
+                        comperr!("Left operand of bitwise operation must be integer, found: {}", lty)
+                    })?;
+                    Self::assert_integer(&rty).or_else(|_| {
+                        comperr!("Right operand of bitwise operation must be integer, found: {}", rty)
+                    })?;
+                    Self::usual_arithmetic_conversion(&*lty.unqual, &*rty.unqual).unwrap_or_else(|_| unreachable!())
+                }
+                Bool(_) => {
+                    Self::assert_scalar(&lty).or_else(|_| {
+                        comperr!("Left operand of boolean operation must be scalar, found: {}", lty)
+                    })?;
+                    Self::assert_scalar(&rty).or_else(|_| {
+                        comperr!("Right operand of boolean operation must be scalar, found: {}", rty)
+                    })?;
+                    UnqualType::Int(Signed).into()
+                }
+                Comparison(_) => {
+                    // For now, we assume the result type of a comparison is bool
+                    UnqualType::Bool.into()
+                }
+                Assignment(_) => {
+                    // type will be checked at emission time
+                    lty
+                }
             }
         };
         Ok(Analysis {
@@ -747,6 +751,10 @@ impl<'a> Compiler<'a> {
         expr: &'e Expression,
     ) -> Result<Analysis<'e>, CompileError> {
         Ok(match expr {
+            Expression::Initializer(_) => {
+                // Initializers are handled at declaration time, not here
+                comperr!("Initializer expressions can only be used in assignments or declarations");
+            }
             Expression::SymRef(name) => self.lookup(name),
             Expression::MemberAccess(_, _, _) => todo!(),
             Expression::UnaryOp(op, val) => {
@@ -971,8 +979,14 @@ impl<'a> Compiler<'a> {
     /// Pushes the result as a word on the stack.
     /// Clobbers R0, R1, R2.
     pub fn emit_expression(&mut self, expr: &Expression) -> Result<(), CompileError> {
+        if let Expression::BinOp(op, a, b) = expr {
+            self.analyze_bin_op(*op, a, b)?;
+            self.emit_bin_op(*op, a, b)?;
+            return Ok(())
+        }
         let Analysis { ty: ety, addr: eaddr } = self.analyze_expression_raw(expr)?;
         match expr {
+            Expression::Initializer(_) => unreachable!(), // handled by analyze
             &Expression::IntegerLiteral(val, _sign) => {
                 if let Ok(imm8) = u8::try_from(val) {
                     self.emit(MovsImm { rd: R0, imm8 });
@@ -1154,7 +1168,7 @@ impl<'a> Compiler<'a> {
                 }
                 self.emit_push(RegList::new([R0], false));
             }
-            Expression::BinOp(op, a, b) => self.emit_bin_op(*op, a, b)?,
+            Expression::BinOp(op, a, b) => unreachable!(),
             Expression::Conditional(cond, yes, no) => {
                 self.emit_expression(cond)?;
                 self.emit_pop(RegList::new([R0], false)); // Pop condition to R0
@@ -1180,16 +1194,53 @@ impl<'a> Compiler<'a> {
         Ok(())
     }
 
+    /// Precondition: expression is valid (analyze_bin_op was called)
     pub fn emit_bin_op(&mut self, op: BinOp, a: &Expression, b: &Expression) -> Result<(), CompileError> {
-        self.analyze_bin_op(op, a, b)?;
         use self::Comparison::*;
         use AssignableOperator::*;
         use BinOp::*;
+        if op == Assignment(None) {
+            if let Expression::Initializer(InitializerList { items }) = b {
+                let mut auto_idx = 0;
+                for (designators, val) in items {
+                    let mut target = a.clone();
+                    if designators.is_empty() {
+                        target = Expression::UnaryOp(Deref, Expression::BinOp(
+                            Simple(Plus),
+                            target.into(),
+                            Expression::IntegerLiteral(auto_idx, Unsigned).into()
+                        ).into());
+                    } else {
+                        for designator in designators {
+                            match designator {
+                                Designator::Member(name) => {
+                                    target = Expression::MemberAccess(target.into(), name.clone(), AccessType::Dot);
+                                }
+                                Designator::Index(idx) => {
+                                    target = Expression::UnaryOp(Deref, Expression::BinOp(
+                                        Simple(Plus),
+                                        target.into(),
+                                        Expression::IntegerLiteral(*idx, Unsigned).into()
+                                    ).into());
+                                }
+                            }
+                        }
+                    }
+                    self.analyze_bin_op(Assignment(None), &target, val)?;
+                    self.emit_bin_op(Assignment(None), &target, val)?;
+                    self.emit_pop(RegList::new([R0], false)); // Pop result to R0
+                    auto_idx += 1;
+                }
+                self.emit_push(RegList::new([R0], false)); // Push result to stack
+                return Ok(());
+            }
+        }
         let Analysis { ty: aty, addr: aaddr } = self.analyze_expression(a)?;
         let Analysis { ty: bty, addr: baddr } = self.analyze_expression(b)?;
         match op {
             Assignment(op) => {
                 if let Some(op) = op {
+                    self.analyze_bin_op(Simple(op), a, b)?;
                     self.emit_bin_op(Simple(op), a, b)?;
                 } else {
                     self.emit_expression(b)?;

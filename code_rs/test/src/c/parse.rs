@@ -88,6 +88,17 @@ pub enum DeclOrExpr {
     Expression(Expression)
 }
 
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct InitializerList {
+    pub items: Vec<(Vec<Designator>, Expression)>,
+}
+
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub enum Designator {
+    Member(String),
+    Index(u32)
+}
+
 #[derive(Debug)]
 pub enum Statement {
     Empty,
@@ -635,13 +646,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         }
     }
 
-
-    fn read_compound(&mut self) -> Result<Block, ParseError> {
-        plog("read_compound");
-        let mut block = Block {
-            decls: Default::default(),
-            stmts: Vec::new()
-        };
+    fn read_block(&mut self, mut block: &mut Block) -> Result<(), ParseError> {
         loop {
             match self.read_declaration() {
                 Err(ParseError::GenericBacktrack(_, _)) => {
@@ -660,6 +665,25 @@ impl<'a, 'b> CParser<'a, 'b> {
                 self.advance();
                 break;
             }
+            // if decl, start compound
+            match self.read_declaration() {
+                Err(ParseError::GenericBacktrack(_, _)) => {
+                    // continue with statements
+                }
+                Err(e) => return Err(e),
+                Ok(decls) => {
+                    // create new block
+                    let mut new_block = Block {
+                        decls: Default::default(),
+                        stmts: Vec::new()
+                    };
+                    Self::insert_decls(&mut new_block.decls, &mut new_block.stmts, decls)?;
+                    self.read_block(&mut new_block)?;
+                    block.stmts.push(Statement::Block(new_block));
+                    break;
+                }
+            }
+
             let stmt = self.read_statement()?;
             if let Statement::Empty = stmt {
                 // empty statement, skip it
@@ -667,6 +691,16 @@ impl<'a, 'b> CParser<'a, 'b> {
             }
             block.stmts.push(stmt);
         }
+        Ok(())
+    }
+
+    fn read_compound(&mut self) -> Result<Block, ParseError> {
+        plog("read_compound");
+        let mut block = Block {
+            decls: Default::default(),
+            stmts: Vec::new()
+        };
+        self.read_block(&mut block)?;
         Ok(block)
     }
 

@@ -365,11 +365,10 @@ impl CRepl {
         }
         "#;
         let code = r#"
-        int rechercheBinaire(int tab[],int x,int i, int j){
-            int gau,droite,milieu;
-            gau=i;droite=j;
+        /*int rechercheBinaire(int tab[],int x,int i, int j){
+            int gau=i, droite=j;
             while (gau<=droite) {
-                milieu = (gau+droite)/2;
+                int milieu = (gau+droite)/2;
                 if (tab[milieu]==x)
                     return milieu;
                 if (tab[milieu]>x)
@@ -382,22 +381,13 @@ impl CRepl {
 
         int recherche(int tab[],int x,int size) {
             return rechercheBinaire(tab,x,0,size-1);
-        }
+        }*/
 
         int search() {
-            int nums[10], res;
-            nums[0] = 1;
-            nums[1] = 3;
-            nums[2] = 4;
-            nums[3] = 8;
-            nums[4] = 9;
-            nums[5] = 13;
-            nums[6] = 15;
-            nums[7] = 16;
-            nums[8] = 20;
-            nums[9] = 25;
-            res = recherche(nums, 9, 10); // should return 4
-            return res;
+            int nums[10] = {1, 3, 4, 8, 9, 13, 15, 16, 20, 25};
+            //int res = recherche(nums, 9, 10); // should return 4
+            //return res;
+            return nums[4];
         }"#;
 
         self.process(&code);
