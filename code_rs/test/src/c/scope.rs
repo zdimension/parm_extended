@@ -2,6 +2,7 @@ use alloc::boxed::Box;
 use alloc::string::String;
 use alloc::vec::Vec;
 use core::fmt::Display;
+use aligned_vec::{ABox, ConstAlign};
 use hashbrown::HashMap;
 use crate::c::compiler::CodeBox;
 use crate::c::lexer::Token;
@@ -22,9 +23,15 @@ pub enum ItemName {
 }
 
 #[derive(Debug)]
+pub enum VarPosition {
+    Local(usize),
+    Global(ABox<[u8], ConstAlign<4>>),
+}
+
+#[derive(Debug)]
 pub enum SymbolKind {
     Type(QualType),
-    Variable { ty: QualType, offset: usize },
+    Variable { ty: QualType, pos: VarPosition },
     Function { proto: FunctionImpl, body: Option<(Block, CodeBox)>, jump: CodeBox },
 }
 

@@ -1,5 +1,5 @@
 use alloc::boxed::Box;
-use alloc::format;
+use alloc::{format, vec};
 use alloc::string::String;
 use alloc::vec::{IntoIter, Vec};
 use core::iter::{Enumerate, Peekable};
@@ -7,13 +7,14 @@ use indexmap::map::{Entry, RawEntryApiV1};
 use indexmap::map::raw_entry_v1::RawEntryMut;
 use crate::c::scope::*;
 use core::fmt::Write;
+use core::ptr;
 use aligned_vec::avec;
 use arbitrary_int::u10;
 
 pub struct CParser<'a, 'b> {
     code: &'a str,
     pub(super) iter: Peekable<Enumerate<IntoIter<Token>>>,
-    pub scope: &'b mut Scope,
+    pub global_scope: &'b mut Scope,
     //pub compiler: &'b mut Compiler
 }
 
@@ -30,11 +31,12 @@ pub enum StorageClass {
 }
 
 use SkipStop::*;
-use crate::c::compiler::{CompileError, Compiler};
+use crate::c::compiler::{CodeBox, CompileError, Compiler};
 use crate::c::arm::Instruction::*;
 use crate::c::arm::Reg::*;
 use crate::c::lexer::{AssignableOperator, Keyword, Operator, ReadError, Token, Tokenizer};
 use crate::c::parse_expr::{BinOp, Expression};
+use crate::c::scope::VarPosition::{Global, Local};
 use crate::c::types::{FunctionImpl, QualType, Signedness, StructImpl, TypeBox, TypeQualifiers, UnqualType};
 use crate::c::types::Signedness::{Signed, Unsigned};
 use crate::parm::OrderedMap;
@@ -117,7 +119,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(CParser {
             code: s,
             iter: Tokenizer::new(s).process()?.into_iter().enumerate().peekable(),
-            scope,
+            global_scope: scope,
             //compiler
         })
     }
@@ -273,7 +275,7 @@ impl<'a, 'b> CParser<'a, 'b> {
 
                     let stru = match name {
                         Some(name) => {
-                            match self.scope.structs.raw_entry_mut_v1().from_key(&name) {
+                            match self.global_scope.structs.raw_entry_mut_v1().from_key(&name) {
                                 RawEntryMut::Occupied(mut e) => {
                                     let UnqualType::Struct(ref existing) = **e.get() else {
                                         unreachable!();
@@ -320,7 +322,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                     self.advance();
                 }*/
 
-                Token::Identifier(name) if found_type.is_none() && let Some(SymbolKind::Type(typ)) = self.scope.symbols.get(name) => {
+                Token::Identifier(name) if found_type.is_none() && let Some(SymbolKind::Type(typ)) = self.global_scope.symbols.get(name) => {
                     // struct type
                     found_type = Some(FoundType::Qualified(typ.clone()));
                     self.advance();
@@ -610,7 +612,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                             }
                             Err(e) => return Err(e),
                             Ok(decls) => {
-                                Self::insert_decls(&mut block.decls, &mut block.stmts, decls)?;
+                                self.insert_decls(Some(&mut block.decls), &mut block.stmts, decls)?;
                             }
                         }
                     }
@@ -655,7 +657,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                 }
                 Err(e) => return Err(e),
                 Ok(decls) => {
-                    Self::insert_decls(&mut block.decls, &mut block.stmts, decls)?;
+                    self.insert_decls(Some(&mut block.decls), &mut block.stmts, decls)?;
                 }
             }
         }
@@ -677,7 +679,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                         decls: Default::default(),
                         stmts: Vec::new()
                     };
-                    Self::insert_decls(&mut new_block.decls, &mut new_block.stmts, decls)?;
+                    self.insert_decls(Some(&mut new_block.decls), &mut new_block.stmts, decls)?;
                     self.read_block(&mut new_block)?;
                     block.stmts.push(Statement::Block(new_block));
                     break;
@@ -704,6 +706,32 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(block)
     }
 
+    pub fn make_function(&mut self, inner: &FunctionImpl, block: &Block) -> Result<CodeBox, CompileError> {
+        let mut fct_scope = Scope::default();
+        fct_scope.symbols.insert(String::from("_r7"), SymbolKind::Variable {
+            ty: UnqualType::Int(Unsigned).into(),
+            pos: Local(0),
+        });
+        fct_scope.symbols.insert(String::from("_lr"), SymbolKind::Variable {
+            ty: UnqualType::Int(Unsigned).into(),
+            pos: Local(4),
+        });
+        fct_scope.var_size = 8;
+
+        for (name, ty) in &inner.args {
+            let size = ty.unqual.size_aligned();
+            fct_scope.symbols.insert(name.clone(), SymbolKind::Variable {ty: ty.clone(), pos: Local(fct_scope.var_size) });
+            fct_scope.var_size += size;
+        }
+        let mut comp = Compiler::new(Some(self.global_scope));
+        comp.scope.push(&fct_scope);
+        rprintln!("<fcode>");
+        comp.emit_function(inner, &block, &fct_scope)?;
+        rprintln!("</fcode>");
+        let encoded = comp.link_asm().into_boxed_slice();
+        Ok(encoded)
+    }
+
     fn read_declaration(&mut self) -> Result<Vec<(String, SymbolKind, Option<Expression>)>, ParseError> {
         plog("read_declaration");
         let (class, type_) = self.read_declaration_specifiers()?;
@@ -717,7 +745,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                     if self.accept(Token::Operator(Operator::Assignment(None))) {
                         // variable declaration with initialization
                         let init_expr = self.read_assignment_expression()?;
-                        res.push((name, SymbolKind::Variable { ty: type_, offset: 0 }, Some(init_expr)));
+                        res.push((name, SymbolKind::Variable { ty: type_, pos: Local(0) }, Some(init_expr)));
                     } else if let UnqualType::Function(inner) = &*type_.unqual {
                         if !res.is_empty() {
                             return Err(ParseError::Generic("cannot declare function inside another declaration"));
@@ -726,30 +754,10 @@ impl<'a, 'b> CParser<'a, 'b> {
                         if self.accept(Token::OpenBrace) {
                             let block = self.read_compound()?;
 
-                            let mut fct_scope = Scope::default();
-                            fct_scope.symbols.insert(String::from("_r7"), SymbolKind::Variable {
-                                ty: UnqualType::Int(Unsigned).into(),
-                                offset: 0
-                            });
-                            fct_scope.symbols.insert(String::from("_lr"), SymbolKind::Variable {
-                                ty: UnqualType::Int(Unsigned).into(),
-                                offset: 4
-                            });
-                            fct_scope.var_size = 8;
-                            for (name, ty) in &inner.args {
-                                let size = ty.unqual.size_aligned();
-                                fct_scope.symbols.insert(name.clone(), SymbolKind::Variable {ty: ty.clone(), offset: fct_scope.var_size });
-                                fct_scope.var_size += size;
-                            }
-                            let mut comp = Compiler::new();
-                            comp.scope.push(&self.scope);
-                            rprintln!("<fcode>");
-                            comp.emit_function(inner, &block, &fct_scope)?;
-                            rprintln!("</fcode>");
-                            let encoded = comp.link_asm().into_boxed_slice();
+                            let encoded = self.make_function(inner, &block)?;
                             let addr = encoded.as_ptr() as usize;
                             rprintln!("fcode addr: {:x}", addr);
-                            let mut jcomp = Compiler::new();
+                            let mut jcomp = Compiler::new(None);
                             rprintln!("<jcode>");
                             jcomp.emit(LdrPcImm { rd: R0, immw8: u10::new(0) });
                             jcomp.emit(BxLo { rm: R0 });
@@ -776,7 +784,7 @@ impl<'a, 'b> CParser<'a, 'b> {
 
                         return Ok(res); // only one function declaration per declaration
                     } else {
-                        res.push((name, SymbolKind::Variable { ty: type_, offset: 0 }, None));
+                        res.push((name, SymbolKind::Variable { ty: type_, pos: Local(0) }, None));
                     }
                 }
             }
@@ -789,7 +797,9 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(res)
     }
 
-    fn insert_decls(scope: &mut Scope, stmts: &mut Vec<Statement>, decls: Vec<(String, SymbolKind, Option<Expression>)>) -> Result<(), ParseError> {
+    fn insert_decls(&mut self, scope: Option<&mut Scope>, stmts: &mut Vec<Statement>, decls: Vec<(String, SymbolKind, Option<Expression>)>) -> Result<(), ParseError> {
+        let is_global = scope.is_none();
+        let scope = scope.unwrap_or(&mut self.global_scope);
         for (name, kind, initializer) in decls {
             if let Some(expr) = initializer {
                 // handle initializer
@@ -832,11 +842,18 @@ impl<'a, 'b> CParser<'a, 'b> {
                 }
                 Entry::Vacant(entry) => {
                     entry.insert(match kind {
-                        SymbolKind::Variable { ty, offset } => {
+                        SymbolKind::Variable { ty, pos: offset } => {
                             let size = ty.unqual.size_aligned();
-                            let res = SymbolKind::Variable { ty, offset: scope.var_size };
-                            scope.var_size += size;
-                            res
+                            if is_global {
+                                SymbolKind::Variable {
+                                    ty,
+                                    pos: Global(avec![[4] | 0u8; size].into_boxed_slice())
+                                }
+                            } else {
+                                let res = SymbolKind::Variable { ty, pos: Local(scope.var_size) };
+                                scope.var_size += size;
+                                res
+                            }
                         },
                         _ => kind
                     });
@@ -846,22 +863,29 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(())
     }
 
-    pub fn read_unit(&mut self) -> Result<Option<()>, ParseError> {
+    pub fn read_unit(&mut self) -> Result<CodeBox, ParseError> {
         plog("read_unit");
+        let mut stmts = Vec::new(); // todo: globals
         while self.iter.peek().is_some() {
             plog("read_unit iter");
             let decls = self.read_declaration()?;
-            let mut stmts = Vec::new(); // todo: globals
-            Self::insert_decls(&mut self.scope, &mut stmts, decls)?;
+            self.insert_decls(None, &mut stmts, decls)?;
         }
-        Ok(None)
+        let code = self.make_function(&FunctionImpl {
+            ret: UnqualType::Void.into(),
+            args: OrderedMap::default()
+        }, &Block {
+            decls: Default::default(),
+            stmts
+        })?;
+        Ok(code)
     }
 
-    pub fn read_whole(mut self) -> Result<Self, PositionedError<ParseError>> {
+    pub fn read_whole(mut self) -> Result<CodeBox, PositionedError<ParseError>> {
         match self.read_unit() {
-            Ok(_) => Ok(self),
+            Ok(res) => Ok(res),
             Err(e) => Err(PositionedError {
-                pos: self.current_pos(),
+                pos: Some(self.current_pos()),
                 error: e
             })
         }
@@ -871,7 +895,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         match self.read_expression() {
             Ok(expr) => Ok(expr),
             Err(e) => Err(PositionedError {
-                pos: self.current_pos(),
+                pos: Some(self.current_pos()),
                 error: e
             })
         }
@@ -880,8 +904,17 @@ impl<'a, 'b> CParser<'a, 'b> {
 
 #[derive(Debug)]
 pub struct PositionedError<T> {
-    pub pos: usize,
+    pub pos: Option<usize>,
     pub error: T
+}
+
+impl<T> From<T> for PositionedError<T> where (T, PositionedError<T>): NotSame, (PositionedError<T>, T): NotSame {
+    fn from(error: T) -> Self {
+        PositionedError {
+            pos: None,
+            error
+        }
+    }
 }
 
 auto trait NotSame {}
@@ -890,6 +923,7 @@ impl<T> !NotSame for (T, T) {}
 
 impl NotSame for (ReadError, ParseError) {} // sigh...
 impl NotSame for (CompileError, ParseError) {}
+impl<T> NotSame for (T, PositionedError<T>) {}
 
 impl<T: Into<U>, U> From<PositionedError<T>> for PositionedError<U>
 where (T, U): NotSame

@@ -3,7 +3,7 @@ use crate::c::lexer::Comparison::{Equal, GreaterThan, GreaterThanOrEqual, LessTh
 use crate::c::lexer::{AssignableOperator, BoolOp, Comparison, Token};
 use crate::c::parse::{Block, DeclOrExpr, Designator, InitializerList, ParseError, Statement};
 use crate::c::parse_expr::{AccessType, BinOp, Expression, IncDec, OpPosition, SizeOfOp, UnaryOp};
-use crate::c::scope::{Scope, SymbolKind};
+use crate::c::scope::{Scope, SymbolKind, VarPosition};
 use crate::c::types::{FunctionImpl, QualType, Signedness, TypeBox, UnqualType};
 use crate::parm::tty::get_tty;
 use crate::rprintln;
@@ -71,7 +71,8 @@ pub struct Compiler<'a> {
     pub deferred: Vec<(usize, fn(&Compiler<'a>) -> Instruction)>,
     pub last_push: Option<(usize, RegList)>,
     proto: Option<&'a FunctionImpl>,
-    loops: Vec<LoopInfo>
+    loops: Vec<LoopInfo>,
+    pub global_scope: Option<&'a Scope>,
 }
 
 fn fit_signed_into<const BITS: usize>(val: usize) -> Result<usize, ()> {
@@ -96,7 +97,7 @@ struct LoopInfo {
 }
 
 impl<'a> Compiler<'a> {
-    pub fn new() -> Self {
+    pub fn new(global_scope: Option<&'a Scope>) -> Self {
         Compiler {
             instructions: Vec::new(),
             labels: vec![None],
@@ -107,7 +108,8 @@ impl<'a> Compiler<'a> {
             deferred: vec![],
             last_push: None,
             proto: None,
-            loops: vec![]
+            loops: vec![],
+            global_scope,
         }
     }
 
@@ -209,6 +211,11 @@ impl<'a> Compiler<'a> {
             self.emit(MovLoHi { rd: R7, rs: R12 });
         }
         self.last_push = Some((orig_len, regs));
+    }
+
+    /// useful if you're gonna do pop(r0), thing(r0) [that doesn't modify r0], push(r0)
+    pub fn emit_load_no_pop(&mut self, reg: Reg) {
+        self.emit(LdrSp { rt: reg, immw8: u10::new(0) });
     }
 
     pub fn emit_pop(&mut self, regs: RegList) {
@@ -472,14 +479,15 @@ impl<'a> Compiler<'a> {
     fn lookup(&self, name: &String) -> Analysis<'static> {
         let mut base = 0;
         for scope in self.scope.iter().rev() {
-            //rprintln!("[{}] Looking up '{}' in scope: {}", base, name, scope);
             if let Some(symbol) = scope.symbols.get(name) {
                 return match symbol {
-                    SymbolKind::Variable { ty, offset } => {
-                        //rprintln!("[{}] Found variable '{}' with offset {}", base, name, offset);
+                    SymbolKind::Variable { ty, pos } => {
                         Analysis {
                             ty: ty.clone(),
-                            addr: Some(Address::Local((base + *offset) as u8)),
+                            addr: Some(match pos {
+                                VarPosition::Local(offset) => Address::Local((base + *offset) as u8),
+                                VarPosition::Global(data) => Address::Global(data.as_ptr() as *mut _) // SAFETY: whatever
+                            }),
                         }
                     }
                     SymbolKind::Function { proto, jump, .. } => Analysis {
@@ -492,6 +500,30 @@ impl<'a> Compiler<'a> {
                 };
             }
             base += scope.var_size;
+        }
+        if let Some(scope) = self.global_scope {
+            if let Some(symbol) = scope.symbols.get(name) {
+                return match symbol {
+                    SymbolKind::Variable { ty, pos } => {
+                        Analysis {
+                            ty: ty.clone(),
+                            addr: Some(match pos {
+                                VarPosition::Local(_) => {
+                                    panic!("A local variable? In MY global scope? It's more likely than you think!");
+                                }
+                                VarPosition::Global(data) => Address::Global(data.as_ptr() as *mut _),
+                            }),
+                        }
+                    }
+                    SymbolKind::Function { proto, jump, .. } => Analysis {
+                        ty: UnqualType::Function(proto.clone()).into(),
+                        addr: Some(Address::Global(jump.as_ptr() as _)),
+                    },
+                    SymbolKind::Type(_) => {
+                        panic!("Cannot reference type as an expression: {}", name);
+                    }
+                };
+            }
         }
         panic!("Symbol not found: {}", name);
     }
@@ -866,7 +898,7 @@ impl<'a> Compiler<'a> {
         }
     }
 
-    /// Clobbers `reg`. Preserves stack.
+    /// Clobbers `reg` (others are saved). Preserves stack.
     fn emit_address_to_reg(&mut self, address: Address, reg: Reg) -> Result<(), CompileError> {
         match address {
             Address::Local(offset) => {
@@ -874,7 +906,7 @@ impl<'a> Compiler<'a> {
                 self.emit(AddLoLo { rd: reg, rs: R7 });
             }
             Address::Global(addr) => {
-                self.emit_imm32_to_reg(reg, addr);
+                self.emit_imm32_to_reg(reg, addr as usize);
             }
             Address::Dynamic(expr) => {
                 let preserve = match reg {
@@ -892,7 +924,7 @@ impl<'a> Compiler<'a> {
         Ok(())
     }
 
-    /// Clobbers `reg`. Preserves stack.
+    /// Clobbers `reg` (others are saved). Preserves stack.
     fn emit_imm32_to_reg(&mut self, reg: Reg, imm32: usize) {
         let lbl = self.new_label();
 
@@ -904,13 +936,13 @@ impl<'a> Compiler<'a> {
         self.set_label_here(lbl);
     }
 
-    /// Clobbers `reg` and  R0/R1. Preserves stack.
+    /// Clobbers `reg` and R2 (if src==R1) or R1 (else). Preserves stack.
     fn emit_assignment(&mut self, src: Reg, dst: &Expression) -> Result<(), CompileError> {
         let Analysis { ty: lty, addr: laddr } = self.analyze_expression(dst)?;
         let Some(laddr) = laddr else {
             comperr!("Left side of assignment must be an lvalue (have an address)");
         };
-        let addr_reg = if src == R1 { R0 } else { R1 };
+        let addr_reg = if src == R1 { R2 } else { R1 };
         self.emit_address_to_reg(laddr, addr_reg)?;
         self.emit(StrRegImm { rd: src, rb: addr_reg, immw5: u7::new(0) });
         Ok(())
@@ -937,39 +969,42 @@ impl<'a> Compiler<'a> {
     fn load_from(&mut self, ty: QualType, addr: &Address) -> Result<(), CompileError> {
         let ty = Self::decay(ty);
         match *ty.unqual {
-            UnqualType::Char(sign) => {
+            UnqualType::Char(_) | UnqualType::Bool => {
                 match addr {
                     &Address::Local(offset) => {
                         self.emit(LdrbRegImm { rd: R0, rb: R7, imm5: u5::new(offset) });
-                        if sign == Some(Signedness::Signed) {
-                            self.emit(Sxtb { rd: R0, rm: R0 }); // Sign-extend to 32 bits
-                        }
-                        self.emit_push(RegList::new([R0], false));
+                    }
+                    &Address::Global(add) => {
+                        self.emit_imm32_to_reg(R0, add as usize);
+                        self.emit(LdrbRegImm { rd: R0, rb: R0, imm5: u5::new(0) });
                     }
                     &Address::Dynamic(expr) => {
                         self.emit_expression(expr)?;
                         self.emit_pop(RegList::new([R0], false));
                         self.emit(LdrbRegImm { rd: R0, rb: R0, imm5: u5::new(0) });
-                        if sign == Some(Signedness::Signed) {
-                            self.emit(Sxtb { rd: R0, rm: R0 }); // Sign-extend to 32 bits
-                        }
-                        self.emit_push(RegList::new([R0], false));
                     }
-                    _ => todo!(),
                 }
+                if *ty.unqual == UnqualType::Char(Some(Signed)) {
+                    self.emit(Sxtb { rd: R0, rm: R0 }); // Sign-extend to 32 bits
+                }
+                self.emit_push(RegList::new([R0], false));
             }
-            UnqualType::Int(_) | UnqualType::Pointer(_) => match addr {
-                &Address::Local(offset) => {
-                    self.emit(LdrRegImm { rd: R0, rb: R7, immw5: u7::new(offset) });
-                    self.emit_push(RegList::new([R0], false));
+            UnqualType::Int(_) | UnqualType::Pointer(_) | UnqualType::Enum(_) => {
+                match addr {
+                    &Address::Local(offset) => {
+                        self.emit(LdrRegImm { rd: R0, rb: R7, immw5: u7::new(offset) });
+                    }
+                    &Address::Global(add) => {
+                        self.emit_imm32_to_reg(R0, add as usize);
+                        self.emit(LdrRegImm { rd: R0, rb: R0, immw5: u7::new(0) });
+                    }
+                    &Address::Dynamic(expr) => {
+                        self.emit_expression(expr)?;
+                        self.emit_pop(RegList::new([R0], false));
+                        self.emit(LdrRegImm { rd: R0, rb: R0, immw5: u7::new(0) });
+                    }
                 }
-                &Address::Dynamic(expr) => {
-                    self.emit_expression(expr)?;
-                    self.emit_pop(RegList::new([R0], false));
-                    self.emit(LdrRegImm { rd: R0, rb: R0, immw5: u7::new(0) });
-                    self.emit_push(RegList::new([R0], false));
-                }
-                _ => todo!(),
+                self.emit_push(RegList::new([R0], false));
             },
             _ => comperr!("Unsupported type for symbol reference: {}", ty),
         }
@@ -1159,9 +1194,6 @@ impl<'a> Compiler<'a> {
                                 }
                             }
                         }
-                        if pos == Prefix {
-                            //TODO:unneeded? self.emit_extend_if(op_target, &ety);
-                        }
                         self.emit_assignment(op_target, x)?;
                     }
                     _ => unreachable!(),
@@ -1199,6 +1231,7 @@ impl<'a> Compiler<'a> {
         use self::Comparison::*;
         use AssignableOperator::*;
         use BinOp::*;
+        let Analysis { ty: aty, addr: aaddr } = self.analyze_expression(a)?;
         if op == Assignment(None) {
             if let Expression::Initializer(InitializerList { items }) = b {
                 let mut auto_idx = 0;
@@ -1235,7 +1268,6 @@ impl<'a> Compiler<'a> {
                 return Ok(());
             }
         }
-        let Analysis { ty: aty, addr: aaddr } = self.analyze_expression(a)?;
         let Analysis { ty: bty, addr: baddr } = self.analyze_expression(b)?;
         match op {
             Assignment(op) => {
@@ -1245,9 +1277,8 @@ impl<'a> Compiler<'a> {
                 } else {
                     self.emit_expression(b)?;
                 }
-                self.emit_pop(RegList::new([R0], false)); // Pop result to R0
+                self.emit_load_no_pop(R0);
                 self.emit_assignment(R0, a)?; // Assign it
-                self.emit_push(RegList::new([R0], false)); // Push result to stack
                 return Ok(());
             }
             Bool(BoolOp::And) => {
@@ -1488,7 +1519,7 @@ pub enum Address<'a> {
     /// Local variable, offset from the frame pointer (R7)
     Local(u8),
     // Global variable, offset from the data segment
-    Global(usize),
+    Global(*mut u8),
     // Dynamic
     Dynamic(&'a Expression),
 }

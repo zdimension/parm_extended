@@ -163,7 +163,7 @@ macro_rules! expose_func {
         fn add_exposed_functions(scope: &mut Scope) {
             $({
                 let addr = cfuncs::$name as usize;
-                let mut jcomp = Compiler::new();
+                let mut jcomp = Compiler::new(None);
                 jcomp.emit(LdrSp { rt: R0, immw8: u10::new(0) });
                 jcomp.align_to_word();
                 jcomp.emit(LdrPcImm { rd: R1, immw8: u10::new(0) });
@@ -214,7 +214,7 @@ impl CRepl {
             Ok(_) => false,
             Err(ParseError::GenericBacktrack(..)) => true,
             Err(e) => return Err(PositionedError {
-                pos: parser1.current_pos(),
+                pos: Some(parser1.current_pos()),
                 error: e,
             })
         };
@@ -224,18 +224,20 @@ impl CRepl {
         if is_expr {
             let expr = parser.read_whole_expr()?;
             rprintln!("expr: {:?}", expr);
-            let mut comp = Compiler::new();
-            comp.scope.push(&self.scope);
+
+
+            let mut comp = Compiler::new(Some(&mut self.scope));
             comp.emit_push(RegList::new([], true));
+
             let Analysis { ty, .. } = comp.analyze_expression(&expr).map_err(|e| {
                 PositionedError {
-                    pos: 0,
+                    pos: None,
                     error: e,
                 }
             })?;
             comp.emit_expression(&expr).map_err(|e| {
                 PositionedError {
-                    pos: 0,
+                    pos: None,
                     error: e,
                 }
             })?;
@@ -249,6 +251,15 @@ impl CRepl {
                 ptr()
             };
             rprint!("-> {}: ", ty);
+            if let UnqualType::Pointer(t) = &*ty.unqual {
+                if let UnqualType::Char(None) = *t.unqual {
+                    if let Ok(s) = unsafe { core::ffi::CStr::from_ptr(res as *const u8) }.to_str() {
+                        rprint!("\"{}\" ", s);
+                    } else {
+                        rprint!("(invalid UTF-8) ");
+                    }
+                }
+            }
             match &*ty.unqual {
                 UnqualType::Int(Signedness::Unsigned) | UnqualType::Pointer(_) => {
                     rprintln!("{} (0x{:08x})", res, res);
@@ -267,8 +278,15 @@ impl CRepl {
                 }
             }
         } else {
-            let parser = parser.read_whole()?;
-            rprintln!("{}", parser.scope);
+
+            let code = parser.read_whole()?;
+
+            unsafe {
+                let ptr: fn() -> u32 = core::mem::transmute(code.as_ptr());
+                breakpoint();
+                ptr();
+            };
+            rprintln!("{}", self.scope);
         }
         Ok(())
     }

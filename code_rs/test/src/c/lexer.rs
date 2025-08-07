@@ -655,7 +655,7 @@ impl<'a> Tokenizer<'a> {
     pub(crate) fn process(mut self) -> Result<Vec<Token>, PositionedError<ReadError>> {
         match self.process_inner() {
             Ok(tokens) => Ok(tokens),
-            Err(err) => Err(PositionedError { pos: self.position, error: err }),
+            Err(err) => Err(PositionedError { pos: Some(self.position), error: err }),
         }
     }
 
