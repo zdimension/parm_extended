@@ -3,8 +3,6 @@ use alloc::vec::Vec;
 use crate::parm::util::fxhash::FxHasher;
 use core::hash::{BuildHasher, Hash, Hasher};
 use core::slice;
-use crate::{print, println};
-use crate::parm::tty::{get_tty, print_hex};
 
 #[derive(Clone)]
 pub struct RandomState;

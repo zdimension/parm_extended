@@ -1,18 +1,12 @@
 use crate::c::lexer::{AssignableOperator, BoolOp, Comparison, Keyword, Operator, Token};
 use crate::c::parse::{plog, CParser, Designator, InitializerList, ParseError};
-use crate::c::scope::SymbolKind;
 use alloc::boxed::Box;
 use alloc::vec::Vec;
-use alloc::{format, vec};
+use alloc::vec;
 use alloc::string::String;
 use core::fmt::Display;
-use arbitrary_int::{u5, u6, u7};
 
-use crate::c::arm::Instruction::*;
-use crate::c::arm::Reg::*;
-use crate::c::types::{QualType, Signedness, TypeBox, UnqualType};
-use crate::{println, rprintln};
-use crate::parm::control::breakpoint;
+use crate::c::types::{QualType, Signedness};
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum AccessType {
@@ -160,7 +154,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                 self.advance();
                 Ok(Expression::IntegerLiteral(ch as u32, Signedness::Signed)) // convert char to i32
             }
-            Some(&Token::String(ref s)) => {
+            Some(&Token::String(_)) => {
                 // string literal
                 let Ok(Token::String(s)) = self.next() else {
                     unreachable!();
@@ -218,7 +212,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                         head = Expression::FuncCall(Box::new(head), args);
                     }
                 }
-                 (Token::Dot | Token::Arrow) => {
+                 Token::Dot | Token::Arrow => {
                     let ty = if *tok == Token::Dot {
                         AccessType::Dot
                     } else {

@@ -9,20 +9,15 @@ use crate::rprintln;
 use alloc::string::String;
 use alloc::vec::Vec;
 use alloc::{format, vec};
-use arbitrary_int::{u10, u3, u5, u7, u9, Number};
+use arbitrary_int::{u10, u3, u5, u7, u9};
 use core::borrow::Borrow;
 use core::cmp::PartialEq;
 use core::fmt::Display;
-use core::fmt::Write;
-use strum::IntoEnumIterator;
-use crate::c::arm::HiReg::*;
 use crate::c::arm::Instruction::*;
 use crate::c::arm::{Condition, Instruction, Reg, RegList};
 use crate::c::arm::Reg::*;
 use crate::c::emitter::{CodeVec, Emitter};
-use crate::c::lexer::AssignableOperator::{BitwiseAnd, BitwiseOr, BitwiseXor, Divide, Minus, Modulo, Multiply, Plus, ShiftLeft, ShiftRight};
-use crate::c::parse_expr::IncDec::{Decrement, Increment};
-use crate::c::parse_expr::UnaryOp::{BitwiseNot, Deref, Not};
+use crate::c::parse_expr::UnaryOp::Deref;
 use crate::c::types::Signedness::{Signed, Unsigned};
 
 #[derive(Debug, Clone, PartialEq, Eq)]

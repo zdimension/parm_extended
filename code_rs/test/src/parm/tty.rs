@@ -1,6 +1,6 @@
 use core::fmt;
 use crate::parm::heap::string::String;
-use crate::parm::mmio::{RESbcd, RES};
+use crate::parm::mmio::RESbcd;
 use crate::parm::{keyb, mmio};
 use core::hint::unreachable_unchecked;
 
@@ -80,6 +80,7 @@ pub struct Tty;
 static mut TTY: Tty = Tty;
 #[inline(always)]
 pub fn get_tty() -> &'static mut Tty {
+    #[allow(static_mut_refs)]
     unsafe { &mut TTY }
 }
 

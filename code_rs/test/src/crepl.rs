@@ -21,18 +21,15 @@ extern crate alloc;
 
 use alloc::string::String;
 use crate::c::arm::Reg::*;
-use crate::c::compiler::{Analysis, CompileError, Compiler};
-use crate::c::parse::{CParser, ParseError, PositionedError, StorageClass};
+use crate::c::compiler::{Analysis, Compiler};
+use crate::c::parse::{CParser, ParseError, PositionedError};
 use crate::c::scope::{Scope, SymbolKind};
 use crate::c::types::{FunctionImpl, QualType, Signedness, TypeQualifiers, UnqualType};
 use crate::parm::control::breakpoint;
 use crate::parm::{keyb, telnet, tty, OrderedMap};
-use core::fmt::{Display, Write};
-use core::hash::{BuildHasher, Hash, Hasher};
 use arbitrary_int::u10;
 use crate::c::arm::Instruction::*;
 use crate::c::arm::RegList;
-use crate::parm::midi::Pitch::C;
 
 mod c;
 mod parm;
@@ -81,12 +78,6 @@ struct CRepl {
 enum EvalStatus {
     Ok,
     ContinueReading,
-}
-
-macro_rules! type_to_tt {
-    ($($t:tt)*) => {
-        $($t:tt)*
-    };
 }
 
 trait ToUnqualType {
@@ -219,7 +210,7 @@ impl CRepl {
             })
         };
 
-        let mut parser = CParser::new(code, &mut self.scope)?;
+        let parser = CParser::new(code, &mut self.scope)?;
 
         if is_expr {
             let expr = parser.read_whole_expr()?;

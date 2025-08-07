@@ -2,7 +2,6 @@ use alloc::string::String;
 use alloc::vec::Vec;
 use core::fmt;
 use core::fmt::Display;
-use core::str::Chars;
 use crate::c::parse::PositionedError;
 use crate::parm::tty::{DisplayTarget, ParmDisplay};
 use crate::print;

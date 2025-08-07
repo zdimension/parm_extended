@@ -2,14 +2,11 @@ pub mod budmap;
 pub mod string;
 pub mod prc;
 
-use core::fmt::Write;
 
 use core::alloc::{GlobalAlloc, Layout};
 
 use core::ptr;
-use crate::parm::control::breakpoint;
-use crate::parm::tty::get_tty;
-use crate::{println, rprintln};
+use crate::println;
 
 pub const HEAP_START: usize = 0x100000;
 
@@ -339,7 +336,7 @@ unsafe extern "C" fn memcmp(s1: *const u8, s2: *const u8, n: usize) -> i32 {
 }
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memcmp4(s1: *const u8, s2: *const u8, mut n: usize) -> i32 {
+unsafe extern "C" fn __aeabi_memcmp4(s1: *const u8, s2: *const u8, n: usize) -> i32 {
     let mut s1 = s1 as *const u32;
     let mut s2 = s2 as *const u32;
     let word_count = n / WORD_SIZE;
@@ -405,7 +402,7 @@ unsafe extern "C" fn __aeabi_memcmp(mut s1: *const u8, mut s2: *const u8, mut n:
     cmp_bytes(s1, s2, n)
 }
 
-unsafe fn cmp_bytes(mut s1: *const u8, mut s2: *const u8, mut n: usize) -> i32 {
+unsafe fn cmp_bytes(s1: *const u8, s2: *const u8, n: usize) -> i32 {
     for i in 0..n {
         let b1 = *s1.add(i);
         let b2 = *s2.add(i);

@@ -121,6 +121,7 @@ pub struct Telnet;
 static mut TELNET: Telnet = Telnet;
 #[inline(always)]
 pub fn get_telnet() -> &'static mut Telnet {
+    #[allow(static_mut_refs)]
     unsafe { &mut TELNET }
 }
 

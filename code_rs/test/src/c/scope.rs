@@ -1,11 +1,7 @@
-use alloc::boxed::Box;
 use alloc::string::String;
-use alloc::vec::Vec;
 use core::fmt::Display;
 use aligned_vec::{ABox, ConstAlign};
-use hashbrown::HashMap;
 use crate::c::emitter::CodeBox;
-use crate::c::lexer::Token;
 use crate::c::parse::Block;
 use crate::c::types::{FunctionImpl, QualType, TypeBox, UnqualType};
 use crate::parm::heap::prc::Prc;

@@ -1,11 +1,8 @@
 use alloc::string::String;
 use crate::parm::heap::prc::Prc;
-use alloc::vec::Vec;
 use core::borrow::Borrow;
 use core::fmt::Display;
 use derive_more::{BitOr, BitOrAssign};
-use hashbrown::{DefaultHashBuilder, HashMap};
-use indexmap::IndexMap;
 use crate::parm::OrderedMap;
 
 #[derive(Eq, Debug)]
@@ -188,7 +185,7 @@ impl From<TypeBox> for QualType {
 
 impl Display for QualType {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        write!(f, "{}", *self.unqual);
+        write!(f, "{}", *self.unqual)?;
         if self.type_qualifiers.is_const {
             write!(f, " const")?;
         }

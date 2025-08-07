@@ -6,7 +6,6 @@ use core::iter::{Enumerate, Peekable};
 use indexmap::map::{Entry, RawEntryApiV1};
 use indexmap::map::raw_entry_v1::RawEntryMut;
 use crate::c::scope::*;
-use core::fmt::Write;
 use aligned_vec::avec;
 use arbitrary_int::u10;
 
@@ -64,7 +63,7 @@ impl From<ReadError> for ParseError {
     }
 }
 
-pub fn plog(s: &'static str) {
+pub fn plog(_s: &'static str) {
     //println!(s);
 }
 
@@ -500,14 +499,14 @@ impl<'a, 'b> CParser<'a, 'b> {
                     return Err(ParseError::Generic("storage class not allowed in function parameters"));
                 }
                 let (name, mut type_) = self.read_declarator(type_)?;
-                if let UnqualType::Array(item, size) = &*type_.unqual {
+                if let UnqualType::Array(item, _) = &*type_.unqual {
                     type_ = QualType {
                         unqual: UnqualType::Pointer(item.clone()).into(),
                         type_qualifiers: type_.type_qualifiers
                     };
                 }
                 let entry = params.entry(name.unwrap_or_else(|| String::from(format!("_{}", params.len()))));
-                if let Entry::Vacant(mut e) = entry {
+                if let Entry::Vacant(e) = entry {
                     e.insert(type_);
                 } else {
                     return Err(ParseError::Generic("duplicate parameter name in function declaration"));
@@ -648,7 +647,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         }
     }
 
-    fn read_block(&mut self, mut block: &mut Block) -> Result<(), ParseError> {
+    fn read_block(&mut self, block: &mut Block) -> Result<(), ParseError> {
         loop {
             match self.read_declaration() {
                 Err(ParseError::GenericBacktrack(_, _)) => {
