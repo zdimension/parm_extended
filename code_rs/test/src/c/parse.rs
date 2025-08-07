@@ -2,6 +2,7 @@ use alloc::boxed::Box;
 use alloc::format;
 use alloc::string::String;
 use alloc::vec::{IntoIter, Vec};
+use core::fmt::Display;
 use core::iter::{Enumerate, Peekable};
 use indexmap::map::{Entry, RawEntryApiV1};
 use indexmap::map::raw_entry_v1::RawEntryMut;
@@ -51,6 +52,38 @@ pub enum ParseError {
     Compiler(CompileError)
 }
 
+impl Display for ParseError {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        match self {
+            ParseError::ReadError(e) => write!(f, "Read error: {:?}", e),
+            ParseError::UnexpectedTokenGeneric { got, msg } => {
+                if let Some(got) = got {
+                    write!(f, "Unexpected token: {:?}, {}", got, msg)
+                } else {
+                    write!(f, "Unexpected end of input: {}", msg)
+                }
+            }
+            ParseError::UnexpectedToken { exp, got } => {
+                if let Some(got) = got {
+                    write!(f, "Expected {:?}, got {:?}", exp, got)
+                } else {
+                    write!(f, "Expected {:?}, but reached end of input", exp)
+                }
+            }
+            ParseError::Generic(msg) => write!(f, "{}", msg),
+            ParseError::GenericDyn(msg) => write!(f, "{}", msg),
+            ParseError::GenericBacktrack(msg, tok) => {
+                if let Some(tok) = tok {
+                    write!(f, "Backtrack error: {}, got {:?}", msg, tok)
+                } else {
+                    write!(f, "Backtrack error: {}", msg)
+                }
+            }
+            ParseError::Compiler(e) => write!(f, "Compiler error: {}", e),
+        }
+    }
+}
+
 impl From<CompileError> for ParseError {
     fn from(e: CompileError) -> Self {
         ParseError::Compiler(e)
@@ -77,13 +110,13 @@ impl From<bool> for SkipStop<()> {
     }
 }
 
-#[derive(Debug)]
+// #[derive(Debug)]
 pub struct Block {
     pub decls: Scope,
     pub stmts: Vec<Statement>
 }
 
-#[derive(Debug)]
+// #[derive(Debug)]
 pub enum DeclOrExpr {
     Declaration(Block),
     Expression(Expression)
@@ -100,7 +133,7 @@ pub enum Designator {
     Index(u32)
 }
 
-#[derive(Debug)]
+// #[derive(Debug)]
 pub enum Statement {
     Empty,
     Expression(Expression),
@@ -190,7 +223,8 @@ impl<'a, 'b> CParser<'a, 'b> {
         enum PrimType {
             Bool,
             Char,
-            Int
+            Int,
+            Void
         }
 
         enum BaseType {
@@ -241,6 +275,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                 Token::Keyword(Keyword::Bool) => set!(found_type, FoundType::Prim(PrimType::Bool), "primitive type"),
                 Token::Keyword(Keyword::Char) => set!(found_type, FoundType::Prim(PrimType::Char), "primitive type"),
                 Token::Keyword(Keyword::Int) => set!(found_type, FoundType::Prim(PrimType::Int), "primitive type"),
+                Token::Keyword(Keyword::Void) => set!(found_type, FoundType::Prim(PrimType::Void), "primitive type"),
 
                 Token::Keyword(Keyword::Signed) => set!(signedness, Signedness::Signed, "signedness"),
                 Token::Keyword(Keyword::Unsigned) => set!(signedness, Signedness::Unsigned, "signedness"),
@@ -342,43 +377,59 @@ impl<'a, 'b> CParser<'a, 'b> {
             // first token must be a type specifier
             return Err(ParseError::GenericBacktrack("expected type specifier or storage class", None));
         }
-        
-        let found_type = found_type.unwrap_or(FoundType::Prim(PrimType::Int)); // default to int if nothing found
-        
-        let final_type = match found_type {
-            FoundType::Prim(prim) => {
-                let unqual = match prim {
-                    PrimType::Bool => UnqualType::Bool,
-                    PrimType::Char => UnqualType::Char(signedness),
-                    PrimType::Int  => UnqualType::Int(signedness.unwrap_or(Signed)), // int is default
-                };
-                QualType {
-                    unqual: unqual.into(),
-                    type_qualifiers: qualifiers
-                }
-            }
-            FoundType::Complex(typ) => {
-                if signedness.is_some() {
-                    return Err(ParseError::Generic("signedness specified for a non-numeric type"));
-                }
-                QualType {
-                    unqual: typ,
-                    type_qualifiers: qualifiers
-                }
-            },
-            FoundType::Qualified(qual) => {
-                if signedness.is_some() {
-                    return Err(ParseError::Generic("signedness specified for a qualified type"));
-                }
-                QualType {
-                    unqual: qual.unqual,
-                    type_qualifiers: qual.type_qualifiers | qualifiers
-                }
-            }
-        };
 
-        Ok((class, final_type))
+        #[inline(never)]
+        fn build_final_type(class: Option<StorageClass>, signedness: Option<Signedness>, found_type: Option<FoundType>, qualifiers: TypeQualifiers) -> Result<(Option<StorageClass>, QualType), ParseError> {
+            let found_type = found_type.unwrap_or(FoundType::Prim(PrimType::Int)); // default to int if nothing found
+
+            let final_type = match found_type {
+                FoundType::Prim(prim) => {
+                    let unqual = match prim {
+                        PrimType::Char => UnqualType::Char(signedness),
+                        PrimType::Int => UnqualType::Int(signedness.unwrap_or(Signed)), // int is default
+                        _ => {
+                            if signedness.is_some() {
+                                return Err(ParseError::Generic("signedness specified for a non-numeric type"));
+                            }
+                            match prim {
+                                PrimType::Bool => UnqualType::Bool,
+                                PrimType::Void => UnqualType::Void,
+                                _ => unreachable!() // we handled all cases above
+                            }
+                        }
+                    };
+                    QualType {
+                        unqual: unqual.into(),
+                        type_qualifiers: qualifiers
+                    }
+                }
+                FoundType::Complex(typ) => {
+                    if signedness.is_some() {
+                        return Err(ParseError::Generic("signedness specified for a non-numeric type"));
+                    }
+                    QualType {
+                        unqual: typ,
+                        type_qualifiers: qualifiers
+                    }
+                },
+                FoundType::Qualified(qual) => {
+                    if signedness.is_some() {
+                        return Err(ParseError::Generic("signedness specified for a qualified type"));
+                    }
+                    QualType {
+                        unqual: qual.unqual,
+                        type_qualifiers: qual.type_qualifiers | qualifiers
+                    }
+                }
+            };
+
+            Ok((class, final_type))
+        }
+
+        build_final_type(class, signedness, found_type, qualifiers)
     }
+
+
 
     fn read_struct_declaration(&mut self) -> Result<OrderedMap<String, TypeBox>, ParseError> {
         plog("read_struct_declaration");
@@ -451,9 +502,13 @@ impl<'a, 'b> CParser<'a, 'b> {
         }
 
         loop {
-            match self.peek() {
+            let option = self.peek();
+            //rprintln!("read_direct_declarator: {:?}", option);
+            match option {
                 Some(Token::OpenBracket) => {
                     self.advance();
+                    /*let remaining: Vec<(usize, Token)> = self.iter.clone().collect();
+                    rprintln!("rem1: {:?}", remaining);*/
                     let size = if self.accept(Token::CloseBracket) {
                         None
                     } else {
@@ -462,7 +517,10 @@ impl<'a, 'b> CParser<'a, 'b> {
                             self.expect(Token::CloseBracket)?;
                             Some(size as usize)
                         } else {
+                            /*let remaining: Vec<(usize, Token)> = self.iter.clone().collect();
+                            rprintln!("rem2: {:?}", remaining);*/
                             return Err(ParseError::UnexpectedTokenGeneric {
+
                                 got: Some(size),
                                 msg: "expected integer literal or close bracket"
                             });
@@ -809,7 +867,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                         Box::new(expr)
                     )));
                 } else {
-                    return Err(ParseError::GenericDyn(format!("initializer not allowed for {:?}", kind)));
+                    return Err(ParseError::GenericDyn(format!("initializer not allowed for {}", kind)));
                 }
             }
             match scope.symbols.entry(name) {

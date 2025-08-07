@@ -1,7 +1,7 @@
 use alloc::string::String;
 use crate::parm::heap::prc::Prc;
 use core::borrow::Borrow;
-use core::fmt::Display;
+use core::fmt::{Debug, Display};
 use derive_more::{BitOr, BitOrAssign};
 use crate::parm::OrderedMap;
 
@@ -53,7 +53,7 @@ impl Display for FunctionImpl {
     }
 }
 
-#[derive(PartialEq, Eq, Debug)]
+#[derive(PartialEq, Eq)]
 pub enum UnqualType {
     Int(Signedness), // signed by default
     Char(Option<Signedness>), // spec mandates that char is different from both signed and unsigned char
@@ -98,6 +98,12 @@ impl UnqualType {
     }
 }
 
+impl Debug for UnqualType {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        Display::fmt(self, f)
+    }
+}
+
 impl Display for UnqualType {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
@@ -136,6 +142,17 @@ pub struct TypeQualifiers {
 pub struct QualType {
     pub unqual: TypeBox,
     pub type_qualifiers: TypeQualifiers,
+}
+
+impl QualType {
+    pub(crate) fn decay(self) -> QualType {
+        // Decay array to pointer
+        if let UnqualType::Array(item, _) = &*self.unqual {
+            UnqualType::Pointer(item.clone()).into()
+        } else {
+            self
+        }
+    }
 }
 
 impl AsRef<UnqualType> for QualType {

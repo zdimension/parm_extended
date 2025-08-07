@@ -23,7 +23,7 @@ TARGET_DIR=target/$TARGET/$TARGET_KIND
 cp $TARGET_DIR/deps/$NAME-*.s bin/$NAME.s
 mv $TARGET_DIR/deps/$NAME-*.s $TARGET_DIR/deps/$NAME.s.bak
 pushd bin
-../../../asm/assembleur.py ../$TARGET_DIR/deps/*.s ../$TARGET_DIR/deps/$NAME.s.bak $@ &&
+../../../asm/assembleur.py ../$TARGET_DIR/deps/compiler_builtins*.s ../$TARGET_DIR/deps/$NAME.s.bak $@ &&
 cp ../$TARGET_DIR/deps/$NAME.s.raw digital_out.raw
 
 #if [[ "$*" == *"--disasm"* ]]; then

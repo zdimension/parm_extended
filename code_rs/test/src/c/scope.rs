@@ -24,14 +24,34 @@ pub enum VarPosition {
     Global(ABox<[u8], ConstAlign<4>>),
 }
 
-#[derive(Debug)]
+// #[derive(Debug)]
 pub enum SymbolKind {
     Type(QualType),
     Variable { ty: QualType, pos: VarPosition },
     Function { proto: FunctionImpl, body: Option<(Block, CodeBox)>, jump: CodeBox },
 }
 
-#[derive(Default, Debug)]
+impl Display for SymbolKind {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        match self {
+            SymbolKind::Type(t) => write!(f, "type {}", t),
+            SymbolKind::Variable { ty, pos } => {
+                write!(f, "variable {}", ty)
+            }
+            SymbolKind::Function { proto, body, .. } => {
+                write!(f, "{}", proto)?;
+                if let Some((_, _)) = body {
+                    write!(f, " {{ ... }}")?;
+                } else {
+                    write!(f, ";")?;
+                }
+                Ok(())
+            }
+        }
+    }
+}
+
+#[derive(Default)]
 pub struct Scope {
     pub symbols: OrderedMap<String, SymbolKind>,
     pub structs: OrderedMap<String, TypeBox>,

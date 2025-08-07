@@ -424,6 +424,8 @@ def try_assemble(pc: int, m: re.Match, instr: str, output, line: str, line_num: 
                     lbl_value = lookup[sanitize(v)] // 2
                     if pcrel:
                         val = lbl_value - ((pc + 2) & ~1)
+                        if val < 0:
+                            raise AsmException(f"PC-relative label {v} is before current PC {pc} (Thumb-16 encoding only supports 0..1020)")
                         val = check_align(2 * val, 2)
                     else:
                         val = (lbl_value - pc - (2 if cond else 0))
@@ -495,7 +497,7 @@ def try_assemble(pc: int, m: re.Match, instr: str, output, line: str, line_num: 
                                 insert_line(line_num, f"add pc, r11")
                                 insert_line(line_num, f"mov r7, r12")
                                 insert_line(line_num, f"{tr_after}: mov r11, r7")
-                                insert_line(line_num, f"{tr_target}: .long {v} - CURPC - 8")
+                                insert_line(line_num, f"{tr_target}: .long {v} - CURPC - 2*(6)") # because the first .long is 6 instructions before the end
                                 insert_line(line_num, f".p2align 2")
                                 insert_line(line_num, f"b {tr_after}")
                                 insert_line(line_num, f"ldr r7, {tr_target}")
@@ -572,10 +574,15 @@ def assemble(line: str, pc: int, line_num: int, tokens: list["Token"]) -> Sequen
         dl = "." + line[1:]
         if instr in ("$long", "$word"):
             n = parse_imm(args)
+            if n < 0:
+                n += 2 ** 32
+            assert 0 <= n <= 0xFFFFFFFF, n
             lo, hi = n & 0xFFFF, n >> 16
             return (pc, lo, dl, n), (pc + 1, hi, dl, n)
         if instr == "$short":
             n = parse_imm(args)
+            if n < 0:
+                n += 2 ** 16
             assert 0 <= n <= 0xffff
             return (pc, n, dl, n),
         if instr == "$bytes":
@@ -648,6 +655,7 @@ parser.add_argument("-f", "--function", help="Only show specified function in lo
 parser.add_argument("-G", "--call-graph", action="store_true", help="Generate call graph.")
 parser.add_argument("-Of", "--optimize-functions", action="store_true", help="Remove unused functions.")
 parser.add_argument("-D", "--debug", action="store_true", help="Enable debug mode (connects to Digital by telnet).")
+parser.add_argument("-o", "--output", type=str, required=False, help="Output binary file name.")
 
 cli_args = parser.parse_args()
 
@@ -1186,7 +1194,7 @@ def main_loop():
                     continue
                 else:
                     for pc, val, code, data in assemble(line, pc, lineno + trampo_offset, tokens):
-                        assert 0 <= val <= 0xffff
+                        assert 0 <= val <= 0xffff, (val, breakpoint())
                         out.append(val)
                         if not nolog:
                             instr_log.append((pc, val, code, data))
@@ -1351,20 +1359,24 @@ if not nolog:
 #         if sym.refs == 0:
 #             print(f"{name} ({sym.source}) from {sym.line_start} to {sym.line_end}, size {sym.size_hint or 'unknown'}")
 
-with open(os.path.splitext(main_file)[0] + ".bin", "w") as fo:
+out_path = main_file
+if cli_args.output:
+    out_path = cli_args.output
+
+with open(os.path.splitext(out_path)[0] + ".bin", "w") as fo:
     fo.write("v2.0 raw\n")
     for word in out:
         fo.write(f"{word & 0xff:02x} {word >> 8:02x} ")
     fo.write("\n")
 
-with open(os.path.join(os.path.dirname(__file__), "lisp.s.raw"), "rb") as tf:
-    test_bytes: bytes = tf.read()
+# with open(os.path.join(os.path.dirname(__file__), "lisp.s.raw"), "rb") as tf:
+#     test_bytes: bytes = tf.read()
 
 out_bytes = bytes(byte for word in out for byte in (word & 0xff, word >> 8))
 
 #assert (out_bytes == test_bytes)
 
-raw_file = os.path.splitext(main_file)[0] + ".raw"
+raw_file = os.path.splitext(out_path)[0] + ".raw"
 with open(raw_file, "wb") as fo:
     fo.write(out_bytes)
 

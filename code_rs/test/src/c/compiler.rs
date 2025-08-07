@@ -13,8 +13,11 @@ use arbitrary_int::{u10, u3, u5, u7, u9};
 use core::borrow::Borrow;
 use core::cmp::PartialEq;
 use core::fmt::Display;
+use hashbrown::{DefaultHashBuilder, HashMap};
+use hashbrown::hash_map::EntryRef;
 use crate::c::arm::Instruction::*;
 use crate::c::arm::{Condition, Instruction, Reg, RegList};
+use crate::c::arm::HiReg::PC;
 use crate::c::arm::Reg::*;
 use crate::c::emitter::{CodeVec, Emitter};
 use crate::c::parse_expr::UnaryOp::Deref;
@@ -24,6 +27,19 @@ use crate::c::types::Signedness::{Signed, Unsigned};
 pub enum CompileError {
     GenericDyn(alloc::string::String),
     NoImplicitConv { from: TypeBox, to: TypeBox },
+}
+
+impl Display for CompileError {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        match self {
+            CompileError::GenericDyn(msg) => write!(f, "{}", msg),
+            CompileError::NoImplicitConv { from, to } => write!(
+                f,
+                "No implicit conversion from {} to {}",
+                *from, *to
+            ),
+        }
+    }
 }
 
 macro_rules! comperr {
@@ -39,7 +55,6 @@ pub struct CompilerState {
     locals_size: usize,
 }
 
-#[derive(Debug)]
 pub struct Compiler<'a> {
     pub emitter: Emitter,
     pub depth: usize,
@@ -49,6 +64,7 @@ pub struct Compiler<'a> {
     proto: Option<&'a FunctionImpl>,
     loops: Vec<LoopInfo>,
     pub global_scope: &'a Scope,
+    string_pool: HashMap<String, usize>
 }
 
 pub struct Analysis<'a> {
@@ -88,6 +104,7 @@ impl<'a> Compiler<'a> {
             proto: None,
             loops: vec![],
             global_scope,
+            string_pool: HashMap::new(),
         }
     }
 
@@ -518,7 +535,7 @@ impl<'a> Compiler<'a> {
         use BinOp::*;
         let Analysis { ty: lty, addr: laddr } = self.analyze_expression(l)?;
         let ty = if op == Assignment(None) {
-            lty
+            Self::assert_scalar(lty).unwrap_or_else(|_| UnqualType::Void.into())
         } else {
             let Analysis { ty: rty, .. } = self.analyze_expression(r)?;
             let lty = Self::get_promoted_int(&lty.unqual).unwrap_or(lty);
@@ -605,19 +622,10 @@ impl<'a> Compiler<'a> {
         if let UnqualType::Array(item, _) = &*ty.unqual {
             Ok(Analysis {
                 ty: UnqualType::Pointer(item.clone()).into(),
-                addr: None // the array itself is not an lvalue, so no address
+                addr // arrays aren't supposed to be lvalues but whatever, it makes initializers easier to emit
             })
         } else {
             Ok(Analysis { ty, addr })
-        }
-    }
-
-    fn decay(ty: QualType) -> QualType {
-        // Decay array to pointer
-        if let UnqualType::Array(item, _) = &*ty.unqual {
-            UnqualType::Pointer(item.clone()).into()
-        } else {
-            ty
         }
     }
 
@@ -638,7 +646,7 @@ impl<'a> Compiler<'a> {
                 let rty = if *op == Address {
                     UnqualType::Pointer(ty).into()
                 } else {
-                    let ty = Self::decay(ty);
+                    let ty = ty.decay();
                     match op {
                         Deref => {
                             let UnqualType::Pointer(ref inner) = *ty.unqual else {
@@ -725,9 +733,9 @@ impl<'a> Compiler<'a> {
                 // SizeOf returns the size of the type in bytes
                 Analysis { ty: UnqualType::Int(Unsigned).into(), addr: None }
             }
-            Expression::StringLiteral(_) => {
+            Expression::StringLiteral(ref s) => {
                 Analysis {
-                    ty: UnqualType::Pointer(UnqualType::Char(None).into()).into(),
+                    ty: UnqualType::Array(UnqualType::Char(None).into(), Some(s.bytes().len())).into(),
                     addr: None,
                 }
             }
@@ -758,18 +766,6 @@ impl<'a> Compiler<'a> {
             }
         }
         Ok(())
-    }
-
-    /// Clobbers `reg` (others are saved). Preserves stack.
-    fn emit_imm32_to_reg(&mut self, reg: Reg, imm32: usize) {
-        let lbl = self.new_label();
-
-        self.align_to_word();
-        self.emit(LdrPcImm { rd: reg, immw8: u10::new(0) });
-        self.jump_to(lbl, Condition::Al);
-        self.emit(U16 { value: imm32 as u16 });
-        self.emit(U16 { value: (imm32 >> 16) as u16 });
-        self.set_label_here(lbl);
     }
 
     /// Clobbers `reg` and R2 (if src==R1) or R1 (else). Preserves stack.
@@ -803,7 +799,7 @@ impl<'a> Compiler<'a> {
 
     /// Clobbers R0 and R1. Pushes result to stack.
     fn load_from(&mut self, ty: QualType, addr: &Address) -> Result<(), CompileError> {
-        let ty = Self::decay(ty);
+        let ty = ty.decay();
         match *ty.unqual {
             UnqualType::Char(_) | UnqualType::Bool => {
                 match addr {
@@ -859,37 +855,43 @@ impl<'a> Compiler<'a> {
         match expr {
             Expression::Initializer(_) => unreachable!(), // handled by analyze
             &Expression::IntegerLiteral(val, _sign) => {
-                if let Ok(imm8) = u8::try_from(val) {
-                    self.emit(MovsImm { rd: R0, imm8 });
-                } else if let Ok(imm8n) = u8::try_from(!val) {
-                    self.emit(MovsImm { rd: R0, imm8: imm8n });
-                    self.emit(Mvns { rd: R0, rm: R0 }); // Invert
-                } else {
-                    self.emit_imm32_to_reg(R0, val as usize);
-                }
+                self.emit_imm32_to_reg(R0, val as usize);
                 self.emit_push(RegList::new([R0], false));
             }
             Expression::StringLiteral(s) => {
-                let end_label = self.new_label();
-                self.align_to_word();
-                self.emit(Adr { rd: R0, labelp8: 0 }); // Load address of string into R0
-                self.jump_to(end_label, Condition::Al); // Jump to end after string
-                let byte_view = s.as_bytes();
-                // emit each pair of bytes as a short
-                let (chunks, remainder) = byte_view.as_chunks::<2>();
-                for chunk in chunks {
-                    let value = u16::from_le_bytes([chunk[0], chunk[1]]);
-                    self.emit(U16 { value });
+                let entry = self.string_pool.entry_ref(s);
+                match entry {
+                    EntryRef::Occupied(ex) => {
+                        let str_pos = *ex.get(); // is word-aligned
+                        let current_pc = self.instructions.len(); // possibly not word-aligned, > str_pos
+                        let delta = (current_pc - str_pos) * 2;
+                        self.emit_imm32_to_reg(R0, -(delta as i32) as usize);
+                        self.emit(AddLoHi { rd: R0, rs: PC }); // Load address of string into R0
+                    }
+                    EntryRef::Vacant(ent) => {
+                        let end_label = self.emitter.new_label();
+                        self.emitter.align_to_word();
+                        self.emitter.emit(Adr { rd: R0, labelp8: 0 }); // Load address of string into R0
+                        self.emitter.jump_to(end_label, Condition::Al); // Jump to end after string
+                        let byte_view = s.as_bytes();
+                        ent.insert(self.emitter.instructions.len());
+                        // emit each pair of bytes as a short
+                        let (chunks, remainder) = byte_view.as_chunks::<2>();
+                        for chunk in chunks {
+                            let value = u16::from_le_bytes([chunk[0], chunk[1]]);
+                            self.emit(U16 { value });
+                        }
+                        if remainder.len() == 1 {
+                            // emit last byte then null terminator
+                            let value = u16::from_le_bytes([remainder[0], 0]);
+                            self.emit(U16 { value });
+                        } else {
+                            // emit null terminator
+                            self.emit(U16 { value: 0 });
+                        }
+                        self.set_label_here(end_label); // Set the label for the end of the string
+                    }
                 }
-                if remainder.len() == 1 {
-                    // emit last byte then null terminator
-                    let value = u16::from_le_bytes([remainder[0], 0]);
-                    self.emit(U16 { value });
-                } else {
-                    // emit null terminator
-                    self.emit(U16 { value: 0 });
-                }
-                self.set_label_here(end_label); // Set the label for the end of the string
                 self.emit_push(RegList::new([R0], false)); // Push the address of the string to the stack
             }
             Expression::SizeOf(op) => {
@@ -940,7 +942,7 @@ impl<'a> Compiler<'a> {
                 }
 
                 // all args are on the stack, they will be read in the function
-                rprintln!("Calling {:?}", f);
+                // rprintln!("Calling {:?}", f);
                 self.emit_address_to_reg(addr, R0)?;
                 self.emit(BlxLo { rm: R0 });
                 self.emit(AddSp { immw7: u9::new((args.len() * 4) as u16) });
@@ -1062,54 +1064,96 @@ impl<'a> Compiler<'a> {
         Ok(())
     }
 
-    /// Precondition: expression is valid (analyze_bin_op was called)
+    /// Precondition: expression is valid (analyze_bin_op was called).
+    /// Clobbers R0, R1, R2.
     pub fn emit_bin_op(&mut self, op: BinOp, a: &Expression, b: &Expression) -> Result<(), CompileError> {
         use AssignableOperator::*;
         use BinOp::*;
-        let Analysis { ty: aty, addr: aaddr } = self.analyze_expression(a)?;
-        if op == Assignment(None) {
-            if let Expression::Initializer(InitializerList { items }) = b {
-                let mut auto_idx = 0;
-                for (designators, val) in items {
-                    let mut target = a.clone();
-                    if designators.is_empty() {
-                        target = Expression::UnaryOp(Deref, Expression::BinOp(
-                            Simple(Plus),
-                            target.into(),
-                            Expression::IntegerLiteral(auto_idx, Unsigned).into()
-                        ).into());
-                    } else {
-                        for designator in designators {
-                            match designator {
-                                Designator::Member(name) => {
-                                    target = Expression::MemberAccess(target.into(), name.clone(), AccessType::Dot);
-                                }
-                                Designator::Index(idx) => {
-                                    target = Expression::UnaryOp(Deref, Expression::BinOp(
-                                        Simple(Plus),
-                                        target.into(),
-                                        Expression::IntegerLiteral(*idx, Unsigned).into()
-                                    ).into());
-                                }
+        let Analysis { ty: aty, addr: aaddr } = self.analyze_expression_raw(a)?;
+        if let (Assignment(None), Expression::Initializer(InitializerList { items })) = (op, b) {
+            let mut auto_idx = 0;
+            for (designators, val) in items {
+                let mut target = a.clone();
+                if designators.is_empty() {
+                    target = Expression::UnaryOp(Deref, Expression::BinOp(
+                        Simple(Plus),
+                        target.into(),
+                        Expression::IntegerLiteral(auto_idx, Unsigned).into()
+                    ).into());
+                } else {
+                    for designator in designators {
+                        match designator {
+                            Designator::Member(name) => {
+                                target = Expression::MemberAccess(target.into(), name.clone(), AccessType::Dot);
+                            }
+                            Designator::Index(idx) => {
+                                target = Expression::UnaryOp(Deref, Expression::BinOp(
+                                    Simple(Plus),
+                                    target.into(),
+                                    Expression::IntegerLiteral(*idx, Unsigned).into()
+                                ).into());
                             }
                         }
                     }
-                    self.analyze_bin_op(Assignment(None), &target, val)?;
-                    self.emit_bin_op(Assignment(None), &target, val)?;
-                    self.emit_pop(RegList::new([R0], false)); // Pop result to R0
-                    auto_idx += 1;
                 }
-                self.emit_push(RegList::new([R0], false)); // Push result to stack
-                return Ok(());
+                self.analyze_bin_op(Assignment(None), &target, val)?;
+                self.emit_bin_op(Assignment(None), &target, val)?;
+                self.emit_pop(RegList::new([R0], false)); // Pop result to R0
+                auto_idx += 1;
             }
+            self.emit_push(RegList::new([R0], false)); // Push result to stack
+            return Ok(());
         }
-        let Analysis { ty: bty, addr: baddr } = self.analyze_expression(b)?;
+        let Analysis { ty: bty, addr: baddr } = self.analyze_expression_raw(b)?;
+        if let (Assignment(None), (UnqualType::Array(ai, al), UnqualType::Array(bi, bl))) = (op, (&*aty.unqual, &*bty.unqual)) {
+            // array-to-array assignment, or more commonly string-to-array initialization
+            let (&Some(al), &Some(bl)) = (al, bl) else {
+                comperr!("Array assignment requires both arrays to have a size");
+            };
+            if !Self::are_compatible(ai, bi) {
+                comperr!("Array assignment requires both arrays to have the same type");
+            }
+            let size = al.min(bl);
+            if size > 16 {
+                comperr!("Array assignment requires both arrays to have a size of 16 or less"); // we'll handle larger arrays later
+            }
+            for i in 0..size {
+                let target = Expression::UnaryOp(
+                    Deref,
+                    Expression::BinOp(
+                        Simple(Plus),
+                        a.clone().into(),
+                        Expression::IntegerLiteral(i as u32, Unsigned).into()
+                    ).into()
+                );
+                let value = Expression::UnaryOp(
+                    Deref,
+                    Expression::BinOp(
+                        Simple(Plus),
+                        b.clone().into(),
+                        Expression::IntegerLiteral(i as u32, Unsigned).into()
+                    ).into()
+                );
+                self.analyze_bin_op(Assignment(None), &target, &value)?;
+                self.emit_bin_op(Assignment(None), &target, &value)?;
+                self.emit_pop(RegList::new([R0], false)); // Pop result to R
+            }
+            self.emit_push(RegList::new([R0], false)); // Push result to stack
+            return Ok(());
+        }
+        let aty = aty.decay();
+        let bty = bty.decay();
         match op {
             Assignment(op) => {
                 if let Some(op) = op {
                     self.analyze_bin_op(Simple(op), a, b)?;
                     self.emit_bin_op(Simple(op), a, b)?;
                 } else {
+
+                    if *bty.unqual == UnqualType::Void {
+                        comperr!("Cannot assign void type");
+                    }
+
                     self.emit_expression(b)?;
                 }
                 self.emit_load_no_pop(R0);

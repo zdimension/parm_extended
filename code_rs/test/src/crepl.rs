@@ -214,8 +214,7 @@ impl CRepl {
 
         if is_expr {
             let expr = parser.read_whole_expr()?;
-            rprintln!("expr: {:?}", expr);
-
+            // rprintln!("expr: {:?}", expr);
 
             let mut comp = Compiler::new(&mut self.scope);
             comp.emit_push(RegList::new([], true));
@@ -234,6 +233,7 @@ impl CRepl {
             })?;
             comp.emit_pop(RegList::new([R0], false)); // separate calls so it can merge with the last push
             comp.emit_pop(RegList::new([], true));
+            comp.dump();
             let code = comp.link_asm();
             rprintln!("addr={:x}", code.as_ptr() as usize);
             let res = unsafe {
@@ -288,7 +288,7 @@ impl CRepl {
         }
 
         if let Err(e) = self.try_process(code) {
-            rprintln!("error: {:?}", e);
+            rprintln!("error: {} at {:?}", e.error, e.pos);
         }
 
         EvalStatus::Ok

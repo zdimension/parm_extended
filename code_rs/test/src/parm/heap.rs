@@ -179,6 +179,21 @@ unsafe extern "C" fn __aeabi_memcpy4(dest: *mut u8, src: *const u8, n: usize) {
 }
 
 #[unsafe(no_mangle)]
+unsafe extern "C" fn __aeabi_memcpy8(dest: *mut u8, src: *const u8, n: usize) {
+    let n_usize: usize = n / (WORD_SIZE * 2); // Number of double word sized groups
+    let n_fast = n_usize * WORD_SIZE * 2;
+    let mut i = 0;
+    while i < n_fast {
+        *((dest as usize + i) as *mut u64) = *((src as usize + i) as *const u64);
+        i += WORD_SIZE * 2;
+    }
+    while i < n {
+        *((dest as usize + i) as *mut u8) = *((src as usize + i) as *const u8);
+        i += 1;
+    }
+}
+
+#[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memclr(mut dest: *mut u8, mut n: usize) {
     // dest can be unaligned, so we clear the first few bytes one by one
 
@@ -283,7 +298,7 @@ unsafe extern "C" fn __aeabi_memmove(dest: *mut u8, src: *const u8, n: usize) {
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn __aeabi_memset(dest: *mut u8, n: usize, c: i32) {
+pub unsafe extern "C" fn __aeabi_memset4(mut dest: *mut u8, mut n: usize, c: i32) {
     let c_byte = c as u8;
 
     // Handle small copies immediately
@@ -324,6 +339,17 @@ pub unsafe extern "C" fn __aeabi_memset(dest: *mut u8, n: usize, c: i32) {
     for i in 0..remaining {
         *dest_ptr.add(i) = c_byte;
     }
+}
+
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn __aeabi_memset(mut dest: *mut u8, mut n: usize, c: i32) {
+    while n > 0 && dest as usize % WORD_SIZE != 0 {
+        *dest = c as u8;
+        dest = dest.add(1);
+        n -= 1;
+    }
+
+    __aeabi_memset4(dest, n, c);
 }
 
 #[unsafe(no_mangle)]

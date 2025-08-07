@@ -3,8 +3,8 @@ use alloc::vec::Vec;
 use aligned_vec::{ABox, AVec, ConstAlign};
 use crate::c::arm::{Condition, Instruction, Reg, RegList};
 use crate::c::arm::HiReg::{LR, R12};
-use crate::c::arm::Instruction::{AddSp, BCond, BxHi, LdrSp, MovHiLo, MovLoHi, MovLoLo, Nop, Placeholder, StrSp, SubSp, B};
-use crate::c::arm::Reg::R7;
+use crate::c::arm::Instruction::{AddSp, BCond, BxHi, LdrPcImm, LdrSp, MovHiLo, MovLoHi, MovLoLo, MovsImm, Mvns, Nop, Placeholder, StrSp, SubSp, B, U16};
+use crate::c::arm::Reg::{R0, R7};
 use crate::rprintln;
 
 #[derive(Debug, Copy, Clone)]
@@ -22,6 +22,7 @@ pub struct Emitter {
     pub last_push: Option<(usize, RegList)>
 }
 
+/// ARM assembler.
 impl Emitter {
     pub fn new_label(&mut self) -> usize {
         self.labels.push(None);
@@ -171,6 +172,25 @@ impl Emitter {
 
     pub fn link_asm(self) -> CodeVec {
         CodeVec::from_iter(4, self.link().into_iter().map(Instruction::encode))
+    }
+
+    /// Clobbers `reg` (others are saved). Preserves stack.
+    pub fn emit_imm32_to_reg(&mut self, reg: Reg, val: usize) {
+        if let Ok(imm8) = u8::try_from(val) {
+            self.emit(MovsImm { rd: reg, imm8 });
+        } else if let Ok(imm8n) = u8::try_from(!val) {
+            self.emit(MovsImm { rd: reg, imm8: imm8n });
+            self.emit(Mvns { rd: reg, rm: reg }); // Invert
+        } else {
+            let lbl = self.new_label();
+
+            self.align_to_word();
+            self.emit(LdrPcImm { rd: reg, immw8: u10::new(0) });
+            self.jump_to(lbl, Condition::Al);
+            self.emit(U16 { value: val as u16 });
+            self.emit(U16 { value: (val >> 16) as u16 });
+            self.set_label_here(lbl);
+        }
     }
 }
 
