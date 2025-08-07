@@ -1,35 +1,29 @@
 use crate::c::compiler::CompileError::GenericDyn;
 use crate::c::lexer::Comparison::{Equal, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, NotEqual};
-use crate::c::lexer::{AssignableOperator, BoolOp, Comparison, Token};
-use crate::c::parse::{Block, DeclOrExpr, Designator, InitializerList, ParseError, Statement};
+use crate::c::lexer::{AssignableOperator, BoolOp};
+use crate::c::parse::{Block, Designator, InitializerList, Statement};
 use crate::c::parse_expr::{AccessType, BinOp, Expression, IncDec, OpPosition, SizeOfOp, UnaryOp};
 use crate::c::scope::{Scope, SymbolKind, VarPosition};
 use crate::c::types::{FunctionImpl, QualType, Signedness, TypeBox, UnqualType};
-use crate::parm::tty::get_tty;
 use crate::rprintln;
-use aligned_vec::{ABox, AVec, ConstAlign};
-use alloc::string::{String, ToString};
+use alloc::string::String;
 use alloc::vec::Vec;
 use alloc::{format, vec};
-use arbitrary_int::{u10, u11, u13, u3, u5, u6, u7, u9, Number, UInt};
-use const_for::const_for;
+use arbitrary_int::{u10, u3, u5, u7, u9, Number};
 use core::borrow::Borrow;
 use core::cmp::PartialEq;
-use core::fmt::{Display};
+use core::fmt::Display;
 use core::fmt::Write;
-use core::ops::{BitAnd};
-use strum::{EnumIter, FromRepr, IntoEnumIterator};
+use strum::IntoEnumIterator;
 use crate::c::arm::HiReg::*;
 use crate::c::arm::Instruction::*;
-use crate::c::arm::{BitSize, Condition, Instruction, Reg, RegList};
+use crate::c::arm::{Condition, Instruction, Reg, RegList};
 use crate::c::arm::Reg::*;
+use crate::c::emitter::{CodeVec, Emitter};
 use crate::c::lexer::AssignableOperator::{BitwiseAnd, BitwiseOr, BitwiseXor, Divide, Minus, Modulo, Multiply, Plus, ShiftLeft, ShiftRight};
 use crate::c::parse_expr::IncDec::{Decrement, Increment};
 use crate::c::parse_expr::UnaryOp::{BitwiseNot, Deref, Not};
 use crate::c::types::Signedness::{Signed, Unsigned};
-/*pub fn compile(proto: &FunctionImpl, body: &[Token]) {
-
-}*/
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum CompileError {
@@ -43,16 +37,6 @@ macro_rules! comperr {
     }
 }
 
-pub type CodeVec = AVec<u16, ConstAlign<4>>;
-pub type CodeBox = ABox<[u16], ConstAlign<4>>;
-
-#[derive(Debug, Copy, Clone)]
-pub struct Jump {
-    pub cond: Condition,
-    pub instr_pos: usize, // where the jump instruction is located
-    pub target: usize,    // where the jump should go
-}
-
 pub struct CompilerState {
     nb_instrs: usize,
     nb_labels: usize,
@@ -62,26 +46,14 @@ pub struct CompilerState {
 
 #[derive(Debug)]
 pub struct Compiler<'a> {
-    pub instructions: Vec<Instruction>,
-    pub labels: Vec<Option<usize>>,
-    pub jumps: Vec<Jump>,
+    pub emitter: Emitter,
     pub depth: usize,
     pub locals_size: usize,
     pub scope: Vec<&'a Scope>,
     pub deferred: Vec<(usize, fn(&Compiler<'a>) -> Instruction)>,
-    pub last_push: Option<(usize, RegList)>,
     proto: Option<&'a FunctionImpl>,
     loops: Vec<LoopInfo>,
-    pub global_scope: Option<&'a Scope>,
-}
-
-fn fit_signed_into<const BITS: usize>(val: usize) -> Result<usize, ()> {
-    let ival = val as isize;
-    if ival >= -(1 << (BITS - 1)) && ival < (1 << (BITS - 1)) {
-        Ok(val & ((1 << BITS) - 1))
-    } else {
-        Err(())
-    }
+    pub global_scope: &'a Scope,
 }
 
 pub struct Analysis<'a> {
@@ -96,171 +68,58 @@ struct LoopInfo {
     scope_id: usize // scope id for the loop, for nonlocal jumps
 }
 
+impl<'a> core::ops::Deref for Compiler<'a> {
+    type Target = Emitter;
+
+    fn deref(&self) -> &Emitter {
+        &self.emitter
+    }
+}
+
+impl<'a> core::ops::DerefMut for Compiler<'a> {
+    fn deref_mut(&mut self) -> &mut Emitter {
+        &mut self.emitter
+    }
+}
+
 impl<'a> Compiler<'a> {
-    pub fn new(global_scope: Option<&'a Scope>) -> Self {
+    pub fn new(global_scope: &'a Scope) -> Self {
         Compiler {
-            instructions: Vec::new(),
-            labels: vec![None],
-            jumps: Default::default(),
+            emitter: Emitter { instructions: Vec::new(), labels: vec![None], jumps: Default::default(), last_push: None },
             depth: 0,
             locals_size: 0,
             scope: vec![],
             deferred: vec![],
-            last_push: None,
             proto: None,
             loops: vec![],
             global_scope,
         }
     }
 
-    pub fn new_label(&mut self) -> usize {
-        self.labels.push(None);
-        self.labels.len() - 1
-    }
-
-    pub fn new_label_here(&mut self) -> usize {
-        self.last_push = None;
-        self.labels.push(Some(self.instructions.len()));
-        self.labels.len() - 1
-    }
-
-    pub fn set_label_here(&mut self, label: usize) {
-        if label >= self.labels.len() {
-            panic!("Label index out of bounds: {}", label);
-        }
-        self.last_push = None;
-        self.labels[label] = Some(self.instructions.len());
-    }
-
     pub fn link(mut self) -> Vec<Instruction> {
-        for Jump { cond, instr_pos, target } in self.jumps.iter().copied() {
-            let Some(target) = self.labels[target] else {
-                panic!("Jump target {} not found", target);
-            };
-
-            let delta = target.wrapping_sub(instr_pos).wrapping_sub(2);
-
-            self.instructions[instr_pos] = if cond == Condition::Al {
-                // Unconditional jump, use B instruction
-                B {
-                    label11: u11::new(
-                        fit_signed_into::<11>(delta)
-                            .expect("Jump target out of range for unconditional jump")
-                            as u16,
-                    ),
-                }
-            } else {
-                // Conditional jump, use BCond instruction
-                BCond {
-                    cond,
-                    label8: fit_signed_into::<8>(delta)
-                        .expect("Jump target out of range for conditional jump")
-                        as u8,
-                }
-            };
-        }
-
         for (deferred_pos, f) in self.deferred.iter().copied() {
-            if deferred_pos >= self.instructions.len() {
+            if deferred_pos >= self.emitter.instructions.len() {
                 panic!(
                     "Deferred instruction position out of bounds: {}",
                     deferred_pos
                 );
             }
             let instruction = f(&self);
-            self.instructions[deferred_pos] = instruction;
+            self.emitter.instructions[deferred_pos] = instruction;
         }
 
-        self.instructions
-    }
+        let instructions = self.emitter.link();
 
-    pub fn dump(&self) {
-        for i in &self.instructions {
-            rprintln!("{:04x} {}", i.encode(), i);
-        }
+        instructions
     }
 
     pub fn link_asm(self) -> CodeVec {
         CodeVec::from_iter(4, self.link().into_iter().map(Instruction::encode))
     }
 
-    pub fn emit(&mut self, instruction: Instruction) {
-        //rprintln!("emit: {:04x} {}", instruction.encode(), instruction);
-        self.last_push = None;
-        self.instructions.push(instruction);
-    }
-
     pub fn emit_deferred(&mut self, f: fn(&Compiler<'a>) -> Instruction) {
         self.deferred.push((self.instructions.len(), f));
         self.emit(Placeholder);
-    }
-
-    pub fn emit_push(&mut self, regs: RegList) {
-        //rprintln!("emit_push: {:?}", regs);
-        let orig_len = self.instructions.len();
-        let len = regs.len();
-        self.emit(SubSp { immw7: u9::new((len * 4) as u16) });
-        for (i, r) in regs.iter_regs().enumerate() {
-            self.emit(StrSp { rt: r, immw8: u10::new((i * 4) as u16) });
-        }
-        if regs.has(8) {
-            // LR
-            self.emit(MovHiLo { rd: R12, rs: R7 });
-            self.emit(MovLoHi { rd: R7, rs: LR });
-            self.emit(StrSp { rt: R7, immw8: u10::new(((len - 1) * 4) as u16) });
-            self.emit(MovLoHi { rd: R7, rs: R12 });
-        }
-        self.last_push = Some((orig_len, regs));
-    }
-
-    /// useful if you're gonna do pop(r0), thing(r0) [that doesn't modify r0], push(r0)
-    pub fn emit_load_no_pop(&mut self, reg: Reg) {
-        self.emit(LdrSp { rt: reg, immw8: u10::new(0) });
-    }
-
-    pub fn emit_pop(&mut self, regs: RegList) {
-        //rprintln!("emit_pop: {:?}", regs);
-        let len = regs.len();
-
-        if let Some((ilen, lpregs)) = self.last_push.take() {
-            if lpregs == regs {
-                //rprintln!("Pop with same regs as last push, skipping");
-                self.instructions.truncate(ilen);
-                if regs.has(8) {
-                    self.emit(BxHi { rm: LR });
-                }
-                return;
-            } else if lpregs.len() == regs.len() && lpregs.has(8) == regs.has(8) {
-                //rprintln!("Pop with same num of regs, moving");
-                self.instructions.truncate(ilen);
-                for (ra, rb) in lpregs.iter_regs().zip(regs.iter_regs()) {
-                    if ra == rb {
-                        //rprintln!("Skipping move for same reg: {:?}", ra);
-                        continue;
-                    }
-                    self.emit(MovLoLo { rd: rb, rs: ra });
-                }
-                if regs.has(8) {
-                    self.emit(BxHi { rm: LR });
-                }
-                return;
-            }
-        }
-
-        for (i, r) in regs.iter_regs().enumerate() {
-            self.emit(LdrSp { rt: r, immw8: u10::new((i * 4) as u16) });
-        }
-        if regs.has(8) {
-            // PC
-            self.emit(MovHiLo { rd: R12, rs: R7 });
-            self.emit(LdrSp { rt: R7, immw8: u10::new(((len - 1) * 4) as u16) });
-            self.emit(MovHiLo { rd: LR, rs: R7 });
-            self.emit(MovLoHi { rd: R7, rs: R12 });
-            self.emit(AddSp { immw7: u9::new((len * 4) as u16) });
-            self.emit(BxHi { rm: LR });
-        } else {
-            self.emit(AddSp { immw7: u9::new((len * 4) as u16) });
-        }
     }
 
     fn enter(&mut self, scope: &'a Scope) {
@@ -275,7 +134,7 @@ impl<'a> Compiler<'a> {
     ///
     /// used for nonlocal jumps in loops (e.g. continue, break)
     fn get_back_to(&mut self, scope_id: usize) {
-        self.emit(AddsImm8 {
+        self.emitter.emit(AddsImm8 {
             rd: R7,
             imm8: u8::try_from(self.scope[scope_id..].iter().map(|s| s.var_size).sum::<usize>()).unwrap()
         });
@@ -327,15 +186,6 @@ impl<'a> Compiler<'a> {
         self.proto = None;
 
         Ok(())
-    }
-
-    pub fn jump_to(&mut self, label: usize, condition: Condition) {
-        self.jumps.push(Jump {
-            cond: condition,
-            instr_pos: self.instructions.len(),
-            target: label,
-        });
-        self.emit(Placeholder)
     }
 
     pub fn emit_statement(&mut self, statement: &'a Statement) -> Result<(), CompileError> {
@@ -501,29 +351,27 @@ impl<'a> Compiler<'a> {
             }
             base += scope.var_size;
         }
-        if let Some(scope) = self.global_scope {
-            if let Some(symbol) = scope.symbols.get(name) {
-                return match symbol {
-                    SymbolKind::Variable { ty, pos } => {
-                        Analysis {
-                            ty: ty.clone(),
-                            addr: Some(match pos {
-                                VarPosition::Local(_) => {
-                                    panic!("A local variable? In MY global scope? It's more likely than you think!");
-                                }
-                                VarPosition::Global(data) => Address::Global(data.as_ptr() as *mut _),
-                            }),
-                        }
+        if let Some(symbol) = self.global_scope.symbols.get(name) {
+            return match symbol {
+                SymbolKind::Variable { ty, pos } => {
+                    Analysis {
+                        ty: ty.clone(),
+                        addr: Some(match pos {
+                            VarPosition::Local(_) => {
+                                panic!("A local variable? In MY global scope? It's more likely than you think!");
+                            }
+                            VarPosition::Global(data) => Address::Global(data.as_ptr() as *mut _),
+                        }),
                     }
-                    SymbolKind::Function { proto, jump, .. } => Analysis {
-                        ty: UnqualType::Function(proto.clone()).into(),
-                        addr: Some(Address::Global(jump.as_ptr() as _)),
-                    },
-                    SymbolKind::Type(_) => {
-                        panic!("Cannot reference type as an expression: {}", name);
-                    }
-                };
-            }
+                }
+                SymbolKind::Function { proto, jump, .. } => Analysis {
+                    ty: UnqualType::Function(proto.clone()).into(),
+                    addr: Some(Address::Global(jump.as_ptr() as _)),
+                },
+                SymbolKind::Type(_) => {
+                    panic!("Cannot reference type as an expression: {}", name);
+                }
+            };
         }
         panic!("Symbol not found: {}", name);
     }
@@ -891,13 +739,6 @@ impl<'a> Compiler<'a> {
         })
     }
 
-    pub fn align_to_word(&mut self) {
-        self.last_push = None;
-        if self.instructions.len() % 2 != 0 {
-            self.emit(Nop); // Align to word boundary
-        }
-    }
-
     /// Clobbers `reg` (others are saved). Preserves stack.
     fn emit_address_to_reg(&mut self, address: Address, reg: Reg) -> Result<(), CompileError> {
         match address {
@@ -1228,7 +1069,6 @@ impl<'a> Compiler<'a> {
 
     /// Precondition: expression is valid (analyze_bin_op was called)
     pub fn emit_bin_op(&mut self, op: BinOp, a: &Expression, b: &Expression) -> Result<(), CompileError> {
-        use self::Comparison::*;
         use AssignableOperator::*;
         use BinOp::*;
         let Analysis { ty: aty, addr: aaddr } = self.analyze_expression(a)?;

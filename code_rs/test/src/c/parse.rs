@@ -1,5 +1,5 @@
 use alloc::boxed::Box;
-use alloc::{format, vec};
+use alloc::format;
 use alloc::string::String;
 use alloc::vec::{IntoIter, Vec};
 use core::iter::{Enumerate, Peekable};
@@ -7,7 +7,6 @@ use indexmap::map::{Entry, RawEntryApiV1};
 use indexmap::map::raw_entry_v1::RawEntryMut;
 use crate::c::scope::*;
 use core::fmt::Write;
-use core::ptr;
 use aligned_vec::avec;
 use arbitrary_int::u10;
 
@@ -31,9 +30,10 @@ pub enum StorageClass {
 }
 
 use SkipStop::*;
-use crate::c::compiler::{CodeBox, CompileError, Compiler};
+use crate::c::compiler::{CompileError, Compiler};
 use crate::c::arm::Instruction::*;
 use crate::c::arm::Reg::*;
+use crate::c::emitter::{CodeBox, Emitter};
 use crate::c::lexer::{AssignableOperator, Keyword, Operator, ReadError, Token, Tokenizer};
 use crate::c::parse_expr::{BinOp, Expression};
 use crate::c::scope::VarPosition::{Global, Local};
@@ -723,7 +723,7 @@ impl<'a, 'b> CParser<'a, 'b> {
             fct_scope.symbols.insert(name.clone(), SymbolKind::Variable {ty: ty.clone(), pos: Local(fct_scope.var_size) });
             fct_scope.var_size += size;
         }
-        let mut comp = Compiler::new(Some(self.global_scope));
+        let mut comp = Compiler::new(self.global_scope);
         comp.scope.push(&fct_scope);
         rprintln!("<fcode>");
         comp.emit_function(inner, &block, &fct_scope)?;
@@ -757,7 +757,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                             let encoded = self.make_function(inner, &block)?;
                             let addr = encoded.as_ptr() as usize;
                             rprintln!("fcode addr: {:x}", addr);
-                            let mut jcomp = Compiler::new(None);
+                            let mut jcomp = Emitter::default();
                             rprintln!("<jcode>");
                             jcomp.emit(LdrPcImm { rd: R0, immw8: u10::new(0) });
                             jcomp.emit(BxLo { rm: R0 });

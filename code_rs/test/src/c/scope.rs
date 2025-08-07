@@ -4,7 +4,7 @@ use alloc::vec::Vec;
 use core::fmt::Display;
 use aligned_vec::{ABox, ConstAlign};
 use hashbrown::HashMap;
-use crate::c::compiler::CodeBox;
+use crate::c::emitter::CodeBox;
 use crate::c::lexer::Token;
 use crate::c::parse::Block;
 use crate::c::types::{FunctionImpl, QualType, TypeBox, UnqualType};

@@ -163,7 +163,7 @@ macro_rules! expose_func {
         fn add_exposed_functions(scope: &mut Scope) {
             $({
                 let addr = cfuncs::$name as usize;
-                let mut jcomp = Compiler::new(None);
+                let mut jcomp = crate::c::emitter::Emitter::default();
                 jcomp.emit(LdrSp { rt: R0, immw8: u10::new(0) });
                 jcomp.align_to_word();
                 jcomp.emit(LdrPcImm { rd: R1, immw8: u10::new(0) });
@@ -226,7 +226,7 @@ impl CRepl {
             rprintln!("expr: {:?}", expr);
 
 
-            let mut comp = Compiler::new(Some(&mut self.scope));
+            let mut comp = Compiler::new(&mut self.scope);
             comp.emit_push(RegList::new([], true));
 
             let Analysis { ty, .. } = comp.analyze_expression(&expr).map_err(|e| {
