@@ -4,7 +4,7 @@ pub mod prc;
 
 
 use core::alloc::{GlobalAlloc, Layout};
-
+use core::hint::assert_unchecked;
 use core::ptr;
 use crate::println;
 
@@ -145,10 +145,18 @@ unsafe extern "C" fn __aeabi_memcpy(mut dest: *mut u8, mut src: *const u8, mut n
         let word_count = n / WORD_SIZE;
         let byte_count = word_count * WORD_SIZE;
 
+
         // Copy word-aligned chunks
-        for i in 0..word_count {
-            let word = (src as *const u32).add(i).read_unaligned();
-            (dest as *mut u32).add(i).write(word);
+        if src as usize % WORD_SIZE == 0 {
+            for i in 0..word_count {
+                let word = *(src as *const usize).add(i);
+                (dest as *mut usize).add(i).write(word);
+            }
+        } else {
+            for i in 0..word_count {
+                let word = (src as *const u32).add(i).read_unaligned();
+                (dest as *mut u32).add(i).write(word);
+            }
         }
 
         // Update pointers and remaining size
@@ -165,6 +173,8 @@ unsafe extern "C" fn __aeabi_memcpy(mut dest: *mut u8, mut src: *const u8, mut n
 
 #[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memcpy4(dest: *mut u8, src: *const u8, n: usize) {
+    assert_unchecked((dest as usize) % WORD_SIZE == 0 && (src as usize) % WORD_SIZE == 0);
+
     let n_usize: usize = n / WORD_SIZE; // Number of word sized groups
     let n_fast = n_usize * WORD_SIZE;
     let mut i = 0;
@@ -180,6 +190,8 @@ unsafe extern "C" fn __aeabi_memcpy4(dest: *mut u8, src: *const u8, n: usize) {
 
 #[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memcpy8(dest: *mut u8, src: *const u8, n: usize) {
+    assert_unchecked((dest as usize) % (WORD_SIZE * 2) == 0 && (src as usize) % (WORD_SIZE * 2) == 0);
+
     let n_usize: usize = n / (WORD_SIZE * 2); // Number of double word sized groups
     let n_fast = n_usize * WORD_SIZE * 2;
     let mut i = 0;
@@ -211,6 +223,8 @@ unsafe extern "C" fn __aeabi_memclr(mut dest: *mut u8, mut n: usize) {
 
 #[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memclr4(dest: *mut u8, n: usize) {
+    assert_unchecked((dest as usize) % WORD_SIZE == 0);
+
     let n_usize: usize = n / WORD_SIZE; // Number of word sized groups
     let mut i: usize = 0;
 
@@ -249,56 +263,106 @@ unsafe extern "C" fn __aeabi_memclr8(dest: *mut u8, n: usize) {
 
 #[unsafe(export_name = "__aeabi_memmove4")]
 pub unsafe extern "C" fn __aeabi_memmove4(dest: *mut u8, src: *const u8, n: usize) {
+    assert_unchecked((dest as usize) % WORD_SIZE == 0 && (src as usize) % WORD_SIZE == 0);
+
     __aeabi_memmove(dest, src, n)
 }
 
+/*
+char *d = dest;
+	const char *s = src;
+
+	if (d==s) return d;
+	if ((uintptr_t)s-(uintptr_t)d-n <= -2*n) return memcpy(d, s, n);
+
+	if (d<s) {
+#ifdef __GNUC__
+		if ((uintptr_t)s % WS == (uintptr_t)d % WS) {
+			while ((uintptr_t)d % WS) {
+				if (!n--) return dest;
+				*d++ = *s++;
+			}
+			for (; n>=WS; n-=WS, d+=WS, s+=WS) *(WT *)d = *(WT *)s;
+		}
+#endif
+		for (; n; n--) *d++ = *s++;
+	} else {
+#ifdef __GNUC__
+		if ((uintptr_t)s % WS == (uintptr_t)d % WS) {
+			while ((uintptr_t)(d+n) % WS) {
+				if (!n--) return dest;
+				d[n] = s[n];
+			}
+			while (n>=WS) n-=WS, *(WT *)(d+n) = *(WT *)(s+n);
+		}
+#endif
+		while (n) n--, d[n] = s[n];
+	}
+
+	return dest;
+ */
+
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memmove(dest: *mut u8, src: *const u8, n: usize) {
-    if src as usize % WORD_SIZE != 0 {
-        panic!("memmove: Source pointer is not word-aligned");
-    }
-    if dest as usize % WORD_SIZE != 0 {
-        panic!("memmove: Destination pointer is not word-aligned");
+unsafe extern "C" fn __aeabi_memmove(mut dest: *mut u8, mut src: *const u8, mut n: usize) {
+    if dest as *const u8 == src || n == 0 {
+        return;
     }
 
-    if src < dest as *const u8 {
-        let n_usize: usize = n / WORD_SIZE; // Number of word sized groups
-        let mut i: usize = n_usize * WORD_SIZE;
-
-        // Copy `WORD_SIZE` bytes at a time
-        while i != 0 {
-            i -= WORD_SIZE;
-            *((dest as usize + i) as *mut usize) = *((src as usize + i) as *const usize);
+    if (dest as *const u8) < src {
+        if (dest as usize) % WORD_SIZE == (src as usize) % WORD_SIZE {
+            // Handle unaligned case
+            while dest as usize % WORD_SIZE != 0 {
+                if n == 0 {
+                    return;
+                }
+                n -= 1;
+                *dest = *src;
+                dest = dest.add(1);
+                src = src.add(1);
+            }
+            // Now we can copy word-sized chunks
+            while n >= WORD_SIZE {
+                *(dest as *mut usize) = *(src as *const usize);
+                dest = dest.add(WORD_SIZE);
+                src = src.add(WORD_SIZE);
+                n -= WORD_SIZE;
+            }
         }
-
-        let mut i: usize = n;
-
-        // Copy 1 byte at a time
-        while i != n_usize * WORD_SIZE {
-            i -= 1;
-            *((dest as usize + i) as *mut u8) = *((src as usize + i) as *const u8);
+        // Copy remaining bytes
+        while n > 0 {
+            *dest = *src;
+            dest = dest.add(1);
+            src = src.add(1);
+            n -= 1;
         }
     } else {
-        let n_usize: usize = n / WORD_SIZE; // Number of word sized groups
-        let mut i: usize = 0;
-
-        // Copy `WORD_SIZE` bytes at a time
-        let n_fast = n_usize * WORD_SIZE;
-        while i < n_fast {
-            *((dest as usize + i) as *mut usize) = *((src as usize + i) as *const usize);
-            i += WORD_SIZE;
+        if (dest as usize) % WORD_SIZE == (src as usize) % WORD_SIZE {
+            // Handle unaligned case
+            while (dest as usize + n) % WORD_SIZE != 0 {
+                if n == 0 {
+                    return;
+                }
+                n -= 1;
+                *dest.add(n) = *src.add(n);
+            }
+            // Now we can copy word-sized chunks
+            while n >= WORD_SIZE {
+                n -= WORD_SIZE;
+                *(dest.add(n) as *mut usize) = *(src.add(n) as *const usize);
+            }
         }
-
-        // Copy 1 byte at a time
-        while i < n {
-            *((dest as usize + i) as *mut u8) = *((src as usize + i) as *const u8);
-            i += 1;
+        // Copy remaining bytes
+        while n > 0 {
+            n -= 1;
+            *dest.add(n) = *src.add(n);
         }
     }
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "C" fn __aeabi_memset4(dest: *mut u8, n: usize, c: i32) {
+    assert_unchecked((dest as usize) % WORD_SIZE == 0);
+
     let c_byte = c as u8;
 
     // Handle small copies immediately
@@ -363,6 +427,8 @@ unsafe extern "C" fn memcmp(s1: *const u8, s2: *const u8, n: usize) -> i32 {
 
 #[unsafe(no_mangle)]
 unsafe extern "C" fn __aeabi_memcmp4(s1: *const u8, s2: *const u8, n: usize) -> i32 {
+    assert_unchecked((s1 as usize) % WORD_SIZE == 0 && (s2 as usize) % WORD_SIZE == 0);
+
     let mut s1 = s1 as *const u32;
     let mut s2 = s2 as *const u32;
     let word_count = n / WORD_SIZE;

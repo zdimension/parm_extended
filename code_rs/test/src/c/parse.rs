@@ -19,14 +19,14 @@ pub struct CParser<'a, 'b> {
 
 enum SkipStop<T> {
     Skip,
-    Stop(T)
+    Stop(T),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum StorageClass {
     Auto,
     Static,
-    Typedef
+    Typedef,
 }
 
 use SkipStop::*;
@@ -49,7 +49,7 @@ pub enum ParseError {
     Generic(&'static str),
     GenericDyn(alloc::string::String),
     GenericBacktrack(&'static str, Option<Token>),
-    Compiler(CompileError)
+    Compiler(CompileError),
 }
 
 impl Display for ParseError {
@@ -113,13 +113,13 @@ impl From<bool> for SkipStop<()> {
 // #[derive(Debug)]
 pub struct Block {
     pub decls: Scope,
-    pub stmts: Vec<Statement>
+    pub stmts: Vec<Statement>,
 }
 
 // #[derive(Debug)]
 pub enum DeclOrExpr {
     Declaration(Block),
-    Expression(Expression)
+    Expression(Expression),
 }
 
 #[derive(Debug, PartialEq, Eq, Clone)]
@@ -130,7 +130,7 @@ pub struct InitializerList {
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub enum Designator {
     Member(String),
-    Index(u32)
+    Index(u32),
 }
 
 // #[derive(Debug)]
@@ -155,7 +155,7 @@ impl<'a, 'b> CParser<'a, 'b> {
             //compiler
         })
     }
-    
+
     fn skip_while<T, U: Into<SkipStop<T>>>(&mut self, p: impl Fn(&Token) -> U) -> Option<T> {
         while let Some((_, ch)) = self.iter.peek() {
             if let Stop(x) = p(ch).into() {
@@ -190,15 +190,15 @@ impl<'a, 'b> CParser<'a, 'b> {
             Some((_, token)) if token == expected => Ok(()),
             Some((_, token)) => Err(ParseError::UnexpectedToken {
                 got: Some(token),
-                exp: expected
+                exp: expected,
             }),
             None => Err(ParseError::UnexpectedToken {
                 got: None,
-                exp: expected
+                exp: expected,
             }),
         }
     }
-    
+
     pub(super) fn accept(&mut self, expected: Token) -> bool {
         match self.peek() {
             Some(token) if token == &expected => {
@@ -208,7 +208,7 @@ impl<'a, 'b> CParser<'a, 'b> {
             _ => false,
         }
     }
-    
+
     fn read_storage_class(&mut self) -> StorageClass {
         let res = match self.peek() {
             Some(Token::Keyword(Keyword::Typedef)) => StorageClass::Typedef,
@@ -224,25 +224,25 @@ impl<'a, 'b> CParser<'a, 'b> {
             Bool,
             Char,
             Int,
-            Void
+            Void,
         }
 
         enum BaseType {
             Prim(PrimType),
-            Struct(StructImpl)
+            Struct(StructImpl),
         }
-        
+
         enum FoundType {
             Prim(PrimType),
             Complex(TypeBox),
-            Qualified(QualType)
+            Qualified(QualType),
         }
 
         let mut class: Option<StorageClass> = None;
         let mut signedness: Option<Signedness> = None;
         let mut found_type: Option<FoundType> = None;
         let mut qualifiers = TypeQualifiers::default();
-        
+
         macro_rules! set {
             ($v:expr, $e:expr) => {
                 {
@@ -295,7 +295,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                         tok => {
                             return Err(ParseError::UnexpectedTokenGeneric {
                                 got: Some(tok),
-                                msg: "expected struct name or open brace"
+                                msg: "expected struct name or open brace",
                             });
                         }
                     };
@@ -317,28 +317,28 @@ impl<'a, 'b> CParser<'a, 'b> {
                                     match (has_body, existing.inner.is_some()) {
                                         (true, true) => {
                                             return Err(ParseError::Generic("struct with the same name already defined"));
-                                        },
+                                        }
                                         (true, false) => {
                                             // update existing struct
                                             e.insert(UnqualType::Struct(StructImpl {
                                                 identity: Some(name),
-                                                inner
+                                                inner,
                                             }).into())
-                                        },
+                                        }
                                         (false, _) => {
                                             e.get().clone()
                                         }
                                     }
-                                },
+                                }
                                 RawEntryMut::Vacant(e) => e.insert(name.clone(), UnqualType::Struct(StructImpl {
                                     identity: Some(name),
-                                    inner
+                                    inner,
                                 }).into()).1.clone()
                             }
                         }
                         None => UnqualType::Struct(StructImpl {
                             identity: None,
-                            inner
+                            inner,
                         }).into()
                     };
 
@@ -400,7 +400,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                     };
                     QualType {
                         unqual: unqual.into(),
-                        type_qualifiers: qualifiers
+                        type_qualifiers: qualifiers,
                     }
                 }
                 FoundType::Complex(typ) => {
@@ -409,16 +409,16 @@ impl<'a, 'b> CParser<'a, 'b> {
                     }
                     QualType {
                         unqual: typ,
-                        type_qualifiers: qualifiers
+                        type_qualifiers: qualifiers,
                     }
-                },
+                }
                 FoundType::Qualified(qual) => {
                     if signedness.is_some() {
                         return Err(ParseError::Generic("signedness specified for a qualified type"));
                     }
                     QualType {
                         unqual: qual.unqual,
-                        type_qualifiers: qual.type_qualifiers | qualifiers
+                        type_qualifiers: qual.type_qualifiers | qualifiers,
                     }
                 }
             };
@@ -428,7 +428,6 @@ impl<'a, 'b> CParser<'a, 'b> {
 
         build_final_type(class, signedness, found_type, qualifiers)
     }
-
 
 
     fn read_struct_declaration(&mut self) -> Result<OrderedMap<String, TypeBox>, ParseError> {
@@ -466,7 +465,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                     self.advance();
                     base_type = QualType {
                         unqual: UnqualType::Pointer(base_type).into(),
-                        type_qualifiers: Default::default()
+                        type_qualifiers: Default::default(),
                     };
                 }
                 Token::Keyword(Keyword::Const) => {
@@ -520,15 +519,14 @@ impl<'a, 'b> CParser<'a, 'b> {
                             /*let remaining: Vec<(usize, Token)> = self.iter.clone().collect();
                             rprintln!("rem2: {:?}", remaining);*/
                             return Err(ParseError::UnexpectedTokenGeneric {
-
                                 got: Some(size),
-                                msg: "expected integer literal or close bracket"
+                                msg: "expected integer literal or close bracket",
                             });
                         }
                     };
                     base_type = QualType {
                         unqual: UnqualType::Array(base_type, size).into(),
-                        type_qualifiers: Default::default()
+                        type_qualifiers: Default::default(),
                     };
                 }
                 Some(Token::OpenParen) => {
@@ -537,11 +535,11 @@ impl<'a, 'b> CParser<'a, 'b> {
                     base_type = QualType {
                         unqual: UnqualType::Function(FunctionImpl {
                             ret: base_type.into(),
-                            args: params
+                            args: params,
                         }).into(),
-                        type_qualifiers: Default::default()
+                        type_qualifiers: Default::default(),
                     };
-                },
+                }
                 _ => return Ok((name, base_type))
             }
         }
@@ -560,7 +558,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                 if let UnqualType::Array(item, _) = &*type_.unqual {
                     type_ = QualType {
                         unqual: UnqualType::Pointer(item.clone()).into(),
-                        type_qualifiers: type_.type_qualifiers
+                        type_qualifiers: type_.type_qualifiers,
                     };
                 }
                 let entry = params.entry(name.unwrap_or_else(|| String::from(format!("_{}", params.len()))));
@@ -597,7 +595,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                     } else {
                         Err(ParseError::UnexpectedTokenGeneric {
                             got: self.peek().cloned(),
-                            msg: "expected semicolon after expression"
+                            msg: "expected semicolon after expression",
                         })
                     }
                 }
@@ -657,7 +655,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                     self.expect(Token::OpenParen)?;
                     let mut block = Block {
                         decls: Default::default(),
-                        stmts: Vec::new()
+                        stmts: Vec::new(),
                     };
                     if self.accept(Token::Semicolon) {
                         //
@@ -699,8 +697,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                     }
                 }
             })
-        }
-        else {
+        } else {
             Err(ParseError::Generic("unexpected end of input while reading statement"))
         }
     }
@@ -734,7 +731,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                     // create new block
                     let mut new_block = Block {
                         decls: Default::default(),
-                        stmts: Vec::new()
+                        stmts: Vec::new(),
                     };
                     self.insert_decls(Some(&mut new_block.decls), &mut new_block.stmts, decls)?;
                     self.read_block(&mut new_block)?;
@@ -757,7 +754,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         plog("read_compound");
         let mut block = Block {
             decls: Default::default(),
-            stmts: Vec::new()
+            stmts: Vec::new(),
         };
         self.read_block(&mut block)?;
         Ok(block)
@@ -777,14 +774,14 @@ impl<'a, 'b> CParser<'a, 'b> {
 
         for (name, ty) in &inner.args {
             let size = ty.unqual.size_aligned();
-            fct_scope.symbols.insert(name.clone(), SymbolKind::Variable {ty: ty.clone(), pos: Local(fct_scope.var_size) });
+            fct_scope.symbols.insert(name.clone(), SymbolKind::Variable { ty: ty.clone(), pos: Local(fct_scope.var_size) });
             fct_scope.var_size += size;
         }
         let mut comp = Compiler::new(self.global_scope);
         comp.scope.push(&fct_scope);
         rprintln!("<fcode>");
         comp.emit_function(inner, &block, &fct_scope)?;
-        comp.dump();
+        // comp.dump();
         rprintln!("</fcode>");
         let encoded = comp.link_asm().into_boxed_slice();
         Ok(encoded)
@@ -813,17 +810,19 @@ impl<'a, 'b> CParser<'a, 'b> {
                             let block = self.read_compound()?;
 
                             let encoded = self.make_function(inner, &block)?;
+
+                            rprintln!("{}: {} instrs", name, encoded.len());
                             let addr = encoded.as_ptr() as usize;
-                            rprintln!("fcode addr: {:x}", addr);
+                            //rprintln!("fcode addr: {:x}", addr);
                             let mut jcomp = Emitter::default();
-                            rprintln!("<jcode>");
+                            //rprintln!("<jcode>");
                             jcomp.emit(LdrPcImm { rd: R0, immw8: u10::new(0) });
                             jcomp.emit(BxLo { rm: R0 });
                             jcomp.emit(U16 { value: addr as u16 });
                             jcomp.emit(U16 { value: (addr >> 16) as u16 });
-                            rprintln!("</jcode>");
+                            //rprintln!("</jcode>");
                             let code = jcomp.link_asm().into_boxed_slice();
-                            rprintln!("jcode addr: {:x}", code.as_ptr() as usize);
+                            //rprintln!("jcode addr: {:x}", code.as_ptr() as usize);
 
                             res.push((name, SymbolKind::Function {
                                 proto: inner.clone(),
@@ -875,7 +874,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                     stmts.push(Statement::Expression(Expression::BinOp(
                         BinOp::Assignment(None),
                         Box::new(Expression::SymRef(name.clone())),
-                        Box::new(expr)
+                        Box::new(expr),
                     )));
                 } else {
                     return Err(ParseError::GenericDyn(format!("initializer not allowed for {}", kind)));
@@ -897,7 +896,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                                 entry.insert(SymbolKind::Function {
                                     proto: nproto,
                                     body,
-                                    jump: njump
+                                    jump: njump,
                                 });
                             } else {
                                 // no change, do nothing
@@ -915,14 +914,14 @@ impl<'a, 'b> CParser<'a, 'b> {
                             if is_global {
                                 SymbolKind::Variable {
                                     ty,
-                                    pos: Global(avec![[4] | 0u8; size].into_boxed_slice())
+                                    pos: Global(avec![[4] | 0u8; size].into_boxed_slice()),
                                 }
                             } else {
                                 let res = SymbolKind::Variable { ty, pos: Local(scope.var_size) };
                                 scope.var_size += size;
                                 res
                             }
-                        },
+                        }
                         _ => kind
                     });
                 }
@@ -931,7 +930,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(())
     }
 
-    pub fn read_unit(&mut self) -> Result<CodeBox, ParseError> {
+    pub fn read_unit(&mut self) -> Result<Option<CodeBox>, ParseError> {
         plog("read_unit");
         let mut stmts = Vec::new(); // todo: globals
         while self.iter.peek().is_some() {
@@ -939,22 +938,24 @@ impl<'a, 'b> CParser<'a, 'b> {
             let decls = self.read_declaration()?;
             self.insert_decls(None, &mut stmts, decls)?;
         }
-        let code = self.make_function(&FunctionImpl {
-            ret: UnqualType::Void.into(),
-            args: OrderedMap::default()
-        }, &Block {
-            decls: Default::default(),
-            stmts
-        })?;
+        let code = if stmts.is_empty() { None } else {
+            Some(self.make_function(&FunctionImpl {
+                ret: UnqualType::Void.into(),
+                args: OrderedMap::default(),
+            }, &Block {
+                decls: Default::default(),
+                stmts,
+            })?)
+        };
         Ok(code)
     }
 
-    pub fn read_whole(mut self) -> Result<CodeBox, PositionedError<ParseError>> {
+    pub fn read_whole(mut self) -> Result<Option<CodeBox>, PositionedError<ParseError>> {
         match self.read_unit() {
             Ok(res) => Ok(res),
             Err(e) => Err(PositionedError {
                 pos: Some(self.current_pos()),
-                error: e
+                error: e,
             })
         }
     }
@@ -964,7 +965,7 @@ impl<'a, 'b> CParser<'a, 'b> {
             Ok(expr) => Ok(expr),
             Err(e) => Err(PositionedError {
                 pos: Some(self.current_pos()),
-                error: e
+                error: e,
             })
         }
     }
@@ -973,33 +974,38 @@ impl<'a, 'b> CParser<'a, 'b> {
 #[derive(Debug)]
 pub struct PositionedError<T> {
     pub pos: Option<usize>,
-    pub error: T
+    pub error: T,
 }
 
-impl<T> From<T> for PositionedError<T> where (T, PositionedError<T>): NotSame, (PositionedError<T>, T): NotSame {
+impl<T> From<T> for PositionedError<T>
+where
+    (T, PositionedError<T>): NotSame,
+    (PositionedError<T>, T): NotSame,
+{
     fn from(error: T) -> Self {
         PositionedError {
             pos: None,
-            error
+            error,
         }
     }
 }
 
 auto trait NotSame {}
 
-impl<T> !NotSame for (T, T) {}
+impl<T> ! NotSame for (T, T) {}
 
 impl NotSame for (ReadError, ParseError) {} // sigh...
 impl NotSame for (CompileError, ParseError) {}
 impl<T> NotSame for (T, PositionedError<T>) {}
 
 impl<T: Into<U>, U> From<PositionedError<T>> for PositionedError<U>
-where (T, U): NotSame
+where
+    (T, U): NotSame,
 {
     fn from(e: PositionedError<T>) -> Self {
         PositionedError {
             pos: e.pos,
-            error: e.error.into()
+            error: e.error.into(),
         }
     }
 }

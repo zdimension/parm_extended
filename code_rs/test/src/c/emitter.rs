@@ -5,6 +5,7 @@ use crate::c::arm::{Condition, Instruction, Reg, RegList};
 use crate::c::arm::HiReg::{LR, R12};
 use crate::c::arm::Instruction::{AddSp, BCond, BxHi, LdrPcImm, LdrSp, MovHiLo, MovLoHi, MovLoLo, MovsImm, Mvns, Nop, Placeholder, StrSp, SubSp, B, U16};
 use crate::c::arm::Reg::{R0, R7};
+use crate::c::emitter::PushPop::{Pop, Push};
 use crate::rprintln;
 
 #[derive(Debug, Copy, Clone)]
@@ -14,12 +15,18 @@ pub struct Jump {
     pub target: usize,    // where the jump should go
 }
 
+#[derive(Debug)]
+pub enum PushPop {
+    Push,
+    Pop
+}
+
 #[derive(Debug, Default)]
 pub struct Emitter {
     pub instructions: Vec<Instruction>,
     pub labels: Vec<Option<usize>>,
     pub jumps: Vec<Jump>,
-    pub last_push: Option<(usize, RegList)>
+    pub last_pushpop: Option<(PushPop, usize, RegList)>
 }
 
 /// ARM assembler.
@@ -30,7 +37,7 @@ impl Emitter {
     }
 
     pub fn new_label_here(&mut self) -> usize {
-        self.last_push = None;
+        self.last_pushpop = None;
         self.labels.push(Some(self.instructions.len()));
         self.labels.len() - 1
     }
@@ -39,7 +46,7 @@ impl Emitter {
         if label >= self.labels.len() {
             panic!("Label index out of bounds: {}", label);
         }
-        self.last_push = None;
+        self.last_pushpop = None;
         self.labels[label] = Some(self.instructions.len());
     }
 
@@ -51,11 +58,17 @@ impl Emitter {
 
     pub fn emit(&mut self, instruction: Instruction) {
         //rprintln!("emit: {:04x} {}", instruction.encode(), instruction);
-        self.last_push = None;
+        self.last_pushpop = None;
         self.instructions.push(instruction);
     }
 
     pub fn emit_push(&mut self, regs: RegList) {
+        if let Some((Pop, ilen, lpregs)) = self.last_pushpop.take() {
+            if lpregs == regs && !lpregs.has(8) {
+                self.instructions.truncate(ilen);
+                return;
+            }
+        }
         //rprintln!("emit_push: {:?}", regs);
         let orig_len = self.instructions.len();
         let len = regs.len();
@@ -70,7 +83,7 @@ impl Emitter {
             self.emit(StrSp { rt: R7, immw8: u10::new(((len - 1) * 4) as u16) });
             self.emit(MovLoHi { rd: R7, rs: R12 });
         }
-        self.last_push = Some((orig_len, regs));
+        self.last_pushpop = Some((Push, orig_len, regs));
     }
 
     /// useful if you're gonna do pop(r0), thing(r0) [that doesn't modify r0], push(r0)
@@ -79,7 +92,7 @@ impl Emitter {
     }
 
     pub fn emit_pop_discard(&mut self, count: usize) {
-        if let Some((ilen, lpregs)) = self.last_push.take() {
+        if let Some((Push, ilen, lpregs)) = self.last_pushpop.take() {
             if lpregs.len() == count {
                 self.instructions.truncate(ilen);
                 return;
@@ -92,7 +105,7 @@ impl Emitter {
         //rprintln!("emit_pop: {:?}", regs);
         let len = regs.len();
 
-        if let Some((ilen, lpregs)) = self.last_push.take() {
+        if let Some((Push, ilen, lpregs)) = self.last_pushpop.take() {
             if lpregs == regs {
                 //rprintln!("Pop with same regs as last push, skipping");
                 self.instructions.truncate(ilen);
@@ -117,6 +130,8 @@ impl Emitter {
             }
         }
 
+        let orig_len = self.instructions.len();
+
         for (i, r) in regs.iter_regs().enumerate() {
             self.emit(LdrSp { rt: r, immw8: u10::new((i * 4) as u16) });
         }
@@ -131,6 +146,8 @@ impl Emitter {
         } else {
             self.emit(AddSp { immw7: u9::new((len * 4) as u16) });
         }
+
+        self.last_pushpop = Some((Pop, orig_len, regs));
     }
 
     pub fn jump_to(&mut self, label: usize, condition: Condition) {
@@ -143,7 +160,7 @@ impl Emitter {
     }
 
     pub fn align_to_word(&mut self) {
-        self.last_push = None;
+        self.last_pushpop = None;
         if self.instructions.len() % 2 != 0 {
             self.emit(Nop); // Align to word boundary
         }

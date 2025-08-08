@@ -22,6 +22,17 @@ pub enum BinOp {
     Assignment(Option<AssignableOperator>),
 }
 
+impl BinOp {
+    pub fn is_pure(&self) -> bool {
+        match self {
+            BinOp::Simple(_) => true,
+            BinOp::Bool(_) => true,
+            BinOp::Comparison(_) => true,
+            BinOp::Assignment(_) => false, // assignment is not pure
+        }
+    }
+}
+
 impl Display for BinOp {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         match self {
@@ -57,6 +68,20 @@ pub enum UnaryOp {
     IncDec(IncDec, OpPosition),
 }
 
+impl UnaryOp {
+    pub fn is_pure(&self) -> bool {
+        match self {
+            UnaryOp::Address => true,
+            UnaryOp::Deref => true,
+            UnaryOp::Plus => true,
+            UnaryOp::Minus => true,
+            UnaryOp::BitwiseNot => true,
+            UnaryOp::Not => true,
+            UnaryOp::IncDec(_, _) => false, // increment/decrement is not pure
+        }
+    }
+}
+
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub enum SizeOfOp {
     Type(QualType),
@@ -86,9 +111,9 @@ impl Expression {
             IntegerLiteral(_, _) | StringLiteral(_) | SymRef(_) => true,
             Cast(_, expr) => expr.is_pure(),
             MemberAccess(base, _, _) => base.is_pure(),
-            UnaryOp(_, expr) => expr.is_pure(),
+            UnaryOp(op, expr) => op.is_pure() && expr.is_pure(),
             SizeOf(_) => true,
-            BinOp(_, left, right) => left.is_pure() && right.is_pure(),
+            BinOp(op, left, right) => op.is_pure() && left.is_pure() && right.is_pure(),
             Conditional(cond, pos, neg) => cond.is_pure() && pos.is_pure() && neg.is_pure(),
             Comma(exprs, last) => {
                 exprs.iter().all(Expression::is_pure) && last.is_pure()
@@ -172,6 +197,14 @@ impl<'a, 'b> CParser<'a, 'b> {
                 // character literal
                 self.advance();
                 Ok(Expression::IntegerLiteral(ch as u32, Signedness::Signed)) // convert char to i32
+            }
+            Some(&Token::Keyword(bval @ Keyword::True)) | Some(&Token::Keyword(bval @ Keyword::False)) => {
+                // boolean literal
+                self.advance();
+                Ok(Expression::IntegerLiteral(
+                    if bval == Keyword::True { 1 } else { 0 },
+                    Signedness::Signed,
+                ))
             }
             Some(&Token::String(_)) => {
                 // string literal

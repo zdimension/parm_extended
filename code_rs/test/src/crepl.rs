@@ -215,7 +215,7 @@ impl CRepl {
 
         if is_expr {
             let expr = parser.read_whole_expr()?;
-            // rprintln!("expr: {:?}", expr);
+            rprintln!("expr: {:?}", expr);
 
             let mut comp = Compiler::new(&mut self.scope);
             comp.emit_push(RegList::new([], true));
@@ -276,11 +276,13 @@ impl CRepl {
 
             let code = parser.read_whole()?;
 
-            unsafe {
-                let ptr: fn() -> u32 = core::mem::transmute(code.as_ptr());
-                breakpoint();
-                ptr();
-            };
+            if let Some(code) = code {
+                unsafe {
+                    let ptr: fn() -> u32 = core::mem::transmute(code.as_ptr());
+                    breakpoint();
+                    ptr();
+                };
+            }
             rprintln!("{}", self.scope);
         }
         Ok(())
@@ -377,8 +379,9 @@ impl CRepl {
             return res;
         }
         "#;
+        // cassé
         let code = r#"
-        /*int rechercheBinaire(int tab[],int x,int i, int j){
+        int rechercheBinaire(int tab[],int x,int i, int j){
             int gau=i, droite=j;
             while (gau<=droite) {
                 int milieu = (gau+droite)/2;
@@ -394,16 +397,16 @@ impl CRepl {
 
         int recherche(int tab[],int x,int size) {
             return rechercheBinaire(tab,x,0,size-1);
-        }*/
+        }
 
-        int search() {
+        int search(int it) {
             int nums[10] = {1, 3, 4, 8, 9, 13, 15, 16, 20, 25};
-            //int res = recherche(nums, 9, 10); // should return 4
-            //return res;
+            int res = recherche(nums, it, 10); // should return 4
+            return res;
             return nums[4];
         }"#;
 
-        //self.process(&code);
+        self.process(&code);
 
         let mut input = String::with_capacity(16384);
         enum TelnetMode {

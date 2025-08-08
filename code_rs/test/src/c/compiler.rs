@@ -98,7 +98,7 @@ impl<'a> core::ops::DerefMut for Compiler<'a> {
 impl<'a> Compiler<'a> {
     pub fn new(global_scope: &'a Scope) -> Self {
         Compiler {
-            emitter: Emitter { instructions: Vec::new(), labels: vec![None], jumps: Default::default(), last_push: None },
+            emitter: Emitter { instructions: Vec::new(), labels: vec![None], jumps: Default::default(), last_pushpop: None },
             depth: 0,
             locals_size: 0,
             scope: vec![],
@@ -122,7 +122,7 @@ impl<'a> Compiler<'a> {
             self.emitter.instructions[deferred_pos] = instruction;
         }
 
-        // self.dump();
+        self.dump();
 
         let instructions = self.emitter.link();
 
@@ -213,6 +213,8 @@ impl<'a> Compiler<'a> {
                     // no need to emit an stmt expr if it's pure since we discard the result anyway
                     self.emit_expression(expr)?;
                     self.emit_pop(RegList::new([R0], false)); // Discard the result to R0
+                } else {
+                    rprintln!("ignoring pure expr: {:?}", expr);
                 }
             }
             Return(expr) => {
@@ -605,8 +607,8 @@ impl<'a> Compiler<'a> {
                     UnqualType::Int(Signed).into()
                 }
                 Comparison(_) => {
-                    // For now, we assume the result type of a comparison is bool
-                    UnqualType::Bool.into()
+                    // why bother with _Bool if we don't even use it...
+                    UnqualType::Int(Signed).into()
                 }
                 Assignment(_) => {
                     // type will be checked at emission time
@@ -662,6 +664,45 @@ impl<'a> Compiler<'a> {
                                     ty
                                 )));
                             };
+
+
+
+                            if let Expression::BinOp(BinOp::Simple(Plus), left, right) = &*val {
+                                // If the expression is a simple addition, we can optimize it
+                                let Analysis { ty: lty, addr: laddr } = self.analyze_expression_raw(left)?;
+                                let Analysis { ty: rty, addr: raddr } = self.analyze_expression_raw(right)?;
+                                let (lty, rty) = (&*lty.decay().unqual, &*rty.decay().unqual);
+                                match ((&**left, lty, laddr), (&**right, rty, raddr)) {
+                                    ((_, _, Some(_)), (_, _, Some(_))) => {
+                                        comperr!("wut?");
+                                    }
+                                    ((_, aty, Some(inner_addr)), (&Expression::IntegerLiteral(lit, _), _, _)) |
+                                    ((&Expression::IntegerLiteral(lit, _), _, _), (_, aty, Some(inner_addr))) => {
+                                        // this is an offset from a constant address, we can optimize it
+                                        let UnqualType::Pointer(pty) = aty else {
+                                            comperr!("Expected pointer type for address, found: {}", aty);
+                                        };
+                                        let lit = lit * pty.unqual.size() as u32;
+                                        match inner_addr {
+                                            crate::c::compiler::Address::Local(inner_offset) => {
+                                                self.emit(MovsImm { rd: reg, imm8: u8::try_from(inner_offset as u32 + lit).unwrap() });
+                                                self.emit(AddLoLo { rd: reg, rs: R7 });
+                                                return Ok(());
+                                            }
+                                            crate::c::compiler::Address::Global(addr) => {
+                                                self.emit_imm32_to_reg(reg, addr as usize + lit as usize);
+                                                return Ok(());
+                                            }
+                                            crate::c::compiler::Address::Dynamic(expr) => { /* nothing more to do */ }
+                                        }
+                                    }
+                                    (_, _) => { /* nothing we can do here */ }
+                                }
+                            }
+
+
+
+
                             return Ok(Analysis {
                                 ty: inner.clone(),
                                 addr: Some(self::Address::Dynamic(&*val)),
@@ -1164,8 +1205,10 @@ impl<'a> Compiler<'a> {
 
                     self.emit_expression(b)?;
                 }
-                self.emit_load_no_pop(R0);
+                self.emit_pop(RegList::new([R0], false)); // Pop b to R0
+                //self.emit_load_no_pop(R0);
                 self.emit_assignment(R0, a)?; // Assign it
+                self.emit_push(RegList::new([R0], false)); // Push result to stack
                 return Ok(());
             }
             Bool(BoolOp::And) => {
@@ -1214,14 +1257,6 @@ impl<'a> Compiler<'a> {
             }
             _ => {}
         }
-        /*self.emit_cast(a, &aty.unqual, &UnqualType::Int(Signed))?.or_else(|_| {
-            comperr!("Left operand of binary operation must be scalar, found: {}", aty)
-        })?;
-        self.emit_cast(b, &bty.unqual, &UnqualType::Int(Signed))?.or_else(|_| {
-            comperr!("Right operand of binary operation must be scalar, found: {}", bty)
-        })?;
-        self.emit_pop(RegList::new([R1], false)); // Pop b to R1
-        self.emit_pop(RegList::new([R0], false)); // Pop a to R0*/
         let a = (a, &*aty.unqual);
         let b = (b, &*bty.unqual);
         macro_rules! emit {
@@ -1502,9 +1537,9 @@ impl<'a> Compiler<'a> {
                     (x, (&Expression::IntegerLiteral(c, _), _)) => {
                         emit!(x);
                         if a.1.is_signed() {
-                            self.emit(LsrImm { rd: R0, rm: R0, imm5: u5::masked_new(c) });
-                        } else {
                             self.emit(AsrImm { rd: R0, rm: R0, imm5: u5::masked_new(c) });
+                        } else {
+                            self.emit(LsrImm { rd: R0, rm: R0, imm5: u5::masked_new(c) });
                         }
                     }
                     (a, b) => {
@@ -1521,11 +1556,15 @@ impl<'a> Compiler<'a> {
 
             Comparison(Equal) => {
                 match (a, b) {
-                    ((ae, _), (be, _)) if ae.is_pure() && be.is_pure() => {
+                    ((Expression::IntegerLiteral(l1, _), _), (Expression::IntegerLiteral(l2, _), _)) => {
+                        self.emit_imm32_to_reg(R0, if l1 == l2 { 1 } else { 0 });
+                    }
+                    ((ae, _), (be, _)) if ae.is_pure() && be.is_pure() && ae == be => {
                         // both are pure expressions, so we can compare them directly
-                        self.emit(MovsImm { rd: R0, imm8: if ae == be { 1 } else { 0 } });
+                        self.emit(MovsImm { rd: R0, imm8: 1 });
                     }
                     (_, _) => {
+                        emit!(a, b);
                         self.emit(Subs { rd: R1, rn: R0, rm: R1 }); // R1 = a - b. 0 if equal, ≠ 0 if different
                         self.emit(Rsbs { rd: R0, rn: R1 }); // R0 = 0 - R1 = b - a. Sets C if R1 = 0 (equal).
                         self.emit(Adcs { rdn: R0, rm: R1 }); // R0 = R0 + R1 + C = (b - a) + (a - b) + C = 1 if equal, 0 if different
@@ -1535,11 +1574,15 @@ impl<'a> Compiler<'a> {
 
             Comparison(NotEqual) => {
                 match (a, b) {
-                    ((ae, _), (be, _)) if ae.is_pure() && be.is_pure() => {
+                    ((Expression::IntegerLiteral(l1, _), _), (Expression::IntegerLiteral(l2, _), _)) => {
+                        self.emit_imm32_to_reg(R0, if l1 != l2 { 1 } else { 0 });
+                    }
+                    ((ae, _), (be, _)) if ae.is_pure() && be.is_pure() && ae == be => {
                         // both are pure expressions, so we can compare them directly
-                        self.emit(MovsImm { rd: R0, imm8: if ae != be { 1 } else { 0 } });
+                        self.emit(MovsImm { rd: R0, imm8: 0 });
                     }
                     (_, _) => {
+                        emit!(a, b);
                         self.emit(Subs { rd: R0, rn: R0, rm: R1 }); // R0 = a - b. 0 if equal, ≠ 0 if different
                         self.emit(SubsImm { rd: R1, rn: R0, imm3: u3::new(1) }); // R1 = R0 - 1. If equal, the sub borrows so C = 0.
                         self.emit(Sbcs { rdn: R0, rm: R1 }); // R0 = R0 - R1 - !C = (a - b) - (a - b - 1) - !C = 1 - !C = C = 0 if equal, 1 if different
@@ -1554,6 +1597,7 @@ impl<'a> Compiler<'a> {
                         self.emit_imm32_to_reg(R0, if l1 < l2 { 1 } else { 0 });
                     }
                     (_, _) => {
+                        emit!(a, b);
                         self.emit(Cmp { rn: R0, rm: R1 }); // does a - b, sets C=1 if R0 >= R1 (because no borrow)
                         self.emit(Sbcs { rdn: R0, rm: R0 }); // R0 = R0 - R0 - !C = 0 - !C = 0 if R0 >= R1, -1 if R0 < R1
                         self.emit(Negs { rd: R0, rn: R0 }); // Negate R0, so it becomes 1 if R0 < R1, 0 if R0 >= R1
@@ -1566,6 +1610,7 @@ impl<'a> Compiler<'a> {
                         self.emit_imm32_to_reg(R0, if l1 <= l2 { 1 } else { 0 });
                     }
                     (_, _) => {
+                        emit!(a, b);
                         self.emit(Cmp { rn: R1, rm: R0 }); // does b - a, sets C=1 if R1 >= R0 (because no borrow)
                         self.emit(MovsImm { rd: R0, imm8: 0 }); // Set R0 to 0
                         self.emit(Adcs { rdn: R0, rm: R0 }); // If R1 < R0, C=1, so R0 = 1, else R0 = 0
@@ -1579,6 +1624,7 @@ impl<'a> Compiler<'a> {
                     }
                     (_, _) => {
                         // see LessThan
+                        emit!(a, b);
                         self.emit(Cmp { rn: R1, rm: R0 });
                         self.emit(Sbcs { rdn: R0, rm: R0 });
                         self.emit(Negs { rd: R0, rn: R0 });
@@ -1592,6 +1638,7 @@ impl<'a> Compiler<'a> {
                     }
                     (_, _) => {
                         // see LessThanOrEqual
+                        emit!(a, b);
                         self.emit(Cmp { rn: R0, rm: R1 });
                         self.emit(MovsImm { rd: R0, imm8: 0 });
                         self.emit(Adcs { rdn: R0, rm: R0 });
@@ -1615,6 +1662,7 @@ impl<'a> Compiler<'a> {
     pub fn emit_block(&mut self, block: &'a Block) -> Result<(), CompileError> {
         self.enter(&block.decls);
         for stmt in &block.stmts {
+            // rprintln!("Emitting statement");
             self.emit_statement(stmt)?;
         }
         self.leave();
