@@ -68,6 +68,14 @@ pub enum UnqualType {
 }
 
 impl UnqualType {
+    pub fn is_signed(&self) -> bool {
+        match self {
+            UnqualType::Int(Signedness::Signed) => true,
+            UnqualType::Char(Some(Signedness::Signed)) => true,
+            _ => false,
+        }
+    }
+
     pub fn integer_rank(&self) -> usize {
         match self {
             UnqualType::Bool => 1,

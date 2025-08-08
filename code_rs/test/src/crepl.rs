@@ -17,6 +17,7 @@
 #![feature(yeet_expr)]
 #![allow(dead_code)]
 #![allow(clippy::should_implement_trait)]
+#![deny(unreachable_patterns)]
 extern crate alloc;
 
 use alloc::string::String;
@@ -233,7 +234,10 @@ impl CRepl {
             })?;
             comp.emit_pop(RegList::new([R0], false)); // separate calls so it can merge with the last push
             comp.emit_pop(RegList::new([], true));
-            comp.dump();
+
+
+
+
             let code = comp.link_asm();
             rprintln!("addr={:x}", code.as_ptr() as usize);
             let res = unsafe {
@@ -399,7 +403,7 @@ impl CRepl {
             return nums[4];
         }"#;
 
-        self.process(&code);
+        //self.process(&code);
 
         let mut input = String::with_capacity(16384);
         enum TelnetMode {

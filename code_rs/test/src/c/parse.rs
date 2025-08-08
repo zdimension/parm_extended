@@ -784,6 +784,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         comp.scope.push(&fct_scope);
         rprintln!("<fcode>");
         comp.emit_function(inner, &block, &fct_scope)?;
+        comp.dump();
         rprintln!("</fcode>");
         let encoded = comp.link_asm().into_boxed_slice();
         Ok(encoded)
@@ -794,15 +795,15 @@ impl<'a, 'b> CParser<'a, 'b> {
         let (class, type_) = self.read_declaration_specifiers()?;
         let mut res = Vec::new();
         loop {
-            let (name, type_) = self.read_declarator(type_.clone())?;
+            let (name, mut type_) = self.read_declarator(type_.clone())?;
             if let Some(name) = name {
                 if class == Some(StorageClass::Typedef) {
                     res.push((name, SymbolKind::Type(type_), None));
                 } else {
-                    if self.accept(Token::Operator(Operator::Assignment(None))) {
+                    let init_expr = if self.accept(Token::Operator(Operator::Assignment(None))) {
                         // variable declaration with initialization
                         let init_expr = self.read_assignment_expression()?;
-                        res.push((name, SymbolKind::Variable { ty: type_, pos: Local(0) }, Some(init_expr)));
+                        Some(init_expr)
                     } else if let UnqualType::Function(inner) = &*type_.unqual {
                         if !res.is_empty() {
                             return Err(ParseError::Generic("cannot declare function inside another declaration"));
@@ -841,8 +842,18 @@ impl<'a, 'b> CParser<'a, 'b> {
 
                         return Ok(res); // only one function declaration per declaration
                     } else {
-                        res.push((name, SymbolKind::Variable { ty: type_, pos: Local(0) }, None));
+                        None
+                    };
+                    if let UnqualType::Array(it, None) = &*type_.unqual {
+                        if let Some(Expression::StringLiteral(s)) = &init_expr {
+                            if let UnqualType::Char(_) = *it.unqual {
+                                type_.unqual = UnqualType::Array(it.clone(), Some(s.bytes().len())).into();
+                            }
+                        } else {
+                            return Err(ParseError::Generic("array size missing"));
+                        }
                     }
+                    res.push((name, SymbolKind::Variable { ty: type_, pos: Local(0) }, init_expr));
                 }
             }
 

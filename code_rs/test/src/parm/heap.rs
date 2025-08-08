@@ -298,7 +298,7 @@ unsafe extern "C" fn __aeabi_memmove(dest: *mut u8, src: *const u8, n: usize) {
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "C" fn __aeabi_memset4(mut dest: *mut u8, mut n: usize, c: i32) {
+pub unsafe extern "C" fn __aeabi_memset4(dest: *mut u8, n: usize, c: i32) {
     let c_byte = c as u8;
 
     // Handle small copies immediately

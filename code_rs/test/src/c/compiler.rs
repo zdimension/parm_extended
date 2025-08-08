@@ -20,8 +20,10 @@ use crate::c::arm::{Condition, Instruction, Reg, RegList};
 use crate::c::arm::HiReg::PC;
 use crate::c::arm::Reg::*;
 use crate::c::emitter::{CodeVec, Emitter};
+use crate::c::lexer::AssignableOperator::{BitwiseAnd, BitwiseOr, BitwiseXor, Minus, Multiply, Plus, ShiftLeft};
 use crate::c::parse_expr::UnaryOp::Deref;
 use crate::c::types::Signedness::{Signed, Unsigned};
+use arbitrary_int::Number;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum CompileError {
@@ -120,6 +122,8 @@ impl<'a> Compiler<'a> {
             self.emitter.instructions[deferred_pos] = instruction;
         }
 
+        // self.dump();
+
         let instructions = self.emitter.link();
 
         instructions
@@ -205,8 +209,11 @@ impl<'a> Compiler<'a> {
         match statement {
             Block(block) => self.emit_block(block)?,
             Expression(expr) => {
-                self.emit_expression(expr)?;
-                self.emit_pop(RegList::new([R0], false)); // Discard the result to R0
+                if !expr.is_pure() {
+                    // no need to emit an stmt expr if it's pure since we discard the result anyway
+                    self.emit_expression(expr)?;
+                    self.emit_pop(RegList::new([R0], false)); // Discard the result to R0
+                }
             }
             Return(expr) => {
                 let Some(fi) = self.proto else {
@@ -1118,6 +1125,7 @@ impl<'a> Compiler<'a> {
                 comperr!("Array assignment requires both arrays to have a size of 16 or less"); // we'll handle larger arrays later
             }
             for i in 0..size {
+                // todo: very bad
                 let target = Expression::UnaryOp(
                     Deref,
                     Expression::BinOp(
@@ -1206,97 +1214,160 @@ impl<'a> Compiler<'a> {
             }
             _ => {}
         }
-        self.emit_cast(a, &aty.unqual, &UnqualType::Int(Signed))?.or_else(|_| {
+        /*self.emit_cast(a, &aty.unqual, &UnqualType::Int(Signed))?.or_else(|_| {
             comperr!("Left operand of binary operation must be scalar, found: {}", aty)
         })?;
         self.emit_cast(b, &bty.unqual, &UnqualType::Int(Signed))?.or_else(|_| {
             comperr!("Right operand of binary operation must be scalar, found: {}", bty)
         })?;
         self.emit_pop(RegList::new([R1], false)); // Pop b to R1
-        self.emit_pop(RegList::new([R0], false)); // Pop a to R0
+        self.emit_pop(RegList::new([R0], false)); // Pop a to R0*/
+        let a = (a, &*aty.unqual);
+        let b = (b, &*bty.unqual);
+        macro_rules! emit {
+            (discard $x:expr) => {
+                {
+                    if !$x.0.is_pure() {
+                        emit!($x);
+                    }
+                }
+            };
+            (push $x:expr) => { self.emit_cast($x.0, &$x.1, &UnqualType::Int(Signed))?.or_else(|_| {
+                comperr!("Operand of binary operation must be scalar, found: {}", $x.1)
+            })? };
+            (pop $r:expr) => { self.emit_pop(RegList::new([$r], false)) };
+            ($x:expr) => { { emit!(push $x); emit!(pop R0); } };
+            ($x:expr, $y:expr) => { { emit!(push $x); emit!(push $y); emit!(pop R1); emit!(pop R0); } };
+        }
         match op {
             Simple(Plus) => {
-                if matches!(a, Expression::IntegerLiteral(0, _)) {
-                    self.emit_push(RegList::new([R1], false));
-                    return Ok(());
-                }
-                if matches!(b, Expression::IntegerLiteral(0, _)) {
-                    self.emit_push(RegList::new([R0], false));
-                    return Ok(());
-                }
-                match (&*aty.unqual, &*bty.unqual) {
-                    (UnqualType::Pointer(aptr), _) => {
-                        // Pointer + int
-                        self.emit(MovsImm { rd: R2, imm8: aptr.unqual.size() as u8 });
-                        self.emit(Muls { rdm: R1, rn: R2 });
-                        self.emit(Adds { rd: R0, rn: R0, rm: R1 });
+                match (a, b) {
+                    ((Expression::IntegerLiteral(l1, _), _), (Expression::IntegerLiteral(l2, _), _)) => {
+                        self.emit_imm32_to_reg(R0, (l1 + l2) as usize);
                     }
-                    (_, UnqualType::Pointer(bptr)) => {
-                        // int + Pointer
-                        self.emit(MovsImm { rd: R2, imm8: bptr.unqual.size() as u8 });
-                        self.emit(Muls { rdm: R0, rn: R2 });
-                        self.emit(Adds { rd: R0, rn: R0, rm: R1 });
+                    ((Expression::IntegerLiteral(0, _), _), x) | (x, (Expression::IntegerLiteral(0, _), _)) => {
+                        emit!(x);
                     }
-                    _ => {
-                        // Integer addition
-                        self.emit(Adds { rd: R0, rn: R0, rm: R1 });
-                        //TODO:unneeded? self.emit_extend_if(R0, &ety);
-                    }
-                }
-            }
-            Simple(Minus) => {
-                if matches!(b, Expression::IntegerLiteral(0, _)) {
-                    self.emit_push(RegList::new([R0], false));
-                    return Ok(());
-                }
-                match (&*aty.unqual, &*bty.unqual) {
-                    (UnqualType::Pointer(tptr), UnqualType::Pointer(_)) => {
-                        // Pointer subtraction, calculate distance
-                        todo!() // we'll need to divide by size of type
-                    }
-                    (UnqualType::Pointer(tptr), _) => {
-                        // Pointer - int
-                        self.emit(MovsImm { rd: R2, imm8: tptr.unqual.size() as u8 });
-                        self.emit(Muls { rdm: R1, rn: R2 });
-                        self.emit(Subs { rd: R0, rn: R0, rm: R1 });
-                    }
-                    _ => {
-                        // Integer subtraction
-                        self.emit(Subs { rd: R0, rn: R0, rm: R1 });
-                        //TODO:unneeded? self.emit_extend_if(R0, &ety);
-                    }
-                }
-            }
-            Simple(Multiply) => {
-                // can't optimize more than 1 instruction...
-                self.emit(Muls { rdm: R0, rn: R1 })
-            },
-            Simple(Divide) => {
-                if let &Expression::IntegerLiteral(lit, _) = b {
-                    match lit {
-                        0 => comperr!("Division by zero is not allowed"),
-                        1 => {
-                            self.emit_push(RegList::new([R0], false)); // No division by 1, just push R0
-                            return Ok(());
+                    ((&Expression::IntegerLiteral(c, _), _), x) | (x, (&Expression::IntegerLiteral(c, _), _)) => {
+                        emit!(x);
+                        let mut c = c;
+                        if let UnqualType::Pointer(xptr) = x.1 {
+                            c *= xptr.unqual.size() as u32; // scale by pointer size
                         }
-                        /*-1 => {
-                            self.emit(Rsbs { rd: R0, rn: R0 }); // Negate R0
-                            self.emit_push(RegList::new([R0], false)); // Push result to stack
-                            return Ok(());
-                        }*/
-                        _ => {}
+                        if let Ok(c8) = u8::try_from(c) {
+                            // If c fits in an 8-bit immediate, use AddsImm8
+                            self.emit(AddsImm8 { rd: R0, imm8: c8 });
+                        } else {
+                            self.emit_imm32_to_reg(R1, c as usize);
+                            self.emit(Adds { rd: R0, rn: R0, rm: R1 });
+                        }
                     }
-                    if *aty.unqual == UnqualType::Bool {
-                        // at this point, abs(lit) > 1
-                        self.emit(MovsImm { rd: R0, imm8: 0 });
-                        self.emit_push(RegList::new([R0], false)); // Push result to stack
-                        return Ok(());
+                    (pe @ (_, UnqualType::Pointer(pt)), ke @ (_, kt)) |
+                    (ke @ (_, kt), pe @ (_, UnqualType::Pointer(pt))) => {
+                        // pointer + dynamic int
+                        emit!(pe, ke);
+                        self.emit(MovsImm { rd: R2, imm8: pt.unqual.size() as u8 });
+                        self.emit(Muls { rdm: R1, rn: R2 });
+                        self.emit(Adds { rd: R0, rn: R0, rm: R1 });
                     }
-                    // if power of 2, we can use a shift
-                    if lit >= 2 {
-                        let lit = lit as u32;
-                        if lit.is_power_of_two() {
-                            let shift = lit.trailing_zeros() as u8; // will be between 1 and 31
+                    (a, b) => {
+                        // just two ints
+                        emit!(a, b);
+                        self.emit(Adds { rd: R0, rn: R0, rm: R1 });
+                    }
+                }
+            }
+
+            Simple(Minus) => {
+                match (a, b) {
+                    ((Expression::IntegerLiteral(l1, _), _), (Expression::IntegerLiteral(l2, _), _)) => {
+                        self.emit_imm32_to_reg(R0, (l1 - l2) as usize);
+                    }
+                    (x, (Expression::IntegerLiteral(0, _), _)) => {
+                        emit!(x);
+                    }
+                    ((Expression::IntegerLiteral(0, _), _), x) => {
+                        emit!(x);
+                        self.emit(Negs { rd: R0, rn: R0 }); // Negate the value
+                    }
+                    (x, (&Expression::IntegerLiteral(c, _), _)) => {
+                        emit!(x);
+                        let mut c = c;
+                        if let UnqualType::Pointer(xptr) = x.1 {
+                            c *= xptr.unqual.size() as u32; // scale by pointer size
+                        }
+                        if let Ok(c8) = u8::try_from(c) {
+                            // If c fits in an 8-bit immediate, use AddsImm8
+                            self.emit(SubsImm8 { rd: R0, imm8: c8 });
+                        } else {
+                            self.emit_imm32_to_reg(R1, c as usize);
+                            self.emit(Subs { rd: R0, rn: R0, rm: R1 });
+                        }
+                    }
+                    (_p1e @ (_, UnqualType::Pointer(_p1t)), _p2e @ (_, UnqualType::Pointer(_p2t))) => {
+                        // pointer - pointer
+                        todo!("pointer distance")
+                    }
+                    (pe @ (_, UnqualType::Pointer(pt)), ke @ (_, _)) => {
+                        // pointer - dynamic int
+                        emit!(pe, ke);
+                        self.emit(MovsImm { rd: R2, imm8: pt.unqual.size() as u8 });
+                        self.emit(Muls { rdm: R1, rn: R2 });
+                        self.emit(Subs { rd: R0, rn: R0, rm: R1 });
+                    }
+                    (a, b) => {
+                        // just two ints
+                        emit!(a, b);
+                        self.emit(Subs { rd: R0, rn: R0, rm: R1 });
+                    }
+                }
+            }
+
+            Simple(Multiply) => {
+                match (a, b) {
+                    ((Expression::IntegerLiteral(l1, _), _), (Expression::IntegerLiteral(l2, _), _)) => {
+                        self.emit_imm32_to_reg(R0, (l1 * l2) as usize);
+                    }
+                    ((Expression::IntegerLiteral(0, _), _), x) | (x, (Expression::IntegerLiteral(0, _), _)) => {
+                        emit!(discard x);
+                        self.emit(MovsImm { rd: R0, imm8: 0 }); // Result is 0
+                    }
+                    ((Expression::IntegerLiteral(1, _), _), x) | (x, (Expression::IntegerLiteral(1, _), _)) => {
+                        emit!(x);
+                    }
+                    // todo: replace multiplies by 2^n by shifts
+                    (a, b) => {
+                        // just two ints
+                        emit!(a, b);
+                        self.emit(Muls { rdm: R0, rn: R1 });
+                    }
+                }
+            }
+
+            Simple(Divide) => {
+                match (a, b) {
+                    ((Expression::IntegerLiteral(l1, _), _), (Expression::IntegerLiteral(l2, _), _)) => {
+                        self.emit_imm32_to_reg(R0, (l1 / l2) as usize);
+                    }
+                    (_, (Expression::IntegerLiteral(0, _), _)) => {
+                        comperr!("Division by zero");
+                    }
+                    (x, (Expression::IntegerLiteral(1, _), _)) => {
+                        emit!(x);
+                    }
+                    ((Expression::IntegerLiteral(0, _), _), x) => {
+                        emit!(discard x);
+                        self.emit(MovsImm { rd: R0, imm8: 0 }); // Result is 0
+                    }
+                    (x @ (_, UnqualType::Bool), (&Expression::IntegerLiteral(c, _), _)) => {
+                        // at this point, abs(constant) > 1
+                        emit!(discard x);
+                        self.emit(MovsImm { rd: R0, imm8: 0 }); // Result is 0
+                    }
+                    (x, (&Expression::IntegerLiteral(c, _), _)) => {
+                        emit!(x);
+                        if c >= 2 && c.is_power_of_two() {
+                            let shift = c.trailing_zeros() as u8; // will be between 1 and 31
                             match &*aty.unqual {
                                 UnqualType::Char(Some(Signed)) => {
                                     //self.emit(Uxtb { rd: R1, rm: R0 }); // Zero-extend char to int
@@ -1322,62 +1393,220 @@ impl<'a> Compiler<'a> {
                                 }
                                 _ => unreachable!(),
                             }
-                            self.emit_push(RegList::new([R0], false)); // Push result to stack
-                            return Ok(());
+                        } else {
+                            todo!("general division not implemented")
                         }
                     }
+                    (a, b) => {
+                        // ARM does not have a direct divide instruction, so we would need to implement it
+                        // using a library or custom assembly code.
+                        todo!("general division not implemented")
+                    }
                 }
-                // ARM does not have a direct divide instruction, so we would need to implement it
-                // using a library or custom assembly code.
-                comperr!("Division operation is not implemented in the compiler");
             }
+
             Simple(Modulo) => {
                 // ARM does not have a direct modulo instruction, so we would need to implement it
                 // using a library or custom assembly code.
-                comperr!("Modulo operation is not implemented in the compiler");
+                todo!("general division not implemented")
             }
-            Simple(BitwiseAnd) => self.emit(Ands { rdn: R0, rm: R1 }),
-            Simple(BitwiseOr) => self.emit(Orrs { rdn: R0, rm: R1 }),
-            Simple(BitwiseXor) => self.emit(Eors { rdn: R0, rm: R1 }),
-            Simple(ShiftLeft) => self.emit(Lsls { rdn: R0, rm: R1 }),
-            Simple(ShiftRight) => self.emit(Lsrs { rdn: R0, rm: R1 }),
+
+            Simple(BitwiseAnd) => {
+                match (a, b) {
+                    ((Expression::IntegerLiteral(l1, _), _), (Expression::IntegerLiteral(l2, _), _)) => {
+                        self.emit_imm32_to_reg(R0, (l1 & l2) as usize);
+                    }
+                    ((Expression::IntegerLiteral(0, _), _), x) | (x, (Expression::IntegerLiteral(0, _), _)) => {
+                        emit!(discard x);
+                        self.emit(MovsImm { rd: R0, imm8: 0 }); // Result is 0
+                    }
+                    (a, b) => {
+                        // just two ints
+                        emit!(a, b);
+                        self.emit(Ands { rdn: R0, rm: R1 });
+                    }
+                }
+            }
+
+            Simple(BitwiseOr) => {
+                match (a, b) {
+                    ((Expression::IntegerLiteral(l1, _), _), (Expression::IntegerLiteral(l2, _), _)) => {
+                        self.emit_imm32_to_reg(R0, (l1 | l2) as usize);
+                    }
+                    ((Expression::IntegerLiteral(0, _), _), x) | (x, (Expression::IntegerLiteral(0, _), _)) => {
+                        emit!(x);
+                    }
+                    (a, b) => {
+                        // just two ints
+                        emit!(a, b);
+                        self.emit(Orrs { rdn: R0, rm: R1 });
+                    }
+                }
+            }
+
+            Simple(BitwiseXor) => {
+                match (a, b) {
+                    ((Expression::IntegerLiteral(l1, _), _), (Expression::IntegerLiteral(l2, _), _)) => {
+                        self.emit_imm32_to_reg(R0, (l1 ^ l2) as usize);
+                    }
+                    ((Expression::IntegerLiteral(0, _), _), x) | (x, (Expression::IntegerLiteral(0, _), _)) => {
+                        emit!(x);
+                    }
+                    (a, b) => {
+                        // just two ints
+                        emit!(a, b);
+                        self.emit(Eors { rdn: R0, rm: R1 });
+                    }
+                }
+            }
+
+            // todo: any weird signed behavior?
+            Simple(ShiftLeft) => {
+                match (a, b) {
+                    ((Expression::IntegerLiteral(l1, _), _), (Expression::IntegerLiteral(l2, _), _)) => {
+                        self.emit_imm32_to_reg(R0, (l1 << l2) as usize);
+                    }
+                    ((Expression::IntegerLiteral(0, _), _), x) => {
+                        emit!(discard x);
+                        self.emit(MovsImm { rd: R0, imm8: 0 }); // Result is 0
+                    }
+                    (x, (Expression::IntegerLiteral(0, _), _)) => {
+                        emit!(x);
+                    }
+                    (x, (&Expression::IntegerLiteral(c, _), _)) => {
+                        emit!(x);
+                        // spec forbids shifts larger width and we only handle numbers <= 32 bits
+                        // so we can just cast to u5
+                        self.emit(LslImm { rd: R0, rm: R0, imm5: u5::masked_new(c) });
+                    }
+                    (a, b) => {
+                        // just two ints
+                        emit!(a, b);
+                        self.emit(Lsls { rdn: R0, rm: R1 });
+                    }
+                }
+            }
+
+            Simple(ShiftRight) => {
+                match (a, b) {
+                    ((Expression::IntegerLiteral(l1, _), _), (Expression::IntegerLiteral(l2, _), _)) => {
+                        self.emit_imm32_to_reg(R0, (l1 >> l2) as usize);
+                    }
+                    ((Expression::IntegerLiteral(0, _), _), x) => {
+                        emit!(discard x);
+                        self.emit(MovsImm { rd: R0, imm8: 0 }); // Result is 0
+                    }
+                    (x, (Expression::IntegerLiteral(0, _), _)) => {
+                        emit!(x);
+                    }
+                    (x, (&Expression::IntegerLiteral(c, _), _)) => {
+                        emit!(x);
+                        if a.1.is_signed() {
+                            self.emit(LsrImm { rd: R0, rm: R0, imm5: u5::masked_new(c) });
+                        } else {
+                            self.emit(AsrImm { rd: R0, rm: R0, imm5: u5::masked_new(c) });
+                        }
+                    }
+                    (a, b) => {
+                        // just two ints
+                        emit!(a, b);
+                        if a.1.is_signed() {
+                            self.emit(Asrs { rdn: R0, rm: R1 });
+                        } else {
+                            self.emit(Lsrs { rdn: R0, rm: R1 });
+                        }
+                    }
+                }
+            }
 
             Comparison(Equal) => {
-                self.emit(Subs { rd: R1, rn: R0, rm: R1 }); // R1 = a - b. 0 if equal, ≠ 0 if different
-                self.emit(Rsbs { rd: R0, rn: R1 }); // R0 = 0 - R1 = b - a. Sets C if R1 = 0 (equal).
-                self.emit(Adcs { rdn: R0, rm: R1 }); // R0 = R0 + R1 + C = (b - a) + (a - b) + C = 1 if equal, 0 if different
+                match (a, b) {
+                    ((ae, _), (be, _)) if ae.is_pure() && be.is_pure() => {
+                        // both are pure expressions, so we can compare them directly
+                        self.emit(MovsImm { rd: R0, imm8: if ae == be { 1 } else { 0 } });
+                    }
+                    (_, _) => {
+                        self.emit(Subs { rd: R1, rn: R0, rm: R1 }); // R1 = a - b. 0 if equal, ≠ 0 if different
+                        self.emit(Rsbs { rd: R0, rn: R1 }); // R0 = 0 - R1 = b - a. Sets C if R1 = 0 (equal).
+                        self.emit(Adcs { rdn: R0, rm: R1 }); // R0 = R0 + R1 + C = (b - a) + (a - b) + C = 1 if equal, 0 if different
+                    }
+                }
             }
+
             Comparison(NotEqual) => {
-                self.emit(Subs { rd: R0, rn: R0, rm: R1 }); // R0 = a - b. 0 if equal, ≠ 0 if different
-                self.emit(SubsImm { rd: R1, rn: R0, imm3: u3::new(1) }); // R1 = R0 - 1. If equal, the sub borrows so C = 0.
-                self.emit(Sbcs { rdn: R0, rm: R1 }); // R0 = R0 - R1 - !C = (a - b) - (a - b - 1) - !C = 1 - !C = C = 0 if equal, 1 if different
+                match (a, b) {
+                    ((ae, _), (be, _)) if ae.is_pure() && be.is_pure() => {
+                        // both are pure expressions, so we can compare them directly
+                        self.emit(MovsImm { rd: R0, imm8: if ae != be { 1 } else { 0 } });
+                    }
+                    (_, _) => {
+                        self.emit(Subs { rd: R0, rn: R0, rm: R1 }); // R0 = a - b. 0 if equal, ≠ 0 if different
+                        self.emit(SubsImm { rd: R1, rn: R0, imm3: u3::new(1) }); // R1 = R0 - 1. If equal, the sub borrows so C = 0.
+                        self.emit(Sbcs { rdn: R0, rm: R1 }); // R0 = R0 - R1 - !C = (a - b) - (a - b - 1) - !C = 1 - !C = C = 0 if equal, 1 if different
+                    }
+                }
             }
+
             // todo: signed comparison
             Comparison(LessThan) => {
-                self.emit(Cmp { rn: R0, rm: R1 }); // does a - b, sets C=1 if R0 >= R1 (because no borrow)
-                self.emit(Sbcs { rdn: R0, rm: R0 }); // R0 = R0 - R0 - !C = 0 - !C = 0 if R0 >= R1, -1 if R0 < R1
-                self.emit(Negs { rd: R0, rn: R0 }); // Negate R0, so it becomes 1 if R0 < R1, 0 if R0 >= R1
+                match (a, b) {
+                    ((Expression::IntegerLiteral(l1, _), _), (Expression::IntegerLiteral(l2, _), _)) => {
+                        self.emit_imm32_to_reg(R0, if l1 < l2 { 1 } else { 0 });
+                    }
+                    (_, _) => {
+                        self.emit(Cmp { rn: R0, rm: R1 }); // does a - b, sets C=1 if R0 >= R1 (because no borrow)
+                        self.emit(Sbcs { rdn: R0, rm: R0 }); // R0 = R0 - R0 - !C = 0 - !C = 0 if R0 >= R1, -1 if R0 < R1
+                        self.emit(Negs { rd: R0, rn: R0 }); // Negate R0, so it becomes 1 if R0 < R1, 0 if R0 >= R1
+                    }
+                }
             }
             Comparison(LessThanOrEqual) => {
-                self.emit(Cmp { rn: R1, rm: R0 }); // does b - a, sets C=1 if R1 >= R0 (because no borrow)
-                self.emit(MovsImm { rd: R0, imm8: 0 }); // Set R0 to 0
-                self.emit(Adcs { rdn: R0, rm: R0 }); // If R1 < R0, C=1, so R0 = 1, else R0 = 0
+                match (a, b) {
+                    ((Expression::IntegerLiteral(l1, _), _), (Expression::IntegerLiteral(l2, _), _)) => {
+                        self.emit_imm32_to_reg(R0, if l1 <= l2 { 1 } else { 0 });
+                    }
+                    (_, _) => {
+                        self.emit(Cmp { rn: R1, rm: R0 }); // does b - a, sets C=1 if R1 >= R0 (because no borrow)
+                        self.emit(MovsImm { rd: R0, imm8: 0 }); // Set R0 to 0
+                        self.emit(Adcs { rdn: R0, rm: R0 }); // If R1 < R0, C=1, so R0 = 1, else R0 = 0
+                    }
+                }
             }
             Comparison(GreaterThan) => {
-                // see LessThan
-                self.emit(Cmp { rn: R1, rm: R0 });
-                self.emit(Sbcs { rdn: R0, rm: R0 });
-                self.emit(Negs { rd: R0, rn: R0 });
+                match (a, b) {
+                    ((Expression::IntegerLiteral(l1, _), _), (Expression::IntegerLiteral(l2, _), _)) => {
+                        self.emit_imm32_to_reg(R0, if l1 > l2 { 1 } else { 0 });
+                    }
+                    (_, _) => {
+                        // see LessThan
+                        self.emit(Cmp { rn: R1, rm: R0 });
+                        self.emit(Sbcs { rdn: R0, rm: R0 });
+                        self.emit(Negs { rd: R0, rn: R0 });
+                    }
+                }
             }
             Comparison(GreaterThanOrEqual) => {
-                // see LessThanOrEqual
-                self.emit(Cmp { rn: R0, rm: R1 });
-                self.emit(MovsImm { rd: R0, imm8: 0 });
-                self.emit(Adcs { rdn: R0, rm: R0 });
+                match (a, b) {
+                    ((Expression::IntegerLiteral(l1, _), _), (Expression::IntegerLiteral(l2, _), _)) => {
+                        self.emit_imm32_to_reg(R0, if l1 >= l2 { 1 } else { 0 });
+                    }
+                    (_, _) => {
+                        // see LessThanOrEqual
+                        self.emit(Cmp { rn: R0, rm: R1 });
+                        self.emit(MovsImm { rd: R0, imm8: 0 });
+                        self.emit(Adcs { rdn: R0, rm: R0 });
+                    }
+                }
             }
+
+
+
+            // todo: signed comparison
 
             Bool(_) => unreachable!(), // Handled above
             Assignment(_) => unreachable!(), // Handled above
+
+            //_ => todo!()
         }
         self.emit_push(RegList::new([R0], false)); // Push result to R0
         Ok(())

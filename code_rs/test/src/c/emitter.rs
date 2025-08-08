@@ -78,6 +78,16 @@ impl Emitter {
         self.emit(LdrSp { rt: reg, immw8: u10::new(0) });
     }
 
+    pub fn emit_pop_discard(&mut self, count: usize) {
+        if let Some((ilen, lpregs)) = self.last_push.take() {
+            if lpregs.len() == count {
+                self.instructions.truncate(ilen);
+                return;
+            }
+        }
+        self.emit(AddSp { immw7: u9::new((count * 4) as u16) });
+    }
+
     pub fn emit_pop(&mut self, regs: RegList) {
         //rprintln!("emit_pop: {:?}", regs);
         let len = regs.len();

@@ -79,6 +79,25 @@ pub enum Expression {
     Initializer(InitializerList),
 }
 
+impl Expression {
+    pub fn is_pure(&self) -> bool {
+        use Expression::*;
+        match self {
+            IntegerLiteral(_, _) | StringLiteral(_) | SymRef(_) => true,
+            Cast(_, expr) => expr.is_pure(),
+            MemberAccess(base, _, _) => base.is_pure(),
+            UnaryOp(_, expr) => expr.is_pure(),
+            SizeOf(_) => true,
+            BinOp(_, left, right) => left.is_pure() && right.is_pure(),
+            Conditional(cond, pos, neg) => cond.is_pure() && pos.is_pure() && neg.is_pure(),
+            Comma(exprs, last) => {
+                exprs.iter().all(Expression::is_pure) && last.is_pure()
+            }
+            _ => false, // other expressions are not pure
+        }
+    }
+}
+
 impl<'a, 'b> CParser<'a, 'b> {
     fn read_primary_expression(&mut self) -> Result<Expression, ParseError> {
         plog("read_primary_expression");
