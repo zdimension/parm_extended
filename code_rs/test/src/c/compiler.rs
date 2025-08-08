@@ -21,9 +21,10 @@ use crate::c::arm::HiReg::PC;
 use crate::c::arm::Reg::*;
 use crate::c::emitter::{CodeVec, Emitter};
 use crate::c::lexer::AssignableOperator::{BitwiseAnd, BitwiseOr, BitwiseXor, Minus, Multiply, Plus, ShiftLeft};
-use crate::c::parse_expr::UnaryOp::Deref;
+use crate::c::parse_expr::UnaryOp::{BitwiseNot, Deref, Not};
 use crate::c::types::Signedness::{Signed, Unsigned};
 use arbitrary_int::Number;
+use crate::c::compiler::FoldedConstant::Integer;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum CompileError {
@@ -69,9 +70,25 @@ pub struct Compiler<'a> {
     string_pool: HashMap<String, usize>
 }
 
+#[derive(Debug)]
+pub enum FoldedConstant<'a> {
+    Integer(u32),
+    Address(Address<'a>)
+}
+
+impl<'a> FoldedConstant<'a> {
+    pub fn truth_value(&self) -> Option<bool> {
+        match self {
+            Integer(i) => Some(*i != 0),
+            FoldedConstant::Address(addr) => addr.truth_value(),
+        }
+    }
+}
+
 pub struct Analysis<'a> {
     pub ty: QualType,
     pub addr: Option<Address<'a>>,
+    pub value: Option<FoldedConstant<'a>>
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -225,7 +242,7 @@ impl<'a> Compiler<'a> {
                     if *fi.ret.unqual == UnqualType::Void {
                         comperr!("Return with value in void function");
                     }
-                    let Analysis { ty: ety, addr: _ } = self.analyze_expression(expr)?;
+                    let Analysis { ty: ety, addr: _, .. } = self.analyze_expression(expr)?;
                     if self.emit_auto_convert(expr, &ety.unqual, &fi.ret.unqual)?.is_err() {
                         comperr!(
                             "Return type mismatch: expected {}, found {}",
@@ -245,7 +262,7 @@ impl<'a> Compiler<'a> {
             If(cond, then, else_) => {
                 let else_label = self.new_label();
                 let end_label = self.new_label();
-                let Analysis { ty: cty, addr: _ } = self.analyze_expression(cond)?;
+                let Analysis { ty: cty, addr: _, .. } = self.analyze_expression(cond)?;
                 Self::assert_scalar(&cty).or_else(|_| {
                     comperr!("Condition in if statement must be scalar, found: {}", cty)
                 })?;
@@ -285,7 +302,7 @@ impl<'a> Compiler<'a> {
                 }
                 self.set_label_here(cond_label);
                 if let Some(cond_expr) = cond {
-                    let Analysis { ty: cty, addr: _ } = self.analyze_expression(cond_expr)?;
+                    let Analysis { ty: cty, addr: _, .. } = self.analyze_expression(cond_expr)?;
                     Self::assert_scalar(&cty).or_else(|_| {
                         comperr!("Condition in for loop must be scalar, found: {}", cty)
                     })?;
@@ -313,7 +330,7 @@ impl<'a> Compiler<'a> {
                     scope_id: self.scope.len(),
                 });
                 self.set_label_here(cond_label);
-                let Analysis { ty: cty, addr: _ } = self.analyze_expression(cond)?;
+                let Analysis { ty: cty, addr: _, .. } = self.analyze_expression(cond)?;
                 Self::assert_scalar(&cty).or_else(|_| {
                     comperr!("Condition in while loop must be scalar, found: {}", cty)
                 })?;
@@ -359,11 +376,13 @@ impl<'a> Compiler<'a> {
                                 VarPosition::Local(offset) => Address::Local((base + *offset) as u8),
                                 VarPosition::Global(data) => Address::Global(data.as_ptr() as *mut _) // SAFETY: whatever
                             }),
+                            value: None,
                         }
                     }
                     SymbolKind::Function { proto, jump, .. } => Analysis {
                         ty: UnqualType::Function(proto.clone()).into(),
                         addr: Some(Address::Global(jump.as_ptr() as _)),
+                        value: None,
                     },
                     SymbolKind::Type(_) => {
                         panic!("Cannot reference type as an expression: {}", name);
@@ -383,11 +402,13 @@ impl<'a> Compiler<'a> {
                             }
                             VarPosition::Global(data) => Address::Global(data.as_ptr() as *mut _),
                         }),
+                        value: None,
                     }
                 }
                 SymbolKind::Function { proto, jump, .. } => Analysis {
                     ty: UnqualType::Function(proto.clone()).into(),
                     addr: Some(Address::Global(jump.as_ptr() as _)),
+                    value: None,
                 },
                 SymbolKind::Type(_) => {
                     panic!("Cannot reference type as an expression: {}", name);
@@ -542,7 +563,7 @@ impl<'a> Compiler<'a> {
     ) -> Result<Analysis<'e>, CompileError> {
         use AssignableOperator::*;
         use BinOp::*;
-        let Analysis { ty: lty, addr: laddr } = self.analyze_expression(l)?;
+        let Analysis { ty: lty, addr: laddr, .. } = self.analyze_expression(l)?;
         let ty = if op == Assignment(None) {
             Self::assert_scalar(lty).unwrap_or_else(|_| UnqualType::Void.into())
         } else {
@@ -619,6 +640,7 @@ impl<'a> Compiler<'a> {
         Ok(Analysis {
             ty: ty,     // For now, we assume the left type is the result type
             addr: None, // No address for binary operations
+            value: None,
         })
     }
 
@@ -626,15 +648,16 @@ impl<'a> Compiler<'a> {
         &mut self,
         expr: &'e Expression,
     ) -> Result<Analysis<'e>, CompileError> {
-        let Analysis { ty, addr } = self.analyze_expression_raw(expr)?;
+        let Analysis { ty, addr, value } = self.analyze_expression_raw(expr)?;
         // decay array to pointer
         if let UnqualType::Array(item, _) = &*ty.unqual {
             Ok(Analysis {
                 ty: UnqualType::Pointer(item.clone()).into(),
-                addr // arrays aren't supposed to be lvalues but whatever, it makes initializers easier to emit
+                addr, // arrays aren't supposed to be lvalues but whatever, it makes initializers easier to emit
+                value, // should be none anyways
             })
         } else {
-            Ok(Analysis { ty, addr })
+            Ok(Analysis { ty, addr, value })
         }
     }
 
@@ -651,82 +674,79 @@ impl<'a> Compiler<'a> {
             Expression::MemberAccess(_, _, _) => todo!(),
             Expression::UnaryOp(op, val) => {
                 use UnaryOp::*;
-                let Analysis { ty, .. } = self.analyze_expression_raw(val)?;
-                let rty = if *op == Address {
-                    UnqualType::Pointer(ty).into()
-                } else {
-                    let ty = ty.decay();
-                    match op {
-                        Deref => {
-                            let UnqualType::Pointer(ref inner) = *ty.unqual else {
-                                return Err(GenericDyn(format!(
-                                    "Expected pointer type for dereference, found: {}",
-                                    ty
-                                )));
-                            };
-
-
-
-                            if let Expression::BinOp(BinOp::Simple(Plus), left, right) = &*val {
-                                // If the expression is a simple addition, we can optimize it
-                                let Analysis { ty: lty, addr: laddr } = self.analyze_expression_raw(left)?;
-                                let Analysis { ty: rty, addr: raddr } = self.analyze_expression_raw(right)?;
-                                let (lty, rty) = (&*lty.decay().unqual, &*rty.decay().unqual);
-                                match ((&**left, lty, laddr), (&**right, rty, raddr)) {
-                                    ((_, _, Some(_)), (_, _, Some(_))) => {
-                                        comperr!("wut?");
-                                    }
-                                    ((_, aty, Some(inner_addr)), (&Expression::IntegerLiteral(lit, _), _, _)) |
-                                    ((&Expression::IntegerLiteral(lit, _), _, _), (_, aty, Some(inner_addr))) => {
-                                        // this is an offset from a constant address, we can optimize it
-                                        let UnqualType::Pointer(pty) = aty else {
-                                            comperr!("Expected pointer type for address, found: {}", aty);
-                                        };
-                                        let lit = lit * pty.unqual.size() as u32;
-                                        match inner_addr {
-                                            crate::c::compiler::Address::Local(inner_offset) => {
-                                                self.emit(MovsImm { rd: reg, imm8: u8::try_from(inner_offset as u32 + lit).unwrap() });
-                                                self.emit(AddLoLo { rd: reg, rs: R7 });
-                                                return Ok(());
-                                            }
-                                            crate::c::compiler::Address::Global(addr) => {
-                                                self.emit_imm32_to_reg(reg, addr as usize + lit as usize);
-                                                return Ok(());
-                                            }
-                                            crate::c::compiler::Address::Dynamic(expr) => { /* nothing more to do */ }
-                                        }
-                                    }
-                                    (_, _) => { /* nothing we can do here */ }
-                                }
-                            }
-
-
-
-
-                            return Ok(Analysis {
-                                ty: inner.clone(),
-                                addr: Some(self::Address::Dynamic(&*val)),
-                            });
+                let Analysis { ty, addr, value } = self.analyze_expression_raw(val)?;
+                match *op {
+                    Address => {
+                        if let Some(addr) = addr {
+                            return Ok(Analysis { ty: UnqualType::Pointer(ty).into(), addr: None, value: Some(FoldedConstant::Address(addr)) });
                         }
-                        Plus | Minus | BitwiseNot => Self::get_promoted_int(&ty.unqual)?.into(),
-                        Not => {
-                            Self::assert_scalar(ty)?;
-                            UnqualType::Int(Signed).into()
-                        }
-                        IncDec(_, _) => ty,
-                        _ => unreachable!(),
+                        comperr!("Cannot take address of non-lvalue expression: {:?}", val);
                     }
+                    Deref => {
+                        let UnqualType::Pointer(ref inner) = *ty.unqual else {
+                            return Err(GenericDyn(format!(
+                                "Expected pointer type for dereference, found: {}",
+                                ty
+                            )));
+                        };
+                        return Ok(Analysis {
+                            ty: inner.clone(),
+                            addr: Some(match value {
+                                Some(FoldedConstant::Address(addr)) => addr,
+                                _ => self::Address::Dynamic(&*val)
+                            }),
+                            value: None,
+                        });
+                    }
+                    _ => {}
+                }
+                let rty = match op {
+                    Plus | Minus | BitwiseNot => Self::get_promoted_int(&ty.unqual)?.into(),
+                    Not => {
+                        Self::assert_scalar(ty)?;
+                        UnqualType::Int(Signed).into()
+                    }
+                    IncDec(_, _) => ty,
+                    _ => unreachable!(),
                 };
-                Analysis { ty: rty, addr: None }
+                Analysis { ty: rty, addr: None, value: None }
             }
             Expression::Comma(_, _) => todo!(),
-            Expression::IntegerLiteral(_, sign) => Analysis { ty: UnqualType::Int(*sign).into(), addr: None },
+            Expression::IntegerLiteral(val, sign) => Analysis { ty: UnqualType::Int(*sign).into(), addr: None, value: Some(Integer(*val)) },
             Expression::Cast(ty, expr) => {
+                let Analysis { ty: ety, addr, value } = self.analyze_expression_raw(expr)?;
+                let cval = if let Some(value) = value {
+                    match (&*ty.unqual, &*ety.unqual) {
+                        (a, b) if Self::are_compatible(a, b) => Some(value), // No conversion needed
+                        (UnqualType::Int(_) | UnqualType::Enum(_), t)
+                        if Self::assert_integer(t).is_ok() => {
+                            // Conversion from integer to int or enum, nothing to do
+                            Some(value)
+                        }
+                        (UnqualType::Char(sign), t)
+                        if Self::assert_integer(t).is_ok() && let Integer(i) = value => {
+                            // truncate to char, sign/zero-extend if necessary
+                            let i = if *sign == Some(Signed) {
+                                i as i8 as u8 as u32 // sign-extend
+                            } else {
+                                i & 0xFF // zero-extend
+                            };
+                            Some(Integer(i))
+                        }
+                        (UnqualType::Bool, _) if let Some(truthiness) = value.truth_value() => {
+                            // Convert zero to bool
+                            Some(Integer(if truthiness { 1 } else { 0 }))
+                        }
+                        _ => None
+                    }
+                } else {
+                    None
+                };
                 // cast will be checked at emission time
-                Analysis { ty: ty.clone(), addr: None }
+                Analysis { ty: ty.clone(), addr: None, value: cval }
             }
             Expression::FuncCall(f, args) => {
-                let Analysis { ty, addr } = self.analyze_expression(f)?;
+                let Analysis { ty, addr, .. } = self.analyze_expression(f)?;
                 let UnqualType::Function(fi) = &*ty.unqual else {
                     comperr!("Expected function type for function call, found: {}", ty);
                 };
@@ -737,18 +757,18 @@ impl<'a> Compiler<'a> {
                         args.len()
                     );
                 }
-                Analysis { ty: fi.ret.clone(), addr: None }
+                Analysis { ty: fi.ret.clone(), addr: None, value: None }
             }
             Expression::BinOp(op, l, r) => {
                 self.analyze_bin_op(*op, l, r)?
             }
             Expression::Conditional(cond, yes, no) => {
-                let Analysis { ty: cty, addr: _ } = self.analyze_expression(cond)?;
+                let Analysis { ty: cty, addr: _, .. } = self.analyze_expression(cond)?;
                 Self::assert_scalar(&cty).or_else(|_| {
                     comperr!("Condition in conditional expression must be scalar, found: {}", cty)
                 })?;
-                let Analysis { ty: yty, addr: _ } = self.analyze_expression(yes)?;
-                let Analysis { ty: nty, addr: _ } = self.analyze_expression(no)?;
+                let Analysis { ty: yty, addr: _, .. } = self.analyze_expression(yes)?;
+                let Analysis { ty: nty, addr: _, .. } = self.analyze_expression(no)?;
                 let rty = if Self::are_compatible(&yty, &nty) {
                     // If both branches are the same type, use that type
                     yty
@@ -775,16 +795,21 @@ impl<'a> Compiler<'a> {
                         nty
                     );
                 };
-                Analysis { ty: rty, addr: None }
+                Analysis { ty: rty, addr: None, value: None }
             }
-            Expression::SizeOf(_) => {
+            Expression::SizeOf(op) => {
+                let size = match op {
+                    SizeOfOp::Type(ty) => ty.unqual.size(),
+                    SizeOfOp::Expression(expr) => self.analyze_expression_raw(expr)?.ty.unqual.size(),
+                };
                 // SizeOf returns the size of the type in bytes
-                Analysis { ty: UnqualType::Int(Unsigned).into(), addr: None }
+                Analysis { ty: UnqualType::Int(Unsigned).into(), addr: None, value: Some(Integer(size as u32)) }
             }
             Expression::StringLiteral(ref s) => {
                 Analysis {
                     ty: UnqualType::Array(UnqualType::Char(None).into(), Some(s.bytes().len())).into(),
                     addr: None,
+                    value: None,
                 }
             }
         })
@@ -818,7 +843,7 @@ impl<'a> Compiler<'a> {
 
     /// Clobbers `reg` and R2 (if src==R1) or R1 (else). Preserves stack.
     fn emit_assignment(&mut self, src: Reg, dst: &Expression) -> Result<(), CompileError> {
-        let Analysis { ty: lty, addr: laddr } = self.analyze_expression(dst)?;
+        let Analysis { ty: lty, addr: laddr, .. } = self.analyze_expression(dst)?;
         let Some(laddr) = laddr else {
             comperr!("Left side of assignment must be an lvalue (have an address)");
         };
@@ -899,13 +924,28 @@ impl<'a> Compiler<'a> {
             self.emit_bin_op(*op, a, b)?;
             return Ok(())
         }
-        let Analysis { ty: ety, addr: eaddr } = self.analyze_expression_raw(expr)?;
+        let Analysis { ty: ety, addr: eaddr, value } = self.analyze_expression_raw(expr)?;
+        if let Some(ct) = value {
+            // expression has been constant-folded
+            match ct {
+                Integer(val) => {
+                    self.emit_imm32_to_reg(R0, val as usize);
+                    self.emit_push(RegList::new([R0], false)); // Push constant value to stack
+                }
+                FoldedConstant::Address(addr) => {
+                    self.emit_address_to_reg(addr, R0)?;
+                    self.emit_push(RegList::new([R0], false)); // Push address to stack
+                }
+            }
+            return Ok(());
+        }
         match expr {
             Expression::Initializer(_) => unreachable!(), // handled by analyze
-            &Expression::IntegerLiteral(val, _sign) => {
+            Expression::IntegerLiteral(_, _) => unreachable!(),
+            /*&Expression::IntegerLiteral(val, _sign) => {
                 self.emit_imm32_to_reg(R0, val as usize);
                 self.emit_push(RegList::new([R0], false));
-            }
+            }*/
             Expression::StringLiteral(s) => {
                 let entry = self.string_pool.entry_ref(s);
                 match entry {
@@ -942,13 +982,14 @@ impl<'a> Compiler<'a> {
                 }
                 self.emit_push(RegList::new([R0], false)); // Push the address of the string to the stack
             }
-            Expression::SizeOf(op) => {
-                let size = match op {
-                    SizeOfOp::Type(ty) => ty.unqual.size(),
-                    SizeOfOp::Expression(expr) => self.analyze_expression(expr)?.ty.unqual.size(),
-                };
-                self.emit_expression(&Expression::IntegerLiteral(size as u32, Unsigned))?;
-            }
+            Expression::SizeOf(_) => unreachable!(),
+            // Expression::SizeOf(op) => {
+            //     let size = match op {
+            //         SizeOfOp::Type(ty) => ty.unqual.size(),
+            //         SizeOfOp::Expression(expr) => self.analyze_expression(expr)?.ty.unqual.size(),
+            //     };
+            //     self.emit_expression(&Expression::IntegerLiteral(size as u32, Unsigned))?;
+            // }
             Expression::SymRef(_) => {
                 let Some(addr) = eaddr else {
                     comperr!("Symbol reference without address");
@@ -969,7 +1010,7 @@ impl<'a> Compiler<'a> {
             }
             //Expression::ArrayAccess(arr, idx) => todo!(),
             Expression::FuncCall(f, args) => {
-                let Analysis { ty, addr } = self.analyze_expression(f)?;
+                let Analysis { ty, addr, .. } = self.analyze_expression(f)?;
                 let UnqualType::Function(fi) = &*ty.unqual else {
                     unreachable!(); // already checked in analyze_expression
                 };
@@ -978,7 +1019,7 @@ impl<'a> Compiler<'a> {
                 };
 
                 for (arg, (name, arg_ty)) in args.iter().zip(fi.args.iter()).rev() {
-                    let Analysis { ty: arg_ty_actual, addr: _ } = self.analyze_expression(arg)?;
+                    let Analysis { ty: arg_ty_actual, addr: _, .. } = self.analyze_expression(arg)?;
                     if self.emit_auto_convert(arg, &arg_ty_actual.unqual, &arg_ty.unqual)?.is_err() {
                         comperr!(
                             "Function call argument type mismatch for '{}': expected {}, found {}",
@@ -998,16 +1039,17 @@ impl<'a> Compiler<'a> {
             }
             Expression::MemberAccess(x, member, access) => todo!(),
             Expression::UnaryOp(op, x) => {
-                let Analysis { ty: xty, addr: xaddr } = self.analyze_expression(x)?;
+                let Analysis { ty: xty, addr: xaddr, .. } = self.analyze_expression(x)?;
                 match *op {
-                    UnaryOp::Address => {
+                    UnaryOp::Address => unreachable!(),
+                    /*UnaryOp::Address => {
                         let Some(addr) = xaddr else {
                             comperr!("Address of expression without address");
                         };
                         self.emit_address_to_reg(addr, R0)?;
                         self.emit_push(RegList::new([R0], false)); // Push address to stack
                         return Ok(());
-                    }
+                    }*/
                     UnaryOp::Deref => {
                         self.load_from(ety, &Address::Dynamic(x))?;
                         return Ok(());
@@ -1117,7 +1159,7 @@ impl<'a> Compiler<'a> {
     pub fn emit_bin_op(&mut self, op: BinOp, a: &Expression, b: &Expression) -> Result<(), CompileError> {
         use AssignableOperator::*;
         use BinOp::*;
-        let Analysis { ty: aty, addr: aaddr } = self.analyze_expression_raw(a)?;
+        let Analysis { ty: aty, addr: aaddr, .. } = self.analyze_expression_raw(a)?;
         if let (Assignment(None), Expression::Initializer(InitializerList { items })) = (op, b) {
             let mut auto_idx = 0;
             for (designators, val) in items {
@@ -1152,7 +1194,7 @@ impl<'a> Compiler<'a> {
             self.emit_push(RegList::new([R0], false)); // Push result to stack
             return Ok(());
         }
-        let Analysis { ty: bty, addr: baddr } = self.analyze_expression_raw(b)?;
+        let Analysis { ty: bty, addr: baddr, .. } = self.analyze_expression_raw(b)?;
         if let (Assignment(None), (UnqualType::Array(ai, al), UnqualType::Array(bi, bl))) = (op, (&*aty.unqual, &*bty.unqual)) {
             // array-to-array assignment, or more commonly string-to-array initialization
             let (&Some(al), &Some(bl)) = (al, bl) else {
@@ -1678,4 +1720,18 @@ pub enum Address<'a> {
     Global(*mut u8),
     // Dynamic
     Dynamic(&'a Expression),
+}
+
+impl<'a> Address<'a> {
+    pub fn truth_value(&self) -> Option<bool> {
+        match self {
+            Address::Local(_) => Some(true), // Local variables are never zero
+            Address::Global(ptr) => Some(!ptr.is_null()),
+            Address::Dynamic(expr) => if matches!(expr, Expression::IntegerLiteral(0, _)) {
+                Some(false) // Dynamic expressions are zero if they are 0
+            } else {
+                None // Cannot determine truth value of dynamic expressions
+            }
+        }
+    }
 }

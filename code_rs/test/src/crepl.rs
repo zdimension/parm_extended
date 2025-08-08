@@ -220,12 +220,15 @@ impl CRepl {
             let mut comp = Compiler::new(&mut self.scope);
             comp.emit_push(RegList::new([], true));
 
-            let Analysis { ty, .. } = comp.analyze_expression(&expr).map_err(|e| {
+            let Analysis { ty, addr, value } = comp.analyze_expression(&expr).map_err(|e| {
                 PositionedError {
                     pos: None,
                     error: e,
                 }
             })?;
+            rprintln!("type: {}", ty);
+            rprintln!("addr: {:?}", addr);
+            rprintln!("value: {:?}", value);
             comp.emit_expression(&expr).map_err(|e| {
                 PositionedError {
                     pos: None,
@@ -406,7 +409,7 @@ impl CRepl {
             return nums[4];
         }"#;
 
-        self.process(&code);
+        //self.process(&code);
 
         let mut input = String::with_capacity(16384);
         enum TelnetMode {
