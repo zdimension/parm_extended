@@ -220,7 +220,7 @@ impl CRepl {
             let mut comp = Compiler::new(&mut self.scope);
             comp.emit_push(RegList::new([], true));
 
-            let Analysis { ty, addr, value } = comp.analyze_expression(&expr).map_err(|e| {
+            /*let Analysis { ty, addr, value } = comp.analyze_expression(&expr).map_err(|e| {
                 PositionedError {
                     pos: None,
                     error: e,
@@ -228,14 +228,30 @@ impl CRepl {
             })?;
             rprintln!("type: {}", ty);
             rprintln!("addr: {:?}", addr);
-            rprintln!("value: {:?}", value);
-            comp.emit_expression(&expr).map_err(|e| {
+            rprintln!("value: {:?}", value);*/
+            /*comp.emit_expression(&expr).map_err(|e| {
+                PositionedError {
+                    pos: None,
+                    error: e,
+                }
+            })?;*/
+
+            let (Analysis { ty, .. }, eev) = comp.eval_expression(&expr).map_err(|e| {
                 PositionedError {
                     pos: None,
                     error: e,
                 }
             })?;
-            comp.emit_pop(RegList::new([R0], false)); // separate calls so it can merge with the last push
+
+            comp.eval_to_reg(R0, eev).map_err(|e| {
+                PositionedError {
+                    pos: None,
+                    error: e,
+                }
+            })?;
+
+            rprintln!("type: {}", ty);
+
             comp.emit_pop(RegList::new([], true));
 
 

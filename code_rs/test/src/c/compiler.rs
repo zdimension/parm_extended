@@ -9,6 +9,7 @@ use crate::rprintln;
 use alloc::string::String;
 use alloc::vec::Vec;
 use alloc::{format, vec};
+use alloc::boxed::Box;
 use arbitrary_int::{u10, u3, u5, u7, u9};
 use core::borrow::Borrow;
 use core::cmp::PartialEq;
@@ -67,7 +68,9 @@ pub struct Compiler<'a> {
     proto: Option<&'a FunctionImpl>,
     loops: Vec<LoopInfo>,
     pub global_scope: &'a Scope,
-    string_pool: HashMap<String, usize>
+    string_pool: HashMap<String, usize>,
+    //reg_alloc: [bool; 7] // r0 to r6
+    free_regs: Vec<Reg>
 }
 
 #[derive(Debug)]
@@ -124,6 +127,8 @@ impl<'a> Compiler<'a> {
             loops: vec![],
             global_scope,
             string_pool: HashMap::new(),
+            //reg_alloc: [false; 7],
+            free_regs: vec![R0, R1, R2, R3, R4, R5, R6],
         }
     }
 
@@ -910,6 +915,54 @@ impl<'a> Compiler<'a> {
                     }
                 }
                 self.emit_push(RegList::new([R0], false));
+            },
+            _ => comperr!("Unsupported type for symbol reference: {}", ty),
+        }
+        Ok(())
+    }
+
+    fn load_from_into(&mut self, ty: &QualType, addr: &Address, out: Reg) -> Result<(), CompileError> {
+        let ty = ty.clone().decay();
+        match *ty.unqual {
+            UnqualType::Char(_) | UnqualType::Bool => {
+                match addr {
+                    &Address::Local(offset) => {
+                        self.emit(LdrbRegImm { rd: out, rb: R7, imm5: u5::new(offset) });
+                    }
+                    &Address::Global(add) => {
+                        self.with_alloc(|c, [rimm]| {
+                            c.emit_imm32_to_reg(rimm, add as usize);
+                            c.emit(LdrbRegImm { rd: out, rb: rimm, imm5: u5::new(0) });
+                        })?;
+                    }
+                    &Address::Dynamic(expr) => {
+                        let ev = self.eval_expression(expr)?;
+                        self.eval_to_reg(out, ev.1)?;
+                        self.emit(LdrbRegImm { rd: out, rb: out, imm5: u5::new(0) });
+                    }
+                }
+                if *ty.unqual == UnqualType::Char(Some(Signed)) {
+                    self.emit(Sxtb { rd: out, rm: out }); // Sign-extend to 32 bits
+                }
+            }
+            UnqualType::Int(_) | UnqualType::Pointer(_) | UnqualType::Enum(_) => {
+                match addr {
+                    &Address::Local(offset) => {
+                        self.emit(LdrRegImm { rd: out, rb: R7, immw5: u7::new(offset) });
+                    }
+                    &Address::Global(add) => {
+                        self.with_alloc(|c, [rimm]| {
+                            c.emit_imm32_to_reg(rimm, add as usize);
+                            c.emit(LdrRegImm { rd: out, rb: rimm, immw5: u7::new(0) });
+                            Ok(())
+                        })?;
+                    }
+                    &Address::Dynamic(expr) => {
+                        let ev = self.eval_expression(expr)?;
+                        self.eval_to_reg(out, ev.1)?;
+                        self.emit(LdrRegImm { rd: out, rb: out, immw5: u7::new(0) });
+                    }
+                }
             },
             _ => comperr!("Unsupported type for symbol reference: {}", ty),
         }
@@ -1710,9 +1763,167 @@ impl<'a> Compiler<'a> {
         self.leave();
         Ok(())
     }
+
+    pub fn alloc_reg(&mut self) -> Reg {
+        if let Some(reg) = self.free_regs.pop() {
+            reg
+        } else {
+            panic!("No free registers available");
+        }
+    }
+
+    pub fn free_reg(&mut self, reg: Reg) {
+        self.free_regs.push(reg);
+    }
+
+    pub fn with_alloc<const N: usize, T, R: ToResult<Output = T>>(&mut self, callback: impl FnOnce(&mut Self, [Reg; N]) -> R) -> Result<T, CompileError> {
+        let regs: [Reg; N] = core::array::from_fn(|_| self.alloc_reg());
+        let result = callback(self, regs).to_result();
+        for reg in regs {
+            self.free_reg(reg);
+        }
+        result
+    }
+
+    pub fn eval_to_reg(&mut self, out: Reg, eval: Evaluation) -> Result<(), CompileError> {
+        use Evaluation::*;
+        match eval {
+            Constant(val) => {
+                self.emit_imm32_to_reg(out, val as usize);
+            }
+            Emission(func) => {
+                func(self, out);
+            }
+        }
+        Ok(())
+    }
+
+    pub fn eval_expression<'e>(&mut self, expr: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
+        use Evaluation::*;
+        use BinOp::*;
+        use AssignableOperator::*;
+        let res = match expr {
+            Expression::Initializer(_) => unreachable!(), // handled by analyze
+            &Expression::IntegerLiteral(val, sign) => (rvalue(UnqualType::Int(sign).into()), Constant(val)),
+            Expression::SymRef(sym) => {
+                let analysis = self.lookup(sym);
+                let addr = analysis.addr.clone().unwrap();
+                let ty = analysis.ty.clone();
+                (analysis, Emission(Box::new(move |c, out| {
+                    //let (addr, ty) = (addr, ty);
+                    c.load_from_into(&ty, &addr, out)
+                })))
+            }
+            Expression::BinOp(Simple(Plus), l, r) => {
+                let (lty, lev) = self.eval_expression(l)?;
+                let (rty, rev) = self.eval_expression(r)?;
+                let oty = match (&*lty.ty.unqual, &*rty.ty.unqual) {
+                    (l @ &UnqualType::Int(_), r @ &UnqualType::Int(_)) => {
+                        Self::usual_arithmetic_conversion(l, r).unwrap_or_else(|_| unreachable!())
+                    }
+                    (UnqualType::Int(_), UnqualType::Pointer(p)) | (UnqualType::Pointer(p), UnqualType::Int(_)) => {
+                        // Pointer + int is pointer arithmetic
+                        UnqualType::Pointer(p.clone()).into()
+                    }
+                    _ => comperr!("Invalid types for addition: {} + {}", lty.ty, rty.ty),
+                };
+                let rv = match ((lev, &*lty.ty.unqual), (rev, &*rty.ty.unqual)) {
+                    ((Constant(lval), _), (Constant(rval), _)) => {
+                        Constant(lval + rval)
+                    }
+                    ((Constant(0), _), (other, _)) | ((other, _), (Constant(0), _)) => {
+                        other
+                    }
+                    ((Constant(cval), _), (Emission(xev), _)) | ((Emission(xev), _), (Constant(cval), _)) => {
+                        let mut cval = cval;
+                        if let UnqualType::Pointer(xptr) = &*oty.unqual {
+                            cval *= xptr.unqual.size() as u32;
+                        }
+                        Emission(Box::new(move |c, out| {
+                            xev(c, out)?;
+                            if let Ok(c8) = u8::try_from(cval) {
+                                c.emit(AddsImm8 { rd: out, imm8: c8 });
+                                Ok(())
+                            } else {
+                                c.with_alloc(|c, [r]| {
+                                    c.emit_imm32_to_reg(r, cval as usize);
+                                    c.emit(Adds { rd: out, rn: out, rm: r });
+                                    Ok(())
+                                })
+                            }
+                        }))
+                    }
+                    ((Emission(pev), UnqualType::Pointer(pt)), (Emission(kev), kt)) |
+                    ((Emission(kev), kt), (Emission(pev), UnqualType::Pointer(pt))) => {
+                        let size = pt.unqual.size();
+                        Emission(Box::new(move |c, out| {
+                            pev(c, out)?;
+                            c.with_alloc(|c, [other, psize]| {
+                                kev(c, other)?;
+                                c.emit_imm32_to_reg(psize, size);
+                                c.emit(Muls { rdm: other, rn: psize });
+                                c.emit(Adds { rd: out, rn: out, rm: other });
+                                Ok(())
+                            })
+                        }))
+                    }
+                    ((Emission(lev), _), (Emission(rev), _)) => {
+                        Emission(Box::new(move |c, out| {
+                            lev(c, out)?;
+                            c.with_alloc(|c, [other]| {
+                                rev(c, other)?;
+                                c.emit(Adds { rd: out, rn: out, rm: other });
+                                Ok(())
+                            })
+                        }))
+                    }
+                };
+                (rvalue(oty), rv)
+            }
+            _ => todo!()
+        };
+        Ok(res)
+    }
 }
 
-#[derive(Debug)]
+trait ToResult {
+    type Output;
+
+    fn to_result(self) -> Result<Self::Output, CompileError>;
+}
+
+impl ToResult for () {
+    type Output = ();
+
+    fn to_result(self) -> Result<Self::Output, CompileError> {
+        Ok(())
+    }
+}
+
+impl<T> ToResult for Result<T, CompileError> {
+    type Output = T;
+
+    fn to_result(self) -> Result<Self::Output, CompileError> {
+        self
+    }
+}
+
+fn rvalue<'e>(ty: QualType) -> Analysis<'e> {
+    Analysis {
+        ty,
+        addr: None,
+        value: None,
+    }
+}
+
+pub type EvalTy<'e> = (Analysis<'e>, Evaluation);
+
+pub enum Evaluation {
+    Constant(u32),
+    Emission(Box<dyn FnOnce(&mut Compiler, Reg) -> Result<(), CompileError>>),
+}
+
+#[derive(Debug, Clone)]
 pub enum Address<'a> {
     /// Local variable, offset from the frame pointer (R7)
     Local(u8),

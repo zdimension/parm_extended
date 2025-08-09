@@ -2,6 +2,7 @@ use alloc::string::String;
 use crate::parm::heap::prc::Prc;
 use core::borrow::Borrow;
 use core::fmt::{Debug, Display};
+use core::ops::Deref;
 use derive_more::{BitOr, BitOrAssign};
 use crate::parm::OrderedMap;
 
@@ -150,6 +151,14 @@ pub struct TypeQualifiers {
 pub struct QualType {
     pub unqual: TypeBox,
     pub type_qualifiers: TypeQualifiers,
+}
+
+impl Deref for QualType {
+    type Target = UnqualType;
+
+    fn deref(&self) -> &Self::Target {
+        &*self.unqual
+    }
 }
 
 impl QualType {
