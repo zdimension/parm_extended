@@ -237,7 +237,7 @@ impl CRepl {
                 }
             })?;*/
 
-            let (Analysis2 { ty, .. }, eev) = comp.eval_expression(&expr).map_err(|e| {
+            let eev = comp.eval_expression(&expr).map_err(|e| {
                 PositionedError {
                     pos: None,
                     error: e,
