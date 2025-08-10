@@ -22,7 +22,6 @@ use crate::c::arm::HiReg::PC;
 use crate::c::arm::Reg::*;
 use crate::c::emitter::{CodeVec, Emitter};
 use crate::c::lexer::AssignableOperator::{BitwiseAnd, BitwiseOr, BitwiseXor, Minus, Multiply, Plus, ShiftLeft};
-use crate::c::parse_expr::UnaryOp::{BitwiseNot, Deref, Not};
 use crate::c::types::Signedness::{Signed, Unsigned};
 use arbitrary_int::Number;
 use crate::c::compiler::EvalConstantKind::{Absolute, FrameRelative};
@@ -1140,9 +1139,10 @@ impl<'a> Compiler<'a> {
             }
             Expression::MemberAccess(x, member, access) => todo!(),
             Expression::UnaryOp(op, x) => {
+                use UnaryOp::*;
                 let Analysis { ty: xty, addr: xaddr, .. } = self.analyze_expression(x)?;
                 match *op {
-                    UnaryOp::Address => unreachable!(),
+                    Address => unreachable!(),
                     /*UnaryOp::Address => {
                         let Some(addr) = xaddr else {
                             comperr!("Address of expression without address");
@@ -1152,7 +1152,7 @@ impl<'a> Compiler<'a> {
                         return Ok(());
                     }*/
                     Deref => {
-                        self.load_from(ety, &Address::Dynamic(x))?;
+                        self.load_from(ety, &self::Address::Dynamic(x))?;
                         return Ok(());
                     }
                     _ => {}
@@ -1160,13 +1160,13 @@ impl<'a> Compiler<'a> {
                 self.emit_cast(x, &xty.unqual, &ety.unqual)?.or_else(|_| {
                     comperr!("Operand of unary operation must be scalar, found: {}", xty)
                 })?;
-                if *op == UnaryOp::Plus {
+                if *op == Plus {
                     // nothing to do
                     return Ok(());
                 }
                 self.emit_pop(RegList::new([R0], false));
                 match *op {
-                    UnaryOp::Minus => {
+                    Minus => {
                         if let UnqualType::Bool = *ety.unqual {
                             // no-op: 0 becomes 0, 1 becomes -1 which is true
                         } else {
@@ -1182,7 +1182,7 @@ impl<'a> Compiler<'a> {
                         self.emit(Rsbs { rd: R1, rn: R0 }); // R1 = 0 - R0, sets C if R0 = 0 (true)
                         self.emit(Adcs { rdn: R0, rm: R1 }); // R0 = R0 + R1 + C = R0 - R0 + C = C = 1 if R0 = 0 (true), 0 if R0 ≠ 0 (false)
                     }
-                    UnaryOp::IncDec(kind, pos) => {
+                    IncDec(kind, pos) => {
                         use self::parse_expr::IncDec::*;
                         use OpPosition::*;
                         let op_target = match pos {
@@ -1263,6 +1263,7 @@ impl<'a> Compiler<'a> {
         let Analysis { ty: aty, addr: aaddr, .. } = self.analyze_expression_raw(a)?;
         if let (Assignment(None), Expression::Initializer(InitializerList { items })) = (op, b) {
             let mut auto_idx = 0;
+            use UnaryOp::Deref;
             for (designators, val) in items {
                 let mut target = a.clone();
                 if designators.is_empty() {
@@ -1308,6 +1309,7 @@ impl<'a> Compiler<'a> {
             if size > 16 {
                 comperr!("Array assignment requires both arrays to have a size of 16 or less"); // we'll handle larger arrays later
             }
+            use UnaryOp::Deref;
             for i in 0..size {
                 // todo: very bad
                 let target = Expression::UnaryOp(
@@ -1824,15 +1826,18 @@ impl<'a> Compiler<'a> {
         self.free_regs.push(reg);
     }
 
-    pub fn with_alloc<const N: usize, T, R: ToResult<Output = T>>(&mut self, callback: impl FnOnce(&mut Self, [Reg; N]) -> R) -> Result<T, CompileError> {
+    pub fn with_alloc<const N: usize, R>(&mut self, callback: impl FnOnce(&mut Self, [Reg; N]) -> R) -> R {
         let regs: [Reg; N] = core::array::from_fn(|_| self.alloc_reg());
-        let result = callback(self, regs).to_result();
+        let result = callback(self, regs);
         for reg in regs {
             self.free_reg(reg);
         }
         result
     }
 
+    /// if eval is Emission(_), then this simply forwards the register and preserves flags
+    ///
+    /// if eval is an absolute constant, then
     #[inline(always)]
     pub fn eval_to_reg(&mut self, out: Reg, eval: Evaluation) -> Result<(), CompileError> {
         use Evaluation::*;
@@ -1867,8 +1872,8 @@ impl<'a> Compiler<'a> {
     ///
     /// returns Err if no implicit conversion exists
     /// otherwise returns whatever the emission did
-    fn eval_auto_convert<'e>(&mut self, expr: &'e Expression, dst: &UnqualType) -> Result<Result<Evaluation<'e>, ()>, CompileError> {
-        let (xa, xev) = self.eval_expression(expr)?;
+    fn eval_auto_convert<'e>(&mut self, expr: EvalTy<'e>, dst: &UnqualType) -> Result<Result<Evaluation<'e>, EvalTy<'e>>, CompileError> {
+        let (xa, xev) = expr;
         Ok(match (dst, &*xa.ty) {
             (a, b) if Self::are_compatible(a, b) => {
                 // No conversion needed, types are the same
@@ -1901,7 +1906,7 @@ impl<'a> Compiler<'a> {
                 // Conversion from scalar to bool
                 Ok(match xev {
                     Evaluation::Constant(EvalConstant { val, kind: FrameRelative }) => {
-                        Evaluation::Constant(EvalConstant { val: 1, kind: FrameRelative }) // fp-relative addresses are always non-zero
+                        Evaluation::Constant(EvalConstant { val: 1, kind: Absolute }) // fp-relative addresses are always non-zero
                     },
                     Evaluation::Constant(EvalConstant { val, kind: Absolute }) => {
                         Evaluation::Constant(EvalConstant { val: if val != 0 { 1 } else { 0 }, kind: Absolute })
@@ -1909,23 +1914,25 @@ impl<'a> Compiler<'a> {
                     _ => Emission(Box::new(move |c, out| {
                         c.eval_to_reg(out, xev)?;
                         c.with_alloc(|c, [tmp]| {
-                            c.emit(SubsImm { rd: tmp, rn: out, imm3: u3::new(1) }); // tmp = out - 1, if out < 1 then C = !B = 0
+                            c.emit(SubsImm { rd: tmp, rn: out, imm3: u3::new(1) }); // tmp = out - 1, if out < 1 then B = 1 thus C = 0
                             c.emit(Sbcs { rdn: out, rm: tmp }); // out = out - tmp - !C = out - (out - 1) - !C = 1 - !C = (out > 1)
-                            Ok(())
-                        })?;
+                        });
                         Ok(())
                     }))
                 })
             }
-            _ => return Ok(Err(())), // No implicit conversion exists
+            _ => return Ok(Err((xa, xev))), // No implicit conversion exists
         })
     }
 
     fn eval_cast<'e>(&mut self, expr: &'e Expression, dst: &UnqualType) -> Result<Result<Evaluation<'e>, ()>, CompileError> {
-        if let Ok(res) = self.eval_auto_convert(expr, dst)? {
-            return Ok(Ok(res));
-        }
-        let (xa, xev) = self.eval_expression(expr)?; // todo: duplicate work with emit_auto_convert2
+        let eev = self.eval_expression(expr)?;
+        let (xa, xev) = match self.eval_auto_convert(eev, dst)? {
+            Ok(res) => {
+                return Ok(Ok(res));
+            }
+            Err(expr) => expr
+        };
         Ok(match (dst, &*xa.ty) {
             (UnqualType::Int(_) | UnqualType::Pointer(_) | UnqualType::Enum(_), UnqualType::Pointer(_)) =>
                 {
@@ -1991,7 +1998,7 @@ impl<'a> Compiler<'a> {
         use BinOp::*;
         use EvalConstantKind::*;
         use AssignableOperator::*;
-        let res = match expr {
+        let res: (Analysis2, Evaluation<'e>) = match expr {
             Expression::Initializer(_) => unreachable!(), // handled by analyze
             &Expression::IntegerLiteral(val, sign) => (rvalue(UnqualType::Int(sign).into()), EvalConstant {
                 val: val as u32,
@@ -2012,7 +2019,7 @@ impl<'a> Compiler<'a> {
                 let Ok(casted_ev) = casted else {
                     comperr!("Cannot cast expression {:?} from type {} to type {}", expr, xa.ty, ty);
                 };
-                (xa, casted_ev)
+                (rvalue(ty.clone()), casted_ev)
             }
             Expression::SizeOf(op) => {
                 let size = match op {
@@ -2163,7 +2170,7 @@ impl<'a> Compiler<'a> {
                         UnqualType::Int(Signed).into()
                     }
                     IncDec(_, _) => ty,
-                    _ => unreachable!(),
+                    Address | Deref => unreachable!(),
                 };
 
                 let Ok(ec) = self.eval_cast(val, &rty)? else {
@@ -2192,10 +2199,6 @@ impl<'a> Compiler<'a> {
                             Ok(())
                         }))
                     },
-                    /*
-                     self.emit(Rsbs { rd: R1, rn: R0 }); // R1 = 0 - R0, sets C if R0 = 0 (true)
-                        self.emit(Adcs { rdn: R0, rm: R1 }); // R0 = R0 + R1 + C = R0 - R0 + C = C = 1 if R0 = 0 (true), 0 if R0 ≠ 0 (false)
-                     */
                     Not => match ec {
                         Constant(c) => {
                             Constant(EvalConstant { val: if c.truth_value() { 0 } else { 1 }, kind: Absolute })
@@ -2205,12 +2208,11 @@ impl<'a> Compiler<'a> {
                             c.with_alloc(|c, [tmp]| {
                                 c.emit(Rsbs { rd: tmp, rn: out }); // tmp = 0 - out, sets C if out = 0 (true)
                                 c.emit(Adcs { rdn: out, rm: tmp }); // out = out + tmp + C = out - out + C = C = 1 if out = 0 (true), 0 if out ≠ 0 (false)
-                                Ok(())
-                            })?;
+                            });
                             Ok(())
                         }))
                     },
-                    UnaryOp::IncDec(kind, pos) => {
+                    IncDec(kind, pos) => {
                         use self::parse_expr::IncDec::*;
                         use OpPosition::*;
 
@@ -2250,37 +2252,138 @@ impl<'a> Compiler<'a> {
                             Ok(())
                         }))
                     }
-                    _ => todo!()
+                    Address | Deref => unreachable!(),
                 };
 
                 (rvalue(rty), rev)
+            }
+            Expression::BinOp(Bool(bop), l, r) => {
+                let (lty, lev) = self.eval_expression(l)?;
+                let (rty, rev) = self.eval_expression(r)?;
+                let left_is_bool = *lty.ty.unqual == UnqualType::Bool;
+                let lev = match self.eval_auto_convert((lty, lev), &UnqualType::Bool)? {
+                    Ok(ev) => ev,
+                    Err((lty, _)) => comperr!("Left operand of boolean operation must be scalar, found: {}", lty.ty)
+                };
+                let rev = match self.eval_auto_convert((rty, rev), &UnqualType::Bool)? {
+                    Ok(ev) => ev,
+                    Err((rty, _)) => comperr!("Right operand of boolean operation must be scalar, found: {}", rty.ty)
+                };
+                let oty = UnqualType::Int(Signed).into();
+                let ev = match *bop {
+                    BoolOp::And => {
+                        Emission(Box::new(move |c, out| {
+                            c.eval_to_reg(out, lev)?;
+                            if left_is_bool {
+                                // if expr is bool, then auto_convert was a no-op and we don't know what the Z flag is
+                                c.emit(CmpImm { rd: out, imm8: 0 }); // Compare left operand with 0. will set Z flag
+                            } else {
+                                // if expr is variable, then SBC from auto_convert will set Z flag
+                                // otherwise, auto_convert will either return 0 or 1 as a constant
+                                // which will go through emit_imm32 through the short path (since it fits in an u8)
+                                // which will set the Z flag (through movs or mvns)
+                                // so nothing to do
+                            }
+                            let false_label = c.new_label();
+                            c.jump_to(false_label, Condition::Eq); // Jump if left operand is false (0)
+                            c.eval_to_reg(out, rev)?;
+                            // right has been casted to bool so it's already 0 or 1, no need to compare
+                            c.set_label_here(false_label); // Set label for false branch
+                            Ok(())
+                        }))
+                    }
+                    BoolOp::Or => {
+                        Emission(Box::new(move |c, out| {
+                            c.eval_to_reg(out, lev)?; // out is now either 1 or 0. if 0, then Z is set
+                            c.emit(CmpImm { rd: out, imm8: 0 }); // Compare left operand with 0
+                            let true_label = c.new_label();
+                            c.jump_to(true_label, Condition::Ne); // Jump if left operand is true (non-zero)
+                            c.eval_to_reg(out, rev)?;
+                            c.set_label_here(true_label); // Set label for true branch
+                            Ok(())
+                        }))
+                    }
+                };
+                (rvalue(oty), ev)
             }
             Expression::BinOp(Simple(Plus), l, r) => {
                 let (lty, lev) = self.eval_expression(l)?;
                 let (rty, rev) = self.eval_expression(r)?;
                 let oty = match (&*lty.ty.unqual, &*rty.ty.unqual) {
                     (l @ &UnqualType::Int(_), r @ &UnqualType::Int(_)) => {
+                        // int + int -> int is usual arithmetic
                         Self::usual_arithmetic_conversion(l, r).unwrap_or_else(|_| unreachable!())
                     }
                     (UnqualType::Int(_), UnqualType::Pointer(p)) | (UnqualType::Pointer(p), UnqualType::Int(_)) => {
-                        // Pointer + int is pointer arithmetic
+                        // T* + int is pointer arithmetic
                         UnqualType::Pointer(p.clone()).into()
                     }
                     _ => comperr!("Invalid types for addition: {} + {}", lty.ty, rty.ty),
                 };
                 let rv = match ((lev, &*lty.ty.unqual), (rev, &*rty.ty.unqual)) {
-                    ((Constant(EvalConstant { val: mut lval, kind: k }), lty), (Constant(EvalConstant { val: mut rval, kind: Absolute }), rty)) |
-                    ((Constant(EvalConstant { val: mut lval, kind: Absolute }), lty), (Constant(EvalConstant { val: mut rval, kind: k }), rty)) => {
+                    ((Constant(EvalConstant { val: mut lval, kind: Absolute }), lty), (Constant(EvalConstant { val: mut rval, kind: Absolute }), rty)) => {
+                        // check if either input is pointer (at most 1 can be)
                         if let UnqualType::Pointer(lptr) = lty {
                             rval *= lptr.unqual.size() as u32;
                         } else if let UnqualType::Pointer(rptr) = rty {
                             lval *= rptr.unqual.size() as u32;
                         }
-                        Constant(EvalConstant { val: lval + rval, kind: k })
+                        Constant(EvalConstant { val: lval + rval, kind: Absolute })
                     }
-                    ((Constant(EvalConstant { val: 0, kind: Absolute }), _), (other, _)) | ((other, _), (Constant(EvalConstant { val: 0, kind: Absolute }), _)) => {
-                        other
+
+                    ((Constant(EvalConstant { val: mut lval, kind: FrameRelative }), lty), (Constant(EvalConstant { val: mut rval, kind: Absolute }), rty)) |
+                    ((Constant(EvalConstant { val: mut rval, kind: Absolute }), rty), (Constant(EvalConstant { val: mut lval, kind: FrameRelative }), lty))
+                    => {
+                        // check if either input is pointer (at most 1 can be)
+                        if let UnqualType::Pointer(rptr) = rty {
+                            // weird case: (int)(r7+x) + (T*)(y), non const
+                            // = (T*)(r7 * sizeof(T) + const{x * sizeof(T) + y})
+                            let psize = rptr.unqual.size();
+                            Emission(Box::new(move |c, out| {
+                                c.emit_imm32_to_reg(out, psize);
+                                c.with_alloc(|c, [tmp]| {
+                                    c.emit(Movs { rd: tmp, rm: R7 });
+                                    c.emit(Muls { rdm: out, rn: tmp });
+                                });
+                                let cval = lval * psize as u32 + rval;
+                                if let Ok(c8) = u8::try_from(cval) {
+                                    c.emit(AddsImm8 { rd: out, imm8: c8 });
+                                } else {
+                                    c.with_alloc(|c, [r]| {
+                                        c.emit_imm32_to_reg(r, cval as usize);
+                                        c.emit(Adds { rd: out, rn: out, rm: r });
+                                    });
+                                }
+                                Ok(())
+                            }))
+                        } else {
+                            if let UnqualType::Pointer(lptr) = lty {
+                                rval *= lptr.unqual.size() as u32;
+                            }
+                            Constant(EvalConstant { val: lval + rval, kind: FrameRelative })
+                        }
                     }
+
+                    // case where both are frame-relative is degenerate and will be emitted as non-constant
+
+                    ((Constant(EvalConstant { val: 0, kind: Absolute }), zty), (other, _)) |
+                    ((other, _), (Constant(EvalConstant { val: 0, kind: Absolute }), zty)) => {
+                        if let UnqualType::Pointer(zptr) = zty {
+                            // if left is T*, then this is pointer arithmetic so we need to multiply by size
+                            let psize = zptr.unqual.size();
+                            Emission(Box::new(move |c, out| {
+                                c.with_alloc(|c, [tmp]| {
+                                    c.eval_to_reg(tmp, other)?;
+                                    c.emit_imm32_to_reg(out, psize);
+                                    c.emit(Muls { rdm: out, rn: tmp });
+                                    Ok(())
+                                })
+                            }))
+                        } else {
+                            other
+                        }
+                    }
+
                     ((Constant(EvalConstant { val: cval, kind: Absolute }), _), (xev, _)) | ((xev, _), (Constant(EvalConstant { val: cval, kind: Absolute }), _)) => {
                         let mut cval = cval;
                         if let UnqualType::Pointer(xptr) = &*oty.unqual {
@@ -2290,14 +2393,13 @@ impl<'a> Compiler<'a> {
                             c.eval_to_reg(out, xev)?;
                             if let Ok(c8) = u8::try_from(cval) {
                                 c.emit(AddsImm8 { rd: out, imm8: c8 });
-                                Ok(())
                             } else {
                                 c.with_alloc(|c, [r]| {
                                     c.emit_imm32_to_reg(r, cval as usize);
                                     c.emit(Adds { rd: out, rn: out, rm: r });
-                                    Ok(())
-                                })
+                                });
                             }
+                            Ok(())
                         }))
                     }
                     ((pev, UnqualType::Pointer(pt)), (kev, kt)) |
@@ -2324,6 +2426,210 @@ impl<'a> Compiler<'a> {
                             })
                         }))
                     }
+                };
+                (rvalue(oty), rv)
+            }
+            Expression::BinOp(Simple(Minus), l, r) => {
+                let (lty, lev) = self.eval_expression(l)?;
+                let (rty, rev) = self.eval_expression(r)?;
+                let oty = match (&*lty.ty.unqual, &*rty.ty.unqual) {
+                    (l @ &UnqualType::Int(_), r @ &UnqualType::Int(_)) => {
+                        // int - int -> int is usual arithmetic
+                        Self::usual_arithmetic_conversion(l, r).unwrap_or_else(|_| unreachable!())
+                    }
+                    (UnqualType::Pointer(p), UnqualType::Int(_)) => {
+                        // T* - int -> T* is pointer arithmetic
+                        UnqualType::Pointer(p.clone()).into()
+                    }
+                    (UnqualType::Pointer(lt), UnqualType::Pointer(rt)) if Self::are_compatible(lt, rt) => {
+                        // T* - T* -> int is pointer distance
+                        UnqualType::Int(Signed).into()
+                    }
+                    _ => comperr!("Invalid types for addition: {} + {}", lty.ty, rty.ty),
+                };
+                let rv = match ((lev, &*lty.ty.unqual), (rev, &*rty.ty.unqual)) {
+                    (_, _) if l.is_pure() && r.is_pure() && l == r => {
+                        Constant(EvalConstant { val: 0, kind: Absolute })
+                    }
+
+                    ((Constant(EvalConstant { val: lval, kind: lk }), lty), (Constant(EvalConstant { val: rval, kind: rk }), UnqualType::Pointer(rptr)))
+                        if lk == rk => {
+                        // either (T*)x - (T*)y or (T*)[r7+x] - (T*)[r7+y]
+                        Constant(EvalConstant { val: (lval - rval) / rptr.unqual.size() as u32, kind: Absolute })
+                    }
+
+                    ((Constant(EvalConstant { val: mut lval, kind: lk }), _), (Constant(EvalConstant { val: mut rval, kind: rk }), UnqualType::Int(_)))
+                        if rk == Absolute || rk == lk => {
+                        // either x - y or (T*)x - y or (T*)[r7+x] - y or (int)[r7+x] - (int)[r7+y]
+                        if let UnqualType::Pointer(optr) = &*oty.unqual {
+                            rval *= optr.unqual.size() as u32;
+                        }
+                        Constant(EvalConstant { val: lval - rval, kind: if lk == rk { Absolute } else { FrameRelative } })
+                    }
+
+                    ((other, _), (Constant(EvalConstant { val: 0, kind: Absolute }), UnqualType::Pointer(rptr))) => {
+                        // (T*)x - (T*)0
+                        // todo since we need division
+                        todo!()
+                    }
+                    ((Constant(EvalConstant { val: 0, kind: Absolute }), lty), (other, rty)) => {
+                        if let UnqualType::Pointer(rptr) = rty {
+                            todo!() // division
+                        }
+                        // 0 - y or (int*)0 - y
+                        if let UnqualType::Pointer(lptr) = lty {
+                            let psize = lptr.unqual.size();
+                            Emission(Box::new(move |c, out| {
+                                c.eval_to_reg(out, other)?;
+                                c.emit(Negs { rd: out, rn: out });
+                                c.with_alloc(|c, [r]| {
+                                    c.emit_imm32_to_reg(r, psize);
+                                    c.emit(Muls { rdm: out, rn: r });
+                                });
+                                Ok(())
+                            }))
+                        } else {
+                            Emission(Box::new(move |c, out| {
+                                c.eval_to_reg(out, other)?;
+                                c.emit(Negs { rd: out, rn: out });
+                                Ok(())
+                            }))
+                        }
+                    }
+                    ((xev, _), (Constant(EvalConstant { val: cval, kind: Absolute }), _)) => {
+                        // any - (int)c
+                        let mut cval = cval;
+                        if let UnqualType::Pointer(xptr) = &*oty.unqual {
+                            cval *= xptr.unqual.size() as u32;
+                        }
+                        Emission(Box::new(move |c, out| {
+                            c.eval_to_reg(out, xev)?;
+                            if let Ok(c8) = u8::try_from(cval) {
+                                c.emit(SubsImm8 { rd: out, imm8: c8 });
+                                Ok(())
+                            } else {
+                                c.with_alloc(|c, [r]| {
+                                    c.emit_imm32_to_reg(r, cval as usize);
+                                    c.emit(Subs { rd: out, rn: out, rm: r });
+                                    Ok(())
+                                })
+                            }
+                        }))
+                    }
+                    ((lev, lty), (rev, UnqualType::Pointer(_))) => {
+                        todo!() // division
+                    }
+                    ((pev, UnqualType::Pointer(pt)), (kev, kt)) => {
+                        let size = pt.unqual.size();
+                        Emission(Box::new(move |c, out| {
+                            c.eval_to_reg(out, pev)?;
+                            c.with_alloc(|c, [other, psize]| {
+                                c.eval_to_reg(other, kev)?;
+                                c.emit_imm32_to_reg(psize, size);
+                                c.emit(Muls { rdm: other, rn: psize });
+                                c.emit(Subs { rd: out, rn: out, rm: other });
+                                Ok(())
+                            })
+                        }))
+                    }
+                    ((lev, lty), (rev, rty)) => {
+                        Emission(Box::new(move |c, out| {
+                            c.eval_to_reg(out, lev)?;
+                            c.with_alloc(|c, [other]| {
+                                c.eval_to_reg(other, rev)?;
+                                c.emit(Subs { rd: out, rn: out, rm: other });
+                                Ok(())
+                            })
+                        }))
+                    }
+                };
+                (rvalue(oty), rv)
+            }
+            Expression::BinOp(Simple(bop @ (Multiply | Divide | Modulo)), l, r) => {
+                let (lty, lev) = self.eval_expression(l)?;
+                let (rty, rev) = self.eval_expression(r)?;
+                Self::assert_arithmetic(&lty.ty).or_else(|_| {
+                    comperr!("Left operand of multiplicative operation must be arithmetic, found: {}", lty.ty)
+                })?;
+                Self::assert_arithmetic(&rty.ty).or_else(|_| {
+                    comperr!("Right operand of multiplicative operation must be arithmetic, found: {}", rty.ty)
+                })?;
+                let oty = Self::usual_arithmetic_conversion(&*lty.ty.unqual, &*rty.ty.unqual).unwrap_or_else(|_| unreachable!());
+                let rv = match *bop {
+                    Multiply => {
+                        match (lev, rev) {
+                            ((Constant(EvalConstant { val: lval, kind: Absolute })), (Constant(EvalConstant { val: rval, kind: Absolute }))) => {
+                                Constant(EvalConstant { val: lval * rval, kind: Absolute })
+                            }
+
+                            // case where both are frame-relative is degenerate and will be emitted as non-constant
+
+                            ((Constant(EvalConstant { val: 0, kind: Absolute })), (other)) |
+                            ((other), (Constant(EvalConstant { val: 0, kind: Absolute }))) => {
+                                if expr.is_pure() {
+                                    Constant(EvalConstant { val: 0, kind: Absolute })
+                                } else {
+                                    Emission(Box::new(move |c, out| {
+                                        c.eval_to_reg(out, other)?; // TODO: find a way to encode evaluations that need to emit code (side-effects) but have a constant result
+                                        c.emit(MovsImm { rd: out, imm8: 0 }); // zero out the output
+                                        Ok(())
+                                    }))
+                                }
+                            }
+
+                            ((Constant(EvalConstant { val: 1, kind: Absolute })), (other)) |
+                            ((other), (Constant(EvalConstant { val: 1, kind: Absolute }))) => {
+                                other
+                            }
+                            ((lev), (rev)) => {
+                                Emission(Box::new(move |c, out| {
+                                    c.eval_to_reg(out, lev)?;
+                                    c.with_alloc(|c, [other]| {
+                                        c.eval_to_reg(other, rev)?;
+                                        c.emit(Muls { rdm: out, rn: other });
+                                        Ok(())
+                                    })
+                                }))
+                            }
+                        }
+                    }
+                    Divide => {
+                        match (lev, rev) {
+                            (_, (Constant(EvalConstant { val: 0, kind: Absolute }))) => {
+                                comperr!("Division by zero in expression: {:?}", expr);
+                            }
+                            (lev, (Constant(EvalConstant { val: 1, kind: Absolute }))) => {
+                                lev
+                            }
+                            ((Constant(EvalConstant { val: lval, kind: Absolute })), (Constant(EvalConstant { val: rval, kind: Absolute }))) => {
+                                Constant(EvalConstant { val: lval / rval, kind: Absolute })
+                            }
+
+                            ((Constant(EvalConstant { val: 0, kind: Absolute })), rev) => {
+                                if !r.is_pure() {
+                                    // if right is not pure, then we need to emit code to evaluate it
+                                    Emission(Box::new(move |c, out| {
+                                        c.eval_to_reg(out, rev)?;
+                                        c.emit(MovsImm { rd: out, imm8: 0 }); // zero out the output
+                                        Ok(())
+                                    }))
+                                } else {
+                                    Constant(EvalConstant { val: 0, kind: Absolute })
+                                }
+                            }
+
+                            (lev, (Constant(EvalConstant { val, kind: Absolute }))) if *lty.ty.unqual == UnqualType::Bool => {
+                                // at this point, abs(constant) > 1
+                                todo!()
+                            }
+
+
+
+                            _ => todo!()
+                        }
+                    }
+                    Modulo => { todo!() }
+                    _ => unreachable!(),
                 };
                 (rvalue(oty), rv)
             }
@@ -2407,7 +2713,7 @@ pub struct ConstAnalysis {
     FrameRelative(u32),
 }*/
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Eq, PartialEq)]
 pub enum EvalConstantKind {
     Absolute,
     FrameRelative
@@ -2431,6 +2737,32 @@ impl EvalConstant {
 pub enum Evaluation<'e> {
     Constant(EvalConstant),
     Emission(Box<dyn FnOnce(&mut Compiler, Reg) -> Result<(), CompileError> + 'e>),
+}
+
+pub struct FullEvaluation<'e> {
+    result: Evaluation<'e>,
+    side_effects: Vec<Evaluation<'e>>
+}
+
+impl<'e> From<Evaluation<'e>> for FullEvaluation<'e> {
+    fn from(result: Evaluation<'e>) -> Self {
+        FullEvaluation {
+            result,
+            side_effects: Vec::new(),
+        }
+    }
+}
+
+fn discard<'e>(e: &Expression, f: impl FnOnce(&mut Compiler, Reg) -> Result<(), CompileError> + 'e, res: EvalConstant) -> Evaluation<'e> {
+    if e.is_pure() {
+        Evaluation::Constant(res)
+    } else {
+        Evaluation::Emission(Box::new(move |c, out| {
+            f(c, out)?;
+            c.emit(MovsImm { rd: out, imm8: 0 }); // discard the result
+            Ok(())
+        }))
+    }
 }
 
 impl From<EvalConstant> for Evaluation<'static> {

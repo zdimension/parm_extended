@@ -184,8 +184,9 @@ macro_rules! expose_func {
 
 
 expose_func! {
-    fn print_uint(x: u32) {
+    fn print_uint(x: u32) -> u32 {
         rprintln!("{}", x);
+        x
     }
 
     fn print_str(x: *const u8) {
