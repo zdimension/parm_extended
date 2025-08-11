@@ -12,6 +12,7 @@
 #![feature(type_alias_impl_trait)]
 #![feature(const_trait_impl)]
 #![feature(auto_traits)]
+#![feature(trait_alias)]
 #![feature(negative_impls)]
 #![feature(try_blocks)]
 #![feature(yeet_expr)]
@@ -250,7 +251,9 @@ impl CRepl {
                 panic!("expected R0 as result register, got {:?}", reg);
             }
 
-            comp.eval_to_reg(R0, eev).map_err(|e| {
+            rprintln!("ev: {:?}", eev);
+
+            comp.flush_eval_to_reg(R0, eev).map_err(|e| {
                 PositionedError {
                     pos: None,
                     error: e,
