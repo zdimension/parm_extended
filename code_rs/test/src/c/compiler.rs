@@ -2044,7 +2044,7 @@ impl<'a> Compiler<'a> {
                     c.load_from_into(&ty, Constant(addr), out)
                 }))).into())
             }
-            /*Expression::Cast(ty, expr) => {
+            Expression::Cast(ty, expr) => {
                 let (xa, xev) = self.eval_expression(expr)?;
                 let casted = self.eval_cast(expr, ty)?;
                 let Ok(casted_ev) = casted else {
@@ -2060,8 +2060,8 @@ impl<'a> Compiler<'a> {
                 (rvalue(UnqualType::Int(Unsigned).into()), Constant(EvalConstant {
                     val: size as u32,
                     kind: Absolute
-                }))
-            }*/
+                }).into())
+            }
             /*Expression::Conditional(cond, yes, no) => {
                 let (ca, cev) = self.eval_expression(cond)?;
                 Self::assert_scalar(&ca.ty).or_else(|_| {
@@ -2151,6 +2151,10 @@ impl<'a> Compiler<'a> {
                     }
                 }
                 (rvalue(fi.ret.clone()), Emission((Impure, Box::new(move |c, out| {
+                    if out != R0 {
+                        // save R0
+                        c.emit_push(RegList::new([R0], false));
+                    }
                     // Push all args to stack
                     for arg in aev.into_iter().rev() {
                         c.flush_eval_to_reg(out, arg.1)?;
@@ -2163,6 +2167,8 @@ impl<'a> Compiler<'a> {
                     if out != R0 {
                         // todo: find a way to omit this instruction if the result is being discarded
                         c.emit(Movs { rd: out, rm: R0 }); // Move return value to out
+                        // restore R0
+                        c.emit_pop(RegList::new([R0], false));
                     }
                     Ok(())
                 }))).into())
@@ -2296,9 +2302,6 @@ impl<'a> Compiler<'a> {
                 let (lty, lev) = self.eval_expression(l)?;
                 let (rty, rev) = self.eval_expression(r)?;
                 let left_is_bool = *lty.ty.unqual == UnqualType::Bool;
-                // todo: about the (impure + (pure transform)) issue, a simple fix here would be to
-                // first do the scalar check, then to the auto_convert in the branches that use the result
-                // but it'd really be nice if we could continue like this in a single pass
                 let lev = match self.eval_auto_convert((lty, lev), &UnqualType::Bool)? {
                     Ok(ev) => ev,
                     Err((lty, _)) => comperr!("Left operand of boolean operation must be scalar, found: {}", lty.ty)
@@ -2313,7 +2316,7 @@ impl<'a> Compiler<'a> {
                         match (&lev.result, &rev.result) {
                             (Evaluation::Constant(EvalConstant { val: 0, kind: Absolute }), _) => {
                                 // return false but give left's side effects
-                                (lev.side_effects, Constant(EvalConstant { val: 0, kind: Absolute })).into()
+                                lev.discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
                             }
                             (Evaluation::Constant(EvalConstant { .. }), _) => {
                                 // return true but give left's side effects
@@ -2374,7 +2377,7 @@ impl<'a> Compiler<'a> {
                             }
                             (Evaluation::Constant(EvalConstant { .. }), _) => {
                                 // return true but give left's side effects
-                                (lev.side_effects, Constant(EvalConstant { val: 1, kind: Absolute })).into()
+                                lev.discard_and_return(Constant(EvalConstant { val: 1, kind: Absolute }))
                             }
                             (_, Evaluation::Constant(EvalConstant { val: 0, kind: Absolute })) => if r.is_pure() {
                                 // just return left operand
@@ -2658,7 +2661,7 @@ impl<'a> Compiler<'a> {
             //     };
             //     (rvalue(oty), rv)
             // }
-            /*Expression::BinOp(Simple(bop @ (Multiply | Divide | Modulo)), l, r) => {
+            Expression::BinOp(Simple(bop @ (Multiply | Divide | Modulo)), l, r) => {
                 let (lty, lev) = self.eval_expression(l)?;
                 let (rty, rev) = self.eval_expression(r)?;
                 Self::assert_arithmetic(&lty.ty).or_else(|_| {
@@ -2671,81 +2674,88 @@ impl<'a> Compiler<'a> {
                 let rv = match *bop {
                     Multiply => {
                         match (lev, rev) {
-                            ((Constant(EvalConstant { val: lval, kind: Absolute })), (Constant(EvalConstant { val: rval, kind: Absolute }))) => {
-                                Constant(EvalConstant { val: lval * rval, kind: Absolute })
+                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
+                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval * rval, kind: Absolute }))
                             }
 
                             // case where both are frame-relative is degenerate and will be emitted as non-constant
 
-                            ((Constant(EvalConstant { val: 0, kind: Absolute })), (other)) |
-                            ((other), (Constant(EvalConstant { val: 0, kind: Absolute }))) => {
-                                if expr.is_pure() {
-                                    Constant(EvalConstant { val: 0, kind: Absolute })
-                                } else {
-                                    Emission(Box::new(move |c, out| {
-                                        c.eval_to_reg(out, other)?; // TODO: find a way to encode evaluations that need to emit code (side-effects) but have a constant result
-                                        c.emit(MovsImm { rd: out, imm8: 0 }); // zero out the output
-                                        Ok(())
-                                    }))
-                                }
+                            (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) |
+                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
+                                zev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
                             }
 
-                            ((Constant(EvalConstant { val: 1, kind: Absolute })), (other)) |
-                            ((other), (Constant(EvalConstant { val: 1, kind: Absolute }))) => {
-                                other
+                            (oev @ FullEvaluation { result: Constant(EvalConstant { val: 1, kind: Absolute }), .. }, rev) |
+                            (rev, oev @ FullEvaluation { result: Constant(EvalConstant { val: 1, kind: Absolute }), .. }) => {
+                                rev.also_discard(oev)
                             }
-                            ((lev), (rev)) => {
-                                Emission(Box::new(move |c, out| {
-                                    c.eval_to_reg(out, lev)?;
-                                    c.with_alloc(|c, [other]| {
-                                        c.eval_to_reg(other, rev)?;
-                                        c.emit(Muls { rdm: out, rn: other });
-                                        Ok(())
+
+                            (mut lev, mut rev) => {
+                                if lev.purity() == Pure {
+                                    (lev, rev) = (rev, lev);
+                                }
+                                // now, either both are pure, both are impure, or lev is impure and rev is pure
+                                if rev.purity() == Pure {
+                                    lev.and_then_pure(move |c, out| {
+                                        c.with_alloc(|c, [other]| {
+                                            c.flush_eval_to_reg(other, rev)?;
+                                            c.emit(Muls { rdm: out, rn: other });
+                                            Ok(())
+                                        })
                                     })
-                                }))
-                            }
-                        }
-                    }
-                    Divide => {
-                        match (lev, rev) {
-                            (_, (Constant(EvalConstant { val: 0, kind: Absolute }))) => {
-                                comperr!("Division by zero in expression: {:?}", expr);
-                            }
-                            (lev, (Constant(EvalConstant { val: 1, kind: Absolute }))) => {
-                                lev
-                            }
-                            ((Constant(EvalConstant { val: lval, kind: Absolute })), (Constant(EvalConstant { val: rval, kind: Absolute }))) => {
-                                Constant(EvalConstant { val: lval / rval, kind: Absolute })
-                            }
-
-                            ((Constant(EvalConstant { val: 0, kind: Absolute })), rev) => {
-                                if !r.is_pure() {
-                                    // if right is not pure, then we need to emit code to evaluate it
-                                    Emission(Box::new(move |c, out| {
-                                        c.eval_to_reg(out, rev)?;
-                                        c.emit(MovsImm { rd: out, imm8: 0 }); // zero out the output
-                                        Ok(())
-                                    }))
                                 } else {
-                                    Constant(EvalConstant { val: 0, kind: Absolute })
+                                    Emission((Impure, Box::new(move |c, out| {
+                                        c.flush_eval_to_reg(out, lev)?;
+                                        c.with_alloc(|c, [other]| {
+                                            c.flush_eval_to_reg(other, rev)?;
+                                            c.emit(Muls { rdm: out, rn: other });
+                                            Ok(())
+                                        })
+                                    }))).into()
                                 }
                             }
-
-                            (lev, (Constant(EvalConstant { val, kind: Absolute }))) if *lty.ty.unqual == UnqualType::Bool => {
-                                // at this point, abs(constant) > 1
-                                todo!()
-                            }
-
-
-
-                            _ => todo!()
                         }
                     }
+                    // Divide => {
+                    //     match (lev, rev) {
+                    //         (_, (Constant(EvalConstant { val: 0, kind: Absolute }))) => {
+                    //             comperr!("Division by zero in expression: {:?}", expr);
+                    //         }
+                    //         (lev, (Constant(EvalConstant { val: 1, kind: Absolute }))) => {
+                    //             lev
+                    //         }
+                    //         ((Constant(EvalConstant { val: lval, kind: Absolute })), (Constant(EvalConstant { val: rval, kind: Absolute }))) => {
+                    //             Constant(EvalConstant { val: lval / rval, kind: Absolute })
+                    //         }
+                    //
+                    //         ((Constant(EvalConstant { val: 0, kind: Absolute })), rev) => {
+                    //             if !r.is_pure() {
+                    //                 // if right is not pure, then we need to emit code to evaluate it
+                    //                 Emission(Box::new(move |c, out| {
+                    //                     c.eval_to_reg(out, rev)?;
+                    //                     c.emit(MovsImm { rd: out, imm8: 0 }); // zero out the output
+                    //                     Ok(())
+                    //                 }))
+                    //             } else {
+                    //                 Constant(EvalConstant { val: 0, kind: Absolute })
+                    //             }
+                    //         }
+                    //
+                    //         (lev, (Constant(EvalConstant { val, kind: Absolute }))) if *lty.ty.unqual == UnqualType::Bool => {
+                    //             // at this point, abs(constant) > 1
+                    //             todo!()
+                    //         }
+                    //
+                    //
+                    //
+                    //         _ => todo!()
+                    //     }
+                    // }
                     Modulo => { todo!() }
                     _ => unreachable!(),
                 };
                 (rvalue(oty), rv)
-            }*/
+            }
             Expression::Comma(lst, tail) => {
                 // todo: should the types of the lst items be checked? they aren't used anyway
                 let (ta, tev) = self.eval_expression(tail)?;
