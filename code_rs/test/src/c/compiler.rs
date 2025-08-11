@@ -1859,7 +1859,8 @@ impl<'a> Compiler<'a> {
         Ok(())
     }
 
-    pub fn flush_eval_to_reg(&mut self, out: Reg, eval: FullEvaluation<'_>) -> Result<(), CompileError> {
+    pub fn flush_eval_to_reg(&mut self, out: Reg, mut eval: FullEvaluation<'_>) -> Result<(), CompileError> {
+        eval = eval.apply_transforms();
         let eval = self.flush_side_effects(out, eval)?;
         self.eval_to_reg(out, eval)
     }
@@ -1921,12 +1922,16 @@ impl<'a> Compiler<'a> {
                         c.emit_char_extend(out, sign); // Truncate to char, sign/zero-extend if necessary
                         Ok(s)
                     }))*/
-                    _ => xev.and_then(|xev| {
+                    /*_ => xev.and_then(|xev| {
                         move |c, out| {
                             c.eval_to_reg(out, xev)?;
                             c.emit_char_extend(out, sign); // Truncate to char, sign/zero-extend if necessary
                             Ok(())
                         }
+                    })*/
+                    _ => xev.and_then_pure(move |c, out| {
+                        c.emit_char_extend(out, sign); // Truncate to char, sign/zero-extend if necessary
+                        Ok(())
                     })
                 })
             }
@@ -1939,15 +1944,12 @@ impl<'a> Compiler<'a> {
                     &Evaluation::Constant(EvalConstant { val, kind: Absolute }) => {
                         (xev.side_effects, Evaluation::Constant(EvalConstant { val: if val != 0 { 1 } else { 0 }, kind: Absolute })).into()
                     },
-                    _ => xev.and_then(|xev| {
-                        move |c, out| {
-                            c.eval_to_reg(out, xev)?;
-                            c.with_alloc(|c, [tmp]| {
-                                c.emit(SubsImm { rd: tmp, rn: out, imm3: u3::new(1) }); // tmp = out - 1, if out < 1 then B = 1 thus C = 0
-                                c.emit(Sbcs { rdn: out, rm: tmp }); // out = out - tmp - !C = out - (out - 1) - !C = 1 - !C = (out > 1)
-                            });
-                            Ok(())
-                        }
+                    _ => xev.and_then_pure(move |c, out| {
+                        c.with_alloc(|c, [tmp]| {
+                            c.emit(SubsImm { rd: tmp, rn: out, imm3: u3::new(1) }); // tmp = out - 1, if out < 1 then B = 1 thus C = 0
+                            c.emit(Sbcs { rdn: out, rm: tmp }); // out = out - tmp - !C = out - (out - 1) - !C = 1 - !C = (out > 1)
+                        });
+                        Ok(())
                     })
                 })
             }
@@ -2159,6 +2161,7 @@ impl<'a> Compiler<'a> {
                     c.emit(BlxLo { rm: out });
                     c.emit(AddSp { immw7: u9::new((args.len() * 4) as u16) });
                     if out != R0 {
+                        // todo: find a way to omit this instruction if the result is being discarded
                         c.emit(Movs { rd: out, rm: R0 }); // Move return value to out
                     }
                     Ok(())
@@ -2314,23 +2317,36 @@ impl<'a> Compiler<'a> {
                             }
                             (Evaluation::Constant(EvalConstant { .. }), _) => {
                                 // return true but give left's side effects
-                                (lev.side_effects, rev.result).into()
+                                lev.discard_and_then(rev)
                             }
                             (_, Evaluation::Constant(EvalConstant { val: 0, kind: Absolute })) => {
                                 // return false but give both's side effects
-                                lev.discard_and_then(Constant(EvalConstant { val: 0, kind: Absolute })).also_discard(rev)
+                                lev.discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute })).also_discard(rev)
                             }
-                            (_, Evaluation::Constant(EvalConstant { .. })) => Emission((lev.purity() | rev.purity(), Box::new(move |c, out| {
-                                c.flush_eval_to_reg(out, lev)?;
-                                c.with_alloc(|c, [tmp]| {
-                                    c.flush_and_discard(out, rev)?;
+                            (_, Evaluation::Constant(EvalConstant { .. })) => if r.is_pure() {
+                                // just return left operand
+                                lev
+                            } else {
+                                Emission((lev.purity(), Box::new(move |c, out| {
+                                    c.flush_eval_to_reg(out, lev)?;
+                                    if left_is_bool {
+                                        c.emit(CmpImm { rd: out, imm8: 0 }); // see below
+                                    } else {
+                                        // nothing to do
+                                    }
+                                    let false_label = c.new_label();
+                                    c.jump_to(false_label, Condition::Eq); // Jump if left operand is false (0)
+                                    c.with_alloc(|c, [tmp]| {
+                                        c.flush_and_discard(tmp, rev)?;
+                                        Ok(())
+                                    })?;
+                                    // right has been casted to bool so it's already 0 or 1, no need to compare
+                                    c.set_label_here(false_label); // Set label for false branch
                                     Ok(())
-                                })?;
-                                Ok(())
-                            }))).into(),
+                                }))).into()
+                            },
                             _ => Emission((lev.purity() | rev.purity(), Box::new(move |c, out| {
-                                let lev = c.flush_side_effects(out, lev)?;
-                                c.eval_to_reg(out, lev)?;
+                                c.flush_eval_to_reg(out, lev)?;
                                 if left_is_bool {
                                     // if expr is bool, then auto_convert was a no-op and we don't know what the Z flag is
                                     c.emit(CmpImm { rd: out, imm8: 0 }); // Compare left operand with 0. will set Z flag
@@ -2343,8 +2359,7 @@ impl<'a> Compiler<'a> {
                                 }
                                 let false_label = c.new_label();
                                 c.jump_to(false_label, Condition::Eq); // Jump if left operand is false (0)
-                                let rev = c.flush_side_effects(out, rev)?;
-                                c.eval_to_reg(out, rev)?;
+                                c.flush_eval_to_reg(out, rev)?;
                                 // right has been casted to bool so it's already 0 or 1, no need to compare
                                 c.set_label_here(false_label); // Set label for false branch
                                 Ok(())
@@ -2355,32 +2370,47 @@ impl<'a> Compiler<'a> {
                         match (&lev.result, &rev.result) {
                             (Evaluation::Constant(EvalConstant { val: 0, kind: Absolute }), _) => {
                                 // return right but give left's side effects
-                                (lev.side_effects, rev.result).into()
+                                lev.discard_and_then(rev)
                             }
                             (Evaluation::Constant(EvalConstant { .. }), _) => {
                                 // return true but give left's side effects
                                 (lev.side_effects, Constant(EvalConstant { val: 1, kind: Absolute })).into()
                             }
-                            (_, Evaluation::Constant(EvalConstant { val: 0, kind: Absolute })) => Emission((lev.purity() | rev.purity(), Box::new(move |c, out| {
-                                c.flush_eval_to_reg(out, lev)?;
-                                c.with_alloc(|c, [tmp]| {
-                                    c.flush_and_discard(out, rev)?;
+                            (_, Evaluation::Constant(EvalConstant { val: 0, kind: Absolute })) => if r.is_pure() {
+                                // just return left operand
+                                lev
+                            } else {
+                                Emission((lev.purity(), Box::new(move |c, out| {
+                                    c.flush_eval_to_reg(out, lev)?;
+                                    if left_is_bool {
+                                        c.emit(CmpImm { rd: out, imm8: 0 });
+                                    } else {
+                                        // nothing to do
+                                    }
+                                    let true_label = c.new_label();
+                                    c.jump_to(true_label, Condition::Ne); // Jump if left operand is true (non-zero)
+                                    c.with_alloc(|c, [tmp]| {
+                                        c.flush_and_discard(tmp, rev)?;
+                                        Ok(())
+                                    })?;
+                                    c.set_label_here(true_label); // Set label for true branch
                                     Ok(())
-                                })?;
-                                Ok(())
-                            }))).into(),
+                                }))).into()
+                            },
                             (_, Evaluation::Constant(c)) if c.truth_value() => {
                                 // return false but give both's side effects
-                                lev.discard_and_then(Constant(EvalConstant { val: 1, kind: Absolute })).also_discard(rev)
+                                lev.discard_and_return(Constant(EvalConstant { val: 1, kind: Absolute })).also_discard(rev)
                             }
                             _ => Emission((lev.purity() | rev.purity(), Box::new(move |c, out| {
-                                let lev = c.flush_side_effects(out, lev)?;
-                                c.eval_to_reg(out, lev)?;
-                                c.emit(CmpImm { rd: out, imm8: 0 }); // Compare left operand with 0
+                                c.flush_eval_to_reg(out, lev)?;
+                                if left_is_bool {
+                                    c.emit(CmpImm { rd: out, imm8: 0 });
+                                } else {
+                                    // nothing to do
+                                }
                                 let true_label = c.new_label();
                                 c.jump_to(true_label, Condition::Ne); // Jump if left operand is true (non-zero)
-                                let rev = c.flush_side_effects(out, rev)?;
-                                c.eval_to_reg(out, rev)?;
+                                c.flush_eval_to_reg(out, rev)?;
                                 c.set_label_here(true_label); // Set label for true branch
                                 Ok(())
                             }))).into()
@@ -2726,7 +2756,7 @@ impl<'a> Compiler<'a> {
                     tev.and_then(move |result| {
                         move |c, out| {
                             for (_, ev) in lst.into_iter() {
-                                c.flush_side_effects(out, ev)?;
+                                c.flush_and_discard(out, ev)?;
                             }
                             c.eval_to_reg(out, result)?;
                             Ok(())
@@ -2836,7 +2866,7 @@ impl core::ops::BitOr for Purity {
     }
 }
 
-trait RawEvalEmitter = FnOnce(&mut Compiler, Reg) -> Result<(), CompileError>;
+//trait RawEvalEmitter = FnOnce(&mut Compiler, Reg) -> Result<(), CompileError>;
 // RustRover doesn't support trait aliases yet, so we duplicate code...
 type EvalEmitter<'e> = Box<dyn FnOnce(&mut Compiler, Reg) -> Result<(), CompileError> + 'e>;
 type EvalEmission<'e> = (Purity, EvalEmitter<'e>);
@@ -2866,13 +2896,16 @@ impl<'e> Evaluation<'e> {
 }
 
 pub struct FullEvaluation<'e> {
+    /// it's sound to read from result without checking pure_transforms if we're just trying to check if it's a constant
+    /// because pure_transforms are really only used for variable values
     result: Evaluation<'e>,
-    side_effects: SideEffects<'e>
+    side_effects: SideEffects<'e>,
+    pure_transforms: Vec<EvalEmitter<'e>>,
 }
 
 impl<'e> Debug for FullEvaluation<'e> {
     fn fmt(&self, f: &mut Formatter<'_>) -> core::fmt::Result {
-        write!(f, "FullEvaluation {{ result: {:?}, side_effects: {} }}", self.result, self.side_effects.len())
+        write!(f, "FullEvaluation {{ result: {:?}, side_effects: {}, pure_transforms: {} }}", self.result, self.side_effects.len(), self.pure_transforms.len())
     }
 }
 
@@ -2885,23 +2918,58 @@ impl<'e> FullEvaluation<'e> {
         }
     }
 
-    // todo: handle impure evaluations that are followed by pure transformations
-    // when they're discarded, the transformations can be skipped
-    pub fn and_then<I: RawEvalEmitter + 'e>(mut self, f: impl FnOnce(Evaluation<'e>) -> I) -> Self
-    {
-        Self {
-            result: Emission((self.purity(), Box::new(f(self.result)))),
-            side_effects: self.side_effects,
+    pub fn apply_transforms(mut self) -> Self {
+        if !self.pure_transforms.is_empty() {
+            let pt = core::mem::take(&mut self.pure_transforms);
+            self.result = Evaluation::Emission((self.result.purity(), Box::new(move |c, out| {
+                c.eval_to_reg(out, self.result)?;
+                for transform in pt {
+                    transform(c, out)?;
+                }
+                Ok(())
+            })));
         }
+        self
     }
 
-    pub fn discard_and_then(mut self, res: Evaluation<'e>) -> Self {
+    // todo: handle impure evaluations that are followed by pure transformations
+    // when they're discarded, the transformations can be skipped
+    pub fn and_then<I: FnOnce(&mut Compiler, Reg) -> Result<(), CompileError> + 'e>(mut self, f: impl FnOnce(Evaluation<'e>) -> I) -> Self
+    {
+        self = self.apply_transforms();
+        self.result = Emission((self.purity(), Box::new(f(self.result))));
+        self
+    }
+
+    pub fn and_then_pure(mut self, f: impl FnOnce(&mut Compiler, Reg) -> Result<(), CompileError> + 'e) -> Self
+    {
+        if let Evaluation::Constant(_) = self.result {
+            panic!("pure transform on constant? why?");
+        }
+        self.pure_transforms.push(Box::new(f));
+        self
+    }
+
+    pub fn discard_and_return(mut self, res: Evaluation<'e>) -> Self {
         if let Emission((Impure, ev)) = self.result {
             self.side_effects.push(ev);
         }
         Self {
             result: res,
             side_effects: self.side_effects,
+            pure_transforms: vec![] // if we're discarding the result, we don't need to apply any of the pure transforms
+        }
+    }
+
+    pub fn discard_and_then(mut self, mut next: FullEvaluation<'e>) -> Self {
+        if let Emission((Impure, ev)) = self.result {
+            self.side_effects.push(ev);
+        }
+        self.side_effects.append(&mut next.side_effects);
+        Self {
+            result: next.result,
+            side_effects: self.side_effects,
+            pure_transforms: next.pure_transforms
         }
     }
 
@@ -2913,6 +2981,7 @@ impl<'e> FullEvaluation<'e> {
         Self {
             result: self.result,
             side_effects: self.side_effects,
+            pure_transforms: self.pure_transforms, // keep the pure transforms from the first evaluation
         }
     }
 }
@@ -2922,6 +2991,7 @@ impl<'e, T: Into<Evaluation<'e>>> From<(SideEffects<'e>, T)> for FullEvaluation<
         FullEvaluation {
             result: result.into(),
             side_effects,
+            pure_transforms: Vec::new(),
         }
     }
 }
@@ -2931,6 +3001,7 @@ impl<'e, T: Into<Evaluation<'e>>> From<T> for FullEvaluation<'e> {
         FullEvaluation {
             result: result.into(),
             side_effects: Vec::new(),
+            pure_transforms: Vec::new(),
         }
     }
 }
