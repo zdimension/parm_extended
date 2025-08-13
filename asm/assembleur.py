@@ -1007,6 +1007,9 @@ def main_loop():
                     nonlocal current_function_preproc
                     nonlocal byte_val
                     match tokens:
+                        case [x, "=", *rest]:
+                            tokens[:] = [".set", x, ",", *rest]
+                    match tokens:
                         case ["dmb", *rest]:
                             add_instr("$bl1 invalid_instruction")
                             add_instr("$bl2 invalid_instruction")

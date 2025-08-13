@@ -21,7 +21,7 @@ use crate::c::arm::{Condition, Instruction, Reg, RegList};
 use crate::c::arm::HiReg::PC;
 use crate::c::arm::Reg::*;
 use crate::c::emitter::{CodeVec, Emitter};
-use crate::c::lexer::AssignableOperator::{BitwiseAnd, BitwiseOr, BitwiseXor, Minus, Multiply, Plus, ShiftLeft};
+use crate::c::lexer::AssignableOperator::{BitwiseAnd, BitwiseOr, BitwiseXor, Divide, Minus, Modulo, Multiply, Plus, ShiftLeft, ShiftRight};
 use crate::c::types::Signedness::{Signed, Unsigned};
 use arbitrary_int::Number;
 use crate::c::compiler::EvalConstantKind::{Absolute, FrameRelative};
@@ -2691,67 +2691,210 @@ impl<'a> Compiler<'a> {
                             }
 
                             (mut lev, mut rev) => {
-                                if lev.purity() == Pure {
-                                    (lev, rev) = (rev, lev);
-                                }
-                                // now, either both are pure, both are impure, or lev is impure and rev is pure
-                                if rev.purity() == Pure {
-                                    lev.and_then_pure(move |c, out| {
-                                        c.with_alloc(|c, [other]| {
-                                            c.flush_eval_to_reg(other, rev)?;
-                                            c.emit(Muls { rdm: out, rn: other });
-                                            Ok(())
-                                        })
-                                    })
-                                } else {
-                                    Emission((Impure, Box::new(move |c, out| {
-                                        c.flush_eval_to_reg(out, lev)?;
-                                        c.with_alloc(|c, [other]| {
-                                            c.flush_eval_to_reg(other, rev)?;
-                                            c.emit(Muls { rdm: out, rn: other });
-                                            Ok(())
-                                        })
-                                    }))).into()
-                                }
+                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                                    c.emit(Muls { rdm: l, rn: r });
+                                })
                             }
                         }
                     }
-                    // Divide => {
-                    //     match (lev, rev) {
-                    //         (_, (Constant(EvalConstant { val: 0, kind: Absolute }))) => {
-                    //             comperr!("Division by zero in expression: {:?}", expr);
-                    //         }
-                    //         (lev, (Constant(EvalConstant { val: 1, kind: Absolute }))) => {
-                    //             lev
-                    //         }
-                    //         ((Constant(EvalConstant { val: lval, kind: Absolute })), (Constant(EvalConstant { val: rval, kind: Absolute }))) => {
-                    //             Constant(EvalConstant { val: lval / rval, kind: Absolute })
-                    //         }
-                    //
-                    //         ((Constant(EvalConstant { val: 0, kind: Absolute })), rev) => {
-                    //             if !r.is_pure() {
-                    //                 // if right is not pure, then we need to emit code to evaluate it
-                    //                 Emission(Box::new(move |c, out| {
-                    //                     c.eval_to_reg(out, rev)?;
-                    //                     c.emit(MovsImm { rd: out, imm8: 0 }); // zero out the output
-                    //                     Ok(())
-                    //                 }))
-                    //             } else {
-                    //                 Constant(EvalConstant { val: 0, kind: Absolute })
-                    //             }
-                    //         }
-                    //
-                    //         (lev, (Constant(EvalConstant { val, kind: Absolute }))) if *lty.ty.unqual == UnqualType::Bool => {
-                    //             // at this point, abs(constant) > 1
-                    //             todo!()
-                    //         }
-                    //
-                    //
-                    //
-                    //         _ => todo!()
-                    //     }
-                    // }
+
+                    Divide => {
+                        match (lev, rev) {
+                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
+                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval / rval, kind: Absolute }))
+                            }
+                            (_, FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
+                                comperr!("Division by zero in expression: {:?}", l);
+                            }
+
+                            // case where both are frame-relative is degenerate and will be emitted as non-constant
+
+                            (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) => {
+                                zev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
+                            }
+
+                            (lev, oev @ FullEvaluation { result: Constant(EvalConstant { val: 1, kind: Absolute }), .. }) => {
+                                lev.also_discard(oev)
+                            }
+
+                            (lev, oev @ FullEvaluation { result: Constant(EvalConstant { val: c, kind: Absolute }), .. }) if c >= 2 && c.is_power_of_two() => {
+                                // todo: negative division?
+                                let shift = c.trailing_zeros() as u8; // will be between 1 and 31
+                                match &*lty.ty.unqual {
+                                    UnqualType::Char(Some(Signed)) => {
+                                        lev.also_discard(oev).and_then_pure(move |c, out| {
+                                            c.with_alloc(|c, [tmp]| {
+                                                c.emit(LsrImm { rd: tmp, rm: out, imm5: u5::new(32 - shift) });
+                                                c.emit(Adds { rd: out, rn: out, rm: tmp });
+                                                if shift > 1 {
+                                                    c.emit(Sxtb { rd: out, rm: out }); // Sign-extend to 32 bits
+                                                }
+                                                c.emit(AsrImm { rd: out, rm: out, imm5: u5::new(shift) });
+                                            });
+                                            Ok(())
+                                        })
+                                    }
+                                    UnqualType::Int(Signed) => {
+                                        lev.also_discard(oev).and_then_pure(move |c, out| {
+                                            c.with_alloc(|c, [tmp]| {
+                                                if shift > 1 {
+                                                    c.emit(AsrImm { rd: tmp, rm: out, imm5: u5::new(31) });
+                                                    c.emit(LsrImm { rd: tmp, rm: tmp, imm5: u5::new(32 - shift) });
+                                                } else {
+                                                    c.emit(LsrImm { rd: tmp, rm: out, imm5: u5::new(32 - shift) });
+                                                }
+                                                c.emit(Adds { rd: out, rn: out, rm: tmp });
+                                            });
+                                            c.emit(AsrImm { rd: out, rm: out, imm5: u5::new(shift) });
+                                            Ok(())
+                                        })
+                                    }
+                                    UnqualType::Int(Unsigned) | UnqualType::Char(_) => {
+                                        lev.also_discard(oev).and_then_pure(move |c, out| {
+                                            c.emit(LsrImm { rd: out, rm: out, imm5: u5::new(shift) });
+                                            Ok(())
+                                        })
+                                    }
+                                    _ => comperr!("Division by power of two is only supported for integers")
+                                }
+                            }
+
+                            (mut lev, mut rev) => {
+                                comperr!("General division not implemented yet: {:?} / {:?}", lev, rev);
+                            }
+                        }
+                    }
                     Modulo => { todo!() }
+                    _ => unreachable!(),
+                };
+                (rvalue(oty), rv)
+            }
+            Expression::BinOp(Simple(bop @ (ShiftLeft | ShiftRight | BitwiseOr | BitwiseAnd | BitwiseXor)), l, r) => {
+                let (lty, lev) = self.eval_expression(l)?;
+                let (rty, rev) = self.eval_expression(r)?;
+                Self::assert_integer(&lty.ty).or_else(|_| {
+                    comperr!("Left operand of bitwise operation must be integer, found: {}", lty.ty)
+                })?;
+                Self::assert_integer(&rty.ty).or_else(|_| {
+                    comperr!("Right operand of bitwise operation must be integer, found: {}", rty.ty)
+                })?;
+                let oty = Self::usual_arithmetic_conversion(&*lty.ty.unqual, &*rty.ty.unqual).unwrap_or_else(|_| unreachable!());
+                let rv = match *bop {
+                    ShiftLeft => {
+                        match (lev, rev) {
+                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
+                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval << rval, kind: Absolute }))
+                            }
+
+                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
+                                rev.also_discard(zev)
+                            }
+
+                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: sval, kind: Absolute }), .. }) => {
+                                if sval > 31 {
+                                    rev.also_discard(zev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
+                                } else {
+                                    rev.also_discard(zev).and_then_pure(move |c, out| {
+                                        c.emit(LslImm { rd: out, rm: out, imm5: u5::new(sval as u8) });
+                                        Ok(())
+                                    })
+                                }
+                            }
+
+                            (lev, rev) => {
+                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                                    c.emit(Lsls { rdn: l, rm: r });
+                                })
+                            }
+                        }
+                    }
+
+                    ShiftRight => {
+                        match (lev, rev) {
+                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
+                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval >> rval, kind: Absolute }))
+                            }
+
+                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
+                                rev.also_discard(zev)
+                            }
+
+                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: sval, kind: Absolute }), .. }) => {
+                                if sval > 31 {
+                                    rev.also_discard(zev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
+                                } else {
+                                    rev.also_discard(zev).and_then_pure(move |c, out| {
+                                        c.emit(LsrImm { rd: out, rm: out, imm5: u5::new(sval as u8) });
+                                        Ok(())
+                                    })
+                                }
+                            }
+
+                            (lev, rev) => {
+                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                                    c.emit(Lsrs { rdn: l, rm: r });
+                                })
+                            }
+                        }
+                    }
+
+                    BitwiseOr => {
+                        match (lev, rev) {
+                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
+                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval | rval, kind: Absolute }))
+                            }
+
+                            (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) |
+                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
+                                rev.also_discard(zev)
+                            }
+
+                            (lev, rev) => {
+                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                                    c.emit(Orrs { rdn: l, rm: r });
+                                })
+                            }
+                        }
+                    }
+
+                    BitwiseAnd => {
+                        match (lev, rev) {
+                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
+                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval & rval, kind: Absolute }))
+                            }
+
+                            (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) |
+                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
+                                zev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
+                            }
+
+                            (lev, rev) => {
+                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                                    c.emit(Ands { rdn: l, rm: r });
+                                })
+                            }
+                        }
+                    }
+
+                    BitwiseXor => {
+                        match (lev, rev) {
+                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
+                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval ^ rval, kind: Absolute }))
+                            }
+
+                            (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) |
+                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
+                                rev.also_discard(zev)
+                            }
+
+                            (lev, rev) => {
+                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                                    c.emit(Eors { rdn: l, rm: r });
+                                })
+                            }
+                        }
+                    }
+
                     _ => unreachable!(),
                 };
                 (rvalue(oty), rv)
@@ -2958,6 +3101,85 @@ impl<'e> FullEvaluation<'e> {
         }
         self.pure_transforms.push(Box::new(f));
         self
+    }
+
+    pub fn binop_combine(mut self, mut other_self: Self, f: impl FnOnce(&mut Compiler, (Reg, Reg)) -> Result<(), CompileError> + 'e) -> Self {
+        // possible cases: (self, other_self) =
+        // (left: pure, right: pure)
+        // (left: pure, right: impure)
+        // (left: impure, right: pure)
+        // (left: impure, right: impure)
+
+        if other_self.purity() == Pure {
+            // (left: pure, right: pure)
+            // (left: impure, right: pure)
+            self.and_then_pure(move |c, out| {
+                c.with_alloc(|c, [other]| {
+                    c.flush_eval_to_reg(other, other_self)?; // no side effects so this is pure
+                    f(c, (out, other))?;
+                    Ok(())
+                })
+            })
+        } else if self.purity() == Pure {
+            // (left: pure, right: impure)
+            other_self.and_then_pure(move |c, out| {
+                c.with_alloc(|c, [other]| {
+                    c.emit(Movs { rd: other, rm: out}); // todo: this sucks, find a better way later!
+                    c.flush_eval_to_reg(out, self)?; // no side effects so this is pure
+                    f(c, (out, other))?;
+                    Ok(())
+                })
+            })
+        } else {
+            // (left: impure, right: impure)
+            Emission((Impure, Box::new(move |c, out| {
+                c.flush_eval_to_reg(out, self)?;
+                c.with_alloc(|c, [other]| {
+                    c.flush_eval_to_reg(other, other_self)?;
+                    f(c, (out, other))?;
+                    Ok(())
+                })
+            }))).into()
+        }
+    }
+
+    pub fn binop_combine_symmetric(mut self, mut other_self: Self, f: impl FnOnce(&mut Compiler, (Reg, Reg)) + 'e) -> Self {
+        // possible cases: (self, other_self) =
+        // (left: pure, right: pure)
+        // (left: pure, right: impure)
+        // (left: impure, right: pure)
+        // (left: impure, right: impure)
+
+        if other_self.purity() == Pure {
+            // (left: pure, right: pure)
+            // (left: impure, right: pure)
+            self.and_then_pure(move |c, out| {
+                c.with_alloc(|c, [other]| {
+                    c.flush_eval_to_reg(other, other_self)?; // no side effects so this is pure
+                    f(c, (out, other));
+                    Ok(())
+                })
+            })
+        } else if self.purity() == Pure {
+            // (left: pure, right: impure)
+            other_self.and_then_pure(move |c, out| {
+                c.with_alloc(|c, [other]| {
+                    c.flush_eval_to_reg(other, self)?; // no side effects so this is pure
+                    f(c, (out, other));
+                    Ok(())
+                })
+            })
+        } else {
+            // (left: impure, right: impure)
+            Emission((Impure, Box::new(move |c, out| {
+                c.flush_eval_to_reg(out, self)?;
+                c.with_alloc(|c, [other]| {
+                    c.flush_eval_to_reg(other, other_self)?;
+                    f(c, (out, other));
+                    Ok(())
+                })
+            }))).into()
+        }
     }
 
     pub fn discard_and_return(mut self, res: Evaluation<'e>) -> Self {
