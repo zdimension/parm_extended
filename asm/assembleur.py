@@ -427,10 +427,12 @@ def try_assemble(pc: int, m: re.Match, instr: str, output, line: str, line_num: 
                         if val < 0:
                             raise AsmException(f"PC-relative label {v} is before current PC {pc} (Thumb-16 encoding only supports 0..1020)")
                         val = check_align(2 * val, 2)
+                        valrange = range(0, 2 ** width)
                     else:
                         val = (lbl_value - pc - (2 if cond else 0))
+                        valrange = range(-(2 ** (width - 1)), 2 ** (width - 1))
                     dic[k] = (val, width)
-                    if not (abs(val) < 2 ** (width - (not pcrel))):
+                    if val not in valrange:
                         if cli_args.optimize_functions and not optim_done:
                             continue
                         if cli_args.ignore_large_jumps:
@@ -454,7 +456,7 @@ def try_assemble(pc: int, m: re.Match, instr: str, output, line: str, line_num: 
                                 set_line(line_num - 1, f"b{CONDS[opp_id]} {new_label}")
                                 insert_line(line_num, f"{new_label}:")
                                 insert_line(line_num, f"b {v}")
-                                print("New code:", lines[line_num - 1:line_num + 8])
+                                print("New code:", lines[line_num - 1:line_num + 2])
                                 raise Trampoline(2)
                             elif instr == "ldr":
                                 """
@@ -475,7 +477,28 @@ def try_assemble(pc: int, m: re.Match, instr: str, output, line: str, line_num: 
                                 insert_line(line_num, f"{tr_data}: .long {v}")
                                 insert_line(line_num, f".p2align 2")
                                 insert_line(line_num, f"b {tr_after}")
-                                print("New code:", lines[line_num - 1:line_num + 8])
+                                print("New code:", lines[line_num - 1:line_num + 4])
+                                raise Trampoline(4)
+                            elif instr == "adr":
+                                """
+                                adr Rd, label_value
+                                becomes
+                                ldr Rd, trampo_addr
+                                b trampo_after
+                                .p2align 2
+                                trampo_addr: .long label_value
+                                trampo_after: 
+                                """
+                                print("Trampolining:", line)
+                                tr_data = f"{new_label}_addr"
+                                tr_after = f"{new_label}_after"
+                                rd = f"r{dic['Rd'][0]}"
+                                set_line(line_num - 1, f"ldr {rd}, {tr_data}")
+                                insert_line(line_num, f"{tr_after}: ")
+                                insert_line(line_num, f"{tr_data}: .long {v}")
+                                insert_line(line_num, f".p2align 2")
+                                insert_line(line_num, f"b {tr_after}")
+                                print("New code:", lines[line_num - 1:line_num + 4])
                                 raise Trampoline(4)
                             elif instr.lower() == "b":
                                 """
@@ -501,7 +524,7 @@ def try_assemble(pc: int, m: re.Match, instr: str, output, line: str, line_num: 
                                 insert_line(line_num, f".p2align 2")
                                 insert_line(line_num, f"b {tr_after}")
                                 insert_line(line_num, f"ldr r7, {tr_target}")
-                                print("New code:", lines[line_num - 1:line_num + 8])
+                                print("New code:", lines[line_num - 1:line_num + 7])
                                 raise Trampoline(7)
                         raise Exception(
                             f"Jump too wide : {lbl_value} is {dic[k][0]} which does not fit in {width} bits")
@@ -530,6 +553,8 @@ def try_assemble(pc: int, m: re.Match, instr: str, output, line: str, line_num: 
                     val = check_align(val, sh)
         res <<= width
         if width != 0:
+            if val >= 2 ** width or val < -(2 ** (width - 1)):
+                raise AsmException(f"Value {val} does not fit in {width} bits")
             val &= 2 ** width - 1
         res += val
     return ((pc, res, line, ', '.join(f'{k}={v[0] if v else str()}' for k, v in dic.items() if k[0] != 'F')),)
