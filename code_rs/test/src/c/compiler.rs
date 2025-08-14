@@ -2027,6 +2027,7 @@ impl<'a> Compiler<'a> {
     }
 
     pub fn eval_bin_op<'e>(&mut self, op: BinOp, l: &'e Expression, r: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
+        use BinOp::*;
         Ok(match op {
             Bool(bop) => {
                 let (lty, lev) = self.eval_expression(l)?;
@@ -2651,6 +2652,135 @@ impl<'a> Compiler<'a> {
                 };
                 (rvalue(oty), rv)
             }
+            Comparison(cop) => {
+                let (lty, lev) = self.eval_expression(l)?;
+                let (rty, rev) = self.eval_expression(r)?;
+                match (&*lty.ty.unqual, &*rty.ty.unqual) {
+                    (UnqualType::Pointer(pa), UnqualType::Pointer(pb)) => {
+                        if !Self::are_compatible(pa, pb) {
+                            comperr!("Cannot compare incompatible pointers: {} and {}", lty.ty, rty.ty);
+                        }
+                    }
+                    (ia, ib) if Self::assert_integer(ia).is_ok() && Self::assert_integer(ib).is_ok() => {
+                        // If both are integers, we can compare them directly
+                    }
+                    _ => {
+                        comperr!("Cannot compare types: {} and {}", lty.ty, rty.ty);
+                    }
+                }
+                let oty = UnqualType::Int(Signed).into();
+                let rv = match cop {
+                    Equal => {
+                        match (lev, rev) {
+                            (a, b) if a.purity() == Pure && b.purity() == Pure && l == r => {
+                                // If both sides are pure and equal, we can return a constant true
+                                Constant(EvalConstant { val: 1, kind: Absolute }).into()
+                            }
+
+                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) => {
+                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if (lval, lk) == (rval, rk) { 1 } else { 0 }, kind: Absolute }))
+                            }
+
+                            (lev, rev) => {
+                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                                    c.emit(Subs { rd: r, rn: l, rm: r }); // r = a - b. 0 if equal, ≠ 0 if different
+                                    c.emit(Rsbs { rd: l, rn: r }); // l = 0 - r = b - a. Sets C if r = 0 (equal).
+                                    c.emit(Adcs { rdn: l, rm: r }); // l = l + r + C = (b - a) + (a - b) + C = 1 if equal, 0 if different
+                                })
+                            }
+                        }
+                    }
+                    NotEqual => {
+                        match (lev, rev) {
+                            (a, b) if a.purity() == Pure && b.purity() == Pure && l == r => {
+                                // If both sides are pure and equal, we can return a constant false
+                                Constant(EvalConstant { val: 0, kind: Absolute }).into()
+                            }
+
+                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) => {
+                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if (lval, lk) == (rval, rk) { 0 } else { 1 }, kind: Absolute }))
+                            }
+
+                            (lev, rev) => {
+                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                                    c.emit(Subs { rd: l, rn: l, rm: r }); // l = a - b. 0 if equal, ≠ 0 if different
+                                    c.emit(SubsImm { rd: r, rn: l, imm3: u3::new(1) }); // r = l - 1. If equal, the sub borrows so C = 0.
+                                    c.emit(Sbcs { rdn: l, rm: r }); // l = l - r - !C = (a - b) - (a - b - 1) - !C = 1 - !C = C = 0 if equal, 1 if different
+                                })
+                            }
+                        }
+                    }
+                    // todo: signed comparison
+                    LessThan => {
+                        match (lev, rev) {
+                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
+                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval < rval { 1 } else { 0 }, kind: Absolute }))
+                            }
+
+                            (lev, rev) => {
+                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                                    c.emit(Cmp { rn: l, rm: r }); // does a - b, sets C=1 if l >= r (because no borrow)
+                                    c.emit(Sbcs { rdn: l, rm: l }); // l = l - l - !C = 0 - !C = 0 if l >= r, -1 if l < r
+                                    c.emit(Negs { rd: l, rn: l }); // Negate l, so it becomes 1 if l < r, 0 if l >= r
+                                })
+                            }
+                        }
+                    }
+                    LessThanOrEqual => {
+                        match (lev, rev) {
+                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
+                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval <= rval { 1 } else { 0 }, kind: Absolute }))
+                            }
+
+                            (lev, rev) => {
+                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                                    c.emit(Cmp { rn: r, rm: l }); // does b - a, sets C=1 if r >= l (because no borrow)
+                                    c.emit(MovsImm { rd: l, imm8: 0 }); // Set l to 0
+                                    c.emit(Adcs { rdn: l, rm: l }); // If r < l, C=1, so l = 1, else l = 0
+                                })
+                            }
+                        }
+                    }
+                    GreaterThan => {
+                        match (lev, rev) {
+                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
+                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval > rval { 1 } else { 0 }, kind: Absolute }))
+                            }
+
+                            (lev, rev) => {
+                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                                    // see LessThan
+                                    c.emit(Cmp { rn: r, rm: l });
+                                    c.emit(Sbcs { rdn: l, rm: l });
+                                    c.emit(Negs { rd: l, rn: l });
+                                })
+                            }
+                        }
+                    }
+                    GreaterThanOrEqual => {
+                        match (lev, rev) {
+                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
+                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval >= rval { 1 } else { 0 }, kind: Absolute }))
+                            }
+
+                            (lev, rev) => {
+                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                                    // see LessThanOrEqual
+                                    c.emit(Cmp { rn: l, rm: r });
+                                    c.emit(MovsImm { rd: l, imm8: 0 });
+                                    c.emit(Adcs { rdn: l, rm: l });
+                                })
+                            }
+                        }
+                    }
+                };
+                (rvalue(oty), rv)
+            }
+
+            Assignment(_) => {
+                todo!()
+            }
+
             _ => todo!()
         })
     }
