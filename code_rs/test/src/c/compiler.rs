@@ -2790,6 +2790,10 @@ impl<'a> Compiler<'a> {
                                 rev.also_discard(zev)
                             }
 
+                            (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) => {
+                                zev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
+                            }
+
                             (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: sval, kind: Absolute }), .. }) => {
                                 if sval > 31 {
                                     rev.also_discard(zev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
@@ -2802,8 +2806,11 @@ impl<'a> Compiler<'a> {
                             }
 
                             (lev, rev) => {
-                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                                lev.binop_combine(rev, move |c, (out, (l, r))| {
                                     c.emit(Lsls { rdn: l, rm: r });
+                                    if l != out {
+                                        c.emit(Movs { rd: out, rm: l });
+                                    }
                                 })
                             }
                         }
@@ -2819,20 +2826,35 @@ impl<'a> Compiler<'a> {
                                 rev.also_discard(zev)
                             }
 
+                            (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) => {
+                                zev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
+                            }
+
                             (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: sval, kind: Absolute }), .. }) => {
                                 if sval > 31 {
                                     rev.also_discard(zev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
                                 } else {
                                     rev.also_discard(zev).and_then_pure(move |c, out| {
-                                        c.emit(LsrImm { rd: out, rm: out, imm5: u5::new(sval as u8) });
+                                        if lty.ty.is_signed() {
+                                            c.emit(AsrImm { rd: out, rm: out, imm5: u5::new(sval as u8) });
+                                        } else {
+                                            c.emit(LsrImm { rd: out, rm: out, imm5: u5::new(sval as u8) });
+                                        }
                                         Ok(())
                                     })
                                 }
                             }
 
                             (lev, rev) => {
-                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
-                                    c.emit(Lsrs { rdn: l, rm: r });
+                                lev.binop_combine(rev, move |c, (out, (l, r))| {
+                                    if lty.ty.is_signed() {
+                                        c.emit(Asrs { rdn: l, rm: r });
+                                    } else {
+                                        c.emit(Lsrs { rdn: l, rm: r });
+                                    }
+                                    if l != out {
+                                        c.emit(Movs { rd: out, rm: l });
+                                    }
                                 })
                             }
                         }
@@ -3094,16 +3116,20 @@ impl<'e> FullEvaluation<'e> {
         self
     }
 
-    pub fn and_then_pure(mut self, f: impl FnOnce(&mut Compiler, Reg) -> Result<(), CompileError> + 'e) -> Self
-    {
-        if let Evaluation::Constant(_) = self.result {
-            panic!("pure transform on constant? why?");
+    pub fn and_then_pure(mut self, f: impl FnOnce(&mut Compiler, Reg) -> Result<(), CompileError> + 'e) -> Self {
+        if let Evaluation::Constant(r) = self.result {
+            self.result = Emission((Pure, Box::new(move |c, out| {
+                c.emit_imm32_to_reg(out, r.val as usize);
+                f(c, out)?;
+                Ok(())
+            })));
+        } else {
+            self.pure_transforms.push(Box::new(f));
         }
-        self.pure_transforms.push(Box::new(f));
         self
     }
 
-    pub fn binop_combine(mut self, mut other_self: Self, f: impl FnOnce(&mut Compiler, (Reg, Reg)) -> Result<(), CompileError> + 'e) -> Self {
+    pub fn binop_combine(mut self, mut other_self: Self, f: impl FnOnce(&mut Compiler, (Reg, (Reg, Reg))) + 'e) -> Self {
         // possible cases: (self, other_self) =
         // (left: pure, right: pure)
         // (left: pure, right: impure)
@@ -3116,7 +3142,7 @@ impl<'e> FullEvaluation<'e> {
             self.and_then_pure(move |c, out| {
                 c.with_alloc(|c, [other]| {
                     c.flush_eval_to_reg(other, other_self)?; // no side effects so this is pure
-                    f(c, (out, other))?;
+                    f(c, (out, (out, other)));
                     Ok(())
                 })
             })
@@ -3124,9 +3150,9 @@ impl<'e> FullEvaluation<'e> {
             // (left: pure, right: impure)
             other_self.and_then_pure(move |c, out| {
                 c.with_alloc(|c, [other]| {
-                    c.emit(Movs { rd: other, rm: out}); // todo: this sucks, find a better way later!
-                    c.flush_eval_to_reg(out, self)?; // no side effects so this is pure
-                    f(c, (out, other))?;
+                    //c.emit(Movs { rd: other, rm: out}); // todo: this sucks, find a better way later!
+                    c.flush_eval_to_reg(other, self)?; // no side effects so this is pure
+                    f(c, (out, (other, out)));
                     Ok(())
                 })
             })
@@ -3136,7 +3162,7 @@ impl<'e> FullEvaluation<'e> {
                 c.flush_eval_to_reg(out, self)?;
                 c.with_alloc(|c, [other]| {
                     c.flush_eval_to_reg(other, other_self)?;
-                    f(c, (out, other))?;
+                    f(c, (out, (out, other)));
                     Ok(())
                 })
             }))).into()
