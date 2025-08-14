@@ -441,7 +441,7 @@ def try_assemble(pc: int, m: re.Match, instr: str, output, line: str, line_num: 
                         if not notrampo:
                             new_label = "trampo_" + ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
                             # thanks @Guekka
-                            print("Trampolining:", line, "while in", current_function_name)
+                            print("Trampolining:", line, "while in", current_function.name)
                             print("Old code:", lines[line_num - 1:line_num + 8])
                             if cond and len(instr) == 3:
                                 """

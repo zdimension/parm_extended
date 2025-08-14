@@ -19,6 +19,7 @@
 #![allow(dead_code)]
 #![allow(clippy::should_implement_trait)]
 #![deny(unreachable_patterns)]
+#![deny(unreachable_code)]
 extern crate alloc;
 
 use alloc::string::String;

@@ -25,12 +25,13 @@ use crate::c::lexer::AssignableOperator::{BitwiseAnd, BitwiseOr, BitwiseXor, Div
 use crate::c::types::Signedness::{Signed, Unsigned};
 use arbitrary_int::Number;
 use crate::c::compiler::EvalConstantKind::{Absolute, FrameRelative};
-use crate::c::compiler::Evaluation::Emission;
+use crate::c::compiler::Evaluation::{Constant, Emission};
 use crate::c::compiler::FoldedConstant::Integer;
 use crate::c::parse_expr;
 use crate::c::parse_expr::IncDec::{Decrement, Increment};
 use crate::c::parse_expr::OpPosition::{Postfix, Prefix};
 use Purity::*;
+use crate::c::parse_expr::BinOp::{Bool, Simple};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum CompileError {
@@ -985,7 +986,7 @@ impl<'a> Compiler<'a> {
                 match addr {
                     Evaluation::Constant(EvalConstant { val: offset, kind: FrameRelative }) => {
                         let Ok(o8) = u8::try_from(offset) else {
-                            return comperr!("Offset for char load is too large: {}", offset);
+                            comperr!("Offset for char load is too large: {}", offset);
                         };
                         self.emit(LdrbRegImm { rd: out, rb: R7, imm5: u5::new(o8) });
                     }
@@ -1002,7 +1003,7 @@ impl<'a> Compiler<'a> {
                 match addr {
                     Evaluation::Constant(EvalConstant { val: offset, kind: FrameRelative }) => {
                         let Ok(o8) = u8::try_from(offset) else {
-                            return comperr!("Offset for int/pointer load is too large: {}", offset);
+                            comperr!("Offset for int/pointer load is too large: {}", offset);
                         };
                         self.emit(LdrRegImm { rd: out, rb: R7, immw5: u7::new(o8) });
                     }
@@ -1990,7 +1991,7 @@ impl<'a> Compiler<'a> {
                 match addr {
                     Evaluation::Constant(EvalConstant { val: offset, kind: FrameRelative }) => {
                         let Ok(o8) = u8::try_from(offset) else {
-                            return comperr!("Offset for char load is too large: {}", offset);
+                            comperr!("Offset for char load is too large: {}", offset);
                         };
                         self.emit(StrbRegImm { rd: reg, rb: R7, imm5: u5::new(o8) });
                     }
@@ -2007,7 +2008,7 @@ impl<'a> Compiler<'a> {
                 match addr {
                     Evaluation::Constant(EvalConstant { val: offset, kind: FrameRelative }) => {
                         let Ok(o8) = u8::try_from(offset) else {
-                            return comperr!("Offset for int/pointer store is too large: {}", offset);
+                            comperr!("Offset for int/pointer store is too large: {}", offset);
                         };
                         self.emit(StrRegImm { rd: reg, rb: R7, immw5: u7::new(o8) });
                     }
@@ -2025,280 +2026,9 @@ impl<'a> Compiler<'a> {
         Ok(())
     }
 
-    pub fn eval_expression<'e>(&mut self, expr: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
-        use Evaluation::*;
-        use BinOp::*;
-        use EvalConstantKind::*;
-        use AssignableOperator::*;
-        let res: (Analysis2, FullEvaluation<'e>) = match expr {
-            Expression::Initializer(_) => unreachable!(), // handled by analyze
-            &Expression::IntegerLiteral(val, sign) => (rvalue(UnqualType::Int(sign).into()), EvalConstant {
-                val: val as u32,
-                kind: Absolute
-            }.into()),
-            Expression::SymRef(sym) => {
-                let analysis = self.lookup2(sym);
-                let addr = analysis.addr;
-                let ty = analysis.ty.clone();
-                (analysis.into(), Emission((if ty.type_qualifiers.is_volatile { Impure } else { Pure }, Box::new(move |c, out| {
-                    c.load_from_into(&ty, Constant(addr), out)
-                }))).into())
-            }
-            Expression::Cast(ty, expr) => {
-                let (xa, xev) = self.eval_expression(expr)?;
-                let casted = self.eval_cast(expr, ty)?;
-                let Ok(casted_ev) = casted else {
-                    comperr!("Cannot cast expression {:?} from type {} to type {}", expr, xa.ty, ty);
-                };
-                (rvalue(ty.clone()), casted_ev)
-            }
-            Expression::SizeOf(op) => {
-                let size = match op {
-                    SizeOfOp::Type(ty) => ty.unqual.size(),
-                    SizeOfOp::Expression(expr) => self.analyze_expression_raw(expr)?.ty.unqual.size(),
-                };
-                (rvalue(UnqualType::Int(Unsigned).into()), Constant(EvalConstant {
-                    val: size as u32,
-                    kind: Absolute
-                }).into())
-            }
-            /*Expression::Conditional(cond, yes, no) => {
-                let (ca, cev) = self.eval_expression(cond)?;
-                Self::assert_scalar(&ca.ty).or_else(|_| {
-                    comperr!("Condition in conditional expression must be scalar, found: {}", ca.ty)
-                })?;
-                let (Analysis2 { ty: yty, .. }, yev) = self.eval_expression(yes)?;
-                let (Analysis2 { ty: nty, .. }, nev) = self.eval_expression(no)?;
-                let rty = if Self::are_compatible(&yty, &nty) {
-                    // If both branches are the same type, use that type
-                    yty
-                } else if Self::assert_arithmetic(&yty).is_ok() && Self::assert_arithmetic(&nty).is_ok() {
-                    // If both branches are arithmetic, promote to int
-                    let yty = Self::get_promoted_int(&*yty.unqual)?;
-                    let nty = Self::get_promoted_int(&*nty.unqual)?;
-                    Self::usual_arithmetic_conversion(&*yty.unqual, &*nty.unqual).unwrap_or_else(|_| unreachable!())
-                } else if let (UnqualType::Pointer(pty), UnqualType::Pointer(ptn)) = (&*yty.unqual, &*nty.unqual) {
-                    if !Self::are_compatible(pty, ptn) {
-                        comperr!(
-                            "Conditional branches have different pointer types: {} and {}",
-                            yty, nty
-                        );
-                    }
-                    QualType {
-                        unqual: pty.unqual.clone(),
-                        type_qualifiers: pty.type_qualifiers | ptn.type_qualifiers,
-                    }
-                } else {
-                    comperr!(
-                        "Conditional branches have different types: {} and {}",
-                        yty,
-                        nty
-                    );
-                };
-                if let Constant(c) = cev {
-                    return Ok(if c.truth_value() {
-                        // If condition is constant true, use yes branch
-                        (rvalue(rty), yev)
-                    } else {
-                        // If condition is constant false, use no branch
-                        (rvalue(rty), nev)
-                    })
-                }
-                (rvalue(rty), Emission(Box::new(move |c, out| {
-                    // Evaluate condition
-                    c.eval_to_reg(out, cev)?;
-                    c.emit(CmpImm { rd: out, imm8: 0 }); // Compare condition with 0
-                    let false_label = c.new_label();
-                    c.jump_to(false_label, Condition::Eq); // Jump if condition is false (0
-                    // Evaluate yes branch
-                    c.eval_to_reg(out, yev)?;
-                    let end_label = c.new_label();
-                    c.jump_to(end_label, Condition::Al); // Jump to end after yes branch
-                    c.set_label_here(false_label); // Set label for false branch
-                    // Evaluate no branch
-                    c.eval_to_reg(out, nev)?;
-                    c.set_label_here(end_label); // Set label for end of conditional
-                    Ok(())
-                })))
-            }*/
-            Expression::FuncCall(f, args) => {
-                let (fa, fev) = self.eval_expression(f)?;
-                if fev.purity() == Impure {
-                    comperr!("Impure function call, don't handle that yet");
-                }
-                let UnqualType::Function(fi) = &*fa.ty.unqual else {
-                    comperr!("Expected function type for function call, found: {}", fa.ty);
-                };
-                let Some(addr) = fa.addr else {
-                    comperr!("Function call without address");
-                };
-                if args.len() != fi.args.len() {
-                    comperr!(
-                        "Function call argument count mismatch: expected {}, found {}",
-                        fi.args.len(),
-                        args.len()
-                    );
-                }
-                let aev = args.iter().map(|arg| self.eval_expression(arg)).collect::<Result<Vec<_>, _>>()?;
-                for (i, (exp, got)) in fi.args.iter().zip(aev.iter()).enumerate() {
-                    if !Self::are_compatible(exp.1, &got.0.ty) {
-                        comperr!(
-                            "Argument {} of function call has incompatible type: expected {}, found {}",
-                            i + 1,
-                            exp.1,
-                            got.0.ty
-                        );
-                    }
-                }
-                (rvalue(fi.ret.clone()), Emission((Impure, Box::new(move |c, out| {
-                    if out != R0 {
-                        // save R0
-                        c.emit_push(RegList::new([R0], false));
-                    }
-                    // Push all args to stack
-                    for arg in aev.into_iter().rev() {
-                        c.flush_eval_to_reg(out, arg.1)?;
-                        c.emit_push(RegList::new([out], false));
-                    }
-                    //c.emit_address_to_reg(addr, out)?;
-                    c.flush_eval_to_reg(out, addr)?;
-                    c.emit(BlxLo { rm: out });
-                    c.emit(AddSp { immw7: u9::new((args.len() * 4) as u16) });
-                    if out != R0 {
-                        // todo: find a way to omit this instruction if the result is being discarded
-                        c.emit(Movs { rd: out, rm: R0 }); // Move return value to out
-                        // restore R0
-                        c.emit_pop(RegList::new([R0], false));
-                    }
-                    Ok(())
-                }))).into())
-            }
-            /*Expression::UnaryOp(op, val) => {
-                let (Analysis2 { ty, addr: xa }, xev) = self.eval_expression(val)?;
-                use self::UnaryOp::*;
-                match *op {
-                    Address => {
-                        let Some(addr) = xa else {
-                            comperr!("Cannot take address of non-lvalue expression: {:?}", val);
-                        };
-                        let oty = UnqualType::Pointer(ty).into();
-                        return Ok((rvalue(oty), addr));
-                    }
-                    Deref => {
-                        let UnqualType::Pointer(ref inner) = *ty.unqual else {
-                            return Err(GenericDyn(format!(
-                                "Expected pointer type for dereference, found: {}",
-                                ty
-                            )));
-                        };
-                        let ic = inner.clone();
-                        // todo: find a way to do this without evaluating twice
-                        let (xa2, xev2) = self.eval_expression(val)?;
-                        return Ok((Analysis2 {
-                            ty: inner.clone(),
-                            addr: Some(xev),
-                        }, Emission(Box::new(move |c, out| {
-                            c.load_from_into(&ic, xev2, out)
-                        }))));
-                    }
-                    _ => {}
-                }
-
-                let rty = match op {
-                    Plus | Minus | BitwiseNot => Self::get_promoted_int(&ty.unqual)?.into(),
-                    Not => {
-                        Self::assert_scalar(&ty)?;
-                        UnqualType::Int(Signed).into()
-                    }
-                    IncDec(_, _) => ty,
-                    Address | Deref => unreachable!(),
-                };
-
-                let Ok(ec) = self.eval_cast(val, &rty)? else {
-                    comperr!("Operand of unary operation must be scalar, found: {}", rty)
-                };
-
-                let rev = match op {
-                    Plus => ec, // nothing do do
-                    Minus => match ec {
-                        Constant(EvalConstant { val, kind: Absolute }) => {
-                            Constant(EvalConstant { val: -(val as i32) as u32, kind: Absolute })
-                        }
-                        _ => Emission(Box::new(move |c, out| {
-                            c.eval_to_reg(out, ec)?;
-                            c.emit(Negs { rd: out, rn: out });
-                            Ok(())
-                        }))
-                    },
-                    BitwiseNot => match ec {
-                        Constant(EvalConstant { val, kind: Absolute }) => {
-                            Constant(EvalConstant { val: !val, kind: Absolute })
-                        }
-                        _ => Emission(Box::new(move |c, out| {
-                            c.eval_to_reg(out, ec)?;
-                            c.emit(Mvns { rd: out, rm: out });
-                            Ok(())
-                        }))
-                    },
-                    Not => match ec {
-                        Constant(c) => {
-                            Constant(EvalConstant { val: if c.truth_value() { 0 } else { 1 }, kind: Absolute })
-                        }
-                        _ => Emission(Box::new(move |c, out| {
-                            c.eval_to_reg(out, ec)?;
-                            c.with_alloc(|c, [tmp]| {
-                                c.emit(Rsbs { rd: tmp, rn: out }); // tmp = 0 - out, sets C if out = 0 (true)
-                                c.emit(Adcs { rdn: out, rm: tmp }); // out = out + tmp + C = out - out + C = C = 1 if out = 0 (true), 0 if out ≠ 0 (false)
-                            });
-                            Ok(())
-                        }))
-                    },
-                    IncDec(kind, pos) => {
-                        use self::parse_expr::IncDec::*;
-                        use OpPosition::*;
-
-                        let Some(addr) = xa else {
-                            comperr!("Cannot increment/decrement non-lvalue expression: {:?}", val);
-                        };
-
-                        let rty = rty.clone();
-                        Emission(Box::new(move |c, out| {
-                            c.eval_to_reg(out, ec)?;
-                            let incdec = |c: &mut Compiler, sto: Reg| {
-                                if *kind == Increment {
-                                    if let UnqualType::Pointer(pty) = &*rty.unqual {
-                                        c.emit(AddsImm8 { rd: sto, imm8: pty.unqual.size() as u8 });
-                                    } else {
-                                        c.emit(AddsImm8 { rd: sto, imm8: 1 });
-                                    }
-                                } else {
-                                    if let UnqualType::Pointer(pty) = &*rty.unqual {
-                                        c.emit(SubsImm8 { rd: sto, imm8: pty.unqual.size() as u8 });
-                                    } else {
-                                        c.emit(SubsImm8 { rd: sto, imm8: 1 });
-                                    }
-                                }
-                            };
-                            if *pos == Prefix {
-                                incdec(c, out);
-                                c.store_into(&rty, addr, out)?;
-                            } else {
-                                c.with_alloc(|c, [tmp]| {
-                                    c.emit(Movs { rd: tmp, rm: out });
-                                    incdec(c, tmp);
-                                    c.store_into(&rty, addr, tmp)?;
-                                    Ok(())
-                                })?;
-                            }
-                            Ok(())
-                        }))
-                    }
-                    Address | Deref => unreachable!(),
-                };
-
-                (rvalue(rty), rev)
-            }*/
-            Expression::BinOp(Bool(bop), l, r) => {
+    pub fn eval_bin_op<'e>(&mut self, op: BinOp, l: &'e Expression, r: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
+        Ok(match op {
+            Bool(bop) => {
                 let (lty, lev) = self.eval_expression(l)?;
                 let (rty, rev) = self.eval_expression(r)?;
                 let left_is_bool = *lty.ty.unqual == UnqualType::Bool;
@@ -2311,7 +2041,7 @@ impl<'a> Compiler<'a> {
                     Err((rty, _)) => comperr!("Right operand of boolean operation must be scalar, found: {}", rty.ty)
                 };
                 let oty = UnqualType::Int(Signed).into();
-                let ev = match *bop {
+                let ev = match bop {
                     BoolOp::And => {
                         match (&lev.result, &rev.result) {
                             (Evaluation::Constant(EvalConstant { val: 0, kind: Absolute }), _) => {
@@ -2661,7 +2391,7 @@ impl<'a> Compiler<'a> {
             //     };
             //     (rvalue(oty), rv)
             // }
-            Expression::BinOp(Simple(bop @ (Multiply | Divide | Modulo)), l, r) => {
+            Simple(bop @ (Multiply | Divide | Modulo)) => {
                 let (lty, lev) = self.eval_expression(l)?;
                 let (rty, rev) = self.eval_expression(r)?;
                 Self::assert_arithmetic(&lty.ty).or_else(|_| {
@@ -2671,7 +2401,7 @@ impl<'a> Compiler<'a> {
                     comperr!("Right operand of multiplicative operation must be arithmetic, found: {}", rty.ty)
                 })?;
                 let oty = Self::usual_arithmetic_conversion(&*lty.ty.unqual, &*rty.ty.unqual).unwrap_or_else(|_| unreachable!());
-                let rv = match *bop {
+                let rv = match bop {
                     Multiply => {
                         match (lev, rev) {
                             (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
@@ -2769,7 +2499,7 @@ impl<'a> Compiler<'a> {
                 };
                 (rvalue(oty), rv)
             }
-            Expression::BinOp(Simple(bop @ (ShiftLeft | ShiftRight | BitwiseOr | BitwiseAnd | BitwiseXor)), l, r) => {
+            Simple(bop @ (ShiftLeft | ShiftRight | BitwiseOr | BitwiseAnd | BitwiseXor)) => {
                 let (lty, lev) = self.eval_expression(l)?;
                 let (rty, rev) = self.eval_expression(r)?;
                 Self::assert_integer(&lty.ty).or_else(|_| {
@@ -2779,7 +2509,7 @@ impl<'a> Compiler<'a> {
                     comperr!("Right operand of bitwise operation must be integer, found: {}", rty.ty)
                 })?;
                 let oty = Self::usual_arithmetic_conversion(&*lty.ty.unqual, &*rty.ty.unqual).unwrap_or_else(|_| unreachable!());
-                let rv = match *bop {
+                let rv = match bop {
                     ShiftLeft => {
                         match (lev, rev) {
                             (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
@@ -2921,6 +2651,288 @@ impl<'a> Compiler<'a> {
                 };
                 (rvalue(oty), rv)
             }
+            _ => todo!()
+        })
+    }
+
+    pub fn eval_expression<'e>(&mut self, expr: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
+        use Evaluation::*;
+        use BinOp::*;
+        use EvalConstantKind::*;
+        use AssignableOperator::*;
+        let res: (Analysis2, FullEvaluation<'e>) = match expr {
+            Expression::Initializer(_) => unreachable!(), // handled by analyze
+            &Expression::IntegerLiteral(val, sign) => (rvalue(UnqualType::Int(sign).into()), EvalConstant {
+                val: val as u32,
+                kind: Absolute
+            }.into()),
+            Expression::SymRef(sym) => {
+                let analysis = self.lookup2(sym);
+                let addr = analysis.addr;
+                let ty = analysis.ty.clone();
+                (analysis.into(), Emission((if ty.type_qualifiers.is_volatile { Impure } else { Pure }, Box::new(move |c, out| {
+                    c.load_from_into(&ty, Constant(addr), out)
+                }))).into())
+            }
+            Expression::Cast(ty, expr) => {
+                let (xa, xev) = self.eval_expression(expr)?;
+                let casted = self.eval_cast(expr, ty)?;
+                let Ok(casted_ev) = casted else {
+                    comperr!("Cannot cast expression {:?} from type {} to type {}", expr, xa.ty, ty);
+                };
+                (rvalue(ty.clone()), casted_ev)
+            }
+            Expression::SizeOf(op) => {
+                let size = match op {
+                    SizeOfOp::Type(ty) => ty.unqual.size(),
+                    SizeOfOp::Expression(expr) => self.analyze_expression_raw(expr)?.ty.unqual.size(),
+                };
+                (rvalue(UnqualType::Int(Unsigned).into()), Constant(EvalConstant {
+                    val: size as u32,
+                    kind: Absolute
+                }).into())
+            }
+            /*Expression::Conditional(cond, yes, no) => {
+                let (ca, cev) = self.eval_expression(cond)?;
+                Self::assert_scalar(&ca.ty).or_else(|_| {
+                    comperr!("Condition in conditional expression must be scalar, found: {}", ca.ty)
+                })?;
+                let (Analysis2 { ty: yty, .. }, yev) = self.eval_expression(yes)?;
+                let (Analysis2 { ty: nty, .. }, nev) = self.eval_expression(no)?;
+                let rty = if Self::are_compatible(&yty, &nty) {
+                    // If both branches are the same type, use that type
+                    yty
+                } else if Self::assert_arithmetic(&yty).is_ok() && Self::assert_arithmetic(&nty).is_ok() {
+                    // If both branches are arithmetic, promote to int
+                    let yty = Self::get_promoted_int(&*yty.unqual)?;
+                    let nty = Self::get_promoted_int(&*nty.unqual)?;
+                    Self::usual_arithmetic_conversion(&*yty.unqual, &*nty.unqual).unwrap_or_else(|_| unreachable!())
+                } else if let (UnqualType::Pointer(pty), UnqualType::Pointer(ptn)) = (&*yty.unqual, &*nty.unqual) {
+                    if !Self::are_compatible(pty, ptn) {
+                        comperr!(
+                            "Conditional branches have different pointer types: {} and {}",
+                            yty, nty
+                        );
+                    }
+                    QualType {
+                        unqual: pty.unqual.clone(),
+                        type_qualifiers: pty.type_qualifiers | ptn.type_qualifiers,
+                    }
+                } else {
+                    comperr!(
+                        "Conditional branches have different types: {} and {}",
+                        yty,
+                        nty
+                    );
+                };
+                if let Constant(c) = cev {
+                    return Ok(if c.truth_value() {
+                        // If condition is constant true, use yes branch
+                        (rvalue(rty), yev)
+                    } else {
+                        // If condition is constant false, use no branch
+                        (rvalue(rty), nev)
+                    })
+                }
+                (rvalue(rty), Emission(Box::new(move |c, out| {
+                    // Evaluate condition
+                    c.eval_to_reg(out, cev)?;
+                    c.emit(CmpImm { rd: out, imm8: 0 }); // Compare condition with 0
+                    let false_label = c.new_label();
+                    c.jump_to(false_label, Condition::Eq); // Jump if condition is false (0
+                    // Evaluate yes branch
+                    c.eval_to_reg(out, yev)?;
+                    let end_label = c.new_label();
+                    c.jump_to(end_label, Condition::Al); // Jump to end after yes branch
+                    c.set_label_here(false_label); // Set label for false branch
+                    // Evaluate no branch
+                    c.eval_to_reg(out, nev)?;
+                    c.set_label_here(end_label); // Set label for end of conditional
+                    Ok(())
+                })))
+            }*/
+            Expression::FuncCall(f, args) => {
+                let (fa, fev) = self.eval_expression(f)?;
+                if fev.purity() == Impure {
+                    comperr!("Impure function call, don't handle that yet");
+                }
+                let UnqualType::Function(fi) = &*fa.ty.unqual else {
+                    comperr!("Expected function type for function call, found: {}", fa.ty);
+                };
+                let Some(addr) = fa.addr else {
+                    comperr!("Function call without address");
+                };
+                if args.len() != fi.args.len() {
+                    comperr!(
+                        "Function call argument count mismatch: expected {}, found {}",
+                        fi.args.len(),
+                        args.len()
+                    );
+                }
+                let aev = args.iter().map(|arg| self.eval_expression(arg)).collect::<Result<Vec<_>, _>>()?;
+                for (i, (exp, got)) in fi.args.iter().zip(aev.iter()).enumerate() {
+                    if !Self::are_compatible(exp.1, &got.0.ty) {
+                        comperr!(
+                            "Argument {} of function call has incompatible type: expected {}, found {}",
+                            i + 1,
+                            exp.1,
+                            got.0.ty
+                        );
+                    }
+                }
+                (rvalue(fi.ret.clone()), Emission((Impure, Box::new(move |c, out| {
+                    if out != R0 {
+                        // save R0
+                        c.emit_push(RegList::new([R0], false));
+                    }
+                    // Push all args to stack
+                    for arg in aev.into_iter().rev() {
+                        c.flush_eval_to_reg(out, arg.1)?;
+                        c.emit_push(RegList::new([out], false));
+                    }
+                    //c.emit_address_to_reg(addr, out)?;
+                    c.flush_eval_to_reg(out, addr)?;
+                    c.emit(BlxLo { rm: out });
+                    c.emit(AddSp { immw7: u9::new((args.len() * 4) as u16) });
+                    if out != R0 {
+                        // todo: find a way to omit this instruction if the result is being discarded
+                        c.emit(Movs { rd: out, rm: R0 }); // Move return value to out
+                        // restore R0
+                        c.emit_pop(RegList::new([R0], false));
+                    }
+                    Ok(())
+                }))).into())
+            }
+            /*Expression::UnaryOp(op, val) => {
+                let (Analysis2 { ty, addr: xa }, xev) = self.eval_expression(val)?;
+                use self::UnaryOp::*;
+                match *op {
+                    Address => {
+                        let Some(addr) = xa else {
+                            comperr!("Cannot take address of non-lvalue expression: {:?}", val);
+                        };
+                        let oty = UnqualType::Pointer(ty).into();
+                        return Ok((rvalue(oty), addr));
+                    }
+                    Deref => {
+                        let UnqualType::Pointer(ref inner) = *ty.unqual else {
+                            return Err(GenericDyn(format!(
+                                "Expected pointer type for dereference, found: {}",
+                                ty
+                            )));
+                        };
+                        let ic = inner.clone();
+                        // todo: find a way to do this without evaluating twice
+                        let (xa2, xev2) = self.eval_expression(val)?;
+                        return Ok((Analysis2 {
+                            ty: inner.clone(),
+                            addr: Some(xev),
+                        }, Emission(Box::new(move |c, out| {
+                            c.load_from_into(&ic, xev2, out)
+                        }))));
+                    }
+                    _ => {}
+                }
+
+                let rty = match op {
+                    Plus | Minus | BitwiseNot => Self::get_promoted_int(&ty.unqual)?.into(),
+                    Not => {
+                        Self::assert_scalar(&ty)?;
+                        UnqualType::Int(Signed).into()
+                    }
+                    IncDec(_, _) => ty,
+                    Address | Deref => unreachable!(),
+                };
+
+                let Ok(ec) = self.eval_cast(val, &rty)? else {
+                    comperr!("Operand of unary operation must be scalar, found: {}", rty)
+                };
+
+                let rev = match op {
+                    Plus => ec, // nothing do do
+                    Minus => match ec {
+                        Constant(EvalConstant { val, kind: Absolute }) => {
+                            Constant(EvalConstant { val: -(val as i32) as u32, kind: Absolute })
+                        }
+                        _ => Emission(Box::new(move |c, out| {
+                            c.eval_to_reg(out, ec)?;
+                            c.emit(Negs { rd: out, rn: out });
+                            Ok(())
+                        }))
+                    },
+                    BitwiseNot => match ec {
+                        Constant(EvalConstant { val, kind: Absolute }) => {
+                            Constant(EvalConstant { val: !val, kind: Absolute })
+                        }
+                        _ => Emission(Box::new(move |c, out| {
+                            c.eval_to_reg(out, ec)?;
+                            c.emit(Mvns { rd: out, rm: out });
+                            Ok(())
+                        }))
+                    },
+                    Not => match ec {
+                        Constant(c) => {
+                            Constant(EvalConstant { val: if c.truth_value() { 0 } else { 1 }, kind: Absolute })
+                        }
+                        _ => Emission(Box::new(move |c, out| {
+                            c.eval_to_reg(out, ec)?;
+                            c.with_alloc(|c, [tmp]| {
+                                c.emit(Rsbs { rd: tmp, rn: out }); // tmp = 0 - out, sets C if out = 0 (true)
+                                c.emit(Adcs { rdn: out, rm: tmp }); // out = out + tmp + C = out - out + C = C = 1 if out = 0 (true), 0 if out ≠ 0 (false)
+                            });
+                            Ok(())
+                        }))
+                    },
+                    IncDec(kind, pos) => {
+                        use self::parse_expr::IncDec::*;
+                        use OpPosition::*;
+
+                        let Some(addr) = xa else {
+                            comperr!("Cannot increment/decrement non-lvalue expression: {:?}", val);
+                        };
+
+                        let rty = rty.clone();
+                        Emission(Box::new(move |c, out| {
+                            c.eval_to_reg(out, ec)?;
+                            let incdec = |c: &mut Compiler, sto: Reg| {
+                                if *kind == Increment {
+                                    if let UnqualType::Pointer(pty) = &*rty.unqual {
+                                        c.emit(AddsImm8 { rd: sto, imm8: pty.unqual.size() as u8 });
+                                    } else {
+                                        c.emit(AddsImm8 { rd: sto, imm8: 1 });
+                                    }
+                                } else {
+                                    if let UnqualType::Pointer(pty) = &*rty.unqual {
+                                        c.emit(SubsImm8 { rd: sto, imm8: pty.unqual.size() as u8 });
+                                    } else {
+                                        c.emit(SubsImm8 { rd: sto, imm8: 1 });
+                                    }
+                                }
+                            };
+                            if *pos == Prefix {
+                                incdec(c, out);
+                                c.store_into(&rty, addr, out)?;
+                            } else {
+                                c.with_alloc(|c, [tmp]| {
+                                    c.emit(Movs { rd: tmp, rm: out });
+                                    incdec(c, tmp);
+                                    c.store_into(&rty, addr, tmp)?;
+                                    Ok(())
+                                })?;
+                            }
+                            Ok(())
+                        }))
+                    }
+                    Address | Deref => unreachable!(),
+                };
+
+                (rvalue(rty), rev)
+            }*/
+
+            Expression::BinOp(op, l, r) => {
+                self.eval_bin_op(*op, l, r)?
+            }
+
             Expression::Comma(lst, tail) => {
                 // todo: should the types of the lst items be checked? they aren't used anyway
                 let (ta, tev) = self.eval_expression(tail)?;
