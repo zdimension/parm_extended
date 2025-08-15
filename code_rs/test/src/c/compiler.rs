@@ -2777,8 +2777,35 @@ impl<'a> Compiler<'a> {
                 (rvalue(oty), rv)
             }
 
-            Assignment(_) => {
-                todo!()
+            Assignment(op) => {
+                let (lty, lev): EvalTy<'e> = self.eval_expression(l)?;
+
+                let (rty, rev) = if let Some(op) = op {
+                    self.eval_bin_op(Simple(op), l, r)?
+                } else {
+                    self.eval_expression(r)?
+                };
+
+                if *rty.ty.unqual == UnqualType::Void {
+                    comperr!("Cannot assign void type");
+                }
+
+                let Some(laddr) = lty.addr else {
+                    comperr!("Cannot assign to non-lvalue expression: {}", lty.ty);
+                };
+
+                if laddr.side_effects.len() != lev.side_effects.len() {
+                    panic!("weird!???");
+                }
+
+                let oty = lty.ty.clone();
+
+                (rvalue(oty), Emission((Impure, Box::new(move |c, out| {
+                    let laddr = c.flush_side_effects(out, laddr)?;
+                    c.flush_eval_to_reg(out, rev)?;
+                    c.store_into(&lty.ty, laddr, out)?;
+                    Ok(())
+                }))).into())
             }
 
             _ => todo!()
