@@ -1875,9 +1875,13 @@ impl<'a> Compiler<'a> {
                 self.emit_imm32_to_reg(out, val as usize);
             }
             Constant(EvalConstant { val, kind: FrameRelative }) => {
-                // self.emit(MovsImm { rd: out, imm8: off });
-                // self.emit(Adds { rd: out, rn: R7, rm: out });
-                todo!()
+                if val < 8 {
+                    self.emit(AddsImm { rd: out, imm3: u3::new(val as u8), rn: R7 });
+                }
+                else {
+                    self.emit_imm32_to_reg(out, val as usize);
+                    self.emit(Adds { rd: out, rn: R7, rm: out });
+                }
             }
             Emission((_, func)) => {
                 func(self, out)?;
@@ -2794,7 +2798,47 @@ impl<'a> Compiler<'a> {
             }
 
             Assignment(op) => {
-                let (lty, lev): EvalTy<'e> = self.eval_expression(l)?;
+                let (mut lty, lev): EvalTy<'e> = self.eval_expression_raw(l)?;
+
+                if let (None, Expression::Initializer(InitializerList { items })) = (op, r) {
+
+                    return Ok((rvalue(UnqualType::Void.into()), Emission((Impure, Box::new(move |c, out| {
+                        let mut auto_idx = 0;
+                        use UnaryOp::Deref;
+                        for (designators, val) in items {
+                            let mut target = l.clone();
+                            if designators.is_empty() {
+                                target = Expression::UnaryOp(Deref, Expression::BinOp(
+                                    Simple(Plus),
+                                    target.into(),
+                                    Expression::IntegerLiteral(auto_idx, Unsigned).into()
+                                ).into());
+                            } else {
+                                for designator in designators {
+                                    match designator {
+                                        Designator::Member(name) => {
+                                            target = Expression::MemberAccess(target.into(), name.clone(), AccessType::Dot);
+                                        }
+                                        Designator::Index(idx) => {
+                                            target = Expression::UnaryOp(Deref, Expression::BinOp(
+                                                Simple(Plus),
+                                                target.into(),
+                                                Expression::IntegerLiteral(*idx, Unsigned).into()
+                                            ).into());
+                                        }
+                                    }
+                                }
+                            }
+                            //evs.push(c.eval_bin_op(Assignment(None), &target, val)?.1)
+                            let ev = c.eval_bin_op(Assignment(None), &target, val)?.1;
+                            c.flush_and_discard(out, ev)?;
+                            auto_idx += 1;
+                        }
+                        Ok(())
+                    }))).into()));
+                }
+
+                lty.ty = lty.ty.decay();
 
                 let (rty, rev) = if let Some(op) = op {
                     // todo: this will eval l twice...

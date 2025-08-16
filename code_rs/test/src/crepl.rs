@@ -457,7 +457,8 @@ impl CRepl {
             return nums[4];
         }"#;
 
-        //self.process(&code);
+
+        // self.process(&code);
 
         let mut input = String::with_capacity(16384);
         enum TelnetMode {

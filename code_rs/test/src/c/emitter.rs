@@ -3,7 +3,7 @@ use alloc::vec::Vec;
 use aligned_vec::{ABox, AVec, ConstAlign};
 use crate::c::arm::{Condition, Instruction, Reg, RegList};
 use crate::c::arm::HiReg::{LR, R12};
-use crate::c::arm::Instruction::{AddSp, BCond, BxHi, LdrPcImm, LdrSp, MovHiLo, MovLoHi, MovLoLo, MovsImm, Mvns, Nop, Placeholder, StrSp, SubSp, B, U16};
+use crate::c::arm::Instruction::*;
 use crate::c::arm::Reg::{R0, R7};
 use crate::c::emitter::PushPop::{Pop, Push};
 use crate::rprintln;
@@ -207,8 +207,16 @@ impl Emitter {
             self.emit(MovsImm { rd: reg, imm8 });
         } else if let Ok(imm8n) = u8::try_from(!val) {
             self.emit(MovsImm { rd: reg, imm8: imm8n });
-            self.emit(Mvns { rd: reg, rm: reg }); // Invert
+            self.emit(Mvns { rd: reg, rm: reg });
+        } else if let Ok(imm8) = u8::try_from(val - 0xff) {
+            self.emit(MovsImm { rd: reg, imm8 });
+            self.emit(AddsImm8 { rd: reg, imm8: 0xff });
+        } else if let Ok(imm8) = u8::try_from(val - 2 * 0xff) {
+            self.emit(MovsImm { rd: reg, imm8 });
+            self.emit(AddsImm8 { rd: reg, imm8: 0xff });
+            self.emit(AddsImm8 { rd: reg, imm8: 0xff });
         } else {
+            // this will emit 4 or 5 instructions depending on the alignment
             let lbl = self.new_label();
 
             self.align_to_word();
