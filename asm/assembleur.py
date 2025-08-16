@@ -16,7 +16,6 @@ from dataclasses import dataclass, field
 from collections import OrderedDict, defaultdict
 from typing import Sequence, NewType, Any
 
-"""C:\GitHub\parm_extended\code_rs\test\bin\digital_out.raw"""
 class AsmException(Exception):
     pass
 
@@ -24,7 +23,8 @@ start_time = time.time()
 print(sys.argv)
 #
 # os.chdir("../code_rs/test/bin")
-# sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/alloc-1674422c22f635cb.s', '../target/thumbv6m-none-eabi/release/deps/allocator_api2-454a206231c78fe2.s', '../target/thumbv6m-none-eabi/release/deps/compiler_builtins-6d31e344585737af.s', '../target/thumbv6m-none-eabi/release/deps/core-5c146e185925475e.s', '../target/thumbv6m-none-eabi/release/deps/derive_more-def3c3b56183adcf.s', '../target/thumbv6m-none-eabi/release/deps/equivalent-4775723ac70a6265.s', '../target/thumbv6m-none-eabi/release/deps/foldhash-7aa17a38163c09e6.s', '../target/thumbv6m-none-eabi/release/deps/hashbrown-8b9143ce0476d75e.s', '../target/thumbv6m-none-eabi/release/deps/c.s.bak', '-jq', '-Of']
+# sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/compiler_builtins-e11776943368b1da.s', '../target/thumbv6m-none-eabi/release/deps/c.s.bak', '-q', '-j', '-Of']
+
 
 # sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/alloc-1674422c22f635cb.s',
 #             '../target/thumbv6m-none-eabi/release/deps/allocator_api2-454a206231c78fe2.s',
@@ -163,7 +163,7 @@ INSTR_DEFS = {
     "nop ": "mov r0, r0",
 }
 
-RE_INT = re.compile("(\d+)")
+RE_INT = re.compile(r"(\d+)")
 
 
 def disasm(instr: int) -> str:
