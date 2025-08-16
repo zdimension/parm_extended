@@ -1892,6 +1892,7 @@ impl<'a> Compiler<'a> {
         self.eval_to_reg(out, eval)
     }
 
+    /// Ignores pure transforms
     pub fn flush_side_effects<'e>(&mut self, trash: Reg, eval: FullEvaluation<'e>) -> Result<Evaluation<'e>, CompileError> {
         for side in eval.side_effects {
             side(self, trash)?;
@@ -2256,13 +2257,24 @@ impl<'a> Compiler<'a> {
                         }
                     }
 
-                    ((cev @ FullEvaluation { result: Constant(EvalConstant { val: cval, kind: Absolute }), ..}, _), (xev, _)) |
-                    ((xev, _), (cev @ FullEvaluation { result: Constant(EvalConstant { val: cval, kind: Absolute }), ..}, _)) => {
+                    ((cev @ FullEvaluation { result: Constant(EvalConstant { val: cval, kind: Absolute }), ..}, cty), (xev, xty)) |
+                    ((xev, xty), (cev @ FullEvaluation { result: Constant(EvalConstant { val: cval, kind: Absolute }), ..}, cty)) => {
                         let mut cval = cval;
-                        if let UnqualType::Pointer(xptr) = &*oty.unqual {
+                        let cpsize = if let UnqualType::Pointer(xptr) = xty {
                             cval *= xptr.unqual.size() as u32;
-                        }
+                            None
+                        } else if let UnqualType::Pointer(cptr) = cty {
+                            Some(cptr.unqual.size())
+                        } else {
+                            None
+                        };
                         xev.also_discard(cev).and_then_pure(move |c, out| {
+                            if let Some(cpsize) = cpsize {
+                                c.with_alloc(|c, [psize]| {
+                                    c.emit_imm32_to_reg(psize, cpsize);
+                                    c.emit(Muls { rdm: out, rn: psize });
+                                });
+                            }
                             if let Ok(c8) = u8::try_from(cval) {
                                 c.emit(AddsImm8 { rd: out, imm8: c8 });
                             } else {
@@ -2806,7 +2818,7 @@ impl<'a> Compiler<'a> {
                 let oty = lty.ty.clone();
 
                 (rvalue(oty), Emission((Impure, Box::new(move |c, out| {
-                    let laddr = c.flush_side_effects(out, laddr)?;
+                    let laddr = c.flush_side_effects(out, laddr.apply_transforms())?;
                     c.flush_eval_to_reg(out, rev)?;
                     c.store_into(&lty.ty, laddr, out)?;
                     Ok(())
@@ -2816,6 +2828,23 @@ impl<'a> Compiler<'a> {
     }
 
     pub fn eval_expression<'e>(&mut self, expr: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
+        let (mut an, ev) = self.eval_expression_raw(expr)?;
+        // decay array to pointer
+        if let UnqualType::Array(item, _) = &*an.ty.unqual {
+            an.ty = UnqualType::Pointer(item.clone()).into();
+            // Ok(Analysis {
+            //     ty: UnqualType::Pointer(item.clone()).into(),
+            //     addr, // arrays aren't supposed to be lvalues but whatever, it makes initializers easier to emit
+            //     value, // should be none anyways
+            // })
+        } else {
+            //
+        }
+
+        Ok((an, ev))
+    }
+
+    pub fn eval_expression_raw<'e>(&mut self, expr: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
         use Evaluation::*;
         use BinOp::*;
         use EvalConstantKind::*;
@@ -2829,6 +2858,9 @@ impl<'a> Compiler<'a> {
             Expression::SymRef(sym) => {
                 let analysis = self.lookup2(sym);
                 let addr = analysis.addr;
+                if let UnqualType::Array(_, _) = &*analysis.ty.unqual {
+                    return Ok((analysis.into(), addr.into()));
+                }
                 let ty = analysis.ty.clone();
                 (analysis.into(), Emission((if ty.type_qualifiers.is_volatile { Impure } else { Pure }, Box::new(move |c, out| {
                     c.load_from_into(&ty, Constant(addr), out)
@@ -2845,7 +2877,7 @@ impl<'a> Compiler<'a> {
             Expression::SizeOf(op) => {
                 let size = match op {
                     SizeOfOp::Type(ty) => ty.unqual.size(),
-                    SizeOfOp::Expression(expr) => self.eval_expression(expr)?.0.ty.unqual.size(),
+                    SizeOfOp::Expression(expr) => self.eval_expression_raw(expr)?.0.ty.unqual.size(),
                 };
                 (rvalue(UnqualType::Int(Unsigned).into()), Constant(EvalConstant {
                     val: size as u32,
@@ -2964,16 +2996,24 @@ impl<'a> Compiler<'a> {
                 }))).into())
             }
             Expression::UnaryOp(op, val) => {
-                let (Analysis2 { ty, addr: xa }, xev) = self.eval_expression(val)?;
+                let (Analysis2 { mut ty, addr: xa }, xev) = self.eval_expression_raw(val)?;
                 use self::UnaryOp::*;
                 match *op {
                     Address => {
                         let Some(addr) = xa else {
                             comperr!("Cannot take address of non-lvalue expression: {:?}", val);
                         };
-                        let oty = UnqualType::Pointer(ty).into();
+                        let oty = if let UnqualType::Array(ity, _) = &*ty.unqual {
+                            UnqualType::Pointer(ity.clone())
+                        } else {
+                            UnqualType::Pointer(ty)
+                        }.into();
                         return Ok((rvalue(oty), addr));
                     }
+                    _ => ty = ty.decay()
+                }
+                match *op {
+                    Address => unreachable!(),
                     Deref => {
                         let UnqualType::Pointer(ref inner) = *ty.unqual else {
                             return Err(GenericDyn(format!(

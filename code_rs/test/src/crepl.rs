@@ -240,7 +240,7 @@ impl CRepl {
                 }
             })?;*/
 
-            let (Analysis2 { ty, .. }, eev) = comp.eval_expression(&expr).map_err(|e| {
+            let (Analysis2 { ty, .. }, eev) = comp.eval_expression_raw(&expr).map_err(|e| {
                 PositionedError {
                     pos: None,
                     error: e,
@@ -276,30 +276,31 @@ impl CRepl {
                 ptr()
             };
             rprint!("-> {}: ", ty);
-            if let UnqualType::Pointer(t) = &*ty.unqual {
-                if let UnqualType::Char(None) = *t.unqual {
+            match &*ty.unqual {
+                UnqualType::Pointer(t) if let UnqualType::Char(None) = *t.unqual => {
                     if let Ok(s) = unsafe { core::ffi::CStr::from_ptr(res as *const u8) }.to_str() {
-                        rprint!("\"{}\" ", s);
+                        rprintln!("\"{}\" (0x{:08x})", s, res);
                     } else {
-                        rprint!("(invalid UTF-8) ");
+                        rprintln!("(invalid UTF-8) (0x{:08x})", res);
                     }
                 }
-            }
-            match &*ty.unqual {
-                UnqualType::Int(Signedness::Unsigned) | UnqualType::Pointer(_) => {
-                    rprintln!("{} (0x{:08x})", res, res);
-                }
-                UnqualType::Int(_) => {
-                    rprintln!("{} (0x{:08x})", res as i32, res);
-                }
-                UnqualType::Char(_) => {
-                    rprintln!("{:?} (0x{:02x})", res as u8 as char, res as u8);
-                }
-                UnqualType::Bool => {
-                    rprintln!("{}", if res != 0 { "true" } else { "false" });
+                UnqualType::Array(ity, size) => {
+                    rprint!("(0x{:08x}) ", res);
+                    if let Some(size) = size {
+                        rprint!("array[{}] of {}: {{", size, ity);
+                        for i in 0..*size {
+                            if i > 0 {
+                                rprint!(", ");
+                            }
+                            let elem = unsafe { core::ptr::read((res as *const u8).add(i * ity.unqual.size()) as *const u32) }; // todo: u8
+                            CRepl::display_prim(&ity.unqual, elem as u32);
+                        }
+                    } else {
+                        rprintln!("array[] of {}", ity);
+                    }
                 }
                 _ => {
-                    rprintln!("(no display)");
+                    CRepl::display_prim(&ty.unqual, res);
                 }
             }
         } else {
@@ -316,6 +317,26 @@ impl CRepl {
             rprintln!("{}", self.scope);
         }
         Ok(())
+    }
+
+    fn display_prim(ty: &UnqualType, value: u32) {
+        match ty {
+            UnqualType::Int(Signedness::Unsigned) | UnqualType::Pointer(_) => {
+                rprintln!("{} (0x{:08x})", value, value);
+            }
+            UnqualType::Int(_) => {
+                rprintln!("{} (0x{:08x})", value as i32, value);
+            }
+            UnqualType::Char(_) => {
+                rprintln!("{:?} (0x{:02x})", value as u8 as char, value as u8);
+            }
+            UnqualType::Bool => {
+                rprintln!("{}", if value != 0 { "true" } else { "false" });
+            }
+            _ => {
+                rprintln!("(no display)");
+            }
+        }
     }
 
     fn process(&mut self, code: &str) -> EvalStatus {
