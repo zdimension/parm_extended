@@ -1,4 +1,4 @@
-const MMIO_BASE: *mut u32 = -256i32 as _;
+pub const MMIO_BASE: *mut u32 = -256i32 as _;
 
 #[inline(always)]
 const fn mmio(pin: u8) -> *mut u32 {

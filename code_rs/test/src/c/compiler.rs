@@ -798,7 +798,7 @@ impl<'a> Compiler<'a> {
         })
     }
 
-    fn eval_cast<'e>(&mut self, expr: &'e Expression, dst: &UnqualType) -> Result<Result<FullEvaluation<'e>, ()>, CompileError> {
+    fn eval_cast<'e>(&mut self, expr: &'e Expression, dst: &UnqualType) -> Result<Result<FullEvaluation<'e>, QualType>, CompileError> {
         let eev = self.eval_expression(expr)?;
         let (xa, xev) = match self.eval_auto_convert(eev, dst)? {
             Ok(res) => {
@@ -818,7 +818,7 @@ impl<'a> Compiler<'a> {
                     // Cast from integer to pointer, nothing to do
                     Ok(xev)
                 }
-            _ => Err(()), // No explicit conversion exists
+            _ => Err(xa.ty), // No explicit conversion exists
         })
     }
 
@@ -1319,7 +1319,7 @@ impl<'a> Compiler<'a> {
                                 }
                             }
 
-                            (mut lev, mut rev) => {
+                            (lev, rev) => {
                                 comperr!("General division not implemented yet: {:?} / {:?}", lev, rev);
                             }
                         }
@@ -1646,7 +1646,7 @@ impl<'a> Compiler<'a> {
                     }))).into()));
                 }
 
-                if let UnqualType::Array(_, _) = lty.ty.unqual {
+                if let UnqualType::Array(_, _) = *lty.ty.unqual {
                     comperr!("Cannot assign to array type: {}", lty.ty);
                 }
 
@@ -1723,10 +1723,12 @@ impl<'a> Compiler<'a> {
                 }))).into())
             }
             Expression::Cast(ty, expr) => {
-                let (xa, xev) = self.eval_expression(expr)?;
                 let casted = self.eval_cast(expr, ty)?;
-                let Ok(casted_ev) = casted else {
-                    comperr!("Cannot cast expression {:?} from type {} to type {}", expr, xa.ty, ty);
+                let casted_ev = match casted {
+                    Ok(ev) => ev,
+                    Err(src_ty) => {
+                        comperr!("Cannot cast expression {:?} from type {} to type {}", expr, src_ty, ty);
+                    }
                 };
                 (rvalue(ty.clone()), casted_ev)
             }
@@ -1854,7 +1856,7 @@ impl<'a> Compiler<'a> {
             Expression::UnaryOp(op, val) => {
                 let (Analysis2 { mut ty, addr: xa }, xev) = self.eval_expression_raw(val)?;
                 use self::UnaryOp::*;
-                let is_array = matches!(ty.unqual, UnqualType::Array(_, _));
+                let is_array = matches!(*ty.unqual, UnqualType::Array(_, _));
                 match *op {
                     Address => {
                         let Some(addr) = xa else {
@@ -1880,7 +1882,7 @@ impl<'a> Compiler<'a> {
                         };
                         let ic = inner.clone();
                         // todo: find a way to do this without evaluating twice
-                        let (xa2, xev2) = self.eval_expression(val)?;
+                        let (_, xev2) = self.eval_expression(val)?;
 
                         let mut xev2 = xev2.apply_transforms();
                         xev2.result = Emission((xev2.purity() | (if ic.type_qualifiers.is_volatile {
@@ -1945,7 +1947,7 @@ impl<'a> Compiler<'a> {
                     },
                     &IncDec(kind, pos) => {
                         if is_array {
-                            comperr!("Cannot increment/decrement array type: {}", ty);
+                            comperr!("Cannot increment/decrement array type: {}", rty);
                         }
 
                         use self::parse_expr::IncDec::*;
@@ -2111,7 +2113,7 @@ impl EvalConstant {
 }
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
-enum Purity {
+pub enum Purity {
     Pure,
     Impure
 }
@@ -2215,7 +2217,7 @@ impl<'e> FullEvaluation<'e> {
         self
     }
 
-    pub fn binop_combine(mut self, mut other_self: Self, f: impl FnOnce(&mut Compiler, (Reg, (Reg, Reg))) + 'e) -> Self {
+    pub fn binop_combine(self, other_self: Self, f: impl FnOnce(&mut Compiler, (Reg, (Reg, Reg))) + 'e) -> Self {
         // possible cases: (self, other_self) =
         // (left: pure, right: pure)
         // (left: pure, right: impure)
@@ -2255,7 +2257,7 @@ impl<'e> FullEvaluation<'e> {
         }
     }
 
-    pub fn binop_combine_symmetric(mut self, mut other_self: Self, f: impl FnOnce(&mut Compiler, (Reg, Reg)) + 'e) -> Self {
+    pub fn binop_combine_symmetric(self, other_self: Self, f: impl FnOnce(&mut Compiler, (Reg, Reg)) + 'e) -> Self {
         // possible cases: (self, other_self) =
         // (left: pure, right: pure)
         // (left: pure, right: impure)

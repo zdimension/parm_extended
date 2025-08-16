@@ -16,6 +16,7 @@
 #![feature(negative_impls)]
 #![feature(try_blocks)]
 #![feature(yeet_expr)]
+#![feature(array_ptr_get)]
 #![allow(dead_code)]
 #![allow(clippy::should_implement_trait)]
 #![deny(unreachable_patterns)]
@@ -23,10 +24,12 @@
 extern crate alloc;
 
 use alloc::string::String;
+use core::ptr::slice_from_raw_parts_mut;
+use aligned_vec::ABox;
 use crate::c::arm::Reg::*;
 use crate::c::compiler::{Analysis, Analysis2, Compiler};
 use crate::c::parse::{CParser, ParseError, PositionedError};
-use crate::c::scope::{Scope, SymbolKind};
+use crate::c::scope::{Scope, SymbolKind, VarPosition};
 use crate::c::types::{FunctionImpl, QualType, Signedness, TypeQualifiers, UnqualType};
 use crate::parm::control::breakpoint;
 use crate::parm::{keyb, telnet, tty, OrderedMap};
@@ -200,6 +203,19 @@ impl CRepl {
     fn new() -> CRepl {
         let mut scope = Scope::default();
         add_exposed_functions(&mut scope);
+        scope.symbols.insert(
+            String::from("MMIO"),
+            SymbolKind::Variable {
+                ty: UnqualType::Array(QualType {
+                    unqual: UnqualType::Int(Signedness::Unsigned).into(),
+                    type_qualifiers: TypeQualifiers {
+                        is_const: false,
+                        is_volatile: true,
+                    }
+                }, Some(16)).into(),
+                pos: VarPosition::Global(unsafe { ABox::from_raw_parts(4, (parm::mmio::MMIO_BASE as *mut [u8; 16 * 4]).as_mut_slice()) }),
+            }
+        );
         CRepl { scope }
     }
 
