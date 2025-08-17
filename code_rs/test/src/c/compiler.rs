@@ -485,6 +485,11 @@ impl<'a> Compiler<'a> {
             (UnqualType::Pointer(p1), UnqualType::Pointer(p2)) => {
                 Self::are_compatible(p1, p2)
             }
+            (UnqualType::Function(fi1), UnqualType::Function(fi2)) => {
+                Self::are_compatible(&fi1.ret, &fi2.ret) &&
+                fi1.args.len() == fi2.args.len() &&
+                fi1.args.iter().zip(fi2.args.iter()).all(|(p1, p2)| Self::are_compatible(p1.1, p2.1))
+            }
             _ => false
         }
     }
@@ -796,128 +801,7 @@ impl<'a> Compiler<'a> {
         use BinOp::*;
         Ok(match op {
             Bool(bop) => {
-                let (lty, lev) = self.eval_expression(l)?;
-                let (rty, rev) = self.eval_expression(r)?;
-                let left_is_bool = *lty.ty.unqual == UnqualType::Bool;
-                let lev = match self.eval_auto_convert((lty, lev), &UnqualType::Bool)? {
-                    Ok(ev) => ev,
-                    Err((lty, _)) => comperr!("Left operand of boolean operation must be scalar, found: {}", lty.ty)
-                };
-                let rev = match self.eval_auto_convert((rty, rev), &UnqualType::Bool)? {
-                    Ok(ev) => ev,
-                    Err((rty, _)) => comperr!("Right operand of boolean operation must be scalar, found: {}", rty.ty)
-                };
-                let oty = UnqualType::Int(Signed).into();
-                let ev = match bop {
-                    BoolOp::And => {
-                        match (&lev.result, &rev.result) {
-                            (Evaluation::Constant(EvalConstant { val: 0, kind: Absolute }), _) => {
-                                // return false but give left's side effects
-                                lev.discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
-                            }
-                            (Evaluation::Constant(EvalConstant { .. }), _) => {
-                                // return true but give left's side effects
-                                lev.discard_and_then(rev)
-                            }
-                            (_, Evaluation::Constant(EvalConstant { val: 0, kind: Absolute })) => {
-                                // return false but give both's side effects
-                                lev.discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute })).also_discard(rev)
-                            }
-                            (_, Evaluation::Constant(EvalConstant { .. })) => if r.is_pure() {
-                                // just return left operand
-                                lev
-                            } else {
-                                Emission((lev.purity(), Box::new(move |c, out| {
-                                    c.flush_eval_to_reg(out, lev)?;
-                                    if left_is_bool {
-                                        c.emit(CmpImm { rd: out, imm8: 0 }); // see below
-                                    } else {
-                                        // nothing to do
-                                    }
-                                    let false_label = c.new_label();
-                                    c.jump_to(false_label, Condition::Eq); // Jump if left operand is false (0)
-                                    c.with_alloc(|c, [tmp]| {
-                                        c.flush_and_discard(tmp, rev)?;
-                                        Ok(())
-                                    })?;
-                                    // right has been casted to bool so it's already 0 or 1, no need to compare
-                                    c.set_label_here(false_label); // Set label for false branch
-                                    Ok(())
-                                }))).into()
-                            },
-                            _ => Emission((lev.purity() | rev.purity(), Box::new(move |c, out| {
-                                c.flush_eval_to_reg(out, lev)?;
-                                if left_is_bool {
-                                    // if expr is bool, then auto_convert was a no-op and we don't know what the Z flag is
-                                    c.emit(CmpImm { rd: out, imm8: 0 }); // Compare left operand with 0. will set Z flag
-                                } else {
-                                    // if expr is variable, then SBC from auto_convert will set Z flag
-                                    // otherwise, auto_convert will either return 0 or 1 as a constant
-                                    // which will go through emit_imm32 through the short path (since it fits in an u8)
-                                    // which will set the Z flag (through movs or mvns)
-                                    // so nothing to do
-                                }
-                                let false_label = c.new_label();
-                                c.jump_to(false_label, Condition::Eq); // Jump if left operand is false (0)
-                                c.flush_eval_to_reg(out, rev)?;
-                                // right has been casted to bool so it's already 0 or 1, no need to compare
-                                c.set_label_here(false_label); // Set label for false branch
-                                Ok(())
-                            }))).into()
-                        }
-                    }
-                    BoolOp::Or => {
-                        match (&lev.result, &rev.result) {
-                            (Evaluation::Constant(EvalConstant { val: 0, kind: Absolute }), _) => {
-                                // return right but give left's side effects
-                                lev.discard_and_then(rev)
-                            }
-                            (Evaluation::Constant(EvalConstant { .. }), _) => {
-                                // return true but give left's side effects
-                                lev.discard_and_return(Constant(EvalConstant { val: 1, kind: Absolute }))
-                            }
-                            (_, Evaluation::Constant(EvalConstant { val: 0, kind: Absolute })) => if r.is_pure() {
-                                // just return left operand
-                                lev
-                            } else {
-                                Emission((lev.purity(), Box::new(move |c, out| {
-                                    c.flush_eval_to_reg(out, lev)?;
-                                    if left_is_bool {
-                                        c.emit(CmpImm { rd: out, imm8: 0 });
-                                    } else {
-                                        // nothing to do
-                                    }
-                                    let true_label = c.new_label();
-                                    c.jump_to(true_label, Condition::Ne); // Jump if left operand is true (non-zero)
-                                    c.with_alloc(|c, [tmp]| {
-                                        c.flush_and_discard(tmp, rev)?;
-                                        Ok(())
-                                    })?;
-                                    c.set_label_here(true_label); // Set label for true branch
-                                    Ok(())
-                                }))).into()
-                            },
-                            (_, Evaluation::Constant(c)) if c.truth_value() => {
-                                // return false but give both's side effects
-                                lev.discard_and_return(Constant(EvalConstant { val: 1, kind: Absolute })).also_discard(rev)
-                            }
-                            _ => Emission((lev.purity() | rev.purity(), Box::new(move |c, out| {
-                                c.flush_eval_to_reg(out, lev)?;
-                                if left_is_bool {
-                                    c.emit(CmpImm { rd: out, imm8: 0 });
-                                } else {
-                                    // nothing to do
-                                }
-                                let true_label = c.new_label();
-                                c.jump_to(true_label, Condition::Ne); // Jump if left operand is true (non-zero)
-                                c.flush_eval_to_reg(out, rev)?;
-                                c.set_label_here(true_label); // Set label for true branch
-                                Ok(())
-                            }))).into()
-                        }
-                    }
-                };
-                (rvalue(oty), ev)
+                self.eval_bool_op(bop, r, l)?
             }
             Simple(Plus) => {
                 let (lty, lev) = self.eval_expression(l)?;
@@ -1576,6 +1460,10 @@ impl<'a> Compiler<'a> {
                     comperr!("Cannot assign to array type: {}", lty.ty);
                 }
 
+                if let UnqualType::Function(_) = *lty.ty.unqual {
+                    comperr!("Cannot assign to function type: {}", lty.ty);
+                }
+
                 lty.ty = lty.ty.decay();
 
                 let (rty, rev) = if let Some(op) = op {
@@ -1609,19 +1497,146 @@ impl<'a> Compiler<'a> {
         })
     }
 
+    fn eval_bool_op<'e>(&mut self, bop: BoolOp, l: &'e Expression, r: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
+        let (lty, lev) = self.eval_expression(l)?;
+        let (rty, rev) = self.eval_expression(r)?;
+        let left_is_bool = *lty.ty.unqual == UnqualType::Bool;
+        let lev = match self.eval_auto_convert((lty, lev), &UnqualType::Bool)? {
+            Ok(ev) => ev,
+            Err((lty, _)) => comperr!("Left operand of boolean operation must be scalar, found: {}", lty.ty)
+        };
+        let rev = match self.eval_auto_convert((rty, rev), &UnqualType::Bool)? {
+            Ok(ev) => ev,
+            Err((rty, _)) => comperr!("Right operand of boolean operation must be scalar, found: {}", rty.ty)
+        };
+        let oty = UnqualType::Int(Signed).into();
+        let ev = match bop {
+            BoolOp::And => {
+                match (&lev.result, &rev.result) {
+                    (Evaluation::Constant(EvalConstant { val: 0, kind: Absolute }), _) => {
+                        // return false but give left's side effects
+                        lev.discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
+                    }
+                    (Evaluation::Constant(EvalConstant { .. }), _) => {
+                        // return true but give left's side effects
+                        lev.discard_and_then(rev)
+                    }
+                    (_, Evaluation::Constant(EvalConstant { val: 0, kind: Absolute })) => {
+                        // return false but give both's side effects
+                        lev.discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute })).also_discard(rev)
+                    }
+                    (_, Evaluation::Constant(EvalConstant { .. })) => if r.is_pure() {
+                        // just return left operand
+                        lev
+                    } else {
+                        Emission((lev.purity(), Box::new(move |c, out| {
+                            c.flush_eval_to_reg(out, lev)?;
+                            if left_is_bool {
+                                c.emit(CmpImm { rd: out, imm8: 0 }); // see below
+                            } else {
+                                // nothing to do
+                            }
+                            let false_label = c.new_label();
+                            c.jump_to(false_label, Condition::Eq); // Jump if left operand is false (0)
+                            c.with_alloc(|c, [tmp]| {
+                                c.flush_and_discard(tmp, rev)?;
+                                Ok(())
+                            })?;
+                            // right has been casted to bool so it's already 0 or 1, no need to compare
+                            c.set_label_here(false_label); // Set label for false branch
+                            Ok(())
+                        }))).into()
+                    },
+                    _ => Emission((lev.purity() | rev.purity(), Box::new(move |c, out| {
+                        c.flush_eval_to_reg(out, lev)?;
+                        if left_is_bool {
+                            // if expr is bool, then auto_convert was a no-op and we don't know what the Z flag is
+                            c.emit(CmpImm { rd: out, imm8: 0 }); // Compare left operand with 0. will set Z flag
+                        } else {
+                            // if expr is variable, then SBC from auto_convert will set Z flag
+                            // otherwise, auto_convert will either return 0 or 1 as a constant
+                            // which will go through emit_imm32 through the short path (since it fits in an u8)
+                            // which will set the Z flag (through movs or mvns)
+                            // so nothing to do
+                        }
+                        let false_label = c.new_label();
+                        c.jump_to(false_label, Condition::Eq); // Jump if left operand is false (0)
+                        c.flush_eval_to_reg(out, rev)?;
+                        // right has been casted to bool so it's already 0 or 1, no need to compare
+                        c.set_label_here(false_label); // Set label for false branch
+                        Ok(())
+                    }))).into()
+                }
+            }
+            BoolOp::Or => {
+                match (&lev.result, &rev.result) {
+                    (Evaluation::Constant(EvalConstant { val: 0, kind: Absolute }), _) => {
+                        // return right but give left's side effects
+                        lev.discard_and_then(rev)
+                    }
+                    (Evaluation::Constant(EvalConstant { .. }), _) => {
+                        // return true but give left's side effects
+                        lev.discard_and_return(Constant(EvalConstant { val: 1, kind: Absolute }))
+                    }
+                    (_, Evaluation::Constant(EvalConstant { val: 0, kind: Absolute })) => if r.is_pure() {
+                        // just return left operand
+                        lev
+                    } else {
+                        Emission((lev.purity(), Box::new(move |c, out| {
+                            c.flush_eval_to_reg(out, lev)?;
+                            if left_is_bool {
+                                c.emit(CmpImm { rd: out, imm8: 0 });
+                            } else {
+                                // nothing to do
+                            }
+                            let true_label = c.new_label();
+                            c.jump_to(true_label, Condition::Ne); // Jump if left operand is true (non-zero)
+                            c.with_alloc(|c, [tmp]| {
+                                c.flush_and_discard(tmp, rev)?;
+                                Ok(())
+                            })?;
+                            c.set_label_here(true_label); // Set label for true branch
+                            Ok(())
+                        }))).into()
+                    },
+                    (_, Evaluation::Constant(c)) if c.truth_value() => {
+                        // return false but give both's side effects
+                        lev.discard_and_return(Constant(EvalConstant { val: 1, kind: Absolute })).also_discard(rev)
+                    }
+                    _ => Emission((lev.purity() | rev.purity(), Box::new(move |c, out| {
+                        c.flush_eval_to_reg(out, lev)?;
+                        if left_is_bool {
+                            c.emit(CmpImm { rd: out, imm8: 0 });
+                        } else {
+                            // nothing to do
+                        }
+                        let true_label = c.new_label();
+                        c.jump_to(true_label, Condition::Ne); // Jump if left operand is true (non-zero)
+                        c.flush_eval_to_reg(out, rev)?;
+                        c.set_label_here(true_label); // Set label for true branch
+                        Ok(())
+                    }))).into()
+                }
+            }
+        };
+        Ok((rvalue(oty), ev))
+    }
+
     pub fn eval_expression<'e>(&mut self, expr: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
         let (mut an, ev) = self.eval_expression_raw(expr)?;
         // decay array to pointer
-        if let UnqualType::Array(item, _) = &*an.ty.unqual {
-            an.ty = UnqualType::Pointer(item.clone()).into();
-            // Ok(Analysis {
-            //     ty: UnqualType::Pointer(item.clone()).into(),
-            //     addr, // arrays aren't supposed to be lvalues but whatever, it makes initializers easier to emit
-            //     value, // should be none anyways
-            // })
-        } else {
-            //
-        }
+        // if let UnqualType::Array(item, _) = &*an.ty.unqual {
+        //     an.ty = UnqualType::Pointer(item.clone()).into();
+        //     // Ok(Analysis {
+        //     //     ty: UnqualType::Pointer(item.clone()).into(),
+        //     //     addr, // arrays aren't supposed to be lvalues but whatever, it makes initializers easier to emit
+        //     //     value, // should be none anyways
+        //     // })
+        // } else {
+        //     //
+        // }
+
+        an.ty = an.ty.decay();
 
         Ok((an, ev))
     }
@@ -1640,7 +1655,7 @@ impl<'a> Compiler<'a> {
             Expression::SymRef(sym) => {
                 let analysis = self.lookup(sym)?;
                 let addr = analysis.addr;
-                if let UnqualType::Array(_, _) = &*analysis.ty.unqual {
+                if let UnqualType::Array(_, _) | UnqualType::Function(_) = &*analysis.ty.unqual {
                     return Ok((analysis.into(), addr.into()));
                 }
                 let ty = analysis.ty.clone();
@@ -1728,16 +1743,26 @@ impl<'a> Compiler<'a> {
                 })))
             }*/
             Expression::FuncCall(f, args) => {
-                let (fa, fev) = self.eval_expression(f)?;
-                if fev.purity() == Impure {
-                    comperr!("Impure function call, don't handle that yet");
-                }
-                let UnqualType::Function(fi) = &*fa.ty.unqual else {
-                    comperr!("Expected function type for function call, found: {}", fa.ty);
+                let (fa, fev) = self.eval_expression_raw(f)?;
+                // if fev.purity() == Impure {
+                //     comperr!("Impure function call, don't handle that yet");
+                // }
+
+                let (addr, fi) = match &*fa.ty.unqual {
+                    UnqualType::Function(fi) => {
+                        let Some(faddr) = fa.addr else {
+                            comperr!("Function call without address");
+                        };
+                        (faddr, fi)
+                    },
+                    UnqualType::Pointer(p) if let UnqualType::Function(fi) = &*p.unqual => {
+                        (fev, fi)
+                    },
+                    _ => comperr!("Expected function type for function call, found: {}", fa.ty),
                 };
-                let Some(addr) = fa.addr else {
-                    comperr!("Function call without address");
-                };
+                // let Some(addr) = fa.addr else {
+                //     comperr!("Function call without address");
+                // };
                 if args.len() != fi.args.len() {
                     comperr!(
                         "Function call argument count mismatch: expected {}, found {}",
@@ -1788,12 +1813,11 @@ impl<'a> Compiler<'a> {
                         let Some(addr) = xa else {
                             comperr!("Cannot take address of non-lvalue expression: {:?}", val);
                         };
-                        let oty = if let UnqualType::Array(ity, _) = &*ty.unqual {
-                            UnqualType::Pointer(ity.clone())
-                        } else {
-                            UnqualType::Pointer(ty)
-                        }.into();
-                        return Ok((rvalue(oty), addr));
+                        ty = ty.decay();
+                        if !matches!(*ty.unqual, UnqualType::Pointer(_)) {
+                            ty = UnqualType::Pointer(ty).into();
+                        }
+                        return Ok((rvalue(ty), addr));
                     }
                     _ => ty = ty.decay()
                 }

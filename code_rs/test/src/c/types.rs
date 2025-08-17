@@ -155,13 +155,17 @@ impl Deref for QualType {
 }
 
 impl QualType {
-    pub(crate) fn decay(self) -> QualType {
-        // Decay array to pointer
-        if let UnqualType::Array(item, _) = &*self.unqual {
-            UnqualType::Pointer(item.clone()).into()
-        } else {
-            self
+    pub(crate) fn decay(mut self) -> QualType {
+        match &*self.unqual {
+            UnqualType::Array(item, _) => {
+                self = UnqualType::Pointer(item.clone()).into();
+            }
+            UnqualType::Function(fi) => {
+                self = UnqualType::Pointer(self).into();
+            }
+            _ => {}
         }
+        self
     }
 }
 

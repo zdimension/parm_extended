@@ -458,34 +458,38 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(fields)
     }
 
-    pub(super) fn read_declarator(&mut self, mut base_type: QualType) -> Result<(Option<String>, QualType), ParseError> {
+    pub(super) fn read_declarator_inner(&mut self) -> Result<(Option<String>, Vec<Box<dyn FnOnce(QualType) -> QualType>>), ParseError> {
+        let mut xforms: Vec<Box<dyn FnOnce(QualType) -> QualType>> = Vec::new();
         while let Some((_, tok)) = self.iter.peek() {
             match tok {
                 Token::Operator(Operator::Simple(AssignableOperator::Multiply)) => {
                     self.advance();
-                    base_type = QualType {
+                    xforms.push(Box::new(|base_type| QualType {
                         unqual: UnqualType::Pointer(base_type).into(),
                         type_qualifiers: Default::default(),
-                    };
+                    }));
                 }
                 Token::Keyword(Keyword::Const) => {
                     self.advance();
-                    base_type.type_qualifiers.is_const = true;
+                    xforms.push(Box::new(|mut base_type| {
+                        base_type.type_qualifiers.is_const = true;
+                        base_type
+                    }));
                 }
                 Token::Keyword(Keyword::Volatile) => {
                     self.advance();
-                    base_type.type_qualifiers.is_volatile = true;
+                    xforms.push(Box::new(|mut base_type| {
+                        base_type.type_qualifiers.is_volatile = true;
+                        base_type
+                    }));
                 }
                 _ => break // stop on any other token
             }
         }
-        self.read_direct_declarator(base_type)
-    }
 
-    fn read_direct_declarator(&mut self, mut base_type: QualType) -> Result<(Option<String>, QualType), ParseError> {
         let name;
 
-        let inner = base_type.unqual.clone();
+        let mut late_xforms = None;
 
         match self.peek() {
             Some(Token::Identifier(_)) => {
@@ -496,7 +500,9 @@ impl<'a, 'b> CParser<'a, 'b> {
             }
             Some(Token::OpenParen) => {
                 self.advance();
-                (name, base_type) = self.read_declarator(base_type)?;
+                let inner = self.read_declarator_inner()?;
+                name = inner.0;
+                late_xforms = Some(inner.1);
                 self.expect(Token::CloseParen)?;
             }
             _ => name = None
@@ -504,12 +510,9 @@ impl<'a, 'b> CParser<'a, 'b> {
 
         loop {
             let option = self.peek();
-            //rprintln!("read_direct_declarator: {:?}", option);
             match option {
                 Some(Token::OpenBracket) => {
                     self.advance();
-                    /*let remaining: Vec<(usize, Token)> = self.iter.clone().collect();
-                    rprintln!("rem1: {:?}", remaining);*/
                     let size = if self.accept(Token::CloseBracket) {
                         None
                     } else {
@@ -518,34 +521,48 @@ impl<'a, 'b> CParser<'a, 'b> {
                             self.expect(Token::CloseBracket)?;
                             Some(size as usize)
                         } else {
-                            /*let remaining: Vec<(usize, Token)> = self.iter.clone().collect();
-                            rprintln!("rem2: {:?}", remaining);*/
                             return Err(ParseError::UnexpectedTokenGeneric {
                                 got: Some(size),
                                 msg: "expected integer literal or close bracket",
                             });
                         }
                     };
-                    // base_type = QualType {
-                    //     unqual: UnqualType::Array(base_type, size).into(),
-                    //     type_qualifiers: Default::default(),
-                    // };
-                    *inner.borrow_mut() = UnqualType::Array(inner.clone(), size).into();
+                    xforms.push(Box::new(move |base_type| {
+                        QualType {
+                            unqual: UnqualType::Array(base_type, size).into(),
+                            type_qualifiers: Default::default(),
+                        }
+                    }));
                 }
                 Some(Token::OpenParen) => {
                     self.advance();
                     let params = self.read_function_param_list()?;
-                    base_type = QualType {
-                        unqual: UnqualType::Function(FunctionImpl {
-                            ret: base_type.into(),
-                            args: params,
-                        }).into(),
-                        type_qualifiers: Default::default(),
-                    };
+                    xforms.push(Box::new(move |base_type| {
+                        QualType {
+                            unqual: UnqualType::Function(FunctionImpl {
+                                ret: base_type.into(),
+                                args: params,
+                            }).into(),
+                            type_qualifiers: Default::default(),
+                        }
+                    }));
                 }
-                _ => return Ok((name, base_type))
+                _ => {
+                    if let Some(mut late) = late_xforms {
+                        xforms.append(&mut late);
+                    }
+                    return Ok((name, xforms));
+                }
             }
         }
+    }
+
+    pub(super) fn read_declarator(&mut self, mut base_type: QualType) -> Result<(Option<String>, QualType), ParseError> {
+        let (name, mut xforms) = self.read_declarator_inner()?;
+        for xform in xforms {
+            base_type = xform(base_type);
+        }
+        Ok((name, base_type))
     }
 
     fn read_function_param_list(&mut self) -> Result<OrderedMap<String, QualType>, ParseError> {
@@ -558,12 +575,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                     return Err(ParseError::Generic("storage class not allowed in function parameters"));
                 }
                 let (name, mut type_) = self.read_declarator(type_)?;
-                if let UnqualType::Array(item, _) = &*type_.unqual {
-                    type_ = QualType {
-                        unqual: UnqualType::Pointer(item.clone()).into(),
-                        type_qualifiers: type_.type_qualifiers,
-                    };
-                }
+                type_ = type_.decay();
                 let entry = params.entry(name.unwrap_or_else(|| String::from(format!("_{}", params.len()))));
                 if let Entry::Vacant(e) = entry {
                     e.insert(type_);
