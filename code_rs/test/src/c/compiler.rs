@@ -9,6 +9,7 @@ use alloc::string::String;
 use alloc::vec::Vec;
 use alloc::{format, vec};
 use alloc::boxed::Box;
+use alloc::collections::VecDeque;
 use arbitrary_int::{u10, u3, u5, u7, u9};
 use core::borrow::Borrow;
 use core::cmp::PartialEq;
@@ -122,7 +123,7 @@ impl<'a> core::ops::DerefMut for Compiler<'a> {
 impl<'a> Compiler<'a> {
     pub fn new(global_scope: &'a Scope) -> Self {
         Compiler {
-            emitter: Emitter { instructions: Vec::new(), labels: vec![None], jumps: Default::default(), last_pushpop: None },
+            emitter: Emitter { instructions: Vec::new(), labels: vec![None], jumps: Default::default(), last_pushpop: None, reg_cache: Default::default() },
             depth: 0,
             locals_size: 0,
             scope: vec![],

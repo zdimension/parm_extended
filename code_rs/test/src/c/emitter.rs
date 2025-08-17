@@ -26,7 +26,8 @@ pub struct Emitter {
     pub instructions: Vec<Instruction>,
     pub labels: Vec<Option<usize>>,
     pub jumps: Vec<Jump>,
-    pub last_pushpop: Option<(PushPop, usize, RegList)>
+    pub last_pushpop: Option<(PushPop, usize, RegList)>,
+    pub reg_cache: [Option<usize>; 8]
 }
 
 /// ARM assembler.
@@ -60,6 +61,9 @@ impl Emitter {
         //rprintln!("emit: {:04x} {}", instruction.encode(), instruction);
         self.last_pushpop = None;
         self.instructions.push(instruction);
+        if let Some(rc) = instruction.clobbers() {
+            self.reg_cache[rc as usize] = None;
+        }
     }
 
     pub fn emit_push(&mut self, regs: RegList) {
@@ -203,6 +207,9 @@ impl Emitter {
 
     /// Clobbers `reg` (others are saved). Preserves stack.
     pub fn emit_imm32_to_reg(&mut self, reg: Reg, val: usize) {
+        if self.reg_cache[reg as usize] == Some(val) {
+            return;
+        }
         if let Ok(imm8) = u8::try_from(val) {
             self.emit(MovsImm { rd: reg, imm8 });
         } else if let Ok(imm8n) = u8::try_from(!val) {
@@ -226,6 +233,7 @@ impl Emitter {
             self.emit(U16 { value: (val >> 16) as u16 });
             self.set_label_here(lbl);
         }
+        self.reg_cache[reg as usize] = Some(val);
     }
 }
 

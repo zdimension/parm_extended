@@ -268,7 +268,7 @@ macro_rules! instructions {
         }
     };
 
-    ($($name:ident $asm:tt { $( $($field:ident: $ty:ty),+ )? } => ($prefix:expr $(, $($enc:expr),*)?)),* $(,)?) => {
+    ($($name:ident $asm:tt { $( $( $field:ident: $ty:ty),+ )? } => ($prefix:expr $(, $($enc:expr),*)?) $([$clob:expr])?),* $(,)?) => {
         #[derive(Copy, Clone, PartialEq, Eq, Debug)]
         pub enum Instruction {
             $(
@@ -288,6 +288,15 @@ macro_rules! instructions {
         }
 
         impl Instruction {
+            pub const fn clobbers(self) -> Option<Reg> {
+                match self {
+                    $(Self::$name $( {  $($field),+, .. } )? => {
+                        $(return Some($clob);)?
+                    }),*
+                }
+                None
+            }
+
             pub const fn encode(self) -> u16 {
                 let mut result: u16;
                 match self {
@@ -311,49 +320,49 @@ macro_rules! instructions {
 
 instructions! {
     // 01 - move shifted register
-    LslImm "lsl" { rd: Reg, rm: Reg, imm5: u5 } => (0b000_00, imm5, rm, rd),
-    LsrImm "lsr" { rd: Reg, rm: Reg, imm5: u5 } => (0b000_01, imm5, rm, rd),
-    AsrImm "asr" { rd: Reg, rm: Reg, imm5: u5 } => (0b000_10, imm5, rm, rd),
-    Movs "mov" { rd: Reg, rm: Reg } => (0b000_00, rm, rd), // same as LslImm with imm5 = 0
+    LslImm "lsl" { rd: Reg, rm: Reg, imm5: u5 } => (0b000_00, imm5, rm, rd) [rd],
+    LsrImm "lsr" { rd: Reg, rm: Reg, imm5: u5 } => (0b000_01, imm5, rm, rd) [rd],
+    AsrImm "asr" { rd: Reg, rm: Reg, imm5: u5 } => (0b000_10, imm5, rm, rd) [rd],
+    Movs "mov" { rd: Reg, rm: Reg } => (0b000_00, rm, rd) [rd], // same as LslImm with imm5 = 0
 
     // 02 - add/subtract
-    Adds "add" { rd: Reg, rn: Reg, rm: Reg } => (0b000_11_00, rm, rn, rd),
-    Subs "sub" { rd: Reg, rn: Reg, rm: Reg } => (0b000_11_01, rm, rn, rd),
-    AddsImm "add" { rd: Reg, rn: Reg, imm3: u3 } => (0b000_11_10, imm3, rn, rd),
-    SubsImm "sub" { rd: Reg, rn: Reg, imm3: u3 } => (0b000_11_11, imm3, rn, rd),
+    Adds "add" { rd: Reg, rn: Reg, rm: Reg } => (0b000_11_00, rm, rn, rd) [rd],
+    Subs "sub" { rd: Reg, rn: Reg, rm: Reg } => (0b000_11_01, rm, rn, rd) [rd],
+    AddsImm "add" { rd: Reg, rn: Reg, imm3: u3 } => (0b000_11_10, imm3, rn, rd) [rd],
+    SubsImm "sub" { rd: Reg, rn: Reg, imm3: u3 } => (0b000_11_11, imm3, rn, rd) [rd],
 
     // 03 - move/compare/add/subtract immediate
-    MovsImm "mov" { rd: Reg, imm8: u8 } => (0b001_00, rd, imm8),
-    CmpImm "cmp" { rd: Reg, imm8: u8 } => (0b001_01, rd, imm8),
-    AddsImm8 "add" { rd: Reg, imm8: u8 } => (0b001_10, rd, imm8),
-    SubsImm8 "sub" { rd: Reg, imm8: u8 } => (0b001_11, rd, imm8),
+    MovsImm "mov" { rd: Reg, imm8: u8 } => (0b001_00, rd, imm8) [rd],
+    CmpImm "cmp" { rd: Reg, imm8: u8 } => (0b001_01, rd, imm8) [rd],
+    AddsImm8 "add" { rd: Reg, imm8: u8 } => (0b001_10, rd, imm8) [rd],
+    SubsImm8 "sub" { rd: Reg, imm8: u8 } => (0b001_11, rd, imm8) [rd],
 
     // 04 - ALU operations
-    Ands "and" { rdn: Reg, rm: Reg } => (0b010000_0000, rm, rdn),
-    Eors "eor" { rdn: Reg, rm: Reg } => (0b010000_0001, rm, rdn),
-    Lsls "lsl" { rdn: Reg, rm: Reg } => (0b010000_0010, rm, rdn),
-    Lsrs "lsr" { rdn: Reg, rm: Reg } => (0b010000_0011, rm, rdn),
-    Asrs "asr" { rdn: Reg, rm: Reg } => (0b010000_0100, rm, rdn),
-    Adcs "adc" { rdn: Reg, rm: Reg } => (0b010000_0101, rm, rdn),
-    Sbcs "sbc" { rdn: Reg, rm: Reg } => (0b010000_0110, rm, rdn),
-    Rors "ror" { rdn: Reg, rm: Reg } => (0b010000_0111, rm, rdn),
+    Ands "and" { rdn: Reg, rm: Reg } => (0b010000_0000, rm, rdn) [rdn],
+    Eors "eor" { rdn: Reg, rm: Reg } => (0b010000_0001, rm, rdn) [rdn],
+    Lsls "lsl" { rdn: Reg, rm: Reg } => (0b010000_0010, rm, rdn) [rdn],
+    Lsrs "lsr" { rdn: Reg, rm: Reg } => (0b010000_0011, rm, rdn) [rdn],
+    Asrs "asr" { rdn: Reg, rm: Reg } => (0b010000_0100, rm, rdn) [rdn],
+    Adcs "adc" { rdn: Reg, rm: Reg } => (0b010000_0101, rm, rdn) [rdn],
+    Sbcs "sbc" { rdn: Reg, rm: Reg } => (0b010000_0110, rm, rdn) [rdn],
+    Rors "ror" { rdn: Reg, rm: Reg } => (0b010000_0111, rm, rdn) [rdn],
     Tst "tst" { rn: Reg, rm: Reg } => (0b010000_1000, rm, rn),
-    Rsbs ("rsb {rd}, {rn}, #0") { rd: Reg, rn: Reg } => (0b010000_1001, rn, rd),
+    Rsbs ("rsb {rd}, {rn}, #0") { rd: Reg, rn: Reg } => (0b010000_1001, rn, rd) [rd],
     Cmp "cmp" { rn: Reg, rm: Reg } => (0b010000_1010, rm, rn),
     Cmn "cmn" { rn: Reg, rm: Reg } => (0b010000_1011, rm, rn),
-    Orrs "orr" { rdn: Reg, rm: Reg } => (0b010000_1100, rm, rdn),
-    Muls "mul" { rdm: Reg, rn: Reg } => (0b010000_1101, rn, rdm),
-    Bics "bic" { rdn: Reg, rm: Reg } => (0b010000_1110, rm, rdn),
-    Mvns "mvn" { rd: Reg, rm: Reg } => (0b010000_1111, rm, rd),
-    Negs "neg" { rd: Reg, rn: Reg } => (0b010000_1001, rn, rd), // same as Rsbs with imm = 0
+    Orrs "orr" { rdn: Reg, rm: Reg } => (0b010000_1100, rm, rdn) [rdn],
+    Muls "mul" { rdm: Reg, rn: Reg } => (0b010000_1101, rn, rdm) [rdm],
+    Bics "bic" { rdn: Reg, rm: Reg } => (0b010000_1110, rm, rdn) [rdn],
+    Mvns "mvn" { rd: Reg, rm: Reg } => (0b010000_1111, rm, rd) [rd],
+    Negs "neg" { rd: Reg, rn: Reg } => (0b010000_1001, rn, rd) [rd], // same as Rsbs with imm = 0
 
     // 05 - Hi register operations/branch exchange
-    AddLoLo "add" { rd: Reg, rs: Reg } => (0b010001_00_0_0, rs, rd),
-    AddLoHi "add" { rd: Reg, rs: HiReg } => (0b010001_00_0_1, rs, rd),
+    AddLoLo "add" { rd: Reg, rs: Reg } => (0b010001_00_0_0, rs, rd) [rd],
+    AddLoHi "add" { rd: Reg, rs: HiReg } => (0b010001_00_0_1, rs, rd) [rd],
     AddHiLo "add" { rd: HiReg, rs: Reg } => (0b010001_00_1_0, rs, rd),
     AddHiHi "add" { rd: HiReg, rs: HiReg } => (0b010001_00_1_1, rs, rd),
-    MovLoLo "mov" { rd: Reg, rs: Reg } => (0b010001_10_0_0, rs, rd),
-    MovLoHi "mov" { rd: Reg, rs: HiReg } => (0b010001_10_0_1, rs, rd),
+    MovLoLo "mov" { rd: Reg, rs: Reg } => (0b010001_10_0_0, rs, rd) [rd],
+    MovLoHi "mov" { rd: Reg, rs: HiReg } => (0b010001_10_0_1, rs, rd) [rd],
     MovHiLo "mov" { rd: HiReg, rs: Reg } => (0b010001_10_1_0, rs, rd),
     MovHiHi "mov" { rd: HiReg, rs: HiReg } => (0b010001_10_1_1, rs, rd),
     BxLo "bx" { rm: Reg } => (0b010001_11_0_0, rm, u3::new(0)),
@@ -362,40 +371,40 @@ instructions! {
     BlxHi "blx" { rm: HiReg } => (0b010001_11_1_1, rm, u3::new(0)),
 
     // 06 - PC-relative load
-    LdrPcImm ("ldr {rd}, [pc, {immw8}]") { rd: Reg, immw8: u10 } => (0b01001, rd, (immw8.value() >> 2) as u8),
-    LdrPc ("ldr {rd}, {labelp8}") { rd: Reg, labelp8: u8 } => (0b01001, rd, labelp8),
+    LdrPcImm ("ldr {rd}, [pc, {immw8}]") { rd: Reg, immw8: u10 } => (0b01001, rd, (immw8.value() >> 2) as u8) [rd],
+    LdrPc ("ldr {rd}, {labelp8}") { rd: Reg, labelp8: u8 } => (0b01001, rd, labelp8) [rd],
 
     // 07 - load/store with register offset
     Str ("str {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_0_0_0, ro, rb, rd),
     Strb ("strb {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_0_1_0, ro, rb, rd),
-    Ldr ("ldr {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_0_0, ro, rb, rd),
-    Ldrb ("ldrb {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_1_0, ro, rb, rd),
+    Ldr ("ldr {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_0_0, ro, rb, rd) [rd],
+    Ldrb ("ldrb {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_1_0, ro, rb, rd) [rd],
 
     // 08 - load/store sign-extended byte/halfword
     Strh ("strh {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_0_0_1, ro, rb, rd),
-    Ldrh ("ldrh {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_0_1, ro, rb, rd),
-    Ldrsb ("ldrsb {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_0_1_1, ro, rb, rd),
-    Ldrsh ("ldrsh {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_1_1, ro, rb, rd),
+    Ldrh ("ldrh {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_0_1, ro, rb, rd) [rd],
+    Ldrsb ("ldrsb {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_0_1_1, ro, rb, rd) [rd],
+    Ldrsh ("ldrsh {rd}, [{rb}, {ro}]") { rd: Reg, rb: Reg, ro: Reg } => (0b0101_1_1_1, ro, rb, rd) [rd],
 
     // 09 - load/store with immediate offset
     StrRegImm ("str {rd}, [{rb}, {immw5}]") { rd: Reg, rb: Reg, immw5: u7 } => (0b011_0_0, u5::new(immw5.value() >> 2), rb, rd),
-    LdrRegImm ("ldr {rd}, [{rb}, {immw5}]") { rd: Reg, rb: Reg, immw5: u7 } => (0b011_0_1, u5::new(immw5.value() >> 2), rb, rd),
+    LdrRegImm ("ldr {rd}, [{rb}, {immw5}]") { rd: Reg, rb: Reg, immw5: u7 } => (0b011_0_1, u5::new(immw5.value() >> 2), rb, rd) [rd],
     StrbRegImm ("strb {rd}, [{rb}, {imm5}]") { rd: Reg, rb: Reg, imm5: u5 } => (0b011_1_0, imm5, rb, rd),
-    LdrbRegImm ("ldrb {rd}, [{rb}, {imm5}]") { rd: Reg, rb: Reg, imm5: u5 } => (0b011_1_1, imm5, rb, rd),
+    LdrbRegImm ("ldrb {rd}, [{rb}, {imm5}]") { rd: Reg, rb: Reg, imm5: u5 } => (0b011_1_1, imm5, rb, rd) [rd],
 
     // 10 - load/store halfword
     StrhRegImm ("strh {rd}, [{rb}, {immh5}]") { rd: Reg, rb: Reg, immh5: u6 } => (0b1000_0, u5::new(immh5.value() >> 1), rb, rd),
-    LdrhRegImm ("ldrh {rd}, [{rb}, {immh5}]") { rd: Reg, rb: Reg, immh5: u6 } => (0b1000_1, u5::new(immh5.value() >> 1), rb, rd),
+    LdrhRegImm ("ldrh {rd}, [{rb}, {immh5}]") { rd: Reg, rb: Reg, immh5: u6 } => (0b1000_1, u5::new(immh5.value() >> 1), rb, rd) [rd],
 
     // 11 - SP-relative load/store
     StrSp ("str {rt}, [sp, {immw8}]") { rt: Reg, immw8: u10 } => (0b1001_0, rt, (immw8.value() >> 2) as u8),
-    LdrSp ("ldr {rt}, [sp, {immw8}]") { rt: Reg, immw8: u10 } => (0b1001_1, rt, (immw8.value() >> 2) as u8),
+    LdrSp ("ldr {rt}, [sp, {immw8}]") { rt: Reg, immw8: u10 } => (0b1001_1, rt, (immw8.value() >> 2) as u8) [rt],
 
     // 12 - load address
-    AddRegPcImm ("add {rd}, pc, {immw8}") { rd: Reg, immw8: u10 } => (0b1010_0, rd, (immw8.value() >> 2) as u8),
-    Adr ("adr {rd}, {labelp8}") { rd: Reg, labelp8: u8 } => (0b1010_0, rd, labelp8),
-    AddRegSpImm ("add {rd}, sp, {immw8}") { rd: Reg, immw8: u10 } => (0b1010_1, rd, (immw8.value() >> 2) as u8),
-    MovRegSp ("mov {rd}, sp") { rd: Reg } => (0b1010_1, rd, 0u8),
+    AddRegPcImm ("add {rd}, pc, {immw8}") { rd: Reg, immw8: u10 } => (0b1010_0, rd, (immw8.value() >> 2) as u8) [rd],
+    Adr ("adr {rd}, {labelp8}") { rd: Reg, labelp8: u8 } => (0b1010_0, rd, labelp8) [rd],
+    AddRegSpImm ("add {rd}, sp, {immw8}") { rd: Reg, immw8: u10 } => (0b1010_1, rd, (immw8.value() >> 2) as u8) [rd],
+    MovRegSp ("mov {rd}, sp") { rd: Reg } => (0b1010_1, rd, 0u8) [rd],
 
     // 13 - add offset to Stack Pointer
     AddSp ("add sp, {immw7}") { immw7: u9 } => (0b1011_0000_0, u7::new((immw7.value() >> 2) as u8)),
@@ -404,10 +413,10 @@ instructions! {
     // 14 - everything ignored for maintenant
 
     // 14.2 - sign/zero extend
-    Sxth "sxth" { rd: Reg, rm: Reg } => (0b1011_0010_00, rm, rd),
-    Sxtb "sxtb" { rd: Reg, rm: Reg } => (0b1011_0010_01, rm, rd),
-    Uxth "uxth" { rd: Reg, rm: Reg } => (0b1011_0010_10, rm, rd),
-    Uxtb "uxtb" { rd: Reg, rm: Reg } => (0b1011_0010_11, rm, rd),
+    Sxth "sxth" { rd: Reg, rm: Reg } => (0b1011_0010_00, rm, rd) [rd],
+    Sxtb "sxtb" { rd: Reg, rm: Reg } => (0b1011_0010_01, rm, rd) [rd],
+    Uxth "uxth" { rd: Reg, rm: Reg } => (0b1011_0010_10, rm, rd) [rd],
+    Uxtb "uxtb" { rd: Reg, rm: Reg } => (0b1011_0010_11, rm, rd) [rd],
 
     // 16 - conditional branch
     BCond ("b{cond} {label8}") { cond: Condition, label8: u8 } => (0b1101, cond, label8),
