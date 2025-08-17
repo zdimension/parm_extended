@@ -474,6 +474,16 @@ impl CRepl {
         }"#;
 
 
+        let code = r#"
+        int f(int x, int handler(int)) {
+            return 2*handler(x);
+        }
+
+        int g(int y) {
+            return y + 1;
+        }
+        "#;
+
         // self.process(&code);
 
         let mut input = String::with_capacity(16384);

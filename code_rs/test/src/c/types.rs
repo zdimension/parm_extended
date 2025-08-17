@@ -28,13 +28,6 @@ pub enum Signedness {
     Unsigned,
 }
 
-/*
-TODO
-pub struct DeclFmt<'n, 't> {
-    pub name: &'n String,
-    pub ty: &'t QualType,
-}*/
-
 #[derive(PartialEq, Eq, Debug, Clone)]
 pub struct FunctionImpl {
     pub ret: QualType,
@@ -98,7 +91,7 @@ impl UnqualType {
             UnqualType::Array(_, None) => todo!(),
             UnqualType::Struct(_) => todo!(),
             UnqualType::Enum(_) => 4, // enum are always int backed
-            UnqualType::Function(_) => todo!(),
+            UnqualType::Function(_) => 0xffffffff
         }
     }
 

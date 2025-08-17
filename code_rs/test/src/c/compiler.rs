@@ -394,71 +394,17 @@ impl<'a> Compiler<'a> {
                     comperr!("Continue statement outside of loop");
                 }
             }
-            _ => todo!(),
+            Empty => {}
         }
         Ok(())
     }
 
-    fn lookup(&self, name: &String) -> Analysis<'static> {
-        let mut base = 0;
-        for scope in self.scope.iter().rev() {
-            if let Some(symbol) = scope.symbols.get(name) {
-                return match symbol {
-                    SymbolKind::Variable { ty, pos } => {
-                        Analysis {
-                            ty: ty.clone(),
-                            addr: Some(match pos {
-                                VarPosition::Local(offset) => Address::Local((base + *offset) as u8),
-                                VarPosition::Global(data) => Address::Global(data.as_ptr() as *mut _) // SAFETY: whatever
-                            }),
-                            value: None,
-                        }
-                    }
-                    SymbolKind::Function { proto, jump, .. } => Analysis {
-                        ty: UnqualType::Function(proto.clone()).into(),
-                        addr: Some(Address::Global(jump.as_ptr() as _)),
-                        value: None,
-                    },
-                    SymbolKind::Type(_) => {
-                        panic!("Cannot reference type as an expression: {}", name);
-                    }
-                };
-            }
-            base += scope.var_size;
-        }
-        if let Some(symbol) = self.global_scope.symbols.get(name) {
-            return match symbol {
-                SymbolKind::Variable { ty, pos } => {
-                    Analysis {
-                        ty: ty.clone(),
-                        addr: Some(match pos {
-                            VarPosition::Local(_) => {
-                                panic!("A local variable? In MY global scope? It's more likely than you think!");
-                            }
-                            VarPosition::Global(data) => Address::Global(data.as_ptr() as *mut _),
-                        }),
-                        value: None,
-                    }
-                }
-                SymbolKind::Function { proto, jump, .. } => Analysis {
-                    ty: UnqualType::Function(proto.clone()).into(),
-                    addr: Some(Address::Global(jump.as_ptr() as _)),
-                    value: None,
-                },
-                SymbolKind::Type(_) => {
-                    panic!("Cannot reference type as an expression: {}", name);
-                }
-            };
-        }
-        panic!("Symbol not found: {}", name);
-    }
-
-    fn lookup2(&self, name: &String) -> ConstAnalysis {
+    fn lookup(&self, name: &String) -> Result<ConstAnalysis, CompileError> {
         use EvalConstantKind::*;
         let mut base = 0;
         for scope in self.scope.iter().rev() {
             if let Some(symbol) = scope.symbols.get(name) {
-                return match symbol {
+                return Ok(match symbol {
                     SymbolKind::Variable { ty, pos } => {
                         ConstAnalysis {
                             ty: ty.clone(),
@@ -473,14 +419,14 @@ impl<'a> Compiler<'a> {
                         addr: EvalConstant { val: jump.as_ptr() as _, kind: Absolute },
                     },
                     SymbolKind::Type(_) => {
-                        panic!("Cannot reference type as an expression: {}", name);
+                        comperr!("Cannot reference type as an expression: {}", name);
                     }
-                };
+                });
             }
             base += scope.var_size;
         }
         if let Some(symbol) = self.global_scope.symbols.get(name) {
-            return match symbol {
+            return Ok(match symbol {
                 SymbolKind::Variable { ty, pos } => {
                     ConstAnalysis {
                         ty: ty.clone(),
@@ -497,11 +443,11 @@ impl<'a> Compiler<'a> {
                     addr: EvalConstant { val: jump.as_ptr() as _, kind: Absolute },
                 },
                 SymbolKind::Type(_) => {
-                    panic!("Cannot reference type as an expression: {}", name);
+                    comperr!("Cannot reference type as an expression: {}", name);
                 }
-            };
+            });
         }
-        panic!("Symbol not found: {}", name);
+        comperr!("Symbol not found: {}", name);
     }
 
     fn assert_scalar<T: Borrow<UnqualType> + Display>(ty: T) -> Result<T, CompileError> {
@@ -563,26 +509,6 @@ impl<'a> Compiler<'a> {
             (&Int(sl), &Int(sr)) => Ok(Int(if sl == sr { sl } else { Unsigned }).into()),
             _ => comperr!("Unable to perform the usual arithmetic conversions")
         }
-        /*let lty = Self::get_promoted_int(ty1).unwrap_or_else(|_| ty1.into());
-        let rty = Self::get_promoted_int(ty2).unwrap_or_else(|_| ty2.into());
-        if lty.unqual == rty.unqual {
-            return Ok(lty);
-        }
-        // we don't support anything bigger than int anyway
-        Ok(UnqualType::Int(Unsigned).into())*/
-        /*use UnqualType::*;
-        use Signedness::*;
-        match (&*lty.unqual, &*rty.unqual) {
-            (&Int(sl), &Int(sr)) => Int(if sl == sr { sl } else { Unsigned }),
-            (&Char(sl), &Char(sr)) => {
-                let (sl, sr) = (sl.unwrap_or(Unsigned), sr.unwrap_or(Unsigned));
-                Char(if sl == sr { sl } else { Unsigned })
-            }
-            (&Int(si), &Char(sc)) | (&Char(sc), &Int(si)) => {
-                Int(si)
-            }
-            _ => todo!()
-        }.into()*/
     }
     fn emit_char_extend(&mut self, reg: Reg, sign: Option<Signedness>) {
         if sign == Some(Signed) {
@@ -1712,7 +1638,7 @@ impl<'a> Compiler<'a> {
                 kind: Absolute
             }.into()),
             Expression::SymRef(sym) => {
-                let analysis = self.lookup2(sym);
+                let analysis = self.lookup(sym)?;
                 let addr = analysis.addr;
                 if let UnqualType::Array(_, _) = &*analysis.ty.unqual {
                     return Ok((analysis.into(), addr.into()));
@@ -2238,7 +2164,6 @@ impl<'e> FullEvaluation<'e> {
             // (left: pure, right: impure)
             other_self.and_then_pure(move |c, out| {
                 c.with_alloc(|c, [other]| {
-                    //c.emit(Movs { rd: other, rm: out}); // todo: this sucks, find a better way later!
                     c.flush_eval_to_reg(other, self)?; // no side effects so this is pure
                     f(c, (out, (other, out)));
                     Ok(())

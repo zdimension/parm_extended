@@ -7,6 +7,7 @@ use alloc::string::String;
 use core::fmt::Display;
 
 use crate::c::types::{QualType, Signedness};
+use crate::rprintln;
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum AccessType {
@@ -348,6 +349,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                 if self.accept(Token::OpenParen) {
                     match self.read_declaration_specifiers() {
                         Ok((class, type_)) => {
+                            rprintln!("read_sizeof_type: {:?}", type_);
                             if class.is_some() {
                                 return Err(ParseError::Generic(
                                     "storage class not allowed in sizeof expression",

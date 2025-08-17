@@ -485,6 +485,8 @@ impl<'a, 'b> CParser<'a, 'b> {
     fn read_direct_declarator(&mut self, mut base_type: QualType) -> Result<(Option<String>, QualType), ParseError> {
         let name;
 
+        let inner = base_type.unqual.clone();
+
         match self.peek() {
             Some(Token::Identifier(_)) => {
                 let Token::Identifier(id) = self.next()? else {
@@ -524,10 +526,11 @@ impl<'a, 'b> CParser<'a, 'b> {
                             });
                         }
                     };
-                    base_type = QualType {
-                        unqual: UnqualType::Array(base_type, size).into(),
-                        type_qualifiers: Default::default(),
-                    };
+                    // base_type = QualType {
+                    //     unqual: UnqualType::Array(base_type, size).into(),
+                    //     type_qualifiers: Default::default(),
+                    // };
+                    *inner.borrow_mut() = UnqualType::Array(inner.clone(), size).into();
                 }
                 Some(Token::OpenParen) => {
                     self.advance();
@@ -932,7 +935,7 @@ impl<'a, 'b> CParser<'a, 'b> {
 
     pub fn read_unit(&mut self) -> Result<Option<CodeBox>, ParseError> {
         plog("read_unit");
-        let mut stmts = Vec::new(); // todo: globals
+        let mut stmts = Vec::new();
         while self.iter.peek().is_some() {
             plog("read_unit iter");
             let decls = self.read_declaration()?;
