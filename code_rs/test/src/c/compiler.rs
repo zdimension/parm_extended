@@ -1,6 +1,6 @@
 use crate::c::compiler::CompileError::GenericDyn;
 use crate::c::lexer::Comparison::{Equal, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, NotEqual};
-use crate::c::lexer::{AssignableOperator, BoolOp};
+use crate::c::lexer::{AssignableOperator, BoolOp, Comparison};
 use crate::c::parse::{Block, Designator, InitializerList, Statement};
 use crate::c::parse_expr::{AccessType, BinOp, Expression, OpPosition, SizeOfOp, UnaryOp};
 use crate::c::scope::{Scope, SymbolKind, VarPosition};
@@ -167,11 +167,13 @@ impl<'a> Compiler<'a> {
     }
 
     fn enter(&mut self, scope: &'a Scope) {
-        self.emit(SubsImm8 { rd: R7, imm8: u8::try_from(scope.var_size).unwrap() });
+        if scope.var_size != 0 {
+            self.emit(SubsImm8 { rd: R7, imm8: u8::try_from(scope.var_size).unwrap() });
+            self.depth = self.depth.wrapping_add(scope.var_size);
+            self.locals_size = self.locals_size.max(self.depth);
+        }
         self.scope.push(scope);
-        self.depth = self.depth.wrapping_add(scope.var_size);
         // rprintln!("entering scope with {}", scope.var_size);
-        self.locals_size = self.locals_size.max(self.depth);
     }
 
     /// emits code to float up to the given scope
@@ -187,24 +189,13 @@ impl<'a> Compiler<'a> {
     fn leave(&mut self) {
         if let Some(scope) = self.scope.pop() {
             // rprintln!("leaving scope with {}", scope.var_size);
-            self.emit(AddsImm8 { rd: R7, imm8: u8::try_from(scope.var_size).unwrap() });
-            self.depth -= scope.var_size;
+            if scope.var_size != 0 {
+                self.emit(AddsImm8 { rd: R7, imm8: u8::try_from(scope.var_size).unwrap() });
+                self.depth -= scope.var_size;
+            }
         } else {
             panic!("Cannot leave scope, no scope to leave");
         }
-    }
-
-    fn get_max_local_size(body: &'a Block) -> usize {
-        body.decls.var_size
-            + body
-                .stmts
-                .iter()
-                .filter_map(|s| match s {
-                    Statement::Block(b) => Some(Self::get_max_local_size(b)),
-                    _ => None,
-                })
-                .max()
-                .unwrap_or(0)
     }
 
     pub fn emit_function(
@@ -238,8 +229,6 @@ impl<'a> Compiler<'a> {
             Block(block) => self.emit_block(block)?,
             Expression(expr) => {
                 if !expr.is_pure() {
-                    // no need to emit an stmt expr if it's pure since we discard the result anyway
-                    //self.emit_expression(expr)?;
                     let (_, ev) = self.eval_expression(expr)?;
                     self.with_alloc(move |c, [trash]| {
                         c.flush_and_discard(trash, ev)
@@ -257,13 +246,6 @@ impl<'a> Compiler<'a> {
                         comperr!("Return with value in void function");
                     }
                     let ety = self.eval_expression(expr)?;
-                    // let Ok(ev) = self.eval_auto_convert(ety, &fi.ret.unqual)? else {
-                    //     comperr!(
-                    //         "Return type mismatch: expected {}, found {}",
-                    //         fi.ret.unqual,
-                    //         ety.ty.unqual
-                    //     );
-                    // };
                     let ev = match self.eval_auto_convert(ety, &fi.ret.unqual)? {
                         Ok(ev) => ev,
                         Err(ety) => comperr!(
@@ -801,7 +783,7 @@ impl<'a> Compiler<'a> {
         use BinOp::*;
         Ok(match op {
             Bool(bop) => {
-                self.eval_bool_op(bop, r, l)?
+                self.eval_bool_op(bop, l, r)?
             }
             Simple(Plus) => {
                 let (lty, lev) = self.eval_expression(l)?;
@@ -1032,112 +1014,7 @@ impl<'a> Compiler<'a> {
                 (rvalue(oty), rv)
             }
             Simple(bop @ (Multiply | Divide | Modulo)) => {
-                let (lty, lev) = self.eval_expression(l)?;
-                let (rty, rev) = self.eval_expression(r)?;
-                Self::assert_arithmetic(&lty.ty).or_else(|_| {
-                    comperr!("Left operand of multiplicative operation must be arithmetic, found: {}", lty.ty)
-                })?;
-                Self::assert_arithmetic(&rty.ty).or_else(|_| {
-                    comperr!("Right operand of multiplicative operation must be arithmetic, found: {}", rty.ty)
-                })?;
-                let oty = Self::usual_arithmetic_conversion(&*lty.ty.unqual, &*rty.ty.unqual).unwrap_or_else(|_| unreachable!());
-                let rv = match bop {
-                    Multiply => {
-                        match (lev, rev) {
-                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
-                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval * rval, kind: Absolute }))
-                            }
-
-                            // case where both are frame-relative is degenerate and will be emitted as non-constant
-
-                            (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) |
-                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
-                                zev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
-                            }
-
-                            (oev @ FullEvaluation { result: Constant(EvalConstant { val: 1, kind: Absolute }), .. }, rev) |
-                            (rev, oev @ FullEvaluation { result: Constant(EvalConstant { val: 1, kind: Absolute }), .. }) => {
-                                rev.also_discard(oev)
-                            }
-
-                            (lev, rev) => {
-                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
-                                    c.emit(Muls { rdm: l, rn: r });
-                                })
-                            }
-                        }
-                    }
-
-                    Divide => {
-                        match (lev, rev) {
-                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
-                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval / rval, kind: Absolute }))
-                            }
-                            (_, FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
-                                comperr!("Division by zero in expression: {:?}", l);
-                            }
-
-                            // case where both are frame-relative is degenerate and will be emitted as non-constant
-
-                            (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) => {
-                                zev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
-                            }
-
-                            (lev, oev @ FullEvaluation { result: Constant(EvalConstant { val: 1, kind: Absolute }), .. }) => {
-                                lev.also_discard(oev)
-                            }
-
-                            (lev, oev @ FullEvaluation { result: Constant(EvalConstant { val: c, kind: Absolute }), .. }) if c >= 2 && c.is_power_of_two() => {
-                                // todo: negative division?
-                                let shift = c.trailing_zeros() as u8; // will be between 1 and 31
-                                match &*lty.ty.unqual {
-                                    UnqualType::Char(Some(Signed)) => {
-                                        lev.also_discard(oev).and_then_pure(move |c, out| {
-                                            c.with_alloc(|c, [tmp]| {
-                                                c.emit(LsrImm { rd: tmp, rm: out, imm5: u5::new(32 - shift) });
-                                                c.emit(Adds { rd: out, rn: out, rm: tmp });
-                                                if shift > 1 {
-                                                    c.emit(Sxtb { rd: out, rm: out }); // Sign-extend to 32 bits
-                                                }
-                                                c.emit(AsrImm { rd: out, rm: out, imm5: u5::new(shift) });
-                                            });
-                                            Ok(())
-                                        })
-                                    }
-                                    UnqualType::Int(Signed) => {
-                                        lev.also_discard(oev).and_then_pure(move |c, out| {
-                                            c.with_alloc(|c, [tmp]| {
-                                                if shift > 1 {
-                                                    c.emit(AsrImm { rd: tmp, rm: out, imm5: u5::new(31) });
-                                                    c.emit(LsrImm { rd: tmp, rm: tmp, imm5: u5::new(32 - shift) });
-                                                } else {
-                                                    c.emit(LsrImm { rd: tmp, rm: out, imm5: u5::new(32 - shift) });
-                                                }
-                                                c.emit(Adds { rd: out, rn: out, rm: tmp });
-                                            });
-                                            c.emit(AsrImm { rd: out, rm: out, imm5: u5::new(shift) });
-                                            Ok(())
-                                        })
-                                    }
-                                    UnqualType::Int(Unsigned) | UnqualType::Char(_) => {
-                                        lev.also_discard(oev).and_then_pure(move |c, out| {
-                                            c.emit(LsrImm { rd: out, rm: out, imm5: u5::new(shift) });
-                                            Ok(())
-                                        })
-                                    }
-                                    _ => comperr!("Division by power of two is only supported for integers")
-                                }
-                            }
-
-                            (lev, rev) => {
-                                comperr!("General division not implemented yet: {:?} / {:?}", lev, rev);
-                            }
-                        }
-                    }
-                    Modulo => { todo!() }
-                    _ => unreachable!(),
-                };
-                (rvalue(oty), rv)
+                self.eval_multiplicative(bop, l, r)?
             }
             Simple(bop @ (ShiftLeft | ShiftRight | BitwiseOr | BitwiseAnd | BitwiseXor)) => {
                 let (lty, lev) = self.eval_expression(l)?;
@@ -1292,128 +1169,7 @@ impl<'a> Compiler<'a> {
                 (rvalue(oty), rv)
             }
             Comparison(cop) => {
-                let (lty, lev) = self.eval_expression(l)?;
-                let (rty, rev) = self.eval_expression(r)?;
-                match (&*lty.ty.unqual, &*rty.ty.unqual) {
-                    (UnqualType::Pointer(pa), UnqualType::Pointer(pb)) => {
-                        if !Self::are_compatible(pa, pb) {
-                            comperr!("Cannot compare incompatible pointers: {} and {}", lty.ty, rty.ty);
-                        }
-                    }
-                    (ia, ib) if Self::assert_integer(ia).is_ok() && Self::assert_integer(ib).is_ok() => {
-                        // If both are integers, we can compare them directly
-                    }
-                    _ => {
-                        comperr!("Cannot compare types: {} and {}", lty.ty, rty.ty);
-                    }
-                }
-                let oty = UnqualType::Int(Signed).into();
-                let rv = match cop {
-                    Equal => {
-                        match (lev, rev) {
-                            (a, b) if a.purity() == Pure && b.purity() == Pure && l == r => {
-                                // If both sides are pure and equal, we can return a constant true
-                                Constant(EvalConstant { val: 1, kind: Absolute }).into()
-                            }
-
-                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) => {
-                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if (lval, lk) == (rval, rk) { 1 } else { 0 }, kind: Absolute }))
-                            }
-
-                            (lev, rev) => {
-                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
-                                    c.emit(Subs { rd: r, rn: l, rm: r }); // r = a - b. 0 if equal, ≠ 0 if different
-                                    c.emit(Rsbs { rd: l, rn: r }); // l = 0 - r = b - a. Sets C if r = 0 (equal).
-                                    c.emit(Adcs { rdn: l, rm: r }); // l = l + r + C = (b - a) + (a - b) + C = 1 if equal, 0 if different
-                                })
-                            }
-                        }
-                    }
-                    NotEqual => {
-                        match (lev, rev) {
-                            (a, b) if a.purity() == Pure && b.purity() == Pure && l == r => {
-                                // If both sides are pure and equal, we can return a constant false
-                                Constant(EvalConstant { val: 0, kind: Absolute }).into()
-                            }
-
-                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) => {
-                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if (lval, lk) == (rval, rk) { 0 } else { 1 }, kind: Absolute }))
-                            }
-
-                            (lev, rev) => {
-                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
-                                    c.emit(Subs { rd: l, rn: l, rm: r }); // l = a - b. 0 if equal, ≠ 0 if different
-                                    c.emit(SubsImm { rd: r, rn: l, imm3: u3::new(1) }); // r = l - 1. If equal, the sub borrows so C = 0.
-                                    c.emit(Sbcs { rdn: l, rm: r }); // l = l - r - !C = (a - b) - (a - b - 1) - !C = 1 - !C = C = 0 if equal, 1 if different
-                                })
-                            }
-                        }
-                    }
-                    // todo: signed comparison
-                    LessThan => {
-                        match (lev, rev) {
-                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
-                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval < rval { 1 } else { 0 }, kind: Absolute }))
-                            }
-
-                            (lev, rev) => {
-                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
-                                    c.emit(Cmp { rn: l, rm: r }); // does a - b, sets C=1 if l >= r (because no borrow)
-                                    c.emit(Sbcs { rdn: l, rm: l }); // l = l - l - !C = 0 - !C = 0 if l >= r, -1 if l < r
-                                    c.emit(Negs { rd: l, rn: l }); // Negate l, so it becomes 1 if l < r, 0 if l >= r
-                                })
-                            }
-                        }
-                    }
-                    LessThanOrEqual => {
-                        match (lev, rev) {
-                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
-                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval <= rval { 1 } else { 0 }, kind: Absolute }))
-                            }
-
-                            (lev, rev) => {
-                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
-                                    c.emit(Cmp { rn: r, rm: l }); // does b - a, sets C=1 if r >= l (because no borrow)
-                                    c.emit(MovsImm { rd: l, imm8: 0 }); // Set l to 0
-                                    c.emit(Adcs { rdn: l, rm: l }); // If r < l, C=1, so l = 1, else l = 0
-                                })
-                            }
-                        }
-                    }
-                    GreaterThan => {
-                        match (lev, rev) {
-                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
-                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval > rval { 1 } else { 0 }, kind: Absolute }))
-                            }
-
-                            (lev, rev) => {
-                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
-                                    // see LessThan
-                                    c.emit(Cmp { rn: r, rm: l });
-                                    c.emit(Sbcs { rdn: l, rm: l });
-                                    c.emit(Negs { rd: l, rn: l });
-                                })
-                            }
-                        }
-                    }
-                    GreaterThanOrEqual => {
-                        match (lev, rev) {
-                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
-                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval >= rval { 1 } else { 0 }, kind: Absolute }))
-                            }
-
-                            (lev, rev) => {
-                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
-                                    // see LessThanOrEqual
-                                    c.emit(Cmp { rn: l, rm: r });
-                                    c.emit(MovsImm { rd: l, imm8: 0 });
-                                    c.emit(Adcs { rdn: l, rm: l });
-                                })
-                            }
-                        }
-                    }
-                };
-                (rvalue(oty), rv)
+                self.eval_comparison(cop, l, r)?
             }
 
             Assignment(op) => {
@@ -1447,7 +1203,6 @@ impl<'a> Compiler<'a> {
                                     }
                                 }
                             }
-                            //evs.push(c.eval_bin_op(Assignment(None), &target, val)?.1)
                             let ev = c.eval_bin_op(Assignment(None), &target, val)?.1;
                             c.flush_and_discard(out, ev)?;
                             auto_idx += 1;
@@ -1481,9 +1236,22 @@ impl<'a> Compiler<'a> {
                     comperr!("Cannot assign to non-lvalue expression: {}", lty.ty);
                 };
 
+                if lty.ty.type_qualifiers.is_const {
+                    comperr!("Cannot assign to const-qualified type: {}", lty.ty);
+                }
+
                 if laddr.side_effects.len() != lev.side_effects.len() {
                     panic!("weird!???");
                 }
+
+                let rev = match self.eval_auto_convert((rty, rev), &lty.ty)? {
+                    Ok(ev) => ev,
+                    Err(ety) => comperr!(
+                        "Cannot assign value of type {} to lvalue of type {}",
+                        ety.0.ty.unqual,
+                        lty.ty.unqual,
+                    )
+                };
 
                 let oty = lty.ty.clone();
 
@@ -1495,6 +1263,241 @@ impl<'a> Compiler<'a> {
                 }))).into())
             }
         })
+    }
+
+    fn eval_multiplicative<'e>(&mut self, bop: AssignableOperator, l: &'e Expression, r: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
+        let (lty, lev) = self.eval_expression(l)?;
+        let (rty, rev) = self.eval_expression(r)?;
+        Self::assert_arithmetic(&lty.ty).or_else(|_| {
+            comperr!("Left operand of multiplicative operation must be arithmetic, found: {}", lty.ty)
+        })?;
+        Self::assert_arithmetic(&rty.ty).or_else(|_| {
+            comperr!("Right operand of multiplicative operation must be arithmetic, found: {}", rty.ty)
+        })?;
+        let oty = Self::usual_arithmetic_conversion(&*lty.ty.unqual, &*rty.ty.unqual).unwrap_or_else(|_| unreachable!());
+        let rv = match bop {
+            Multiply => {
+                match (lev, rev) {
+                    (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval * rval, kind: Absolute }))
+                    }
+
+                    // case where both are frame-relative is degenerate and will be emitted as non-constant
+
+                    (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) |
+                    (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
+                        zev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
+                    }
+
+                    (oev @ FullEvaluation { result: Constant(EvalConstant { val: 1, kind: Absolute }), .. }, rev) |
+                    (rev, oev @ FullEvaluation { result: Constant(EvalConstant { val: 1, kind: Absolute }), .. }) => {
+                        rev.also_discard(oev)
+                    }
+
+                    (lev, rev) => {
+                        lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                            c.emit(Muls { rdm: l, rn: r });
+                        })
+                    }
+                }
+            }
+
+            Divide => {
+                match (lev, rev) {
+                    (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval / rval, kind: Absolute }))
+                    }
+                    (_, FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
+                        comperr!("Division by zero in expression: {:?}", l);
+                    }
+
+                    // case where both are frame-relative is degenerate and will be emitted as non-constant
+
+                    (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) => {
+                        zev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
+                    }
+
+                    (lev, oev @ FullEvaluation { result: Constant(EvalConstant { val: 1, kind: Absolute }), .. }) => {
+                        lev.also_discard(oev)
+                    }
+
+                    (lev, oev @ FullEvaluation { result: Constant(EvalConstant { val: c, kind: Absolute }), .. }) if c >= 2 && c.is_power_of_two() => {
+                        // todo: negative division?
+                        let shift = c.trailing_zeros() as u8; // will be between 1 and 31
+                        match &*lty.ty.unqual {
+                            UnqualType::Char(Some(Signed)) => {
+                                lev.also_discard(oev).and_then_pure(move |c, out| {
+                                    c.with_alloc(|c, [tmp]| {
+                                        c.emit(LsrImm { rd: tmp, rm: out, imm5: u5::new(32 - shift) });
+                                        c.emit(Adds { rd: out, rn: out, rm: tmp });
+                                        if shift > 1 {
+                                            c.emit(Sxtb { rd: out, rm: out }); // Sign-extend to 32 bits
+                                        }
+                                        c.emit(AsrImm { rd: out, rm: out, imm5: u5::new(shift) });
+                                    });
+                                    Ok(())
+                                })
+                            }
+                            UnqualType::Int(Signed) => {
+                                lev.also_discard(oev).and_then_pure(move |c, out| {
+                                    c.with_alloc(|c, [tmp]| {
+                                        if shift > 1 {
+                                            c.emit(AsrImm { rd: tmp, rm: out, imm5: u5::new(31) });
+                                            c.emit(LsrImm { rd: tmp, rm: tmp, imm5: u5::new(32 - shift) });
+                                        } else {
+                                            c.emit(LsrImm { rd: tmp, rm: out, imm5: u5::new(32 - shift) });
+                                        }
+                                        c.emit(Adds { rd: out, rn: out, rm: tmp });
+                                    });
+                                    c.emit(AsrImm { rd: out, rm: out, imm5: u5::new(shift) });
+                                    Ok(())
+                                })
+                            }
+                            UnqualType::Int(Unsigned) | UnqualType::Char(_) => {
+                                lev.also_discard(oev).and_then_pure(move |c, out| {
+                                    c.emit(LsrImm { rd: out, rm: out, imm5: u5::new(shift) });
+                                    Ok(())
+                                })
+                            }
+                            _ => comperr!("Division by power of two is only supported for integers")
+                        }
+                    }
+
+                    (lev, rev) => {
+                        comperr!("General division not implemented yet: {:?} / {:?}", lev, rev);
+                    }
+                }
+            }
+            Modulo => { todo!() }
+            _ => unreachable!(),
+        };
+        Ok((rvalue(oty), rv))
+    }
+
+    fn eval_comparison<'e>(&mut self, cop: Comparison, l: &'e Expression, r: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
+        let (lty, lev) = self.eval_expression(l)?;
+        let (rty, rev) = self.eval_expression(r)?;
+        match (&*lty.ty.unqual, &*rty.ty.unqual) {
+            (UnqualType::Pointer(pa), UnqualType::Pointer(pb)) => {
+                if !Self::are_compatible(pa, pb) {
+                    comperr!("Cannot compare incompatible pointers: {} and {}", lty.ty, rty.ty);
+                }
+            }
+            (ia, ib) if Self::assert_integer(ia).is_ok() && Self::assert_integer(ib).is_ok() => {
+                // If both are integers, we can compare them directly
+            }
+            _ => {
+                comperr!("Cannot compare types: {} and {}", lty.ty, rty.ty);
+            }
+        }
+        // todo: any usual arithm conv to do? to check
+        let oty = UnqualType::Int(Signed).into();
+        let rv = match cop {
+            Equal => {
+                match (lev, rev) {
+                    (a, b) if a.purity() == Pure && b.purity() == Pure && l == r => {
+                        // If both sides are pure and equal, we can return a constant true
+                        Constant(EvalConstant { val: 1, kind: Absolute }).into()
+                    }
+
+                    (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) => {
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if (lval, lk) == (rval, rk) { 1 } else { 0 }, kind: Absolute }))
+                    }
+
+                    (lev, rev) => {
+                        lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                            c.emit(Subs { rd: r, rn: l, rm: r }); // r = a - b. 0 if equal, ≠ 0 if different
+                            c.emit(Rsbs { rd: l, rn: r }); // l = 0 - r = b - a. Sets C if r = 0 (equal).
+                            c.emit(Adcs { rdn: l, rm: r }); // l = l + r + C = (b - a) + (a - b) + C = 1 if equal, 0 if different
+                        })
+                    }
+                }
+            }
+            NotEqual => {
+                match (lev, rev) {
+                    (a, b) if a.purity() == Pure && b.purity() == Pure && l == r => {
+                        // If both sides are pure and equal, we can return a constant false
+                        Constant(EvalConstant { val: 0, kind: Absolute }).into()
+                    }
+
+                    (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) => {
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if (lval, lk) == (rval, rk) { 0 } else { 1 }, kind: Absolute }))
+                    }
+
+                    (lev, rev) => {
+                        lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                            c.emit(Subs { rd: l, rn: l, rm: r }); // l = a - b. 0 if equal, ≠ 0 if different
+                            c.emit(SubsImm { rd: r, rn: l, imm3: u3::new(1) }); // r = l - 1. If equal, the sub borrows so C = 0.
+                            c.emit(Sbcs { rdn: l, rm: r }); // l = l - r - !C = (a - b) - (a - b - 1) - !C = 1 - !C = C = 0 if equal, 1 if different
+                        })
+                    }
+                }
+            }
+            // todo: signed comparison
+            LessThan => {
+                match (lev, rev) {
+                    (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval < rval { 1 } else { 0 }, kind: Absolute }))
+                    }
+
+                    (lev, rev) => {
+                        lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                            c.emit(Cmp { rn: l, rm: r }); // does a - b, sets C=1 if l >= r (because no borrow)
+                            c.emit(Sbcs { rdn: l, rm: l }); // l = l - l - !C = 0 - !C = 0 if l >= r, -1 if l < r
+                            c.emit(Negs { rd: l, rn: l }); // Negate l, so it becomes 1 if l < r, 0 if l >= r
+                        })
+                    }
+                }
+            }
+            LessThanOrEqual => {
+                match (lev, rev) {
+                    (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval <= rval { 1 } else { 0 }, kind: Absolute }))
+                    }
+
+                    (lev, rev) => {
+                        lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                            c.emit(Cmp { rn: r, rm: l }); // does b - a, sets C=1 if r >= l (because no borrow)
+                            c.emit(MovsImm { rd: l, imm8: 0 }); // Set l to 0
+                            c.emit(Adcs { rdn: l, rm: l }); // If r < l, C=1, so l = 1, else l = 0
+                        })
+                    }
+                }
+            }
+            GreaterThan => {
+                match (lev, rev) {
+                    (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval > rval { 1 } else { 0 }, kind: Absolute }))
+                    }
+
+                    (lev, rev) => {
+                        lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                            // see LessThan
+                            c.emit(Cmp { rn: r, rm: l });
+                            c.emit(Sbcs { rdn: l, rm: l });
+                            c.emit(Negs { rd: l, rn: l });
+                        })
+                    }
+                }
+            }
+            GreaterThanOrEqual => {
+                match (lev, rev) {
+                    (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval >= rval { 1 } else { 0 }, kind: Absolute }))
+                    }
+
+                    (lev, rev) => {
+                        lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                            // see LessThanOrEqual
+                            c.emit(Cmp { rn: l, rm: r });
+                            c.emit(MovsImm { rd: l, imm8: 0 });
+                            c.emit(Adcs { rdn: l, rm: l });
+                        })
+                    }
+                }
+            }
+        };
+        Ok((rvalue(oty), rv))
     }
 
     fn eval_bool_op<'e>(&mut self, bop: BoolOp, l: &'e Expression, r: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
@@ -1624,17 +1627,6 @@ impl<'a> Compiler<'a> {
 
     pub fn eval_expression<'e>(&mut self, expr: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
         let (mut an, ev) = self.eval_expression_raw(expr)?;
-        // decay array to pointer
-        // if let UnqualType::Array(item, _) = &*an.ty.unqual {
-        //     an.ty = UnqualType::Pointer(item.clone()).into();
-        //     // Ok(Analysis {
-        //     //     ty: UnqualType::Pointer(item.clone()).into(),
-        //     //     addr, // arrays aren't supposed to be lvalues but whatever, it makes initializers easier to emit
-        //     //     value, // should be none anyways
-        //     // })
-        // } else {
-        //     //
-        // }
 
         an.ty = an.ty.decay();
 
@@ -1760,9 +1752,7 @@ impl<'a> Compiler<'a> {
                     },
                     _ => comperr!("Expected function type for function call, found: {}", fa.ty),
                 };
-                // let Some(addr) = fa.addr else {
-                //     comperr!("Function call without address");
-                // };
+
                 if args.len() != fi.args.len() {
                     comperr!(
                         "Function call argument count mismatch: expected {}, found {}",
@@ -1770,17 +1760,20 @@ impl<'a> Compiler<'a> {
                         args.len()
                     );
                 }
-                let aev = args.iter().map(|arg| self.eval_expression(arg)).collect::<Result<Vec<_>, _>>()?;
-                for (i, (exp, got)) in fi.args.iter().zip(aev.iter()).enumerate() {
-                    if !Self::are_compatible(exp.1, &got.0.ty) {
-                        comperr!(
+
+                let aev = fi.args.iter().zip(args.iter()).enumerate().map(|(i, (exp, got))| {
+                    let argev = self.eval_expression(got)?;
+                    match self.eval_auto_convert(argev, &exp.1.unqual)? {
+                        Ok(ev) => Ok(ev),
+                        Err(ety) => comperr!(
                             "Argument {} of function call has incompatible type: expected {}, found {}",
                             i + 1,
                             exp.1,
-                            got.0.ty
-                        );
+                            ety.0.ty
+                        )
                     }
-                }
+                }).collect::<Result<Vec<_>, _>>()?;
+
                 (rvalue(fi.ret.clone()), Emission((Impure, Box::new(move |c, out| {
                     if out != R0 {
                         // save R0
@@ -1788,7 +1781,7 @@ impl<'a> Compiler<'a> {
                     }
                     // Push all args to stack
                     for arg in aev.into_iter().rev() {
-                        c.flush_eval_to_reg(out, arg.1)?;
+                        c.flush_eval_to_reg(out, arg)?;
                         c.emit_push(RegList::new([out], false));
                     }
                     //c.emit_address_to_reg(addr, out)?;
