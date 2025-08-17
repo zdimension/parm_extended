@@ -476,7 +476,10 @@ impl CRepl {
 
 
         let code = r#"
-        enum thing { a,b,c};
+        struct point {
+            int x;
+            int y;
+        };
         "#;
 
         self.process(&code);

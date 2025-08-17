@@ -38,7 +38,7 @@ use crate::c::emitter::{CodeBox, Emitter};
 use crate::c::lexer::{AssignableOperator, Keyword, Operator, ReadError, Token, Tokenizer};
 use crate::c::parse_expr::{BinOp, Expression};
 use crate::c::scope::VarPosition::{Global, Local};
-use crate::c::types::{EnumImpl, FunctionImpl, QualType, Signedness, StructImpl, TypeBox, TypeQualifiers, UnqualType};
+use crate::c::types::{EnumImpl, FunctionImpl, QualType, Signedness, StructImpl, StructInner, TypeBox, TypeQualifiers, UnqualType};
 use crate::c::types::Signedness::{Signed, Unsigned};
 use crate::parm::OrderedMap;
 use crate::rprintln;
@@ -549,9 +549,10 @@ impl<'a, 'b> CParser<'a, 'b> {
         Ok(values)
     }
 
-    fn read_struct_declaration(&mut self) -> Result<OrderedMap<String, TypeBox>, ParseError> {
+    fn read_struct_declaration(&mut self) -> Result<StructInner, ParseError> {
         plog("read_struct_declaration");
         let mut fields = OrderedMap::default();
+        let mut total_size = 0;
         loop {
             if self.accept(Token::CloseBrace) {
                 break;
@@ -566,7 +567,9 @@ impl<'a, 'b> CParser<'a, 'b> {
                         let Entry::Vacant(entry) = fields.entry(field_name) else {
                             return Err(ParseError::Generic("duplicate field in struct"));
                         };
-                        entry.insert(typ.unqual);
+                        let field_size = typ.unqual.size_aligned();
+                        entry.insert((total_size, typ.unqual));
+                        total_size += field_size;
                     }
                     _ => {
                         return Err(ParseError::Generic("expected variable declaration in struct"));
@@ -574,7 +577,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                 }
             }
         }
-        Ok(fields)
+        Ok((total_size, fields))
     }
 
     pub(super) fn read_declarator_inner(&mut self) -> Result<(Option<String>, Vec<Box<dyn FnOnce(QualType) -> QualType>>), ParseError> {

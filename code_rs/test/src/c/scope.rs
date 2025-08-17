@@ -105,9 +105,9 @@ impl Display for Scope {
             match **value {
                 UnqualType::Struct(ref stru) => {
                     write!(f, "struct {}", key)?;
-                    if let Some(fields) = &stru.inner {
-                        writeln!(f, "\n{{")?;
-                        for (field_name, field_type) in fields {
+                    if let Some((size, fields)) = &stru.inner {
+                        writeln!(f, "\n{{ // {size} bytes")?;
+                        for (field_name, (_, field_type)) in fields {
                             writeln!(f, "    {} {};", **field_type, field_name)?;
                         }
                         writeln!(f, "}};")?;

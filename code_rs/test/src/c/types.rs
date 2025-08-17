@@ -12,13 +12,20 @@ pub struct NamedType<T> {
     pub inner: Option<T>
 }
 
+impl<T> NamedType<T> {
+    pub fn get_name(&self) -> &str {
+        self.identity.as_deref().unwrap_or("<anonymous>")
+    }
+}
+
 impl<T> PartialEq for NamedType<T> {
     fn eq(&self, other: &Self) -> bool {
         self.identity == other.identity
     }
 }
 
-pub type StructImpl = NamedType<OrderedMap<String, TypeBox>>;
+pub type StructInner = (usize, OrderedMap<String, (usize, TypeBox)>);
+pub type StructImpl = NamedType<StructInner>;
 pub type UnionImpl = NamedType<OrderedMap<String, TypeBox>>;
 pub type EnumImpl = NamedType<()>;
 
@@ -81,15 +88,17 @@ impl UnqualType {
     }
 
     pub fn size(&self) -> usize {
-        match self {
+        match &self {
             UnqualType::Void => 0,
             UnqualType::Char(_) => 1, // todo: handling things smaller than a word sucks
             UnqualType::Bool => 1,
             UnqualType::Int(_) => 4,
-            UnqualType::Pointer(_) => 4,
+            UnqualType::Pointer(_) => 4,&
             UnqualType::Array(ty, Some(size)) => size * ty.unqual.size(),
             UnqualType::Array(_, None) => todo!(),
-            UnqualType::Struct(_) => todo!(),
+            UnqualType::Struct(si) => {
+                si.inner.as_ref().map_or(0, |&(s, _)| s)
+            },
             UnqualType::Enum(_) => 4, // enum are always int backed
             UnqualType::Function(_) => 0xffffffff
         }
