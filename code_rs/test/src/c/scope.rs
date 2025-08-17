@@ -28,6 +28,7 @@ pub enum VarPosition {
 pub enum SymbolKind {
     Type(QualType),
     Variable { ty: QualType, pos: VarPosition },
+    Constant { ty: QualType, val: usize },
     Function { proto: FunctionImpl, body: Option<(Block, CodeBox)>, jump: CodeBox },
 }
 
@@ -37,6 +38,9 @@ impl Display for SymbolKind {
             SymbolKind::Type(t) => write!(f, "type {}", t),
             SymbolKind::Variable { ty, pos } => {
                 write!(f, "variable {}", ty)
+            }
+            SymbolKind::Constant { ty, val } => {
+                write!(f, "const {} = {}", ty, val)
             }
             SymbolKind::Function { proto, body, .. } => {
                 write!(f, "{}", proto)?;
@@ -55,6 +59,7 @@ impl Display for SymbolKind {
 pub struct Scope {
     pub symbols: OrderedMap<String, SymbolKind>,
     pub structs: OrderedMap<String, TypeBox>,
+    pub enums: OrderedMap<String, TypeBox>,
     pub var_size: usize
 }
 
@@ -68,6 +73,9 @@ impl Display for Scope {
                 }
                 SymbolKind::Variable { ty: t, .. } => {
                     writeln!(f, "{} {};", t, key)?;
+                }
+                SymbolKind::Constant { ty: t, val } => {
+                    writeln!(f, "const {} {} = {};", t, key, val)?;
                 }
                 SymbolKind::Function { proto: t, body, .. } => {
                     write!(f, "{} {}(", t.ret, key)?;

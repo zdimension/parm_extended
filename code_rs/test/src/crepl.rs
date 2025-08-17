@@ -221,7 +221,8 @@ impl CRepl {
 
     fn try_process(&mut self, code: &str) -> Result<(), PositionedError<ParseError>> {
         // TODO !!!! save r4-r6 if they're clobbered since they're supposed to be callee-saved
-        let mut parser1 = CParser::new(code, &mut self.scope)?;
+        let mut tmp_scope = Scope::default();
+        let mut parser1 = CParser::new(code, &mut tmp_scope)?;
         let is_expr = match parser1.read_declaration_specifiers() {
             Ok(_) => false,
             Err(ParseError::GenericBacktrack(..)) => true,
@@ -340,7 +341,7 @@ impl CRepl {
             UnqualType::Int(Signedness::Unsigned) | UnqualType::Pointer(_) => {
                 rprintln!("{} (0x{:08x})", value, value);
             }
-            UnqualType::Int(_) => {
+            UnqualType::Int(_) | UnqualType::Enum(_) => {
                 rprintln!("{} (0x{:08x})", value as i32, value);
             }
             UnqualType::Char(_) => {
@@ -475,13 +476,7 @@ impl CRepl {
 
 
         let code = r#"
-        int f(int x, int handler(int)) {
-            return 2*handler(x);
-        }
-
-        int g(int y) {
-            return y + 1;
-        }
+        enum thing { a,b,c};
         "#;
 
         self.process(&code);

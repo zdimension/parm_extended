@@ -389,18 +389,27 @@ impl<'a> Compiler<'a> {
                     SymbolKind::Variable { ty, pos } => {
                         ConstAnalysis {
                             ty: ty.clone(),
-                            addr: (match pos {
+                            addr: Some(match pos {
                                 VarPosition::Local(offset) => EvalConstant { val: (base + *offset) as u32, kind: FrameRelative },
                                 VarPosition::Global(data) => EvalConstant { val: data.as_ptr() as _, kind: Absolute },
                             }),
+                            const_val: None
                         }
                     }
                     SymbolKind::Function { proto, jump, .. } => ConstAnalysis {
                         ty: UnqualType::Function(proto.clone()).into(),
-                        addr: EvalConstant { val: jump.as_ptr() as _, kind: Absolute },
+                        addr: Some(EvalConstant { val: jump.as_ptr() as _, kind: Absolute }),
+                        const_val: None
                     },
                     SymbolKind::Type(_) => {
                         comperr!("Cannot reference type as an expression: {}", name);
+                    }
+                    SymbolKind::Constant { ty, val } => {
+                        ConstAnalysis {
+                            ty: ty.clone(),
+                            addr: None,
+                            const_val: Some(*val)
+                        }
                     }
                 });
             }
@@ -415,16 +424,25 @@ impl<'a> Compiler<'a> {
                             VarPosition::Local(_) => {
                                 panic!("A local variable? In MY global scope? It's more likely than you think!");
                             }
-                            VarPosition::Global(data) => EvalConstant { val: data.as_ptr() as _, kind: Absolute },
+                            VarPosition::Global(data) => Some(EvalConstant { val: data.as_ptr() as _, kind: Absolute }),
                         }),
+                        const_val: None
                     }
                 }
                 SymbolKind::Function { proto, jump, .. } => ConstAnalysis {
                     ty: UnqualType::Function(proto.clone()).into(),
-                    addr: EvalConstant { val: jump.as_ptr() as _, kind: Absolute },
+                    addr: Some(EvalConstant { val: jump.as_ptr() as _, kind: Absolute }),
+                    const_val: None
                 },
                 SymbolKind::Type(_) => {
                     comperr!("Cannot reference type as an expression: {}", name);
+                }
+                SymbolKind::Constant { ty, val } => {
+                    ConstAnalysis {
+                        ty: ty.clone(),
+                        addr: None,
+                        const_val: Some(*val)
+                    }
                 }
             });
         }
@@ -1652,15 +1670,23 @@ impl<'a> Compiler<'a> {
                 kind: Absolute
             }.into()),
             Expression::SymRef(sym) => {
-                let analysis = self.lookup(sym)?;
-                let addr = analysis.addr;
-                if let UnqualType::Array(_, _) | UnqualType::Function(_) = &*analysis.ty.unqual {
-                    return Ok((analysis.into(), addr.into()));
-                }
-                let ty = analysis.ty.clone();
-                (analysis.into(), Emission((if ty.type_qualifiers.is_volatile { Impure } else { Pure }, Box::new(move |c, out| {
-                    c.load_from_into(&ty, Constant(addr), out)
-                }))).into())
+                let analysis: ConstAnalysis = self.lookup(sym)?;
+                let rev = if let Some(cval) = analysis.const_val {
+                    Constant(EvalConstant { val: cval as u32, kind: Absolute })
+                } else {
+                    let Some(addr) = analysis.addr else {
+                        comperr!("Symbol {} has no address", sym);
+                    };
+                    if let UnqualType::Array(_, _) | UnqualType::Function(_) = &*analysis.ty.unqual {
+                        addr.into()
+                    } else {
+                        let ty = analysis.ty.clone();
+                        Emission((if ty.type_qualifiers.is_volatile { Impure } else { Pure }, Box::new(move |c, out| {
+                            c.load_from_into(&ty, Constant(addr), out)
+                        })))
+                    }
+                };
+                (analysis.into(), rev.into())
             }
             Expression::Cast(ty, expr) => {
                 let casted = self.eval_cast(expr, ty)?;
@@ -2024,7 +2050,7 @@ impl From<ConstAnalysis> for Analysis2<'_> {
     fn from(c: ConstAnalysis) -> Self {
         Analysis2 {
             ty: c.ty,
-            addr: Some(Evaluation::Constant(c.addr).into()),
+            addr: c.addr.map(|a| Constant(a).into()),
         }
     }
 }
@@ -2032,7 +2058,8 @@ impl From<ConstAnalysis> for Analysis2<'_> {
 #[derive(Clone)]
 pub struct ConstAnalysis {
     pub ty: QualType,
-    pub addr: EvalConstant,
+    pub addr: Option<EvalConstant>,
+    pub const_val: Option<usize>
 }
 
 

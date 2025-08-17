@@ -288,6 +288,7 @@ macro_rules! instructions {
         }
 
         impl Instruction {
+            #[allow(unused_variables)]
             pub const fn clobbers(self) -> Option<Reg> {
                 match self {
                     $(Self::$name $( {  $($field),+, .. } )? => {

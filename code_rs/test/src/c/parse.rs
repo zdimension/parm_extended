@@ -9,6 +9,7 @@ use indexmap::map::raw_entry_v1::RawEntryMut;
 use crate::c::scope::*;
 use aligned_vec::avec;
 use arbitrary_int::u10;
+use hashbrown::HashMap;
 
 pub struct CParser<'a, 'b> {
     code: &'a str,
@@ -37,7 +38,7 @@ use crate::c::emitter::{CodeBox, Emitter};
 use crate::c::lexer::{AssignableOperator, Keyword, Operator, ReadError, Token, Tokenizer};
 use crate::c::parse_expr::{BinOp, Expression};
 use crate::c::scope::VarPosition::{Global, Local};
-use crate::c::types::{FunctionImpl, QualType, Signedness, StructImpl, TypeBox, TypeQualifiers, UnqualType};
+use crate::c::types::{EnumImpl, FunctionImpl, QualType, Signedness, StructImpl, TypeBox, TypeQualifiers, UnqualType};
 use crate::c::types::Signedness::{Signed, Unsigned};
 use crate::parm::OrderedMap;
 use crate::rprintln;
@@ -97,7 +98,7 @@ impl From<ReadError> for ParseError {
 }
 
 pub fn plog(_s: &'static str) {
-    //println!(s);
+    //rprintln!("{}", _s);
 }
 
 impl From<bool> for SkipStop<()> {
@@ -280,6 +281,8 @@ impl<'a, 'b> CParser<'a, 'b> {
                 Token::Keyword(Keyword::Signed) => set!(signedness, Signedness::Signed, "signedness"),
                 Token::Keyword(Keyword::Unsigned) => set!(signedness, Signedness::Unsigned, "signedness"),
 
+
+
                 Token::Keyword(Keyword::Struct) if found_type.is_none() => {
                     self.advance();
                     let mut name = None;
@@ -344,6 +347,85 @@ impl<'a, 'b> CParser<'a, 'b> {
 
                     found_type = Some(FoundType::Complex(stru));
                 }
+
+                Token::Keyword(Keyword::Enum) if found_type.is_none() => {
+                    self.advance();
+                    let mut name = None;
+                    let has_body = match self.next()? {
+                        Token::Identifier(id) => {
+                            name = Some(id);
+                            self.accept(Token::OpenBrace)
+                        }
+                        Token::OpenBrace => {
+                            // anonymous enum
+                            true
+                        }
+                        tok => {
+                            return Err(ParseError::UnexpectedTokenGeneric {
+                                got: Some(tok),
+                                msg: "expected enum name or open brace",
+                            });
+                        }
+                    };
+
+                    let inner_impl = if has_body {
+                        // read struct definition
+                        Some(self.read_enum_declaration()?)
+                    } else {
+                        None
+                    };
+
+                    let inner = if has_body { Some(()) } else { None };
+                    rprintln!("1 {:?}", self.global_scope.enums);
+                    let enu = match name {
+                        Some(name) => {
+                            match self.global_scope.enums.raw_entry_mut_v1().from_key(&name) {
+                                RawEntryMut::Occupied(mut e) => {
+                                    let UnqualType::Enum(ref existing) = **e.get() else {
+                                        unreachable!();
+                                    };
+                                    match (has_body, existing.inner.is_some()) {
+                                        (true, true) => {
+                                            rprintln!("{:?}", self.global_scope.enums);
+                                            return Err(ParseError::Generic("enum with the same name already defined"));
+                                        }
+                                        (true, false) => {
+                                            // update existing enum
+                                            e.insert(UnqualType::Enum(EnumImpl {
+                                                identity: Some(name),
+                                                inner,
+                                            }).into())
+                                        }
+                                        (false, _) => {
+                                            e.get().clone()
+                                        }
+                                    }
+                                }
+                                RawEntryMut::Vacant(e) => e.insert(name.clone(), UnqualType::Enum(EnumImpl {
+                                    identity: Some(name),
+                                    inner,
+                                }).into()).1.clone()
+                            }
+                        }
+                        None => UnqualType::Enum(EnumImpl {
+                            identity: None,
+                            inner,
+                        }).into()
+                    };
+
+                    if let Some(entries) = inner_impl {
+                        // insert enum values into the scope
+                        for (name, value) in entries {
+                            if self.global_scope.symbols.contains_key(&name) {
+                                return Err(ParseError::Generic("cannot redeclare symbol"));
+                            }
+                            self.global_scope.symbols.insert(name, SymbolKind::Constant { val: value, ty: enu.clone().into() });
+                        }
+                    }
+
+                    found_type = Some(FoundType::Complex(enu));
+                }
+
 
                 /*Token::Identifier(name) if found_type.is_none() => {
                     let Some(item) = self.scope.symbols.get(name) else {
@@ -429,6 +511,43 @@ impl<'a, 'b> CParser<'a, 'b> {
         build_final_type(class, signedness, found_type, qualifiers)
     }
 
+    fn read_enum_declaration(&mut self) -> Result<HashMap<String, usize>, ParseError> {
+        plog("read_enum_declaration");
+        let mut values = HashMap::new();
+        let mut next_value = 0;
+        loop {
+            let mut next: Token = self.next()?;
+            if let Token::Identifier(name) = next {
+                if self.accept(Token::Operator(Operator::Assignment(None))) {
+                    // enum value with explicit value
+                    let value = self.next()?;
+                    if let Token::Integer(val) = value {
+                        next_value = val as usize;
+                    } else {
+                        return Err(ParseError::UnexpectedTokenGeneric {
+                            got: Some(value),
+                            msg: "expected integer literal for enum value",
+                        });
+                    }
+                }
+                if !values.insert(name, next_value).is_none() {
+                    return Err(ParseError::Generic("duplicate enum value"));
+                }
+                next_value += 1; // increment for next value
+                if self.accept(Token::Comma) {
+                    continue;
+                }
+                next = self.next()?;
+            }
+
+            if next == Token::CloseBrace {
+                break;
+            } else {
+                return Err(ParseError::Generic("expected identifier for enum value"));
+            }
+        }
+        Ok(values)
+    }
 
     fn read_struct_declaration(&mut self) -> Result<OrderedMap<String, TypeBox>, ParseError> {
         plog("read_struct_declaration");
