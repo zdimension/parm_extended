@@ -1,5 +1,4 @@
 use crate::c::compiler::CompileError::GenericDyn;
-use crate::c::lexer::Comparison::{Equal, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, NotEqual};
 use crate::c::lexer::{AssignableOperator, BoolOp, Comparison};
 use crate::c::parse::{Block, Designator, InitializerList, Statement};
 use crate::c::parse_expr::{AccessType, BinOp, Expression, OpPosition, SizeOfOp, UnaryOp};
@@ -21,7 +20,6 @@ use crate::c::arm::{Condition, Instruction, Reg, RegList};
 use crate::c::arm::HiReg::PC;
 use crate::c::arm::Reg::*;
 use crate::c::emitter::{CodeVec, Emitter};
-use crate::c::lexer::AssignableOperator::{BitwiseAnd, BitwiseOr, BitwiseXor, Divide, Minus, Modulo, Multiply, Plus, ShiftLeft, ShiftRight};
 use crate::c::types::Signedness::{Signed, Unsigned};
 use arbitrary_int::Number;
 use crate::c::compiler::EvalConstantKind::{Absolute, FrameRelative};
@@ -781,6 +779,7 @@ impl<'a> Compiler<'a> {
 
     pub fn eval_bin_op<'e>(&mut self, op: BinOp, l: &'e Expression, r: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
         use BinOp::*;
+        use AssignableOperator::*;
         Ok(match op {
             Bool(bop) => {
                 self.eval_bool_op(bop, l, r)?
@@ -1017,156 +1016,7 @@ impl<'a> Compiler<'a> {
                 self.eval_multiplicative(bop, l, r)?
             }
             Simple(bop @ (ShiftLeft | ShiftRight | BitwiseOr | BitwiseAnd | BitwiseXor)) => {
-                let (lty, lev) = self.eval_expression(l)?;
-                let (rty, rev) = self.eval_expression(r)?;
-                Self::assert_integer(&lty.ty).or_else(|_| {
-                    comperr!("Left operand of bitwise operation must be integer, found: {}", lty.ty)
-                })?;
-                Self::assert_integer(&rty.ty).or_else(|_| {
-                    comperr!("Right operand of bitwise operation must be integer, found: {}", rty.ty)
-                })?;
-                let oty = Self::usual_arithmetic_conversion(&*lty.ty.unqual, &*rty.ty.unqual).unwrap_or_else(|_| unreachable!());
-                let rv = match bop {
-                    ShiftLeft => {
-                        match (lev, rev) {
-                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
-                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval << rval, kind: Absolute }))
-                            }
-
-                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
-                                rev.also_discard(zev)
-                            }
-
-                            (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) => {
-                                zev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
-                            }
-
-                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: sval, kind: Absolute }), .. }) => {
-                                if sval > 31 {
-                                    rev.also_discard(zev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
-                                } else {
-                                    rev.also_discard(zev).and_then_pure(move |c, out| {
-                                        c.emit(LslImm { rd: out, rm: out, imm5: u5::new(sval as u8) });
-                                        Ok(())
-                                    })
-                                }
-                            }
-
-                            (lev, rev) => {
-                                lev.binop_combine(rev, move |c, (out, (l, r))| {
-                                    c.emit(Lsls { rdn: l, rm: r });
-                                    if l != out {
-                                        c.emit(Movs { rd: out, rm: l });
-                                    }
-                                })
-                            }
-                        }
-                    }
-
-                    ShiftRight => {
-                        match (lev, rev) {
-                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
-                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval >> rval, kind: Absolute }))
-                            }
-
-                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
-                                rev.also_discard(zev)
-                            }
-
-                            (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) => {
-                                zev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
-                            }
-
-                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: sval, kind: Absolute }), .. }) => {
-                                if sval > 31 {
-                                    rev.also_discard(zev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
-                                } else {
-                                    rev.also_discard(zev).and_then_pure(move |c, out| {
-                                        if lty.ty.is_signed() {
-                                            c.emit(AsrImm { rd: out, rm: out, imm5: u5::new(sval as u8) });
-                                        } else {
-                                            c.emit(LsrImm { rd: out, rm: out, imm5: u5::new(sval as u8) });
-                                        }
-                                        Ok(())
-                                    })
-                                }
-                            }
-
-                            (lev, rev) => {
-                                lev.binop_combine(rev, move |c, (out, (l, r))| {
-                                    if lty.ty.is_signed() {
-                                        c.emit(Asrs { rdn: l, rm: r });
-                                    } else {
-                                        c.emit(Lsrs { rdn: l, rm: r });
-                                    }
-                                    if l != out {
-                                        c.emit(Movs { rd: out, rm: l });
-                                    }
-                                })
-                            }
-                        }
-                    }
-
-                    BitwiseOr => {
-                        match (lev, rev) {
-                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
-                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval | rval, kind: Absolute }))
-                            }
-
-                            (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) |
-                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
-                                rev.also_discard(zev)
-                            }
-
-                            (lev, rev) => {
-                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
-                                    c.emit(Orrs { rdn: l, rm: r });
-                                })
-                            }
-                        }
-                    }
-
-                    BitwiseAnd => {
-                        match (lev, rev) {
-                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
-                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval & rval, kind: Absolute }))
-                            }
-
-                            (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) |
-                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
-                                zev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
-                            }
-
-                            (lev, rev) => {
-                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
-                                    c.emit(Ands { rdn: l, rm: r });
-                                })
-                            }
-                        }
-                    }
-
-                    BitwiseXor => {
-                        match (lev, rev) {
-                            (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
-                                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval ^ rval, kind: Absolute }))
-                            }
-
-                            (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) |
-                            (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
-                                rev.also_discard(zev)
-                            }
-
-                            (lev, rev) => {
-                                lev.binop_combine_symmetric(rev, move |c, (l, r)| {
-                                    c.emit(Eors { rdn: l, rm: r });
-                                })
-                            }
-                        }
-                    }
-
-                    _ => unreachable!(),
-                };
-                (rvalue(oty), rv)
+                self.eval_bitwise(bop, l, r)?
             }
             Comparison(cop) => {
                 self.eval_comparison(cop, l, r)?
@@ -1265,6 +1115,160 @@ impl<'a> Compiler<'a> {
         })
     }
 
+    fn eval_bitwise<'e>(&mut self, bop: AssignableOperator, l: &'e Expression, r: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
+        let (lty, lev) = self.eval_expression(l)?;
+        let (rty, rev) = self.eval_expression(r)?;
+        Self::assert_integer(&lty.ty).or_else(|_| {
+            comperr!("Left operand of bitwise operation must be integer, found: {}", lty.ty)
+        })?;
+        Self::assert_integer(&rty.ty).or_else(|_| {
+            comperr!("Right operand of bitwise operation must be integer, found: {}", rty.ty)
+        })?;
+        let oty = Self::usual_arithmetic_conversion(&*lty.ty.unqual, &*rty.ty.unqual).unwrap_or_else(|_| unreachable!());
+        use AssignableOperator::*;
+        let rv = match bop {
+            ShiftLeft => {
+                match (lev, rev) {
+                    (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval << rval, kind: Absolute }))
+                    }
+
+                    (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
+                        rev.also_discard(zev)
+                    }
+
+                    (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) => {
+                        zev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
+                    }
+
+                    (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: sval, kind: Absolute }), .. }) => {
+                        if sval > 31 {
+                            rev.also_discard(zev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
+                        } else {
+                            rev.also_discard(zev).and_then_pure(move |c, out| {
+                                c.emit(LslImm { rd: out, rm: out, imm5: u5::new(sval as u8) });
+                                Ok(())
+                            })
+                        }
+                    }
+
+                    (lev, rev) => {
+                        lev.binop_combine(rev, move |c, (out, (l, r))| {
+                            c.emit(Lsls { rdn: l, rm: r });
+                            if l != out {
+                                c.emit(Movs { rd: out, rm: l });
+                            }
+                        })
+                    }
+                }
+            }
+
+            ShiftRight => {
+                match (lev, rev) {
+                    (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval >> rval, kind: Absolute }))
+                    }
+
+                    (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
+                        rev.also_discard(zev)
+                    }
+
+                    (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) => {
+                        zev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
+                    }
+
+                    (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: sval, kind: Absolute }), .. }) => {
+                        if sval > 31 {
+                            rev.also_discard(zev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
+                        } else {
+                            rev.also_discard(zev).and_then_pure(move |c, out| {
+                                if lty.ty.is_signed() {
+                                    c.emit(AsrImm { rd: out, rm: out, imm5: u5::new(sval as u8) });
+                                } else {
+                                    c.emit(LsrImm { rd: out, rm: out, imm5: u5::new(sval as u8) });
+                                }
+                                Ok(())
+                            })
+                        }
+                    }
+
+                    (lev, rev) => {
+                        lev.binop_combine(rev, move |c, (out, (l, r))| {
+                            if lty.ty.is_signed() {
+                                c.emit(Asrs { rdn: l, rm: r });
+                            } else {
+                                c.emit(Lsrs { rdn: l, rm: r });
+                            }
+                            if l != out {
+                                c.emit(Movs { rd: out, rm: l });
+                            }
+                        })
+                    }
+                }
+            }
+
+            BitwiseOr => {
+                match (lev, rev) {
+                    (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval | rval, kind: Absolute }))
+                    }
+
+                    (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) |
+                    (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
+                        rev.also_discard(zev)
+                    }
+
+                    (lev, rev) => {
+                        lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                            c.emit(Orrs { rdn: l, rm: r });
+                        })
+                    }
+                }
+            }
+
+            BitwiseAnd => {
+                match (lev, rev) {
+                    (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval & rval, kind: Absolute }))
+                    }
+
+                    (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) |
+                    (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
+                        zev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: 0, kind: Absolute }))
+                    }
+
+                    (lev, rev) => {
+                        lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                            c.emit(Ands { rdn: l, rm: r });
+                        })
+                    }
+                }
+            }
+
+            BitwiseXor => {
+                match (lev, rev) {
+                    (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: Absolute }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: Absolute }), .. }) => {
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval ^ rval, kind: Absolute }))
+                    }
+
+                    (zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }, rev) |
+                    (rev, zev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), .. }) => {
+                        rev.also_discard(zev)
+                    }
+
+                    (lev, rev) => {
+                        lev.binop_combine_symmetric(rev, move |c, (l, r)| {
+                            c.emit(Eors { rdn: l, rm: r });
+                        })
+                    }
+                }
+            }
+
+            _ => unreachable!(),
+        };
+        Ok((rvalue(oty), rv))
+    }
+
     fn eval_multiplicative<'e>(&mut self, bop: AssignableOperator, l: &'e Expression, r: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
         let (lty, lev) = self.eval_expression(l)?;
         let (rty, rev) = self.eval_expression(r)?;
@@ -1275,6 +1279,7 @@ impl<'a> Compiler<'a> {
             comperr!("Right operand of multiplicative operation must be arithmetic, found: {}", rty.ty)
         })?;
         let oty = Self::usual_arithmetic_conversion(&*lty.ty.unqual, &*rty.ty.unqual).unwrap_or_else(|_| unreachable!());
+        use AssignableOperator::*;
         let rv = match bop {
             Multiply => {
                 match (lev, rev) {
@@ -1392,6 +1397,7 @@ impl<'a> Compiler<'a> {
         }
         // todo: any usual arithm conv to do? to check
         let oty = UnqualType::Int(Signed).into();
+        use Comparison::*;
         let rv = match cop {
             Equal => {
                 match (lev, rev) {
