@@ -1227,7 +1227,7 @@ def main_loop():
                 trampo_offset += e.offset
                 continue
             except Exception as e:
-                print(f"Build error on line {lineno}: {line} (inside {current_function})")
+                print(f"Build error on line {lineno}: {line} (inside {current_function.name})")
                 raise
         with open("trampo_pre.s", "w") as tw:
             tw.write("\n".join(lines))

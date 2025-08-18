@@ -35,10 +35,17 @@ pub enum Signedness {
     Unsigned,
 }
 
-#[derive(PartialEq, Eq, Debug, Clone)]
+#[derive(Eq, Debug, Clone)]
 pub struct FunctionImpl {
     pub ret: QualType,
     pub args: OrderedMap<String, QualType>,
+}
+
+impl PartialEq for FunctionImpl {
+    #[inline(never)]
+    fn eq(&self, other: &Self) -> bool {
+        self.ret == other.ret && self.args == other.args
+    }
 }
 
 impl Display for FunctionImpl {
@@ -59,11 +66,11 @@ pub enum UnqualType {
     Int(Signedness), // signed by default
     Char(Option<Signedness>), // spec mandates that char is different from both signed and unsigned char
     Bool,
+    Void,
     Enum(EnumImpl),
     Pointer(QualType),
     Array(QualType, Option<usize>),
     Struct(StructImpl),
-    Void,
     //Union(UnionImpl),
     Function(FunctionImpl),
 }

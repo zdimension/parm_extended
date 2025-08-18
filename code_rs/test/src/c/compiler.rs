@@ -2026,7 +2026,13 @@ impl<'a> Compiler<'a> {
     }
 
     fn eval_member_access<'e>(&mut self, obj: &'e Expression, mem: &str, mode: AccessType) -> Result<EvalTy<'e>, CompileError> {
-        let (oa, oev): EvalTy<'e> = if mode == AccessType::Arrow {
+        let (oa, _): EvalTy<'e> = if mode == AccessType::Arrow {
+            self.eval_unary_op(UnaryOp::Deref, obj)?
+        } else {
+            self.eval_expression_raw(obj)?
+        };
+        // todo: horrendous
+        let (oa2, _): EvalTy<'e> = if mode == AccessType::Arrow {
             self.eval_unary_op(UnaryOp::Deref, obj)?
         } else {
             self.eval_expression_raw(obj)?
@@ -2054,15 +2060,32 @@ impl<'a> Compiler<'a> {
             }).into()),
         );
 
-        todo!()
+        let rty = QualType {
+            unqual: member.clone(),
+            type_qualifiers: oty.type_qualifiers,
+        };
+        let rty2 = rty.clone();
 
-        // return Ok((Analysis2 {
-        //     ty: QualType {
-        //         unqual: member.clone(),
-        //         type_qualifiers: oty.type_qualifiers,
-        //     },
-        //     addr: Some(member_addr),
-        // }, todo!()));
+        let mut member_addr2: FullEvaluation<'e> = Self::eval_addition_inner(
+            (rvalue(UnqualType::Pointer(UnqualType::Char(None).into()).into()), oa2.addr.unwrap()),
+            (rvalue(UnqualType::Int(Unsigned).into()), Constant(EvalConstant {
+                val: *offset as u32,
+                kind: Absolute,
+            }).into()),
+        );
+        member_addr2 = member_addr2.apply_transforms();
+        member_addr2.result = Emission((if oty.type_qualifiers.is_volatile {
+            Impure
+        } else {
+            Pure
+        }, Box::new(move |c, out| {
+            c.load_from_into(&rty2, member_addr2.result, out)
+        })));
+
+        Ok((Analysis2 {
+            ty: rty,
+            addr: Some(member_addr),
+        }, member_addr2))
     }
 }
 
