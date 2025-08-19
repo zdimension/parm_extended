@@ -1668,10 +1668,11 @@ impl<'a> Compiler<'a> {
                 let Some(addr) = xa else {
                     comperr!("Cannot take address of non-lvalue expression: {:?}", val);
                 };
-                ty = ty.decay();
-                if !matches!(*ty.unqual, UnqualType::Pointer(_)) {
-                    ty = UnqualType::Pointer(ty).into();
-                }
+                // ty = ty.decay();
+                // if !matches!(*ty.unqual, UnqualType::Pointer(_)) {
+                //     ty = UnqualType::Pointer(ty).into();
+                // }
+                ty = UnqualType::Pointer(ty).into();
                 return Ok((rvalue(ty), addr));
             }
             _ => ty = ty.decay()
@@ -1685,16 +1686,21 @@ impl<'a> Compiler<'a> {
                         ty
                     )));
                 };
-                let ic = inner.clone();
+                let mut ic = inner.clone();
+                ic.type_qualifiers |= ty.type_qualifiers; // preserve type qualifiers
                 // todo: find a way to do this without evaluating twice
-                let (_, xev2) = self.eval_expression(val)?;
+                let (_, mut xev2) = self.eval_expression(val)?;
 
-                let mut xev2 = xev2.apply_transforms();
-                xev2.result = Emission((xev2.purity() | (if ic.type_qualifiers.is_volatile {
-                    Impure
-                } else { Pure }), Box::new(move |c, out| {
-                    c.load_from_into(&ic, xev2.result, out)
-                })));
+                if let UnqualType::Array(_, _) | UnqualType::Function(_) = *ic.unqual {
+                    // If the type is an array or function, derefing simply returns the pointer itself anyways
+                } else {
+                    xev2 = xev2.apply_transforms();
+                    xev2.result = Emission((xev2.purity() | (if ic.type_qualifiers.is_volatile {
+                        Impure
+                    } else { Pure }), Box::new(move |c, out| {
+                        c.load_from_into(&ic, xev2.result, out)
+                    })));
+                }
 
                 return Ok((Analysis2 {
                     ty: inner.clone(),
