@@ -1410,20 +1410,21 @@ impl<'a> Compiler<'a> {
     fn eval_comparison<'e>(&mut self, cop: Comparison, l: &'e Expression, r: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
         let (lty, lev) = self.eval_expression(l)?;
         let (rty, rev) = self.eval_expression(r)?;
-        match (&*lty.ty.unqual, &*rty.ty.unqual) {
+        let signed = match (&*lty.ty.unqual, &*rty.ty.unqual) {
             (UnqualType::Pointer(pa), UnqualType::Pointer(pb)) => {
                 if !Self::are_compatible(pa, pb) {
                     comperr!("Cannot compare incompatible pointers: {} and {}", lty.ty, rty.ty);
                 }
+                false
             }
             (ia, ib) if Self::assert_integer(ia).is_ok() && Self::assert_integer(ib).is_ok() => {
                 // If both are integers, we can compare them directly
+                ia.is_signed() && ib.is_signed()
             }
             _ => {
                 comperr!("Cannot compare types: {} and {}", lty.ty, rty.ty);
             }
-        }
-        // todo: any usual arithm conv to do? to check
+        };
         let oty = UnqualType::Int(Signed).into();
         use Comparison::*;
         let rv = match cop {
@@ -1471,14 +1472,35 @@ impl<'a> Compiler<'a> {
             LessThan => {
                 match (lev, rev) {
                     (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
-                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval < rval { 1 } else { 0 }, kind: Absolute }))
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant {
+                            val: if signed {
+                                if (lval as i32) < (rval as i32) { 1 } else { 0 }
+                            } else {
+                                if lval < rval { 1 } else { 0 }
+                            },
+                            kind: Absolute
+                        }))
                     }
 
                     (lev, rev) => {
-                        lev.binop_combine_symmetric(rev, move |c, (l, r)| {
-                            c.emit(Cmp { rn: l, rm: r }); // does a - b, sets C=1 if l >= r (because no borrow)
-                            c.emit(Sbcs { rdn: l, rm: l }); // l = l - l - !C = 0 - !C = 0 if l >= r, -1 if l < r
-                            c.emit(Negs { rd: l, rn: l }); // Negate l, so it becomes 1 if l < r, 0 if l >= r
+                        lev.binop_combine(rev, if signed {
+                            |c: &mut Compiler, (out, (l, r))| {
+                                let lt_label = c.new_label();
+                                let end_label = c.new_label();
+                                c.emit(Cmp { rn: l, rm: r });
+                                c.jump_to(lt_label, Condition::Lt);
+                                c.emit(MovsImm { rd: out, imm8: 0 }); // l >= r, so out = 0
+                                c.jump_to(end_label, Condition::Al);
+                                c.set_label_here(lt_label);
+                                c.emit(MovsImm { rd: out, imm8: 1 }); // l < r, so out = 1
+                                c.set_label_here(end_label);
+                            }
+                        } else {
+                            |c: &mut Compiler, (out, (l, r))| {
+                                c.emit(Cmp { rn: l, rm: r }); // does a - b, sets C=1 if l >= r (because no borrow)
+                                c.emit(Sbcs { rdn: l, rm: l }); // l = l - l - !C = 0 - !C = 0 if l >= r, -1 if l < r
+                                c.emit(Negs { rd: out, rn: l }); // Negate l, so it becomes 1 if l < r, 0 if l >= r
+                            }
                         })
                     }
                 }
@@ -1486,14 +1508,40 @@ impl<'a> Compiler<'a> {
             LessThanOrEqual => {
                 match (lev, rev) {
                     (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
-                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval <= rval { 1 } else { 0 }, kind: Absolute }))
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant {
+                            val: if signed {
+                                if (lval as i32) <= (rval as i32) { 1 } else { 0 }
+                            } else {
+                                if lval <= rval { 1 } else { 0 }
+                            },
+                            kind: Absolute
+                        }))
                     }
 
                     (lev, rev) => {
-                        lev.binop_combine_symmetric(rev, move |c, (l, r)| {
-                            c.emit(Cmp { rn: r, rm: l }); // does b - a, sets C=1 if r >= l (because no borrow)
-                            c.emit(MovsImm { rd: l, imm8: 0 }); // Set l to 0
-                            c.emit(Adcs { rdn: l, rm: l }); // If r < l, C=1, so l = 1, else l = 0
+                        lev.binop_combine(rev, if signed {
+                            move |c: &mut Compiler, (out, (l, r))| {
+                                c.with_alloc(|c, [tmp1, tmp2]| {
+                                    // todo: gcc can do it in 4 using bitwise magic
+                                    // but it ends with an ADC... so we need a 5th to move the
+                                    // result to the output, so we might as well do a branch
+                                    let lt_label = c.new_label();
+                                    let end_label = c.new_label();
+                                    c.emit(Cmp { rn: l, rm: r });
+                                    c.jump_to(lt_label, Condition::Le);
+                                    c.emit(MovsImm { rd: out, imm8: 0 }); // l >= r, so out = 0
+                                    c.jump_to(end_label, Condition::Al);
+                                    c.set_label_here(lt_label);
+                                    c.emit(MovsImm { rd: out, imm8: 1 }); // l < r, so out = 1
+                                    c.set_label_here(end_label);
+                                });
+                            }
+                        } else {
+                            move |c: &mut Compiler, (out, (l, r))| {
+                                c.emit(Cmp { rn: r, rm: l }); // does b - a, sets C=1 if r >= l (because no borrow)
+                                c.emit(MovsImm { rd: l, imm8: 0 }); // Set l to 0
+                                c.emit(Adcs { rdn: l, rm: l }); // If r < l, C=1, so l = 1, else l = 0
+                            }
                         })
                     }
                 }
@@ -1501,15 +1549,36 @@ impl<'a> Compiler<'a> {
             GreaterThan => {
                 match (lev, rev) {
                     (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
-                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval > rval { 1 } else { 0 }, kind: Absolute }))
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant {
+                            val: if signed {
+                                if (lval as i32) > (rval as i32) { 1 } else { 0 }
+                            } else {
+                                if lval > rval { 1 } else { 0 }
+                            },
+                            kind: Absolute
+                        }))
                     }
 
                     (lev, rev) => {
-                        lev.binop_combine_symmetric(rev, move |c, (l, r)| {
-                            // see LessThan
-                            c.emit(Cmp { rn: r, rm: l });
-                            c.emit(Sbcs { rdn: l, rm: l });
-                            c.emit(Negs { rd: l, rn: l });
+                        // see LessThan
+                        lev.binop_combine(rev, if signed {
+                            move |c: &mut Compiler, (out, (l, r))| {
+                                let gt_label = c.new_label();
+                                let end_label = c.new_label();
+                                c.emit(Cmp { rn: l, rm: r });
+                                c.jump_to(gt_label, Condition::Gt);
+                                c.emit(MovsImm { rd: out, imm8: 0 }); // l <= r, so out = 0
+                                c.jump_to(end_label, Condition::Al);
+                                c.set_label_here(gt_label);
+                                c.emit(MovsImm { rd: out, imm8: 1 }); // l > r, so out = 1
+                                c.set_label_here(end_label);
+                            }
+                        } else {
+                            move |c: &mut Compiler, (out, (l, r))| {
+                                c.emit(Cmp { rn: r, rm: l });
+                                c.emit(Sbcs { rdn: l, rm: l });
+                                c.emit(Negs { rd: out, rn: l });
+                            }
                         })
                     }
                 }
@@ -1517,15 +1586,38 @@ impl<'a> Compiler<'a> {
             GreaterThanOrEqual => {
                 match (lev, rev) {
                     (lev @ FullEvaluation { result: Constant(EvalConstant { val: lval, kind: lk }), .. }, rev @ FullEvaluation { result: Constant(EvalConstant { val: rval, kind: rk }), .. }) if lk == rk => {
-                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: if lval >= rval { 1 } else { 0 }, kind: Absolute }))
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant {
+                            val: if signed {
+                                if (lval as i32) >= (rval as i32) { 1 } else { 0 }
+                            } else {
+                                if lval >= rval { 1 } else { 0 }
+                            },
+                            kind: Absolute
+                        }))
                     }
 
                     (lev, rev) => {
-                        lev.binop_combine_symmetric(rev, move |c, (l, r)| {
-                            // see LessThanOrEqual
-                            c.emit(Cmp { rn: l, rm: r });
-                            c.emit(MovsImm { rd: l, imm8: 0 });
-                            c.emit(Adcs { rdn: l, rm: l });
+                        // see LessThanOrEqual
+                        lev.binop_combine(rev, if signed {
+                            move |c: &mut Compiler, (out, (l, r))| {
+                                c.with_alloc(|c, [tmp1, tmp2]| {
+                                    let gt_label = c.new_label();
+                                    let end_label = c.new_label();
+                                    c.emit(Cmp { rn: l, rm: r });
+                                    c.jump_to(gt_label, Condition::Ge);
+                                    c.emit(MovsImm { rd: out, imm8: 0 }); // l < r, so out = 0
+                                    c.jump_to(end_label, Condition::Al);
+                                    c.set_label_here(gt_label);
+                                    c.emit(MovsImm { rd: out, imm8: 1 }); // l >= r, so out = 1
+                                    c.set_label_here(end_label);
+                                });
+                            }
+                        } else {
+                            move |c: &mut Compiler, (out, (l, r))| {
+                                c.emit(Cmp { rn: r, rm: l });
+                                c.emit(MovsImm { rd: l, imm8: 0 });
+                                c.emit(Adcs { rdn: l, rm: l });
+                            }
                         })
                     }
                 }
