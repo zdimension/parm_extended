@@ -305,13 +305,18 @@ impl CRepl {
                     rprint!("(0x{:08x}) ", res);
                     if let Some(size) = size {
                         rprint!("array[{}] of {}: {{", size, ity);
-                        for i in 0..*size {
-                            if i > 0 {
-                                rprint!(", ");
+                        if *size > 10 {
+                            rprint!("...");
+                        } else {
+                            for i in 0..*size {
+                                if i > 0 {
+                                    rprint!(", ");
+                                }
+                                let elem = unsafe { core::ptr::read((res as *const u8).add(i * ity.unqual.size()) as *const u32) }; // todo: u8
+                                CRepl::display_prim(&ity.unqual, elem as u32);
                             }
-                            let elem = unsafe { core::ptr::read((res as *const u8).add(i * ity.unqual.size()) as *const u32) }; // todo: u8
-                            CRepl::display_prim(&ity.unqual, elem as u32);
                         }
+                        rprintln!("}}");
                     } else {
                         rprintln!("array[] of {}", ity);
                     }
@@ -482,12 +487,12 @@ impl CRepl {
         };
         "#;
 
-        self.process(&code);
+        //self.process(&code);
 
         let mut input = String::with_capacity(16384);
         enum TelnetMode {
             Off,
-            On { long: bool },
+            On,
         }
         use TelnetMode::*;
         let mut telnet = Off;
@@ -501,7 +506,7 @@ impl CRepl {
             } else {
                 "... "
             });
-            if let On { long } = telnet {
+            if let On = telnet {
                 loop {
                     if keyb::key_available() {
                         keyb::flush();
@@ -513,12 +518,10 @@ impl CRepl {
                     if let Some(char_read) = char_read {
                         if char_read == b'\x04' {
                             println!("*EOT*");
+                            telnet = Off;
                             break; // EOT
                         }
                         print!(char_read as char);
-                        if !long && char_read == b'\n' {
-                            break;
-                        }
                         input.push(char_read as char);
                     }
                 }
@@ -527,12 +530,7 @@ impl CRepl {
                 input.push('\n');
                 if input == ".load\n" {
                     // telnet load
-                    telnet = On { long: false };
-                    input.clear();
-                    continue;
-                } else if input == ".loadl\n" {
-                    // telnet load long
-                    telnet = On { long: true };
+                    telnet = On;
                     input.clear();
                     continue;
                 }

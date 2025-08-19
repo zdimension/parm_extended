@@ -229,9 +229,12 @@ impl<'a, 'b> CParser<'a, 'b> {
         }
     }
 
-    fn read_postfix_expression(&mut self) -> Result<Expression, ParseError> {
+    fn read_postfix_expression(&mut self, head: Option<Expression>) -> Result<Expression, ParseError> {
         plog("read_postfix_expression");
-        let mut head = self.read_primary_expression()?;
+        let mut head = match head {
+            Some(expr) => expr,
+            None => self.read_primary_expression()?,
+        };
         while let Some(tok) = self.peek() {
             match tok {
                 Token::OpenBracket => {
@@ -332,7 +335,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                     // regular (), not cast
                     let res = self.read_expression()?;
                     self.expect(Token::CloseParen)?;
-                    Ok(res)
+                    self.read_postfix_expression(Some(res))
                 }
                 Err(e) => Err(e),
             }
@@ -400,7 +403,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                     Operator::BitwiseNot => UnaryOp::BitwiseNot,
                     Operator::Not => UnaryOp::Not,
                     // other, not unary
-                    _ => return self.read_postfix_expression(),
+                    _ => return self.read_postfix_expression(None),
                 };
                 // unary operator
                 self.advance();
@@ -412,7 +415,7 @@ impl<'a, 'b> CParser<'a, 'b> {
 
             _ => {
                 // no unary operator, read postfix expression
-                self.read_postfix_expression()
+                self.read_postfix_expression(None)
             }
         }
     }

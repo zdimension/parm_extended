@@ -47,6 +47,7 @@ pub enum ParseError {
     ReadError(ReadError),
     UnexpectedTokenGeneric { got: Option<Token>, msg: &'static str },
     UnexpectedToken { exp: Token, got: Option<Token> },
+    EOFExpected { got: Token },
     Generic(&'static str),
     GenericDyn(alloc::string::String),
     GenericBacktrack(&'static str, Option<Token>),
@@ -81,6 +82,9 @@ impl Display for ParseError {
                 }
             }
             ParseError::Compiler(e) => write!(f, "Compiler error: {}", e),
+            ParseError::EOFExpected { got } => {
+                write!(f, "Expected end of input, got {:?}", got)
+            }
         }
     }
 }
@@ -1094,6 +1098,17 @@ impl<'a, 'b> CParser<'a, 'b> {
                 pos: Some(self.current_pos()),
                 error: e,
             })
+        }
+    }
+
+    fn assert_eof(&mut self) -> Result<(), PositionedError<ParseError>> {
+        if let Ok(tok) = self.next() {
+            Err(PositionedError {
+                pos: Some(self.current_pos()),
+                error: ParseError::EOFExpected { got: tok }
+            })
+        } else {
+            Ok(())
         }
     }
 

@@ -472,6 +472,9 @@ impl<'a> Tokenizer<'a> {
 
     fn process_inner(&mut self) -> Result<Vec<Token>, ReadError> {
         let mut tokens = Vec::new();
+        if self.code.is_empty() {
+            return Ok(tokens);
+        }
         loop {
             self.skip_spaces();
             let Some(ch) = self.advance() else { break };
