@@ -160,6 +160,7 @@ use hashbrown::DefaultHashBuilder;
 use indexmap::IndexMap;
 use crate::parm::control::breakpoint;
 
+#[macro_export]
 macro_rules! uunreachable {
     () => {
         unsafe { core::hint::unreachable_unchecked() }

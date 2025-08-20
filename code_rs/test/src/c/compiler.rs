@@ -4,7 +4,7 @@ use crate::c::parse::{Block, Designator, InitializerList, Statement};
 use crate::c::parse_expr::{AccessType, BinOp, Expression, OpPosition, SizeOfOp, UnaryOp};
 use crate::c::scope::{Scope, SymbolKind, VarPosition};
 use crate::c::types::{FunctionImpl, QualType, Signedness, StructImpl, StructInner, TypeBox, UnqualType};
-use crate::rprintln;
+use crate::{rprintln, uunreachable};
 use alloc::string::String;
 use alloc::vec::Vec;
 use alloc::{format, vec};
@@ -812,7 +812,7 @@ impl<'a> Compiler<'a> {
                 let oty = match (&*lty.ty.unqual, &*rty.ty.unqual) {
                     (l @ &UnqualType::Int(_), r @ &UnqualType::Int(_)) => {
                         // int - int -> int is usual arithmetic
-                        Self::usual_arithmetic_conversion(l, r).unwrap_or_else(|_| unreachable!())
+                        Self::usual_arithmetic_conversion(l, r).unwrap_or_else(|_| uunreachable!())
                     }
                     (UnqualType::Pointer(p), UnqualType::Int(_)) => {
                         // T* - int -> T* is pointer arithmetic
@@ -1018,7 +1018,7 @@ impl<'a> Compiler<'a> {
         let oty = match (&*lty.ty.unqual, &*rty.ty.unqual) {
             (l @ &UnqualType::Int(_), r @ &UnqualType::Int(_)) => {
                 // int + int -> int is usual arithmetic
-                Self::usual_arithmetic_conversion(l, r).unwrap_or_else(|_| unreachable!())
+                Self::usual_arithmetic_conversion(l, r).unwrap_or_else(|_| uunreachable!())
             }
             (UnqualType::Int(_), UnqualType::Pointer(p)) | (UnqualType::Pointer(p), UnqualType::Int(_)) => {
                 // T* + int is pointer arithmetic
@@ -1152,7 +1152,7 @@ impl<'a> Compiler<'a> {
         Self::assert_integer(&rty.ty).or_else(|_| {
             comperr!("Right operand of bitwise operation must be integer, found: {}", rty.ty)
         })?;
-        let oty = Self::usual_arithmetic_conversion(&*lty.ty.unqual, &*rty.ty.unqual).unwrap_or_else(|_| unreachable!());
+        let oty = Self::usual_arithmetic_conversion(&*lty.ty.unqual, &*rty.ty.unqual).unwrap_or_else(|_| uunreachable!());
         use AssignableOperator::*;
         let rv = match bop {
             ShiftLeft => {
@@ -1292,7 +1292,7 @@ impl<'a> Compiler<'a> {
                 }
             }
 
-            _ => unreachable!(),
+            _ => uunreachable!(),
         };
         Ok((rvalue(oty), rv))
     }
@@ -1306,7 +1306,7 @@ impl<'a> Compiler<'a> {
         Self::assert_arithmetic(&rty.ty).or_else(|_| {
             comperr!("Right operand of multiplicative operation must be arithmetic, found: {}", rty.ty)
         })?;
-        let oty = Self::usual_arithmetic_conversion(&*lty.ty.unqual, &*rty.ty.unqual).unwrap_or_else(|_| unreachable!());
+        let oty = Self::usual_arithmetic_conversion(&*lty.ty.unqual, &*rty.ty.unqual).unwrap_or_else(|_| uunreachable!());
         use AssignableOperator::*;
         let rv = match bop {
             Multiply => {
@@ -1402,7 +1402,7 @@ impl<'a> Compiler<'a> {
                 }
             }
             Modulo => { todo!() }
-            _ => unreachable!(),
+            _ => uunreachable!(),
         };
         Ok((rvalue(oty), rv))
     }
@@ -1770,7 +1770,7 @@ impl<'a> Compiler<'a> {
             _ => ty = ty.decay()
         }
         match op {
-            Address => unreachable!(),
+            Address => uunreachable!(),
             Deref => {
                 let UnqualType::Pointer(ref inner) = *ty.unqual else {
                     return Err(GenericDyn(format!(
@@ -1809,7 +1809,7 @@ impl<'a> Compiler<'a> {
                 UnqualType::Int(Signed).into()
             }
             IncDec(_, _) => ty,
-            Address | Deref => unreachable!(),
+            Address | Deref => uunreachable!(),
         };
 
         let Ok(ec) = self.eval_cast(val, &rty)? else {
@@ -1866,7 +1866,7 @@ impl<'a> Compiler<'a> {
 
 
                 let Some(addr2) = xa2 else {
-                    unreachable!()
+                    uunreachable!()
                 };
                 let addr2 = addr2.apply_transforms();
 
@@ -1902,7 +1902,7 @@ impl<'a> Compiler<'a> {
                     Ok(())
                 }))).into()
             }
-            Address | Deref => unreachable!(),
+            Address | Deref => uunreachable!(),
         };
 
         Ok((rvalue(rty), rev))
@@ -1922,7 +1922,7 @@ impl<'a> Compiler<'a> {
         use EvalConstantKind::*;
         use AssignableOperator::*;
         let res: (Analysis2, FullEvaluation<'e>) = match expr {
-            Expression::Initializer(_) => unreachable!(), // handled by analyze
+            Expression::Initializer(_) => uunreachable!(), // handled by analyze
             &Expression::IntegerLiteral(val, sign) => (rvalue(UnqualType::Int(sign).into()), EvalConstant {
                 val: val as u32,
                 kind: Absolute
@@ -1983,7 +1983,7 @@ impl<'a> Compiler<'a> {
                     // If both branches are arithmetic, promote to int
                     let yty = Self::get_promoted_int(&*yty.unqual)?;
                     let nty = Self::get_promoted_int(&*nty.unqual)?;
-                    Self::usual_arithmetic_conversion(&*yty.unqual, &*nty.unqual).unwrap_or_else(|_| unreachable!())
+                    Self::usual_arithmetic_conversion(&*yty.unqual, &*nty.unqual).unwrap_or_else(|_| uunreachable!())
                 } else if let (UnqualType::Pointer(pty), UnqualType::Pointer(ptn)) = (&*yty.unqual, &*nty.unqual) {
                     if !Self::are_compatible(pty, ptn) {
                         comperr!(

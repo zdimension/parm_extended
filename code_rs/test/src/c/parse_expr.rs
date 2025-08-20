@@ -7,7 +7,7 @@ use alloc::string::String;
 use core::fmt::Display;
 
 use crate::c::types::{QualType, Signedness};
-use crate::rprintln;
+use crate::{rprintln, uunreachable};
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum AccessType {
@@ -210,7 +210,7 @@ impl<'a, 'b> CParser<'a, 'b> {
             Some(&Token::String(_)) => {
                 // string literal
                 let Ok(Token::String(s)) = self.next() else {
-                    unreachable!();
+                    uunreachable!();
                 };
                 Ok(Expression::StringLiteral(s))
             }

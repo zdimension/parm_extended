@@ -41,7 +41,7 @@ use crate::c::scope::VarPosition::{Global, Local};
 use crate::c::types::{EnumImpl, FunctionImpl, QualType, Signedness, StructImpl, StructInner, TypeBox, TypeQualifiers, UnqualType};
 use crate::c::types::Signedness::{Signed, Unsigned};
 use crate::parm::OrderedMap;
-use crate::rprintln;
+use crate::{rprintln, uunreachable};
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ParseError {
     ReadError(ReadError),
@@ -319,7 +319,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                             match self.global_scope.structs.raw_entry_mut_v1().from_key(&name) {
                                 RawEntryMut::Occupied(mut e) => {
                                     let UnqualType::Struct(ref existing) = **e.get() else {
-                                        unreachable!();
+                                        uunreachable!();
                                     };
                                     match (has_body, existing.inner.is_some()) {
                                         (true, true) => {
@@ -386,7 +386,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                             match self.global_scope.enums.raw_entry_mut_v1().from_key(&name) {
                                 RawEntryMut::Occupied(mut e) => {
                                     let UnqualType::Enum(ref existing) = **e.get() else {
-                                        unreachable!();
+                                        uunreachable!();
                                     };
                                     match (has_body, existing.inner.is_some()) {
                                         (true, true) => {
@@ -480,7 +480,7 @@ impl<'a, 'b> CParser<'a, 'b> {
                             match prim {
                                 PrimType::Bool => UnqualType::Bool,
                                 PrimType::Void => UnqualType::Void,
-                                _ => unreachable!() // we handled all cases above
+                                _ => uunreachable!() // we handled all cases above
                             }
                         }
                     };
@@ -620,7 +620,7 @@ impl<'a, 'b> CParser<'a, 'b> {
         match self.peek() {
             Some(Token::Identifier(_)) => {
                 let Token::Identifier(id) = self.next()? else {
-                    unreachable!(); // we checked for Identifier above
+                    uunreachable!(); // we checked for Identifier above
                 };
                 name = Some(id);
             }

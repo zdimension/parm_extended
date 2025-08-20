@@ -6,6 +6,7 @@ use crate::c::parse::Block;
 use crate::c::types::{FunctionImpl, QualType, TypeBox, UnqualType};
 use crate::parm::heap::prc::Prc;
 use crate::parm::OrderedMap;
+use crate::uunreachable;
 
 pub enum TagKind {
     Struct,
@@ -115,7 +116,7 @@ impl Display for Scope {
                         writeln!(f, ";")?;
                     }
                 }
-                _ => unreachable!()
+                _ => uunreachable!()
             }
         }
         write!(f, "}}")
