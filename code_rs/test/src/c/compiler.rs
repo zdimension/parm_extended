@@ -30,6 +30,7 @@ use crate::c::parse_expr;
 use crate::c::parse_expr::IncDec::{Decrement, Increment};
 use crate::c::parse_expr::OpPosition::{Postfix, Prefix};
 use Purity::*;
+use crate::c::compiler::EvalConstantBase::{Code, Frame};
 use crate::c::parse_expr::BinOp::{Bool, Simple};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -390,7 +391,7 @@ impl<'a> Compiler<'a> {
                         ConstAnalysis {
                             ty: ty.clone(),
                             addr: Some(match pos {
-                                VarPosition::Local(offset) => EvalConstant { val: (base + *offset) as u32, kind: FrameRelative },
+                                VarPosition::Local(offset) => EvalConstant { val: (base + *offset) as u32, kind: FrameRelative(Frame) },
                                 VarPosition::Global(data) => EvalConstant { val: data.as_ptr() as _, kind: Absolute },
                             }),
                             const_val: None
@@ -537,7 +538,7 @@ impl<'a> Compiler<'a> {
         match *ty.unqual {
             UnqualType::Char(_) | UnqualType::Bool => {
                 match addr {
-                    Evaluation::Constant(EvalConstant { val: offset, kind: FrameRelative }) => {
+                    Evaluation::Constant(EvalConstant { val: offset, kind: FrameRelative(Frame) }) => {
                         let Ok(o8) = u8::try_from(offset) else {
                             comperr!("Offset for char load is too large: {}", offset);
                         };
@@ -554,7 +555,7 @@ impl<'a> Compiler<'a> {
             }
             UnqualType::Int(_) | UnqualType::Pointer(_) | UnqualType::Enum(_) => {
                 match addr {
-                    Evaluation::Constant(EvalConstant { val: offset, kind: FrameRelative }) => {
+                    Evaluation::Constant(EvalConstant { val: offset, kind: FrameRelative(Frame) }) => {
                         let Ok(o8) = u8::try_from(offset) else {
                             comperr!("Offset for int/pointer load is too large: {}", offset);
                         };
@@ -613,7 +614,7 @@ impl<'a> Compiler<'a> {
             Constant(EvalConstant { val, kind: Absolute }) => {
                 self.emit_imm32_to_reg(out, val as usize);
             }
-            Constant(EvalConstant { val, kind: FrameRelative }) => {
+            Constant(EvalConstant { val, kind: FrameRelative(Frame) }) => {
                 if val < 8 {
                     self.emit(AddsImm { rd: out, imm3: u3::new(val as u8), rn: R7 });
                 }
@@ -621,6 +622,12 @@ impl<'a> Compiler<'a> {
                     self.emit_imm32_to_reg(out, val as usize);
                     self.emit(Adds { rd: out, rn: R7, rm: out });
                 }
+            }
+            Constant(EvalConstant { val, kind: FrameRelative(Code) }) => {
+                let current_pc = self.instructions.len(); // possibly not word-aligned, > str_pos
+                let delta = (current_pc - val as usize) * 2;
+                self.emit_imm32_to_reg(out, -(delta as i32) as usize);
+                self.emit(AddLoHi { rd: out, rs: PC }); // Load address of string into R0
             }
             Emission((_, func)) => {
                 func(self, out)?;
@@ -655,7 +662,7 @@ impl<'a> Compiler<'a> {
         use Address::*;
         use EvalConstantKind::*;
         Ok(match addr {
-            Local(off) => EvalConstant { val: off as u32, kind: FrameRelative }.into(),
+            Local(off) => EvalConstant { val: off as u32, kind: FrameRelative(Frame) }.into(),
             Global(abs) => Evaluation::Constant(EvalConstant { val: abs as u32, kind: Absolute }).into(),
             Dynamic(expr) => self.eval_expression(expr)?.1
         })
@@ -709,8 +716,8 @@ impl<'a> Compiler<'a> {
             (UnqualType::Bool, t) if Self::assert_scalar(t).is_ok() => {
                 // Conversion from scalar to bool
                 Ok(match &xev.result {
-                    &Evaluation::Constant(EvalConstant { val, kind: FrameRelative }) => {
-                        (xev.side_effects, Evaluation::Constant(EvalConstant { val: 1, kind: Absolute })).into() // fp-relative addresses are always non-zero
+                    &Evaluation::Constant(EvalConstant { val, kind: FrameRelative(_) }) => {
+                        (xev.side_effects, Evaluation::Constant(EvalConstant { val: 1, kind: Absolute })).into() // relative addresses are always non-zero
                     },
                     &Evaluation::Constant(EvalConstant { val, kind: Absolute }) => {
                         (xev.side_effects, Evaluation::Constant(EvalConstant { val: if val != 0 { 1 } else { 0 }, kind: Absolute })).into()
@@ -759,7 +766,7 @@ impl<'a> Compiler<'a> {
         match *ty.unqual {
             UnqualType::Char(_) | UnqualType::Bool => {
                 match addr {
-                    Evaluation::Constant(EvalConstant { val: offset, kind: FrameRelative }) => {
+                    Evaluation::Constant(EvalConstant { val: offset, kind: FrameRelative(Frame) }) => {
                         let Ok(o8) = u8::try_from(offset) else {
                             comperr!("Offset for char load is too large: {}", offset);
                         };
@@ -776,7 +783,7 @@ impl<'a> Compiler<'a> {
             }
             UnqualType::Int(_) | UnqualType::Pointer(_) | UnqualType::Enum(_) => {
                 match addr {
-                    Evaluation::Constant(EvalConstant { val: offset, kind: FrameRelative }) => {
+                    Evaluation::Constant(EvalConstant { val: offset, kind: FrameRelative(Frame) }) => {
                         let Ok(o8) = u8::try_from(offset) else {
                             comperr!("Offset for int/pointer store is too large: {}", offset);
                         };
@@ -841,7 +848,7 @@ impl<'a> Compiler<'a> {
                         if let UnqualType::Pointer(optr) = &*oty.unqual {
                             rval *= optr.unqual.size() as u32;
                         }
-                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval - rval, kind: if lk == rk { Absolute } else { FrameRelative } }))
+                        lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval - rval, kind: if lk == rk { Absolute } else { lk } }))
                     }
 
                     ((other, _), (rev @ FullEvaluation { result: Constant(EvalConstant { val: 0, kind: Absolute }), ..}, UnqualType::Pointer(rptr))) => {
@@ -1016,11 +1023,11 @@ impl<'a> Compiler<'a> {
         let (lty, lev) = self.eval_expression(l)?;
         let (rty, rev) = self.eval_expression(r)?;
         let oty = match (&*lty.ty.unqual, &*rty.ty.unqual) {
-            (l @ &UnqualType::Int(_), r @ &UnqualType::Int(_)) => {
+            (l, r) if Self::assert_integer(l).is_ok() && Self::assert_integer(r).is_ok() => {
                 // int + int -> int is usual arithmetic
                 Self::usual_arithmetic_conversion(l, r).unwrap_or_else(|_| uunreachable!())
             }
-            (UnqualType::Int(_), UnqualType::Pointer(p)) | (UnqualType::Pointer(p), UnqualType::Int(_)) => {
+            (i, UnqualType::Pointer(p)) | (UnqualType::Pointer(p), i) if Self::assert_integer(i).is_ok() => {
                 // T* + int is pointer arithmetic
                 UnqualType::Pointer(p.clone()).into()
             }
@@ -1042,37 +1049,14 @@ impl<'a> Compiler<'a> {
                 lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval + rval, kind: Absolute }))
             }
 
-            ((lev @ FullEvaluation { result: Constant(EvalConstant { val: mut lval, kind: FrameRelative }), .. }, lty), (rev @ FullEvaluation { result: Constant(EvalConstant { val: mut rval, kind: Absolute }), .. }, rty)) |
-            ((rev @ FullEvaluation { result: Constant(EvalConstant { val: mut rval, kind: Absolute }), .. }, rty), (lev @ FullEvaluation { result: Constant(EvalConstant { val: mut lval, kind: FrameRelative }), .. }, lty))
-            => {
+            ((lev @ FullEvaluation { result: Constant(EvalConstant { val: mut lval, kind: FrameRelative(b) }), .. }, lty), (rev @ FullEvaluation { result: Constant(EvalConstant { val: mut rval, kind: Absolute }), .. }, rty)) |
+            ((rev @ FullEvaluation { result: Constant(EvalConstant { val: mut rval, kind: Absolute }), .. }, rty), (lev @ FullEvaluation { result: Constant(EvalConstant { val: mut lval, kind: FrameRelative(b) }), .. }, lty))
+            if !matches!(rty, UnqualType::Pointer(_)) => {
                 // check if either input is pointer (at most 1 can be)
-                if let UnqualType::Pointer(rptr) = rty {
-                    // weird case: (int)(r7+x) + (T*)(y), non const
-                    // = (T*)(r7 * sizeof(T) + const{x * sizeof(T) + y})
-                    let psize = rptr.unqual.size();
-                    lev.also_discard(rev).discard_and_return(Emission((Pure, Box::new(move |c, out| {
-                        c.emit_imm32_to_reg(out, psize);
-                        c.with_alloc(|c, [tmp]| {
-                            c.emit(Movs { rd: tmp, rm: R7 });
-                            c.emit(Muls { rdm: out, rn: tmp });
-                        });
-                        let cval = lval * psize as u32 + rval;
-                        if let Ok(c8) = u8::try_from(cval) {
-                            c.emit(AddsImm8 { rd: out, imm8: c8 });
-                        } else {
-                            c.with_alloc(|c, [r]| {
-                                c.emit_imm32_to_reg(r, cval as usize);
-                                c.emit(Adds { rd: out, rn: out, rm: r });
-                            });
-                        }
-                        Ok(())
-                    }))))
-                } else {
-                    if let UnqualType::Pointer(lptr) = lty {
-                        rval *= lptr.unqual.size() as u32;
-                    }
-                    lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval + rval, kind: FrameRelative }))
+                if let UnqualType::Pointer(lptr) = lty {
+                    rval *= lptr.unqual.size() as u32;
                 }
+                lev.also_discard(rev).discard_and_return(Constant(EvalConstant { val: lval + rval, kind: FrameRelative(b) }))
             }
 
             // case where both are frame-relative is degenerate and will be emitted as non-constant
@@ -1927,6 +1911,58 @@ impl<'a> Compiler<'a> {
                 val: val as u32,
                 kind: Absolute
             }.into()),
+            Expression::StringLiteral(s) => {
+                let (addr, rev) = if let Some(str_pos) = self.string_pool.get(s) {
+                    // If the string is already in the pool, use its position
+                    let addr = EvalConstant {
+                        val: *str_pos as u32,
+                        kind: FrameRelative(Code)
+                    };
+                    (addr.into(), addr.into())
+                } else {
+                    let make_addr = || Emission((Pure, Box::new(move |c, out| {
+                        let entry = c.string_pool.entry_ref(s);
+                        match entry {
+                            EntryRef::Occupied(ex) => {
+                                let val = *ex.get() as u32;
+                                c.eval_to_reg(out, EvalConstant {
+                                    val,
+                                    kind: FrameRelative(Code)
+                                }.into())?;
+                            }
+                            EntryRef::Vacant(ent) => {
+                                let end_label = c.emitter.new_label();
+                                c.emitter.align_to_word();
+                                c.emitter.emit(Adr { rd: out, labelp8: 0 }); // Load address of string into R0
+                                c.emitter.jump_to(end_label, Condition::Al); // Jump to end after string
+                                let byte_view = s.as_bytes();
+                                ent.insert(c.emitter.instructions.len());
+                                // emit each pair of bytes as a short
+                                let (chunks, remainder) = byte_view.as_chunks::<2>();
+                                for chunk in chunks {
+                                    let value = u16::from_le_bytes([chunk[0], chunk[1]]);
+                                    c.emit(U16 { value });
+                                }
+                                if remainder.len() == 1 {
+                                    // emit last byte then null terminator
+                                    let value = u16::from_le_bytes([remainder[0], 0]);
+                                    c.emit(U16 { value });
+                                } else {
+                                    // emit null terminator
+                                    c.emit(U16 { value: 0 });
+                                }
+                                c.set_label_here(end_label); // Set the label for the end of the string
+                            }
+                        }
+                        Ok(())
+                    })));
+                    (make_addr(), make_addr())
+                }.into();
+                (Analysis2 {
+                    ty: UnqualType::Array(UnqualType::Char(None).into(), Some(s.bytes().len() + 1)).into(),
+                    addr: Some(addr.into()),
+                }, rev.into())
+            }
             Expression::MemberAccess(obj, mem, mode) => {
                 self.eval_member_access(&obj, mem, *mode)?
             }
@@ -2246,9 +2282,17 @@ pub struct ConstAnalysis {
 }*/
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
+pub enum EvalConstantBase {
+    /// Relative to R7 (frame pointer). This address is only valid inside a given scope.
+    Frame,
+    /// Relative to the start of the program.
+    Code
+}
+
+#[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum EvalConstantKind {
     Absolute,
-    FrameRelative
+    FrameRelative(EvalConstantBase)
 }
 
 #[derive(Copy, Clone, Debug)]
@@ -2261,7 +2305,7 @@ impl EvalConstant {
     pub fn truth_value(&self) -> bool {
         match self.kind {
             Absolute => self.val != 0,
-            FrameRelative => true, // Frame-relative addresses are never zero
+            FrameRelative(_) => true, // relative addresses are never zero
         }
     }
 }
