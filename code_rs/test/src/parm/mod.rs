@@ -160,6 +160,12 @@ use hashbrown::DefaultHashBuilder;
 use indexmap::IndexMap;
 use crate::parm::control::breakpoint;
 
+macro_rules! uunreachable {
+    () => {
+        unsafe { core::hint::unreachable_unchecked() }
+    }
+}
+
 #[panic_handler]
 fn handler(info: &PanicInfo) -> ! {
     //println!("panic: ", info.message());

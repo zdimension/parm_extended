@@ -197,6 +197,14 @@ expose_func! {
     fn print_str(x: *const u8) {
         rprintln!("{}", unsafe { core::ffi::CStr::from_ptr(x) }.to_str().unwrap_or("(invalid UTF-8)"));
     }
+
+    fn malloc(size: usize) -> *mut u8 {
+        unsafe { alloc::alloc::alloc(alloc::alloc::Layout::from_size_align(size, 4).unwrap()) }
+    }
+
+    fn free(ptr: *mut u8) {
+        unsafe { alloc::alloc::dealloc(ptr, alloc::alloc::Layout::from_size_align(0, 4).unwrap()) }
+    }
 }
 
 impl CRepl {
