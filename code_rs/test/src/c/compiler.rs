@@ -1388,8 +1388,9 @@ impl<'a> Compiler<'a> {
                     }
 
                     (lev, rev) => {
+                        let signed = oty.is_signed();
                         lev.binop_combine(rev, move |c, (out, (l, r))| {
-                            c.emit_divmod(l, r, out, DivMod::Division, if oty.is_signed() {
+                            c.emit_divmod(l, r, out, DivMod::Division, if signed {
                                 Signed
                             } else {
                                 Unsigned

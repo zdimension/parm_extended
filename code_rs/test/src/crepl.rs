@@ -138,6 +138,18 @@ impl<T: ToUnqualType> ToUnqualType for *mut T {
     }
 }
 
+impl<const N: usize, T: ToUnqualType> ToUnqualType for [T; N] {
+    fn unqual_type() -> UnqualType {
+        UnqualType::Array(QualType {
+            unqual: T::unqual_type().into(),
+            type_qualifiers: TypeQualifiers {
+                is_const: false,
+                is_volatile: false,
+            }
+        }, Some(N))
+    }
+}
+
 macro_rules! expose_func {
     (@t $t:ty) => {
         <$t as ToUnqualType>::unqual_type()
@@ -148,6 +160,9 @@ macro_rules! expose_func {
 
     ($(
         fn $name:ident ( $( $arg_name:ident : $arg_ty:ty ),* $(,)? ) $( -> $ret_ty:ty )? { $($tt:tt)* }
+    )*
+    $(
+        static $s_name:ident : $sty:ty = & $s_val:expr;
     )*
     ) => {
         mod cfuncs {
@@ -183,6 +198,26 @@ macro_rules! expose_func {
                     },
                 );
             })*
+            $({
+                let s_type = expose_func!(@t $sty);
+                let s_size = s_type.size();
+                scope.symbols.insert(
+                    String::from(stringify!($s_name)),
+                    SymbolKind::Variable {
+                        ty: QualType {
+                            unqual: s_type.into(),
+                            type_qualifiers: TypeQualifiers {
+                                is_const: false,
+                                is_volatile: true,
+                            }
+                        },
+                        pos: VarPosition::Global(unsafe { ABox::from_raw_parts(4, slice_from_raw_parts_mut(
+                            $s_val as *mut u8,
+                            s_size,
+                        )) }),
+                    },
+                );
+            })*
         }
     }
 }
@@ -205,25 +240,14 @@ expose_func! {
     fn free(ptr: *mut u8) {
         unsafe { alloc::alloc::dealloc(ptr, alloc::alloc::Layout::from_size_align(0, 4).unwrap()) }
     }
+
+    static MMIO: [u32; 16] = &parm::mmio::MMIO_BASE;
 }
 
 impl CRepl {
     fn new() -> CRepl {
         let mut scope = Scope::default();
         add_exposed_functions(&mut scope);
-        scope.symbols.insert(
-            String::from("MMIO"),
-            SymbolKind::Variable {
-                ty: UnqualType::Array(QualType {
-                    unqual: UnqualType::Int(Signedness::Unsigned).into(),
-                    type_qualifiers: TypeQualifiers {
-                        is_const: false,
-                        is_volatile: true,
-                    }
-                }, Some(16)).into(),
-                pos: VarPosition::Global(unsafe { ABox::from_raw_parts(4, (parm::mmio::MMIO_BASE as *mut [u8; 16 * 4]).as_mut_slice()) }),
-            }
-        );
         CRepl { scope }
     }
 
