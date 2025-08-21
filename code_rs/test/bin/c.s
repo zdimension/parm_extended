@@ -52791,144 +52791,154 @@ _ZN1c1c5types8QualType5decay17h05a5de4d5be8260fE:
 	push	{r4, r5, r6, r7, lr}
 	.setfp	r7, sp, #12
 	add	r7, sp, #12
-	.pad	#84
-	sub	sp, #84
-	ldr	r4, [r1]
-	ldr	r3, [r4, #56]
+	.pad	#92
+	sub	sp, #92
+	ldr	r3, [r1]
+	ldr	r4, [r3, #56]
 	ldr	r5, .LCPI247_0
 	subs	r2, r5, #6
-	cmp	r3, r2
+	cmp	r4, r2
 	bhi	.LBB247_5
 	movs	r2, #7
 	cmp	r2, #6
 	beq	.LBB247_6
 .LBB247_2:
 	cmp	r2, #8
-	bne	.LBB247_10
-	str	r0, [sp, #20]
+	bne	.LBB247_11
+	str	r0, [sp, #28]
 	ldr	r0, [r1]
-	str	r0, [sp, #16]
+	str	r0, [sp, #24]
 	ldr	r0, [r1, #4]
-	str	r0, [sp, #12]
+	str	r0, [sp, #20]
 	movs	r4, #80
-	str	r4, [sp, #24]
+	str	r4, [sp, #32]
 	movs	r6, #1
-	lsls	r2, r6, #20
-	ldr	r3, [r2]
+	lsls	r0, r6, #20
+	ldr	r3, [r0]
 	@APP
 	mov	r5, sp
 	@NO_APP
-	str	r5, [sp, #28]
+	str	r5, [sp, #36]
 	adds	r3, #11
-	movs	r0, #7
-	bics	r3, r0
-	mov	r0, r3
-	adds	r0, #80
-	cmp	r5, r0
-	blo	.LBB247_11
+	movs	r2, #7
+	bics	r3, r2
+	mov	r2, r3
+	adds	r2, #80
+	cmp	r5, r2
+	blo	.LBB247_12
 	subs	r5, r3, #4
 	str	r4, [r5]
-	str	r0, [r2]
-	ldr	r0, [sp, #16]
+	str	r2, [r0]
+	ldr	r0, [sp, #24]
 	str	r0, [r3, #8]
-	ldr	r0, [sp, #12]
+	ldr	r0, [sp, #20]
 	str	r0, [r3, #12]
 	str	r6, [r3, #72]
 	ldr	r0, .LCPI247_0
 	str	r0, [r3, #56]
 	movs	r0, #0
 	str	r0, [r3]
-	b	.LBB247_9
+	strh	r0, [r1, #4]
+	str	r3, [r1]
+	b	.LBB247_10
 .LBB247_5:
-	adds	r2, r3, r5
+	adds	r2, r4, r5
 	subs	r2, r2, #7
 	cmp	r2, #6
 	bne	.LBB247_2
 .LBB247_6:
-	str	r0, [sp, #20]
-	ldr	r0, [r4, #16]
+	str	r0, [sp, #28]
+	ldr	r0, [r3, #16]
 	ldr	r2, [r0, #72]
 	adds	r2, r2, #1
 	str	r2, [r0, #72]
-	ldr	r0, [r4, #20]
-	str	r0, [sp, #16]
-	ldr	r0, [r4, #16]
+	ldrb	r0, [r1, #4]
+	str	r0, [sp, #24]
+	ldrb	r6, [r1, #5]
+	ldrb	r0, [r3, #21]
 	str	r0, [sp, #12]
+	ldrb	r0, [r3, #20]
+	str	r0, [sp, #16]
+	ldr	r0, [r3, #16]
+	str	r0, [sp, #20]
 	movs	r0, #80
 	str	r0, [sp, #8]
-	str	r0, [sp, #24]
-	movs	r6, #1
-	lsls	r2, r6, #20
-	ldr	r3, [r2]
+	str	r0, [sp, #32]
+	movs	r0, #1
+	lsls	r2, r0, #20
+	str	r2, [sp, #4]
+	ldr	r4, [r2]
 	@APP
-	mov	r0, sp
+	mov	r5, sp
 	@NO_APP
-	str	r0, [sp, #28]
-	adds	r3, #11
-	movs	r5, #7
-	bics	r3, r5
-	mov	r5, r3
-	adds	r5, #80
-	cmp	r0, r5
+	str	r5, [sp, #36]
+	adds	r4, #11
+	movs	r2, #7
+	bics	r4, r2
+	mov	r2, r4
+	adds	r2, #80
+	cmp	r5, r2
 	blo	.LBB247_12
-	subs	r0, r3, #4
-	str	r6, [sp, #4]
-	ldr	r6, [sp, #8]
-	str	r6, [r0]
-	str	r5, [r2]
+	subs	r5, r4, #4
+	str	r0, [sp]
+	ldr	r0, [sp, #8]
+	str	r0, [r5]
 	ldr	r0, [sp, #4]
-	str	r0, [r3, #72]
-	ldr	r0, .LCPI247_0
-	str	r0, [r3, #56]
-	movs	r0, #0
-	str	r0, [r3]
-	ldr	r0, [sp, #12]
-	str	r0, [r3, #8]
-	ldr	r0, [sp, #16]
-	str	r0, [r3, #12]
-	ldr	r0, [r4, #72]
-	subs	r0, r0, #1
-	beq	.LBB247_9
+	str	r2, [r0]
+	ldr	r0, [sp]
 	str	r0, [r4, #72]
-.LBB247_9:
+	ldr	r0, .LCPI247_0
+	str	r0, [r4, #56]
+	ldr	r0, [sp, #12]
+	orrs	r6, r0
+	strb	r6, [r4, #13]
+	ldr	r0, [sp, #24]
+	ldr	r2, [sp, #16]
+	orrs	r0, r2
+	strb	r0, [r4, #12]
 	ldr	r0, [sp, #20]
-	movs	r2, #0
-	strh	r2, [r1, #4]
-	str	r3, [r1]
+	str	r0, [r4, #8]
+	movs	r0, #0
+	str	r0, [r4]
+	ldr	r2, [r3, #72]
+	subs	r2, r2, #1
+	beq	.LBB247_9
+	str	r2, [r3, #72]
+.LBB247_9:
+	strh	r0, [r1, #4]
+	str	r4, [r1]
 .LBB247_10:
+	ldr	r0, [sp, #28]
+.LBB247_11:
 	ldr	r2, [r1]
 	ldr	r1, [r1, #4]
 	str	r2, [r0]
 	str	r1, [r0, #4]
-	add	sp, #84
+	add	sp, #92
 	pop	{r4, r5, r6, r7, pc}
-.LBB247_11:
-	str	r0, [sp, #56]
-	b	.LBB247_13
 .LBB247_12:
-	str	r5, [sp, #56]
-.LBB247_13:
+	str	r2, [sp, #64]
 	movs	r0, #0
-	str	r0, [sp, #48]
+	str	r0, [sp, #56]
 	movs	r0, #3
-	str	r0, [sp, #36]
-	ldr	r1, .LCPI247_1
-	str	r1, [sp, #32]
 	str	r0, [sp, #44]
-	add	r0, sp, #60
-	str	r0, [sp, #40]
+	ldr	r1, .LCPI247_1
+	str	r1, [sp, #40]
+	str	r0, [sp, #52]
+	add	r0, sp, #68
+	str	r0, [sp, #48]
 	ldr	r0, .LCPI247_2
+	str	r0, [sp, #88]
+	add	r1, sp, #36
+	str	r1, [sp, #84]
 	str	r0, [sp, #80]
-	add	r1, sp, #28
-	str	r1, [sp, #76]
-	str	r0, [sp, #72]
-	add	r0, sp, #56
-	str	r0, [sp, #68]
+	add	r0, sp, #64
+	str	r0, [sp, #76]
 	ldr	r0, .LCPI247_3
-	str	r0, [sp, #64]
-	add	r0, sp, #24
-	str	r0, [sp, #60]
+	str	r0, [sp, #72]
 	add	r0, sp, #32
+	str	r0, [sp, #68]
+	add	r0, sp, #40
 	ldr	r1, .LCPI247_4
 	bl	_ZN4core9panicking9panic_fmt17hf47207f433d6da63E
 	.p2align	2

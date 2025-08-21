@@ -1166,9 +1166,9 @@ lsls	r2, r2, #24
 adds	r2, r2, r3
 adds	r5, r2, r1
 mov	r2, r5
-beq trampo_1gb8d
+beq trampo_ebq5h
 b .LBB2_20
-trampo_1gb8d:
+trampo_ebq5h:
 eors	r2, r1
 ldr	r1, .LCPI2_15
 adds	r6, r2, r1
@@ -2514,9 +2514,9 @@ movs	r1, #39
 mov	r0, r4
 blx	r6
 b	.LBB8_26
-beq trampo_0857i
+beq trampo_cyidm
 b .LBB8_4
-trampo_0857i:
+trampo_cyidm:
 add	r0, sp, #12
 ldr	r1, .LCPI8_2
 movs	r2, #2
@@ -3362,9 +3362,9 @@ movs	r2, #10
 str	r0, [sp, #12]
 str	r3, [sp, #8]
 subs	r6, #8
-bpl trampo_k34rp
+bpl trampo_8g2sm
 b .LBB13_27
-trampo_k34rp:
+trampo_8g2sm:
 mov	r1, r0
 movs	r0, #1
 cmp	r1, #0
@@ -3401,9 +3401,9 @@ movs	r2, #10
 str	r0, [sp, #8]
 str	r3, [sp, #12]
 subs	r6, #8
-bpl trampo_mejcw
+bpl trampo_9jdpv
 b .LBB13_32
-trampo_mejcw:
+trampo_9jdpv:
 mov	r1, r0
 movs	r0, #1
 cmp	r1, #0
@@ -3980,18 +3980,18 @@ str	r3, [sp, #12]
 subs	r4, #8
 blx	r3
 mov	r1, r0
-bpl trampo_zdmok
+bpl trampo_uoq29
 b .LBB15_23
-trampo_zdmok:
+trampo_uoq29:
 cmp	r1, #0
 bne	.LBB15_22
 str	r0, [sp, #16]
 adds	r0, r6, #4
 str	r0, [sp, #4]
 ldrb	r0, [r4, #10]
-bne trampo_l50dn
+bne trampo_o3fmi
 b .LBB15_25
-trampo_l50dn:
+trampo_o3fmi:
 bmi	.LBB15_23
 ldr	r1, .LCPI15_6
 movs	r2, #1
@@ -4027,9 +4027,9 @@ movs	r0, #1
 str	r0, [sp, #4]
 ldr	r1, [r4, #8]
 lsls	r0, r1, #8
-bne trampo_6knva
+bne trampo_240za
 b .LBB15_32
-trampo_6knva:
+trampo_240za:
 str	r1, [sp]
 ldr	r1, .LCPI15_6
 movs	r2, #1
@@ -4190,9 +4190,9 @@ cmp	r0, #0
 beq	.LBB15_38
 ldr	r0, [sp, #16]
 add	sp, #52
-beq trampo_70kzv
+beq trampo_deob4
 b .LBB15_22
-trampo_70kzv:
+trampo_deob4:
 .LBB15_38:
 add	r0, sp, #36
 ldr	r1, .LCPI15_5
@@ -4789,11 +4789,11 @@ add	pc, r0
 .short	(.LBB20_11-(.LCPI20_25+4))/2
 .short	(.LBB20_13-(.LCPI20_25+4))/2
 .short	(.LBB20_31-(.LCPI20_25+4))/2
-ldr r1, trampo_runjs_addr
-b trampo_runjs_after
+ldr r1, trampo_471to_addr
+b trampo_471to_after
 .p2align 2
-trampo_runjs_addr: .long .LCPI20_32
-trampo_runjs_after: ldr r1, [r1]
+trampo_471to_addr: .long .LCPI20_32
+trampo_471to_after: ldr r1, [r1]
 .short	(.LBB20_19-(.LCPI20_25+4))/2
 .short	(.LBB20_3-(.LCPI20_25+4))/2
 .short	(.LBB20_26-(.LCPI20_25+4))/2
@@ -4804,11 +4804,11 @@ ldr	r3, [r1, #12]
 ldr	r1, .LCPI20_32
 movs	r2, #9
 blx	r3
-ldr r1, trampo_bm4pu_addr
-b trampo_bm4pu_after
+ldr r1, trampo_n6oa3_addr
+b trampo_n6oa3_after
 .p2align 2
-trampo_bm4pu_addr: .long .LCPI20_33
-trampo_bm4pu_after: ldr r1, [r1]
+trampo_n6oa3_addr: .long .LCPI20_33
+trampo_n6oa3_after: ldr r1, [r1]
 pop	{r4, r5, r6, r7, pc}
 .LBB20_3:
 ldr	r0, [r1]
@@ -4825,11 +4825,11 @@ mov	r1, r0
 movs	r0, #1
 cmp	r1, #0
 beq	.LBB20_4
-ldr r1, trampo_6qx4w_addr
-b trampo_6qx4w_after
+ldr r1, trampo_ig6uk_addr
+b trampo_ig6uk_after
 .p2align 2
-trampo_6qx4w_addr: .long .LCPI20_28
-trampo_6qx4w_after: ldr r1, [r1]
+trampo_ig6uk_addr: .long .LCPI20_28
+trampo_ig6uk_after: ldr r1, [r1]
 .LBB20_4:
 str	r0, [sp, #16]
 ldrb	r0, [r4, #10]
@@ -4848,11 +4848,11 @@ bne	.LBB20_6
 b	.LBB20_40
 .LBB20_6:
 ldr	r0, [sp, #16]
-ldr r1, trampo_dozta_addr
-b trampo_dozta_after
+ldr r1, trampo_eohog_addr
+b trampo_eohog_after
 .p2align 2
-trampo_dozta_addr: .long .LCPI20_29
-trampo_dozta_after: ldr r1, [r1]
+trampo_eohog_addr: .long .LCPI20_29
+trampo_eohog_after: ldr r1, [r1]
 pop	{r4, r5, r6, r7, pc}
 .LBB20_7:
 ldr	r0, [r1]
@@ -4869,11 +4869,11 @@ mov	r1, r0
 movs	r0, #1
 cmp	r1, #0
 beq	.LBB20_8
-ldr r1, trampo_d6enl_addr
-b trampo_d6enl_after
+ldr r1, trampo_15csb_addr
+b trampo_15csb_after
 .p2align 2
-trampo_d6enl_addr: .long .LCPI20_28
-trampo_d6enl_after: ldr r1, [r1]
+trampo_15csb_addr: .long .LCPI20_28
+trampo_15csb_after: ldr r1, [r1]
 .LBB20_8:
 str	r0, [sp, #16]
 ldrb	r0, [r4, #10]
@@ -4889,11 +4889,11 @@ ldr	r5, [sp, #12]
 blx	r5
 cmp	r0, #0
 bne	.LBB20_10
-ldr r1, trampo_gsw3r_addr
-b trampo_gsw3r_after
+ldr r1, trampo_518fu_addr
+b trampo_518fu_after
 .p2align 2
-trampo_gsw3r_addr: .long .LCPI20_30
-trampo_gsw3r_after: ldr r1, [r1]
+trampo_518fu_addr: .long .LCPI20_30
+trampo_518fu_after: ldr r1, [r1]
 .LBB20_10:
 ldr	r0, [sp, #16]
 add	sp, #52
@@ -4901,11 +4901,11 @@ pop	{r4, r5, r6, r7, pc}
 .LBB20_11:
 ldm	r1, {r0, r1}
 ldr	r3, [r1, #12]
-ldr r1, trampo_rno2n_addr
-b trampo_rno2n_after
+ldr r1, trampo_2tcfj_addr
+b trampo_2tcfj_after
 .p2align 2
-trampo_rno2n_addr: .long .LCPI20_31
-trampo_rno2n_after: ldr r1, [r1]
+trampo_2tcfj_addr: .long .LCPI20_31
+trampo_2tcfj_after: ldr r1, [r1]
 movs	r2, #8
 blx	r3
 add	sp, #52
@@ -4915,11 +4915,11 @@ ldm	r1, {r0, r1}
 ldr	r3, [r1, #12]
 ldr	r1, .LCPI20_31
 movs	r2, #9
-ldr r1, trampo_p8u97_addr
-b trampo_p8u97_after
+ldr r1, trampo_bzb86_addr
+b trampo_bzb86_after
 .p2align 2
-trampo_p8u97_addr: .long .LCPI20_34
-trampo_p8u97_after: ldr r1, [r1]
+trampo_bzb86_addr: .long .LCPI20_34
+trampo_bzb86_after: ldr r1, [r1]
 add	sp, #52
 pop	{r4, r5, r6, r7, pc}
 .LBB20_13:
@@ -4938,11 +4938,11 @@ cmp	r1, #0
 beq	.LBB20_14
 b	.LBB20_88
 .LBB20_14:
-ldr r1, trampo_at7j2_addr
-b trampo_at7j2_after
+ldr r1, trampo_naoj2_addr
+b trampo_naoj2_after
 .p2align 2
-trampo_at7j2_addr: .long .LCPI20_5
-trampo_at7j2_after: ldr r1, [r1]
+trampo_naoj2_addr: .long .LCPI20_5
+trampo_naoj2_after: ldr r1, [r1]
 adds	r6, r6, #1
 ldr	r0, [sp, #12]
 ldrb	r0, [r0, #10]
@@ -4957,11 +4957,11 @@ ldr	r3, [sp, #8]
 blx	r3
 cmp	r0, #0
 bne	.LBB20_16
-ldr r1, trampo_s7lqg_addr
-b trampo_s7lqg_after
+ldr r1, trampo_ykmkw_addr
+b trampo_ykmkw_after
 .p2align 2
-trampo_s7lqg_addr: .long .LCPI20_15
-trampo_s7lqg_after: ldr r1, [r1]
+trampo_ykmkw_addr: .long .LCPI20_15
+trampo_ykmkw_after: ldr r1, [r1]
 .LBB20_16:
 ldr	r0, [sp, #16]
 add	sp, #52
@@ -4969,11 +4969,11 @@ pop	{r4, r5, r6, r7, pc}
 .LBB20_17:
 ldm	r1, {r0, r1}
 ldr	r3, [r1, #12]
-ldr r1, trampo_u4dfr_addr
-b trampo_u4dfr_after
+ldr r1, trampo_7yh0j_addr
+b trampo_7yh0j_after
 .p2align 2
-trampo_u4dfr_addr: .long .LCPI20_22
-trampo_u4dfr_after: ldr r1, [r1]
+trampo_7yh0j_addr: .long .LCPI20_22
+trampo_7yh0j_after: ldr r1, [r1]
 movs	r2, #3
 blx	r3
 add	sp, #52
@@ -4983,11 +4983,11 @@ ldm	r1, {r0, r1}
 ldr	r3, [r1, #12]
 ldr	r1, .LCPI20_22
 movs	r2, #11
-ldr r1, trampo_1pl0y_addr
-b trampo_1pl0y_after
+ldr r1, trampo_tocmt_addr
+b trampo_tocmt_after
 .p2align 2
-trampo_1pl0y_addr: .long .LCPI20_9
-trampo_1pl0y_after: ldr r1, [r1]
+trampo_tocmt_addr: .long .LCPI20_9
+trampo_tocmt_after: ldr r1, [r1]
 add	sp, #52
 pop	{r4, r5, r6, r7, pc}
 .LBB20_19:
@@ -5006,11 +5006,11 @@ cmp	r1, #0
 beq	.LBB20_20
 b	.LBB20_88
 .LBB20_20:
-ldr r1, trampo_jiy05_addr
-b trampo_jiy05_after
+ldr r1, trampo_cx6lv_addr
+b trampo_cx6lv_after
 .p2align 2
-trampo_jiy05_addr: .long .LCPI20_5
-trampo_jiy05_after: ldr r1, [r1]
+trampo_cx6lv_addr: .long .LCPI20_5
+trampo_cx6lv_after: ldr r1, [r1]
 adds	r6, r6, #4
 ldr	r0, [sp, #12]
 ldrb	r0, [r0, #10]
@@ -5025,11 +5025,11 @@ ldr	r3, [sp, #8]
 blx	r3
 cmp	r0, #0
 bne	.LBB20_22
-ldr r1, trampo_iz1vx_addr
-b trampo_iz1vx_after
+ldr r1, trampo_rrn28_addr
+b trampo_rrn28_after
 .p2align 2
-trampo_iz1vx_addr: .long .LCPI20_21
-trampo_iz1vx_after: ldr r1, [r1]
+trampo_rrn28_addr: .long .LCPI20_21
+trampo_rrn28_after: ldr r1, [r1]
 .LBB20_22:
 ldr	r0, [sp, #16]
 add	sp, #52
@@ -5037,11 +5037,11 @@ pop	{r4, r5, r6, r7, pc}
 .LBB20_23:
 ldm	r1, {r0, r1}
 ldr	r3, [r1, #12]
-ldr r1, trampo_w314q_addr
-b trampo_w314q_after
+ldr r1, trampo_m3pp4_addr
+b trampo_m3pp4_after
 .p2align 2
-trampo_w314q_addr: .long .LCPI20_17
-trampo_w314q_after: ldr r1, [r1]
+trampo_m3pp4_addr: .long .LCPI20_17
+trampo_m3pp4_after: ldr r1, [r1]
 movs	r2, #12
 blx	r3
 add	sp, #52
@@ -5049,11 +5049,11 @@ pop	{r4, r5, r6, r7, pc}
 .LBB20_24:
 ldm	r1, {r0, r1}
 ldr	r3, [r1, #12]
-ldr r1, trampo_de3ay_addr
-b trampo_de3ay_after
+ldr r1, trampo_azn1k_addr
+b trampo_azn1k_after
 .p2align 2
-trampo_de3ay_addr: .long .LCPI20_23
-trampo_de3ay_after: ldr r1, [r1]
+trampo_azn1k_addr: .long .LCPI20_23
+trampo_azn1k_after: ldr r1, [r1]
 movs	r2, #9
 blx	r3
 add	sp, #52
@@ -5063,11 +5063,11 @@ ldm	r1, {r0, r1}
 ldr	r3, [r1, #12]
 ldr	r1, .LCPI20_23
 movs	r2, #10
-ldr r1, trampo_6ry51_addr
-b trampo_6ry51_after
+ldr r1, trampo_tpyht_addr
+b trampo_tpyht_after
 .p2align 2
-trampo_6ry51_addr: .long .LCPI20_0
-trampo_6ry51_after: ldr r1, [r1]
+trampo_tpyht_addr: .long .LCPI20_0
+trampo_tpyht_after: ldr r1, [r1]
 add	sp, #52
 pop	{r4, r5, r6, r7, pc}
 .LBB20_26:
@@ -5081,14 +5081,14 @@ str	r0, [sp, #8]
 str	r3, [sp, #12]
 blx	r3
 mov	r1, r0
-bpl trampo_k3jbf
+bpl trampo_f680y
 b .LBB20_47
-trampo_k3jbf:
-ldr r1, trampo_ac3nz_addr
-b trampo_ac3nz_after
+trampo_f680y:
+ldr r1, trampo_66qfs_addr
+b trampo_66qfs_after
 .p2align 2
-trampo_ac3nz_addr: .long .LCPI20_5
-trampo_ac3nz_after: ldr r1, [r1]
+trampo_66qfs_addr: .long .LCPI20_5
+trampo_66qfs_after: ldr r1, [r1]
 beq	.LBB20_27
 b	.LBB20_88
 .LBB20_27:
@@ -5104,11 +5104,11 @@ ldr	r4, [sp, #12]
 blx	r4
 cmp	r0, #0
 bne	.LBB20_29
-ldr r1, trampo_zvdl3_addr
-b trampo_zvdl3_after
+ldr r1, trampo_q5m6r_addr
+b trampo_q5m6r_after
 .p2align 2
-trampo_zvdl3_addr: .long .LCPI20_19
-trampo_zvdl3_after: ldr r1, [r1]
+trampo_q5m6r_addr: .long .LCPI20_19
+trampo_q5m6r_after: ldr r1, [r1]
 .LBB20_29:
 ldr	r0, [sp, #16]
 add	sp, #52
@@ -5119,11 +5119,11 @@ ldr	r3, [r1, #12]
 ldr	r1, .LCPI20_19
 movs	r2, #10
 blx	r3
-ldr r1, trampo_2pqlu_addr
-b trampo_2pqlu_after
+ldr r1, trampo_cwpu6_addr
+b trampo_cwpu6_after
 .p2align 2
-trampo_2pqlu_addr: .long .LCPI20_11
-trampo_2pqlu_after: ldr r1, [r1]
+trampo_cwpu6_addr: .long .LCPI20_11
+trampo_cwpu6_after: ldr r1, [r1]
 pop	{r4, r5, r6, r7, pc}
 .LBB20_31:
 ldr	r0, [r1]
@@ -5139,14 +5139,14 @@ blx	r3
 mov	r1, r0
 movs	r0, #1
 cmp	r1, #0
-bpl trampo_y2p2a
+bpl trampo_1og0v
 b .LBB20_49
-trampo_y2p2a:
-ldr r1, trampo_bn343_addr
-b trampo_bn343_after
+trampo_1og0v:
+ldr r1, trampo_opbhu_addr
+b trampo_opbhu_after
 .p2align 2
-trampo_bn343_addr: .long .LCPI20_5
-trampo_bn343_after: ldr r1, [r1]
+trampo_opbhu_addr: .long .LCPI20_5
+trampo_opbhu_after: ldr r1, [r1]
 .LBB20_32:
 str	r0, [sp, #16]
 adds	r0, r6, #4
@@ -5161,11 +5161,11 @@ ldr	r4, [sp, #12]
 blx	r4
 cmp	r0, #0
 bne	.LBB20_34
-ldr r1, trampo_pjrg5_addr
-b trampo_pjrg5_after
+ldr r1, trampo_9i3nj_addr
+b trampo_9i3nj_after
 .p2align 2
-trampo_pjrg5_addr: .long .LCPI20_18
-trampo_pjrg5_after: ldr r1, [r1]
+trampo_9i3nj_addr: .long .LCPI20_18
+trampo_9i3nj_after: ldr r1, [r1]
 .LBB20_34:
 ldr	r0, [sp, #16]
 add	sp, #52
@@ -5173,11 +5173,11 @@ pop	{r4, r5, r6, r7, pc}
 .LBB20_35:
 ldm	r1, {r0, r1}
 ldr	r3, [r1, #12]
-ldr r1, trampo_tqwcq_addr
-b trampo_tqwcq_after
+ldr r1, trampo_tnes0_addr
+b trampo_tnes0_after
 .p2align 2
-trampo_tqwcq_addr: .long .LCPI20_14
-trampo_tqwcq_after: ldr r1, [r1]
+trampo_tnes0_addr: .long .LCPI20_14
+trampo_tnes0_after: ldr r1, [r1]
 movs	r2, #5
 blx	r3
 add	sp, #52
@@ -5185,11 +5185,11 @@ pop	{r4, r5, r6, r7, pc}
 .LBB20_36:
 ldm	r1, {r0, r1}
 ldr	r3, [r1, #12]
-ldr r1, trampo_6sppw_addr
-b trampo_6sppw_after
+ldr r1, trampo_q4kv9_addr
+b trampo_q4kv9_after
 .p2align 2
-trampo_6sppw_addr: .long .LCPI20_16
-trampo_6sppw_after: ldr r1, [r1]
+trampo_q4kv9_addr: .long .LCPI20_16
+trampo_q4kv9_after: ldr r1, [r1]
 movs	r2, #5
 blx	r3
 add	sp, #52
@@ -5232,9 +5232,9 @@ cmp	r0, #0
 beq	.LBB20_53
 ldr	r0, [sp, #16]
 add	sp, #52
-bne trampo_7qyvb
+bne trampo_8rux0
 b .LBB20_59
-trampo_7qyvb:
+trampo_8rux0:
 .LBB20_43:
 ldr	r1, .LCPI20_1
 movs	r2, #2
@@ -5245,9 +5245,9 @@ cmp	r0, #0
 beq	.LBB20_59
 ldr	r0, [sp, #16]
 add	sp, #52
-bne trampo_5xswk
+bne trampo_j2m5u
 b .LBB20_63
-trampo_5xswk:
+trampo_j2m5u:
 .LBB20_45:
 ldr	r1, .LCPI20_1
 movs	r2, #2
@@ -5356,9 +5356,9 @@ str	r0, [sp, #40]
 add	r0, sp, #20
 str	r0, [sp, #36]
 ldr	r0, [sp, #12]
-bne trampo_akdkp
+bne trampo_64qq6
 b .LBB20_73
-trampo_akdkp:
+trampo_64qq6:
 ldr	r0, [r0, #12]
 str	r0, [sp, #48]
 str	r1, [sp, #44]
@@ -7598,9 +7598,9 @@ ldr	r6, [sp, #24]
 add	r0, sp, #28
 mov	r1, r6
 str	r4, [sp, #12]
-bne trampo_xkfyn
+bne trampo_zppwm
 b .LBB46_21
-trampo_xkfyn:
+trampo_zppwm:
 bl	_ZN1c1c8compiler8Compiler17flush_eval_to_reg17hc3962685634129e3E
 ldr	r1, .LCPI46_0
 ldr	r0, [sp, #28]
@@ -7837,9 +7837,9 @@ ldr	r6, [sp, #16]
 add	r0, sp, #20
 mov	r1, r6
 str	r4, [sp, #4]
-bne trampo_pknfh
+bne trampo_zrf0z
 b .LBB48_21
-trampo_pknfh:
+trampo_zrf0z:
 bl	_ZN1c1c8compiler8Compiler17flush_eval_to_reg17hc3962685634129e3E
 ldr	r1, .LCPI48_0
 ldr	r0, [sp, #20]
@@ -10166,9 +10166,9 @@ pop	{r7, pc}
 _ZN4core3ops8function6FnOnce40call_once$u7b$$u7b$vtable.shim$u7d$$u7d$17h410a9a095e155f40E:
 .fnstart
 .save	{r4, r5, r6, r7, lr}
-beq trampo_dyr7h
+beq trampo_y8aed
 b .LBB65_12
-trampo_dyr7h:
+trampo_y8aed:
 .setfp	r7, sp, #12
 add	r7, sp, #12
 .pad	#84
@@ -10922,9 +10922,9 @@ ldr	r1, .LCPI71_0
 cmp	r0, r1
 ldr	r6, [sp, #76]
 bne	.LBB71_13
-bne trampo_4zg4q
+bne trampo_9kdxf
 b .LBB71_2
-trampo_4zg4q:
+trampo_9kdxf:
 ldr	r1, [sp, #12]
 b	.LBB71_14
 .LBB71_13:
@@ -11215,9 +11215,9 @@ push	{r4, r5, r6, r7, lr}
 .setfp	r7, sp, #12
 add	r7, sp, #12
 .pad	#76
-bne trampo_6zwe1
+bne trampo_1plle
 b .LBB72_21
-trampo_6zwe1:
+trampo_1plle:
 mov	r4, r3
 str	r2, [sp, #24]
 str	r0, [sp, #16]
@@ -11657,9 +11657,9 @@ _ZN4core3ops8function6FnOnce40call_once$u7b$$u7b$vtable.shim$u7d$$u7d$17h6072ceb
 push	{r4, r5, r6, r7, lr}
 .setfp	r7, sp, #12
 add	r7, sp, #12
-bne trampo_vls19
+bne trampo_tm2ee
 b .LBB76_21
-trampo_vls19:
+trampo_tm2ee:
 sub	sp, #68
 str	r3, [sp, #12]
 str	r2, [sp, #16]
@@ -12295,9 +12295,9 @@ _ZN4core3ops8function6FnOnce40call_once$u7b$$u7b$vtable.shim$u7d$$u7d$17h6c0235a
 .save	{r4, r5, r6, r7, lr}
 push	{r4, r5, r6, r7, lr}
 .setfp	r7, sp, #12
-bne trampo_3yn1q
+bne trampo_2ssmn
 b .LBB82_21
-trampo_3yn1q:
+trampo_2ssmn:
 .pad	#68
 sub	sp, #68
 mov	r4, r3
@@ -12587,9 +12587,9 @@ _ZN4core3ops8function6FnOnce40call_once$u7b$$u7b$vtable.shim$u7d$$u7d$17h73af373
 .save	{r4, r5, r6, r7, lr}
 push	{r4, r5, r6, r7, lr}
 .setfp	r7, sp, #12
-bne trampo_na346
+bne trampo_lajn6
 b .LBB84_21
-trampo_na346:
+trampo_lajn6:
 .pad	#76
 sub	sp, #76
 mov	r4, r3
@@ -13296,11 +13296,11 @@ str	r1, [sp, #76]
 ldr	r1, [r6, #4]
 ldr	r2, [sp, #52]
 str	r2, [sp]
-ldr r1, trampo_ony01_addr
-b trampo_ony01_after
+ldr r1, trampo_lt386_addr
+b trampo_lt386_after
 .p2align 2
-trampo_ony01_addr: .long .LCPI86_9
-trampo_ony01_after: ldr r1, [r1]
+trampo_lt386_addr: .long .LCPI86_9
+trampo_lt386_after: ldr r1, [r1]
 str	r2, [sp, #4]
 ldr	r2, [sp, #88]
 eors	r3, r2
@@ -14589,9 +14589,9 @@ bl	_ZN4core9panicking9panic_fmt17hf47207f433d6da63E
 _ZN4core3ops8function6FnOnce40call_once$u7b$$u7b$vtable.shim$u7d$$u7d$17h84eab85e40853316E:
 .fnstart
 .save	{r4, r5, r6, r7, lr}
-bne trampo_6sk7h
+bne trampo_57c5y
 b .LBB92_21
-trampo_6sk7h:
+trampo_57c5y:
 .setfp	r7, sp, #12
 add	r7, sp, #12
 .pad	#68
@@ -14776,9 +14776,9 @@ bl	_ZN4core9panicking9panic_fmt17hf47207f433d6da63E
 _ZN4core3ops8function6FnOnce40call_once$u7b$$u7b$vtable.shim$u7d$$u7d$17h88158809fb0ad464E:
 .fnstart
 .save	{r4, r5, r6, r7, lr}
-bne trampo_77f4b
+bne trampo_rn1mk
 b .LBB93_21
-trampo_77f4b:
+trampo_rn1mk:
 .setfp	r7, sp, #12
 add	r7, sp, #12
 .pad	#68
@@ -15185,9 +15185,9 @@ bl	_ZN4core9panicking9panic_fmt17hf47207f433d6da63E
 _ZN4core3ops8function6FnOnce40call_once$u7b$$u7b$vtable.shim$u7d$$u7d$17h9f2a9cca2aeb6d5fE:
 .fnstart
 .save	{r4, r5, r6, r7, lr}
-bne trampo_3y5r4
+bne trampo_p5jl5
 b .LBB98_21
-trampo_3y5r4:
+trampo_p5jl5:
 .setfp	r7, sp, #12
 add	r7, sp, #12
 .pad	#68
@@ -15601,9 +15601,9 @@ bl	_ZN4core9panicking9panic_fmt17hf47207f433d6da63E
 _ZN4core3ops8function6FnOnce40call_once$u7b$$u7b$vtable.shim$u7d$$u7d$17haa6af1a57b15f982E:
 .fnstart
 .save	{r4, r5, r6, r7, lr}
-bne trampo_n6853
+bne trampo_7v2z4
 b .LBB101_21
-trampo_n6853:
+trampo_7v2z4:
 .setfp	r7, sp, #12
 add	r7, sp, #12
 .pad	#68
@@ -16388,9 +16388,9 @@ pop	{r7, pc}
 .p2align	2
 .type	_ZN4core3ops8function6FnOnce40call_once$u7b$$u7b$vtable.shim$u7d$$u7d$17hb566acc335ebe6e0E,%function
 .code	16
-beq trampo_w1036
+beq trampo_3e4po
 b .LBB108_12
-trampo_w1036:
+trampo_3e4po:
 _ZN4core3ops8function6FnOnce40call_once$u7b$$u7b$vtable.shim$u7d$$u7d$17hb566acc335ebe6e0E:
 .fnstart
 .save	{r4, r5, r6, r7, lr}
@@ -18435,9 +18435,9 @@ bl	_ZN4core9panicking9panic_fmt17hf47207f433d6da63E
 .code	16
 .thumb_func
 _ZN4core3ops8function6FnOnce40call_once$u7b$$u7b$vtable.shim$u7d$$u7d$17hed77e1ea453c1928E:
-bne trampo_b2mn1
+bne trampo_bh0dg
 b .LBB128_21
-trampo_b2mn1:
+trampo_bh0dg:
 .save	{r4, r5, r6, r7, lr}
 push	{r4, r5, r6, r7, lr}
 .setfp	r7, sp, #12
@@ -23992,11 +23992,11 @@ mov	r6, r3
 ldr	r1, [sp, #84]
 adds	r3, r1, r3
 str	r3, [sp, #16]
-ldr r0, trampo_6yiwn_addr
-b trampo_6yiwn_after
+ldr r0, trampo_mqg4w_addr
+b trampo_mqg4w_after
 .p2align 2
-trampo_6yiwn_addr: .long .LCPI177_5
-trampo_6yiwn_after: ldr r0, [r0]
+trampo_mqg4w_addr: .long .LCPI177_5
+trampo_mqg4w_after: ldr r0, [r0]
 adcs	r4, r3
 ldr	r1, [sp, #88]
 adds	r1, r1, r6
@@ -24039,11 +24039,11 @@ mov	r0, r6
 ldm	r1!, {r2, r3, r4, r5}
 stm	r0!, {r2, r3, r4, r5}
 ldm	r1!, {r2, r3, r4, r5}
-ldr r1, trampo_9lqbg_addr
-b trampo_9lqbg_after
+ldr r1, trampo_9e44o_addr
+b trampo_9e44o_after
 .p2align 2
-trampo_9lqbg_addr: .long .LCPI177_0
-trampo_9lqbg_after: ldr r1, [r1]
+trampo_9e44o_addr: .long .LCPI177_0
+trampo_9e44o_after: ldr r1, [r1]
 add	r0, sp, #76
 str	r0, [sp, #120]
 ldr	r0, [sp, #88]
@@ -24699,9 +24699,9 @@ push	{r7, lr}
 .setfp	r7, sp
 add	r7, sp, #0
 ldm	r1, {r0, r1}
-bne trampo_7bhci
+bne trampo_7h4mg
 b .LBB180_30
-trampo_7bhci:
+trampo_7h4mg:
 ldr	r1, .LCPI179_0
 movs	r2, #5
 blx	r3
@@ -27552,9 +27552,9 @@ push	{r4, r5, r6, r7, lr}
 add	r7, sp, #12
 .pad	#28
 sub	sp, #28
-beq trampo_mz4kc
+beq trampo_0vgsb
 b .LBB212_18
-trampo_mz4kc:
+trampo_0vgsb:
 add	r2, sp, #4
 mov	r3, r2
 ldm	r0!, {r4, r5, r6}
@@ -27841,9 +27841,9 @@ ldr	r0, [r4]
 str	r0, [sp, #36]
 mov	r0, r6
 subs	r0, #12
-beq trampo_7865z
+beq trampo_0kva3
 b .LBB212_24
-trampo_7865z:
+trampo_0kva3:
 mov	r1, r6
 subs	r1, #8
 ldr	r1, [r1]
@@ -36633,9 +36633,9 @@ str	r1, [sp, #220]
 ldr	r0, .LCPI226_18
 str	r0, [sp, #216]
 str	r1, [sp, #228]
-bcc trampo_jsgyp
+bcc trampo_eov5k
 b .LBB227_27
-trampo_jsgyp:
+trampo_eov5k:
 str	r0, [sp, #224]
 ldr	r0, .LCPI226_19
 str	r0, [sp, #164]
@@ -36749,14 +36749,14 @@ cmp	r4, #1
 beq	.LBB227_12
 ldr	r3, [r1, #4]
 ldr	r5, [r0, #4]
-beq trampo_jvhyv
+beq trampo_fgnfm
 b .LBB227_4
-trampo_jvhyv:
+trampo_fgnfm:
 bne	.LBB227_17
 adds	r1, #8
-bne trampo_y9mmq
+bne trampo_8x3mw
 b .LBB227_4
-trampo_y9mmq:
+trampo_8x3mw:
 subs	r4, r4, #2
 bne	.LBB227_8
 .LBB227_12:
@@ -37026,9 +37026,9 @@ cmp	r6, r1
 bne	.LBB228_25
 lsrs	r0, r0, #24
 lsrs	r3, r2, #24
-bcc trampo_3d4rm
+bcc trampo_9sg2g
 b .LBB229_27
-trampo_3d4rm:
+trampo_9sg2g:
 cmp	r3, r0
 bne	.LBB228_25
 b	.LBB228_30
@@ -37141,14 +37141,14 @@ cmp	r4, #1
 beq	.LBB229_12
 ldr	r3, [r1, #4]
 ldr	r5, [r0, #4]
-beq trampo_9vfwx
+beq trampo_i0d5q
 b .LBB229_4
-trampo_9vfwx:
+trampo_i0d5q:
 bne	.LBB229_17
 adds	r1, #8
-bne trampo_thp9x
+bne trampo_efx76
 b .LBB229_4
-trampo_thp9x:
+trampo_efx76:
 subs	r4, r4, #2
 bne	.LBB229_8
 .LBB229_12:
@@ -41025,11 +41025,11 @@ str	r0, [sp, #168]
 strb	r0, [r3, #4]
 ldr	r1, [r3, #24]
 mov r12, r7
-ldr r7, trampo_65klc_target
-b trampo_65klc_after
+ldr r7, trampo_3u4g0_target
+b trampo_3u4g0_after
 .p2align 2
-trampo_65klc_target: .long .LBB234_281 - CURPC - 2*(6)
-trampo_65klc_after: mov r11, r7
+trampo_3u4g0_target: .long .LBB234_281 - CURPC - 2*(6)
+trampo_3u4g0_after: mov r11, r7
 mov r7, r12
 add pc, r11
 cmp	r1, r0
@@ -41641,11 +41641,11 @@ b	.LBB234_195
 .LCPI234_90:
 .long	1160258022
 .p2align	2
-ldr r6, trampo_8z5yb_addr
-b trampo_8z5yb_after
+ldr r6, trampo_du0ja_addr
+b trampo_du0ja_after
 .p2align 2
-trampo_8z5yb_addr: .long .LCPI234_94
-trampo_8z5yb_after: ldr r6, [r6]
+trampo_du0ja_addr: .long .LCPI234_94
+trampo_du0ja_after: ldr r6, [r6]
 .long	953160567
 .p2align	2
 .LCPI234_92:
@@ -41719,9 +41719,9 @@ bl	.LBB234_367
 .LBB234_230:
 ldr	r2, [sp, #276]
 ldrb	r0, [r2]
-beq trampo_11zl7
+beq trampo_ppsko
 b .LBB234_221
-trampo_11zl7:
+trampo_ppsko:
 ldrb	r1, [r1]
 cmp	r1, r0
 bne	.LBB234_221
@@ -41927,11 +41927,11 @@ sbcs	r0, r2
 ldrb	r1, [r1, #2]
 ldr	r2, [sp, #312]
 mov r12, r7
-ldr r7, trampo_sccyr_target
-b trampo_sccyr_after
+ldr r7, trampo_zjrtr_target
+b trampo_zjrtr_after
 .p2align 2
-trampo_sccyr_target: .long .LBB234_354 - CURPC - 2*(6)
-trampo_sccyr_after: mov r11, r7
+trampo_zjrtr_target: .long .LBB234_354 - CURPC - 2*(6)
+trampo_zjrtr_after: mov r11, r7
 mov r7, r12
 add pc, r11
 cmp	r2, r1
@@ -42594,11 +42594,11 @@ str	r1, [r2, #4]
 str	r0, [r2, #72]
 ldr	r0, [sp, #316]
 adds	r0, r0, #5
-ldr r0, trampo_h9mk8_addr
-b trampo_h9mk8_after
+ldr r0, trampo_a7oji_addr
+b trampo_a7oji_after
 .p2align 2
-trampo_h9mk8_addr: .long .LCPI234_111
-trampo_h9mk8_after: ldr r0, [r0]
+trampo_a7oji_addr: .long .LCPI234_111
+trampo_a7oji_after: ldr r0, [r0]
 ldr	r0, [sp, #332]
 strb	r0, [r2, #20]
 add	r0, sp, #992
@@ -42613,11 +42613,11 @@ str	r0, [r2, #16]
 add	r0, sp, #448
 add	r1, sp, #408
 bl	_ZN8indexmap3map4core12raw_entry_v134RawVacantEntryMut$LT$K$C$V$C$S$GT$6insert17h2faedd258d0a4881E
-ldr r2, trampo_u53rp_addr
-b trampo_u53rp_after
+ldr r2, trampo_6dzj7_addr
+b trampo_6dzj7_after
 .p2align 2
-trampo_u53rp_addr: .long .LCPI234_111
-trampo_u53rp_after: ldr r2, [r2]
+trampo_6dzj7_addr: .long .LCPI234_111
+trampo_6dzj7_after: ldr r2, [r2]
 ldr	r2, [r1, #72]
 adds	r2, r2, #1
 str	r2, [r1, #72]
@@ -43280,11 +43280,11 @@ b	.LBB234_397
 ldr	r3, [sp, #336]
 .LBB234_401:
 lsls	r0, r5, #31
-ldr r1, trampo_h2jpw_addr
-b trampo_h2jpw_after
+ldr r1, trampo_d1dfg_addr
+b trampo_d1dfg_after
 .p2align 2
-trampo_h2jpw_addr: .long .LCPI234_112
-trampo_h2jpw_after: ldr r1, [r1]
+trampo_d1dfg_addr: .long .LCPI234_112
+trampo_d1dfg_after: ldr r1, [r1]
 ldrb	r0, [r6]
 ldr	r5, [sp, #340]
 .p2align	2
@@ -43294,19 +43294,19 @@ lsls	r0, r0, #1
 .LCPI234_55:
 add	pc, r0
 .p2align	2
-ldr r1, trampo_znzbv_addr
-b trampo_znzbv_after
+ldr r1, trampo_w0hzo_addr
+b trampo_w0hzo_after
 .p2align 2
-trampo_znzbv_addr: .long .LCPI234_113
-trampo_znzbv_after: ldr r1, [r1]
+trampo_w0hzo_addr: .long .LCPI234_113
+trampo_w0hzo_after: ldr r1, [r1]
 .byte	(.LBB234_425-(.LCPI234_55+4))/2
 .byte	(.LBB234_426-(.LCPI234_55+4))/2
 .byte	(.LBB234_422-(.LCPI234_55+4))/2
-ldr r1, trampo_bbd6g_addr
-b trampo_bbd6g_after
+ldr r1, trampo_g13mc_addr
+b trampo_g13mc_after
 .p2align 2
-trampo_bbd6g_addr: .long .LCPI234_114
-trampo_bbd6g_after: ldr r1, [r1]
+trampo_g13mc_addr: .long .LCPI234_114
+trampo_g13mc_after: ldr r1, [r1]
 .byte	(.LBB234_419-(.LCPI234_55+4))/2
 .byte	(.LBB234_427-(.LCPI234_55+4))/2
 .byte	(.LBB234_429-(.LCPI234_55+4))/2
@@ -43629,11 +43629,11 @@ subs	r6, r7, #7
 subs	r6, #5
 mov	sp, r6
 pop	{r4, r5, r6, r7, pc}
-ldr r3, trampo_hexjz_addr
-b trampo_hexjz_after
+ldr r3, trampo_rvcwc_addr
+b trampo_rvcwc_after
 .p2align 2
-trampo_hexjz_addr: .long .LCPI234_49
-trampo_hexjz_after: ldr r3, [r3]
+trampo_rvcwc_addr: .long .LCPI234_49
+trampo_rvcwc_after: ldr r3, [r3]
 subs	r2, #64
 mov	r4, r0
 .LBB234_448:
@@ -45230,11 +45230,11 @@ bl	_ZN5alloc7raw_vec19RawVec$LT$T$C$A$GT$8grow_one17hee32330a5da8a619E
 mov	r2, r5
 ldr	r0, [sp, #160]
 .LBB236_86:
-ldr r2, trampo_xh61v_addr
-b trampo_xh61v_after
+ldr r2, trampo_my2r2_addr
+b trampo_my2r2_after
 .p2align 2
-trampo_xh61v_addr: .long .LCPI236_12
-trampo_xh61v_after: ldr r2, [r2]
+trampo_my2r2_addr: .long .LCPI236_12
+trampo_my2r2_after: ldr r2, [r2]
 muls	r3, r2, r3
 mov	r5, r2
 ldr	r2, [r0, #4]
@@ -46261,15 +46261,15 @@ strb	r0, [r5, #4]
 movs	r0, #9
 str	r0, [r5]
 subs	r6, r7, #7
-ldr r2, trampo_ljosm_addr
-b trampo_ljosm_after
+ldr r2, trampo_1yggw_addr
+b trampo_1yggw_after
 .p2align 2
-trampo_ljosm_addr: .long .LCPI238_12
-trampo_ljosm_after: ldr r2, [r2]
+trampo_1yggw_addr: .long .LCPI238_12
+trampo_1yggw_after: ldr r2, [r2]
 mov	sp, r6
-beq trampo_1icfh
+beq trampo_4pgmh
 b .LBB238_25
-trampo_1icfh:
+trampo_4pgmh:
 .LBB238_9:
 cmp	r4, #4
 beq	.LBB238_21
@@ -46280,11 +46280,11 @@ subs	r0, r0, #2
 cmp	r0, #25
 bhi	.LBB238_18
 lsls	r0, r0, #1
-ldr r0, trampo_0uyfv_addr
-b trampo_0uyfv_after
+ldr r0, trampo_2yls8_addr
+b trampo_2yls8_after
 .p2align 2
-trampo_0uyfv_addr: .long .LCPI238_10
-trampo_0uyfv_after: ldr r0, [r0]
+trampo_2yls8_addr: .long .LCPI238_10
+trampo_2yls8_after: ldr r0, [r0]
 add	r0, pc
 ldrh	r0, [r0, #4]
 lsls	r0, r0, #1
@@ -46573,9 +46573,9 @@ beq	.LBB238_32
 b	.LBB238_80
 .LBB238_32:
 ldr	r6, [sp, #36]
-bne trampo_opg5y
+bne trampo_tg9yz
 b .LBB238_47
-trampo_opg5y:
+trampo_tg9yz:
 add	r1, sp, #824
 ldm	r1!, {r2, r3, r4, r5}
 stm	r0!, {r2, r3, r4, r5}
@@ -46735,9 +46735,9 @@ str	r5, [sp, #36]
 add	r6, sp, #1020
 adds	r6, #28
 mov	r0, r6
-bne trampo_gbsy1
+bne trampo_te7ra
 b .LBB238_60
-trampo_gbsy1:
+trampo_te7ra:
 mov	r1, r5
 bl	_ZN1c1c10parse_expr38_$LT$impl$u20$c..c..parse..CParser$GT$15read_expression17hf0397b55e184ab80E
 ldrb	r4, [r6]
@@ -47453,25 +47453,25 @@ mov	r0, r5
 mov	r2, r4
 ldr	r3, [sp, #68]
 bl	_ZN1c1c5parse7CParser12insert_decls17hab5b7ca45cfafd1eE
-ldr r1, trampo_aj67o_addr
-b trampo_aj67o_after
+ldr r1, trampo_u1unm_addr
+b trampo_u1unm_after
 .p2align 2
-trampo_aj67o_addr: .long .LCPI239_0
-trampo_aj67o_after: ldr r1, [r1]
+trampo_u1unm_addr: .long .LCPI239_0
+trampo_u1unm_after: ldr r1, [r1]
 cmp	r0, #26
 beq	.LBB239_1
-beq trampo_a7qu8
+beq trampo_51sip
 b .LBB239_23
-trampo_a7qu8:
+trampo_51sip:
 b	.LBB239_22
 .LBB239_4:
 cmp	r0, #24
 beq	.LBB239_5
 b	.LBB239_21
 .LBB239_5:
-bne trampo_cxw8k
+bne trampo_03ptt
 b .LBB239_28
-trampo_cxw8k:
+trampo_03ptt:
 bl	_ZN4core3ptr44drop_in_place$LT$c..c..parse..ParseError$GT$17hb51ce899c9307cffE
 add	r0, sp, #248
 adds	r1, r0, #4
@@ -47508,9 +47508,9 @@ ldr	r0, [sp, #60]
 ldrb	r5, [r0]
 cmp	r5, #19
 bne	.LBB239_12
-beq trampo_9cfef
+beq trampo_3i9z2
 b .LBB239_6
-trampo_9cfef:
+trampo_3i9z2:
 ldr	r0, [r4, #24]
 ldr	r1, [r4, #32]
 movs	r5, #18
@@ -47523,9 +47523,9 @@ mov	r6, r4
 ldrb	r4, [r0]
 cmp	r4, #18
 beq	.LBB239_11
-bne trampo_2zxcw
+bne trampo_lqztk
 b .LBB239_7
-trampo_2zxcw:
+trampo_lqztk:
 add	r0, sp, #440
 movs	r2, #15
 bl	__aeabi_memcpy
@@ -49811,11 +49811,11 @@ bl	_ZN4core9panicking9panic_fmt17hf47207f433d6da63E
 .LCPI241_27:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.585
 .LCPI241_28:
-ldr r6, trampo_zlafs_addr
-b trampo_zlafs_after
+ldr r6, trampo_346tj_addr
+b trampo_346tj_after
 .p2align 2
-trampo_zlafs_addr: .long .LCPI242_21
-trampo_zlafs_after: ldr r6, [r6]
+trampo_346tj_addr: .long .LCPI242_21
+trampo_346tj_after: ldr r6, [r6]
 .LCPI241_29:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.258
 .LCPI241_30:
@@ -49850,11 +49850,11 @@ beq	.LBB242_1
 b	.LBB242_16
 .LBB242_1:
 str	r4, [sp, #32]
-ldr r1, trampo_sg0im_addr
-b trampo_sg0im_after
+ldr r1, trampo_hlj3a_addr
+b trampo_hlj3a_after
 .p2align 2
-trampo_sg0im_addr: .long .LCPI242_18
-trampo_sg0im_after: ldr r1, [r1]
+trampo_hlj3a_addr: .long .LCPI242_18
+trampo_hlj3a_after: ldr r1, [r1]
 ldrb	r2, [r0, #4]
 ldr	r0, [sp, #396]
 str	r0, [sp, #56]
@@ -50291,11 +50291,11 @@ add	r1, sp, #384
 ldm	r1!, {r2, r3}
 stm	r0!, {r2, r3}
 ldm	r1!, {r2, r3, r4}
-ldr r6, trampo_ouxyc_addr
-b trampo_ouxyc_after
+ldr r6, trampo_23f0i_addr
+b trampo_23f0i_after
 .p2align 2
-trampo_ouxyc_addr: .long .LCPI242_0
-trampo_ouxyc_after: ldr r6, [r6]
+trampo_23f0i_addr: .long .LCPI242_0
+trampo_23f0i_after: ldr r6, [r6]
 adds	r5, r5, #1
 str	r5, [sp, #64]
 str	r5, [sp, #76]
@@ -50357,11 +50357,11 @@ ldr	r2, [sp, #44]
 str	r2, [r4, #20]
 str	r1, [r4, #24]
 str	r5, [r4, #28]
-ldr r6, trampo_2gh5a_addr
-b trampo_2gh5a_after
+ldr r6, trampo_ehvi7_addr
+b trampo_ehvi7_after
 .p2align 2
-trampo_2gh5a_addr: .long .LCPI242_0
-trampo_2gh5a_after: ldr r6, [r6]
+trampo_ehvi7_addr: .long .LCPI242_0
+trampo_ehvi7_after: ldr r6, [r6]
 ldr	r5, [sp, #52]
 b	.LBB242_52
 .LBB242_46:
@@ -50385,19 +50385,19 @@ ldrb	r4, [r6]
 cmp	r4, #26
 bne	.LBB242_51
 ldr	r0, [sp, #76]
-ldr r1, trampo_iuwqt_addr
-b trampo_iuwqt_after
+ldr r1, trampo_z9o6z_addr
+b trampo_z9o6z_after
 .p2align 2
-trampo_iuwqt_addr: .long .LCPI242_2
-trampo_iuwqt_after: ldr r1, [r1]
+trampo_z9o6z_addr: .long .LCPI242_2
+trampo_z9o6z_after: ldr r1, [r1]
 ldr	r2, [sp, #68]
 ldr	r3, [sp, #32]
 str	r2, [r3, #4]
-ldr r1, trampo_hxnaj_addr
-b trampo_hxnaj_after
+ldr r1, trampo_mbpec_addr
+b trampo_mbpec_after
 .p2align 2
-trampo_hxnaj_addr: .long .LCPI242_11
-trampo_hxnaj_after: ldr r1, [r1]
+trampo_mbpec_addr: .long .LCPI242_11
+trampo_mbpec_after: ldr r1, [r1]
 str	r0, [r3, #12]
 movs	r0, #26
 strb	r0, [r3]
@@ -50407,11 +50407,11 @@ ldr	r6, [sp, #32]
 adds	r0, r6, #1
 add	r1, sp, #384
 adds	r1, r1, #1
-ldr r1, trampo_dcc62_addr
-b trampo_dcc62_after
+ldr r1, trampo_ysqqw_addr
+b trampo_ysqqw_after
 .p2align 2
-trampo_dcc62_addr: .long .LCPI242_11
-trampo_dcc62_after: ldr r1, [r1]
+trampo_ysqqw_addr: .long .LCPI242_11
+trampo_ysqqw_after: ldr r1, [r1]
 bl	__aeabi_memcpy
 strb	r4, [r6]
 .LBB242_52:
@@ -50444,9 +50444,9 @@ bl	_ZN4core3ptr49drop_in_place$LT$c..c..parse_expr..Expression$GT$17hc08f126bcce
 b	.LBB242_55
 .LBB242_58:
 ldr	r4, [sp, #48]
-beq trampo_b2url
+beq trampo_vv1i6
 b .LBB242_82
-trampo_b2url:
+trampo_vv1i6:
 subs	r0, r0, #1
 bne	.LBB242_47
 b	.LBB242_48
@@ -50930,11 +50930,11 @@ bl	_ZN4core9panicking9panic_fmt17hf47207f433d6da63E
 .LCPI242_4:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.161
 mov r12, r7
-ldr r7, trampo_e3hnj_target
-b trampo_e3hnj_after
+ldr r7, trampo_lnfhn_target
+b trampo_lnfhn_after
 .p2align 2
-trampo_e3hnj_target: .long .LBB243_134 - CURPC - 2*(6)
-trampo_e3hnj_after: mov r11, r7
+trampo_lnfhn_target: .long .LBB243_134 - CURPC - 2*(6)
+trampo_lnfhn_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .long	_ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u32$GT$3fmt17hb9595750bbfe158fE
@@ -50957,9 +50957,9 @@ add pc, r11
 .LCPI242_14:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.607
 .Lfunc_end242:
-bne trampo_krlez
+bne trampo_w5d4o
 b .LBB243_16
-trampo_krlez:
+trampo_w5d4o:
 .cantunwind
 .fnend
 .section	.text._ZN1c1c5parse7CParser12insert_decls17hab5b7ca45cfafd1eE,"ax",%progbits
@@ -50978,11 +50978,11 @@ sub	sp, #508
 .pad	#432
 sub	sp, #432
 mov r12, r7
-ldr r7, trampo_612mn_target
-b trampo_612mn_after
+ldr r7, trampo_io3tj_target
+b trampo_io3tj_after
 .p2align 2
-trampo_612mn_target: .long .LBB243_141 - CURPC - 2*(6)
-trampo_612mn_after: mov r11, r7
+trampo_io3tj_target: .long .LBB243_141 - CURPC - 2*(6)
+trampo_io3tj_after: mov r11, r7
 mov r7, r12
 add pc, r11
 str	r0, [sp, #36]
@@ -51998,11 +51998,11 @@ ldr	r2, [r1, #56]
 ldr	r3, [sp, #116]
 cmp	r2, r3
 mov r12, r7
-ldr r7, trampo_80mx9_target
-b trampo_80mx9_after
+ldr r7, trampo_mwtwf_target
+b trampo_mwtwf_after
 .p2align 2
-trampo_80mx9_target: .long .LBB243_4 - CURPC - 2*(6)
-trampo_80mx9_after: mov r11, r7
+trampo_mwtwf_target: .long .LBB243_4 - CURPC - 2*(6)
+trampo_mwtwf_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .LBB243_112:
@@ -53148,9 +53148,9 @@ ldr	r1, [r1, #8]
 muls	r0, r3, r0
 adds	r1, #8
 ldr	r3, [r1, #48]
-bne trampo_pau39
+bne trampo_nc59g
 b .LBB246_24
-trampo_pau39:
+trampo_nc59g:
 bhi	.LBB245_1
 b	.LBB245_2
 .LBB245_5:
@@ -53488,144 +53488,154 @@ _ZN1c1c5types8QualType5decay17h05a5de4d5be8260fE:
 push	{r4, r5, r6, r7, lr}
 .setfp	r7, sp, #12
 add	r7, sp, #12
-.pad	#84
-sub	sp, #84
-ldr	r4, [r1]
-ldr	r3, [r4, #56]
+.pad	#92
+sub	sp, #92
+ldr	r3, [r1]
+ldr	r4, [r3, #56]
 ldr	r5, .LCPI247_0
 subs	r2, r5, #6
-cmp	r3, r2
+cmp	r4, r2
 bhi	.LBB247_5
 movs	r2, #7
 cmp	r2, #6
 beq	.LBB247_6
 .LBB247_2:
 cmp	r2, #8
-bne	.LBB247_10
-str	r0, [sp, #20]
+bne	.LBB247_11
+str	r0, [sp, #28]
 ldr	r0, [r1]
-str	r0, [sp, #16]
+str	r0, [sp, #24]
 ldr	r0, [r1, #4]
-str	r0, [sp, #12]
+str	r0, [sp, #20]
 movs	r4, #80
-str	r4, [sp, #24]
+str	r4, [sp, #32]
 movs	r6, #1
-lsls	r2, r6, #20
-ldr	r3, [r2]
+lsls	r0, r6, #20
+ldr	r3, [r0]
 @APP
 mov	r5, sp
 @NO_APP
-str	r5, [sp, #28]
+str	r5, [sp, #36]
 adds	r3, #11
-movs	r0, #7
-bics	r3, r0
-mov	r0, r3
-adds	r0, #80
-cmp	r5, r0
-blo	.LBB247_11
+movs	r2, #7
+bics	r3, r2
+mov	r2, r3
+adds	r2, #80
+cmp	r5, r2
+blo	.LBB247_12
 subs	r5, r3, #4
 str	r4, [r5]
-str	r0, [r2]
-ldr	r0, [sp, #16]
+str	r2, [r0]
+ldr	r0, [sp, #24]
 str	r0, [r3, #8]
-ldr	r0, [sp, #12]
+ldr	r0, [sp, #20]
 str	r0, [r3, #12]
 str	r6, [r3, #72]
 ldr	r0, .LCPI247_0
 str	r0, [r3, #56]
 movs	r0, #0
 str	r0, [r3]
-b	.LBB247_9
+strh	r0, [r1, #4]
+str	r3, [r1]
+b	.LBB247_10
 .LBB247_5:
-adds	r2, r3, r5
+adds	r2, r4, r5
 subs	r2, r2, #7
 cmp	r2, #6
 bne	.LBB247_2
 .LBB247_6:
-str	r0, [sp, #20]
-ldr	r0, [r4, #16]
+str	r0, [sp, #28]
+ldr	r0, [r3, #16]
 ldr	r2, [r0, #72]
 adds	r2, r2, #1
 str	r2, [r0, #72]
-ldr	r0, [r4, #20]
-str	r0, [sp, #16]
-ldr	r0, [r4, #16]
+ldrb	r0, [r1, #4]
+str	r0, [sp, #24]
+ldrb	r6, [r1, #5]
+ldrb	r0, [r3, #21]
 str	r0, [sp, #12]
+ldrb	r0, [r3, #20]
+str	r0, [sp, #16]
+ldr	r0, [r3, #16]
+str	r0, [sp, #20]
 movs	r0, #80
 str	r0, [sp, #8]
-str	r0, [sp, #24]
-movs	r6, #1
-lsls	r2, r6, #20
-ldr	r3, [r2]
+str	r0, [sp, #32]
+movs	r0, #1
+lsls	r2, r0, #20
+str	r2, [sp, #4]
+ldr	r4, [r2]
 @APP
-mov	r0, sp
+mov	r5, sp
 @NO_APP
-str	r0, [sp, #28]
-adds	r3, #11
-movs	r5, #7
-bics	r3, r5
-mov	r5, r3
-adds	r5, #80
-cmp	r0, r5
+str	r5, [sp, #36]
+adds	r4, #11
+movs	r2, #7
+bics	r4, r2
+mov	r2, r4
+adds	r2, #80
+cmp	r5, r2
 blo	.LBB247_12
-subs	r0, r3, #4
-str	r6, [sp, #4]
-ldr	r6, [sp, #8]
-str	r6, [r0]
-str	r5, [r2]
+subs	r5, r4, #4
+str	r0, [sp]
+ldr	r0, [sp, #8]
+str	r0, [r5]
 ldr	r0, [sp, #4]
-str	r0, [r3, #72]
-ldr	r0, .LCPI247_0
-str	r0, [r3, #56]
-movs	r0, #0
-str	r0, [r3]
-ldr	r0, [sp, #12]
-str	r0, [r3, #8]
-ldr	r0, [sp, #16]
-str	r0, [r3, #12]
-ldr	r0, [r4, #72]
-subs	r0, r0, #1
-beq	.LBB247_9
+str	r2, [r0]
+ldr	r0, [sp]
 str	r0, [r4, #72]
-.LBB247_9:
+ldr	r0, .LCPI247_0
+str	r0, [r4, #56]
+ldr	r0, [sp, #12]
+orrs	r6, r0
+strb	r6, [r4, #13]
+ldr	r0, [sp, #24]
+ldr	r2, [sp, #16]
+orrs	r0, r2
+strb	r0, [r4, #12]
 ldr	r0, [sp, #20]
-movs	r2, #0
-strh	r2, [r1, #4]
-str	r3, [r1]
+str	r0, [r4, #8]
+movs	r0, #0
+str	r0, [r4]
+ldr	r2, [r3, #72]
+subs	r2, r2, #1
+beq	.LBB247_9
+str	r2, [r3, #72]
+.LBB247_9:
+strh	r0, [r1, #4]
+str	r4, [r1]
 .LBB247_10:
+ldr	r0, [sp, #28]
+.LBB247_11:
 ldr	r2, [r1]
 ldr	r1, [r1, #4]
 str	r2, [r0]
 str	r1, [r0, #4]
-add	sp, #84
+add	sp, #92
 pop	{r4, r5, r6, r7, pc}
-.LBB247_11:
-str	r0, [sp, #56]
-b	.LBB247_13
 .LBB247_12:
-str	r5, [sp, #56]
-.LBB247_13:
+str	r2, [sp, #64]
 movs	r0, #0
-str	r0, [sp, #48]
+str	r0, [sp, #56]
 movs	r0, #3
-str	r0, [sp, #36]
-ldr	r1, .LCPI247_1
-str	r1, [sp, #32]
 str	r0, [sp, #44]
-add	r0, sp, #60
-str	r0, [sp, #40]
+ldr	r1, .LCPI247_1
+str	r1, [sp, #40]
+str	r0, [sp, #52]
+add	r0, sp, #68
+str	r0, [sp, #48]
 ldr	r0, .LCPI247_2
+str	r0, [sp, #88]
+add	r1, sp, #36
+str	r1, [sp, #84]
 str	r0, [sp, #80]
-add	r1, sp, #28
-str	r1, [sp, #76]
-str	r0, [sp, #72]
-add	r0, sp, #56
-str	r0, [sp, #68]
+add	r0, sp, #64
+str	r0, [sp, #76]
 ldr	r0, .LCPI247_3
-str	r0, [sp, #64]
-add	r0, sp, #24
-str	r0, [sp, #60]
+str	r0, [sp, #72]
 add	r0, sp, #32
+str	r0, [sp, #68]
+add	r0, sp, #40
 ldr	r1, .LCPI247_4
 bl	_ZN4core9panicking9panic_fmt17hf47207f433d6da63E
 .p2align	2
@@ -54070,9 +54080,9 @@ str	r5, [sp, #20]
 str	r4, [sp, #76]
 adds	r4, #12
 str	r4, [sp, #80]
-bne trampo_tvodf
+bne trampo_8xnzu
 b .LBB250_43
-trampo_tvodf:
+trampo_8xnzu:
 ldr	r5, [sp, #40]
 mov	r0, r5
 ldr	r1, .LCPI250_6
@@ -55011,9 +55021,9 @@ cmp	r4, #2
 beq	.LBB252_58
 str	r4, [sp, #12]
 ldr	r4, [sp, #16]
-bcc trampo_b1o9h
+bcc trampo_s580o
 b .LBB252_34
-trampo_b1o9h:
+trampo_s580o:
 cmp	r2, #57
 bhi	.LBB252_45
 subs	r2, #48
@@ -55637,11 +55647,11 @@ str	r0, [sp, #496]
 movs	r0, #1
 str	r0, [sp, #508]
 mov r12, r7
-ldr r7, trampo_ejcx1_target
-b trampo_ejcx1_after
+ldr r7, trampo_hwfpw_target
+b trampo_hwfpw_after
 .p2align 2
-trampo_ejcx1_target: .long .LBB255_98 - CURPC - 2*(6)
-trampo_ejcx1_after: mov r11, r7
+trampo_hwfpw_target: .long .LBB255_98 - CURPC - 2*(6)
+trampo_hwfpw_after: mov r11, r7
 mov r7, r12
 add pc, r11
 str	r0, [sp, #504]
@@ -55657,11 +55667,11 @@ bl	.LBB255_299
 .LBB255_4:
 str	r5, [sp, #80]
 mov r12, r7
-ldr r7, trampo_jzb9c_target
-b trampo_jzb9c_after
+ldr r7, trampo_tqmca_target
+b trampo_tqmca_after
 .p2align 2
-trampo_jzb9c_target: .long .LBB255_101 - CURPC - 2*(6)
-trampo_jzb9c_after: mov r11, r7
+trampo_tqmca_target: .long .LBB255_101 - CURPC - 2*(6)
+trampo_tqmca_after: mov r11, r7
 mov r7, r12
 add pc, r11
 adds	r4, #100
@@ -56136,11 +56146,11 @@ bl	.LBB255_299
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.281
 .p2align	2
 .LCPI255_40:
-ldr r0, trampo_6p8oc_addr
-b trampo_6p8oc_after
+ldr r0, trampo_bmqui_addr
+b trampo_bmqui_after
 .p2align 2
-trampo_6p8oc_addr: .long .LCPI255_43
-trampo_6p8oc_after: ldr r0, [r0]
+trampo_bmqui_addr: .long .LCPI255_43
+trampo_bmqui_after: ldr r0, [r0]
 .p2align	2
 .LCPI255_41:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.252
@@ -56151,20 +56161,20 @@ trampo_6p8oc_after: ldr r0, [r0]
 .LBB255_66:
 str	r0, [sp, #32]
 add	r2, sp, #496
-ldr r0, trampo_qqx5i_addr
-b trampo_qqx5i_after
+ldr r0, trampo_k4p8o_addr
+b trampo_k4p8o_after
 .p2align 2
-trampo_qqx5i_addr: .long .LCPI255_44
-trampo_qqx5i_after: ldr r0, [r0]
+trampo_k4p8o_addr: .long .LCPI255_44
+trampo_k4p8o_after: ldr r0, [r0]
 str	r1, [sp, #60]
 mov	r1, r2
 mov	r3, r0
 ldm	r1!, {r4, r5, r6}
-ldr r0, trampo_ce440_addr
-b trampo_ce440_after
+ldr r0, trampo_r1lxr_addr
+b trampo_r1lxr_after
 .p2align 2
-trampo_ce440_addr: .long .LCPI255_45
-trampo_ce440_after: ldr r0, [r0]
+trampo_r1lxr_addr: .long .LCPI255_45
+trampo_r1lxr_after: ldr r0, [r0]
 ldm	r1!, {r4, r5, r6}
 stm	r3!, {r4, r5, r6}
 ldm	r1!, {r4, r5, r6}
@@ -56190,20 +56200,20 @@ ldm	r0!, {r2, r3, r5}
 stm	r1!, {r2, r3, r5}
 ldr	r0, [sp, #52]
 str	r0, [sp, #500]
-ldr r3, trampo_hclho_addr
-b trampo_hclho_after
+ldr r3, trampo_0nsk8_addr
+b trampo_0nsk8_after
 .p2align 2
-trampo_hclho_addr: .long .LCPI255_43
-trampo_hclho_after: ldr r3, [r3]
+trampo_0nsk8_addr: .long .LCPI255_43
+trampo_0nsk8_after: ldr r3, [r3]
 str	r0, [sp, #496]
 mov	r0, r4
 adds	r0, #36
 mov r12, r7
-ldr r7, trampo_n1id8_target
-b trampo_n1id8_after
+ldr r7, trampo_3fybz_target
+b trampo_3fybz_after
 .p2align 2
-trampo_n1id8_target: .long .LBB255_166 - CURPC - 2*(6)
-trampo_n1id8_after: mov r11, r7
+trampo_3fybz_target: .long .LBB255_166 - CURPC - 2*(6)
+trampo_3fybz_after: mov r11, r7
 mov r7, r12
 add pc, r11
 bl	_ZN1c1c5types8QualType5decay17h05a5de4d5be8260fE
@@ -56291,11 +56301,11 @@ add	r0, sp, #460
 str	r0, [sp, #376]
 ldr	r0, .LCPI255_45
 mov r12, r7
-ldr r7, trampo_2py73_target
-b trampo_2py73_after
+ldr r7, trampo_rb943_target
+b trampo_rb943_after
 .p2align 2
-trampo_2py73_target: .long .LBB255_189 - CURPC - 2*(6)
-trampo_2py73_after: mov r11, r7
+trampo_rb943_target: .long .LBB255_189 - CURPC - 2*(6)
+trampo_rb943_after: mov r11, r7
 mov r7, r12
 add pc, r11
 str	r5, [sp, #460]
@@ -56817,11 +56827,11 @@ ldr	r1, [sp, #60]
 ldr	r0, [r1, #72]
 subs	r3, r0, #1
 mov r12, r7
-ldr r7, trampo_k3ehj_target
-b trampo_k3ehj_after
+ldr r7, trampo_09z9a_target
+b trampo_09z9a_after
 .p2align 2
-trampo_k3ehj_target: .long .LBB255_260 - CURPC - 2*(6)
-trampo_k3ehj_after: mov r11, r7
+trampo_09z9a_target: .long .LBB255_260 - CURPC - 2*(6)
+trampo_09z9a_after: mov r11, r7
 mov r7, r12
 add pc, r11
 str	r3, [r1, #72]
@@ -56839,11 +56849,11 @@ ldr	r1, [r0]
 cmp	r1, #0
 beq	.LBB255_115
 ldr	r0, [sp, #44]
-ldr r1, trampo_m217e_addr
-b trampo_m217e_after
+ldr r1, trampo_bshms_addr
+b trampo_bshms_after
 .p2align 2
-trampo_m217e_addr: .long .LCPI255_54
-trampo_m217e_after: ldr r1, [r1]
+trampo_bshms_addr: .long .LCPI255_54
+trampo_bshms_after: ldr r1, [r1]
 .LBB255_115:
 ldr	r6, [sp, #52]
 cmp	r6, #0
@@ -56904,11 +56914,11 @@ beq	.LBB255_116
 .LBB255_121:
 ldr	r0, [r4, #4]
 ldr	r1, [r0]
-ldr r0, trampo_of138_addr
-b trampo_of138_after
+ldr r0, trampo_cjfjm_addr
+b trampo_cjfjm_after
 .p2align 2
-trampo_of138_addr: .long .LCPI255_49
-trampo_of138_after: ldr r0, [r0]
+trampo_cjfjm_addr: .long .LCPI255_49
+trampo_cjfjm_after: ldr r0, [r0]
 beq	.LBB255_120
 ldr	r0, [r4]
 blx	r1
@@ -56931,11 +56941,11 @@ b	.LBB255_123
 lsls	r2, r0, #2
 ldr	r3, [sp, #92]
 ldr	r3, [r3, #8]
-ldr r0, trampo_gbo1e_addr
-b trampo_gbo1e_after
+ldr r0, trampo_2p9vv_addr
+b trampo_2p9vv_after
 .p2align 2
-trampo_gbo1e_addr: .long .LCPI255_49
-trampo_gbo1e_after: ldr r0, [r0]
+trampo_2p9vv_addr: .long .LCPI255_49
+trampo_2p9vv_after: ldr r0, [r0]
 str	r2, [sp, #76]
 subs	r3, r1, r0
 movs	r5, #3
@@ -56959,11 +56969,11 @@ ldr	r6, [sp, #80]
 ldr	r5, [r6, #16]
 ldr	r0, [r6, #8]
 cmp	r5, r0
-ldr r1, trampo_ow0f4_addr
-b trampo_ow0f4_after
+ldr r1, trampo_9ov8k_addr
+b trampo_9ov8k_after
 .p2align 2
-trampo_ow0f4_addr: .long .LCPI255_49
-trampo_ow0f4_after: ldr r1, [r1]
+trampo_9ov8k_addr: .long .LCPI255_49
+trampo_9ov8k_after: ldr r1, [r1]
 mov	r0, r6
 adds	r0, #8
 str	r3, [sp, #52]
@@ -57485,11 +57495,11 @@ ldr	r2, [r0]
 cmp	r2, #0
 beq	.LBB255_195
 mov	r0, r1
-ldr r0, trampo_mkp45_addr
-b trampo_mkp45_after
+ldr r0, trampo_ui3jn_addr
+b trampo_ui3jn_after
 .p2align 2
-trampo_mkp45_addr: .long .LCPI255_53
-trampo_mkp45_after: ldr r0, [r0]
+trampo_ui3jn_addr: .long .LCPI255_53
+trampo_ui3jn_after: ldr r0, [r0]
 blx	r2
 mov	r3, r4
 .LBB255_195:
@@ -57622,11 +57632,11 @@ str	r0, [r6, #8]
 subs	r6, r7, #7
 subs	r6, #5
 mov	sp, r6
-ldr r0, trampo_3pl6y_addr
-b trampo_3pl6y_after
+ldr r0, trampo_q1f72_addr
+b trampo_q1f72_after
 .p2align 2
-trampo_3pl6y_addr: .long .LCPI255_53
-trampo_3pl6y_after: ldr r0, [r0]
+trampo_q1f72_addr: .long .LCPI255_53
+trampo_q1f72_after: ldr r0, [r0]
 .LBB255_223:
 ldr	r0, [sp, #376]
 str	r0, [sp, #60]
@@ -57966,9 +57976,9 @@ str	r6, [sp, #56]
 ldr	r5, [r6, r1]
 ldr	r5, [r5, #120]
 adds	r5, r5, r4
-beq trampo_e81qn
+beq trampo_pcomi
 b .LBB255_282
-trampo_e81qn:
+trampo_pcomi:
 beq	.LBB255_258
 mov	r4, r1
 adds	r4, #16
@@ -58054,9 +58064,9 @@ ldm	r3!, {r2, r4, r5, r6}
 stm	r1!, {r2, r4, r5, r6}
 ldm	r3!, {r2, r4, r5, r6}
 stm	r1!, {r2, r4, r5, r6}
-beq trampo_kqtgy
+beq trampo_znqzr
 b .LBB255_284
-trampo_kqtgy:
+trampo_znqzr:
 ldr	r6, [sp, #88]
 ldm	r6!, {r2, r3, r4}
 stm	r1!, {r2, r3, r4}
@@ -58914,9 +58924,9 @@ ldr	r0, [sp, #8]
 cmp	r0, #2
 bne	.LBB258_25
 b	.LBB258_57
-bcc trampo_fdcly
+bcc trampo_8q5oo
 b .LBB258_60
-trampo_fdcly:
+trampo_8q5oo:
 ldr	r0, [r6, #8]
 ldr	r1, [r0]
 cmp	r1, #0
@@ -59106,9 +59116,9 @@ uxtb	r1, r5
 lsls	r2, r1, #16
 orrs	r2, r3
 ldr	r1, .LCPI258_3
-bls trampo_46xxs
+bls trampo_s0jbm
 b .LBB259_19
-trampo_46xxs:
+trampo_s0jbm:
 b	.LBB258_59
 .LBB258_50:
 mov	r6, r0
@@ -61567,9 +61577,9 @@ b	.LBB266_37
 adds	r5, #8
 ldr	r0, [sp, #76]
 subs	r0, r0, #1
-beq trampo_i5ec9
+beq trampo_apne5
 b .LBB267_30
-trampo_i5ec9:
+trampo_apne5:
 beq	.LBB266_26
 .LBB266_41:
 ldr	r0, [r5, #4]
@@ -61592,9 +61602,9 @@ ldr	r0, [r4, #4]
 ldr	r1, [r0]
 cmp	r1, #0
 beq	.LBB266_43
-bne trampo_3ggr6
+bne trampo_aqmwr
 b .LBB267_32
-trampo_3ggr6:
+trampo_aqmwr:
 blx	r1
 ldr	r3, [sp, #72]
 ldr	r2, [sp, #84]
@@ -62118,9 +62128,9 @@ add	r4, sp, #624
 adds	r4, #40
 add	r1, sp, #624
 adds	r1, #40
-beq trampo_hgm2n
+beq trampo_kzwb7
 b .LBB268_13
-trampo_hgm2n:
+trampo_kzwb7:
 add	r1, sp, #624
 adds	r1, #40
 str	r1, [sp, #96]
@@ -62680,11 +62690,11 @@ ldrb	r0, [r3, #28]
 str	r0, [sp, #84]
 ldrh	r0, [r2, #42]
 mov r12, r7
-ldr r7, trampo_4jdnw_target
-b trampo_4jdnw_after
+ldr r7, trampo_0lt76_target
+b trampo_0lt76_after
 .p2align 2
-trampo_4jdnw_target: .long .LBB268_120 - CURPC - 2*(6)
-trampo_4jdnw_after: mov r11, r7
+trampo_0lt76_target: .long .LBB268_120 - CURPC - 2*(6)
+trampo_0lt76_after: mov r11, r7
 mov r7, r12
 add pc, r11
 ldrb	r0, [r3, #1]
@@ -63099,11 +63109,11 @@ add	r4, sp, #452
 str	r4, [sp, #108]
 ldm	r2!, {r1, r3, r5, r6}
 stm	r4!, {r1, r3, r5, r6}
-ldr r1, trampo_xh3qy_addr
-b trampo_xh3qy_after
+ldr r1, trampo_pm63k_addr
+b trampo_pm63k_after
 .p2align 2
-trampo_xh3qy_addr: .long .LCPI268_32
-trampo_xh3qy_after: ldr r1, [r1]
+trampo_pm63k_addr: .long .LCPI268_32
+trampo_pm63k_after: ldr r1, [r1]
 stm	r4!, {r1, r3, r5, r6}
 add	r6, sp, #544
 mov	r1, r6
@@ -63113,11 +63123,11 @@ ldm	r0!, {r2, r3, r4}
 stm	r1!, {r2, r3, r4}
 ldm	r0!, {r2, r3, r4}
 stm	r1!, {r2, r3, r4}
-ldr r1, trampo_qx9o8_addr
-b trampo_qx9o8_after
+ldr r1, trampo_pwwbs_addr
+b trampo_pwwbs_after
 .p2align 2
-trampo_qx9o8_addr: .long .LCPI268_33
-trampo_qx9o8_after: ldr r1, [r1]
+trampo_pwwbs_addr: .long .LCPI268_33
+trampo_pwwbs_after: ldr r1, [r1]
 str	r0, [sp, #628]
 ldr	r0, [sp, #88]
 str	r0, [sp, #624]
@@ -63133,21 +63143,21 @@ ldm	r1!, {r2, r3, r4, r5}
 stm	r0!, {r2, r3, r4, r5}
 str	r1, [sp, #108]
 ldr	r1, [sp, #108]
-ldr r0, trampo_86q72_addr
-b trampo_86q72_after
+ldr r0, trampo_u4v1f_addr
+b trampo_u4v1f_after
 .p2align 2
-trampo_86q72_addr: .long .LCPI268_34
-trampo_86q72_after: ldr r0, [r0]
+trampo_u4v1f_addr: .long .LCPI268_34
+trampo_u4v1f_after: ldr r0, [r0]
 stm	r0!, {r2, r3, r4, r5}
 ldr	r0, [sp, #92]
 str	r0, [sp, #588]
 add	r1, sp, #124
 mov	r2, r1
-ldr r0, trampo_w1wot_addr
-b trampo_w1wot_after
+ldr r0, trampo_d9rkc_addr
+b trampo_d9rkc_after
 .p2align 2
-trampo_w1wot_addr: .long .LCPI268_35
-trampo_w1wot_after: ldr r0, [r0]
+trampo_d9rkc_addr: .long .LCPI268_35
+trampo_d9rkc_after: ldr r0, [r0]
 stm	r2!, {r3, r4, r5}
 ldm	r6!, {r0, r3, r4, r5}
 stm	r2!, {r0, r3, r4, r5}
@@ -63169,11 +63179,11 @@ stm	r0!, {r1, r2, r3, r4}
 ldm	r5!, {r1, r2, r3, r4}
 stm	r0!, {r1, r2, r3, r4}
 mov r12, r7
-ldr r7, trampo_dmacj_target
-b trampo_dmacj_after
+ldr r7, trampo_yce2a_target
+b trampo_yce2a_after
 .p2align 2
-trampo_dmacj_target: .long .LBB268_28 - CURPC - 2*(6)
-trampo_dmacj_after: mov r11, r7
+trampo_yce2a_target: .long .LBB268_28 - CURPC - 2*(6)
+trampo_yce2a_after: mov r11, r7
 mov r7, r12
 add pc, r11
 ldr	r0, [sp, #92]
@@ -63235,9 +63245,9 @@ ldm	r0!, {r2, r3, r4, r5}
 stm	r1!, {r2, r3, r4, r5}
 ldm	r0!, {r2, r3, r4, r5}
 stm	r1!, {r2, r3, r4, r5}
-bls trampo_j5eqc
+bls trampo_kyhty
 b .LBB268_122
-trampo_j5eqc:
+trampo_kyhty:
 str	r0, [sp, #312]
 add	r0, sp, #312
 adds	r0, r0, #4
@@ -63438,11 +63448,11 @@ ldr	r1, [sp, #548]
 ldr	r2, [sp, #544]
 ldr	r3, [sp, #112]
 mov r12, r7
-ldr r7, trampo_r2qlp_target
-b trampo_r2qlp_after
+ldr r7, trampo_jak57_target
+b trampo_jak57_after
 .p2align 2
-trampo_r2qlp_target: .long .LBB268_254 - CURPC - 2*(6)
-trampo_r2qlp_after: mov r11, r7
+trampo_jak57_target: .long .LBB268_254 - CURPC - 2*(6)
+trampo_jak57_after: mov r11, r7
 mov r7, r12
 add pc, r11
 str	r1, [r3, #4]
@@ -63468,11 +63478,11 @@ cmp	r1, #0
 beq	.LBB268_116
 ldr	r0, [r5]
 mov r12, r7
-ldr r7, trampo_aw7jx_target
-b trampo_aw7jx_after
+ldr r7, trampo_yk8zz_target
+b trampo_yk8zz_after
 .p2align 2
-trampo_aw7jx_target: .long .LBB268_255 - CURPC - 2*(6)
-trampo_aw7jx_after: mov r11, r7
+trampo_yk8zz_target: .long .LBB268_255 - CURPC - 2*(6)
+trampo_yk8zz_after: mov r11, r7
 mov r7, r12
 add pc, r11
 b	.LBB268_116
@@ -63707,20 +63717,20 @@ ldr	r0, [sp, #544]
 ldr	r1, [sp, #100]
 adds	r1, r1, #1
 cmp	r0, r1
-ldr r1, trampo_k8xd4_addr
-b trampo_k8xd4_after
+ldr r1, trampo_2lxk8_addr
+b trampo_2lxk8_after
 .p2align 2
-trampo_k8xd4_addr: .long .LCPI268_48
-trampo_k8xd4_after: ldr r1, [r1]
+trampo_2lxk8_addr: .long .LCPI268_48
+trampo_2lxk8_after: ldr r1, [r1]
 bne	.LBB268_147
 b	.LBB268_125
 .LBB268_146:
 str	r3, [sp, #44]
-ldr r0, trampo_0rzmc_addr
-b trampo_0rzmc_after
+ldr r0, trampo_cnf5f_addr
+b trampo_cnf5f_after
 .p2align 2
-trampo_0rzmc_addr: .long .LCPI268_49
-trampo_0rzmc_after: ldr r0, [r0]
+trampo_cnf5f_addr: .long .LCPI268_49
+trampo_cnf5f_after: ldr r0, [r0]
 str	r0, [sp, #640]
 ldr	r1, [sp, #64]
 str	r1, [sp, #628]
@@ -63810,11 +63820,11 @@ b	.LBB268_176
 .p2align	2
 .LCPI268_32:
 mov r12, r7
-ldr r7, trampo_rp4mm_target
-b trampo_rp4mm_after
+ldr r7, trampo_154w4_target
+b trampo_154w4_after
 .p2align 2
-trampo_rp4mm_target: .long .LBB268_305 - CURPC - 2*(6)
-trampo_rp4mm_after: mov r11, r7
+trampo_154w4_target: .long .LBB268_305 - CURPC - 2*(6)
+trampo_154w4_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .p2align	2
@@ -63829,11 +63839,11 @@ add pc, r11
 .p2align	2
 .LCPI268_36:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.336
-ldr r0, trampo_5v8qm_addr
-b trampo_5v8qm_after
+ldr r0, trampo_tu64h_addr
+b trampo_tu64h_after
 .p2align 2
-trampo_5v8qm_addr: .long .LCPI268_42
-trampo_5v8qm_after: ldr r0, [r0]
+trampo_tu64h_addr: .long .LCPI268_42
+trampo_tu64h_after: ldr r0, [r0]
 .LCPI268_37:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.302
 .p2align	2
@@ -64285,20 +64295,20 @@ bl	_ZN1c1c5types10UnqualType4size17h470ea57bac1ae8dcE
 mov	r4, r0
 add	r5, sp, #624
 add	r1, sp, #240
-ldr r0, trampo_48jeu_addr
-b trampo_48jeu_after
+ldr r0, trampo_funyk_addr
+b trampo_funyk_after
 .p2align 2
-trampo_48jeu_addr: .long .LCPI268_50
-trampo_48jeu_after: ldr r0, [r0]
+trampo_funyk_addr: .long .LCPI268_50
+trampo_funyk_after: ldr r0, [r0]
 mov	r0, r5
 bl	_ZN1c1c8compiler14FullEvaluation12also_discard17h749b58832eb4d685E
 add	r0, sp, #544
 mov	r1, r5
-ldr r0, trampo_ocaec_addr
-b trampo_ocaec_after
+ldr r0, trampo_oiydl_addr
+b trampo_oiydl_after
 .p2align 2
-trampo_ocaec_addr: .long .LCPI268_47
-trampo_ocaec_after: ldr r0, [r0]
+trampo_oiydl_addr: .long .LCPI268_47
+trampo_oiydl_after: ldr r0, [r0]
 bl	_ZN1c1c8compiler14FullEvaluation13and_then_pure17h70eaeca83af8c847E
 b	.LBB268_261
 .LBB268_213:
@@ -65196,11 +65206,11 @@ lsls	r2, r2, #24
 adds	r0, r2, r0
 uxth	r1, r1
 adds	r0, r0, r1
-ldr r6, trampo_5u855_addr
-b trampo_5u855_after
+ldr r6, trampo_nee3l_addr
+b trampo_nee3l_after
 .p2align 2
-trampo_5u855_addr: .long .LCPI271_46
-trampo_5u855_after: ldr r6, [r6]
+trampo_nee3l_addr: .long .LCPI271_46
+trampo_nee3l_after: ldr r6, [r6]
 mov	r0, r4
 bl	_ZN1c1c7emitter7Emitter4emit17hf481432ffba32281E
 add	sp, #44
@@ -65241,11 +65251,11 @@ add	r7, sp, #12
 .pad	#508
 sub	sp, #508
 .pad	#56
-ldr r2, trampo_rdw2v_addr
-b trampo_rdw2v_after
+ldr r2, trampo_729me_addr
+b trampo_729me_after
 .p2align 2
-trampo_rdw2v_addr: .long .LCPI271_27
-trampo_rdw2v_after: ldr r2, [r2]
+trampo_729me_addr: .long .LCPI271_27
+trampo_729me_after: ldr r2, [r2]
 str	r0, [sp, #72]
 ldr	r0, [r1, #28]
 str	r0, [sp, #32]
@@ -65268,11 +65278,11 @@ str	r0, [sp, #140]
 mov	r5, r1
 adds	r5, #44
 add	r0, sp, #144
-ldr r2, trampo_bbm9n_addr
-b trampo_bbm9n_after
+ldr r2, trampo_mfsfu_addr
+b trampo_mfsfu_after
 .p2align 2
-trampo_bbm9n_addr: .long .LCPI271_27
-trampo_bbm9n_after: ldr r2, [r2]
+trampo_mfsfu_addr: .long .LCPI271_27
+trampo_mfsfu_after: ldr r2, [r2]
 str	r5, [sp, #100]
 ldm	r5!, {r3, r4, r6}
 stm	r0!, {r3, r4, r6}
@@ -65848,11 +65858,11 @@ b	.LBB271_85
 adds	r2, r4, r2
 subs	r2, #9
 mov r12, r7
-ldr r7, trampo_15onn_target
-b trampo_15onn_after
+ldr r7, trampo_r4530_target
+b trampo_r4530_after
 .p2align 2
-trampo_15onn_target: .long .LBB271_191 - CURPC - 2*(6)
-trampo_15onn_after: mov r11, r7
+trampo_r4530_target: .long .LBB271_191 - CURPC - 2*(6)
+trampo_r4530_after: mov r11, r7
 mov r7, r12
 add pc, r11
 bne	.LBB271_85
@@ -65885,11 +65895,11 @@ add	pc, r3
 .short	(.LBB271_145-(.LCPI271_23+4))/2
 .short	(.LBB271_78-(.LCPI271_23+4))/2
 mov r12, r7
-ldr r7, trampo_7bvkd_target
-b trampo_7bvkd_after
+ldr r7, trampo_3f1dv_target
+b trampo_3f1dv_after
 .p2align 2
-trampo_7bvkd_target: .long .LBB271_181 - CURPC - 2*(6)
-trampo_7bvkd_after: mov r11, r7
+trampo_3f1dv_target: .long .LBB271_181 - CURPC - 2*(6)
+trampo_3f1dv_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .short	(.LBB271_295-(.LCPI271_23+4))/2
@@ -65929,11 +65939,11 @@ mov	r5, sp
 @NO_APP
 str	r5, [sp, #324]
 mov r12, r7
-ldr r7, trampo_bskrk_target
-b trampo_bskrk_after
+ldr r7, trampo_ohwwx_target
+b trampo_ohwwx_after
 .p2align 2
-trampo_bskrk_target: .long .LBB271_185 - CURPC - 2*(6)
-trampo_bskrk_after: mov r11, r7
+trampo_ohwwx_target: .long .LBB271_185 - CURPC - 2*(6)
+trampo_ohwwx_after: mov r11, r7
 mov r7, r12
 add pc, r11
 movs	r3, #3
@@ -66054,11 +66064,11 @@ stm	r0!, {r2, r3, r4}
 ldm	r5!, {r2, r3, r4}
 stm	r0!, {r2, r3, r4}
 mov r12, r7
-ldr r7, trampo_o5ba3_target
-b trampo_o5ba3_after
+ldr r7, trampo_6iwrf_target
+b trampo_6iwrf_after
 .p2align 2
-trampo_o5ba3_target: .long .LBB271_207 - CURPC - 2*(6)
-trampo_o5ba3_after: mov r11, r7
+trampo_6iwrf_target: .long .LBB271_207 - CURPC - 2*(6)
+trampo_6iwrf_after: mov r11, r7
 mov r7, r12
 add pc, r11
 stm	r0!, {r2, r3, r4}
@@ -66084,11 +66094,11 @@ mov	r6, r4
 movs	r0, #0
 mvns	r0, r0
 mov r12, r7
-ldr r7, trampo_jukl4_target
-b trampo_jukl4_after
+ldr r7, trampo_ccnhc_target
+b trampo_ccnhc_after
 .p2align 2
-trampo_jukl4_target: .long .LBB271_225 - CURPC - 2*(6)
-trampo_jukl4_after: mov r11, r7
+trampo_ccnhc_target: .long .LBB271_225 - CURPC - 2*(6)
+trampo_ccnhc_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .LBB271_98:
@@ -66132,11 +66142,11 @@ stm	r0!, {r1, r2, r3}
 ldm	r4!, {r1, r2, r3}
 stm	r0!, {r1, r2, r3}
 ldr	r0, [sp, #208]
-ldr r1, trampo_gvo3p_addr
-b trampo_gvo3p_after
+ldr r1, trampo_1fgqj_addr
+b trampo_1fgqj_after
 .p2align 2
-trampo_gvo3p_addr: .long .LCPI271_30
-trampo_gvo3p_after: ldr r1, [r1]
+trampo_1fgqj_addr: .long .LCPI271_30
+trampo_1fgqj_after: ldr r1, [r1]
 add	r1, sp, #360
 ldr	r4, [sp, #64]
 .LBB271_104:
@@ -66147,11 +66157,11 @@ ldm	r5!, {r0, r2, r3}
 stm	r1!, {r0, r2, r3}
 ldm	r5!, {r0, r2, r3}
 stm	r1!, {r0, r2, r3}
-ldr r1, trampo_oizj0_addr
-b trampo_oizj0_after
+ldr r1, trampo_s45p3_addr
+b trampo_s45p3_after
 .p2align 2
-trampo_oizj0_addr: .long .LCPI271_31
-trampo_oizj0_after: ldr r1, [r1]
+trampo_s45p3_addr: .long .LCPI271_31
+trampo_s45p3_after: ldr r1, [r1]
 subs	r0, r6, #2
 ldr	r1, [r4, #48]
 cmp	r1, r0
@@ -66222,11 +66232,11 @@ add	pc, r2
 .short	(.LBB271_224-(.LCPI271_26+4))/2
 .short	(.LBB271_117-(.LCPI271_26+4))/2
 .short	(.LBB271_117-(.LCPI271_26+4))/2
-ldr r0, trampo_ktcis_addr
-b trampo_ktcis_after
+ldr r0, trampo_h8h0d_addr
+b trampo_h8h0d_after
 .p2align 2
-trampo_ktcis_addr: .long .LCPI271_32
-trampo_ktcis_after: ldr r0, [r0]
+trampo_h8h0d_addr: .long .LCPI271_32
+trampo_h8h0d_after: ldr r0, [r0]
 .short	(.LBB271_222-(.LCPI271_26+4))/2
 .short	(.LBB271_203-(.LCPI271_26+4))/2
 .p2align	1
@@ -66238,11 +66248,11 @@ b	.LBB271_225
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.443
 .p2align	2
 mov r12, r7
-ldr r7, trampo_owivt_target
-b trampo_owivt_after
+ldr r7, trampo_caf3e_target
+b trampo_caf3e_after
 .p2align 2
-trampo_owivt_target: .long .LBB271_248 - CURPC - 2*(6)
-trampo_owivt_after: mov r11, r7
+trampo_caf3e_target: .long .LBB271_248 - CURPC - 2*(6)
+trampo_caf3e_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .long	2147483656
@@ -66506,11 +66516,11 @@ bhs	.LBB271_134
 bl	.LBB271_283
 .LBB271_134:
 mov r12, r7
-ldr r7, trampo_4okkx_target
-b trampo_4okkx_after
+ldr r7, trampo_wi3jc_target
+b trampo_wi3jc_after
 .p2align 2
-trampo_4okkx_target: .long .LBB271_285 - CURPC - 2*(6)
-trampo_4okkx_after: mov r11, r7
+trampo_wi3jc_target: .long .LBB271_285 - CURPC - 2*(6)
+trampo_wi3jc_after: mov r11, r7
 mov r7, r12
 add pc, r11
 str	r0, [r2]
@@ -66572,11 +66582,11 @@ ldr	r3, [sp, #92]
 bne	.LBB271_140
 b	.LBB271_186
 mov r12, r7
-ldr r7, trampo_4hrgv_target
-b trampo_4hrgv_after
+ldr r7, trampo_25osz_target
+b trampo_25osz_after
 .p2align 2
-trampo_4hrgv_target: .long .LBB271_285 - CURPC - 2*(6)
-trampo_4hrgv_after: mov r11, r7
+trampo_25osz_target: .long .LBB271_285 - CURPC - 2*(6)
+trampo_25osz_after: mov r11, r7
 mov r7, r12
 add pc, r11
 ldr	r0, [r0, #8]
@@ -66707,11 +66717,11 @@ movs	r1, #44
 str	r1, [sp, #436]
 movs	r2, #1
 lsls	r2, r2, #20
-ldr r6, trampo_cvule_addr
-b trampo_cvule_after
+ldr r6, trampo_4z1tm_addr
+b trampo_4z1tm_after
 .p2align 2
-trampo_cvule_addr: .long .LCPI271_39
-trampo_cvule_after: ldr r6, [r6]
+trampo_4z1tm_addr: .long .LCPI271_39
+trampo_4z1tm_after: ldr r6, [r6]
 @APP
 mov	r5, sp
 @NO_APP
@@ -66734,11 +66744,11 @@ mov	r2, r0
 ldm	r1!, {r3, r4, r5}
 stm	r2!, {r3, r4, r5}
 ldm	r1!, {r3, r4, r5}
-ldr r1, trampo_o3tnq_addr
-b trampo_o3tnq_after
+ldr r1, trampo_6q3ir_addr
+b trampo_6q3ir_after
 .p2align 2
-trampo_o3tnq_addr: .long .LCPI271_40
-trampo_o3tnq_after: ldr r1, [r1]
+trampo_6q3ir_addr: .long .LCPI271_40
+trampo_6q3ir_after: ldr r1, [r1]
 ldm	r1!, {r3, r4, r5}
 stm	r2!, {r3, r4, r5}
 ldr	r1, [sp, #112]
@@ -66749,11 +66759,11 @@ str	r1, [r0, #40]
 movs	r0, #0
 str	r0, [sp, #128]
 ldr	r0, .LCPI271_37
-ldr r1, trampo_7msuv_addr
-b trampo_7msuv_after
+ldr r1, trampo_4o225_addr
+b trampo_4o225_after
 .p2align 2
-trampo_7msuv_addr: .long .LCPI271_41
-trampo_7msuv_after: ldr r1, [r1]
+trampo_4o225_addr: .long .LCPI271_41
+trampo_4o225_after: ldr r1, [r1]
 ldr	r0, [sp, #416]
 str	r0, [sp, #100]
 ldr	r0, [sp, #412]
@@ -67929,11 +67939,11 @@ strb	r6, [r0, r4]
 adds	r0, r4, #1
 str	r0, [r5, #8]
 ldr	r6, [sp, #12]
-ldr r0, trampo_381di_addr
-b trampo_381di_after
+ldr r0, trampo_93k5f_addr
+b trampo_93k5f_after
 .p2align 2
-trampo_381di_addr: .long .LCPI274_13
-trampo_381di_after: ldr r0, [r0]
+trampo_93k5f_addr: .long .LCPI274_13
+trampo_93k5f_after: ldr r0, [r0]
 str	r0, [r6]
 add	sp, #44
 pop	{r4, r5, r6, r7, pc}
@@ -68149,9 +68159,9 @@ adds	r0, #36
 add	r1, sp, #848
 bl	_ZN1c1c5types8QualType5decay17h05a5de4d5be8260fE
 mov	r0, r5
-bne trampo_38vyc
+bne trampo_r0zvh
 b .LBB274_28
-trampo_38vyc:
+trampo_r0zvh:
 str	r5, [sp, #76]
 adds	r0, #48
 ldr	r5, [sp, #100]
@@ -69109,11 +69119,11 @@ ldr	r1, [sp, #44]
 str	r1, [sp, #740]
 add	r1, sp, #156
 ldrb	r2, [r1, #2]
-ldr r1, trampo_0dkax_addr
-b trampo_0dkax_after
+ldr r1, trampo_l9d3n_addr
+b trampo_l9d3n_after
 .p2align 2
-trampo_0dkax_addr: .long .LCPI274_23
-trampo_0dkax_after: ldr r1, [r1]
+trampo_l9d3n_addr: .long .LCPI274_23
+trampo_l9d3n_after: ldr r1, [r1]
 ldrb	r1, [r1, #1]
 strb	r1, [r0, #26]
 ldr	r1, [sp, #156]
@@ -69282,17 +69292,17 @@ ldr	r2, [sp, #208]
 str	r5, [r2, r1]
 adds	r1, r2, r1
 str	r3, [r1, #4]
-beq trampo_qke99
+beq trampo_hkv9b
 b .LBB274_169
-trampo_qke99:
+trampo_hkv9b:
 str	r1, [sp, #212]
-beq trampo_aijdf
+beq trampo_epkl7
 b .LBB274_169
-trampo_aijdf:
+trampo_epkl7:
 .LBB274_128:
-beq trampo_e9yo7
+beq trampo_axk6d
 b .LBB274_169
-trampo_e9yo7:
+trampo_axk6d:
 add	r2, sp, #308
 movs	r3, #2
 strb	r3, [r2, r1]
@@ -69648,9 +69658,9 @@ add	r0, sp, #308
 mov	r1, r5
 bl	_ZN1c1c8compiler14FullEvaluation18discard_and_return17h0fcc0a8efeb5df73E
 b	.LBB274_193
-bne trampo_pli7e
+bne trampo_1cdik
 b .LBB274_240
-trampo_pli7e:
+trampo_1cdik:
 add	r0, sp, #308
 add	r1, sp, #596
 add	r2, sp, #632
@@ -69783,9 +69793,9 @@ ldr	r4, [sp, #868]
 cmp	r4, #0
 beq	.LBB274_212
 ldr	r5, [sp, #864]
-beq trampo_1b2mq
+beq trampo_1wa4v
 b .LBB274_215
-trampo_1b2mq:
+trampo_1wa4v:
 .LBB274_209:
 adds	r5, #8
 subs	r4, r4, #1
@@ -70069,9 +70079,9 @@ str	r0, [sp, #708]
 ldr	r0, [sp, #88]
 str	r0, [sp, #704]
 mov	r0, r5
-bne trampo_3awih
+bne trampo_uxyux
 b .LBB275_28
-trampo_3awih:
+trampo_uxyux:
 add	r1, sp, #704
 bl	_ZN1c1c5types8QualType5decay17h05a5de4d5be8260fE
 mov	r0, r5
@@ -70314,11 +70324,11 @@ mov	r3, r1
 adds	r0, #69
 ldrb	r1, [r0, #2]
 add	r2, sp, #156
-ldr r1, trampo_zxjfs_addr
-b trampo_zxjfs_after
+ldr r1, trampo_ixkv2_addr
+b trampo_ixkv2_after
 .p2align 2
-trampo_zxjfs_addr: .long .LCPI275_19
-trampo_zxjfs_after: ldr r1, [r1]
+trampo_ixkv2_addr: .long .LCPI275_19
+trampo_ixkv2_after: ldr r1, [r1]
 ldr	r1, [sp, #48]
 ldrb	r1, [r3, r1]
 ldrb	r0, [r0, #1]
@@ -70498,11 +70508,11 @@ bne	.LBB275_47
 b	.LBB275_66
 .LBB275_47:
 mov r12, r7
-ldr r7, trampo_isobo_target
-b trampo_isobo_after
+ldr r7, trampo_2h453_target
+b trampo_2h453_after
 .p2align 2
-trampo_isobo_target: .long .LBB275_231 - CURPC - 2*(6)
-trampo_isobo_after: mov r11, r7
+trampo_2h453_target: .long .LBB275_231 - CURPC - 2*(6)
+trampo_2h453_after: mov r11, r7
 mov r7, r12
 add pc, r11
 beq	.LBB275_48
@@ -70513,11 +70523,11 @@ add	r2, sp, #704
 ldr	r1, [sp, #156]
 strb	r1, [r2, r0]
 mov r12, r7
-ldr r7, trampo_cfgaw_target
-b trampo_cfgaw_after
+ldr r7, trampo_4uwxp_target
+b trampo_4uwxp_after
 .p2align 2
-trampo_cfgaw_target: .long .LBB275_231 - CURPC - 2*(6)
-trampo_cfgaw_after: mov r11, r7
+trampo_4uwxp_target: .long .LBB275_231 - CURPC - 2*(6)
+trampo_4uwxp_after: mov r11, r7
 mov r7, r12
 add pc, r11
 strb	r3, [r2, r0]
@@ -70874,20 +70884,20 @@ add	r1, sp, #160
 ldr	r5, [sp, #60]
 mov	r0, r5
 bl	_ZN5alloc3fmt6format17h7b50f23fedecd2dcE
-ldr r0, trampo_9jjh9_addr
-b trampo_9jjh9_after
+ldr r0, trampo_jeoxq_addr
+b trampo_jeoxq_after
 .p2align 2
-trampo_9jjh9_addr: .long .LCPI275_29
-trampo_9jjh9_after: ldr r0, [r0]
+trampo_jeoxq_addr: .long .LCPI275_29
+trampo_jeoxq_after: ldr r0, [r0]
 str	r0, [r5, #44]
 ldr	r0, [sp, #72]
 cmp	r0, #2
 beq	.LBB275_89
-ldr r0, trampo_ex930_addr
-b trampo_ex930_after
+ldr r0, trampo_78xsz_addr
+b trampo_78xsz_after
 .p2align 2
-trampo_ex930_addr: .long .LCPI275_30
-trampo_ex930_after: ldr r0, [r0]
+trampo_78xsz_addr: .long .LCPI275_30
+trampo_78xsz_after: ldr r0, [r0]
 ldr	r1, [r0]
 cmp	r1, #0
 beq	.LBB275_89
@@ -70909,20 +70919,20 @@ cmp	r4, #0
 ldr	r6, [sp, #24]
 bne	.LBB275_110
 .LBB275_92:
-ldr r0, trampo_mn11t_addr
-b trampo_mn11t_after
+ldr r0, trampo_m3bz8_addr
+b trampo_m3bz8_after
 .p2align 2
-trampo_mn11t_addr: .long .LCPI275_31
-trampo_mn11t_after: ldr r0, [r0]
+trampo_m3bz8_addr: .long .LCPI275_31
+trampo_m3bz8_after: ldr r0, [r0]
 cmp	r0, #0
 ldr	r5, [sp, #20]
 bne	.LBB275_113
 .LBB275_93:
-ldr r0, trampo_ncvwo_addr
-b trampo_ncvwo_after
+ldr r0, trampo_o7na0_addr
+b trampo_o7na0_after
 .p2align 2
-trampo_ncvwo_addr: .long .LCPI275_32
-trampo_ncvwo_after: ldr r0, [r0]
+trampo_o7na0_addr: .long .LCPI275_32
+trampo_o7na0_after: ldr r0, [r0]
 subs	r0, r0, #1
 beq	.LBB275_95
 .LBB275_94:
@@ -70958,20 +70968,20 @@ b	.LBB275_198
 .LBB275_102:
 ldr	r5, [sp, #208]
 b	.LBB275_116
-ldr r0, trampo_tgo1v_addr
-b trampo_tgo1v_after
+ldr r0, trampo_4toek_addr
+b trampo_4toek_after
 .p2align 2
-trampo_tgo1v_addr: .long .LCPI275_23
-trampo_tgo1v_after: ldr r0, [r0]
+trampo_4toek_addr: .long .LCPI275_23
+trampo_4toek_after: ldr r0, [r0]
 adds	r6, #8
 ldr	r0, [sp, #88]
 subs	r0, r0, #1
 str	r0, [sp, #88]
-ldr r0, trampo_2w95c_addr
-b trampo_2w95c_after
+ldr r0, trampo_gd9di_addr
+b trampo_gd9di_after
 .p2align 2
-trampo_2w95c_addr: .long .LCPI275_24
-trampo_2w95c_after: ldr r0, [r0]
+trampo_gd9di_addr: .long .LCPI275_24
+trampo_gd9di_after: ldr r0, [r0]
 .LBB275_104:
 ldr	r0, [r6, #4]
 ldr	r1, [r0]
@@ -70993,20 +71003,20 @@ ldr	r1, [r0]
 cmp	r1, #0
 beq	.LBB275_106
 ldr	r0, [r6]
-ldr r0, trampo_3c476_addr
-b trampo_3c476_after
+ldr r0, trampo_t520s_addr
+b trampo_t520s_after
 .p2align 2
-trampo_3c476_addr: .long .LCPI275_27
-trampo_3c476_after: ldr r0, [r0]
+trampo_t520s_addr: .long .LCPI275_27
+trampo_t520s_after: ldr r0, [r0]
 ldr	r2, [sp, #84]
 b	.LBB275_106
 .LBB275_109:
 adds	r2, #8
-ldr r0, trampo_vhcu6_addr
-b trampo_vhcu6_after
+ldr r0, trampo_429ay_addr
+b trampo_429ay_after
 .p2align 2
-trampo_vhcu6_addr: .long .LCPI275_26
-trampo_vhcu6_after: ldr r0, [r0]
+trampo_429ay_addr: .long .LCPI275_26
+trampo_429ay_after: ldr r0, [r0]
 beq	.LBB275_92
 .LBB275_110:
 ldr	r0, [r2, #4]
@@ -71074,11 +71084,11 @@ str	r0, [sp, #164]
 add	r0, sp, #668
 str	r0, [sp, #160]
 mov r12, r7
-ldr r7, trampo_nl6vk_target
-b trampo_nl6vk_after
+ldr r7, trampo_qa1hn_target
+b trampo_qa1hn_after
 .p2align 2
-trampo_nl6vk_target: .long .LBB275_4 - CURPC - 2*(6)
-trampo_nl6vk_after: mov r11, r7
+trampo_qa1hn_target: .long .LBB275_4 - CURPC - 2*(6)
+trampo_qa1hn_after: mov r11, r7
 mov r7, r12
 add pc, r11
 add	r1, sp, #704
@@ -71265,17 +71275,17 @@ beq	.LBB275_140
 .LBB275_150:
 ldr	r0, [r2, #4]
 ldr	r1, [r0]
-beq trampo_0iz8z
+beq trampo_o4hrt
 b .LBB275_194
-trampo_0iz8z:
+trampo_o4hrt:
 beq	.LBB275_149
-beq trampo_28ige
+beq trampo_g2ptz
 b .LBB275_194
-trampo_28ige:
+trampo_g2ptz:
 mov	r4, r3
-beq trampo_n5vtr
+beq trampo_kgwkl
 b .LBB275_194
-trampo_n5vtr:
+trampo_kgwkl:
 blx	r1
 mov	r2, r5
 mov	r3, r4
@@ -71855,20 +71865,20 @@ ldm	r0!, {r4, r5, r6}
 stm	r3!, {r4, r5, r6}
 ldr	r5, [sp, #20]
 mov r12, r7
-ldr r7, trampo_a163k_target
-b trampo_a163k_after
+ldr r7, trampo_qsyw7_target
+b trampo_qsyw7_after
 .p2align 2
-trampo_a163k_target: .long .LBB275_94 - CURPC - 2*(6)
-trampo_a163k_after: mov r11, r7
+trampo_qsyw7_target: .long .LBB275_94 - CURPC - 2*(6)
+trampo_qsyw7_after: mov r11, r7
 mov r7, r12
 add pc, r11
 bl	_ZN1c1c8compiler14FullEvaluation12also_discard17h749b58832eb4d685E
 mov r12, r7
-ldr r7, trampo_ktt9z_target
-b trampo_ktt9z_after
+ldr r7, trampo_wetyd_target
+b trampo_wetyd_after
 .p2align 2
-trampo_ktt9z_target: .long .LBB275_95 - CURPC - 2*(6)
-trampo_ktt9z_after: mov r11, r7
+trampo_wetyd_target: .long .LBB275_95 - CURPC - 2*(6)
+trampo_wetyd_after: mov r11, r7
 mov r7, r12
 add pc, r11
 b	.LBB275_232
@@ -74062,9 +74072,9 @@ subs	r2, r4, #2
 subs	r1, r2, #1
 mov	r5, r2
 sbcs	r5, r1
-bge trampo_gx8rg
+bge trampo_l69wy
 b .LBB279_225
-trampo_gx8rg:
+trampo_l69wy:
 subs	r3, r3, #2
 subs	r6, r3, #1
 mov	r1, r3
@@ -74664,11 +74674,11 @@ b	.LBB280_17
 adds	r5, #8
 subs	r4, r4, #1
 beq	.LBB280_9
-ldr r1, trampo_bu3tk_addr
-b trampo_bu3tk_after
+ldr r1, trampo_a7cip_addr
+b trampo_a7cip_after
 .p2align 2
-trampo_bu3tk_addr: .long .LCPI280_13
-trampo_bu3tk_after: ldr r1, [r1]
+trampo_a7cip_addr: .long .LCPI280_13
+trampo_a7cip_after: ldr r1, [r1]
 ldr	r1, [r5, #4]
 ldr	r1, [r1]
 cmp	r1, #0
@@ -74730,11 +74740,11 @@ str	r0, [sp, #188]
 add	r0, sp, #332
 str	r0, [sp, #168]
 str	r6, [sp, #40]
-ldr r2, trampo_2xd28_addr
-b trampo_2xd28_after
+ldr r2, trampo_om110_addr
+b trampo_om110_after
 .p2align 2
-trampo_2xd28_addr: .long .LCPI280_8
-trampo_2xd28_after: ldr r2, [r2]
+trampo_om110_addr: .long .LCPI280_8
+trampo_om110_after: ldr r2, [r2]
 ldm	r6!, {r1, r2, r3, r4}
 stm	r0!, {r1, r2, r3, r4}
 str	r6, [sp, #188]
@@ -75060,17 +75070,17 @@ strb	r0, [r1, r2]
 add	r0, sp, #204
 ldrb	r2, [r0, #2]
 strb	r2, [r1, #27]
-bne trampo_vqwjq
+bne trampo_f72y1
 b .LBB280_77
-trampo_vqwjq:
+trampo_f72y1:
 strb	r0, [r1, #26]
 ldr	r0, [sp, #204]
 strb	r0, [r1, #25]
 mov	r0, r1
 adds	r0, #69
-bne trampo_htlqa
+bne trampo_6udev
 b .LBB280_77
-trampo_htlqa:
+trampo_6udev:
 ldrb	r3, [r2, #1]
 strb	r3, [r0, #1]
 ldrb	r2, [r2, #2]
@@ -75285,20 +75295,20 @@ add	r1, sp, #216
 ldm	r0!, {r2, r3, r4}
 stm	r1!, {r2, r3, r4}
 ldm	r0!, {r2, r3, r4}
-ldr r0, trampo_rwb5a_addr
-b trampo_rwb5a_after
+ldr r0, trampo_gwoip_addr
+b trampo_gwoip_after
 .p2align 2
-trampo_rwb5a_addr: .long .LCPI280_11
-trampo_rwb5a_after: ldr r0, [r0]
+trampo_gwoip_addr: .long .LCPI280_11
+trampo_gwoip_after: ldr r0, [r0]
 ldm	r0!, {r2, r3, r4}
 stm	r1!, {r2, r3, r4}
 add	r0, sp, #464
 movs	r4, #0
-ldr r0, trampo_h4a1o_addr
-b trampo_h4a1o_after
+ldr r0, trampo_cjyrr_addr
+b trampo_cjyrr_after
 .p2align 2
-trampo_h4a1o_addr: .long .LCPI280_12
-trampo_h4a1o_after: ldr r0, [r0]
+trampo_cjyrr_addr: .long .LCPI280_12
+trampo_cjyrr_after: ldr r0, [r0]
 ldr	r1, [sp, #184]
 str	r1, [sp, #512]
 bl	_ZN50_$LT$T$u20$as$u20$core..convert..Into$LT$U$GT$$GT$4into17hf564eed65aa78a50E
@@ -75335,11 +75345,11 @@ strb	r0, [r1, #25]
 add	r0, sp, #212
 ldrb	r2, [r0, #1]
 mov r12, r7
-ldr r7, trampo_596fk_target
-b trampo_596fk_after
+ldr r7, trampo_n2g0a_target
+b trampo_n2g0a_after
 .p2align 2
-trampo_596fk_target: .long .LBB280_2 - CURPC - 2*(6)
-trampo_596fk_after: mov r11, r7
+trampo_n2g0a_target: .long .LBB280_2 - CURPC - 2*(6)
+trampo_n2g0a_after: mov r11, r7
 mov r7, r12
 add pc, r11
 ldrb	r0, [r0, #2]
@@ -75359,11 +75369,11 @@ str	r5, [sp, #408]
 ldr	r0, [sp, #168]
 b	.LBB280_123
 mov r12, r7
-ldr r7, trampo_1o2v6_target
-b trampo_1o2v6_after
+ldr r7, trampo_rw3bv_target
+b trampo_rw3bv_after
 .p2align 2
-trampo_1o2v6_target: .long .LBB280_2 - CURPC - 2*(6)
-trampo_1o2v6_after: mov r11, r7
+trampo_rw3bv_target: .long .LBB280_2 - CURPC - 2*(6)
+trampo_rw3bv_after: mov r11, r7
 mov r7, r12
 add pc, r11
 ldr	r5, [sp, #484]
@@ -75792,9 +75802,9 @@ mov	sp, r6
 pop	{r4, r5, r6, r7, pc}
 .LBB280_125:
 ldr	r6, [sp, #224]
-bne trampo_4wlep
+bne trampo_4pkdn
 b .LBB280_142
-trampo_4wlep:
+trampo_4pkdn:
 bl	_ZN5alloc5alloc6Global10alloc_impl17h6dfe18fc29698e9aE
 cmp	r0, #0
 bne	.LBB280_126
@@ -76059,20 +76069,20 @@ bl	_ZN5alloc5alloc18handle_alloc_error17h2bf021f90e0c4e2bE
 .Lfunc_end280:
 .size	_ZN1c1c8compiler8Compiler12eval_bool_op17hf89351d450e0f3f9E, .Lfunc_end280-_ZN1c1c8compiler8Compiler12eval_bool_op17hf89351d450e0f3f9E
 .cantunwind
-ldr r0, trampo_7nkz1_addr
-b trampo_7nkz1_after
+ldr r0, trampo_iyffi_addr
+b trampo_iyffi_after
 .p2align 2
-trampo_7nkz1_addr: .long .LCPI281_24
-trampo_7nkz1_after: ldr r0, [r0]
+trampo_iyffi_addr: .long .LCPI281_24
+trampo_iyffi_after: ldr r0, [r0]
 .section	.text._ZN1c1c8compiler8Compiler13eval_unary_op17hef033f7b5ab79a3cE,"ax",%progbits
 .p2align	2
 .type	_ZN1c1c8compiler8Compiler13eval_unary_op17hef033f7b5ab79a3cE,%function
 .code	16
-ldr r0, trampo_l4gwk_addr
-b trampo_l4gwk_after
+ldr r0, trampo_gqo1v_addr
+b trampo_gqo1v_after
 .p2align 2
-trampo_l4gwk_addr: .long .LCPI281_18
-trampo_l4gwk_after: ldr r0, [r0]
+trampo_gqo1v_addr: .long .LCPI281_18
+trampo_gqo1v_after: ldr r0, [r0]
 _ZN1c1c8compiler8Compiler13eval_unary_op17hef033f7b5ab79a3cE:
 .fnstart
 .save	{r4, r5, r6, r7, lr}
@@ -76219,11 +76229,11 @@ subs	r4, r5, #2
 lsls	r0, r4, #24
 ldr	r6, [sp, #92]
 mov r12, r7
-ldr r7, trampo_fssdn_target
-b trampo_fssdn_after
+ldr r7, trampo_1anrk_target
+b trampo_1anrk_after
 .p2align 2
-trampo_fssdn_target: .long .LBB281_159 - CURPC - 2*(6)
-trampo_fssdn_after: mov r11, r7
+trampo_1anrk_target: .long .LBB281_159 - CURPC - 2*(6)
+trampo_1anrk_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .LBB281_10:
@@ -76234,11 +76244,11 @@ movs	r0, #0
 str	r0, [sp, #472]
 movs	r5, #1
 mov r12, r7
-ldr r7, trampo_owl6h_target
-b trampo_owl6h_after
+ldr r7, trampo_3m0oj_target
+b trampo_3m0oj_after
 .p2align 2
-trampo_owl6h_target: .long .LBB281_159 - CURPC - 2*(6)
-trampo_owl6h_after: mov r11, r7
+trampo_3m0oj_target: .long .LBB281_159 - CURPC - 2*(6)
+trampo_3m0oj_after: mov r11, r7
 mov r7, r12
 add pc, r11
 ldr	r0, .LCPI281_24
@@ -76543,9 +76553,9 @@ adds	r0, #69
 ldrb	r1, [r0, #2]
 add	r3, sp, #180
 strb	r1, [r3, #2]
-beq trampo_lzrh2
+beq trampo_t8zgk
 b .LBB281_90
-trampo_lzrh2:
+trampo_t8zgk:
 str	r1, [sp, #16]
 ldrb	r1, [r2, r1]
 ldrb	r0, [r0, #1]
@@ -76574,11 +76584,11 @@ ldr	r1, [r0]
 cmp	r1, #0
 beq	.LBB281_47
 mov r12, r7
-ldr r7, trampo_5rn0j_target
-b trampo_5rn0j_after
+ldr r7, trampo_smdsi_target
+b trampo_smdsi_after
 .p2align 2
-trampo_5rn0j_target: .long .LBB281_181 - CURPC - 2*(6)
-trampo_5rn0j_after: mov r11, r7
+trampo_smdsi_target: .long .LBB281_181 - CURPC - 2*(6)
+trampo_smdsi_after: mov r11, r7
 mov r7, r12
 add pc, r11
 blx	r1
@@ -76911,11 +76921,11 @@ ldr	r1, [sp, #88]
 .LBB281_103:
 cmp	r1, #0
 bne	.LBB281_105
-ldr r0, trampo_bvq2p_addr
-b trampo_bvq2p_after
+ldr r0, trampo_kj2wt_addr
+b trampo_kj2wt_after
 .p2align 2
-trampo_bvq2p_addr: .long .LCPI281_23
-trampo_bvq2p_after: ldr r0, [r0]
+trampo_kj2wt_addr: .long .LCPI281_23
+trampo_kj2wt_after: ldr r0, [r0]
 .LBB281_104:
 ldr	r1, [sp, #88]
 cmp	r1, #0
@@ -77010,20 +77020,20 @@ ldr	r0, [sp, #44]
 str	r0, [sp, #484]
 add	r6, sp, #296
 mov	r0, r6
-ldr r1, trampo_74lmz_addr
-b trampo_74lmz_after
+ldr r1, trampo_jv3sj_addr
+b trampo_jv3sj_after
 .p2align 2
-trampo_74lmz_addr: .long .LCPI281_0
-trampo_74lmz_after: ldr r1, [r1]
+trampo_jv3sj_addr: .long .LCPI281_0
+trampo_jv3sj_after: ldr r1, [r1]
 ldrb	r0, [r6, #27]
 strb	r0, [r4, #2]
 ldrb	r0, [r6, #25]
 ldrb	r1, [r6, #26]
-ldr r0, trampo_nj8w5_addr
-b trampo_nj8w5_after
+ldr r0, trampo_58kl1_addr
+b trampo_58kl1_after
 .p2align 2
-trampo_nj8w5_addr: .long .LCPI281_1
-trampo_nj8w5_after: ldr r0, [r0]
+trampo_58kl1_addr: .long .LCPI281_1
+trampo_58kl1_after: ldr r0, [r0]
 adds	r0, r1, r0
 strh	r0, [r4]
 ldr	r0, [sp, #308]
@@ -77036,11 +77046,11 @@ ldrb	r5, [r6, #24]
 ldr	r0, [sp, #300]
 str	r0, [sp, #52]
 ldr	r0, [sp, #296]
-ldr r2, trampo_t0h9m_addr
-b trampo_t0h9m_after
+ldr r2, trampo_60je0_addr
+b trampo_60je0_after
 .p2align 2
-trampo_t0h9m_addr: .long .LCPI281_2
-trampo_t0h9m_after: ldr r2, [r2]
+trampo_60je0_addr: .long .LCPI281_2
+trampo_60je0_after: ldr r2, [r2]
 ldr	r4, [sp, #324]
 ldr	r6, [sp, #328]
 ldr	r0, [sp, #304]
@@ -77052,27 +77062,27 @@ lsls	r0, r5, #31
 ldr	r0, [sp, #80]
 bne	.LBB281_122
 ldr	r0, [sp, #68]
-beq trampo_v3wz3
+beq trampo_cq3o7
 b .LBB281_147
-trampo_v3wz3:
+trampo_cq3o7:
 str	r0, [sp, #84]
 movs	r0, #20
 bl	_ZN5alloc5alloc6Global10alloc_impl17h6dfe18fc29698e9aE
 cmp	r0, #0
-ldr r1, trampo_xuznb_addr
-b trampo_xuznb_after
+ldr r1, trampo_qaqv5_addr
+b trampo_qaqv5_after
 .p2align 2
-trampo_xuznb_addr: .long .LCPI281_10
-trampo_xuznb_after: ldr r1, [r1]
+trampo_qaqv5_addr: .long .LCPI281_10
+trampo_qaqv5_after: ldr r1, [r1]
 b	.LBB281_183
 .LBB281_123:
 mov	r1, r0
 ldr	r0, [sp, #76]
-ldr r0, trampo_smhcr_addr
-b trampo_smhcr_after
+ldr r0, trampo_qj80q_addr
+b trampo_qj80q_after
 .p2align 2
-trampo_smhcr_addr: .long .LCPI281_11
-trampo_smhcr_after: ldr r0, [r0]
+trampo_qj80q_addr: .long .LCPI281_11
+trampo_qj80q_after: ldr r0, [r0]
 orrs	r2, r0
 ldr	r0, [sp, #60]
 str	r0, [r1, #12]
@@ -77080,16 +77090,16 @@ strb	r5, [r1]
 ldr	r0, [sp, #180]
 strb	r0, [r1, #1]
 str	r6, [r1, #8]
-beq trampo_zcvfb
+beq trampo_n74az
 b .LBB281_145
-trampo_zcvfb:
+trampo_n74az:
 add	r0, sp, #180
 mov	r3, r1
 ldrb	r1, [r0, #1]
 strb	r1, [r3, #2]
-beq trampo_m4cjw
+beq trampo_hpatr
 b .LBB281_145
-trampo_m4cjw:
+trampo_hpatr:
 strb	r0, [r3, #3]
 uxtb	r0, r2
 ldr	r1, [sp, #36]
@@ -77111,9 +77121,9 @@ ldr	r0, .LCPI281_23
 str	r0, [sp, #40]
 ldr	r5, [sp, #72]
 .LBB281_124:
-beq trampo_8chvi
+beq trampo_fkpdr
 b .LBB281_152
-trampo_8chvi:
+trampo_fkpdr:
 ldr	r1, [r0, #8]
 ldr	r2, [r1, #72]
 adds	r2, r2, #1
@@ -77380,9 +77390,9 @@ str	r0, [sp, #468]
 add	r0, sp, #296
 str	r0, [sp, #464]
 ldr	r0, .LCPI281_9
-bne trampo_6cw01
+bne trampo_p2vgq
 b .LBB281_184
-trampo_6cw01:
+trampo_p2vgq:
 adds	r0, r7, #7
 adds	r0, #1
 .LBB281_149:
@@ -78019,11 +78029,11 @@ _ZN1c1c8compiler8Compiler19eval_expression_raw17h9e9c25a07e9e08afE:
 .fnstart
 .save	{r4, r5, r6, r7, lr}
 mov r12, r7
-ldr r7, trampo_9s5ad_target
-b trampo_9s5ad_after
+ldr r7, trampo_kymmg_target
+b trampo_kymmg_after
 .p2align 2
-trampo_9s5ad_target: .long .LBB284_64 - CURPC - 2*(6)
-trampo_9s5ad_after: mov r11, r7
+trampo_kymmg_target: .long .LBB284_64 - CURPC - 2*(6)
+trampo_kymmg_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .setfp	r7, sp, #12
@@ -78043,11 +78053,11 @@ str	r4, [sp, #96]
 bmi	.LBB284_2
 movs	r0, #5
 mov r12, r7
-ldr r7, trampo_d372h_target
-b trampo_d372h_after
+ldr r7, trampo_t5drb_target
+b trampo_t5drb_after
 .p2align 2
-trampo_d372h_target: .long .LBB284_63 - CURPC - 2*(6)
-trampo_d372h_after: mov r11, r7
+trampo_t5drb_target: .long .LBB284_63 - CURPC - 2*(6)
+trampo_t5drb_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .LBB284_2:
@@ -78134,11 +78144,11 @@ cmp	r5, r4
 bhs	.LBB284_6
 bl	.LBB284_264
 mov r12, r7
-ldr r7, trampo_d3cg4_target
-b trampo_d3cg4_after
+ldr r7, trampo_axxo6_target
+b trampo_axxo6_after
 .p2align 2
-trampo_d3cg4_target: .long .LBB284_73 - CURPC - 2*(6)
-trampo_d3cg4_after: mov r11, r7
+trampo_axxo6_target: .long .LBB284_73 - CURPC - 2*(6)
+trampo_axxo6_after: mov r11, r7
 mov r7, r12
 add pc, r11
 subs	r5, r6, #4
@@ -78167,11 +78177,11 @@ ldr	r5, [sp, #136]
 bl	.LBB284_250
 .LBB284_7:
 mov r12, r7
-ldr r7, trampo_64v7r_target
-b trampo_64v7r_after
+ldr r7, trampo_9md2o_target
+b trampo_9md2o_after
 .p2align 2
-trampo_64v7r_target: .long .LBB284_89 - CURPC - 2*(6)
-trampo_64v7r_after: mov r11, r7
+trampo_9md2o_target: .long .LBB284_89 - CURPC - 2*(6)
+trampo_9md2o_after: mov r11, r7
 mov r7, r12
 add pc, r11
 ldr	r2, [r0, #16]
@@ -78193,53 +78203,53 @@ str	r2, [sp, #440]
 b	.LBB284_24
 .LBB284_9:
 str	r5, [sp, #136]
-ldr r0, trampo_gt7fx_addr
-b trampo_gt7fx_after
+ldr r0, trampo_vwz1b_addr
+b trampo_vwz1b_after
 .p2align 2
-trampo_gt7fx_addr: .long .LCPI284_37
-trampo_gt7fx_after: ldr r0, [r0]
+trampo_vwz1b_addr: .long .LCPI284_37
+trampo_vwz1b_after: ldr r0, [r0]
 adds	r0, r0, #4
-ldr r0, trampo_wbr8k_addr
-b trampo_wbr8k_after
+ldr r0, trampo_2qck3_addr
+b trampo_2qck3_after
 .p2align 2
-trampo_wbr8k_addr: .long .LCPI284_38
-trampo_wbr8k_after: ldr r0, [r0]
+trampo_2qck3_addr: .long .LCPI284_38
+trampo_2qck3_after: ldr r0, [r0]
 str	r0, [sp, #148]
-ldr r0, trampo_nkdy7_addr
-b trampo_nkdy7_after
+ldr r0, trampo_pzd18_addr
+b trampo_pzd18_after
 .p2align 2
-trampo_nkdy7_addr: .long .LCPI284_39
-trampo_nkdy7_after: ldr r0, [r0]
+trampo_pzd18_addr: .long .LCPI284_39
+trampo_pzd18_after: ldr r0, [r0]
 ldr	r0, [r3, #4]
-ldr r0, trampo_9cwtz_addr
-b trampo_9cwtz_after
+ldr r0, trampo_zr52p_addr
+b trampo_zr52p_after
 .p2align 2
-trampo_9cwtz_addr: .long .LCPI284_40
-trampo_9cwtz_after: ldr r0, [r0]
+trampo_zr52p_addr: .long .LCPI284_40
+trampo_zr52p_after: ldr r0, [r0]
 beq	.LBB284_13
-ldr r0, trampo_71tzl_addr
-b trampo_71tzl_after
+ldr r0, trampo_wocdf_addr
+b trampo_wocdf_after
 .p2align 2
-trampo_71tzl_addr: .long .LCPI284_41
-trampo_71tzl_after: ldr r0, [r0]
+trampo_wocdf_addr: .long .LCPI284_41
+trampo_wocdf_after: ldr r0, [r0]
 subs	r1, r1, #4
-ldr r0, trampo_7ge9l_addr
-b trampo_7ge9l_after
+ldr r0, trampo_48bif_addr
+b trampo_48bif_after
 .p2align 2
-trampo_7ge9l_addr: .long .LCPI284_42
-trampo_7ge9l_after: ldr r0, [r0]
+trampo_48bif_addr: .long .LCPI284_42
+trampo_48bif_after: ldr r0, [r0]
 movs	r0, #0
-ldr r0, trampo_n1ceq_addr
-b trampo_n1ceq_after
+ldr r0, trampo_l5tsn_addr
+b trampo_l5tsn_after
 .p2align 2
-trampo_n1ceq_addr: .long .LCPI284_43
-trampo_n1ceq_after: ldr r0, [r0]
+trampo_l5tsn_addr: .long .LCPI284_43
+trampo_l5tsn_after: ldr r0, [r0]
 str	r0, [sp, #160]
-ldr r0, trampo_p8vb1_addr
-b trampo_p8vb1_after
+ldr r0, trampo_05u26_addr
+b trampo_05u26_after
 .p2align 2
-trampo_p8vb1_addr: .long .LCPI284_44
-trampo_p8vb1_after: ldr r0, [r0]
+trampo_05u26_addr: .long .LCPI284_44
+trampo_05u26_after: ldr r0, [r0]
 ldr	r6, [r1, r5]
 mov	r0, r6
 ldr	r1, [sp, #148]
@@ -78251,11 +78261,11 @@ b	.LBB284_64
 mov	r1, r4
 ldr	r0, [r4, r5]
 mov r12, r7
-ldr r7, trampo_fgj5x_target
-b trampo_fgj5x_after
+ldr r7, trampo_hz898_target
+b trampo_hz898_after
 .p2align 2
-trampo_fgj5x_target: .long .LBB284_86 - CURPC - 2*(6)
-trampo_fgj5x_after: mov r11, r7
+trampo_hz898_target: .long .LBB284_86 - CURPC - 2*(6)
+trampo_hz898_after: mov r11, r7
 mov r7, r12
 add pc, r11
 ldr	r2, [sp, #160]
@@ -78987,11 +78997,11 @@ mov	r4, r2
 ldrb	r5, [r5, #1]
 lsls	r5, r5, #8
 adds	r0, r5, r0
-ldr r1, trampo_sx9wl_addr
-b trampo_sx9wl_after
+ldr r1, trampo_ztve9_addr
+b trampo_ztve9_after
 .p2align 2
-trampo_sx9wl_addr: .long .LCPI284_61
-trampo_sx9wl_after: ldr r1, [r1]
+trampo_ztve9_addr: .long .LCPI284_61
+trampo_ztve9_after: ldr r1, [r1]
 strh	r0, [r1]
 ldr	r0, [sp, #112]
 lsls	r0, r0, #8
@@ -79322,11 +79332,11 @@ subs	r0, r0, #4
 mov	r4, r6
 ldr	r6, [r0]
 mov r12, r7
-ldr r7, trampo_7ocmx_target
-b trampo_7ocmx_after
+ldr r7, trampo_5ywbk_target
+b trampo_5ywbk_after
 .p2align 2
-trampo_7ocmx_target: .long .LBB284_173 - CURPC - 2*(6)
-trampo_7ocmx_after: mov r11, r7
+trampo_5ywbk_target: .long .LBB284_173 - CURPC - 2*(6)
+trampo_5ywbk_after: mov r11, r7
 mov r7, r12
 add pc, r11
 str	r0, [sp, #144]
@@ -79464,11 +79474,11 @@ str	r2, [sp, #100]
 ldr	r1, [sp, #148]
 str	r1, [sp, #88]
 mov r12, r7
-ldr r7, trampo_xmqcg_target
-b trampo_xmqcg_after
+ldr r7, trampo_byzi5_target
+b trampo_byzi5_after
 .p2align 2
-trampo_xmqcg_target: .long .LBB284_227 - CURPC - 2*(6)
-trampo_xmqcg_after: mov r11, r7
+trampo_byzi5_target: .long .LBB284_227 - CURPC - 2*(6)
+trampo_byzi5_after: mov r11, r7
 mov r7, r12
 add pc, r11
 str	r3, [sp, #104]
@@ -79479,11 +79489,11 @@ eors	r0, r2
 .LBB284_96:
 lsls	r0, r0, #1
 mov r12, r7
-ldr r7, trampo_sbraa_target
-b trampo_sbraa_after
+ldr r7, trampo_slh2p_target
+b trampo_slh2p_after
 .p2align 2
-trampo_sbraa_target: .long .LBB284_227 - CURPC - 2*(6)
-trampo_sbraa_after: mov r11, r7
+trampo_slh2p_target: .long .LBB284_227 - CURPC - 2*(6)
+trampo_slh2p_after: mov r11, r7
 mov r7, r12
 add pc, r11
 add	r0, pc
@@ -79511,11 +79521,11 @@ ldr	r0, [r5, #12]
 str	r0, [sp, #80]
 cmp	r0, #0
 mov r12, r7
-ldr r7, trampo_rasqu_target
-b trampo_rasqu_after
+ldr r7, trampo_4uhoh_target
+b trampo_4uhoh_after
 .p2align 2
-trampo_rasqu_target: .long .LBB284_213 - CURPC - 2*(6)
-trampo_rasqu_after: mov r11, r7
+trampo_4uhoh_target: .long .LBB284_213 - CURPC - 2*(6)
+trampo_4uhoh_after: mov r11, r7
 mov r7, r12
 add pc, r11
 bl	.LBB284_269
@@ -79583,21 +79593,21 @@ ldr	r5, [sp, #228]
 b	.LBB284_111
 .LBB284_110:
 adds	r5, #8
-ldr r1, trampo_bb3ij_addr
-b trampo_bb3ij_after
+ldr r1, trampo_qlcr8_addr
+b trampo_qlcr8_after
 .p2align 2
-trampo_bb3ij_addr: .long .LCPI284_54
-trampo_bb3ij_after: ldr r1, [r1]
+trampo_qlcr8_addr: .long .LCPI284_54
+trampo_qlcr8_after: ldr r1, [r1]
 beq	.LBB284_113
 .LBB284_111:
 ldr	r0, [r5, #4]
 ldr	r1, [r0]
 cmp	r1, #0
-ldr r0, trampo_4fomv_addr
-b trampo_4fomv_after
+ldr r0, trampo_7naar_addr
+b trampo_7naar_after
 .p2align 2
-trampo_4fomv_addr: .long .LCPI284_55
-trampo_4fomv_after: ldr r0, [r0]
+trampo_7naar_addr: .long .LCPI284_55
+trampo_7naar_after: ldr r0, [r0]
 ldr	r0, [r5]
 blx	r1
 b	.LBB284_110
@@ -79639,11 +79649,11 @@ bl	.LBB284_227
 add	r0, sp, #180
 ldrb	r0, [r0, #24]
 mov r12, r7
-ldr r7, trampo_9ll8r_target
-b trampo_9ll8r_after
+ldr r7, trampo_4d83f_target
+b trampo_4d83f_after
 .p2align 2
-trampo_9ll8r_target: .long .LBB284_199 - CURPC - 2*(6)
-trampo_9ll8r_after: mov r11, r7
+trampo_4d83f_target: .long .LBB284_199 - CURPC - 2*(6)
+trampo_4d83f_after: mov r11, r7
 mov r7, r12
 add pc, r11
 beq	.LBB284_125
@@ -79777,20 +79787,20 @@ str	r0, [sp, #524]
 ldr	r1, .LCPI284_54
 .LBB284_148:
 str	r1, [sp, #520]
-ldr r1, trampo_fqygs_addr
-b trampo_fqygs_after
+ldr r1, trampo_24xiy_addr
+b trampo_24xiy_after
 .p2align 2
-trampo_fqygs_addr: .long .LCPI284_56
-trampo_fqygs_after: ldr r1, [r1]
+trampo_24xiy_addr: .long .LCPI284_56
+trampo_24xiy_after: ldr r1, [r1]
 add	r0, sp, #440
 str	r0, [sp, #528]
 ldr	r0, .LCPI284_55
 str	r0, [sp, #444]
-ldr r0, trampo_kyirj_addr
-b trampo_kyirj_after
+ldr r0, trampo_boz93_addr
+b trampo_boz93_after
 .p2align 2
-trampo_kyirj_addr: .long .LCPI284_57
-trampo_kyirj_after: ldr r0, [r0]
+trampo_boz93_addr: .long .LCPI284_57
+trampo_boz93_after: ldr r0, [r0]
 str	r0, [sp, #440]
 add	r0, sp, #224
 adds	r0, r0, #4
@@ -79897,11 +79907,11 @@ str	r0, [r3, #72]
 ldr	r4, [sp, #164]
 mov	r0, r4
 mov r12, r7
-ldr r7, trampo_iuyam_target
-b trampo_iuyam_after
+ldr r7, trampo_s7oxf_target
+b trampo_s7oxf_after
 .p2align 2
-trampo_iuyam_target: .long .LBB284_270 - CURPC - 2*(6)
-trampo_iuyam_after: mov r11, r7
+trampo_s7oxf_target: .long .LBB284_270 - CURPC - 2*(6)
+trampo_s7oxf_after: mov r11, r7
 mov r7, r12
 add pc, r11
 ldr	r1, [sp, #148]
@@ -80431,11 +80441,11 @@ subs	r0, r0, #1
 bne	.LBB284_184
 b	.LBB284_227
 mov r12, r7
-ldr r7, trampo_ma0iy_target
-b trampo_ma0iy_after
+ldr r7, trampo_ihtyc_target
+b trampo_ihtyc_after
 .p2align 2
-trampo_ma0iy_target: .long .LBB284_138 - CURPC - 2*(6)
-trampo_ma0iy_after: mov r11, r7
+trampo_ihtyc_target: .long .LBB284_138 - CURPC - 2*(6)
+trampo_ihtyc_after: mov r11, r7
 mov r7, r12
 add pc, r11
 str	r0, [r6, #72]
@@ -82045,11 +82055,11 @@ str	r5, [sp, #124]
 ands	r1, r5
 lsrs	r2, r2, #2
 str	r2, [sp, #36]
-ldr r6, trampo_nxomr_addr
-b trampo_nxomr_after
+ldr r6, trampo_b5n0f_addr
+b trampo_b5n0f_after
 .p2align 2
-trampo_nxomr_addr: .long .LCPI286_11
-trampo_nxomr_after: ldr r6, [r6]
+trampo_b5n0f_addr: .long .LCPI286_11
+trampo_b5n0f_after: ldr r6, [r6]
 str	r0, [sp, #128]
 subs	r0, r4, #4
 str	r0, [sp, #112]
@@ -82065,11 +82075,11 @@ ldrb	r2, [r1, #1]
 lsls	r2, r2, #8
 adds	r0, r2, r0
 ldrb	r2, [r1, #2]
-ldr r5, trampo_g66ic_addr
-b trampo_g66ic_after
+ldr r5, trampo_s2au8_addr
+b trampo_s2au8_after
 .p2align 2
-trampo_g66ic_addr: .long .LCPI286_12
-trampo_g66ic_after: ldr r5, [r5]
+trampo_s2au8_addr: .long .LCPI286_12
+trampo_s2au8_after: ldr r5, [r5]
 ldrb	r1, [r1, #3]
 lsls	r1, r1, #24
 adds	r1, r1, r2
@@ -82443,9 +82453,9 @@ ldr	r0, [sp, #92]
 adds	r0, #40
 str	r0, [sp, #92]
 ldr	r0, [sp, #116]
-bne trampo_lg1bm
+bne trampo_q3qlz
 b .LBB286_165
-trampo_lg1bm:
+trampo_q3qlz:
 str	r0, [sp, #116]
 ldr	r0, [sp, #120]
 mov	r1, r0
@@ -82849,9 +82859,9 @@ add	r3, sp, #28
 str	r3, [sp, #48]
 str	r2, [sp, #44]
 add	r2, sp, #24
-bcs trampo_ha08d
+bcs trampo_f9crb
 b .LBB290_7
-trampo_ha08d:
+trampo_f9crb:
 ldr	r2, .LCPI288_2
 str	r2, [sp, #36]
 adds	r0, #24
@@ -84703,9 +84713,9 @@ str	r6, [sp, #136]
 adds	r5, r3, #7
 movs	r0, #3
 bics	r5, r0
-bcs trampo_3t8hh
+bcs trampo_4dzw4
 b .LBB301_25
-trampo_3t8hh:
+trampo_4dzw4:
 adds	r3, #48
 cmp	r6, r3
 bhs	.LBB301_4
@@ -85046,9 +85056,9 @@ str	r0, [sp, #52]
 add	r1, sp, #136
 str	r1, [sp, #48]
 str	r0, [sp, #44]
-bcs trampo_hiwyh
+bcs trampo_jzcon
 b .LBB302_23
-trampo_hiwyh:
+trampo_jzcon:
 str	r0, [sp, #40]
 ldr	r0, .LCPI301_3
 str	r0, [sp, #36]
@@ -85497,9 +85507,9 @@ bl	_ZN4core9panicking9panic_fmt17hf47207f433d6da63E
 .p2align	2
 .type	_ZN1c1c8compiler14FullEvaluation13binop_combine17hcab37b88040eae5bE,%function
 .code	16
-bcs trampo_nnsyq
+bcs trampo_t0zsj
 b .LBB303_25
-trampo_nnsyq:
+trampo_t0zsj:
 _ZN1c1c8compiler14FullEvaluation13binop_combine17hcab37b88040eae5bE:
 .fnstart
 .save	{r4, r5, r6, r7, lr}
@@ -85835,9 +85845,9 @@ ldr	r0, [sp, #4]
 str	r0, [sp, #96]
 movs	r0, #0
 str	r0, [sp, #140]
-bcs trampo_0df8b
+bcs trampo_5c1uo
 b .LBB304_23
-trampo_0df8b:
+trampo_5c1uo:
 ldr	r0, .LCPI303_1
 str	r0, [sp, #124]
 str	r5, [sp, #136]
@@ -86233,9 +86243,9 @@ bl	_ZN4core9panicking9panic_fmt17hf47207f433d6da63E
 str	r0, [sp, #112]
 movs	r0, #0
 str	r0, [sp, #156]
-bcs trampo_e3l2s
+bcs trampo_sykfl
 b .LBB305_23
-trampo_e3l2s:
+trampo_sykfl:
 ldr	r0, .LCPI304_1
 str	r0, [sp, #140]
 str	r5, [sp, #152]
@@ -86717,9 +86727,9 @@ _ZN1c1c8compiler14FullEvaluation13binop_combine28_$u7b$$u7b$closure$u7d$$u7d$17h
 .fnstart
 .save	{r4, r5, r6, r7, lr}
 push	{r4, r5, r6, r7, lr}
-bne trampo_yhg62
+bne trampo_1uqu2
 b .LBB308_21
-trampo_yhg62:
+trampo_1uqu2:
 add	r7, sp, #12
 .pad	#68
 sub	sp, #68
@@ -87114,9 +87124,9 @@ str	r1, [r0]
 ldr	r6, [r4, #8]
 ldr	r0, [r4]
 cmp	r6, r0
-bcs trampo_9tx98
+bcs trampo_ywalr
 b .LBB309_25
-trampo_9tx98:
+trampo_ywalr:
 b	.LBB308_8
 .LBB308_21:
 movs	r0, #0
@@ -87499,9 +87509,9 @@ str	r0, [sp, #124]
 str	r1, [sp, #136]
 .LBB309_26:
 add	r0, sp, #16
-bcs trampo_a7imy
+bcs trampo_9t5zc
 b .LBB310_25
-trampo_a7imy:
+trampo_9t5zc:
 ldr	r0, .LCPI309_2
 str	r0, [sp, #36]
 add	r1, sp, #120
@@ -87884,9 +87894,9 @@ str	r5, [sp, #136]
 b	.LBB310_26
 .LBB310_25:
 ldr	r0, [sp, #8]
-bcs trampo_c2gbj
+bcs trampo_sp1k6
 b .LBB311_25
-trampo_c2gbj:
+trampo_sp1k6:
 movs	r0, #0
 str	r0, [sp, #140]
 ldr	r1, [sp]
@@ -88269,9 +88279,9 @@ str	r3, [sp, #136]
 b	.LBB311_26
 .LBB311_24:
 ldr	r0, [sp, #4]
-bcs trampo_qomba
+bcs trampo_codma
 b .LBB312_25
-trampo_qomba:
+trampo_codma:
 movs	r0, #0
 str	r0, [sp, #140]
 str	r5, [sp, #128]
@@ -88654,9 +88664,9 @@ add	r0, sp, #96
 ldr	r1, .LCPI312_4
 bl	_ZN4core9panicking9panic_fmt17hf47207f433d6da63E
 .LBB312_23:
-bcs trampo_g9z0m
+bcs trampo_sesbx
 b .LBB313_25
-trampo_g9z0m:
+trampo_sesbx:
 movs	r0, #0
 str	r0, [sp, #140]
 str	r3, [sp, #128]
@@ -89039,9 +89049,9 @@ str	r0, [sp, #144]
 add	r1, sp, #92
 str	r1, [sp, #140]
 str	r0, [sp, #136]
-bcs trampo_17mvx
+bcs trampo_lknik
 b .LBB314_25
-trampo_17mvx:
+trampo_lknik:
 str	r0, [sp, #132]
 ldr	r0, .LCPI313_3
 str	r0, [sp, #128]
@@ -89424,9 +89434,9 @@ str	r3, [sp, #120]
 movs	r0, #0
 str	r0, [sp, #112]
 str	r1, [sp, #100]
-bcs trampo_oeik2
+bcs trampo_aekj9
 b .LBB315_25
-trampo_oeik2:
+trampo_aekj9:
 str	r0, [sp, #96]
 str	r1, [sp, #108]
 add	r0, sp, #124
@@ -90499,11 +90509,11 @@ str	r0, [r5, #4]
 str	r6, [r5, #8]
 ldr	r0, [sp, #20]
 cmp	r0, #2
-ldr r1, trampo_soxs0_addr
-b trampo_soxs0_after
+ldr r1, trampo_mwywj_addr
+b trampo_mwywj_after
 .p2align 2
-trampo_soxs0_addr: .long .LCPI322_14
-trampo_soxs0_after: ldr r1, [r1]
+trampo_mwywj_addr: .long .LCPI322_14
+trampo_mwywj_after: ldr r1, [r1]
 beq	.LBB320_9
 ldr	r0, [sp, #4]
 cmp	r0, #0
@@ -90552,11 +90562,11 @@ b	.LBB320_1
 .p2align	2
 .LCPI320_0:
 mov r12, r7
-ldr r7, trampo_0ac4i_target
-b trampo_0ac4i_after
+ldr r7, trampo_f63xe_target
+b trampo_f63xe_after
 .p2align 2
-trampo_0ac4i_target: .long .LBB322_128 - CURPC - 2*(6)
-trampo_0ac4i_after: mov r11, r7
+trampo_f63xe_target: .long .LBB322_128 - CURPC - 2*(6)
+trampo_f63xe_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .Lfunc_end320:
@@ -90592,11 +90602,11 @@ ldr	r0, [r4]
 cmp	r0, #0
 bmi	.LBB321_4
 mov r12, r7
-ldr r7, trampo_zxt0u_target
-b trampo_zxt0u_after
+ldr r7, trampo_61dl3_target
+b trampo_61dl3_after
 .p2align 2
-trampo_zxt0u_target: .long .LBB322_130 - CURPC - 2*(6)
-trampo_zxt0u_after: mov r11, r7
+trampo_61dl3_target: .long .LBB322_130 - CURPC - 2*(6)
+trampo_61dl3_after: mov r11, r7
 mov r7, r12
 add pc, r11
 b	.LBB321_5
@@ -90670,11 +90680,11 @@ ldr	r6, [r4, #8]
 ldr	r0, [r4, #12]
 movs	r5, #20
 mov r12, r7
-ldr r7, trampo_fnii7_target
-b trampo_fnii7_after
+ldr r7, trampo_h3zbn_target
+b trampo_h3zbn_after
 .p2align 2
-trampo_fnii7_target: .long .LBB322_131 - CURPC - 2*(6)
-trampo_fnii7_after: mov r11, r7
+trampo_h3zbn_target: .long .LBB322_131 - CURPC - 2*(6)
+trampo_h3zbn_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .LBB321_17:
@@ -91149,11 +91159,11 @@ cmp	r4, r2
 bhs	.LBB322_39
 b	.LBB322_133
 .LBB322_39:
-ldr r0, trampo_wb63h_addr
-b trampo_wb63h_after
+ldr r0, trampo_ssvuh_addr
+b trampo_ssvuh_after
 .p2align 2
-trampo_wb63h_addr: .long .LCPI322_0
-trampo_wb63h_after: ldr r0, [r0]
+trampo_ssvuh_addr: .long .LCPI322_0
+trampo_ssvuh_after: ldr r0, [r0]
 ldr	r5, [sp, #60]
 str	r5, [r4]
 str	r2, [r6]
@@ -91169,15 +91179,15 @@ str	r2, [r3]
 str	r0, [r3, #4]
 str	r1, [r3, #8]
 str	r3, [sp, #72]
-bmi trampo_z0y6n
+bmi trampo_v524r
 b .LBB322_93
-trampo_z0y6n:
+trampo_v524r:
 b	.LBB322_7
-ldr r0, trampo_j3yz0_addr
-b trampo_j3yz0_after
+ldr r0, trampo_6l45w_addr
+b trampo_6l45w_after
 .p2align 2
-trampo_j3yz0_addr: .long .LCPI322_5
-trampo_j3yz0_after: ldr r0, [r0]
+trampo_6l45w_addr: .long .LCPI322_5
+trampo_6l45w_after: ldr r0, [r0]
 add	r1, sp, #108
 movs	r4, #1
 strb	r4, [r1]
@@ -91853,9 +91863,9 @@ str	r0, [sp, #68]
 ldr	r6, [sp, #56]
 bl	.LBB322_6
 .LBB322_110:
-beq trampo_yw63p
+beq trampo_dyro2
 b .LBB323_25
-trampo_yw63p:
+trampo_dyro2:
 adds	r0, r5, #1
 add	r1, sp, #136
 adds	r1, r1, #1
@@ -91878,9 +91888,9 @@ movs	r1, #4
 b	.LBB322_125
 .LBB322_114:
 ldr	r1, [r6, #12]
-beq trampo_lpgde
+beq trampo_16eug
 b .LBB323_27
-trampo_lpgde:
+trampo_16eug:
 add	r4, sp, #136
 adds	r0, r4, #4
 bl	_ZN60_$LT$alloc..string..String$u20$as$u20$core..clone..Clone$GT$5clone17h177b4a2d333b80adE
@@ -92114,9 +92124,9 @@ b	.LBB323_19
 ldr	r6, [sp, #36]
 add	r0, sp, #104
 str	r0, [sp, #20]
-bne trampo_3f29r
+bne trampo_rd278
 b .LBB324_20
-trampo_3f29r:
+trampo_rd278:
 bl	_ZN1c1c5parse7CParser21read_declarator_inner17h0b47faafbf72bc0aE
 ldr	r0, [sp, #20]
 ldrb	r0, [r0]
@@ -92289,19 +92299,19 @@ lsls	r1, r1, #8
 adds	r1, r1, r2
 strh	r1, [r3]
 ldr	r1, [sp, #108]
-ldr r1, trampo_6sgol_addr
-b trampo_6sgol_after
+ldr r1, trampo_5zyzd_addr
+b trampo_5zyzd_after
 .p2align 2
-trampo_6sgol_addr: .long .LCPI324_18
-trampo_6sgol_after: ldr r1, [r1]
+trampo_5zyzd_addr: .long .LCPI324_18
+trampo_5zyzd_after: ldr r1, [r1]
 ldr	r1, [sp, #112]
 str	r1, [sp, #8]
 ldr	r5, [sp, #116]
-ldr r1, trampo_l5mjs_addr
-b trampo_l5mjs_after
+ldr r1, trampo_swe6s_addr
+b trampo_swe6s_after
 .p2align 2
-trampo_l5mjs_addr: .long .LCPI324_19
-trampo_l5mjs_after: ldr r1, [r1]
+trampo_swe6s_addr: .long .LCPI324_19
+trampo_swe6s_after: ldr r1, [r1]
 ldr	r1, [sp, #124]
 str	r1, [sp, #4]
 ldr	r1, [sp, #132]
@@ -92358,11 +92368,11 @@ strb	r4, [r5]
 add	r0, sp, #24
 bl	_ZN4core3ptr44drop_in_place$LT$c..c..parse..ParseError$GT$17hb51ce899c9307cffE
 add	sp, #140
-ldr r1, trampo_63wrd_addr
-b trampo_63wrd_after
+ldr r1, trampo_6tpxu_addr
+b trampo_6tpxu_after
 .p2align 2
-trampo_63wrd_addr: .long .LCPI324_1
-trampo_63wrd_after: ldr r1, [r1]
+trampo_6tpxu_addr: .long .LCPI324_1
+trampo_6tpxu_after: ldr r1, [r1]
 .LBB323_26:
 movs	r0, #35
 ldr	r1, .LCPI323_2
@@ -92630,9 +92640,9 @@ movs	r3, #7
 add	r1, pc
 ldrb	r1, [r1, #4]
 lsls	r1, r1, #1
-bne trampo_lwzf8
+bne trampo_4elqg
 b .LBB324_63
-trampo_lwzf8:
+trampo_4elqg:
 add	pc, r1
 .p2align	2
 .LJTI324_0:
@@ -95212,9 +95222,9 @@ strb	r1, [r4, #1]
 ldrh	r6, [r3, #22]
 add	r5, sp, #136
 strh	r6, [r5, #4]
-beq trampo_iuxpn
+beq trampo_8ev38
 b .LBB330_7
-trampo_iuxpn:
+trampo_8ev38:
 ldrh	r3, [r3, #20]
 lsls	r3, r3, #16
 adds	r3, r3, r1
@@ -95248,18 +95258,18 @@ pop	{r4, r5, r6, r7, pc}
 .LBB329_6:
 .LBB329_7:
 strb	r4, [r5, #4]
-bne trampo_hf6nh
+bne trampo_c3jd6
 b .LBB330_8
-trampo_hf6nh:
+trampo_c3jd6:
 add	r1, sp, #96
 movs	r2, #15
 ldr	r0, [sp, #52]
 bl	__aeabi_memcpy
 ldr	r1, [sp, #40]
 ldr	r2, [sp, #36]
-beq trampo_47tx7
+beq trampo_j7ku7
 b .LBB330_9
-trampo_47tx7:
+trampo_j7ku7:
 .LBB329_8:
 cmp	r4, #12
 beq	.LBB329_9
@@ -95281,9 +95291,9 @@ str	r3, [sp, #12]
 str	r2, [sp, #36]
 str	r1, [sp, #40]
 str	r0, [sp, #44]
-bcs trampo_t3dj4
+bcs trampo_rjflt
 b .LBB330_10
-trampo_t3dj4:
+trampo_rjflt:
 str	r0, [sp, #16]
 strb	r0, [r5, #4]
 movs	r0, #20
@@ -95306,9 +95316,9 @@ adds	r0, #20
 cmp	r1, r0
 bhs	.LBB329_12
 b	.LBB329_35
-bcs trampo_l4lhj
+bcs trampo_8za9m
 b .LBB330_11
-trampo_l4lhj:
+trampo_8za9m:
 ldr	r2, [sp, #56]
 subs	r1, r2, #4
 ldr	r6, [sp, #24]
@@ -95451,9 +95461,9 @@ movs	r0, #2
 strb	r0, [r5, #12]
 ldr	r0, .LCPI329_0
 str	r0, [r5]
-beq trampo_84t4s
+beq trampo_pl81k
 b .LBB331_7
-trampo_84t4s:
+trampo_pl81k:
 str	r0, [r5, #4]
 ldr	r0, [sp, #60]
 str	r0, [r5, #8]
@@ -95487,18 +95497,18 @@ ldr	r0, [sp, #48]
 bics	r6, r0
 str	r6, [sp, #60]
 adds	r6, #20
-bne trampo_orbor
+bne trampo_mu7a7
 b .LBB331_8
-trampo_orbor:
+trampo_mu7a7:
 str	r5, [sp, #56]
 ldr	r1, [sp, #36]
 str	r1, [sp, #44]
 ldr	r5, [sp, #8]
 mov	r2, r4
 ldr	r4, [sp, #40]
-beq trampo_pc9y0
+beq trampo_cm5jt
 b .LBB331_9
-trampo_pc9y0:
+trampo_cm5jt:
 .LBB329_27:
 str	r6, [sp, #160]
 movs	r0, #0
@@ -95520,9 +95530,9 @@ str	r0, [sp, #104]
 ldr	r0, .LCPI329_3
 str	r0, [sp, #100]
 add	r0, sp, #128
-bcs trampo_lholh
+bcs trampo_r18lx
 b .LBB331_10
-trampo_lholh:
+trampo_r18lx:
 add	r0, sp, #136
 ldr	r1, .LCPI329_4
 bl	_ZN4core9panicking9panic_fmt17hf47207f433d6da63E
@@ -95545,9 +95555,9 @@ ldr	r0, [sp, #120]
 str	r0, [sp, #52]
 ldr	r0, [sp, #124]
 str	r0, [sp, #48]
-bcs trampo_rvj3q
+bcs trampo_suw97
 b .LBB331_11
-trampo_rvj3q:
+trampo_suw97:
 mov	r1, r5
 mov	r2, r6
 bl	__aeabi_memcpy
@@ -95690,9 +95700,9 @@ cmp	r5, #26
 bne	.LBB330_9
 ldr	r5, [sp, #8]
 mov	r0, r5
-beq trampo_pde3g
+beq trampo_5vhhw
 b .LBB332_7
-trampo_pde3g:
+trampo_5vhhw:
 ldr	r4, [sp, #28]
 mov	r2, r4
 bl	__aeabi_memcpy
@@ -95726,18 +95736,18 @@ ldm	r2!, {r4, r5, r6}
 stm	r3!, {r4, r5, r6}
 ldr	r6, [sp, #24]
 ldr	r5, [sp, #28]
-bne trampo_t75zo
+bne trampo_1krrg
 b .LBB332_8
-trampo_t75zo:
+trampo_1krrg:
 ldr	r2, [r6]
 @APP
 mov	r4, sp
 @NO_APP
 str	r4, [sp, #108]
 mvns	r3, r1
-beq trampo_i3ddw
+beq trampo_9klch
 b .LBB332_9
-trampo_i3ddw:
+trampo_9klch:
 ands	r2, r3
 mov	r3, r2
 adds	r3, #20
@@ -95760,9 +95770,9 @@ str	r2, [sp, #40]
 str	r0, [sp, #36]
 ldr	r0, .LCPI330_0
 str	r0, [sp, #32]
-bcs trampo_056m2
+bcs trampo_86ah9
 b .LBB332_10
-trampo_056m2:
+trampo_86ah9:
 b	.LBB330_2
 .LBB330_7:
 add	r0, sp, #52
@@ -95785,9 +95795,9 @@ str	r0, [r5, #24]
 ldr	r0, [sp, #24]
 str	r0, [r5, #28]
 strb	r6, [r5]
-bcs trampo_g63hr
+bcs trampo_qyqnb
 b .LBB332_11
-trampo_g63hr:
+trampo_qyqnb:
 pop	{r4, r5, r6, r7, pc}
 .LBB330_8:
 adds	r0, r5, #4
@@ -95931,9 +95941,9 @@ bl	_ZN1c1c10parse_expr38_$LT$impl$u20$c..c..parse..CParser$GT$19read_and_express
 ldrb	r5, [r5]
 cmp	r5, #26
 bne	.LBB331_9
-beq trampo_x5t8j
+beq trampo_tgmu4
 b .LBB333_7
-trampo_x5t8j:
+trampo_tgmu4:
 mov	r0, r5
 ldr	r1, [sp, #4]
 ldr	r4, [sp, #28]
@@ -95969,18 +95979,18 @@ ldm	r2!, {r4, r5, r6}
 stm	r3!, {r4, r5, r6}
 ldr	r6, [sp, #24]
 ldr	r5, [sp, #28]
-bne trampo_3l2wy
+bne trampo_008e9
 b .LBB333_8
-trampo_3l2wy:
+trampo_008e9:
 ldr	r2, [r6]
 @APP
 mov	r4, sp
 @NO_APP
 str	r4, [sp, #108]
 mvns	r3, r1
-beq trampo_unzu6
+beq trampo_91yds
 b .LBB333_9
-trampo_unzu6:
+trampo_91yds:
 ands	r2, r3
 mov	r3, r2
 adds	r3, #20
@@ -96002,9 +96012,9 @@ strh	r1, [r3, #12]
 str	r2, [sp, #40]
 str	r0, [sp, #36]
 ldr	r0, .LCPI331_0
-bcs trampo_32znv
+bcs trampo_jmz3x
 b .LBB333_10
-trampo_32znv:
+trampo_jmz3x:
 ldr	r5, [sp, #12]
 b	.LBB331_2
 .LBB331_7:
@@ -96027,9 +96037,9 @@ ldr	r0, [sp, #28]
 str	r0, [r5, #24]
 ldr	r0, [sp, #24]
 str	r0, [r5, #28]
-bcs trampo_hizru
+bcs trampo_3afp4
 b .LBB333_11
-trampo_hizru:
+trampo_3afp4:
 add	sp, #140
 pop	{r4, r5, r6, r7, pc}
 .LBB331_8:
@@ -96172,9 +96182,9 @@ mov	r0, r5
 mov	r1, r4
 bl	_ZN1c1c10parse_expr38_$LT$impl$u20$c..c..parse..CParser$GT$28read_exclusive_or_expression17hbf45ef7e55b230c3E
 ldrb	r5, [r5]
-beq trampo_mru5w
+beq trampo_uyaik
 b .LBB334_7
-trampo_mru5w:
+trampo_uyaik:
 bne	.LBB332_9
 ldr	r5, [sp, #8]
 mov	r0, r5
@@ -97328,9 +97338,9 @@ adds	r1, r1, r3
 ldr	r3, [sp, #68]
 adds	r1, r1, r2
 str	r1, [sp, #80]
-beq trampo_rvygs
+beq trampo_a05as
 b .LBB335_66
-trampo_rvygs:
+trampo_a05as:
 cmp	r0, #15
 beq	.LBB335_22
 b	.LBB335_40
@@ -97886,9 +97896,9 @@ add	r0, sp, #108
 bl	_ZN4core3ptr49drop_in_place$LT$c..c..parse_expr..Expression$GT$17hc08f126bcce2870cE
 add	sp, #244
 pop	{r4, r5, r6, r7, pc}
-beq trampo_6r29t
+beq trampo_bxcy8
 b .LBB336_9
-trampo_6r29t:
+trampo_bxcy8:
 movs	r0, #17
 lsls	r0, r0, #8
 str	r0, [sp, #48]
@@ -97909,9 +97919,9 @@ str	r0, [sp, #48]
 movs	r4, #18
 movs	r0, #0
 str	r0, [sp, #56]
-bne trampo_mqccu
+bne trampo_s78e5
 b .LBB336_11
-trampo_mqccu:
+trampo_s78e5:
 ldr	r0, [sp, #64]
 str	r0, [sp, #52]
 ldr	r0, [sp, #60]
@@ -98626,9 +98636,9 @@ ldr	r0, [r2, r0]
 str	r0, [sp]
 movs	r0, #0
 str	r0, [sp, #24]
-bne trampo_7lgrr
+bne trampo_cfkab
 b .LBB342_30
-trampo_7lgrr:
+trampo_cfkab:
 str	r0, [sp, #12]
 ldr	r2, .LCPI337_1
 str	r2, [sp, #8]
@@ -102706,9 +102716,9 @@ b	.LBB358_73
 .type	__aeabi_memset4,%function
 .code	16
 .thumb_func
-beq trampo_3fex4
+beq trampo_bsu2h
 b .LBB363_29
-trampo_3fex4:
+trampo_bsu2h:
 .fnstart
 .save	{r4, r5, r6, r7, lr}
 push	{r4, r5, r6, r7, lr}
@@ -102802,9 +102812,9 @@ str	r3, [r4, r2]
 str	r3, [r6, r2]
 str	r3, [r5, r2]
 str	r0, [sp, #20]
-bne trampo_hw1i1
+bne trampo_xkz24
 b .LBB363_8
-trampo_hw1i1:
+trampo_xkz24:
 ldr	r0, [sp, #24]
 cmp	r0, #1
 bne	.LBB359_12
@@ -102814,17 +102824,17 @@ b	.LBB359_15
 lsls	r2, r2, #2
 ldr	r0, [sp, #16]
 str	r3, [r0, r2]
-bne trampo_h82y4
+bne trampo_ytfwk
 b .LBB363_8
-trampo_h82y4:
+trampo_ytfwk:
 str	r3, [r6, r2]
 str	r3, [r5, r2]
 ldr	r0, [sp, #20]
 mov	r2, r0
 adds	r2, #8
-bne trampo_y4fnv
+bne trampo_px5xu
 b .LBB363_8
-trampo_y4fnv:
+trampo_px5xu:
 ldr	r2, [sp, #24]
 cmp	r2, #2
 bne	.LBB359_14
@@ -105332,11 +105342,11 @@ ldr	r2, [sp, #232]
 strb	r2, [r4]
 str	r2, [sp, #456]
 cmp	r1, #2
-ldr r1, trampo_bnw6y_addr
-b trampo_bnw6y_after
+ldr r1, trampo_21lyh_addr
+b trampo_21lyh_after
 .p2align 2
-trampo_bnw6y_addr: .long .LCPI376_253
-trampo_bnw6y_after: ldr r1, [r1]
+trampo_21lyh_addr: .long .LCPI376_253
+trampo_21lyh_after: ldr r1, [r1]
 mov	r0, r5
 bl	_ZN5alloc7raw_vec19RawVec$LT$T$C$A$GT$8grow_one17hbbbc55fac6d91e4dE
 ldr	r0, [sp, #452]
@@ -107118,24 +107128,24 @@ str	r1, [sp, #756]
 str	r2, [sp, #760]
 str	r3, [sp, #764]
 ldr	r2, [sp, #372]
-ldr r2, trampo_ofvwi_addr
-b trampo_ofvwi_after
+ldr r2, trampo_ctbz8_addr
+b trampo_ctbz8_after
 .p2align 2
-trampo_ofvwi_addr: .long .LCPI376_143
-trampo_ofvwi_after: ldr r2, [r2]
+trampo_ctbz8_addr: .long .LCPI376_143
+trampo_ctbz8_after: ldr r2, [r2]
 ldr	r0, [r2, #12]
 str	r0, [sp, #348]
-ldr r0, trampo_atfwz_addr
-b trampo_atfwz_after
+ldr r0, trampo_kame6_addr
+b trampo_kame6_after
 .p2align 2
-trampo_atfwz_addr: .long .LCPI376_144
-trampo_atfwz_after: ldr r0, [r0]
+trampo_kame6_addr: .long .LCPI376_144
+trampo_kame6_after: ldr r0, [r0]
 ldr	r1, [r2, #20]
-ldr r1, trampo_hlkdh_addr
-b trampo_hlkdh_after
+ldr r1, trampo_ar9wi_addr
+b trampo_ar9wi_after
 .p2align 2
-trampo_hlkdh_addr: .long .LCPI376_145
-trampo_hlkdh_after: ldr r1, [r1]
+trampo_ar9wi_addr: .long .LCPI376_145
+trampo_ar9wi_after: ldr r1, [r1]
 ldr	r1, [r2, #24]
 str	r1, [sp, #364]
 ldr	r1, [r2, #28]
@@ -110570,9 +110580,9 @@ str	r3, [r4, #60]
 b	.LBB376_729
 .LBB376_727:
 str	r1, [r4, #60]
-beq trampo_76k2c
+beq trampo_6q348
 b .LBB377_48
-trampo_76k2c:
+trampo_6q348:
 .LBB376_728:
 ldr	r0, [sp, #376]
 str	r1, [r0, #60]
@@ -110613,9 +110623,9 @@ add	r0, sp, #1020
 adds	r0, #12
 ldr	r1, .LCPI376_12
 bl	_ZN4core9panicking9panic_fmt17hf47207f433d6da63E
-bne trampo_opuvn
+bne trampo_iw4cs
 b .LBB377_49
-trampo_opuvn:
+trampo_iw4cs:
 add	r1, sp, #908
 str	r0, [r1, #124]
 b	.LBB376_734
@@ -110747,9 +110757,9 @@ bl	_ZN4core9panicking9panic_fmt17hf47207f433d6da63E
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.636
 .p2align	2
 .LCPI376_227:
-beq trampo_z1uoc
+beq trampo_izir0
 b .LBB377_33
-trampo_z1uoc:
+trampo_izir0:
 .p2align	2
 .LCPI376_228:
 .long	1728
@@ -111373,17 +111383,17 @@ mov	r2, r5
 str	r5, [sp, #28]
 movs	r5, #1
 lsls	r1, r5, #23
-beq trampo_ugcu3
+beq trampo_e6gcb
 b .LBB380_41
-trampo_ugcu3:
+trampo_e6gcb:
 cmp	r0, #0
 mov	r0, r5
 beq	.LBB378_4
 .LBB378_1:
 add	r4, sp, #28
-beq trampo_1zfnf
+beq trampo_odqnr
 b .LBB380_41
-trampo_1zfnf:
+trampo_odqnr:
 strb	r0, [r4, #4]
 ldr	r0, .LCPI378_7
 str	r0, [sp]
@@ -111395,9 +111405,9 @@ bl	_ZN4core3fmt8builders11DebugStruct5field17h41cbb6c96cddb5e6E
 ldrb	r0, [r4, #5]
 ldr	r1, [sp, #32]
 cmp	r0, #0
-bne trampo_chns0
+bne trampo_92r2q
 b .LBB380_40
-trampo_chns0:
+trampo_92r2q:
 beq	.LBB378_9
 beq	.LBB378_10
 .LBB378_3:
@@ -111574,14 +111584,14 @@ movs	r5, #0
 str	r5, [sp, #52]
 add	r4, sp, #48
 str	r4, [sp, #48]
-beq trampo_xciue
+beq trampo_bb0im
 b .LBB380_27
-trampo_xciue:
+trampo_bb0im:
 mov	r0, r4
 mov	r1, r5
-bne trampo_nathv
+bne trampo_k10b1
 b .LBB380_27
-trampo_nathv:
+trampo_k10b1:
 bl	__aeabi_lmul
 str	r0, [sp, #12]
 str	r1, [sp, #44]
@@ -111628,11 +111638,11 @@ add	r4, sp, #48
 str	r4, [sp, #48]
 mov	r0, r4
 mov	r1, r5
-ldr r1, trampo_uxx6s_addr
-b trampo_uxx6s_after
+ldr r1, trampo_jfxtg_addr
+b trampo_jfxtg_after
 .p2align 2
-trampo_uxx6s_addr: .long .LCPI381_12
-trampo_uxx6s_after: ldr r1, [r1]
+trampo_jfxtg_addr: .long .LCPI381_12
+trampo_jfxtg_after: ldr r1, [r1]
 mov	r3, r5
 bl	__aeabi_lmul
 str	r0, [sp, #20]
@@ -111644,9 +111654,9 @@ eors	r0, r1
 mov	r1, r5
 mov	r2, r4
 mov	r3, r5
-bpl trampo_mz1ad
+bpl trampo_8hvho
 b .LBB381_23
-trampo_mz1ad:
+trampo_8hvho:
 str	r1, [sp, #44]
 ldr	r1, [sp, #32]
 eors	r0, r1
@@ -111685,9 +111695,9 @@ ldr	r2, .LCPI379_3
 mov	r3, r5
 bl	__aeabi_lmul
 ldr	r2, [sp, #4]
-bne trampo_wa3s9
+bne trampo_sghkd
 b .LBB381_27
-trampo_wa3s9:
+trampo_sghkd:
 eors	r1, r4
 ldr	r2, [sp, #8]
 ldr	r3, [sp, #12]
@@ -111714,9 +111724,9 @@ mov	r3, r5
 bl	__aeabi_lmul
 mov	r4, r0
 str	r1, [sp, #24]
-bne trampo_jar0q
+bne trampo_kkf1z
 b .LBB381_30
-trampo_jar0q:
+trampo_kkf1z:
 eors	r4, r0
 ldr	r0, [sp, #28]
 mov	r1, r5
@@ -111743,9 +111753,9 @@ movs	r2, #8
 str	r2, [sp, #16]
 ldr	r3, .LCPI379_5
 ldr	r2, [r3]
-bne trampo_8ttim
+bne trampo_tdc1u
 b .LBB381_35
-trampo_8ttim:
+trampo_tdc1u:
 ldr	r4, [r3, #4]
 str	r4, [sp, #36]
 ldr	r3, [r3, #8]
@@ -111783,9 +111793,9 @@ mov	r3, r5
 bl	__aeabi_lmul
 str	r0, [sp, #8]
 str	r1, [sp, #12]
-bne trampo_s5kyq
+bne trampo_uu7qa
 b .LBB381_37
-trampo_s5kyq:
+trampo_uu7qa:
 ldr	r1, [sp, #20]
 eors	r0, r1
 str	r0, [sp, #44]
@@ -111798,9 +111808,9 @@ str	r1, [sp, #20]
 ldr	r0, [sp, #8]
 eors	r4, r0
 ldr	r0, [sp, #32]
-bne trampo_s3klk
+bne trampo_jcu1v
 b .LBB381_41
-trampo_s3klk:
+trampo_jcu1v:
 ldr	r2, .LCPI379_4
 mov	r3, r5
 bl	__aeabi_lmul
@@ -111841,9 +111851,9 @@ pop	{r4, r5, r6, r7, pc}
 .LCPI379_0:
 .long	320440878
 .LCPI379_1:
-bne trampo_50e1l
+bne trampo_x6cop
 b .LBB381_44
-trampo_50e1l:
+trampo_x6cop:
 .LCPI379_2:
 .long	57701188
 .LCPI379_3:
@@ -112394,11 +112404,11 @@ ldr	r0, [sp, #8]
 ldrb	r0, [r0]
 lsls	r0, r0, #2
 ldr	r1, .LCPI381_13
-ldr r1, trampo_iayrt_addr
-b trampo_iayrt_after
+ldr r1, trampo_c5cuw_addr
+b trampo_c5cuw_after
 .p2align 2
-trampo_iayrt_addr: .long .LCPI383_50
-trampo_iayrt_after: ldr r1, [r1]
+trampo_c5cuw_addr: .long .LCPI383_50
+trampo_c5cuw_after: ldr r1, [r1]
 ldr	r2, .LCPI381_14
 .LBB381_34:
 ldr	r2, [r2, r0]
@@ -112419,11 +112429,11 @@ ldr	r1, .LCPI381_11
 b	.LBB381_46
 .LBB381_37:
 add	r0, sp, #12
-ldr r1, trampo_spxcg_addr
-b trampo_spxcg_after
+ldr r1, trampo_r865s_addr
+b trampo_r865s_after
 .p2align 2
-trampo_spxcg_addr: .long .LCPI383_26
-trampo_spxcg_after: ldr r1, [r1]
+trampo_r865s_addr: .long .LCPI383_26
+trampo_r865s_after: ldr r1, [r1]
 strb	r1, [r0]
 str	r0, [sp, #36]
 str	r5, [sp, #32]
@@ -112447,11 +112457,11 @@ pop	{r4, r5, r6, r7, pc}
 add	r0, sp, #28
 ldr	r1, .LCPI381_3
 movs	r2, #2
-ldr r1, trampo_7a003_addr
-b trampo_7a003_after
+ldr r1, trampo_oga5i_addr
+b trampo_oga5i_after
 .p2align 2
-trampo_7a003_addr: .long .LCPI383_27
-trampo_7a003_after: ldr r1, [r1]
+trampo_oga5i_addr: .long .LCPI383_27
+trampo_oga5i_after: ldr r1, [r1]
 cmp	r0, #0
 ldr	r1, [sp, #4]
 beq	.LBB381_40
@@ -112680,11 +112690,11 @@ mov	r6, r3
 blx	r3
 mov	r1, r0
 mov r12, r7
-ldr r7, trampo_hey7g_target
-b trampo_hey7g_after
+ldr r7, trampo_h2m4u_target
+b trampo_h2m4u_after
 .p2align 2
-trampo_hey7g_target: .long .LBB383_171 - CURPC - 2*(6)
-trampo_hey7g_after: mov r11, r7
+trampo_h2m4u_target: .long .LBB383_171 - CURPC - 2*(6)
+trampo_h2m4u_after: mov r11, r7
 mov r7, r12
 add pc, r11
 cmp	r1, #0
@@ -112879,20 +112889,20 @@ pop	{r4, r5, r6, r7, pc}
 .cantunwind
 .fnend
 mov r12, r7
-ldr r7, trampo_mipqr_target
-b trampo_mipqr_after
+ldr r7, trampo_0z7ix_target
+b trampo_0z7ix_after
 .p2align 2
-trampo_mipqr_target: .long .LBB383_205 - CURPC - 2*(6)
-trampo_mipqr_after: mov r11, r7
+trampo_0z7ix_target: .long .LBB383_205 - CURPC - 2*(6)
+trampo_0z7ix_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .p2align	2
 mov r12, r7
-ldr r7, trampo_p78m0_target
-b trampo_p78m0_after
+ldr r7, trampo_xuho5_target
+b trampo_xuho5_after
 .p2align 2
-trampo_p78m0_target: .long .LBB383_171 - CURPC - 2*(6)
-trampo_p78m0_after: mov r11, r7
+trampo_xuho5_target: .long .LBB383_171 - CURPC - 2*(6)
+trampo_xuho5_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .code	16
@@ -112921,11 +112931,11 @@ lsls	r3, r3, #1
 add	r3, pc
 ldrh	r3, [r3, #4]
 mov r12, r7
-ldr r7, trampo_h1vxo_target
-b trampo_h1vxo_after
+ldr r7, trampo_pp9d3_target
+b trampo_pp9d3_after
 .p2align 2
-trampo_h1vxo_target: .long .LBB383_205 - CURPC - 2*(6)
-trampo_h1vxo_after: mov r11, r7
+trampo_pp9d3_target: .long .LBB383_205 - CURPC - 2*(6)
+trampo_pp9d3_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .LCPI383_23:
@@ -112939,11 +112949,11 @@ add	pc, r3
 .short	(.LBB383_13-(.LCPI383_23+4))/2
 .short	(.LBB383_39-(.LCPI383_23+4))/2
 mov r12, r7
-ldr r7, trampo_21fjx_target
-b trampo_21fjx_after
+ldr r7, trampo_s3265_target
+b trampo_s3265_after
 .p2align 2
-trampo_21fjx_target: .long .LBB383_205 - CURPC - 2*(6)
-trampo_21fjx_after: mov r11, r7
+trampo_s3265_target: .long .LBB383_205 - CURPC - 2*(6)
+trampo_s3265_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .short	(.LBB383_27-(.LCPI383_23+4))/2
@@ -113030,11 +113040,11 @@ ldr	r6, [r0, #12]
 ldr	r1, .LCPI383_28
 movs	r2, #8
 mov	r0, r4
-ldr r1, trampo_y1l57_addr
-b trampo_y1l57_after
+ldr r1, trampo_mcme6_addr
+b trampo_mcme6_after
 .p2align 2
-trampo_y1l57_addr: .long .LCPI383_46
-trampo_y1l57_after: ldr r1, [r1]
+trampo_mcme6_addr: .long .LCPI383_46
+trampo_mcme6_after: ldr r1, [r1]
 movs	r1, #1
 cmp	r0, #0
 beq	.LBB383_14
@@ -113046,11 +113056,11 @@ str	r0, [sp, #8]
 str	r5, [sp, #12]
 ldrb	r0, [r5, #10]
 lsls	r0, r0, #24
-ldr r0, trampo_q6ej8_addr
-b trampo_q6ej8_after
+ldr r0, trampo_4j0ae_addr
+b trampo_4j0ae_after
 .p2align 2
-trampo_q6ej8_addr: .long .LCPI383_47
-trampo_q6ej8_after: ldr r0, [r0]
+trampo_4j0ae_addr: .long .LCPI383_47
+trampo_4j0ae_after: ldr r0, [r0]
 b	.LBB383_84
 .LBB383_15:
 ldr	r1, .LCPI383_26
@@ -113072,11 +113082,11 @@ beq	.LBB383_17
 b	.LBB383_34
 .LBB383_17:
 b	.LBB383_87
-ldr r1, trampo_f1pwz_addr
-b trampo_f1pwz_after
+ldr r1, trampo_myhr4_addr
+b trampo_myhr4_after
 .p2align 2
-trampo_f1pwz_addr: .long .LCPI383_48
-trampo_f1pwz_after: ldr r1, [r1]
+trampo_myhr4_addr: .long .LCPI383_48
+trampo_myhr4_after: ldr r1, [r1]
 ldr	r4, [r1]
 ldr	r0, [r1, #4]
 mov	r5, r1
@@ -113091,11 +113101,11 @@ beq	.LBB383_19
 bl	.LBB383_205
 .LBB383_19:
 str	r1, [sp, #16]
-ldr r1, trampo_jogjr_addr
-b trampo_jogjr_after
+ldr r1, trampo_2jc79_addr
+b trampo_2jc79_after
 .p2align 2
-trampo_jogjr_addr: .long .LCPI383_49
-trampo_jogjr_after: ldr r1, [r1]
+trampo_2jc79_addr: .long .LCPI383_49
+trampo_2jc79_after: ldr r1, [r1]
 str	r0, [sp, #8]
 str	r5, [sp, #12]
 ldrb	r0, [r5, #10]
@@ -113110,21 +113120,21 @@ blx	r6
 cmp	r0, #0
 bne	.LBB383_34
 mov r12, r7
-ldr r7, trampo_sews2_target
-b trampo_sews2_after
+ldr r7, trampo_igo2r_target
+b trampo_igo2r_after
 .p2align 2
-trampo_sews2_target: .long .LBB383_205 - CURPC - 2*(6)
-trampo_sews2_after: mov r11, r7
+trampo_igo2r_target: .long .LBB383_205 - CURPC - 2*(6)
+trampo_igo2r_after: mov r11, r7
 mov r7, r12
 add pc, r11
 ldr	r0, [r0, #4]
 ldr	r6, [sp, #12]
 mov	r1, r6
-ldr r1, trampo_xau78_addr
-b trampo_xau78_after
+ldr r1, trampo_9jn09_addr
+b trampo_9jn09_after
 .p2align 2
-trampo_xau78_addr: .long .LCPI383_41
-trampo_xau78_after: ldr r1, [r1]
+trampo_9jn09_addr: .long .LCPI383_41
+trampo_9jn09_after: ldr r1, [r1]
 cmp	r0, #0
 ldr	r5, [sp, #8]
 bne	.LBB383_34
@@ -113136,11 +113146,11 @@ ldr	r0, [r1, #4]
 str	r0, [sp, #8]
 ldr	r5, [r0, #12]
 ldr	r1, .LCPI383_30
-ldr r0, trampo_nc074_addr
-b trampo_nc074_after
+ldr r0, trampo_r9pnd_addr
+b trampo_r9pnd_after
 .p2align 2
-trampo_nc074_addr: .long .LCPI383_42
-trampo_nc074_after: ldr r0, [r0]
+trampo_r9pnd_addr: .long .LCPI383_42
+trampo_r9pnd_after: ldr r0, [r0]
 b	.LBB383_33
 .LBB383_23:
 ldr	r4, [r1]
@@ -113162,11 +113172,11 @@ adds	r0, #8
 str	r0, [sp, #4]
 movs	r0, #1
 str	r0, [sp, #8]
-ldr r1, trampo_8vhvr_addr
-b trampo_8vhvr_after
+ldr r1, trampo_zh28h_addr
+b trampo_zh28h_after
 .p2align 2
-trampo_8vhvr_addr: .long .LCPI383_43
-trampo_8vhvr_after: ldr r1, [r1]
+trampo_zh28h_addr: .long .LCPI383_43
+trampo_zh28h_after: ldr r1, [r1]
 ldrb	r0, [r5, #10]
 lsls	r0, r0, #24
 bpl	.LBB383_25
@@ -113181,11 +113191,11 @@ bne	.LBB383_34
 ldr	r0, [sp, #4]
 ldr	r4, [sp, #12]
 mov	r1, r4
-ldr r1, trampo_ym1w5_addr
-b trampo_ym1w5_after
+ldr r1, trampo_diob8_addr
+b trampo_diob8_after
 .p2align 2
-trampo_ym1w5_addr: .long .LCPI383_44
-trampo_ym1w5_after: ldr r1, [r1]
+trampo_diob8_addr: .long .LCPI383_44
+trampo_diob8_after: ldr r1, [r1]
 cmp	r0, #0
 ldr	r5, [sp, #8]
 bne	.LBB383_34
@@ -113203,11 +113213,11 @@ movs	r2, #6
 mov	r0, r4
 blx	r5
 movs	r1, #1
-ldr r1, trampo_i6i53_addr
-b trampo_i6i53_after
+ldr r1, trampo_je27z_addr
+b trampo_je27z_after
 .p2align 2
-trampo_i6i53_addr: .long .LCPI383_41
-trampo_i6i53_after: ldr r1, [r1]
+trampo_je27z_addr: .long .LCPI383_41
+trampo_je27z_after: ldr r1, [r1]
 cmp	r0, #0
 bne	.LBB383_34
 str	r6, [sp, #12]
@@ -113490,11 +113500,11 @@ str	r0, [sp, #48]
 str	r6, [sp, #44]
 ldr	r1, [sp, #20]
 ldr	r0, [r1, #8]
-ldr r1, trampo_c4cl9_addr
-b trampo_c4cl9_after
+ldr r1, trampo_pigzi_addr
+b trampo_pigzi_after
 .p2align 2
-trampo_c4cl9_addr: .long .LCPI383_2
-trampo_c4cl9_after: ldr r1, [r1]
+trampo_pigzi_addr: .long .LCPI383_2
+trampo_pigzi_after: ldr r1, [r1]
 add	r2, sp, #44
 ldr	r3, .LCPI383_39
 bl	_ZN40_$LT$str$u20$as$u20$core..fmt..Debug$GT$3fmt17h58e020e150275dabE
@@ -113506,11 +113516,11 @@ b	.LBB383_205
 add	r0, sp, #44
 mov	r4, r1
 ldr	r1, .LCPI383_40
-ldr r0, trampo_kcjsx_addr
-b trampo_kcjsx_after
+ldr r0, trampo_j5y5z_addr
+b trampo_j5y5z_after
 .p2align 2
-trampo_kcjsx_addr: .long .LCPI383_3
-trampo_kcjsx_after: ldr r0, [r0]
+trampo_j5y5z_addr: .long .LCPI383_3
+trampo_j5y5z_after: ldr r0, [r0]
 bl	_ZN68_$LT$core..fmt..builders..PadAdapter$u20$as$u20$core..fmt..Write$GT$9write_str17h279e110827ead30dE
 mov	r1, r4
 cmp	r0, #0
@@ -113531,11 +113541,11 @@ blx	r5
 cmp	r0, #0
 beq	.LBB383_67
 b	.LBB383_34
-ldr r1, trampo_n3nku_addr
-b trampo_n3nku_after
+ldr r1, trampo_77twd_addr
+b trampo_77twd_after
 .p2align 2
-trampo_n3nku_addr: .long .LCPI383_4
-trampo_n3nku_after: ldr r1, [r1]
+trampo_77twd_addr: .long .LCPI383_4
+trampo_77twd_after: ldr r1, [r1]
 add	r0, sp, #24
 movs	r1, #1
 strb	r1, [r0]
@@ -113550,11 +113560,11 @@ str	r0, [sp, #44]
 ldr	r4, [sp, #12]
 ldr	r0, [r4, #8]
 ldr	r1, [r4, #12]
-ldr r1, trampo_b20h0_addr
-b trampo_b20h0_after
+ldr r1, trampo_chie4_addr
+b trampo_chie4_after
 .p2align 2
-trampo_b20h0_addr: .long .LCPI383_8
-trampo_b20h0_after: ldr r1, [r1]
+trampo_chie4_addr: .long .LCPI383_8
+trampo_chie4_after: ldr r1, [r1]
 str	r0, [sp, #52]
 ldr	r0, [sp, #20]
 str	r0, [sp, #28]
@@ -113574,11 +113584,11 @@ b	.LBB383_104
 .p2align	2
 .LCPI383_29:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.809
-ldr r1, trampo_9kxpr_addr
-b trampo_9kxpr_after
+ldr r1, trampo_momuo_addr
+b trampo_momuo_after
 .p2align 2
-trampo_9kxpr_addr: .long .LCPI383_2
-trampo_9kxpr_after: ldr r1, [r1]
+trampo_momuo_addr: .long .LCPI383_2
+trampo_momuo_after: ldr r1, [r1]
 .LCPI383_30:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.794
 .p2align	2
@@ -113590,11 +113600,11 @@ trampo_9kxpr_after: ldr r1, [r1]
 .p2align	2
 .LCPI383_33:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.793
-ldr r0, trampo_3fwe9_addr
-b trampo_3fwe9_after
+ldr r0, trampo_ntmof_addr
+b trampo_ntmof_after
 .p2align 2
-trampo_3fwe9_addr: .long .LCPI383_3
-trampo_3fwe9_after: ldr r0, [r0]
+trampo_ntmof_addr: .long .LCPI383_3
+trampo_ntmof_after: ldr r0, [r0]
 .LCPI383_34:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.802
 .p2align	2
@@ -113613,11 +113623,11 @@ trampo_3fwe9_after: ldr r0, [r0]
 .LCPI383_39:
 .long	.Lanon.473b67faff607bd0577c0495f3cb192a.261
 .p2align	2
-ldr r1, trampo_8dxoz_addr
-b trampo_8dxoz_after
+ldr r1, trampo_ep38z_addr
+b trampo_ep38z_after
 .p2align 2
-trampo_8dxoz_addr: .long .LCPI383_4
-trampo_8dxoz_after: ldr r1, [r1]
+trampo_ep38z_addr: .long .LCPI383_4
+trampo_ep38z_after: ldr r1, [r1]
 .long	.Lanon.473b67faff607bd0577c0495f3cb192a.266
 .p2align	1
 .LBB383_84:
@@ -113632,11 +113642,11 @@ b	.LBB383_34
 add	r0, sp, #24
 ldr	r5, [sp, #8]
 strb	r5, [r0]
-ldr r1, trampo_54u1b_addr
-b trampo_54u1b_after
+ldr r1, trampo_r8ci2_addr
+b trampo_r8ci2_after
 .p2align 2
-trampo_54u1b_addr: .long .LCPI383_8
-trampo_54u1b_after: ldr r1, [r1]
+trampo_r8ci2_addr: .long .LCPI383_8
+trampo_r8ci2_after: ldr r1, [r1]
 ldr	r0, .LCPI383_47
 str	r0, [sp, #48]
 add	r0, sp, #32
@@ -113702,11 +113712,11 @@ b	.LBB383_34
 .LBB383_92:
 add	r0, sp, #28
 mov r12, r7
-ldr r7, trampo_zxycy_target
-b trampo_zxycy_after
+ldr r7, trampo_p3tpv_target
+b trampo_p3tpv_after
 .p2align 2
-trampo_zxycy_target: .long .LBB383_34 - CURPC - 2*(6)
-trampo_zxycy_after: mov r11, r7
+trampo_p3tpv_target: .long .LBB383_34 - CURPC - 2*(6)
+trampo_p3tpv_after: mov r11, r7
 mov r7, r12
 add pc, r11
 strb	r5, [r0]
@@ -113748,11 +113758,11 @@ b	.LBB383_154
 .LBB383_95:
 ldm	r6!, {r0, r1}
 mov r12, r7
-ldr r7, trampo_ws9t1_target
-b trampo_ws9t1_after
+ldr r7, trampo_7hzy4_target
+b trampo_7hzy4_after
 .p2align 2
-trampo_ws9t1_target: .long .LBB383_34 - CURPC - 2*(6)
-trampo_ws9t1_after: mov r11, r7
+trampo_7hzy4_target: .long .LBB383_34 - CURPC - 2*(6)
+trampo_7hzy4_after: mov r11, r7
 mov r7, r12
 add pc, r11
 ldr	r1, .LCPI383_44
@@ -113765,11 +113775,11 @@ b	.LBB383_34
 .LBB383_96:
 ldr	r0, [sp, #20]
 mov r12, r7
-ldr r7, trampo_etum2_target
-b trampo_etum2_after
+ldr r7, trampo_itino_target
+b trampo_itino_after
 .p2align 2
-trampo_etum2_target: .long .LBB383_34 - CURPC - 2*(6)
-trampo_etum2_after: mov r11, r7
+trampo_itino_target: .long .LBB383_34 - CURPC - 2*(6)
+trampo_itino_after: mov r11, r7
 mov r7, r12
 add pc, r11
 mov	r1, r6
@@ -113788,11 +113798,11 @@ cmp	r0, #0
 beq	.LBB383_99
 b	.LBB383_34
 mov r12, r7
-ldr r7, trampo_gkxwo_target
-b trampo_gkxwo_after
+ldr r7, trampo_b6y1l_target
+b trampo_b6y1l_after
 .p2align 2
-trampo_gkxwo_target: .long .LBB383_34 - CURPC - 2*(6)
-trampo_gkxwo_after: mov r11, r7
+trampo_b6y1l_target: .long .LBB383_34 - CURPC - 2*(6)
+trampo_b6y1l_after: mov r11, r7
 mov r7, r12
 add pc, r11
 add	r0, sp, #28
@@ -113833,11 +113843,11 @@ ldr	r1, .LCPI383_41
 movs	r2, #2
 mov	r0, r4
 mov r12, r7
-ldr r7, trampo_osvqg_target
-b trampo_osvqg_after
+ldr r7, trampo_wgvqk_target
+b trampo_wgvqk_after
 .p2align 2
-trampo_osvqg_target: .long .LBB383_34 - CURPC - 2*(6)
-trampo_osvqg_after: mov r11, r7
+trampo_wgvqk_target: .long .LBB383_34 - CURPC - 2*(6)
+trampo_wgvqk_after: mov r11, r7
 mov r7, r12
 add pc, r11
 cmp	r0, #0
@@ -113848,11 +113858,11 @@ add	r0, sp, #24
 movs	r1, #1
 strb	r1, [r0]
 mov r12, r7
-ldr r7, trampo_f2gim_target
-b trampo_f2gim_after
+ldr r7, trampo_7tice_target
+b trampo_7tice_after
 .p2align 2
-trampo_f2gim_target: .long .LBB383_34 - CURPC - 2*(6)
-trampo_f2gim_after: mov r11, r7
+trampo_7tice_target: .long .LBB383_34 - CURPC - 2*(6)
+trampo_7tice_after: mov r11, r7
 mov r7, r12
 add pc, r11
 ldr	r0, [sp, #20]
@@ -113871,11 +113881,11 @@ add	r0, sp, #28
 add	r1, sp, #44
 bl	_ZN42_$LT$$RF$T$u20$as$u20$core..fmt..Debug$GT$3fmt17h16fc7f7730c76260E
 mov r12, r7
-ldr r7, trampo_q8tqv_target
-b trampo_q8tqv_after
+ldr r7, trampo_pwzy8_target
+b trampo_pwzy8_after
 .p2align 2
-trampo_q8tqv_target: .long .LBB383_34 - CURPC - 2*(6)
-trampo_q8tqv_after: mov r11, r7
+trampo_pwzy8_target: .long .LBB383_34 - CURPC - 2*(6)
+trampo_pwzy8_after: mov r11, r7
 mov r7, r12
 add pc, r11
 cmp	r0, #0
@@ -113910,11 +113920,11 @@ ldr	r5, [sp, #8]
 strb	r5, [r0]
 str	r0, [sp, #40]
 mov r12, r7
-ldr r7, trampo_0z95h_target
-b trampo_0z95h_after
+ldr r7, trampo_a3t59_target
+b trampo_a3t59_after
 .p2align 2
-trampo_0z95h_target: .long .LBB383_34 - CURPC - 2*(6)
-trampo_0z95h_after: mov r11, r7
+trampo_a3t59_target: .long .LBB383_34 - CURPC - 2*(6)
+trampo_a3t59_after: mov r11, r7
 mov r7, r12
 add pc, r11
 str	r0, [sp, #48]
@@ -115117,11 +115127,11 @@ mov	r0, r4
 .LBB384_75:
 movs	r3, #3
 mov r12, r7
-ldr r7, trampo_yvaxp_target
-b trampo_yvaxp_after
+ldr r7, trampo_ogiq8_target
+b trampo_ogiq8_after
 .p2align 2
-trampo_yvaxp_target: .long .LBB385_84 - CURPC - 2*(6)
-trampo_yvaxp_after: mov r11, r7
+trampo_ogiq8_target: .long .LBB385_84 - CURPC - 2*(6)
+trampo_ogiq8_after: mov r11, r7
 mov r7, r12
 add pc, r11
 ldr	r5, [sp, #60]
@@ -115143,11 +115153,11 @@ b	.LBB384_122
 .LBB384_79:
 cmp	r2, #2
 mov r12, r7
-ldr r7, trampo_xac2p_target
-b trampo_xac2p_after
+ldr r7, trampo_d8d6s_target
+b trampo_d8d6s_after
 .p2align 2
-trampo_xac2p_target: .long .LBB385_107 - CURPC - 2*(6)
-trampo_xac2p_after: mov r11, r7
+trampo_d8d6s_target: .long .LBB385_107 - CURPC - 2*(6)
+trampo_d8d6s_after: mov r11, r7
 mov r7, r12
 add pc, r11
 beq	.LBB384_62
@@ -115160,11 +115170,11 @@ b	.LBB384_122
 uxtb	r0, r3
 uxtb	r1, r6
 mov r12, r7
-ldr r7, trampo_z904k_target
-b trampo_z904k_after
+ldr r7, trampo_j8vd7_target
+b trampo_j8vd7_after
 .p2align 2
-trampo_z904k_target: .long .LBB385_94 - CURPC - 2*(6)
-trampo_z904k_after: mov r11, r7
+trampo_j8vd7_target: .long .LBB385_94 - CURPC - 2*(6)
+trampo_j8vd7_after: mov r11, r7
 mov r7, r12
 add pc, r11
 bne	.LBB384_85
@@ -115175,11 +115185,11 @@ uxtb	r5, r1
 cmp	r5, r2
 ldr	r5, [sp, #60]
 bne	.LBB384_86
-ldr r4, trampo_cc5j1_addr
-b trampo_cc5j1_after
+ldr r4, trampo_ipc6h_addr
+b trampo_ipc6h_after
 .p2align 2
-trampo_cc5j1_addr: .long .LCPI385_11
-trampo_cc5j1_after: ldr r4, [r4]
+trampo_ipc6h_addr: .long .LCPI385_11
+trampo_ipc6h_after: ldr r4, [r4]
 lsrs	r1, r6, #16
 uxtb	r2, r0
 uxtb	r5, r1
@@ -115188,11 +115198,11 @@ ldr	r5, [sp, #60]
 bne	.LBB384_86
 lsrs	r0, r3, #24
 mov r12, r7
-ldr r7, trampo_6h9h3_target
-b trampo_6h9h3_after
+ldr r7, trampo_ivw7z_target
+b trampo_ivw7z_after
 .p2align 2
-trampo_6h9h3_target: .long .LBB385_98 - CURPC - 2*(6)
-trampo_6h9h3_after: mov r11, r7
+trampo_ivw7z_target: .long .LBB385_98 - CURPC - 2*(6)
+trampo_ivw7z_after: mov r11, r7
 mov r7, r12
 add pc, r11
 cmp	r1, r0
@@ -115223,11 +115233,11 @@ b	.LBB384_163
 .LBB384_89:
 ldr	r4, [sp, #20]
 mov r12, r7
-ldr r7, trampo_y5c2q_target
-b trampo_y5c2q_after
+ldr r7, trampo_wjz5z_target
+b trampo_wjz5z_after
 .p2align 2
-trampo_y5c2q_target: .long .LBB385_114 - CURPC - 2*(6)
-trampo_y5c2q_after: mov r11, r7
+trampo_wjz5z_target: .long .LBB385_114 - CURPC - 2*(6)
+trampo_wjz5z_after: mov r11, r7
 mov r7, r12
 add pc, r11
 ldr	r1, [sp, #12]
@@ -115280,11 +115290,11 @@ b	.LBB384_134
 .LBB384_98:
 adds	r1, #8
 mov r12, r7
-ldr r7, trampo_c6bzo_target
-b trampo_c6bzo_after
+ldr r7, trampo_9wel5_target
+b trampo_9wel5_after
 .p2align 2
-trampo_c6bzo_target: .long .LBB385_115 - CURPC - 2*(6)
-trampo_c6bzo_after: mov r11, r7
+trampo_9wel5_target: .long .LBB385_115 - CURPC - 2*(6)
+trampo_9wel5_after: mov r11, r7
 mov r7, r12
 add pc, r11
 subs	r4, r4, #2
@@ -115772,11 +115782,11 @@ cmp	r0, #0
 mov	r5, r3
 beq	.LBB385_29
 str	r5, [sp, #20]
-ldr r0, trampo_bfhhx_addr
-b trampo_bfhhx_after
+ldr r0, trampo_gpy84_addr
+b trampo_gpy84_after
 .p2align 2
-trampo_bfhhx_addr: .long .LCPI385_5
-trampo_bfhhx_after: ldr r0, [r0]
+trampo_gpy84_addr: .long .LCPI385_5
+trampo_gpy84_after: ldr r0, [r0]
 mov	r3, r0
 ldr	r1, [sp, #48]
 ldr	r4, [sp, #68]
@@ -115828,9 +115838,9 @@ str	r2, [sp, #12]
 str	r0, [sp, #68]
 bl	__aeabi_memcpy
 ldr	r0, [sp, #12]
-bhi trampo_tiorl
+bhi trampo_auhnj
 b .LBB385_73
-trampo_tiorl:
+trampo_auhnj:
 .LBB385_26:
 ldr	r3, [sp, #40]
 subs	r3, r3, #1
@@ -115950,9 +115960,9 @@ b	.LBB385_93
 str	r0, [sp, #64]
 ldr	r0, [r1, #8]
 str	r0, [sp, #60]
-bne trampo_4dzwo
+bne trampo_atc1o
 b .LBB385_90
-trampo_4dzwo:
+trampo_atc1o:
 ldr	r0, [sp, #56]
 ldr	r1, [r0]
 @APP
@@ -116415,11 +116425,11 @@ str	r3, [r1]
 str	r0, [r6]
 ldr	r1, [r2, #4]
 str	r6, [sp, #52]
-ldr r0, trampo_q3536_addr
-b trampo_q3536_after
+ldr r0, trampo_i9jmq_addr
+b trampo_i9jmq_after
 .p2align 2
-trampo_q3536_addr: .long .LCPI387_119
-trampo_q3536_after: ldr r0, [r0]
+trampo_i9jmq_addr: .long .LCPI387_119
+trampo_i9jmq_after: ldr r0, [r0]
 mov	r0, r6
 str	r2, [sp, #68]
 mov	r5, r3
@@ -116434,20 +116444,20 @@ str	r5, [sp, #112]
 ldr	r0, [sp, #52]
 mov	r5, r0
 ldr	r0, [r0]
-ldr r0, trampo_duomx_addr
-b trampo_duomx_after
+ldr r0, trampo_iqeqr_addr
+b trampo_iqeqr_after
 .p2align 2
-trampo_duomx_addr: .long .LCPI387_120
-trampo_duomx_after: ldr r0, [r0]
+trampo_iqeqr_addr: .long .LCPI387_120
+trampo_iqeqr_after: ldr r0, [r0]
 mov	r1, sp
 @NO_APP
 str	r1, [sp, #116]
 ldr	r2, [sp, #64]
-ldr r0, trampo_8dhvk_addr
-b trampo_8dhvk_after
+ldr r0, trampo_xjxf4_addr
+b trampo_xjxf4_after
 .p2align 2
-trampo_8dhvk_addr: .long .LCPI387_121
-trampo_8dhvk_after: ldr r0, [r0]
+trampo_xjxf4_addr: .long .LCPI387_121
+trampo_xjxf4_after: ldr r0, [r0]
 adds	r6, r0, #7
 ands	r6, r2
 mov	r0, r6
@@ -116477,11 +116487,11 @@ strb	r1, [r0, #12]
 ldr	r1, [sp, #76]
 adds	r1, #8
 stm	r0!, {r1, r4, r6}
-ldr r0, trampo_8bqxf_addr
-b trampo_8bqxf_after
+ldr r0, trampo_r5dkr_addr
+b trampo_r5dkr_after
 .p2align 2
-trampo_8bqxf_addr: .long .LCPI387_63
-trampo_8bqxf_after: ldr r0, [r0]
+trampo_r5dkr_addr: .long .LCPI387_63
+trampo_r5dkr_after: ldr r0, [r0]
 pop	{r4, r5, r6, r7, pc}
 .LBB385_71:
 ldr	r6, [r2, #4]
@@ -116497,11 +116507,11 @@ lsls	r1, r1, #16
 adds	r0, r0, r1
 .LBB385_72:
 ldr	r2, [sp, #72]
-ldr r0, trampo_lm7pj_addr
-b trampo_lm7pj_after
+ldr r0, trampo_ulk9e_addr
+b trampo_ulk9e_after
 .p2align 2
-trampo_lm7pj_addr: .long .LCPI387_64
-trampo_lm7pj_after: ldr r0, [r0]
+trampo_ulk9e_addr: .long .LCPI387_64
+trampo_ulk9e_after: ldr r0, [r0]
 strb	r4, [r2, #8]
 lsrs	r1, r0, #8
 strb	r1, [r2, #10]
@@ -116514,22 +116524,22 @@ pop	{r4, r5, r6, r7, pc}
 .LBB385_73:
 movs	r6, #20
 str	r6, [sp, #44]
-ldr r0, trampo_vd3c9_addr
-b trampo_vd3c9_after
+ldr r0, trampo_thr15_addr
+b trampo_thr15_after
 .p2align 2
-trampo_vd3c9_addr: .long .LCPI387_65
-trampo_vd3c9_after: ldr r0, [r0]
+trampo_thr15_addr: .long .LCPI387_65
+trampo_thr15_after: ldr r0, [r0]
 movs	r0, #1
 lsls	r1, r0, #20
 movs	r0, #0
 str	r0, [sp, #48]
 cmp	r6, #0
 str	r3, [sp, #64]
-ldr r1, trampo_vp8fz_addr
-b trampo_vp8fz_after
+ldr r1, trampo_zkkvk_addr
+b trampo_zkkvk_after
 .p2align 2
-trampo_vp8fz_addr: .long .LCPI387_66
-trampo_vp8fz_after: ldr r1, [r1]
+trampo_zkkvk_addr: .long .LCPI387_66
+trampo_zkkvk_after: ldr r1, [r1]
 str	r2, [sp, #68]
 str	r1, [sp, #40]
 beq	.LBB385_90
@@ -116973,11 +116983,11 @@ add	pc, r1
 .short	(.LBB387_4-(.LCPI387_58+4))/2
 .short	(.LBB387_10-(.LCPI387_58+4))/2
 mov r12, r7
-ldr r7, trampo_asg1i_target
-b trampo_asg1i_after
+ldr r7, trampo_s8wyu_target
+b trampo_s8wyu_after
 .p2align 2
-trampo_asg1i_target: .long .LBB387_181 - CURPC - 2*(6)
-trampo_asg1i_after: mov r11, r7
+trampo_s8wyu_target: .long .LBB387_181 - CURPC - 2*(6)
+trampo_s8wyu_after: mov r11, r7
 mov r7, r12
 add pc, r11
 .short	(.LBB387_172-(.LCPI387_58+4))/2
@@ -117000,11 +117010,11 @@ bl	.LBB387_181
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.829
 .p2align	1
 mov r12, r7
-ldr r7, trampo_9qx9s_target
-b trampo_9qx9s_after
+ldr r7, trampo_byasi_target
+b trampo_byasi_after
 .p2align 2
-trampo_9qx9s_target: .long .LBB387_181 - CURPC - 2*(6)
-trampo_9qx9s_after: mov r11, r7
+trampo_byasi_target: .long .LBB387_181 - CURPC - 2*(6)
+trampo_byasi_after: mov r11, r7
 mov r7, r12
 add pc, r11
 ldrh	r0, [r0, #2]
@@ -117021,11 +117031,11 @@ str	r4, [sp, #56]
 movs	r0, #4
 str	r0, [sp, #52]
 mov r12, r7
-ldr r7, trampo_b5mva_target
-b trampo_b5mva_after
+ldr r7, trampo_6v1zj_target
+b trampo_6v1zj_after
 .p2align 2
-trampo_b5mva_target: .long .LBB387_181 - CURPC - 2*(6)
-trampo_b5mva_after: mov r11, r7
+trampo_6v1zj_target: .long .LBB387_181 - CURPC - 2*(6)
+trampo_6v1zj_after: mov r11, r7
 mov r7, r12
 add pc, r11
 mov	r0, r5
@@ -117627,11 +117637,11 @@ b	.LBB387_181
 .long	_ZN4core3fmt3num3imp51_$LT$impl$u20$core..fmt..Display$u20$for$u20$u8$GT$3fmt17h5b3fe81ea555b82cE
 .p2align	2
 .LCPI387_75:
-ldr r0, trampo_hkpic_addr
-b trampo_hkpic_after
+ldr r0, trampo_1oqa7_addr
+b trampo_1oqa7_after
 .p2align 2
-trampo_hkpic_addr: .long .LCPI387_114
-trampo_hkpic_after: ldr r0, [r0]
+trampo_1oqa7_addr: .long .LCPI387_114
+trampo_1oqa7_after: ldr r0, [r0]
 .p2align	2
 .LCPI387_76:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.858
@@ -117644,21 +117654,21 @@ trampo_hkpic_after: ldr r0, [r0]
 .p2align	2
 .LCPI387_79:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.839
-ldr r0, trampo_731la_addr
-b trampo_731la_after
+ldr r0, trampo_7jtjn_addr
+b trampo_7jtjn_after
 .p2align 2
-trampo_731la_addr: .long .LCPI387_115
-trampo_731la_after: ldr r0, [r0]
+trampo_7jtjn_addr: .long .LCPI387_115
+trampo_7jtjn_after: ldr r0, [r0]
 .LCPI387_80:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.831
 .p2align	2
 .LCPI387_81:
 .long	_ZN55_$LT$c..c..arm..HiReg$u20$as$u20$core..fmt..Display$GT$3fmt17h84865b93b8debc01E
-ldr r0, trampo_hmnnv_addr
-b trampo_hmnnv_after
+ldr r0, trampo_p16j9_addr
+b trampo_p16j9_after
 .p2align 2
-trampo_hmnnv_addr: .long .LCPI387_11
-trampo_hmnnv_after: ldr r0, [r0]
+trampo_p16j9_addr: .long .LCPI387_11
+trampo_p16j9_after: ldr r0, [r0]
 .LCPI387_82:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.889
 .p2align	2
@@ -118354,11 +118364,11 @@ add	r2, sp, #40
 strh	r0, [r2]
 movs	r0, #0
 str	r0, [sp, #60]
-ldr r0, trampo_2nytf_addr
-b trampo_2nytf_after
+ldr r0, trampo_m3gae_addr
+b trampo_m3gae_after
 .p2align 2
-trampo_2nytf_addr: .long .LCPI388_17
-trampo_2nytf_after: ldr r0, [r0]
+trampo_m3gae_addr: .long .LCPI388_17
+trampo_m3gae_after: ldr r0, [r0]
 str	r0, [sp, #48]
 ldr	r0, .LCPI387_23
 .LBB387_148:
@@ -118393,11 +118403,11 @@ add	r2, sp, #40
 strh	r0, [r2]
 movs	r0, #0
 str	r0, [sp, #60]
-ldr r0, trampo_tk0x2_addr
-b trampo_tk0x2_after
+ldr r0, trampo_73cpf_addr
+b trampo_73cpf_after
 .p2align 2
-trampo_tk0x2_addr: .long .LCPI388_18
-trampo_tk0x2_after: ldr r0, [r0]
+trampo_73cpf_addr: .long .LCPI388_18
+trampo_73cpf_after: ldr r0, [r0]
 str	r0, [sp, #48]
 ldr	r3, .LCPI387_21
 .LBB387_152:
@@ -118438,11 +118448,11 @@ strb	r1, [r2]
 ldrb	r0, [r0, #2]
 add	r1, sp, #40
 mov r12, r7
-ldr r7, trampo_y6vu4_target
-b trampo_y6vu4_after
+ldr r7, trampo_xkfwh_target
+b trampo_xkfwh_after
 .p2align 2
-trampo_y6vu4_target: .long .LBB388_96 - CURPC - 2*(6)
-trampo_y6vu4_after: mov r11, r7
+trampo_xkfwh_target: .long .LBB388_96 - CURPC - 2*(6)
+trampo_xkfwh_after: mov r11, r7
 mov r7, r12
 add pc, r11
 movs	r1, #0
@@ -118454,11 +118464,11 @@ b	.LBB387_181
 .LBB387_160:
 ldrb	r1, [r0, #1]
 add	r2, sp, #36
-ldr r0, trampo_d8it2_addr
-b trampo_d8it2_after
+ldr r0, trampo_xoi4b_addr
+b trampo_xoi4b_after
 .p2align 2
-trampo_d8it2_addr: .long .LCPI388_19
-trampo_d8it2_after: ldr r0, [r0]
+trampo_xoi4b_addr: .long .LCPI388_19
+trampo_xoi4b_after: ldr r0, [r0]
 ldrb	r0, [r0, #2]
 add	r1, sp, #40
 strb	r0, [r1]
@@ -118471,11 +118481,11 @@ b	.LBB387_181
 .LBB387_161:
 ldrb	r0, [r0, #1]
 add	r1, sp, #40
-ldr r0, trampo_v0nzt_addr
-b trampo_v0nzt_after
+ldr r0, trampo_y4tgy_addr
+b trampo_y4tgy_after
 .p2align 2
-trampo_v0nzt_addr: .long .LCPI388_20
-trampo_v0nzt_after: ldr r0, [r0]
+trampo_y4tgy_addr: .long .LCPI388_20
+trampo_y4tgy_after: ldr r0, [r0]
 mov	r1, r4
 movs	r4, #0
 str	r4, [sp, #60]
@@ -118487,22 +118497,22 @@ str	r4, [sp, #56]
 movs	r0, #4
 str	r0, [sp, #52]
 add	r2, sp, #44
-ldr r0, trampo_a7uaj_addr
-b trampo_a7uaj_after
+ldr r0, trampo_f92ic_addr
+b trampo_f92ic_after
 .p2align 2
-trampo_a7uaj_addr: .long .LCPI388_20
-trampo_a7uaj_after: ldr r0, [r0]
+trampo_f92ic_addr: .long .LCPI388_20
+trampo_f92ic_after: ldr r0, [r0]
 str	r1, [sp, #4]
 bl	_ZN4core3fmt5write17hc24db47eb7fbc76eE
 cmp	r0, #0
 beq	.LBB387_162
 b	.LBB387_179
 .LBB387_162:
-ldr r0, trampo_6cdcd_addr
-b trampo_6cdcd_after
+ldr r0, trampo_6fxi1_addr
+b trampo_6fxi1_after
 .p2align 2
-trampo_6cdcd_addr: .long .LCPI388_21
-trampo_6cdcd_after: ldr r0, [r0]
+trampo_6fxi1_addr: .long .LCPI388_21
+trampo_6fxi1_after: ldr r0, [r0]
 str	r6, [sp, #48]
 ldr	r0, .LCPI387_1
 str	r0, [sp, #44]
@@ -118524,11 +118534,11 @@ b	.LBB387_179
 mov	r6, r4
 mov	r0, r6
 add	sp, #68
-ldr r0, trampo_598qs_addr
-b trampo_598qs_after
+ldr r0, trampo_3vand_addr
+b trampo_3vand_after
 .p2align 2
-trampo_598qs_addr: .long .LCPI388_20
-trampo_598qs_after: ldr r0, [r0]
+trampo_3vand_addr: .long .LCPI388_20
+trampo_3vand_after: ldr r0, [r0]
 .LBB387_164:
 ldrb	r1, [r0, #1]
 add	r2, sp, #36
@@ -118542,11 +118552,11 @@ movs	r6, #1
 str	r6, [sp, #48]
 ldr	r0, .LCPI387_43
 b	.LBB387_181
-ldr r0, trampo_zaxlv_addr
-b trampo_zaxlv_after
+ldr r0, trampo_lx8ku_addr
+b trampo_lx8ku_after
 .p2align 2
-trampo_zaxlv_addr: .long .LCPI388_18
-trampo_zaxlv_after: ldr r0, [r0]
+trampo_lx8ku_addr: .long .LCPI388_18
+trampo_lx8ku_after: ldr r0, [r0]
 ldrb	r2, [r0, #2]
 add	r1, sp, #8
 strb	r2, [r1]
@@ -118579,11 +118589,11 @@ ldrb	r2, [r0, #2]
 add	r1, sp, #8
 strb	r2, [r1]
 ldrb	r3, [r0, #3]
-ldr r0, trampo_3plo4_addr
-b trampo_3plo4_after
+ldr r0, trampo_hupxa_addr
+b trampo_hupxa_after
 .p2align 2
-trampo_3plo4_addr: .long .LCPI388_20
-trampo_3plo4_after: ldr r0, [r0]
+trampo_hupxa_addr: .long .LCPI388_20
+trampo_hupxa_after: ldr r0, [r0]
 strb	r3, [r2]
 ldrb	r0, [r0, #1]
 add	r3, sp, #40
@@ -118618,11 +118628,11 @@ ldrb	r3, [r0, #2]
 add	r2, sp, #36
 strb	r3, [r2]
 ldrb	r0, [r0, #3]
-ldr r0, trampo_g1g13_addr
-b trampo_g1g13_after
+ldr r0, trampo_17s7z_addr
+b trampo_17s7z_after
 .p2align 2
-trampo_g1g13_addr: .long .LCPI388_22
-trampo_g1g13_after: ldr r0, [r0]
+trampo_17s7z_addr: .long .LCPI388_22
+trampo_17s7z_after: ldr r0, [r0]
 strb	r0, [r3]
 movs	r0, #0
 str	r0, [sp, #28]
@@ -118661,11 +118671,11 @@ cmp	r0, #0
 bne	.LBB387_179
 str	r4, [sp, #60]
 str	r6, [sp, #48]
-ldr r0, trampo_zp4ho_addr
-b trampo_zp4ho_after
+ldr r0, trampo_26dof_addr
+b trampo_26dof_after
 .p2align 2
-trampo_zp4ho_addr: .long .LCPI388_9
-trampo_zp4ho_after: ldr r0, [r0]
+trampo_26dof_addr: .long .LCPI388_9
+trampo_26dof_after: ldr r0, [r0]
 str	r0, [sp, #44]
 str	r6, [sp, #56]
 add	r0, sp, #12
@@ -118676,11 +118686,11 @@ add	r0, sp, #40
 str	r0, [sp, #12]
 add	r2, sp, #44
 mov	r0, r5
-ldr r1, trampo_14g58_addr
-b trampo_14g58_after
+ldr r1, trampo_yjckg_addr
+b trampo_yjckg_after
 .p2align 2
-trampo_14g58_addr: .long .LCPI388_7
-trampo_14g58_after: ldr r1, [r1]
+trampo_yjckg_addr: .long .LCPI388_7
+trampo_yjckg_after: ldr r1, [r1]
 bl	_ZN4core3fmt5write17hc24db47eb7fbc76eE
 cmp	r0, #0
 bne	.LBB387_179
@@ -118718,11 +118728,11 @@ str	r0, [sp, #56]
 str	r2, [sp, #52]
 str	r0, [sp, #48]
 str	r1, [sp, #44]
-ldr r1, trampo_9u334_addr
-b trampo_9u334_after
+ldr r1, trampo_fckiq_addr
+b trampo_fckiq_after
 .p2align 2
-trampo_9u334_addr: .long .LCPI388_14
-trampo_9u334_after: ldr r1, [r1]
+trampo_fckiq_addr: .long .LCPI388_14
+trampo_fckiq_after: ldr r1, [r1]
 .LBB387_178:
 mov	r0, r5
 mov	r1, r4
@@ -118764,11 +118774,11 @@ ldr	r0, .LCPI387_1
 str	r0, [sp, #44]
 str	r6, [sp, #56]
 add	r0, sp, #12
-ldr r1, trampo_6srss_addr
-b trampo_6srss_after
+ldr r1, trampo_iv0cb_addr
+b trampo_iv0cb_after
 .p2align 2
-trampo_6srss_addr: .long .LCPI388_7
-trampo_6srss_after: ldr r1, [r1]
+trampo_iv0cb_addr: .long .LCPI388_7
+trampo_iv0cb_after: ldr r1, [r1]
 ldr	r0, .LCPI387_11
 .LBB387_184:
 str	r0, [sp, #16]
@@ -118847,11 +118857,11 @@ pop	{r4, r5, r6, r7, pc}
 .LCPI387_35:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.866
 .LCPI387_36:
-ldr r0, trampo_ojvaq_addr
-b trampo_ojvaq_after
+ldr r0, trampo_8adsg_addr
+b trampo_8adsg_after
 .p2align 2
-trampo_ojvaq_addr: .long .LCPI388_8
-trampo_ojvaq_after: ldr r0, [r0]
+trampo_8adsg_addr: .long .LCPI388_8
+trampo_8adsg_after: ldr r0, [r0]
 .LCPI387_37:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.864
 .LCPI387_40:
@@ -118862,22 +118872,22 @@ trampo_ojvaq_after: ldr r0, [r0]
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.856
 .LCPI387_46:
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.835
-ldr r0, trampo_ygiis_addr
-b trampo_ygiis_after
+ldr r0, trampo_wsr00_addr
+b trampo_wsr00_after
 .p2align 2
-trampo_ygiis_addr: .long .LCPI388_4
-trampo_ygiis_after: ldr r0, [r0]
+trampo_wsr00_addr: .long .LCPI388_4
+trampo_wsr00_after: ldr r0, [r0]
 .long	.Lanon.6b9d673fee2fbe67e95341de6640903e.843
 .Lfunc_end387:
 .size	_ZN61_$LT$c..c..arm..Instruction$u20$as$u20$core..fmt..Display$GT$3fmt17hd0bb4722b287490fE, .Lfunc_end387-_ZN61_$LT$c..c..arm..Instruction$u20$as$u20$core..fmt..Display$GT$3fmt17hd0bb4722b287490fE
 .cantunwind
 .fnend
 .section	.text._ZN1c1c3arm11Instruction6encode17h0f62d97d039244d6E,"ax",%progbits
-ldr r0, trampo_i62bn_addr
-b trampo_i62bn_after
+ldr r0, trampo_47k65_addr
+b trampo_47k65_after
 .p2align 2
-trampo_i62bn_addr: .long .LCPI388_8
-trampo_i62bn_after: ldr r0, [r0]
+trampo_47k65_addr: .long .LCPI388_8
+trampo_47k65_after: ldr r0, [r0]
 .type	_ZN1c1c3arm11Instruction6encode17h0f62d97d039244d6E,%function
 .code	16
 .thumb_func
@@ -118897,11 +118907,11 @@ uxtb	r5, r0
 ldr	r0, .LCPI388_16
 lsls	r5, r5, #1
 .p2align	2
-ldr r0, trampo_kwar9_addr
-b trampo_kwar9_after
+ldr r0, trampo_3myko_addr
+b trampo_3myko_after
 .p2align 2
-trampo_kwar9_addr: .long .LCPI388_14
-trampo_kwar9_after: ldr r0, [r0]
+trampo_3myko_addr: .long .LCPI388_14
+trampo_3myko_after: ldr r0, [r0]
 ldrh	r5, [r5, #4]
 lsls	r5, r5, #1
 .LCPI388_15:
@@ -119168,9 +119178,9 @@ uxtb	r0, r3
 orrs	r0, r1
 lsls	r0, r0, #3
 orrs	r2, r0
-bcc trampo_y7eqj
+bcc trampo_x5qmr
 b .LBB388_96
-trampo_y7eqj:
+trampo_x5qmr:
 lsls	r0, r0, #10
 orrs	r0, r2
 add	sp, #4
@@ -122197,11 +122207,11 @@ ldr	r2, [sp, #4]
 blx	r3
 mov	r1, r0
 movs	r0, #1
-ldr r2, trampo_tftvm_addr
-b trampo_tftvm_after
+ldr r2, trampo_roaki_addr
+b trampo_roaki_after
 .p2align 2
-trampo_tftvm_addr: .long .LCPI423_2
-trampo_tftvm_after: ldr r2, [r2]
+trampo_roaki_addr: .long .LCPI423_2
+trampo_roaki_after: ldr r2, [r2]
 beq	.LBB416_121
 add	sp, #84
 pop	{r4, r5, r6, r7, pc}
@@ -122225,11 +122235,11 @@ cmp	r0, #0
 beq	.LBB416_122
 ldr	r0, [sp, #68]
 add	sp, #84
-ldr r5, trampo_7o2y3_addr
-b trampo_7o2y3_after
+ldr r5, trampo_7tlk4_addr
+b trampo_7tlk4_after
 .p2align 2
-trampo_7o2y3_addr: .long .LCPI423_30
-trampo_7o2y3_after: ldr r5, [r5]
+trampo_7tlk4_addr: .long .LCPI423_30
+trampo_7tlk4_after: ldr r5, [r5]
 .LBB416_125:
 ldr	r0, [sp, #72]
 add	sp, #84
@@ -122453,17 +122463,17 @@ lsrs	r1, r1, #3
 adds	r1, r1, #1
 str	r1, [sp, #8]
 movs	r6, #0
-bne trampo_4c788
+bne trampo_jzicl
 b .LBB423_20
-trampo_4c788:
+trampo_jzicl:
 .LBB420_19:
 adds	r5, #8
 adds	r6, r6, #1
 ldr	r1, [sp, #8]
 cmp	r1, r6
-bne trampo_j8508
+bne trampo_z7d42
 b .LBB423_20
-trampo_j8508:
+trampo_z7d42:
 .LBB420_20:
 str	r0, [sp, #16]
 ldr	r2, [r5, #4]
@@ -124533,9 +124543,9 @@ b	.LBB431_51
 .LBB431_50:
 adds	r2, r2, #3
 .LBB431_51:
-beq trampo_7qvf7
+beq trampo_yf2mc
 b .LBB437_63
-trampo_7qvf7:
+trampo_yf2mc:
 .LBB431_52:
 ldr	r3, .LCPI431_0
 ldr	r0, [sp, #68]

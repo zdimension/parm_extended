@@ -174,7 +174,10 @@ impl QualType {
     pub(crate) fn decay(mut self) -> QualType {
         match &*self.unqual {
             UnqualType::Array(item, _) => {
-                self = UnqualType::Pointer(item.clone()).into();
+                self = UnqualType::Pointer(QualType {
+                    unqual: item.unqual.clone(),
+                    type_qualifiers: item.type_qualifiers | self.type_qualifiers,
+                }).into()
             }
             UnqualType::Function(fi) => {
                 self = UnqualType::Pointer(self).into();
