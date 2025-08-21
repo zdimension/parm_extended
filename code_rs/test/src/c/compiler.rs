@@ -32,6 +32,7 @@ use crate::c::parse_expr::OpPosition::{Postfix, Prefix};
 use Purity::*;
 use crate::c::compiler::EvalConstantBase::{Code, Frame};
 use crate::c::parse_expr::BinOp::{Bool, Simple};
+use crate::parm::mmio::{R2divR3I, R2divR3U, R2modR3I, R2modR3U};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum CompileError {
@@ -56,6 +57,12 @@ macro_rules! comperr {
     ($($t:tt)*) => {
         return Err(CompileError::GenericDyn(format!($($t)*)))
     }
+}
+
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub enum DivMod {
+    Division,
+    Modulo
 }
 
 pub struct CompilerState {
@@ -1381,7 +1388,13 @@ impl<'a> Compiler<'a> {
                     }
 
                     (lev, rev) => {
-                        comperr!("General division not implemented yet: {:?} / {:?}", lev, rev);
+                        lev.binop_combine(rev, move |c, (out, (l, r))| {
+                            c.emit_divmod(l, r, out, DivMod::Division, if oty.is_signed() {
+                                Signed
+                            } else {
+                                Unsigned
+                            });
+                        })
                     }
                 }
             }
@@ -1389,6 +1402,65 @@ impl<'a> Compiler<'a> {
             _ => uunreachable!(),
         };
         Ok((rvalue(oty), rv))
+    }
+
+    fn emit_divmod(&mut self, op1: Reg, op2: Reg, out: Reg, op: DivMod, sign: Signedness) {
+        // division is implemented in MMIO.
+        // operands should be in R2 and R3, result is read from memory
+
+        let mut saved = RegList::NONE;
+
+        if out == R2 {
+            // if out is r2, we'll overwrite it anyway so no need to save it
+        } else if self.free_regs.contains(&R2) {
+            // r2 is free
+        } else {
+            saved.add(R2);
+        }
+
+        if out == R3 {
+            // if out is r3, we'll overwrite it anyway so no need to save it
+        } else if self.free_regs.contains(&R3) {
+            // r3 is free
+        } else {
+            saved.add(R3);
+        }
+
+        if !saved.is_empty() {
+            self.emit_push(saved);
+        }
+
+        // load the operands into R2 and R3
+        self.emit(Movs { rd: R2, rm: op1 });
+        self.emit(Movs { rd: R3, rm: op2 });
+
+        let result_addr = match op {
+            DivMod::Division => match sign {
+                Signed => R2divR3I,
+                Unsigned => R2divR3U,
+            },
+            DivMod::Modulo => match sign {
+                Signed => R2modR3I,
+                Unsigned => R2modR3U,
+            }
+        }.address() as usize;
+
+        // if out is R2 or R3, we need to allocate a new register for the address
+        // otherwise we can reuse it
+        if out == R2 || out == R3 {
+            self.with_alloc(|c, [addr]| {
+                c.emit_imm32_to_reg(addr, result_addr);
+                c.emit(LdrRegImm { rd: out, rb: addr, immw5: u7::new(0) });
+            });
+        } else {
+            self.emit_imm32_to_reg(out, result_addr);
+            self.emit(LdrRegImm { rd: out, rb: out, immw5: u7::new(0) });
+        }
+
+        // restore any saved register
+        if !saved.is_empty() {
+            self.emit_pop(saved);
+        }
     }
 
     fn eval_comparison<'e>(&mut self, cop: Comparison, l: &'e Expression, r: &'e Expression) -> Result<EvalTy<'e>, CompileError> {

@@ -36,6 +36,8 @@ pub(crate) struct RegList {
 }
 
 impl RegList {
+    pub(crate) const NONE: RegList = RegList { regs: u9::new(0) };
+
     pub const fn new<const N: usize>(regs: [Reg; N], pc_or_lr: bool) -> Self {
         let mut result = 0;
         const_for!(reg in 0..N => {
@@ -49,6 +51,14 @@ impl RegList {
 
     pub const fn len(&self) -> usize {
         self.regs.count_ones() as usize
+    }
+
+    pub const fn add(&mut self, reg: Reg) {
+        self.regs = u9::new(self.regs.value() | (1 << (reg as u16)));
+    }
+
+    pub const fn is_empty(&self) -> bool {
+        self.regs.value() == 0
     }
 
     pub const fn has(&self, bit: usize) -> bool {
