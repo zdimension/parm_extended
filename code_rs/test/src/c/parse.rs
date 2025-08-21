@@ -639,25 +639,39 @@ impl<'a, 'b> CParser<'a, 'b> {
             match option {
                 Some(Token::OpenBracket) => {
                     self.advance();
-                    let size = if self.accept(Token::CloseBracket) {
-                        None
-                    } else {
-                        let size = self.next()?;
-                        if let Token::Integer(size) = size {
-                            self.expect(Token::CloseBracket)?;
-                            Some(size as usize)
+                    let mut sizes = Vec::new();
+
+                    loop {
+                        let size = if self.accept(Token::CloseBracket) {
+                            None
                         } else {
-                            return Err(ParseError::UnexpectedTokenGeneric {
-                                got: Some(size),
-                                msg: "expected integer literal or close bracket",
-                            });
+                            let size = self.next()?;
+                            if let Token::Integer(size) = size {
+                                self.expect(Token::CloseBracket)?;
+                                Some(size as usize)
+                            } else {
+                                return Err(ParseError::UnexpectedTokenGeneric {
+                                    got: Some(size),
+                                    msg: "expected integer literal or close bracket",
+                                });
+                            }
+                        };
+                        sizes.push(size);
+
+                        if self.accept(Token::OpenBracket) {
+                            continue;
                         }
-                    };
-                    xforms.push(Box::new(move |base_type| {
-                        QualType {
-                            unqual: UnqualType::Array(base_type, size).into(),
-                            type_qualifiers: Default::default(),
+
+                        break;
+                    }
+                    xforms.push(Box::new(move |mut base_type| {
+                        for size in sizes.into_iter().rev() {
+                            base_type = QualType {
+                                unqual: UnqualType::Array(base_type, size).into(),
+                                type_qualifiers: Default::default(),
+                            };
                         }
+                        base_type
                     }));
                 }
                 Some(Token::OpenParen) => {
