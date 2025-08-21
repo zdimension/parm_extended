@@ -268,7 +268,7 @@ impl CRepl {
 
         if is_expr {
             let expr = parser.read_whole_expr()?;
-            rprintln!("expr: {:?}", expr);
+            // rprintln!("expr: {:?}", expr);
 
             let mut comp = Compiler::new(&mut self.scope);
             comp.emit_push(RegList::new([], true));
@@ -301,7 +301,7 @@ impl CRepl {
                 panic!("expected R0 as result register, got {:?}", reg);
             }
 
-            rprintln!("ev: {:?}", eev);
+            // rprintln!("ev: {:?}", eev);
 
             comp.flush_eval_to_reg(R0, eev).map_err(|e| {
                 PositionedError {
@@ -310,7 +310,7 @@ impl CRepl {
                 }
             })?;
 
-            rprintln!("type: {}", ty);
+            // rprintln!("type: {}", ty);
 
             comp.emit_pop(RegList::new([], true));
 

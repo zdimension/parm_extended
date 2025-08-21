@@ -31,7 +31,7 @@ pub enum StorageClass {
 }
 
 use SkipStop::*;
-use crate::c::compiler::{CompileError, Compiler};
+use crate::c::compiler::{CompileError, Compiler, EvalConstant, EvalConstantKind};
 use crate::c::arm::Instruction::*;
 use crate::c::arm::Reg::*;
 use crate::c::emitter::{CodeBox, Emitter};
@@ -934,10 +934,10 @@ impl<'a, 'b> CParser<'a, 'b> {
         }
         let mut comp = Compiler::new(self.global_scope);
         comp.scope.push(&fct_scope);
-        rprintln!("<fcode>");
+        // rprintln!("<fcode>");
         comp.emit_function(inner, &block, &fct_scope)?;
         // comp.dump();
-        rprintln!("</fcode>");
+        // rprintln!("</fcode>");
         let encoded = comp.link_asm().into_boxed_slice();
         Ok(encoded)
     }
@@ -1007,7 +1007,10 @@ impl<'a, 'b> CParser<'a, 'b> {
                             return Err(ParseError::Generic("array size missing"));
                         }
                     }
-                    res.push((name, SymbolKind::Variable { ty: type_, pos: Local(0) }, init_expr));
+                    res.push((name, SymbolKind::Variable { pos: match class {
+                        Some(StorageClass::Static) => Global(avec![[4] | 0u8; type_.size_aligned()].into_boxed_slice()),
+                        _ => Local(0)
+                    }, ty: type_ }, init_expr));
                 }
             }
 
@@ -1022,15 +1025,35 @@ impl<'a, 'b> CParser<'a, 'b> {
     fn insert_decls(&mut self, scope: Option<&mut Scope>, stmts: &mut Vec<Statement>, decls: Vec<(String, SymbolKind, Option<Expression>)>) -> Result<(), ParseError> {
         let is_global = scope.is_none();
         let scope = scope.unwrap_or(&mut self.global_scope);
-        for (name, kind, initializer) in decls {
+        for (name, mut kind, initializer) in decls {
             if let Some(expr) = initializer {
                 // handle initializer
-                if let SymbolKind::Variable { .. } = &kind {
-                    stmts.push(Statement::Expression(Expression::BinOp(
-                        BinOp::Assignment(None),
-                        Box::new(Expression::SymRef(name.clone())),
-                        Box::new(expr),
-                    )));
+                if let SymbolKind::Variable { pos, ty } = &mut kind {
+                    if let VarPosition::Global(ref mut box_) = pos {
+                        // static variable
+                        let mut comp = Compiler::new(scope);
+                        let rev = comp.eval_expression(&expr)?;
+                        let Ok(rev) = comp.eval_auto_convert(rev, ty)? else {
+                            return Err(ParseError::GenericDyn(format!("cannot convert initializer to {}", ty)));
+                        };
+                        let Some(EvalConstant { val, kind: EvalConstantKind::Absolute }) = rev.const_eval() else {
+                            return Err(ParseError::GenericDyn(format!("initializer for {} must be a constant expression", ty)));
+                        };
+                        if box_.len() != 4 {
+                            return Err(ParseError::GenericDyn(format!("initializer for {} must be a 32-bit value", ty)));
+                        }
+                        unsafe {
+                            let ptr = box_.as_mut_ptr() as *mut u32;
+                            *ptr = val as u32;
+                        }
+                    }
+                    else {
+                        stmts.push(Statement::Expression(Expression::BinOp(
+                            BinOp::Assignment(None),
+                            Box::new(Expression::SymRef(name.clone())),
+                            Box::new(expr),
+                        )));
+                    }
                 } else {
                     return Err(ParseError::GenericDyn(format!("initializer not allowed for {}", kind)));
                 }
@@ -1072,7 +1095,10 @@ impl<'a, 'b> CParser<'a, 'b> {
                                     pos: Global(avec![[4] | 0u8; size].into_boxed_slice()),
                                 }
                             } else {
-                                let res = SymbolKind::Variable { ty, pos: Local(scope.var_size) };
+                                let res = SymbolKind::Variable { ty, pos: match offset {
+                                    Local(_) => Local(scope.var_size),
+                                    other => other
+                                } };
                                 scope.var_size += size;
                                 res
                             }

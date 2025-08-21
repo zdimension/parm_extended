@@ -157,7 +157,7 @@ impl<'a> Compiler<'a> {
             self.emitter.instructions[deferred_pos] = instruction;
         }
 
-        self.dump();
+        //self.dump();
 
         let instructions = self.emitter.link();
 
@@ -679,7 +679,7 @@ impl<'a> Compiler<'a> {
     ///
     /// returns Err if no implicit conversion exists
     /// otherwise returns whatever the emission did
-    fn eval_auto_convert<'e>(&mut self, expr: EvalTy<'e>, dst: &UnqualType) -> Result<Result<FullEvaluation<'e>, EvalTy<'e>>, CompileError> {
+    pub(crate) fn eval_auto_convert<'e>(&mut self, expr: EvalTy<'e>, dst: &UnqualType) -> Result<Result<FullEvaluation<'e>, EvalTy<'e>>, CompileError> {
         let (xa, xev) = expr;
         Ok(match (dst, &*xa.ty) {
             (a, b) if Self::are_compatible(a, b) => {
@@ -2370,8 +2370,8 @@ pub enum EvalConstantKind {
 
 #[derive(Copy, Clone, Debug)]
 pub struct EvalConstant {
-    val: u32,
-    kind: EvalConstantKind,
+    pub val: u32,
+    pub kind: EvalConstantKind,
 }
 
 impl EvalConstant {
@@ -2444,6 +2444,22 @@ impl<'e> Debug for FullEvaluation<'e> {
 }
 
 impl<'e> FullEvaluation<'e> {
+    pub fn const_eval(self) -> Option<EvalConstant> {
+        if self.purity() != Pure {
+            return None; // not a constant evaluation
+        }
+
+        if !self.pure_transforms.is_empty() {
+            return None; // has pure transforms, so not a constant evaluation
+        }
+
+        let Evaluation::Constant(c) = self.result else {
+            return None; // not a constant evaluation
+        };
+
+        Some(c)
+    }
+
     pub fn purity(&self) -> Purity {
         if !self.side_effects.is_empty() {
             Impure
