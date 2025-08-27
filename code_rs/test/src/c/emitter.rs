@@ -15,6 +15,9 @@ pub struct Jump {
     pub target: usize,    // where the jump should go
 }
 
+pub static mut COMP_DEBUG: *mut bool = (crate::parm::heap::HEAP_START + 8) as _;
+
+
 #[derive(Debug)]
 pub enum PushPop {
     Push,
@@ -196,6 +199,10 @@ impl Emitter {
                         as u8,
                 }
             };
+        }
+
+        if unsafe { *COMP_DEBUG } {
+            self.dump();
         }
 
         self.instructions

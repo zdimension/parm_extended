@@ -23,6 +23,7 @@
 #![deny(unreachable_code)]
 extern crate alloc;
 
+use alloc::boxed::Box;
 use alloc::string::String;
 use core::ptr::slice_from_raw_parts_mut;
 use aligned_vec::ABox;
@@ -565,6 +566,13 @@ impl CRepl {
                     telnet = On;
                     input.clear();
                     continue;
+                } else if input == ".dbg\n" {
+                    unsafe {
+                        *c::emitter::COMP_DEBUG = !*c::emitter::COMP_DEBUG;
+                        rprintln!("debug: {}", *c::emitter::COMP_DEBUG);
+                    }
+                    input.clear();
+                    continue;
                 }
             }
             if matches!(self.process(&input), EvalStatus::Ok) {
@@ -575,5 +583,8 @@ impl CRepl {
 }
 
 fn main() {
+    // allocate an unsafe cell
+    unsafe { Box::leak(Box::new(false)); }
+
     CRepl::new().run();
 }
