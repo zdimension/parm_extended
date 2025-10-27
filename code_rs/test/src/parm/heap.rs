@@ -115,13 +115,13 @@ XXX___rust_alloc_error_handler_should_panic_v2:
     .long 0
     "#);
 
-#[export_name = "XXX__rust_alloc_error_handler"]
+#[unsafe(export_name = "XXX__rust_alloc_error_handler")]
 pub unsafe fn __rust_alloc_error_handler(size: usize, align: usize) -> ! {
     println!("Allocation error: size = {}, align = {}", size, align);
     panic!("Allocation error");
 }
 
-#[export_name = "XXX___rust_no_alloc_shim_is_unstable_v2"]
+#[unsafe(export_name = "XXX___rust_no_alloc_shim_is_unstable_v2")]
 pub unsafe fn ___rust_no_alloc_shim_is_unstable_v2() {
     
 }

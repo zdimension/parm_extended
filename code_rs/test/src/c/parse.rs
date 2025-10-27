@@ -1029,7 +1029,7 @@ impl<'a, 'b> CParser<'a, 'b> {
             if let Some(expr) = initializer {
                 // handle initializer
                 if let SymbolKind::Variable { pos, ty } = &mut kind {
-                    if let VarPosition::Global(ref mut box_) = pos {
+                    if let VarPosition::Global(box_) = pos {
                         // static variable
                         let mut comp = Compiler::new(scope);
                         let rev = comp.eval_expression(&expr)?;

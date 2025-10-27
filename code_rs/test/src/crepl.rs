@@ -254,15 +254,20 @@ impl CRepl {
 
     fn try_process(&mut self, code: &str) -> Result<(), PositionedError<ParseError>> {
         // TODO !!!! save r4-r6 if they're clobbered since they're supposed to be callee-saved
-        let mut tmp_scope = Scope::default();
-        let mut parser1 = CParser::new(code, &mut tmp_scope)?;
-        let is_expr = match parser1.read_declaration_specifiers() {
-            Ok(_) => false,
-            Err(ParseError::GenericBacktrack(..)) => true,
-            Err(e) => return Err(PositionedError {
-                pos: Some(parser1.current_pos()),
-                error: e,
-            })
+        let is_expr = 'res: {
+            if code.ends_with(';') {
+                break 'res false;
+            }
+            let mut tmp_scope = Scope::default();
+            let mut parser1 = CParser::new(code, &mut tmp_scope)?;
+            match parser1.read_declaration_specifiers() {
+                Ok(_) => false,
+                Err(ParseError::GenericBacktrack(..)) => true,
+                Err(e) => return Err(PositionedError {
+                    pos: Some(parser1.current_pos()),
+                    error: e,
+                })
+            }
         };
 
         let parser = CParser::new(code, &mut self.scope)?;
