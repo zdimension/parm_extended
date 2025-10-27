@@ -5,6 +5,7 @@
 #![feature(iter_order_by)]
 #![feature(step_trait)]
 #![feature(slice_pattern)]
+extern crate alloc;
 
 mod parm;
 
