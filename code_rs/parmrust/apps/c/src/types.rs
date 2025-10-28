@@ -1,0 +1,247 @@
+use alloc::string::String;
+use parm::heap::prc::Prc;
+use core::borrow::Borrow;
+use core::fmt::{Debug, Display};
+use core::ops::Deref;
+use derive_more::{BitOr, BitOrAssign};
+use parm::OrderedMap;
+
+#[derive(Eq, Debug)]
+pub struct NamedType<T> {
+    pub identity: Option<String>,
+    pub inner: Option<T>
+}
+
+impl<T> NamedType<T> {
+    pub fn get_name(&self) -> &str {
+        self.identity.as_deref().unwrap_or("<anonymous>")
+    }
+}
+
+impl<T> PartialEq for NamedType<T> {
+    fn eq(&self, other: &Self) -> bool {
+        self.identity == other.identity
+    }
+}
+
+pub type StructInner = (usize, OrderedMap<String, (usize, TypeBox)>);
+pub type StructImpl = NamedType<StructInner>;
+pub type UnionImpl = NamedType<OrderedMap<String, TypeBox>>;
+pub type EnumImpl = NamedType<()>;
+
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+pub enum Signedness {
+    Signed,
+    Unsigned,
+}
+
+#[derive(Eq, Debug, Clone)]
+pub struct FunctionImpl {
+    pub ret: QualType,
+    pub args: OrderedMap<String, QualType>,
+}
+
+impl PartialEq for FunctionImpl {
+    #[inline(never)]
+    fn eq(&self, other: &Self) -> bool {
+        self.ret == other.ret && self.args == other.args
+    }
+}
+
+impl Display for FunctionImpl {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        write!(f, "{}(", self.ret)?;
+        for (i, (name, ty)) in self.args.iter().enumerate() {
+            if i > 0 {
+                write!(f, ", ")?;
+            }
+            write!(f, "{} {}", ty, name)?;
+        }
+        write!(f, ")")
+    }
+}
+
+#[derive(PartialEq, Eq)]
+pub enum UnqualType {
+    Int(Signedness), // signed by default
+    Char(Option<Signedness>), // spec mandates that char is different from both signed and unsigned char
+    Bool,
+    Void,
+    Enum(EnumImpl),
+    Pointer(QualType),
+    Array(QualType, Option<usize>),
+    Struct(StructImpl),
+    //Union(UnionImpl),
+    Function(FunctionImpl),
+}
+
+impl UnqualType {
+    pub fn is_signed(&self) -> bool {
+        match self {
+            UnqualType::Int(Signedness::Signed) => true,
+            UnqualType::Char(Some(Signedness::Signed)) => true,
+            _ => false,
+        }
+    }
+
+    pub fn integer_rank(&self) -> usize {
+        match self {
+            UnqualType::Bool => 1,
+            UnqualType::Char(_) => 2,
+            UnqualType::Int(_) => 3,
+            UnqualType::Enum(_) => 3, // enum are always int backed
+            _ => 0 // non-integers
+        }
+    }
+
+    pub fn size(&self) -> usize {
+        match &self {
+            UnqualType::Void => 0,
+            UnqualType::Char(_) => 1, // todo: handling things smaller than a word sucks
+            UnqualType::Bool => 1,
+            UnqualType::Int(_) => 4,
+            UnqualType::Pointer(_) => 4,&
+            UnqualType::Array(ty, Some(size)) => size * ty.unqual.size(),
+            UnqualType::Array(_, None) => todo!(),
+            UnqualType::Struct(si) => {
+                si.inner.as_ref().map_or(0, |&(s, _)| s)
+            },
+            UnqualType::Enum(_) => 4, // enum are always int backed
+            UnqualType::Function(_) => 0xffffffff
+        }
+    }
+
+    pub fn size_aligned(&self) -> usize {
+        self.size().next_multiple_of(4)
+    }
+}
+
+impl Debug for UnqualType {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        Display::fmt(self, f)
+    }
+}
+
+impl Display for UnqualType {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        match self {
+            UnqualType::Void => write!(f, "void"),
+            UnqualType::Char(Some(Signedness::Signed)) => write!(f, "signed char"),
+            UnqualType::Char(Some(Signedness::Unsigned)) => write!(f, "unsigned char"),
+            UnqualType::Char(None) => write!(f, "char"),
+            UnqualType::Bool => write!(f, "_Bool"),
+            UnqualType::Int(Signedness::Signed) => write!(f, "int"),
+            UnqualType::Int(Signedness::Unsigned) => write!(f, "unsigned int"),
+            UnqualType::Pointer(qt) => write!(f, "{}*", qt),
+            UnqualType::Array(qt, Some(size)) => write!(f, "{}[{}]", qt, size),
+            UnqualType::Array(qt, None) => write!(f, "{}[]", qt),
+            UnqualType::Struct(impl_) => {
+                write!(f, "struct {}", impl_.identity.as_deref().unwrap_or("<anonymous>"))
+            },
+            UnqualType::Enum(impl_) => {
+                write!(f, "enum {}", impl_.identity.as_deref().unwrap_or("<anonymous>"))
+            },
+            UnqualType::Function(inner) => {
+                write!(f, "{}", inner)
+            },
+        }
+    }
+}
+
+pub type TypeBox = Prc<UnqualType>;
+
+#[derive(Clone, PartialEq, Eq, Default, BitOr, BitOrAssign, Copy, Debug)]
+pub struct TypeQualifiers {
+    pub is_const: bool,
+    pub is_volatile: bool
+}
+
+#[derive(Clone, PartialEq, Eq, Debug)]
+pub struct QualType {
+    pub unqual: TypeBox,
+    pub type_qualifiers: TypeQualifiers,
+}
+
+impl Deref for QualType {
+    type Target = UnqualType;
+
+    fn deref(&self) -> &Self::Target {
+        &*self.unqual
+    }
+}
+
+impl QualType {
+    pub(crate) fn decay(mut self) -> QualType {
+        match &*self.unqual {
+            UnqualType::Array(item, _) => {
+                self = UnqualType::Pointer(QualType {
+                    unqual: item.unqual.clone(),
+                    type_qualifiers: item.type_qualifiers | self.type_qualifiers,
+                }).into()
+            }
+            UnqualType::Function(fi) => {
+                self = UnqualType::Pointer(self).into();
+            }
+            _ => {}
+        }
+        self
+    }
+}
+
+impl AsRef<UnqualType> for QualType {
+    fn as_ref(&self) -> &UnqualType {
+        &*self.unqual
+    }
+}
+
+impl Borrow<UnqualType> for QualType {
+    fn borrow(&self) -> &UnqualType {
+        &*self.unqual
+    }
+}
+
+impl Borrow<UnqualType> for &QualType {
+    fn borrow(&self) -> &UnqualType {
+        &*self.unqual
+    }
+}
+
+impl<T: Into<TypeBox>> From<T> for QualType {
+    fn from(unqual: T) -> Self {
+        QualType {
+            unqual: unqual.into(),
+            type_qualifiers: TypeQualifiers::default(),
+        }
+    }
+}
+
+/*impl From<UnqualType> for QualType {
+    fn from(unqual: UnqualType) -> Self {
+        QualType {
+            unqual: unqual.into(),
+            type_qualifiers: TypeQualifiers::default(),
+        }
+    }
+}
+
+impl From<TypeBox> for QualType {
+    fn from(unqual: TypeBox) -> Self {
+        QualType {
+            unqual,
+            type_qualifiers: TypeQualifiers::default(),
+        }
+    }
+}*/
+
+impl Display for QualType {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        write!(f, "{}", *self.unqual)?;
+        if self.type_qualifiers.is_const {
+            write!(f, " const")?;
+        }
+        if self.type_qualifiers.is_volatile {
+            write!(f, " volatile")?;
+        }
+        Ok(())
+    }
+}

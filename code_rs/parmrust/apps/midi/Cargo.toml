@@ -1,0 +1,9 @@
+[package]
+name = "midi"
+version = "0.1.0"
+edition.workspace = true
+
+[dependencies]
+parm = { workspace = true }
+derive_more = { version = "2.0.1", default-features = false, features = ["full"] }
+midly = { version = "0.5.3", default-features = false, features = ["alloc"] }

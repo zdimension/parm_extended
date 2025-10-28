@@ -204,7 +204,7 @@ fn alloc_error_handler(_layout: core::alloc::Layout) -> ! {
     panic!("allocation error")
 }
 
-/*#[export_name = "__aeabi_unwind_cpp_pr0"]
+/*#[unsafe(export_name = "__aeabi_unwind_cpp_pr0")]
 pub extern "C" fn __aeabi_unwind_cpp_pr0() {
     panic!("unwind")
 }*/
@@ -225,19 +225,19 @@ _ZN4core9panicking18panic_bounds_check17h6f55fa0d21c94988E:
 "#
 );
 
-#[export_name = "unknown_panic"]
+#[unsafe(export_name = "unknown_panic")]
 pub extern "C" fn unknown_panic!() -> ! {
     panic!("unknown panic")
 }
 
 #[cfg(feature = "alloc_error_handler")]
-#[export_name = "rust_alloc"]
+#[unsafe(export_name = "rust_alloc")]
 fn __rust_alloc(size: usize, _align: usize) -> *mut u8 {
     malloc(size) as _
 }
 
 #[cfg(feature = "alloc_error_handler")]
-#[export_name = "rust_dealloc"]
+#[unsafe(export_name = "rust_dealloc")]
 fn __rust_dealloc(ptr: *mut u8, _size: usize, _align: usize) {
     free(ptr as _);
 }
@@ -298,7 +298,7 @@ unsafe extern "C" fn __aeabi_memclr8(dest: *mut u8, n: usize) {
     __aeabi_memclr(dest, n)
 }
 
-#[export_name = "__aeabi_memmove4"]
+#[unsafe(export_name = "__aeabi_memmove4")]
 pub unsafe extern "C" fn __aeabi_memmove4(dest: *mut u8, src: *const u8, n: usize) {
     __aeabi_memmove(dest, src, n)
 }

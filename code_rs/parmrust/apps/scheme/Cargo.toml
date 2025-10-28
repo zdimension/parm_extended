@@ -1,0 +1,9 @@
+[package]
+name = "scheme"
+version = "0.1.0"
+edition.workspace = true
+
+[dependencies]
+hashbrown = "0.16.0"
+parm = { workspace = true }
+paste = "1.0.9"

@@ -1,0 +1,125 @@
+use alloc::string::String;
+use core::fmt::Display;
+use aligned_vec::{ABox, ConstAlign};
+use crate::emitter::CodeBox;
+use crate::parse::Block;
+use crate::types::{FunctionImpl, QualType, TypeBox, UnqualType};
+use parm::heap::prc::Prc;
+use parm::{uunreachable, OrderedMap};
+
+pub enum TagKind {
+    Struct,
+    Union,
+    Enum,
+}
+
+pub enum ItemName {
+    Symbol(String),
+    TaggedType(TagKind)
+}
+
+#[derive(Debug)]
+pub enum VarPosition {
+    Local(usize),
+    Global(ABox<[u8], ConstAlign<4>>),
+}
+
+// #[derive(Debug)]
+pub enum SymbolKind {
+    Type(QualType),
+    Variable { ty: QualType, pos: VarPosition },
+    Constant { ty: QualType, val: usize },
+    Function { proto: FunctionImpl, body: Option<(Block, CodeBox)>, jump: CodeBox },
+}
+
+impl Display for SymbolKind {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        match self {
+            SymbolKind::Type(t) => write!(f, "type {}", t),
+            SymbolKind::Variable { ty, pos } => {
+                write!(f, "variable {}", ty)
+            }
+            SymbolKind::Constant { ty, val } => {
+                write!(f, "const {} = {}", ty, val)
+            }
+            SymbolKind::Function { proto, body, .. } => {
+                write!(f, "{}", proto)?;
+                if let Some((_, _)) = body {
+                    write!(f, " {{ ... }}")?;
+                } else {
+                    write!(f, ";")?;
+                }
+                Ok(())
+            }
+        }
+    }
+}
+
+#[derive(Default)]
+pub struct Scope {
+    pub symbols: OrderedMap<String, SymbolKind>,
+    pub structs: OrderedMap<String, TypeBox>,
+    pub enums: OrderedMap<String, TypeBox>,
+    pub var_size: usize
+}
+
+impl Display for Scope {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        writeln!(f, "{{ ")?;
+        for (key, value) in &self.symbols {
+            match value {
+                SymbolKind::Type(t) => {
+                    writeln!(f, "typedef {} {};", t, key)?;
+                }
+                SymbolKind::Variable { ty: t, .. } => {
+                    writeln!(f, "{} {};", t, key)?;
+                }
+                SymbolKind::Constant { ty: t, val } => {
+                    writeln!(f, "const {} {} = {};", t, key, val)?;
+                }
+                SymbolKind::Function { proto: t, body, .. } => {
+                    write!(f, "{} {}(", t.ret, key)?;
+                    for (i, (name, ty)) in t.args.iter().enumerate() {
+                        if i > 0 {
+                            write!(f, ", ")?;
+                        }
+                        write!(f, "{} {}", ty, name)?;
+                    }
+                    write!(f, ")")?;
+                    if let Some((b, _)) = body {
+                        writeln!(f, " {{")?;
+                        /*for token in b {
+                            write!(f, "{} ", token)?;
+                            if matches!(token, Token::Semicolon | Token::OpenBrace | Token::CloseBrace) {
+                                writeln!(f)?;
+                            }
+                        }*/
+                        writeln!(f, "\n}}")?;
+                    } else {
+                        writeln!(f, ";")?;
+                    }
+                }
+            }
+        }
+        for (key, value) in &self.structs {
+            match **value {
+                UnqualType::Struct(ref stru) => {
+                    write!(f, "struct {}", key)?;
+                    if let Some((size, fields)) = &stru.inner {
+                        writeln!(f, "\n{{ // {size} bytes")?;
+                        for (field_name, (_, field_type)) in fields {
+                            writeln!(f, "    {} {};", **field_type, field_name)?;
+                        }
+                        writeln!(f, "}};")?;
+                    } else {
+                        writeln!(f, ";")?;
+                    }
+                }
+                _ => uunreachable!()
+            }
+        }
+        write!(f, "}}")
+    }
+}
+
+type ScopeBox = Prc<Scope>;

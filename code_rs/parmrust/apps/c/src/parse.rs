@@ -1,0 +1,1202 @@
+use alloc::boxed::Box;
+use alloc::format;
+use alloc::string::String;
+use alloc::vec::{IntoIter, Vec};
+use core::fmt::Display;
+use core::iter::{Enumerate, Peekable};
+use indexmap::map::{Entry, RawEntryApiV1};
+use indexmap::map::raw_entry_v1::RawEntryMut;
+use crate::scope::*;
+use aligned_vec::avec;
+use arbitrary_int::u10;
+use hashbrown::HashMap;
+use parm::{rprintln, uunreachable, OrderedMap};
+
+pub struct CParser<'a, 'b> {
+    code: &'a str,
+    pub(super) iter: Peekable<Enumerate<IntoIter<Token>>>,
+    pub global_scope: &'b mut Scope,
+    //pub compiler: &'b mut Compiler
+}
+
+enum SkipStop<T> {
+    Skip,
+    Stop(T),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum StorageClass {
+    Auto,
+    Static,
+    Typedef,
+}
+
+use SkipStop::*;
+use crate::compiler::{CompileError, Compiler, EvalConstant, EvalConstantKind};
+use crate::arm::Instruction::*;
+use crate::arm::Reg::*;
+use crate::emitter::{CodeBox, Emitter};
+use crate::lexer::{AssignableOperator, Keyword, Operator, ReadError, Token, Tokenizer};
+use crate::parse_expr::{BinOp, Expression};
+use crate::scope::VarPosition::{Global, Local};
+use crate::types::{EnumImpl, FunctionImpl, QualType, Signedness, StructImpl, StructInner, TypeBox, TypeQualifiers, UnqualType};
+use crate::types::Signedness::{Signed, Unsigned};
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum ParseError {
+    ReadError(ReadError),
+    UnexpectedTokenGeneric { got: Option<Token>, msg: &'static str },
+    UnexpectedToken { exp: Token, got: Option<Token> },
+    EOFExpected { got: Token },
+    Generic(&'static str),
+    GenericDyn(alloc::string::String),
+    GenericBacktrack(&'static str, Option<Token>),
+    Compiler(CompileError),
+}
+
+impl Display for ParseError {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        match self {
+            ParseError::ReadError(e) => write!(f, "Read error: {:?}", e),
+            ParseError::UnexpectedTokenGeneric { got, msg } => {
+                if let Some(got) = got {
+                    write!(f, "Unexpected token: {:?}, {}", got, msg)
+                } else {
+                    write!(f, "Unexpected end of input: {}", msg)
+                }
+            }
+            ParseError::UnexpectedToken { exp, got } => {
+                if let Some(got) = got {
+                    write!(f, "Expected {:?}, got {:?}", exp, got)
+                } else {
+                    write!(f, "Expected {:?}, but reached end of input", exp)
+                }
+            }
+            ParseError::Generic(msg) => write!(f, "{}", msg),
+            ParseError::GenericDyn(msg) => write!(f, "{}", msg),
+            ParseError::GenericBacktrack(msg, tok) => {
+                if let Some(tok) = tok {
+                    write!(f, "Backtrack error: {}, got {:?}", msg, tok)
+                } else {
+                    write!(f, "Backtrack error: {}", msg)
+                }
+            }
+            ParseError::Compiler(e) => write!(f, "Compiler error: {}", e),
+            ParseError::EOFExpected { got } => {
+                write!(f, "Expected end of input, got {:?}", got)
+            }
+        }
+    }
+}
+
+impl From<CompileError> for ParseError {
+    fn from(e: CompileError) -> Self {
+        ParseError::Compiler(e)
+    }
+}
+
+impl From<ReadError> for ParseError {
+    fn from(e: ReadError) -> Self {
+        ParseError::ReadError(e)
+    }
+}
+
+pub fn plog(_s: &'static str) {
+    //rprintln!("{}", _s);
+}
+
+impl From<bool> for SkipStop<()> {
+    fn from(b: bool) -> Self {
+        if b {
+            Skip
+        } else {
+            Stop(())
+        }
+    }
+}
+
+// #[derive(Debug)]
+pub struct Block {
+    pub decls: Scope,
+    pub stmts: Vec<Statement>,
+}
+
+// #[derive(Debug)]
+pub enum DeclOrExpr {
+    Declaration(Block),
+    Expression(Expression),
+}
+
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct InitializerList {
+    pub items: Vec<(Vec<Designator>, Expression)>,
+}
+
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub enum Designator {
+    Member(String),
+    Index(u32),
+}
+
+// #[derive(Debug)]
+pub enum Statement {
+    Empty,
+    Expression(Expression),
+    Return(Option<Expression>),
+    If(Expression, Box<Statement>, Option<Box<Statement>>),
+    While(Expression, Box<Statement>),
+    For(Block, Option<Expression>, Option<Expression>, Box<Statement>),
+    Break,
+    Continue,
+    Block(Block),
+}
+
+impl<'a, 'b> CParser<'a, 'b> {
+    pub fn new(s: &'a str, scope: &'b mut Scope) -> Result<Self, PositionedError<ParseError>> {
+        Ok(CParser {
+            code: s,
+            iter: Tokenizer::new(s).process()?.into_iter().enumerate().peekable(),
+            global_scope: scope,
+            //compiler
+        })
+    }
+
+    fn skip_while<T, U: Into<SkipStop<T>>>(&mut self, p: impl Fn(&Token) -> U) -> Option<T> {
+        while let Some((_, ch)) = self.iter.peek() {
+            if let Stop(x) = p(ch).into() {
+                return Some(x);
+            }
+            self.iter.next();
+        }
+        None
+    }
+
+    pub fn current_pos(&mut self) -> usize {
+        self.iter.peek().map(|&(pos, _)| pos).unwrap_or(self.code.len())
+    }
+
+    pub(super) fn peek(&mut self) -> Option<&Token> {
+        self.iter.peek().map(|&(_, ref token)| token)
+    }
+
+    pub(super) fn next(&mut self) -> Result<Token, ParseError> {
+        match self.iter.next() {
+            Some((_, token)) => Ok(token),
+            None => Err(ParseError::ReadError(ReadError::EOFFound)),
+        }
+    }
+
+    pub(super) fn advance(&mut self) {
+        let _ = self.iter.next();
+    }
+
+    pub(super) fn expect(&mut self, expected: Token) -> Result<(), ParseError> {
+        match self.iter.next() {
+            Some((_, token)) if token == expected => Ok(()),
+            Some((_, token)) => Err(ParseError::UnexpectedToken {
+                got: Some(token),
+                exp: expected,
+            }),
+            None => Err(ParseError::UnexpectedToken {
+                got: None,
+                exp: expected,
+            }),
+        }
+    }
+
+    pub(super) fn accept(&mut self, expected: Token) -> bool {
+        match self.peek() {
+            Some(token) if token == &expected => {
+                self.advance();
+                true
+            }
+            _ => false,
+        }
+    }
+
+    fn read_storage_class(&mut self) -> StorageClass {
+        let res = match self.peek() {
+            Some(Token::Keyword(Keyword::Typedef)) => StorageClass::Typedef,
+            _ => return StorageClass::Auto,
+        };
+        self.next().unwrap();
+        res
+    }
+
+    pub fn read_declaration_specifiers(&mut self) -> Result<(Option<StorageClass>, QualType), ParseError> {
+        plog("read_decl_spec");
+        enum PrimType {
+            Bool,
+            Char,
+            Int,
+            Void,
+        }
+
+        enum BaseType {
+            Prim(PrimType),
+            Struct(StructImpl),
+        }
+
+        enum FoundType {
+            Prim(PrimType),
+            Complex(TypeBox),
+            Qualified(QualType),
+        }
+
+        let mut class: Option<StorageClass> = None;
+        let mut signedness: Option<Signedness> = None;
+        let mut found_type: Option<FoundType> = None;
+        let mut qualifiers = TypeQualifiers::default();
+
+        macro_rules! set {
+            ($v:expr, $e:expr) => {
+                {
+                    self.advance();
+                    $v = $e;
+                }
+            };
+            ($v:expr, $e:expr, $n:literal) => {
+                {
+                    self.advance();
+                    if $v.is_some() {
+                        return Err(ParseError::Generic(concat!($n, " already specified")));
+                    }
+                    $v = Some($e);
+                }
+            }
+        }
+
+        let mut first = true;
+
+        while let Some((_, tok)) = self.iter.peek() {
+            match tok {
+                Token::Keyword(Keyword::Const) => set!(qualifiers.is_const, true),
+                Token::Keyword(Keyword::Volatile) => set!(qualifiers.is_volatile, true),
+
+                Token::Keyword(Keyword::Typedef) => set!(class, StorageClass::Typedef, "storage class"),
+                Token::Keyword(Keyword::Auto) => set!(class, StorageClass::Auto, "storage class"),
+                Token::Keyword(Keyword::Static) => set!(class, StorageClass::Static, "storage class"),
+
+                Token::Keyword(Keyword::Bool) => set!(found_type, FoundType::Prim(PrimType::Bool), "primitive type"),
+                Token::Keyword(Keyword::Char) => set!(found_type, FoundType::Prim(PrimType::Char), "primitive type"),
+                Token::Keyword(Keyword::Int) => set!(found_type, FoundType::Prim(PrimType::Int), "primitive type"),
+                Token::Keyword(Keyword::Void) => set!(found_type, FoundType::Prim(PrimType::Void), "primitive type"),
+
+                Token::Keyword(Keyword::Signed) => set!(signedness, Signedness::Signed, "signedness"),
+                Token::Keyword(Keyword::Unsigned) => set!(signedness, Signedness::Unsigned, "signedness"),
+
+
+
+                Token::Keyword(Keyword::Struct) if found_type.is_none() => {
+                    self.advance();
+                    let mut name = None;
+                    let has_body = match self.next()? {
+                        Token::Identifier(id) => {
+                            name = Some(id);
+                            self.accept(Token::OpenBrace)
+                        }
+                        Token::OpenBrace => {
+                            // anonymous struct
+                            true
+                        }
+                        tok => {
+                            return Err(ParseError::UnexpectedTokenGeneric {
+                                got: Some(tok),
+                                msg: "expected struct name or open brace",
+                            });
+                        }
+                    };
+
+                    let inner = if has_body {
+                        // read struct definition
+                        Some(self.read_struct_declaration()?)
+                    } else {
+                        None
+                    };
+
+                    let stru = match name {
+                        Some(name) => {
+                            match self.global_scope.structs.raw_entry_mut_v1().from_key(&name) {
+                                RawEntryMut::Occupied(mut e) => {
+                                    let UnqualType::Struct(ref existing) = **e.get() else {
+                                        uunreachable!();
+                                    };
+                                    match (has_body, existing.inner.is_some()) {
+                                        (true, true) => {
+                                            return Err(ParseError::Generic("struct with the same name already defined"));
+                                        }
+                                        (true, false) => {
+                                            // update existing struct
+                                            e.insert(UnqualType::Struct(StructImpl {
+                                                identity: Some(name),
+                                                inner,
+                                            }).into())
+                                        }
+                                        (false, _) => {
+                                            e.get().clone()
+                                        }
+                                    }
+                                }
+                                RawEntryMut::Vacant(e) => e.insert(name.clone(), UnqualType::Struct(StructImpl {
+                                    identity: Some(name),
+                                    inner,
+                                }).into()).1.clone()
+                            }
+                        }
+                        None => UnqualType::Struct(StructImpl {
+                            identity: None,
+                            inner,
+                        }).into()
+                    };
+
+                    found_type = Some(FoundType::Complex(stru));
+                }
+
+                Token::Keyword(Keyword::Enum) if found_type.is_none() => {
+                    self.advance();
+                    let mut name = None;
+                    let has_body = match self.next()? {
+                        Token::Identifier(id) => {
+                            name = Some(id);
+                            self.accept(Token::OpenBrace)
+                        }
+                        Token::OpenBrace => {
+                            // anonymous enum
+                            true
+                        }
+                        tok => {
+                            return Err(ParseError::UnexpectedTokenGeneric {
+                                got: Some(tok),
+                                msg: "expected enum name or open brace",
+                            });
+                        }
+                    };
+
+                    let inner_impl = if has_body {
+                        // read struct definition
+                        Some(self.read_enum_declaration()?)
+                    } else {
+                        None
+                    };
+
+                    let inner = if has_body { Some(()) } else { None };
+                    rprintln!("1 {:?}", self.global_scope.enums);
+                    let enu = match name {
+                        Some(name) => {
+                            match self.global_scope.enums.raw_entry_mut_v1().from_key(&name) {
+                                RawEntryMut::Occupied(mut e) => {
+                                    let UnqualType::Enum(ref existing) = **e.get() else {
+                                        uunreachable!();
+                                    };
+                                    match (has_body, existing.inner.is_some()) {
+                                        (true, true) => {
+                                            rprintln!("{:?}", self.global_scope.enums);
+                                            return Err(ParseError::Generic("enum with the same name already defined"));
+                                        }
+                                        (true, false) => {
+                                            // update existing enum
+                                            e.insert(UnqualType::Enum(EnumImpl {
+                                                identity: Some(name),
+                                                inner,
+                                            }).into())
+                                        }
+                                        (false, _) => {
+                                            e.get().clone()
+                                        }
+                                    }
+                                }
+                                RawEntryMut::Vacant(e) => e.insert(name.clone(), UnqualType::Enum(EnumImpl {
+                                    identity: Some(name),
+                                    inner,
+                                }).into()).1.clone()
+                            }
+                        }
+                        None => UnqualType::Enum(EnumImpl {
+                            identity: None,
+                            inner,
+                        }).into()
+                    };
+
+                    if let Some(entries) = inner_impl {
+                        // insert enum values into the scope
+                        for (name, value) in entries {
+                            if self.global_scope.symbols.contains_key(&name) {
+                                return Err(ParseError::Generic("cannot redeclare symbol"));
+                            }
+                            self.global_scope.symbols.insert(name, SymbolKind::Constant { val: value, ty: enu.clone().into() });
+                        }
+                    }
+
+                    found_type = Some(FoundType::Complex(enu));
+                }
+
+
+                /*Token::Identifier(name) if found_type.is_none() => {
+                    let Some(item) = self.scope.symbols.get(name) else {
+                        return Err(ParseError::Generic("unknown identifier"));
+                    };
+                    let SymbolKind::Type(typ) = item else {
+                        return Err(ParseError::GenericBacktrack("expected type, got value"));
+                    };
+                    found_type = Some(FoundType::Qualified(typ.clone()));
+                    self.advance();
+                }*/
+
+                Token::Identifier(name) if found_type.is_none() && let Some(SymbolKind::Type(typ)) = self.global_scope.symbols.get(name) => {
+                    // struct type
+                    found_type = Some(FoundType::Qualified(typ.clone()));
+                    self.advance();
+                }
+
+                other => if first {
+                    // first token must be a type specifier
+                    return Err(ParseError::GenericBacktrack("expected type specifier or storage class", Some(other.clone())));
+                } else {
+                    // no more type specifiers, break
+                    break;
+                }
+            };
+            first = false;
+        }
+
+        if first {
+            // first token must be a type specifier
+            return Err(ParseError::GenericBacktrack("expected type specifier or storage class", None));
+        }
+
+        #[inline(never)]
+        fn build_final_type(class: Option<StorageClass>, signedness: Option<Signedness>, found_type: Option<FoundType>, qualifiers: TypeQualifiers) -> Result<(Option<StorageClass>, QualType), ParseError> {
+            let found_type = found_type.unwrap_or(FoundType::Prim(PrimType::Int)); // default to int if nothing found
+
+            let final_type = match found_type {
+                FoundType::Prim(prim) => {
+                    let unqual = match prim {
+                        PrimType::Char => UnqualType::Char(signedness),
+                        PrimType::Int => UnqualType::Int(signedness.unwrap_or(Signed)), // int is default
+                        _ => {
+                            if signedness.is_some() {
+                                return Err(ParseError::Generic("signedness specified for a non-numeric type"));
+                            }
+                            match prim {
+                                PrimType::Bool => UnqualType::Bool,
+                                PrimType::Void => UnqualType::Void,
+                                _ => uunreachable!() // we handled all cases above
+                            }
+                        }
+                    };
+                    QualType {
+                        unqual: unqual.into(),
+                        type_qualifiers: qualifiers,
+                    }
+                }
+                FoundType::Complex(typ) => {
+                    if signedness.is_some() {
+                        return Err(ParseError::Generic("signedness specified for a non-numeric type"));
+                    }
+                    QualType {
+                        unqual: typ,
+                        type_qualifiers: qualifiers,
+                    }
+                }
+                FoundType::Qualified(qual) => {
+                    if signedness.is_some() {
+                        return Err(ParseError::Generic("signedness specified for a qualified type"));
+                    }
+                    QualType {
+                        unqual: qual.unqual,
+                        type_qualifiers: qual.type_qualifiers | qualifiers,
+                    }
+                }
+            };
+
+            Ok((class, final_type))
+        }
+
+        build_final_type(class, signedness, found_type, qualifiers)
+    }
+
+    fn read_enum_declaration(&mut self) -> Result<HashMap<String, usize>, ParseError> {
+        plog("read_enum_declaration");
+        let mut values = HashMap::new();
+        let mut next_value = 0;
+        loop {
+            let mut next: Token = self.next()?;
+            if let Token::Identifier(name) = next {
+                if self.accept(Token::Operator(Operator::Assignment(None))) {
+                    // enum value with explicit value
+                    let value = self.next()?;
+                    if let Token::Integer(val) = value {
+                        next_value = val as usize;
+                    } else {
+                        return Err(ParseError::UnexpectedTokenGeneric {
+                            got: Some(value),
+                            msg: "expected integer literal for enum value",
+                        });
+                    }
+                }
+                if !values.insert(name, next_value).is_none() {
+                    return Err(ParseError::Generic("duplicate enum value"));
+                }
+                next_value += 1; // increment for next value
+                if self.accept(Token::Comma) {
+                    continue;
+                }
+                next = self.next()?;
+            }
+
+            if next == Token::CloseBrace {
+                break;
+            } else {
+                return Err(ParseError::Generic("expected identifier for enum value"));
+            }
+        }
+        Ok(values)
+    }
+
+    fn read_struct_declaration(&mut self) -> Result<StructInner, ParseError> {
+        plog("read_struct_declaration");
+        let mut fields = OrderedMap::default();
+        let mut total_size = 0;
+        loop {
+            if self.accept(Token::CloseBrace) {
+                break;
+            }
+            let decls = self.read_declaration()?;
+            for (field_name, field_type, initializer) in decls {
+                if !initializer.is_none() {
+                    return Err(ParseError::Generic("initializer not allowed in struct field declaration"));
+                }
+                match field_type {
+                    SymbolKind::Variable { ty: typ, .. } => {
+                        let Entry::Vacant(entry) = fields.entry(field_name) else {
+                            return Err(ParseError::Generic("duplicate field in struct"));
+                        };
+                        let field_size = typ.unqual.size_aligned();
+                        entry.insert((total_size, typ.unqual));
+                        total_size += field_size;
+                    }
+                    _ => {
+                        return Err(ParseError::Generic("expected variable declaration in struct"));
+                    }
+                }
+            }
+        }
+        Ok((total_size, fields))
+    }
+
+    pub(super) fn read_declarator_inner(&mut self) -> Result<(Option<String>, Vec<Box<dyn FnOnce(QualType) -> QualType>>), ParseError> {
+        let mut xforms: Vec<Box<dyn FnOnce(QualType) -> QualType>> = Vec::new();
+        while let Some((_, tok)) = self.iter.peek() {
+            match tok {
+                Token::Operator(Operator::Simple(AssignableOperator::Multiply)) => {
+                    self.advance();
+                    xforms.push(Box::new(|base_type| QualType {
+                        unqual: UnqualType::Pointer(base_type).into(),
+                        type_qualifiers: Default::default(),
+                    }));
+                }
+                Token::Keyword(Keyword::Const) => {
+                    self.advance();
+                    xforms.push(Box::new(|mut base_type| {
+                        base_type.type_qualifiers.is_const = true;
+                        base_type
+                    }));
+                }
+                Token::Keyword(Keyword::Volatile) => {
+                    self.advance();
+                    xforms.push(Box::new(|mut base_type| {
+                        base_type.type_qualifiers.is_volatile = true;
+                        base_type
+                    }));
+                }
+                _ => break // stop on any other token
+            }
+        }
+
+        let name;
+
+        let mut late_xforms = None;
+
+        match self.peek() {
+            Some(Token::Identifier(_)) => {
+                let Token::Identifier(id) = self.next()? else {
+                    uunreachable!(); // we checked for Identifier above
+                };
+                name = Some(id);
+            }
+            Some(Token::OpenParen) => {
+                self.advance();
+                let inner = self.read_declarator_inner()?;
+                name = inner.0;
+                late_xforms = Some(inner.1);
+                self.expect(Token::CloseParen)?;
+            }
+            _ => name = None
+        }
+
+        loop {
+            let option = self.peek();
+            match option {
+                Some(Token::OpenBracket) => {
+                    self.advance();
+                    let mut sizes = Vec::new();
+
+                    loop {
+                        let size = if self.accept(Token::CloseBracket) {
+                            None
+                        } else {
+                            let size = self.next()?;
+                            if let Token::Integer(size) = size {
+                                self.expect(Token::CloseBracket)?;
+                                Some(size as usize)
+                            } else {
+                                return Err(ParseError::UnexpectedTokenGeneric {
+                                    got: Some(size),
+                                    msg: "expected integer literal or close bracket",
+                                });
+                            }
+                        };
+                        sizes.push(size);
+
+                        if self.accept(Token::OpenBracket) {
+                            continue;
+                        }
+
+                        break;
+                    }
+                    xforms.push(Box::new(move |mut base_type| {
+                        for size in sizes.into_iter().rev() {
+                            base_type = QualType {
+                                unqual: UnqualType::Array(base_type, size).into(),
+                                type_qualifiers: Default::default(),
+                            };
+                        }
+                        base_type
+                    }));
+                }
+                Some(Token::OpenParen) => {
+                    self.advance();
+                    let params = self.read_function_param_list()?;
+                    xforms.push(Box::new(move |base_type| {
+                        QualType {
+                            unqual: UnqualType::Function(FunctionImpl {
+                                ret: base_type.into(),
+                                args: params,
+                            }).into(),
+                            type_qualifiers: Default::default(),
+                        }
+                    }));
+                }
+                _ => {
+                    if let Some(mut late) = late_xforms {
+                        xforms.append(&mut late);
+                    }
+                    return Ok((name, xforms));
+                }
+            }
+        }
+    }
+
+    pub(super) fn read_declarator(&mut self, mut base_type: QualType) -> Result<(Option<String>, QualType), ParseError> {
+        let (name, mut xforms) = self.read_declarator_inner()?;
+        for xform in xforms {
+            base_type = xform(base_type);
+        }
+        Ok((name, base_type))
+    }
+
+    fn read_function_param_list(&mut self) -> Result<OrderedMap<String, QualType>, ParseError> {
+        plog("read_function_param_list");
+        let mut params = OrderedMap::default();
+        if !self.accept(Token::CloseParen) {
+            loop {
+                let (class, type_) = self.read_declaration_specifiers()?;
+                if class.is_some() {
+                    return Err(ParseError::Generic("storage class not allowed in function parameters"));
+                }
+                let (name, mut type_) = self.read_declarator(type_)?;
+                type_ = type_.decay();
+                let entry = params.entry(name.unwrap_or_else(|| String::from(format!("_{}", params.len()))));
+                if let Entry::Vacant(e) = entry {
+                    e.insert(type_);
+                } else {
+                    return Err(ParseError::Generic("duplicate parameter name in function declaration"));
+                }
+                if self.accept(Token::CloseParen) {
+                    break;
+                }
+                if !self.accept(Token::Comma) {
+                    return Err(ParseError::Generic("expected comma or close parenthesis in function parameters"));
+                }
+            }
+        }
+        Ok(params)
+    }
+
+    fn read_expression_statement(&mut self) -> Result<Option<Expression>, ParseError> {
+        plog("read_expression_statement");
+        if let Some(tok) = self.peek() {
+            match tok {
+                Token::Semicolon => {
+                    // empty statement
+                    self.advance();
+                    Ok(None)
+                }
+                _ => {
+                    let expr = self.read_expression()?;
+                    if self.accept(Token::Semicolon) {
+                        // expression statement
+                        Ok(Some(expr))
+                    } else {
+                        Err(ParseError::UnexpectedTokenGeneric {
+                            got: self.peek().cloned(),
+                            msg: "expected semicolon after expression",
+                        })
+                    }
+                }
+            }
+        } else {
+            Err(ParseError::Generic("unexpected end of input while reading expression statement"))
+        }
+    }
+
+    fn read_statement(&mut self) -> Result<Statement, ParseError> {
+        if let Some(tok) = self.peek() {
+            Ok(match tok {
+                Token::OpenBrace => {
+                    // nested compound statement
+                    self.advance();
+                    let inner_block = self.read_compound()?;
+                    Statement::Block(inner_block)
+                }
+                Token::Keyword(Keyword::Return) => {
+                    self.advance();
+                    let val = if self.accept(Token::Semicolon) {
+                        // return without value
+                        None
+                    } else {
+                        // return with value
+                        let expr = self.read_expression()?;
+                        self.expect(Token::Semicolon)?;
+                        Some(expr)
+                    };
+                    Statement::Return(val)
+                }
+                Token::Keyword(Keyword::Break) => {
+                    self.advance();
+                    self.expect(Token::Semicolon)?;
+                    Statement::Break
+                }
+                Token::Keyword(Keyword::Continue) => {
+                    self.advance();
+                    self.expect(Token::Semicolon)?;
+                    Statement::Continue
+                }
+                Token::Keyword(Keyword::If) => {
+                    self.advance();
+                    self.expect(Token::OpenParen)?;
+                    let condition = self.read_expression()?;
+                    self.expect(Token::CloseParen)?;
+                    let then_block = self.read_statement()?;
+                    let else_block = if self.accept(Token::Keyword(Keyword::Else)) {
+                        Some(self.read_statement()?)
+                    } else {
+                        None
+                    };
+                    Statement::If(condition, then_block.into(), else_block.map(Into::into))
+                }
+                Token::Keyword(Keyword::For) => {
+                    self.advance();
+                    self.expect(Token::OpenParen)?;
+                    let mut block = Block {
+                        decls: Default::default(),
+                        stmts: Vec::new(),
+                    };
+                    if self.accept(Token::Semicolon) {
+                        //
+                    } else {
+                        match self.read_declaration() {
+                            Err(ParseError::GenericBacktrack(_, _)) => {
+                                // no declaration specifiers, we can move on to statements
+                                block.stmts.push(Statement::Expression(self.read_expression()?));
+                            }
+                            Err(e) => return Err(e),
+                            Ok(decls) => {
+                                self.insert_decls(Some(&mut block.decls), &mut block.stmts, decls)?;
+                            }
+                        }
+                    }
+                    let condition = self.read_expression_statement()?;
+                    let increment = if self.accept(Token::CloseParen) {
+                        None
+                    } else {
+                        let inc = self.read_expression()?;
+                        self.expect(Token::CloseParen)?;
+                        Some(inc)
+                    };
+                    let body = self.read_statement()?;
+                    Statement::For(block, condition, increment, body.into())
+                }
+                Token::Keyword(Keyword::While) => {
+                    self.advance();
+                    self.expect(Token::OpenParen)?;
+                    let condition = self.read_expression()?;
+                    self.expect(Token::CloseParen)?;
+                    let body = self.read_statement()?;
+                    Statement::While(condition, body.into())
+                }
+                _ => {
+                    match self.read_expression_statement()? {
+                        Some(expr) => Statement::Expression(expr),
+                        None => Statement::Empty,
+                    }
+                }
+            })
+        } else {
+            Err(ParseError::Generic("unexpected end of input while reading statement"))
+        }
+    }
+
+    fn read_block(&mut self, block: &mut Block) -> Result<(), ParseError> {
+        loop {
+            match self.read_declaration() {
+                Err(ParseError::GenericBacktrack(_, _)) => {
+                    // no declaration specifiers, we can move on to statements
+                    break;
+                }
+                Err(e) => return Err(e),
+                Ok(decls) => {
+                    self.insert_decls(Some(&mut block.decls), &mut block.stmts, decls)?;
+                }
+            }
+        }
+        while let Some(tok) = self.peek() {
+            if tok == &Token::CloseBrace {
+                // end of compound statement
+                self.advance();
+                break;
+            }
+            // if decl, start compound
+            match self.read_declaration() {
+                Err(ParseError::GenericBacktrack(_, _)) => {
+                    // continue with statements
+                }
+                Err(e) => return Err(e),
+                Ok(decls) => {
+                    // create new block
+                    let mut new_block = Block {
+                        decls: Default::default(),
+                        stmts: Vec::new(),
+                    };
+                    self.insert_decls(Some(&mut new_block.decls), &mut new_block.stmts, decls)?;
+                    self.read_block(&mut new_block)?;
+                    block.stmts.push(Statement::Block(new_block));
+                    break;
+                }
+            }
+
+            let stmt = self.read_statement()?;
+            if let Statement::Empty = stmt {
+                // empty statement, skip it
+                continue;
+            }
+            block.stmts.push(stmt);
+        }
+        Ok(())
+    }
+
+    fn read_compound(&mut self) -> Result<Block, ParseError> {
+        plog("read_compound");
+        let mut block = Block {
+            decls: Default::default(),
+            stmts: Vec::new(),
+        };
+        self.read_block(&mut block)?;
+        Ok(block)
+    }
+
+    pub fn make_function(&mut self, inner: &FunctionImpl, block: &Block) -> Result<CodeBox, CompileError> {
+        let mut fct_scope = Scope::default();
+        fct_scope.symbols.insert(String::from("_r7"), SymbolKind::Variable {
+            ty: UnqualType::Int(Unsigned).into(),
+            pos: Local(0),
+        });
+        fct_scope.symbols.insert(String::from("_lr"), SymbolKind::Variable {
+            ty: UnqualType::Int(Unsigned).into(),
+            pos: Local(4),
+        });
+        fct_scope.var_size = 8;
+
+        for (name, ty) in &inner.args {
+            let size = ty.unqual.size_aligned();
+            fct_scope.symbols.insert(name.clone(), SymbolKind::Variable { ty: ty.clone(), pos: Local(fct_scope.var_size) });
+            fct_scope.var_size += size;
+        }
+        let mut comp = Compiler::new(self.global_scope);
+        comp.scope.push(&fct_scope);
+        // rprintln!("<fcode>");
+        comp.emit_function(inner, &block, &fct_scope)?;
+        // comp.dump();
+        // rprintln!("</fcode>");
+        let encoded = comp.link_asm().into_boxed_slice();
+        Ok(encoded)
+    }
+
+    fn read_declaration(&mut self) -> Result<Vec<(String, SymbolKind, Option<Expression>)>, ParseError> {
+        plog("read_declaration");
+        let (class, type_) = self.read_declaration_specifiers()?;
+        let mut res = Vec::new();
+        loop {
+            let (name, mut type_) = self.read_declarator(type_.clone())?;
+            if let Some(name) = name {
+                if class == Some(StorageClass::Typedef) {
+                    res.push((name, SymbolKind::Type(type_), None));
+                } else {
+                    let init_expr = if self.accept(Token::Operator(Operator::Assignment(None))) {
+                        // variable declaration with initialization
+                        let init_expr = self.read_assignment_expression()?;
+                        Some(init_expr)
+                    } else if let UnqualType::Function(inner) = &*type_.unqual {
+                        if !res.is_empty() {
+                            return Err(ParseError::Generic("cannot declare function inside another declaration"));
+                        }
+
+                        if self.accept(Token::OpenBrace) {
+                            let block = self.read_compound()?;
+
+                            let encoded = self.make_function(inner, &block)?;
+
+                            rprintln!("{}: {} instrs", name, encoded.len());
+                            let addr = encoded.as_ptr() as usize;
+                            //rprintln!("fcode addr: {:x}", addr);
+                            let mut jcomp = Emitter::default();
+                            //rprintln!("<jcode>");
+                            jcomp.emit(LdrPcImm { rd: R0, immw8: u10::new(0) });
+                            jcomp.emit(BxLo { rm: R0 });
+                            jcomp.emit(U16 { value: addr as u16 });
+                            jcomp.emit(U16 { value: (addr >> 16) as u16 });
+                            //rprintln!("</jcode>");
+                            let code = jcomp.link_asm().into_boxed_slice();
+                            //rprintln!("jcode addr: {:x}", code.as_ptr() as usize);
+
+                            res.push((name, SymbolKind::Function {
+                                proto: inner.clone(),
+                                body: Some((block, encoded)),
+                                jump: code,
+                            }, None));
+                        } else {
+                            self.expect(Token::Semicolon)?;
+                            // function prototype
+                            res.push((name, SymbolKind::Function {
+                                proto: inner.clone(),
+                                body: None,
+                                jump: avec![[4]| 0, 0, 0, 0].into_boxed_slice(),
+                            }, None));
+                        }
+
+                        return Ok(res); // only one function declaration per declaration
+                    } else {
+                        None
+                    };
+                    if let UnqualType::Array(it, None) = &*type_.unqual {
+                        if let Some(Expression::StringLiteral(s)) = &init_expr {
+                            if let UnqualType::Char(_) = *it.unqual {
+                                type_.unqual = UnqualType::Array(it.clone(), Some(s.bytes().len())).into();
+                            }
+                        } else {
+                            return Err(ParseError::Generic("array size missing"));
+                        }
+                    }
+                    res.push((name, SymbolKind::Variable { pos: match class {
+                        Some(StorageClass::Static) => Global(avec![[4] | 0u8; type_.size_aligned()].into_boxed_slice()),
+                        _ => Local(0)
+                    }, ty: type_ }, init_expr));
+                }
+            }
+
+            if !self.accept(Token::Comma) {
+                break;
+            }
+        }
+        self.expect(Token::Semicolon)?;
+        Ok(res)
+    }
+
+    fn insert_decls(&mut self, scope: Option<&mut Scope>, stmts: &mut Vec<Statement>, decls: Vec<(String, SymbolKind, Option<Expression>)>) -> Result<(), ParseError> {
+        let is_global = scope.is_none();
+        let scope = scope.unwrap_or(&mut self.global_scope);
+        for (name, mut kind, initializer) in decls {
+            if let Some(expr) = initializer {
+                // handle initializer
+                if let SymbolKind::Variable { pos, ty } = &mut kind {
+                    if let VarPosition::Global(box_) = pos {
+                        // static variable
+                        let mut comp = Compiler::new(scope);
+                        let rev = comp.eval_expression(&expr)?;
+                        let Ok(rev) = comp.eval_auto_convert(rev, ty)? else {
+                            return Err(ParseError::GenericDyn(format!("cannot convert initializer to {}", ty)));
+                        };
+                        let Some(EvalConstant { val, kind: EvalConstantKind::Absolute }) = rev.const_eval() else {
+                            return Err(ParseError::GenericDyn(format!("initializer for {} must be a constant expression", ty)));
+                        };
+                        if box_.len() != 4 {
+                            return Err(ParseError::GenericDyn(format!("initializer for {} must be a 32-bit value", ty)));
+                        }
+                        unsafe {
+                            let ptr = box_.as_mut_ptr() as *mut u32;
+                            *ptr = val as u32;
+                        }
+                    }
+                    else {
+                        stmts.push(Statement::Expression(Expression::BinOp(
+                            BinOp::Assignment(None),
+                            Box::new(Expression::SymRef(name.clone())),
+                            Box::new(expr),
+                        )));
+                    }
+                } else {
+                    return Err(ParseError::GenericDyn(format!("initializer not allowed for {}", kind)));
+                }
+            }
+            match scope.symbols.entry(name) {
+                Entry::Occupied(mut entry) => {
+                    match (entry.get_mut(), kind) {
+                        (SymbolKind::Function { body: Some(_), .. }, SymbolKind::Function { .. }) => {
+                            return Err(ParseError::GenericDyn(format!("function {} already has body", entry.key())));
+                        }
+                        (SymbolKind::Function { proto: eproto, body: None, jump: ejump }, SymbolKind::Function { proto: nproto, body, jump: njump }) => {
+                            if *eproto != nproto {
+                                return Err(ParseError::GenericDyn(format!("function {} already declared with different prototype", entry.key())));
+                            }
+                            if let Some(_) = body {
+                                ejump[..].copy_from_slice(&njump[..]);
+                                // function with body, replace the entry
+                                entry.insert(SymbolKind::Function {
+                                    proto: nproto,
+                                    body,
+                                    jump: njump,
+                                });
+                            } else {
+                                // no change, do nothing
+                            }
+                        }
+                        _ => {
+                            return Err(ParseError::GenericDyn(format!("cannot redefine {}", entry.key())));
+                        }
+                    }
+                }
+                Entry::Vacant(entry) => {
+                    entry.insert(match kind {
+                        SymbolKind::Variable { ty, pos: offset } => {
+                            let size = ty.unqual.size_aligned();
+                            if is_global {
+                                SymbolKind::Variable {
+                                    ty,
+                                    pos: Global(avec![[4] | 0u8; size].into_boxed_slice()),
+                                }
+                            } else {
+                                let res = SymbolKind::Variable { ty, pos: match offset {
+                                    Local(_) => Local(scope.var_size),
+                                    other => other
+                                } };
+                                scope.var_size += size;
+                                res
+                            }
+                        }
+                        _ => kind
+                    });
+                }
+            }
+        }
+        Ok(())
+    }
+
+    pub fn read_unit(&mut self) -> Result<Option<CodeBox>, ParseError> {
+        plog("read_unit");
+        let mut stmts = Vec::new();
+        while self.iter.peek().is_some() {
+            plog("read_unit iter");
+            let decls = self.read_declaration()?;
+            self.insert_decls(None, &mut stmts, decls)?;
+        }
+        let code = if stmts.is_empty() { None } else {
+            Some(self.make_function(&FunctionImpl {
+                ret: UnqualType::Void.into(),
+                args: OrderedMap::default(),
+            }, &Block {
+                decls: Default::default(),
+                stmts,
+            })?)
+        };
+        Ok(code)
+    }
+
+    pub fn read_whole(mut self) -> Result<Option<CodeBox>, PositionedError<ParseError>> {
+        match self.read_unit() {
+            Ok(res) => Ok(res),
+            Err(e) => Err(PositionedError {
+                pos: Some(self.current_pos()),
+                error: e,
+            })
+        }
+    }
+
+    fn assert_eof(&mut self) -> Result<(), PositionedError<ParseError>> {
+        if let Ok(tok) = self.next() {
+            Err(PositionedError {
+                pos: Some(self.current_pos()),
+                error: ParseError::EOFExpected { got: tok }
+            })
+        } else {
+            Ok(())
+        }
+    }
+
+    pub fn read_whole_expr(mut self) -> Result<Expression, PositionedError<ParseError>> {
+        match self.read_expression() {
+            Ok(expr) => Ok(expr),
+            Err(e) => Err(PositionedError {
+                pos: Some(self.current_pos()),
+                error: e,
+            })
+        }
+    }
+}
+
+#[derive(Debug)]
+pub struct PositionedError<T> {
+    pub pos: Option<usize>,
+    pub error: T,
+}
+
+impl<T> From<T> for PositionedError<T>
+where
+    (T, PositionedError<T>): NotSame,
+    (PositionedError<T>, T): NotSame,
+{
+    fn from(error: T) -> Self {
+        PositionedError {
+            pos: None,
+            error,
+        }
+    }
+}
+
+auto trait NotSame {}
+
+impl<T> ! NotSame for (T, T) {}
+
+impl NotSame for (ReadError, ParseError) {} // sigh...
+impl NotSame for (CompileError, ParseError) {}
+impl<T> NotSame for (T, PositionedError<T>) {}
+
+impl<T: Into<U>, U> From<PositionedError<T>> for PositionedError<U>
+where
+    (T, U): NotSame,
+{
+    fn from(e: PositionedError<T>) -> Self {
+        PositionedError {
+            pos: e.pos,
+            error: e.error.into(),
+        }
+    }
+}

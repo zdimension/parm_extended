@@ -1,0 +1,11 @@
+[package]
+name = "parm"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+hashbrown = { version = "0.15.4"}
+indexmap = { version = "2.10.0", default-features = false }
+
+[lib]
+test = false

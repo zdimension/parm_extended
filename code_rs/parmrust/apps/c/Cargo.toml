@@ -1,0 +1,15 @@
+[package]
+name = "c"
+version = "0.1.0"
+edition.workspace = true
+
+[dependencies]
+aligned-vec = { version = "0.6.4", default-features = false }
+arbitrary-int = "2.0.0"
+hashbrown = "0.16.0"
+parm = { workspace = true }
+strum = { version = "0.27.2", default-features = false, features = ["derive"] }
+const_for = "0.1.5"
+indexmap = { version = "2.10.0", default-features = false }
+derive_more = { version = "2.0.1", default-features = false, features = ["full"] }
+

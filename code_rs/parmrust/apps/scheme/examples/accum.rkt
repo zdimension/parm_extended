@@ -1,0 +1,11 @@
+(define (create-accumulator n)
+  (let ((val n))
+    (lambda (x) (set! val (+ x val)) val)))
+
+(define a (create-accumulator 100))
+(define b (create-accumulator 0))
+(a 10)
+(a 20)
+(a 30)
+(b 1)
+(b 1)
