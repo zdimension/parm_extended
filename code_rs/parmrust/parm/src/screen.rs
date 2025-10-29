@@ -5,11 +5,21 @@ use crate::screen::tty::AnsiEscape;
 use crate::tty::{ParmDisplay, DisplayTarget};
 use crate::print;
 use core::ops::Not;
+#[cfg(feature = "embedded-graphics")]
+use embedded_graphics::prelude::*;
+#[cfg(feature = "embedded-graphics")]
+use embedded_graphics::primitives::*;
 
 const VRAM: *mut u32 = 0x100_0000 as *mut u32;
 
+
 pub const WIDTH: isize = 480;
 pub const HEIGHT: isize = 240;
+
+pub type ScreenRow = [u32; WIDTH as usize];
+pub type ScreenBuffer = [ScreenRow; HEIGHT as usize];
+
+const VRAM_BUF: *mut ScreenBuffer = VRAM as *mut ScreenBuffer;
 
 pub trait ColorEncodable: Copy {
     fn encode(&self) -> ColorEncoded;
@@ -25,6 +35,97 @@ pub enum Color {
     Grayscale(ColorGrayscale),
     Color6(Color6bpp),
     Color15(Color15bpp),
+}
+
+#[cfg(feature = "embedded-graphics")]
+impl PixelColor for Color {
+    type Raw = embedded_graphics::pixelcolor::raw::RawU32;
+}
+
+
+#[cfg(feature = "embedded-graphics")]
+pub struct ParmScreen;
+
+#[cfg(feature = "embedded-graphics")]
+impl OriginDimensions for ParmScreen {
+    fn size(&self) -> Size {
+        Size::new(WIDTH as u32, HEIGHT as u32)
+    }
+}
+
+#[cfg(feature = "embedded-graphics")]
+impl DrawTarget for ParmScreen {
+    type Color = Color;
+    type Error = core::convert::Infallible;
+
+    fn draw_iter<I>(&mut self, pixels: I) -> Result<(), Self::Error>
+    where
+        I: IntoIterator<Item=Pixel<Self::Color>>
+    {
+        for Pixel(coord, color) in pixels {
+            set_pixel(coord.x as isize, coord.y as isize, color);
+        }
+        Ok(())
+    }
+
+    fn fill_contiguous<I>(&mut self, area: &Rectangle, colors: I) -> Result<(), Self::Error>
+    where
+        I: IntoIterator<Item=Self::Color>,
+    {
+        let mut colors = colors.into_iter();
+        let w = WIDTH as i32;
+        let h = HEIGHT as i32;
+        let sx = area.top_left.x;
+        let mut sy = area.top_left.y;
+        let ex = area.top_left.x + area.size.width as i32;
+        let ey = area.top_left.y + area.size.height as i32;
+        
+        // xxxxxxxxxxx
+        // xxxxxxxxxxx
+        // xx|----------|
+        // xx|  area    |
+        // xx|----------|
+        
+        for _ in sy..0 {
+            for _ in sx..ex {
+                colors.next();
+            }
+        }
+        for y in (sy.max(0))..ey {
+            for _ in sx..0 {
+                colors.next();
+            }
+            for x in (sx.max(0))..(ex.min(w)) {
+                if let Some(color) = colors.next() {
+                    // SAFETY: bounds checked
+                    unsafe { set_pixel_unchecked(x as isize, y as isize, color); }
+                } else {
+                    return Ok(());
+                }
+            }
+            for _ in w..ex {
+                colors.next();
+            }
+        }
+        
+        Ok(())
+    }
+
+    fn fill_solid(&mut self, area: &Rectangle, color: Self::Color) -> Result<(), Self::Error> {
+        let area = area.intersection(&self.bounding_box());
+        for y in area.top_left.y..(area.top_left.y + area.size.height as i32) {
+            for x in area.top_left.x..(area.top_left.x + area.size.width as i32) {
+                // SAFETY: bounds checked
+                unsafe { set_pixel_unchecked(x as isize, y as isize, color); }
+            }
+        }
+        Ok(())
+    }
+
+    fn clear(&mut self, color: Self::Color) -> Result<(), Self::Error> {
+        clear(color);
+        Ok(())
+    }
 }
 
 impl ColorEncodable for Color {
@@ -180,6 +281,10 @@ pub fn clear(color: impl ColorEncodable) {
             *VRAM.offset(i) = color.encode().0 as u32;
         }
     }
+    // 2x slower??
+    /*unsafe {
+        *VRAM_BUF = [[color.encode().0 as u32; WIDTH as usize]; HEIGHT as usize];
+    }*/
 }
 
 #[inline(always)]

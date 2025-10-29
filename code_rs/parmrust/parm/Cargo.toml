@@ -6,6 +6,11 @@ edition = "2024"
 [dependencies]
 hashbrown = { version = "0.15.4"}
 indexmap = { version = "2.10.0", default-features = false }
+embedded-graphics = { version = "0.8.1", optional = true, features = ["fixed_point"] }
 
 [lib]
 test = false
+
+[features]
+default = []
+embedded-graphics = ["dep:embedded-graphics"]

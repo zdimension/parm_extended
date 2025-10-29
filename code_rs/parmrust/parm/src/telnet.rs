@@ -2,7 +2,7 @@ extern crate alloc;
 use core::fmt::Write;
 use crate::heap::string::String;
 use alloc::vec::Vec;
-use crate::mmio::{TELNETavail, TELNETdata, RES};
+use crate::mmio::{TELNETavail, TELNETdata};
 use crate::tty::{AsciiEncodable, DisplayTarget};
 use crate::print;
 
@@ -12,8 +12,16 @@ pub fn flush_all() {
     }
 }
 
+#[inline(always)]
 pub fn send(data: u8) {
     TELNETdata.write(data as u32);
+}
+
+#[inline(always)]
+pub fn send_all(data: &[u8]) {
+    for &b in data {
+        send(b);
+    }
 }
 
 #[inline(always)]
@@ -36,6 +44,25 @@ pub fn read() -> Option<u8> {
     } else {
         None
     }
+}
+
+pub fn read_chunk(out: &mut [u8]) {
+    for item in out.iter_mut() {
+        *item = read_blocking();
+    }
+}
+
+pub fn read_chunk_to_end(out: &mut [u8]) -> usize {
+    let mut count = 0;
+    for item in out.iter_mut() {
+        if let Some(b) = read() {
+            *item = b;
+        } else {
+            break;
+        }
+        count += 1;
+    }
+    count
 }
 
 pub fn read_arr_blocking<const N: usize>() -> [u8; N] {

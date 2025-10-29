@@ -21,6 +21,9 @@ pub mod tty;
 pub mod util;
 pub mod rand;
 
+#[cfg(feature = "embedded-graphics")]
+pub use embedded_graphics;
+
 #[unsafe(link_section = ".start")]
 #[unsafe(no_mangle)]
 pub fn _start() -> ! {
