@@ -7,18 +7,35 @@ use core::alloc::{GlobalAlloc, Layout};
 use core::hint::assert_unchecked;
 use core::ptr;
 
-pub const HEAP_START: usize = 0x100000;
+//pub const HEAP_START: usize = 0x101000;
+//pub static HEAP_START: usize = 0;
+/*unsafe extern "C" {
+    pub static HEAP_START: usize;
+    pub static mut HEAP_FREEP: *mut u8;
+}*/
 
-const HEAP_FREEP: *mut *mut u8 = HEAP_START as _;
+unsafe extern "C" {
+    static HEAPSTART: usize;
+}
+
+core::arch::global_asm! {
+    ".weak HEAPSTART"
+}
+
+pub static mut HEAP_START: *const usize = unsafe { &HEAPSTART as _ };
+
+pub static mut HEAP_FREEP: *mut u8 = core::ptr::null_mut();
+
+// pub static mut HEAP_FREEP: *mut *mut u8 = unsafe { HEAP_START as _ };
 
 pub fn alloc_pos() -> *mut u8 {
-    unsafe { *HEAP_FREEP }
+    unsafe { HEAP_FREEP }
 }
 
 #[inline(always)]
 pub fn init() {
     unsafe {
-        *HEAP_FREEP = (HEAP_START + 4) as _;
+        HEAP_FREEP = HEAP_START as *mut u8;
     }
 }
 
@@ -41,7 +58,7 @@ pub unsafe fn malloc_aligned(spec_size: usize, align: usize) -> *mut u8 {
         panic!("Heap overflow:size={} next={:x}, sp={:x}", size, next as usize, cur_sp);
     }
     (size_ptr as *mut u32).write(size as _);
-    *HEAP_FREEP = next;
+    HEAP_FREEP = next;
     block_start as _
 }
 

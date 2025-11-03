@@ -15,7 +15,8 @@ pub struct Jump {
     pub target: usize,    // where the jump should go
 }
 
-pub static mut COMP_DEBUG: *mut bool = (parm::heap::HEAP_START + 8) as _;
+//pub static mut COMP_DEBUG: *mut bool = unsafe { (parm::heap::HEAP_START.add(2)) as _ };
+pub static mut COMP_DEBUG: bool = false;
 
 
 #[derive(Debug)]
@@ -201,7 +202,7 @@ impl Emitter {
             };
         }
 
-        if unsafe { *COMP_DEBUG } {
+        if unsafe { COMP_DEBUG } {
             self.dump();
         }
 

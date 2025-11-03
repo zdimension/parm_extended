@@ -22,11 +22,15 @@ class AsmException(Exception):
 
 
 start_time = time.time()
-print(sys.argv)
 
 
 #
 # os.chdir("../code_rs/parmrust/bin")
+
+# sys.argv = ["asm.py", "section_test.s"]
+
+
+print(sys.argv)
 
 class ParsingData:
     # Internal operand regexes
@@ -478,10 +482,27 @@ class Section:
 RAM_BASE = 0x100000
 
 sections = {
-    ".text": Section(start=0),
-    ".bss": Section(start=RAM_BASE),
-    "RAM": Section(start=RAM_BASE),
+    "text": Section(start=0),
+    "bss": Section(start=RAM_BASE),
+    "data": Section(start=RAM_BASE),
 }
+
+class PcDict(dict):
+    # def __missing__(self, key):
+    #     return sections.get(key, sections["text"]).start // 2
+    def __getitem__(self, item):
+        if item in self:
+            return super().__getitem__(item)
+        if item in sections:
+            return sections[item].start // 2
+        return self.__getitem__("text")
+    
+    def __setitem__(self, key, value):
+        if key in self:
+            return super().__setitem__(key, value)
+        if key in sections:
+            return super().__setitem__(key, value)
+        return super().__setitem__("text", value)
 
 SymList = dict[str, 'Symbol']
 
@@ -524,7 +545,7 @@ class AssemblerState:
         self.file_scopes = {}
         self.current_file = None
         self.lineno = None
-        self.current_section = None
+        self.current_section = "text"
         self.WILDCARDS = {}
         self.wildcard_regex = re.compile(r"^\b$")
         self.instr_log = []
@@ -981,23 +1002,27 @@ class AssemblerState:
         while True:
             self.current_file = None
             current_function_preproc = None
-            self.current_section = None
+            self.current_section = "text"
             # instrs = [(-1, 0, f".nobranchstart", None, 0)] if nobranch else [(-1, 0, "$bl1 run", None, 1),
             #                                                                  (-1, 1, "$bl2 run", None, 1)]
 
             instrs = []
             pushpopcode = set()
+            
+            current_pcs = PcDict()
 
             def current_pc():
-                return instrs[-1][1] + instrs[-1][4]
+                return current_pcs[self.current_section]
+                #return instrs[-1][1] + instrs[-1][4]
 
             # instrs = [(-1, 0, ".start", None, 0)]
             def add_instr(line, val=None, size=1, tokenized=None, pc=None):
-                if self.current_section == ".llvmbc":
+                if self.current_section == "llvmbc":
                     return
                 if tokenized is None:
                     tokenized = tokenize(line)
                 instrs.append((self.lineno + 1, current_pc() if pc is None else pc, line, val, size, tokenized))
+                current_pcs[self.current_section] += size
 
             self.lineno = -2
             if cli_args.nobranch:
@@ -1011,14 +1036,6 @@ class AssemblerState:
                 print("# lines:", len(self.lines))
                 for lineno_, (line, tokens) in enumerate(zip(self.lines, self.lines_tok)):
                     self.lineno = lineno_
-                    # if len(instrs) > 10 * len(lines):
-                    #     print("many instrs?", len(instrs), len(lines))
-                    # if not no_optim:
-                    #     if i in ignored_lines:
-                    #         continue
-                    # line = comm.sub("", line)
-                    # line = " ".join(tokenize(line))
-                    # tokens = tokenize(line)
 
                     if not tokens:
                         continue
@@ -1100,32 +1117,6 @@ class AssemblerState:
                             case ["push" | "pop" as instr, (regs)]:
                                 regs = sorted(HI_REGS.get(x, None) or int(x[1:]) for x in regs)
                                 pushpopcode.add((instr, tuple(regs)))
-                                # if instr == "push":
-                                #     add_instr(f"sub sp, #{len(regs) * 4}")
-                                #     for i, reg in enumerate(regs):
-                                #         if reg == HI_REGS["lr"]:
-                                #             add_instr("mov r12, r7")
-                                #             add_instr(f"mov r7, r{reg}")
-                                #             add_instr(f"str r7, [sp, #{i * 4}]")
-                                #             add_instr("mov r7, r12")
-                                #         elif reg <= 7:
-                                #             add_instr(f"str r{reg}, [sp, #{i * 4}]")
-                                #         else:
-                                #             raise Exception(f"push: invalid register {reg}")
-                                # else:
-                                #     for i, reg in enumerate(regs):
-                                #         if reg == HI_REGS["pc"]:
-                                #             add_instr("mov r12, r7")
-                                #             add_instr(f"ldr r7, [sp, #{i * 4}]")
-                                #             add_instr("mov lr, r7")
-                                #             add_instr("mov r7, r12")
-                                #             add_instr(f"add sp, #{len(regs) * 4}")
-                                #             add_instr("bx lr")
-                                #         elif reg <= 7:
-                                #             add_instr(f"ldr r{reg}, [sp, #{i * 4}]")
-                                #         else:
-                                #             raise Exception(f"push: invalid register {reg}")
-                                #     add_instr(f"add sp, #{len(regs) * 4}")
                                 add_instr("mov r11, lr")
                                 add_instr(f"$bl1 __{instr}_{'_'.join(map(str, regs))}")
                                 add_instr(f"$bl2 __{instr}_{'_'.join(map(str, regs))}")
@@ -1236,6 +1227,10 @@ class AssemblerState:
                                 sym.extend(self.lineno)
                             case [".section", sec_name, *rest]:
                                 # root, sym_name, *rest = sec_name[1:].split(".")
+                                if sec_name[0] == '"':
+                                    sec_name = eval(sec_name)
+                                if sec_name == "data":
+                                    raise Exception("nonzero heap not supported yet")
                                 root, *rest = sec_name[1:].split(".")
                                 self.current_section = root
                                 add_instr(f"#section {json.dumps(root)}", size=0)
@@ -1255,6 +1250,8 @@ class AssemblerState:
                 print(self.lineno + 1, line, current_function_preproc, self.current_file)
                 raise
 
+            add_instr('#section "text"', size=0)
+            self.current_section = "text"
             for instr, regs in pushpopcode:
                 ppfname = f"__{instr}_{'_'.join(map(str, regs))}"
                 self.add_label(ppfname, current_pc())
@@ -1299,11 +1296,13 @@ class AssemblerState:
             self.out = []
             trampo_offset = 0
             print("# instructions:", len(instrs))
+            print("section sizes:", current_pcs)
             self.current_function = None
             self.current_file = None
             self.instr_log.clear()
             self.GLOBAL_SCOPE["CURPC"] = Symbol("CURPC", "<global>")
-            self.current_section = None
+            self.GLOBAL_SCOPE["HEAPSTART"] = Symbol("HEAPSTART", "<global>", label_value=current_pcs["bss"])
+            self.current_section = "text"
             for lineno_, pc, line, val, size, tokens in instrs:
                 self.lineno = lineno_
                 self.GLOBAL_SCOPE["CURPC"].label_value = pc
@@ -1329,6 +1328,8 @@ class AssemblerState:
                         continue
                     else:
                         match self.current_section:
+                            case "bss":
+                                pass  # zero init data is in ram
                             case _:
                                 for pc, val, code, data in self.assemble(line, pc, self.lineno + trampo_offset, tokens):
                                     assert 0 <= val <= 0xffff, (val, breakpoint())

@@ -137,7 +137,6 @@ static LOOKUP57: &[u8] = &[
 ];
 
 use core::fmt::Write;
-use crate::heap::HEAP_START;
 use crate::screen::{rgb32, ColorEncodable, ColorEncoded};
 use crate::tty::{AsciiEncodable, ParmDisplay, DisplayTarget};
 use crate::{screen};
@@ -236,12 +235,12 @@ pub fn blank() -> VideoTty {
     VideoTty::new()
 }
 
+pub static mut VIDEO_TTY: VideoTty = VideoTty::new();
+
 #[inline(always)]
 pub fn get_videotty() -> &'static mut VideoTty {
     unsafe {
-        (HEAP_START as *mut VideoTty)
-            .as_mut::<'static>()
-            .unwrap_unchecked()
+        &mut VIDEO_TTY
     }
 }
 

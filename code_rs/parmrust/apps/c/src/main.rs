@@ -564,8 +564,8 @@ impl CRepl {
                     continue;
                 } else if input == ".dbg\n" {
                     unsafe {
-                        *emitter::COMP_DEBUG = !*emitter::COMP_DEBUG;
-                        rprintln!("debug: {}", *emitter::COMP_DEBUG);
+                        emitter::COMP_DEBUG = !emitter::COMP_DEBUG;
+                        rprintln!("debug: {}", emitter::COMP_DEBUG);
                     }
                     input.clear();
                     continue;
@@ -580,8 +580,5 @@ impl CRepl {
 
 #[unsafe(no_mangle)]
 fn main() {
-    // allocate an unsafe cell
-    unsafe { Box::leak(Box::new(false)); }
-
     CRepl::new().run();
 }

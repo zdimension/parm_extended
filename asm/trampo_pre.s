@@ -11,6 +11,8 @@ ldr r2, [r0]
 loop:
 b loop
 testaddr: .long TEST
+hp: .long HEAPSTART
+hl: .long hlong
 
 foo:
 movs r0, #0
@@ -22,4 +24,11 @@ bx lr
 .p2align 2
 TEST:
 .long 0
+
+.section .rodata.bidule.1
+.long 1234
+
+.section .heap
+hlong:
+.long 4567
 .$END:
