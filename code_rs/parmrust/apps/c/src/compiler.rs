@@ -31,8 +31,8 @@ use crate::parse_expr::OpPosition::{Postfix, Prefix};
 use Purity::*;
 use crate::compiler::EvalConstantBase::{Code, Frame};
 use crate::parse_expr::BinOp::{Bool, Simple};
-use parm::mmio::{R2divR3I, R2divR3U, R2modR3I, R2modR3U};
 use parm::{rprintln, uunreachable};
+use parm::mmio::{R0divR1I, R0divR1U, R0modR1I, R0modR1U};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum CompileError {
@@ -1407,48 +1407,48 @@ impl<'a> Compiler<'a> {
 
     fn emit_divmod(&mut self, op1: Reg, op2: Reg, out: Reg, op: DivMod, sign: Signedness) {
         // division is implemented in MMIO.
-        // operands should be in R2 and R3, result is read from memory
+        // operands should be in R0 and R1, result is read from memory
 
         let mut saved = RegList::NONE;
 
-        if out == R2 {
-            // if out is r2, we'll overwrite it anyway so no need to save it
-        } else if self.free_regs.contains(&R2) {
-            // r2 is free
+        if out == R0 {
+            // if out is r0, we'll overwrite it anyway so no need to save it
+        } else if self.free_regs.contains(&R0) {
+            // r0 is free
         } else {
-            saved.add(R2);
+            saved.add(R0);
         }
 
-        if out == R3 {
-            // if out is r3, we'll overwrite it anyway so no need to save it
-        } else if self.free_regs.contains(&R3) {
-            // r3 is free
+        if out == R1 {
+            // if out is r1, we'll overwrite it anyway so no need to save it
+        } else if self.free_regs.contains(&R1) {
+            // r1 is free
         } else {
-            saved.add(R3);
+            saved.add(R1);
         }
 
         if !saved.is_empty() {
             self.emit_push(saved);
         }
 
-        // load the operands into R2 and R3
-        self.emit(Movs { rd: R2, rm: op1 });
-        self.emit(Movs { rd: R3, rm: op2 });
+        // load the operands into R0 and R1
+        self.emit(Movs { rd: R0, rm: op1 });
+        self.emit(Movs { rd: R1, rm: op2 });
 
         let result_addr = match op {
             DivMod::Division => match sign {
-                Signed => R2divR3I,
-                Unsigned => R2divR3U,
+                Signed => R0divR1I,
+                Unsigned => R0divR1U,
             },
             DivMod::Modulo => match sign {
-                Signed => R2modR3I,
-                Unsigned => R2modR3U,
+                Signed => R0modR1I,
+                Unsigned => R0modR1U,
             }
         }.address() as usize;
 
-        // if out is R2 or R3, we need to allocate a new register for the address
+        // if out is R0 or R1, we need to allocate a new register for the address
         // otherwise we can reuse it
-        if out == R2 || out == R3 {
+        if out == R0 || out == R1 {
             self.with_alloc(|c, [addr]| {
                 c.emit_imm32_to_reg(addr, result_addr);
                 c.emit(LdrRegImm { rd: out, rb: addr, immw5: u7::new(0) });
