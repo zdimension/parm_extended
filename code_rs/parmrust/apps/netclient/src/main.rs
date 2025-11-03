@@ -4,6 +4,7 @@
 
 mod circular_buffer;
 mod speedy_telnet;
+mod commands;
 
 extern crate alloc;
 
@@ -13,24 +14,30 @@ use alloc::vec;
 use alloc::vec::Vec;
 use core::fmt::Display;
 use core::net::{Ipv4Addr, SocketAddrV4};
-use core::sync::atomic::Ordering::AcqRel;
-use htmlparser::{ElementEnd, Error, StreamError, Token};
+use core::sync::atomic::{AtomicU32, AtomicUsize, Ordering};
+use embedded_io::ErrorType;
+use embedded_tls::blocking::TlsConnection;
+use embedded_tls::{Aes128GcmSha256, NoVerify, TlsConfig, TlsContext};
+use htmlparser::{ElementEnd, Token};
 //use fluent_uri::Uri;
 use httparse::{Header, Request, Response, Status};
 use nourl::Url;
 use simple_dns::{Name, Packet, PacketFlag, Question, CLASS, TYPE};
 use simple_dns::rdata::RData;
 use speedy::{Context, Readable, Writable, Writer};
+use commands::{Command, Date, SockOpen, SockRecv, SockRecvResponse, SockSend};
+use parm::control::breakpoint;
 use parm::rprintln;
 use parm::embedded_graphics::mono_font::MonoTextStyle;
 use parm::embedded_graphics::prelude::*;
 use parm::embedded_graphics::primitives::*;
 use parm::embedded_graphics::text::{Baseline, DecorationColor, Text};
 use parm::embedded_graphics::text::renderer::{CharacterStyle, TextRenderer};
+use parm::mmio::RES;
+use parm::rand::ParmRng;
 use parm::screen::{Color, ColorSimple, ParmScreen};
 use speedy_telnet::SpeedyTelnet;
-use crate::speedy_telnet::TelnetContext;
-
+use crate::commands::SockClose;
 /*#[derive(Writable, Copy, Clone, Debug)]
 struct Ipv4Addr {
     bytes: [u8; 4]
@@ -60,59 +67,68 @@ enum Command {
     }
 }*/
 
-trait Command: Writable<TelnetContext> {
-    const TAG: u8;
-    type Response: for<'a> Readable<'a, TelnetContext>;
+struct Socket(u16);
+
+impl Drop for Socket {
+    fn drop(&mut self) {
+        SpeedyTelnet::new().send_command(&SockClose {
+            sock_id: self.0
+        });
+    }
 }
 
-#[derive(Writable)]
-struct Date;
-#[derive(Readable)]
-struct DateResponse {
-    #[speedy(length_type = u16)]
-    date: String
-}
-impl Command for Date {
-    const TAG: u8 = 0;
-    type Response = DateResponse;
-}
-
-#[derive(Writable)]
-struct SockOpen {
-    addr: Ipv4Addr,
-    port: u16,
-    kind: SockKind
-}
-impl Command for SockOpen {
-    const TAG: u8 = 1;
-    type Response = ();
+impl Socket {
+    pub fn send(&mut self, data: Cow<[u8]>) {
+        rprintln!("Sending {} bytes on socket {}", data.len(), self.0);
+        SpeedyTelnet::new().send_command(&SockSend {
+            sock_id: self.0,
+            data
+        });
+    }
+    
+    pub fn recv(&mut self, len: u16) -> Vec<u8> {
+        rprintln!("Receiving up to {} bytes on socket {}", len, self.0);
+        SpeedyTelnet::new().send_command(&SockRecv {
+            sock_id: self.0,
+            len
+        }).data
+    }
 }
 
-#[derive(Writable)]
-struct SockSend<'a> {
-    #[speedy(length_type = u16)]
-    data: Cow<'a, [u8]>
-}
-impl Command for SockSend<'_> {
-    const TAG: u8 = 2;
-    type Response = ();
+impl ErrorType for Socket { 
+    type Error = core::convert::Infallible;
 }
 
-#[derive(Writable)]
-struct SockRecv {
-    len: u16
+impl embedded_io::Read for Socket {
+    fn read(&mut self, buf: &mut [u8]) -> Result<usize, Self::Error> {
+        let data = self.recv(buf.len() as u16);
+        let read_len = data.len().min(buf.len());
+        buf[..read_len].copy_from_slice(&data[..read_len]);
+        Ok(read_len)
+    }
 }
-#[derive(Readable)]
-struct SockRecvResponse {
-    #[speedy(length_type = u16)]
-    data: Vec<u8>
-}
-impl Command for SockRecv {
-    const TAG: u8 = 3;
-    type Response = SockRecvResponse;
+
+impl embedded_io::Write for Socket {
+    fn write(&mut self, buf: &[u8]) -> Result<usize, Self::Error> {
+        self.send(Cow::Borrowed(buf));
+        Ok(buf.len())
+    }
+    
+    fn flush(&mut self) -> Result<(), Self::Error> {
+        Ok(())
+    }
 }
 
 impl SpeedyTelnet {
+    fn socket_open(&mut self, host: SocketAddrV4, sock_kind: SockKind) -> Socket {
+        let sock_id = self.send_command(&SockOpen {
+            addr: *host.ip(),
+            port: host.port(),
+            kind: sock_kind
+        });
+        Socket(sock_id)
+    }
+    
     fn send_command<Cmd: Command>(&mut self, cmd: &Cmd) -> Cmd::Response {
         parm::telnet::flush_all();
         self.write_u8(Cmd::TAG).unwrap();
@@ -123,11 +139,7 @@ impl SpeedyTelnet {
     }
     
     fn send_http<Res>(&mut self, addr: SocketAddrV4, request: &Request, body: Option<&[u8]>, callback: impl FnOnce(Response, Cow<[u8]>) -> Res) -> Result<Res, &'static str> {
-        self.send_command(&SockOpen {
-            addr: *addr.ip(),
-            port: addr.port(),
-            kind: SockKind::Tcp
-        });
+        let mut sock = self.socket_open(addr, SockKind::Tcp);
         
         // send req
         let mut req_buf = Vec::with_capacity(512);
@@ -149,20 +161,14 @@ impl SpeedyTelnet {
         }
         req_buf.extend_from_slice(b"\r\n");
         
-        self.send_command(&SockSend {
-            data: Cow::Owned(req_buf)
-        });
+        sock.send(Cow::Owned(req_buf));
         
         if let Some(body) = body {
-            self.send_command(&SockSend {
-                data: Cow::Borrowed(body)
-            });
+            sock.send(Cow::Borrowed(body));
         }
         
         // receive response
-        let mut data = self.send_command(&SockRecv {
-            len: 512
-        }).data;
+        let mut data = sock.recv(512);
         loop {
             let mut headers = [httparse::EMPTY_HEADER; 64];
             let mut resp = httparse::Response::new(&mut headers);
@@ -182,14 +188,12 @@ impl SpeedyTelnet {
                     let mut body_data = Vec::with_capacity(content_length);
                     body_data.extend_from_slice(body);
                     while body_data.len() < content_length {
-                        let chunk: SockRecvResponse = self.send_command(&SockRecv {
-                            len: (content_length - body_data.len()).min(512) as u16
-                        });
-                        if chunk.data.len() == 0 {
+                        let chunk = sock.recv((content_length - body_data.len()).min(512) as u16);
+                        if chunk.len() == 0 {
                             // connection closed? no response anyway
                             return Err("unfinished long body");
                         }
-                        body_data.extend_from_slice(&chunk.data);
+                        body_data.extend_from_slice(&chunk);
                     }
                     callback(resp, Cow::Owned(body_data))
                 } else {
@@ -199,14 +203,12 @@ impl SpeedyTelnet {
             }
             rprintln!("Partial response, fetching...");
             // partial request, we recv again and append
-            let chunk: SockRecvResponse = self.send_command(&SockRecv {
-                len: 512
-            });
-            if chunk.data.len() == 0 {
+            let chunk = sock.recv(512);
+            if chunk.len() == 0 {
                 // connection closed? no response anyway
                 return Err("unfinished response");
             }
-            data.extend_from_slice(&chunk.data);
+            data.extend_from_slice(&chunk);
         }
     }
     
@@ -221,19 +223,11 @@ impl SpeedyTelnet {
             CLASS::IN.into(),
             false));
         let packet_bytes = packet.build_bytes_vec().map_err(|_| "dns serialization failed")?;
-        self.send_command(&SockOpen {
-            addr: *dns_server.ip(),
-            port: dns_server.port(),
-            kind: SockKind::Udp
-        });
-        self.send_command(&SockSend {
-            data: Cow::Borrowed(&packet_bytes)
-        });
-
-        let resp = self.send_command(&SockRecv {
-            len: 512
-        });
-        let resp_packet = Packet::parse(&resp.data).map_err(|_| "dns parsing failed")?;
+        let mut sock = self.socket_open(dns_server, SockKind::Udp);
+        sock.send(Cow::Owned(packet_bytes));
+        let resp = sock.recv(512);
+        
+        let resp_packet = Packet::parse(&resp).map_err(|_| "dns parsing failed")?;
         for answer in resp_packet.answers.iter() {
             if let RData::A(a) = &answer.rdata {
                 rprintln!("Resolved {} to {}", host, Ipv4Addr::from(a.address));
@@ -283,10 +277,17 @@ impl<'a> TryFrom<&'a str> for UrlComponents<'a> {
     }
 }
 
-
+static STATE: AtomicU32 = AtomicU32::new(0);
 
 #[unsafe(no_mangle)]
 fn main() {
+    RES.write(STATE.load(Ordering::Acquire));
+    STATE.store(1, Ordering::Release);
+    RES.write(STATE.load(Ordering::Acquire));
+    
+    return;
+    rprintln!("Waiting for server...");
+
     // wait for server to connect
     while parm::telnet::read_blocking() != 0x55 {}
     
@@ -294,6 +295,53 @@ fn main() {
     
     let cur_date = reader.send_command(&Date);
     rprintln!("Current date: {}", cur_date.date);
+    let host = reader.resolve_host("ifconfig.me").unwrap();
+    let mut socket = reader.socket_open(SocketAddrV4::new(host, 443), SockKind::Tcp);
+    let config = TlsConfig::new().with_server_name("ifconfig.me");
+    let mut read_record_buffer = [0; 16384];
+    let mut write_record_buffer = [0; 16384];
+    let mut tls: TlsConnection<_, Aes128GcmSha256> = TlsConnection::new(socket, &mut read_record_buffer, &mut write_record_buffer);
+    rprintln!("Opening TLS...");
+    tls.open::<_, NoVerify>(TlsContext::new(
+        &config,
+        &mut ParmRng
+    )).expect("tls open error");
+    rprintln!("TLS opened. Sending HTTP request...");
+    let req = b"GET /ip HTTP/1.1\r\nHost: ifconfig.me\r\nConnection: close\r\n\r\n";
+    rprintln!("Raw req is {} bytes", req.len());
+    tls.write(&req[..]).expect("tls write error");
+    rprintln!("Flushing");
+    tls.flush().expect("tls flush error");;
+    let mut buf = [0; 512];
+    rprintln!("Reading response...");
+    tls.read(&mut buf).expect("tls read error");
+    rprintln!("ifconfig.me response:\n{}", unsafe { core::str::from_utf8_unchecked(&buf) });
+    
+    /*let bot_token = b"Bot ";
+    let url = "https://discordapp.com/api/channels/1044363126558175376/messages";
+    
+    let mut str = String::with_capacity(32);
+    loop {
+        print!("> ");
+        str.clear();
+        read_line_rust(&mut str);
+        
+        let headers = &mut [
+            Header { name: "Authorization", value: bot_token },
+            Header { name: "User-Agent", value: b"curl" },
+        ];
+        let mut req = Request::new(headers);
+        req.method = Some("POST");
+        req.path = Some("/api/channels/1044363126558175376/messages");
+        req.version = Some(1);
+        
+        let ip = reader.resolve_host("discordapp.com").unwrap();
+        reader.send_http(SocketAddrV4::new(ip, url_components.port), &req, None, |_, body| {
+            body.into_owned()
+        })?;
+    }*/
+    
+    return;
 
     let url = "http://info.cern.ch/hypertext/WWW/TheProject.html";
     

@@ -4,6 +4,8 @@ version = "0.1.0"
 edition.workspace = true
 
 [dependencies]
+embedded-io = { version = "0.6", features = ["alloc"] }
+embedded-tls = { version = "0.17.0", default-features = false, features = ["alloc", "log"] }
 htmlparser = { version = "0.2.1", path = "vendor/htmlparser", default-features = false, features = [] }
 #fluent-uri = { version = "0.3.2", default-features = false }
 httparse = { version = "1.10.1", default-features = false }

@@ -3,6 +3,7 @@ use crate::heap::string::String;
 use crate::mmio::RESbcd;
 use crate::{keyb, mmio};
 use core::hint::unreachable_unchecked;
+use log::{Metadata, Record};
 
 #[macro_export]
 macro_rules! print {
@@ -447,5 +448,33 @@ pub fn read_line_rust(res: &mut alloc::string::String) {
                 print_char(c);
             }
         }
+    }
+}
+
+struct ParmLogger;
+
+impl ParmLogger {
+    fn init() {
+        unsafe {
+            log::set_max_level_racy(log::LevelFilter::Info);
+            log::set_logger_racy(&ParmLogger).unwrap();
+        }
+    }
+}
+
+impl log::Log for ParmLogger {
+    fn enabled(&self, metadata: &Metadata) -> bool {
+        metadata.level() <= log::max_level()
+    }
+
+    fn log(&self, record: &Record) {
+        if !self.enabled(record.metadata()) {
+            return;
+        }
+        
+        rprintln!("[{}] - {}", record.level(), record.args());
+    }
+
+    fn flush(&self) {
     }
 }

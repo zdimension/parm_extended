@@ -1,9 +1,15 @@
-pub const MMIO_BASE: *mut u32 = -256i32 as _;
+pub const MMIO_BASE_INT: u32 = -256i32 as _;
+pub const MMIO_BASE: *mut u32 = MMIO_BASE_INT as _;
 
 #[inline(always)]
 const fn mmio(pin: u8) -> *mut u32 {
+    mmio_int(pin) as *mut u32
+}
+
+#[inline(always)]
+const fn mmio_int(pin: u8) ->  u32 {
     match pin {
-        0..=15 => unsafe { MMIO_BASE.offset(pin as isize) },
+        0..=15 => MMIO_BASE_INT + (pin as u32 * 4),
         _ => panic!("Invalid pin"),
     }
 }
@@ -15,8 +21,12 @@ impl ReadPin {
         unsafe { core::ptr::read_volatile(mmio(self.0)) }
     }
     #[inline(always)]
-    pub fn address(&self) -> *mut u32 {
+    pub const fn address(&self) -> *mut u32 {
         mmio(self.0)
+    }
+    #[inline(always)]
+    pub const fn address_int(&self) -> u32 {
+        mmio_int(self.0)
     }
 }
 
@@ -33,8 +43,13 @@ impl ReadWritePin {
     }
 
     #[inline(always)]
-    pub fn address(&self) -> *mut u32 {
+    pub const fn address(&self) -> *mut u32 {
         mmio(self.0)
+    }
+    
+    #[inline(always)]
+    pub const fn address_int(&self) -> u32 {
+        mmio_int(self.0)
     }
 }
 
@@ -48,8 +63,13 @@ impl WritePin {
     }
 
     #[inline(always)]
-    pub fn address(&self) -> *mut u32 {
+    pub const fn address(&self) -> *mut u32 {
         mmio(self.0)
+    }
+
+    #[inline(always)]
+    pub const fn address_int(&self) -> u32 {
+        mmio_int(self.0)
     }
 }
 
@@ -82,17 +102,21 @@ pins! {
     TELNETdata => 2(inout),
     TELNETavail => 3(in),
     MIDInote => 3(out),
+    RESbcd => 4(in),
+    RNG32 => 5(in),
     MIDIvol => 4(out),
     MIDIon => 5(out),
     MIDIinstr => 6(out),
     KEYBeof => 6(in),
     KEYBchr => 7(in),
-    R2divR3U => 8(in),
-    R2modR3U => 9(in),
-    RNG32 => 10(in),
-    RESbcd => 11(in),
-    R2divR3I => 12(in),
-    R2modR3I => 13(in),
-    DISPbuf => 14(inout),
+    // important! these must be kept precisely one after the other so that &mod = &div + 1
+    R0divR1U => 8(in),
+    R0modR1U => 9(in),
+    R0divR1I => 10(in),
+    R0modR1I => 11(in),
+    DISPbuf => 12(inout),
+    // &hi = &lo + 1
+    R0R1mulR2R3_lo => 13(in),
+    R0R1mulR2R3_hi => 14(in),
     BREAKpin => 15(out)
 }

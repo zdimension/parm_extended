@@ -1,4 +1,3 @@
-#file "section_test.s"
 
 .section .text.main.0
 .globl run
@@ -22,4 +21,3 @@ bx lr
 .p2align 2
 TEST:
 .long 0
-.$END:

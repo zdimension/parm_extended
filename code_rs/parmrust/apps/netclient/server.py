@@ -21,11 +21,12 @@ Kinds implemented:
 1: Open peer socket. Payload: 4 bytes IPv4 (u32 LE), 2 bytes port (u16 LE), 1 byte proto (0=tcp, 1=udp).
    - For TCP: connect to (ip:port).
    - For UDP: create a datagram socket and connect() to (ip:port) so send()/recv() are usable.
-   - Any existing peer socket is closed before opening a new one.
-2: Send data. Payload: u16 (LE) length L, then L bytes. Sends down the previously opened peer socket.
-   - If no peer socket is open: prints an error and closes the control connection (as per spec).
-3: Receive data. Payload: u16 (LE) length N. Reads up to N bytes from the peer socket and returns
-   u16 (LE) length M then M bytes (M<=N). If the peer socket is closed or times out, returns length 0.
+   - Returns: u16 (LE) socket descriptor ID (starting from 0).
+2: Send data. Payload: u16 (LE) socket ID, u16 (LE) length L, then L bytes. Sends down the specified socket.
+   - If socket ID is invalid: prints an error and closes the control connection (as per spec).
+3: Receive data. Payload: u16 (LE) socket ID, u16 (LE) length N. Reads up to N bytes from the socket and returns
+   u16 (LE) length M then M bytes (M<=N). If the socket is closed or times out, returns length 0.
+4: Close socket. Payload: u16 (LE) socket ID. Closes the specified socket. No return value.
 
 Notes/assumptions:
 - Endianness: little-endian for u16 and IPv4 u32 values.
@@ -68,30 +69,44 @@ def _ipv4_le_bytes_to_str(b: bytes) -> str:
     return socket.inet_ntoa(be)
 
 
-def handle_session(ctrl_sock: socket.socket, addr: Tuple[str, int]) -> None:
-    peer_sock: Optional[socket.socket] = None
-    peer_desc: Optional[str] = None
+def _log(addr: Tuple[str, int], msg: str) -> None:
+    """Centralized logging with timestamp and ctrl socket address."""
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+    print(f"[{timestamp}] [ctrl {addr}] {msg}")
 
-    def close_peer():
-        nonlocal peer_sock, peer_desc
-        if peer_sock is not None:
-            try:
-                print(f"[ctrl {addr}] closing peer socket {peer_desc}")
-                peer_sock.close()
-            except Exception:
-                print(f"[ctrl {addr}] error closing peer socket {peer_desc}")
-            finally:
-                peer_sock = None
-                peer_desc = None
+
+def handle_session(ctrl_sock: socket.socket, addr: Tuple[str, int]) -> None:
+    # Dictionary of socket_id -> (socket, description)
+    peer_sockets: dict[int, Tuple[socket.socket, str]] = {}
+    next_sock_id: int = 0
+
+    def close_peer(sock_id: int) -> bool:
+        """Close peer socket by ID. Returns True if found and closed."""
+        if sock_id not in peer_sockets:
+            return False
+        ps, desc = peer_sockets[sock_id]
+        try:
+            _log(addr, f"closing peer socket {sock_id} ({desc})")
+            ps.close()
+        except Exception:
+            _log(addr, f"error closing peer socket {sock_id} ({desc})")
+        finally:
+            del peer_sockets[sock_id]
+        return True
+
+    def close_all_peers():
+        """Close all peer sockets."""
+        for sock_id in list(peer_sockets.keys()):
+            close_peer(sock_id)
 
     try:
         ctrl_sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-        print(f"[ctrl {addr}] connected")
+        _log(addr, "connected")
         ctrl_sock.sendall(b"\x55")
         while True:
             kind_b = _read_exact(ctrl_sock, 1)
             if kind_b is None:
-                print(f"[ctrl {addr}] disconnected")
+                _log(addr, "disconnected")
                 break
             kind = kind_b[0]
             # Dispatch by kind
@@ -103,21 +118,22 @@ def handle_session(ctrl_sock: socket.socket, addr: Tuple[str, int]) -> None:
                     data = data[:0xFFFF]
                 resp = struct.pack("<H", len(data)) + data
                 ctrl_sock.sendall(resp)
-                print(f"[ctrl {addr}] kind=0 -> sent ISO datetime ({len(data)} bytes)")
+                _log(addr, f"kind=0 -> sent ISO datetime ({len(data)} bytes)")
 
             elif kind == 1:
                 # Open peer socket: 4B ip (u32 LE), 2B port (u16 LE), 1B proto
+                # Returns: u16 (LE) socket ID
                 payload = _read_exact(ctrl_sock, 7)
                 if payload is None:
-                    print(f"[ctrl {addr}] kind=1 incomplete payload; closing")
+                    _log(addr, "kind=1 incomplete payload; closing")
                     break
                 ip_b_le = payload[0:4]
                 port = struct.unpack("<H", payload[4:6])[0]
                 proto = payload[6]
                 ip_str = _ipv4_le_bytes_to_str(ip_b_le)
 
-                # Close any existing peer
-                close_peer()
+                sock_id = next_sock_id
+                next_sock_id += 1
 
                 if proto == 0:  # TCP
                     ps = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -125,98 +141,118 @@ def handle_session(ctrl_sock: socket.socket, addr: Tuple[str, int]) -> None:
                     try:
                         ps.connect((ip_str, port))
                         ps.settimeout(PEER_RECV_TIMEOUT_S)
-                        peer_sock = ps
-                        peer_desc = f"tcp://{ip_str}:{port}"
-                        print(f"[ctrl {addr}] kind=1 opened {peer_desc}")
+                        desc = f"tcp://{ip_str}:{port}"
+                        peer_sockets[sock_id] = (ps, desc)
+                        ctrl_sock.sendall(struct.pack("<H", sock_id))
+                        _log(addr, f"kind=1 opened socket {sock_id} ({desc})")
                     except Exception as e:
                         ps.close()
-                        print(f"[ctrl {addr}] kind=1 TCP connect error to {ip_str}:{port}: {e}")
-                        # Keep control connection alive; client may retry another address.
+                        # Return 0xFFFF to signal error
+                        ctrl_sock.sendall(struct.pack("<H", 0xFFFF))
+                        _log(addr, f"kind=1 TCP connect error to {ip_str}:{port}: {e}")
 
                 elif proto == 1:  # UDP
                     try:
                         ps = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                         ps.settimeout(PEER_RECV_TIMEOUT_S)
-                        # Use connect() to set default peer for send/recv
                         ps.connect((ip_str, port))
-                        peer_sock = ps
-                        peer_desc = f"udp://{ip_str}:{port}"
-                        print(f"[ctrl {addr}] kind=1 opened {peer_desc}")
+                        desc = f"udp://{ip_str}:{port}"
+                        peer_sockets[sock_id] = (ps, desc)
+                        ctrl_sock.sendall(struct.pack("<H", sock_id))
+                        _log(addr, f"kind=1 opened socket {sock_id} ({desc})")
                     except Exception as e:
-                        print(f"[ctrl {addr}] kind=1 UDP setup error to {ip_str}:{port}: {e}")
+                        # Return 0xFFFF to signal error
+                        ctrl_sock.sendall(struct.pack("<H", 0xFFFF))
+                        _log(addr, f"kind=1 UDP setup error to {ip_str}:{port}: {e}")
                 else:
-                    print(f"[ctrl {addr}] kind=1 invalid proto={proto}; closing")
-                    break
+                    # Invalid proto: return error
+                    ctrl_sock.sendall(struct.pack("<H", 0xFFFF))
+                    _log(addr, f"kind=1 invalid proto={proto}")
 
             elif kind == 2:
-                # Send data down peer socket: u16 (LE) length + data
-                len_b = _read_exact(ctrl_sock, 2)
-                if len_b is None:
-                    print(f"[ctrl {addr}] kind=2 missing length; closing")
+                # Send data: u16 (LE) socket ID, u16 (LE) length + data
+                hdr = _read_exact(ctrl_sock, 4)
+                if hdr is None:
+                    _log(addr, "kind=2 missing header; closing")
                     break
-                (data_len,) = struct.unpack("<H", len_b)
+                sock_id, data_len = struct.unpack("<HH", hdr)
                 data = _read_exact(ctrl_sock, data_len) if data_len else b""
                 if data is None:
-                    print(f"[ctrl {addr}] kind=2 missing data; closing")
+                    _log(addr, "kind=2 missing data; closing")
                     break
-                if peer_sock is None:
-                    print(f"[ctrl {addr}] kind=2 no peer socket; exiting client as per spec")
+                if sock_id not in peer_sockets:
+                    _log(addr, f"kind=2 invalid socket ID {sock_id}; exiting as per spec")
                     break  # Exit control session per spec
+                ps, desc = peer_sockets[sock_id]
                 try:
-                    peer_sock.sendall(data) if peer_sock.type == socket.SOCK_STREAM else peer_sock.send(data)
-                    print(f"[ctrl {addr}] kind=2 sent {len(data)} bytes to {peer_desc}")
+                    ps.sendall(data) if ps.type == socket.SOCK_STREAM else ps.send(data)
+                    _log(addr, f"kind=2 sent {len(data)} bytes to socket {sock_id} ({desc})")
                 except Exception as e:
-                    print(f"[ctrl {addr}] kind=2 send error to {peer_desc}: {e}")
+                    _log(addr, f"kind=2 send error to socket {sock_id} ({desc}): {e}")
                     # Treat as fatal for this control session
                     break
 
             elif kind == 3:
-                # Receive up to N bytes from peer socket; return u16 (LE) length + data
-                len_b = _read_exact(ctrl_sock, 2)
-                if len_b is None:
-                    print(f"[ctrl {addr}] kind=3 missing length; closing")
+                # Receive data: u16 (LE) socket ID, u16 (LE) length N
+                # Returns: u16 (LE) length M, then M bytes
+                hdr = _read_exact(ctrl_sock, 4)
+                if hdr is None:
+                    _log(addr, "kind=3 missing header; closing")
                     break
-                (want_len,) = struct.unpack("<H", len_b)
+                sock_id, want_len = struct.unpack("<HH", hdr)
                 if want_len == 0:
                     # Return empty buffer immediately
                     ctrl_sock.sendall(struct.pack("<H", 0))
                     continue
-                if peer_sock is None:
-                    # No socket yet: return zero-length buffer
+                if sock_id not in peer_sockets:
+                    # Invalid socket: return zero-length buffer
                     ctrl_sock.sendall(struct.pack("<H", 0))
-                    print(f"[ctrl {addr}] kind=3 no peer socket; returned 0-length")
+                    _log(addr, f"kind=3 invalid socket ID {sock_id}; returned 0-length")
                     continue
+                ps, desc = peer_sockets[sock_id]
                 try:
-                    data = peer_sock.recv(want_len)
+                    data = ps.recv(want_len)
                     if not data:
                         # Closed or no data: return zero-length
                         ctrl_sock.sendall(struct.pack("<H", 0))
-                        print(f"[ctrl {addr}] kind=3 peer closed/empty; returned 0-length")
+                        _log(addr, f"kind=3 socket {sock_id} ({desc}) closed/empty; returned 0-length")
                     else:
                         if len(data) > 0xFFFF:
                             data = data[:0xFFFF]
                         ctrl_sock.sendall(struct.pack("<H", len(data)) + data)
-                        print(f"[ctrl {addr}] kind=3 received {len(data)} bytes from {peer_desc} -> returned")
+                        _log(addr, f"kind=3 received {len(data)} bytes from socket {sock_id} ({desc})")
                 except socket.timeout:
                     ctrl_sock.sendall(struct.pack("<H", 0))
-                    print(f"[ctrl {addr}] kind=3 recv timeout from {peer_desc}; returned 0-length")
+                    _log(addr, f"kind=3 recv timeout from socket {sock_id} ({desc}); returned 0-length")
                 except Exception as e:
                     ctrl_sock.sendall(struct.pack("<H", 0))
-                    print(f"[ctrl {addr}] kind=3 recv error from {peer_desc}: {e}; returned 0-length")
+                    _log(addr, f"kind=3 recv error from socket {sock_id} ({desc}): {e}; returned 0-length")
+
+            elif kind == 4:
+                # Close socket: u16 (LE) socket ID
+                sock_id_b = _read_exact(ctrl_sock, 2)
+                if sock_id_b is None:
+                    _log(addr, "kind=4 missing socket ID; closing")
+                    break
+                (sock_id,) = struct.unpack("<H", sock_id_b)
+                if close_peer(sock_id):
+                    _log(addr, f"kind=4 closed socket {sock_id}")
+                else:
+                    _log(addr, f"kind=4 socket {sock_id} not found")
 
             else:
-                print(f"[ctrl {addr}] unknown kind={kind}; closing connection")
+                _log(addr, f"unknown kind={kind}; closing connection")
                 break
 
     except Exception as e:
-        print(f"[ctrl {addr}] handler error: {e}")
+        _log(addr, f"handler error: {e}")
     finally:
         try:
             ctrl_sock.close()
         except Exception:
             pass
-        close_peer()
-        print(f"[ctrl {addr}] closed")
+        close_all_peers()
+        _log(addr, "closed")
 
 
 def connect_and_run(host: str, port: int) -> int:

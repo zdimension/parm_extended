@@ -22,10 +22,10 @@ class AsmException(Exception):
 start_time = time.time()
 print(sys.argv)
 #
-# os.chdir("../code_rs/test/bin")
+# os.chdir("../code_rs/parmrust/bin")
 # sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/compiler_builtins-e11776943368b1da.s', '../target/thumbv6m-none-eabi/release/deps/c.s.bak', '-q', '-j', '-Of']
-
-
+# sys.argv = ['../../../asm/assembleur.py', 'section_test.s']
+# sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/compiler_builtins-42003ad562d5a3f9.s', '../target/thumbv6m-none-eabi/release/deps/plotter.s.bak', '-jq', '-Of']
 # sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/alloc-1674422c22f635cb.s',
 #             '../target/thumbv6m-none-eabi/release/deps/allocator_api2-454a206231c78fe2.s',
 #             '../target/thumbv6m-none-eabi/release/deps/compiler_builtins-6d31e344585737af.s',
@@ -436,12 +436,12 @@ def try_assemble(pc: int, m: re.Match, instr: str, output, line: str, line_num: 
                         if cli_args.optimize_functions and not optim_done:
                             continue
                         if cli_args.ignore_large_jumps:
-                            print("ignoring oversize", line, " in ", current_function.name)
+                            print("ignoring oversize", line, " in ", current_function_name())
                             continue  # we'll see later
                         if not notrampo:
                             new_label = "trampo_" + ''.join(random.choices(string.ascii_lowercase + string.digits, k=5))
                             # thanks @Guekka
-                            print("Trampolining:", line, "while in", current_function.name)
+                            print("Trampolining:", line, "while in", current_function_name())
                             print("Old code:", lines[line_num - 1:line_num + 8])
                             if cond and len(instr) == 3:
                                 """
@@ -804,6 +804,18 @@ assert(tokenize("mov  \"r0\",  {r1, r2}") == ["mov", '"r0"', ",", (["r1", "r2"])
 #	print(tokenize(test))
 # exit()
 
+@dataclass
+class Section:
+    start: int
+    
+RAM_BASE = 0x100000
+    
+sections = {
+    ".text": Section(start=0),
+    ".bss": Section(start=RAM_BASE),
+    "RAM": Section(start=RAM_BASE),
+}
+
 SymList = dict[str, 'Symbol']
 
 GLOBAL_SCOPE: SymList = {}
@@ -909,10 +921,13 @@ def insert_line(i, val):
     lines.insert(i, val)
     lines_tok.insert(i, tokenize(val))
 
-
+def current_function_name():
+    if current_function is not None:
+        return current_function.name
+    return "<none>"
 
 def main_loop():
-    global optim_done, current_function, current_file, lineno, out, lines, lines_tok
+    global optim_done, current_function, current_file, lineno, out, lines, lines_tok, current_section
 
     def do_trampo():
         print("RESTART")
@@ -930,16 +945,20 @@ def main_loop():
     while True:
         current_file = None
         current_function_preproc = None
+        current_section = None
         # instrs = [(-1, 0, f".nobranchstart", None, 0)] if nobranch else [(-1, 0, "$bl1 run", None, 1),
         #                                                                  (-1, 1, "$bl2 run", None, 1)]
 
         instrs = []
+        pushpopcode = set()
 
         def current_pc():
             return instrs[-1][1] + instrs[-1][4]
 
         # instrs = [(-1, 0, ".start", None, 0)]
         def add_instr(line, val=None, size=1, tokenized=None, pc=None):
+            if current_section == ".llvmbc":
+                return
             if tokenized is None:
                 tokenized = tokenize(line)
             instrs.append((lineno + 1, current_pc() if pc is None else pc, line, val, size, tokenized))
@@ -1033,8 +1052,8 @@ def main_loop():
                             tokens[:] = [".set", x, ",", *rest]
                     match tokens:
                         case ["dmb", *rest]:
-                            add_instr("$bl1 invalid_instruction")
-                            add_instr("$bl2 invalid_instruction")
+                            # single core so we don't care
+                            add_instr("nop")
                         case ["bl" | "blx", arg] if not RE_REGISTER.match(arg):
                             add_instr(f"$bl1 {arg}")
                             add_instr(f"$bl2 {arg}")
@@ -1043,32 +1062,36 @@ def main_loop():
                         # add_instr(f"$bcond2 {m.group(1)} {m.group(2)}")
                         case ["push" | "pop" as instr, (regs)]:
                             regs = sorted(HI_REGS.get(x, None) or int(x[1:]) for x in regs)
-                            if instr == "push":
-                                add_instr(f"sub sp, #{len(regs) * 4}")
-                                for i, reg in enumerate(regs):
-                                    if reg == HI_REGS["lr"]:
-                                        add_instr("mov r12, r7")
-                                        add_instr(f"mov r7, r{reg}")
-                                        add_instr(f"str r7, [sp, #{i * 4}]")
-                                        add_instr("mov r7, r12")
-                                    elif reg <= 7:
-                                        add_instr(f"str r{reg}, [sp, #{i * 4}]")
-                                    else:
-                                        raise Exception(f"push: invalid register {reg}")
-                            else:
-                                for i, reg in enumerate(regs):
-                                    if reg == HI_REGS["pc"]:
-                                        add_instr("mov r12, r7")
-                                        add_instr(f"ldr r7, [sp, #{i * 4}]")
-                                        add_instr("mov lr, r7")
-                                        add_instr("mov r7, r12")
-                                        add_instr(f"add sp, #{len(regs) * 4}")
-                                        add_instr("bx lr")
-                                    elif reg <= 7:
-                                        add_instr(f"ldr r{reg}, [sp, #{i * 4}]")
-                                    else:
-                                        raise Exception(f"push: invalid register {reg}")
-                                add_instr(f"add sp, #{len(regs) * 4}")
+                            pushpopcode.add((instr, tuple(regs)))
+                            # if instr == "push":
+                            #     add_instr(f"sub sp, #{len(regs) * 4}")
+                            #     for i, reg in enumerate(regs):
+                            #         if reg == HI_REGS["lr"]:
+                            #             add_instr("mov r12, r7")
+                            #             add_instr(f"mov r7, r{reg}")
+                            #             add_instr(f"str r7, [sp, #{i * 4}]")
+                            #             add_instr("mov r7, r12")
+                            #         elif reg <= 7:
+                            #             add_instr(f"str r{reg}, [sp, #{i * 4}]")
+                            #         else:
+                            #             raise Exception(f"push: invalid register {reg}")
+                            # else:
+                            #     for i, reg in enumerate(regs):
+                            #         if reg == HI_REGS["pc"]:
+                            #             add_instr("mov r12, r7")
+                            #             add_instr(f"ldr r7, [sp, #{i * 4}]")
+                            #             add_instr("mov lr, r7")
+                            #             add_instr("mov r7, r12")
+                            #             add_instr(f"add sp, #{len(regs) * 4}")
+                            #             add_instr("bx lr")
+                            #         elif reg <= 7:
+                            #             add_instr(f"ldr r{reg}, [sp, #{i * 4}]")
+                            #         else:
+                            #             raise Exception(f"push: invalid register {reg}")
+                            #     add_instr(f"add sp, #{len(regs) * 4}")
+                            add_instr("mov r11, lr")
+                            add_instr(f"$bl1 __{instr}_{'_'.join(map(str, regs))}")
+                            add_instr(f"$bl2 __{instr}_{'_'.join(map(str, regs))}")
                         case ["stm", addr, "!", ",", (regs)]:
                             regs = sorted(regs)
                             # for r in regs:
@@ -1175,8 +1198,13 @@ def main_loop():
                             # sym.refs = old_use
                             sym.extend(lineno)
                         case [".section", sec_name, *rest]:
-                            if sec_name.startswith("\".text."):
-                                sym_name = sec_name[7:-1]
+                            #root, sym_name, *rest = sec_name[1:].split(".")
+                            root, *rest = sec_name[1:].split(".")
+                            global current_section
+                            current_section = root
+                            add_instr(f"#section {json.dumps(root)}", size=0)
+                            if root == "text":
+                                sym_name, *rest = rest
                                 sym = add_symbol(sym_name)
                                 sym.extend(lineno)
                         case [".text" | ".syntax" | ".section" | ".loc" | ".eabi_attribute" | \
@@ -1190,6 +1218,48 @@ def main_loop():
         except:
             print(lineno + 1, line, current_function_preproc, current_file)
             raise
+    
+        for instr, regs in pushpopcode:
+            ppfname = f"__{instr}_{'_'.join(map(str, regs))}"
+            add_label(ppfname, current_pc())
+            sym = add_symbol(ppfname, True)
+            sym.start = current_pc()
+            add_instr("#fnbegin " + json.dumps(ppfname), size=0)
+            if instr == "push":
+                add_instr(f"sub sp, #{len(regs) * 4}")
+                for i, reg in enumerate(regs):
+                    if reg == HI_REGS["lr"]:
+                        add_instr("mov r12, r7")
+                        # add_instr(f"mov r7, r{reg}")
+                        add_instr(f"mov r7, r11") # lr was backupped in r11 since bl modifies it
+                        add_instr(f"str r7, [sp, #{i * 4}]")
+                        add_instr("mov r7, r12")
+                    elif reg <= 7:
+                        add_instr(f"str r{reg}, [sp, #{i * 4}]")
+                    else:
+                        raise Exception(f"push: invalid register {reg}")
+            else:
+                for i, reg in enumerate(regs):
+                    if reg == HI_REGS["pc"]:
+                        add_instr("mov r12, r7")
+                        add_instr(f"ldr r7, [sp, #{i * 4}]")
+                        add_instr("mov lr, r7")
+                        add_instr("mov r7, r12")
+                        add_instr(f"add sp, #{len(regs) * 4}")
+                        add_instr("bx lr")
+                        # add_instr("bx r11") # lr was backupped in r11 since bl modifies it
+                    elif reg <= 7:
+                        add_instr(f"ldr r{reg}, [sp, #{i * 4}]")
+                    else:
+                        raise Exception(f"push: invalid register {reg}")
+                add_instr(f"add sp, #{len(regs) * 4}")
+            add_instr("mov r12, lr")
+            add_instr("mov lr, r11")
+            add_instr("bx r12")
+            add_instr("#fnend", size=0)
+            sym.end = current_pc() - 1
+            sym.extend(lineno)
+    
         out = []
         trampo_offset = 0
         print("# instructions:", len(instrs))
@@ -1197,6 +1267,7 @@ def main_loop():
         current_file = None
         instr_log.clear()
         GLOBAL_SCOPE["CURPC"] = Symbol("CURPC", "<global>")
+        current_section = None
         for lineno, pc, line, val, size, tokens in instrs:
             GLOBAL_SCOPE["CURPC"].label_value = pc
             try:
@@ -1215,19 +1286,25 @@ def main_loop():
                             current_function = get_symbol(arg)
                         case "#fnend":
                             current_function = None
+                        case "#section":
+                            current_section = arg
                 elif line[0] == ".":
                     continue
                 else:
-                    for pc, val, code, data in assemble(line, pc, lineno + trampo_offset, tokens):
-                        assert 0 <= val <= 0xffff, (val, breakpoint())
-                        out.append(val)
-                        if not nolog:
-                            instr_log.append((pc, val, code, data))
+                    match current_section:
+                        case "bss":
+                            pass
+                        case _:
+                            for pc, val, code, data in assemble(line, pc, lineno + trampo_offset, tokens):
+                                assert 0 <= val <= 0xffff, (val, breakpoint())
+                                out.append(val)
+                                if not nolog:
+                                    instr_log.append((pc, val, code, data))
             except Trampoline as e:
                 trampo_offset += e.offset
                 continue
             except Exception as e:
-                print(f"Build error on line {lineno}: {line} (inside {current_function.name})")
+                print(f"Build error on line {lineno}: {line} (inside {current_function_name()})")
                 raise
         with open("trampo_pre.s", "w") as tw:
             tw.write("\n".join(lines))

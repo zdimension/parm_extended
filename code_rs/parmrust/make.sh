@@ -14,7 +14,7 @@ fi
 
 rm -rf target/$TARGET/release/deps/$NAME-*
 
-export RUSTFLAGS="--emit asm -C relocation-model=static -v -A unsafe_op_in_unsafe_fn -A static_mut_refs -Znext-solver"
+export RUSTFLAGS="--emit asm -C relocation-model=static -C force-frame-pointers=no -v -A unsafe_op_in_unsafe_fn -A static_mut_refs -Znext-solver"
 
 cargo -Zbuild-std=core,alloc build $CARGO_ARG --bin $NAME || {
   echo "Cargo build failed"

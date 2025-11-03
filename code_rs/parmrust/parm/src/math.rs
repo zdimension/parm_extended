@@ -1,4 +1,4 @@
-use crate::mmio::{RESbcd, RES, R2divR3I, R2divR3U, R2modR3I, R2modR3U};
+use crate::mmio::{RESbcd, RES, R0divR1I, R0divR1U, R0modR1I, R0modR1U, R0R1mulR2R3_lo, R0R1mulR2R3_hi};
 use crate::tty;
 use crate::tty::DisplayTarget;
 use crate::print;
@@ -7,17 +7,32 @@ use core::ops::{
     Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, RemAssign, Sub, SubAssign,
 };
 
-#[unsafe(export_name = "__aeabi_uidiv")]
-pub fn __aeabi_uidiv(a: u32, b: u32) -> u32 {
-    unsafe {
-        core::arch::asm!("uidiv:");
-    }
-    udiv(a, b)
+#[unsafe(naked)]
+#[unsafe(no_mangle)]
+pub extern "C" fn __aeabi_uidiv(a: u32, b: u32) -> u32 {
+    core::arch::naked_asm!(
+        r#"
+        movs r2, {addr}
+        mvns r2, r2
+        ldr r0, [r2]
+        bx lr
+        "#,
+        addr = const !R0divR1U.address_int(),
+    )
 }
 
-#[unsafe(export_name = "__aeabi_idiv")]
-pub fn __aeabi_idiv(a: i32, b: i32) -> i32 {
-    idiv(a, b)
+#[unsafe(naked)]
+#[unsafe(no_mangle)]
+pub extern "C" fn __aeabi_idiv(a: i32, b: i32) -> i32 {
+    core::arch::naked_asm!(
+        r#"
+        movs r2, {addr}
+        mvns r2, r2
+        ldr r0, [r2]
+        bx lr
+        "#,
+        addr = const !R0divR1I.address_int(),
+    )
 }
 
 #[repr(C)]
@@ -26,25 +41,38 @@ pub struct DivMod<T> {
     remainder: T,
 }
 
-#[unsafe(export_name = "__aeabi_uidivmod")]
-pub fn __aeabi_uidivmod(a: u32, b: u32) -> DivMod<u32> {
-    unsafe {
-        core::arch::asm!("__uidivmod_test:");
-    }
-    let divmod = udivmod(a, b);
-    DivMod {
-        quotient: divmod.0,
-        remainder: divmod.1,
-    }
+#[unsafe(naked)]
+#[unsafe(no_mangle)]
+pub extern "C" fn __aeabi_uidivmod(a: u32, b: u32) -> DivMod<u32> {
+    core::arch::naked_asm!(
+        r#"
+        movs r2, {addr}
+        mvns r2, r2
+        ldr r3, [r2]
+        ldr r2, [r2, #4]
+        movs r0, r3
+        movs r1, r2
+        bx lr
+        "#,
+        addr = const !R0divR1U.address_int(),
+    )
 }
 
-#[unsafe(export_name = "__aeabi_idivmod")]
-pub fn __aeabi_idivmod(a: i32, b: i32) -> DivMod<i32> {
-    let divmod = idivmod(a, b);
-    DivMod {
-        quotient: divmod.0,
-        remainder: divmod.1,
-    }
+#[unsafe(naked)]
+#[unsafe(no_mangle)]
+pub extern "C" fn __aeabi_idivmod(a: i32, b: i32) -> DivMod<i32> {
+    core::arch::naked_asm!(
+        r#"
+        movs r2, {addr}
+        mvns r2, r2
+        ldr r3, [r2]
+        ldr r2, [r2, #4]
+        movs r0, r3
+        movs r1, r2
+        bx lr
+        "#,
+        addr = const !R0divR1I.address_int(),
+    )
 }
 
 #[unsafe(export_name = "__clzsi2")]
@@ -79,102 +107,6 @@ pub fn __clzsi2(a: u32) -> u32 {
         n = n - x;
     }
     n
-}
-
-#[inline(always)]
-pub fn udiv(a: u32, b: u32) -> u32 {
-    let mut res;
-    unsafe {
-        core::arch::asm!("ldr {res}, [{addr}]",
-            addr = in(reg) R2divR3U.address(),
-            res = out(reg) res,
-            in("r2") a,
-            in("r3") b,
-        )
-    }
-    res
-}
-
-#[inline(always)]
-pub fn idiv(a: i32, b: i32) -> i32 {
-    let mut res;
-    unsafe {
-        core::arch::asm!("ldr {res}, [{addr}]",
-        addr = in(reg) R2divR3I.address(),
-        res = out(reg) res,
-        in("r2") a,
-        in("r3") b,
-        )
-    }
-    res
-}
-
-#[inline(always)]
-pub fn umod(a: u32, b: u32) -> u32 {
-    let mut res;
-    unsafe {
-        core::arch::asm!("ldr {res}, [{addr}]",
-            addr = in(reg) R2modR3U.address(),
-            res = out(reg) res,
-            in("r2") a,
-            in("r3") b,
-        )
-    }
-    res
-}
-
-#[inline(always)]
-pub fn imod(a: i32, b: i32) -> i32 {
-    let mut res;
-    unsafe {
-        core::arch::asm!("ldr {res}, [{addr}]",
-        addr = in(reg) R2modR3I.address(),
-        res = out(reg) res,
-        in("r2") a,
-        in("r3") b,
-        )
-    }
-    res
-}
-
-#[inline(always)]
-pub fn udivmod(a: u32, b: u32) -> (u32, u32) {
-    let mut div;
-    let mut rem;
-    unsafe {
-        core::arch::asm!(r#"
-            ldr {res1}, [{addr1}]
-            ldr {res2}, [{addr2}]
-            "#,
-            addr1 = in(reg) R2divR3U.address(),
-            addr2 = in(reg) R2modR3U.address(),
-            res1 = out(reg) div,
-            res2 = out(reg) rem,
-            in("r2") a,
-            in("r3") b,
-        );
-    }
-    (div, rem)
-}
-
-#[inline(always)]
-pub fn idivmod(a: i32, b: i32) -> (i32, i32) {
-    let mut div;
-    let mut rem;
-    unsafe {
-        core::arch::asm!(r#"
-            ldr {res1}, [{addr1}]
-            ldr {res2}, [{addr2}]
-            "#,
-            addr1 = in(reg) R2divR3I.address(),
-            addr2 = in(reg) R2modR3I.address(),
-            res1 = out(reg) div,
-            res2 = out(reg) rem,
-            in("r2") a,
-            in("r3") b,
-        );
-    }
-    (div, rem)
 }
 
 #[allow(non_camel_case_types)]
@@ -439,13 +371,13 @@ impl Div<i32> for fp32 {
 impl Div<fp32> for fp32 {
     type Output = fp32;
     fn div(self, rhs: fp32) -> Self::Output {
-        fp32((udiv((self.0 << 8) as u32, rhs.0 as u32) << 8) as i32)
+        fp32((((self.0 << 8) as u32 / rhs.0 as u32) << 8) as i32)
     }
 }
 
 impl DivAssign<fp32> for fp32 {
     fn div_assign(&mut self, rhs: fp32) {
-        self.0 = (udiv((self.0 << 8) as u32, rhs.0 as u32) << 8) as i32;
+        self.0 = (((self.0 << 8) as u32 / rhs.0 as u32) << 8) as i32;
     }
 }
 
@@ -498,7 +430,7 @@ impl tty::ParmDisplay for fp32 {
     }
 }
 
-core::arch::global_asm!(
+/*core::arch::global_asm!(
     r#"
     .globl __aeabi_lmul
 __aeabi_lmul:
@@ -531,7 +463,49 @@ __aeabi_lmul:
 	adds	r0, r2
 	adcs	r1, r3
 	pop	{{r4, pc}}"#
-);
+);*/
+
+/*#[unsafe(no_mangle)]
+unsafe extern "C" fn __aeabi_lmul(a: i64, b: i64) -> i64 {
+    let mut hi: u32;
+    let mut lo: u32;
+    unsafe {
+        core::arch::asm!(
+        r#"ldr {lo}, [{addr_lo}]
+         ldr {hi}, [{addr_hi}]"#,
+        addr_lo = in(reg) R0R1mulR2R3_lo.address(),
+        addr_hi = in(reg) R0R1mulR2R3_hi.address(),
+        lo = out(reg) lo,
+        hi = out(reg) hi,
+        in("r0") (a as u32),
+        in("r1") ((a >> 32) as u32),
+        in("r2") (b as u32),
+        in("r3") ((b >> 32) as u32),
+        )
+    }
+    (((hi as u64) << 32) | (lo as u64)) as i64
+}*/
+
+/// long long __aeabi_lmul(long long r1:r0, long long r3:r2)
+/// 
+/// Returns r1:r0 = r1:r0 * r3:r2
+#[unsafe(naked)]
+#[unsafe(no_mangle)]
+pub extern "C" fn __aeabi_lmul(a: i64, b: i64) -> i64 {
+    core::arch::naked_asm!(
+        r#"
+        push {{r4, r5, lr}}
+        movs r4, {addr_lo}
+        mvns r4, r4
+        ldr r5, [r4]
+        ldr r4, [r4, #4]
+        movs r0, r5
+        movs r1, r4
+        pop {{r4, r5, pc}}
+        "#,
+        addr_lo = const !R0R1mulR2R3_lo.address_int(),
+    )
+}
 
 /*
 use approx::{AbsDiffEq, RelativeEq, UlpsEq};
