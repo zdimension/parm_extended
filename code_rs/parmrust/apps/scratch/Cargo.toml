@@ -5,3 +5,4 @@ edition.workspace = true
 
 [dependencies]
 parm = { workspace = true }
+log = "0.4.28"

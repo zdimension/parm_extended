@@ -451,10 +451,10 @@ pub fn read_line_rust(res: &mut alloc::string::String) {
     }
 }
 
-struct ParmLogger;
+pub struct ParmLogger;
 
 impl ParmLogger {
-    fn init() {
+    pub fn init() {
         unsafe {
             log::set_max_level_racy(log::LevelFilter::Info);
             log::set_logger_racy(&ParmLogger).unwrap();

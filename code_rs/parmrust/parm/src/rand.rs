@@ -1,4 +1,5 @@
-use rand_core::Error;
+use getrandom::register_custom_getrandom;
+use rand_core::{Error, RngCore};
 use crate::mmio::RNG32;
 
 #[inline(always)]
@@ -28,3 +29,11 @@ impl rand_core::RngCore for ParmRng {
 }
 
 impl rand_core::CryptoRng for ParmRng {}
+
+fn parmrnd(buf: &mut[u8]) -> Result<(), getrandom::Error> {
+    let mut rng = ParmRng;
+    rng.fill_bytes(buf);
+    Ok(())
+}
+
+register_custom_getrandom!(parmrnd);

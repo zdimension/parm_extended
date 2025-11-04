@@ -23,7 +23,8 @@ impl Command for Date {
 pub struct SockOpen {
     pub addr: Ipv4Addr,
     pub port: u16,
-    pub kind: SockKind
+    pub kind: SockKind,
+    pub use_tls: bool
 }
 
 impl Command for SockOpen {

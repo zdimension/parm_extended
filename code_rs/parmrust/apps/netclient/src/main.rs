@@ -7,24 +7,29 @@ mod speedy_telnet;
 mod commands;
 
 extern crate alloc;
-
+use chacha20poly1305::ChaCha20Poly1305 as ChaCha20Poly1305Cipher;
 use alloc::borrow::Cow;
 use alloc::string::{String, ToString};
 use alloc::vec;
 use alloc::vec::Vec;
-use core::fmt::Display;
+use core::fmt::{Debug, Display, Formatter};
+use core::hash::Hash;
 use core::net::{Ipv4Addr, SocketAddrV4};
 use core::sync::atomic::{AtomicU32, AtomicUsize, Ordering};
-use embedded_io::ErrorType;
+use embedded_io::{ErrorType, Read, Write};
+use embedded_tls::{Aes128GcmSha256, NoVerify, Sha256, TlsCipherSuite, TlsConfig, TlsContext};
 use embedded_tls::blocking::TlsConnection;
-use embedded_tls::{Aes128GcmSha256, NoVerify, TlsConfig, TlsContext};
+// use embedded_tls::blocking::TlsConnection;
+// use embedded_tls::{Aes128GcmSha256, NoVerify, TlsConfig, TlsContext};
 use htmlparser::{ElementEnd, Token};
 //use fluent_uri::Uri;
 use httparse::{Header, Request, Response, Status};
-use nourl::Url;
+use nourl::{Url, UrlScheme};
+use sha2::digest;
 use simple_dns::{Name, Packet, PacketFlag, Question, CLASS, TYPE};
 use simple_dns::rdata::RData;
 use speedy::{Context, Readable, Writable, Writer};
+use typenum::{Sum, U10, U12, U32};
 use commands::{Command, Date, SockOpen, SockRecv, SockRecvResponse, SockSend};
 use parm::control::breakpoint;
 use parm::rprintln;
@@ -36,6 +41,7 @@ use parm::embedded_graphics::text::renderer::{CharacterStyle, TextRenderer};
 use parm::mmio::RES;
 use parm::rand::ParmRng;
 use parm::screen::{Color, ColorSimple, ParmScreen};
+use parm::tty::ParmLogger;
 use speedy_telnet::SpeedyTelnet;
 use crate::commands::SockClose;
 /*#[derive(Writable, Copy, Clone, Debug)]
@@ -68,6 +74,7 @@ enum Command {
 }*/
 
 struct Socket(u16);
+
 
 impl Drop for Socket {
     fn drop(&mut self) {
@@ -120,11 +127,12 @@ impl embedded_io::Write for Socket {
 }
 
 impl SpeedyTelnet {
-    fn socket_open(&mut self, host: SocketAddrV4, sock_kind: SockKind) -> Socket {
+    fn socket_open(&mut self, host: SocketAddrV4, sock_kind: SockKind, use_tls: bool) -> Socket {
         let sock_id = self.send_command(&SockOpen {
             addr: *host.ip(),
             port: host.port(),
-            kind: sock_kind
+            kind: sock_kind,
+            use_tls
         });
         Socket(sock_id)
     }
@@ -138,8 +146,8 @@ impl SpeedyTelnet {
         resp
     }
     
-    fn send_http<Res>(&mut self, addr: SocketAddrV4, request: &Request, body: Option<&[u8]>, callback: impl FnOnce(Response, Cow<[u8]>) -> Res) -> Result<Res, &'static str> {
-        let mut sock = self.socket_open(addr, SockKind::Tcp);
+    fn send_http<Res>(&mut self, addr: SocketAddrV4, use_https: bool, request: &Request, body: Option<&[u8]>, callback: impl FnOnce(Response, Cow<[u8]>) -> Res) -> Result<Res, &'static str> {
+        let mut sock = self.socket_open(addr, SockKind::Tcp, use_https);
         
         // send req
         let mut req_buf = Vec::with_capacity(512);
@@ -223,7 +231,7 @@ impl SpeedyTelnet {
             CLASS::IN.into(),
             false));
         let packet_bytes = packet.build_bytes_vec().map_err(|_| "dns serialization failed")?;
-        let mut sock = self.socket_open(dns_server, SockKind::Udp);
+        let mut sock = self.socket_open(dns_server, SockKind::Udp, false);
         sock.send(Cow::Owned(packet_bytes));
         let resp = sock.recv(512);
         
@@ -250,7 +258,10 @@ impl SpeedyTelnet {
         
         let ip = self.resolve_host(&url_components.host)?;
         
-        let body_data = self.send_http(SocketAddrV4::new(ip, url_components.port), &req, None, |_, body| {
+        let body_data = self.send_http(
+            SocketAddrV4::new(ip, url_components.port), 
+            matches!(url_components.protocol, UrlScheme::HTTPS),
+            &req, None, |_, body| {
             body.into_owned()
         })?;
         
@@ -259,6 +270,7 @@ impl SpeedyTelnet {
 }
 
 struct UrlComponents<'a> {
+    protocol: UrlScheme,
     host: Cow<'a, str>,
     port: u16,
     path: Cow<'a, str>,
@@ -270,6 +282,7 @@ impl<'a> TryFrom<&'a str> for UrlComponents<'a> {
         let url = Url::parse(value).map_err(|_| ())?;
         //let uri = Uri::parse(value).map_err(|_| ())?;
         Ok(UrlComponents {
+            protocol: url.scheme(),
             host: Cow::Borrowed(url.host()),
             port: url.port_or_default(),
             path: Cow::Borrowed(url.path()),
@@ -277,15 +290,30 @@ impl<'a> TryFrom<&'a str> for UrlComponents<'a> {
     }
 }
 
-static STATE: AtomicU32 = AtomicU32::new(0);
+type LongestLabel = typenum::U12;
+type LabelOverhead = U10;
+type LabelBuffer<CipherSuite> = Sum<
+    <<CipherSuite as TlsCipherSuite>::Hash as digest::OutputSizeUser>::OutputSize,
+    Sum<LongestLabel, LabelOverhead>,
+>;
+pub struct ChaCha20Poly1305Sha256;
+impl TlsCipherSuite for ChaCha20Poly1305Sha256 {
+    const CODE_POINT: u16 = 0x1303; // TlsChacha20Poly1305Sha256
+    type Cipher = ChaCha20Poly1305Cipher;
+    type KeyLen = U32;
+    type IvLen = U12;
+
+    type Hash = Sha256;
+    type LabelBufferSize = LabelBuffer<Self>;
+}
 
 #[unsafe(no_mangle)]
 fn main() {
-    RES.write(STATE.load(Ordering::Acquire));
-    STATE.store(1, Ordering::Release);
-    RES.write(STATE.load(Ordering::Acquire));
+    ParmLogger::init();
+    unsafe {
+        log::set_max_level_racy(log::LevelFilter::Trace);
+    }
     
-    return;
     rprintln!("Waiting for server...");
 
     // wait for server to connect
@@ -295,19 +323,52 @@ fn main() {
     
     let cur_date = reader.send_command(&Date);
     rprintln!("Current date: {}", cur_date.date);
-    let host = reader.resolve_host("ifconfig.me").unwrap();
-    let mut socket = reader.socket_open(SocketAddrV4::new(host, 443), SockKind::Tcp);
-    let config = TlsConfig::new().with_server_name("ifconfig.me");
-    let mut read_record_buffer = [0; 16384];
-    let mut write_record_buffer = [0; 16384];
-    let mut tls: TlsConnection<_, Aes128GcmSha256> = TlsConnection::new(socket, &mut read_record_buffer, &mut write_record_buffer);
+    /*let host = reader.resolve_host("google.com").unwrap();
+    let mut socket = reader.socket_open(SocketAddrV4::new(host, 443), SockKind::Tcp, true);*/
+    
+    let url = "https://ifconfig.me";
+    let url_components = UrlComponents::try_from(url).unwrap();
+    rprintln!("Fetching URL: {}", url);
+    let body = reader.fetch_http(url_components).unwrap();
+    rprintln!("Fetched {} bytes", body.len());
+    let body = unsafe { core::str::from_utf8_unchecked(&body) };
+    rprintln!("ifconfig.me response:\n{}", body);
+    
+  /*  let mut socket1 = parm::heap::prc::Prc::new(socket);
+    let mut socket2 = socket1.clone();
+    let mut client = suruga::TlsClient::new(socket1, socket2, ParmRng).unwrap();
+    
+    client.write(b"GET /ip HTTP/1.1\r\nHost: google.com\r\nConnection: close\r\n\r\n").unwrap();
+    let mut resp = vec![0u8; 512];
+    client.read(&mut resp).unwrap();
+    let resp = String::from_utf8_lossy(&resp);
+    rprintln!("ifconfig.me response:\n{}", resp);*/
+    
+ /*   #[derive(Debug)]
+    struct NullTimeProvider;
+
+    impl TimeProvider for NullTimeProvider {
+        fn current_time(&self) -> Option<UnixTime> {
+            None
+        }
+    }
+    
+    let config = portable_rustls::ClientConfig::builder_with_details(
+        portable_rustls::crypto::ring::default_provider(),
+        NullTimeProvider.into()
+    );*/
+    
+   /* let config = TlsConfig::new().with_server_name("google.com");
+    let mut read_record_buffer = [0; 32768];
+    let mut write_record_buffer = [0; 32768];
+    let mut tls: TlsConnection<_, ChaCha20Poly1305Sha256> = TlsConnection::new(socket, &mut read_record_buffer, &mut write_record_buffer);
     rprintln!("Opening TLS...");
     tls.open::<_, NoVerify>(TlsContext::new(
         &config,
         &mut ParmRng
     )).expect("tls open error");
     rprintln!("TLS opened. Sending HTTP request...");
-    let req = b"GET /ip HTTP/1.1\r\nHost: ifconfig.me\r\nConnection: close\r\n\r\n";
+    let req = b"GET /ip HTTP/1.1\r\nHost: google.com\r\nConnection: close\r\n\r\n";
     rprintln!("Raw req is {} bytes", req.len());
     tls.write(&req[..]).expect("tls write error");
     rprintln!("Flushing");
@@ -315,7 +376,7 @@ fn main() {
     let mut buf = [0; 512];
     rprintln!("Reading response...");
     tls.read(&mut buf).expect("tls read error");
-    rprintln!("ifconfig.me response:\n{}", unsafe { core::str::from_utf8_unchecked(&buf) });
+    rprintln!("ifconfig.me response:\n{}", unsafe { core::str::from_utf8_unchecked(&buf) });*/
     
     /*let bot_token = b"Bot ";
     let url = "https://discordapp.com/api/channels/1044363126558175376/messages";

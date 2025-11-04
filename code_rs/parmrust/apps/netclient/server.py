@@ -18,10 +18,11 @@ Packet framing on control connection (TCP): packed struct { u8 kind; u8 data[]; 
 
 Kinds implemented:
 0: No payload. Returns current date-time in ISO 8601 as u16 (LE) length-prefixed UTF-8 string.
-1: Open peer socket. Payload: 4 bytes IPv4 (u32 LE), 2 bytes port (u16 LE), 1 byte proto (0=tcp, 1=udp).
-   - For TCP: connect to (ip:port).
-   - For UDP: create a datagram socket and connect() to (ip:port) so send()/recv() are usable.
-   - Returns: u16 (LE) socket descriptor ID (starting from 0).
+1: Open peer socket. Payload: 4 bytes IPv4 (u32 LE), 2 bytes port (u16 LE), 1 byte proto (0=tcp, 1=udp), 1 byte tls (0=no, 1=yes).
+   - For TCP: connect to (ip:port), optionally wrap with TLS if tls=1.
+   - For UDP: create a datagram socket and connect() to (ip:port) so send()/recv() are usable. TLS flag ignored for UDP.
+   - Returns: u16 (LE) socket descriptor ID (starting from 0, or 0xFFFF on error).
+   - Once opened, TLS wrapping is transparent to send/recv/close operations.
 2: Send data. Payload: u16 (LE) socket ID, u16 (LE) length L, then L bytes. Sends down the specified socket.
    - If socket ID is invalid: prints an error and closes the control connection (as per spec).
 3: Receive data. Payload: u16 (LE) socket ID, u16 (LE) length N. Reads up to N bytes from the socket and returns
@@ -40,6 +41,7 @@ import struct
 import datetime
 import sys
 import argparse
+import ssl
 from typing import Optional, Tuple
 
 DEFAULT_HOST = "127.0.0.1"
@@ -121,15 +123,16 @@ def handle_session(ctrl_sock: socket.socket, addr: Tuple[str, int]) -> None:
                 _log(addr, f"kind=0 -> sent ISO datetime ({len(data)} bytes)")
 
             elif kind == 1:
-                # Open peer socket: 4B ip (u32 LE), 2B port (u16 LE), 1B proto
+                # Open peer socket: 4B ip (u32 LE), 2B port (u16 LE), 1B proto, 1B tls
                 # Returns: u16 (LE) socket ID
-                payload = _read_exact(ctrl_sock, 7)
+                payload = _read_exact(ctrl_sock, 8)
                 if payload is None:
                     _log(addr, "kind=1 incomplete payload; closing")
                     break
                 ip_b_le = payload[0:4]
                 port = struct.unpack("<H", payload[4:6])[0]
                 proto = payload[6]
+                use_tls = payload[7]
                 ip_str = _ipv4_le_bytes_to_str(ip_b_le)
 
                 sock_id = next_sock_id
@@ -140,8 +143,20 @@ def handle_session(ctrl_sock: socket.socket, addr: Tuple[str, int]) -> None:
                     ps.settimeout(PEER_CONNECT_TIMEOUT_S)
                     try:
                         ps.connect((ip_str, port))
+                        
+                        # Wrap with TLS if requested
+                        if use_tls == 1:
+                            context = ssl.create_default_context()
+                            # Allow self-signed certificates for flexibility
+                            context.check_hostname = False
+                            context.verify_mode = ssl.CERT_NONE
+                            ps = context.wrap_socket(ps, server_hostname=ip_str)
+                            desc = f"tls://{ip_str}:{port}"
+                            _log(addr, f"kind=1 wrapped socket {sock_id} with TLS")
+                        else:
+                            desc = f"tcp://{ip_str}:{port}"
+                        
                         ps.settimeout(PEER_RECV_TIMEOUT_S)
-                        desc = f"tcp://{ip_str}:{port}"
                         peer_sockets[sock_id] = (ps, desc)
                         ctrl_sock.sendall(struct.pack("<H", sock_id))
                         _log(addr, f"kind=1 opened socket {sock_id} ({desc})")
@@ -152,18 +167,23 @@ def handle_session(ctrl_sock: socket.socket, addr: Tuple[str, int]) -> None:
                         _log(addr, f"kind=1 TCP connect error to {ip_str}:{port}: {e}")
 
                 elif proto == 1:  # UDP
-                    try:
-                        ps = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                        ps.settimeout(PEER_RECV_TIMEOUT_S)
-                        ps.connect((ip_str, port))
-                        desc = f"udp://{ip_str}:{port}"
-                        peer_sockets[sock_id] = (ps, desc)
-                        ctrl_sock.sendall(struct.pack("<H", sock_id))
-                        _log(addr, f"kind=1 opened socket {sock_id} ({desc})")
-                    except Exception as e:
-                        # Return 0xFFFF to signal error
+                    if use_tls == 1:
+                        # TLS not supported for UDP in this implementation
                         ctrl_sock.sendall(struct.pack("<H", 0xFFFF))
-                        _log(addr, f"kind=1 UDP setup error to {ip_str}:{port}: {e}")
+                        _log(addr, f"kind=1 TLS not supported for UDP")
+                    else:
+                        try:
+                            ps = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                            ps.settimeout(PEER_RECV_TIMEOUT_S)
+                            ps.connect((ip_str, port))
+                            desc = f"udp://{ip_str}:{port}"
+                            peer_sockets[sock_id] = (ps, desc)
+                            ctrl_sock.sendall(struct.pack("<H", sock_id))
+                            _log(addr, f"kind=1 opened socket {sock_id} ({desc})")
+                        except Exception as e:
+                            # Return 0xFFFF to signal error
+                            ctrl_sock.sendall(struct.pack("<H", 0xFFFF))
+                            _log(addr, f"kind=1 UDP setup error to {ip_str}:{port}: {e}")
                 else:
                     # Invalid proto: return error
                     ctrl_sock.sendall(struct.pack("<H", 0xFFFF))

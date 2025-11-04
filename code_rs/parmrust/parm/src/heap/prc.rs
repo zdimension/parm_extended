@@ -6,6 +6,7 @@ use core::fmt::{Debug, Display};
 use core::hash::{Hash, Hasher};
 use core::ops::Deref;
 use core::ptr;
+use embedded_io::ErrorType;
 use crate::tty::{ParmDisplay, DisplayTarget};
 
 impl<T: ParmDisplay> ParmDisplay for Prc<T> {
@@ -26,6 +27,28 @@ pub struct Prc<T: Sized> {
 impl<T: Display> Display for Prc<T> {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         Display::fmt(&**self, f)
+    }
+}
+
+impl<T: embedded_io::ErrorType> ErrorType for Prc<T> { type Error = T::Error; }
+
+impl<T: embedded_io::Read> embedded_io::Read for Prc<T> {
+    fn read(&mut self, buf: &mut [u8]) -> Result<usize, Self::Error> {
+        embedded_io::Read::read(&mut *self.borrow_mut(), buf)
+    }
+}
+
+impl<T: embedded_io::Write> embedded_io::Write for Prc<T> {
+    fn write(&mut self, buf: &[u8]) -> Result<usize, Self::Error> {
+        embedded_io::Write::write(&mut *self.borrow_mut(), buf)
+    }
+
+    fn flush(&mut self) -> Result<(), Self::Error> {
+        embedded_io::Write::flush(&mut *self.borrow_mut())
+    }
+
+    fn write_all(&mut self, buf: &[u8]) -> Result<(), Self::Error> {
+        embedded_io::Write::write_all(&mut *self.borrow_mut(), buf)
     }
 }
 

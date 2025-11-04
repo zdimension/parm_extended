@@ -491,6 +491,8 @@ class PcDict(dict):
     # def __missing__(self, key):
     #     return sections.get(key, sections["text"]).start // 2
     def __getitem__(self, item):
+        if item == "data":
+            item = "bss"
         if item in self:
             return super().__getitem__(item)
         if item in sections:
@@ -498,6 +500,8 @@ class PcDict(dict):
         return self.__getitem__("text")
     
     def __setitem__(self, key, value):
+        if key == "data":
+            key = "bss"
         if key in self:
             return super().__setitem__(key, value)
         if key in sections:
@@ -1229,16 +1233,16 @@ class AssemblerState:
                                 # root, sym_name, *rest = sec_name[1:].split(".")
                                 if sec_name[0] == '"':
                                     sec_name = eval(sec_name)
-                                if sec_name == "data":
-                                    raise Exception("nonzero heap not supported yet")
                                 root, *rest = sec_name[1:].split(".")
+                                # if root == "data":
+                                #     raise Exception("nonzero heap not supported yet")
                                 self.current_section = root
                                 add_instr(f"#section {json.dumps(root)}", size=0)
                                 if root == "text":
                                     sym_name, *rest = rest
                                     sym = self.add_symbol(sym_name)
                                     sym.extend(self.lineno)
-                            case [".text" | ".syntax" | ".section" | ".loc" | ".eabi_attribute" | \
+                            case [".text" | ".syntax" | ".loc" | ".eabi_attribute" | \
                                   ".code" | ".file" | ".thumb_func" | ".save" | ".setfp" | \
                                   ".cantunwind" | ".pad" | ".ident", *rest]:
                                 pass
@@ -1297,6 +1301,7 @@ class AssemblerState:
             trampo_offset = 0
             print("# instructions:", len(instrs))
             print("section sizes:", current_pcs)
+            print("warning: data section not supported yet. check this if issues")
             self.current_function = None
             self.current_file = None
             self.instr_log.clear()
@@ -1328,7 +1333,7 @@ class AssemblerState:
                         continue
                     else:
                         match self.current_section:
-                            case "bss":
+                            case "bss" | "data":
                                 pass  # zero init data is in ram
                             case _:
                                 for pc, val, code, data in self.assemble(line, pc, self.lineno + trampo_offset, tokens):

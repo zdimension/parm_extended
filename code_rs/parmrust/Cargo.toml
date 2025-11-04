@@ -15,3 +15,6 @@ panic = "abort"
 panic = "abort"
 opt-level = 3
 lto = "fat"
+
+[patch.crates-io]
+ring = { git = "https://github.com/betrusted-io/ring-xous" }
