@@ -28,6 +28,7 @@ start_time = time.time()
 # os.chdir("../code_rs/parmrust/bin")
 
 # sys.argv = ["asm.py", "section_test.s"]
+# sys.argv = ['../../../asm/assembleur.py', '../target/thumbv6m-none-eabi/release/deps/compiler_builtins-d79a386d7184d5d3.s', '../target/thumbv6m-none-eabi/release/deps/netclient.s.bak', '-jq', '-Of']
 
 
 print(sys.argv)
@@ -484,7 +485,7 @@ RAM_BASE = 0x100000
 sections = {
     "text": Section(start=0),
     "bss": Section(start=RAM_BASE),
-    "data": Section(start=RAM_BASE),
+    #"data": Section(start=RAM_BASE),
 }
 
 class PcDict(dict):
@@ -1312,11 +1313,7 @@ class AssemblerState:
                 self.lineno = lineno_
                 self.GLOBAL_SCOPE["CURPC"].label_value = pc
                 try:
-                    if val is not None:
-                        assert 0 <= val <= 0xffff
-                        self.out.append(val)
-                        self.instr_log.append((pc, val, line, "..."))
-                    elif line[0] == "#":
+                    if line[0] == "#":
                         cmd, *arg = tokens
                         if arg:
                             arg = eval(arg[0])
@@ -1329,18 +1326,23 @@ class AssemblerState:
                                 self.current_function = None
                             case "#section":
                                 self.current_section = arg
-                    elif line[0] == ".":
-                        continue
                     else:
                         match self.current_section:
                             case "bss" | "data":
                                 pass  # zero init data is in ram
                             case _:
-                                for pc, val, code, data in self.assemble(line, pc, self.lineno + trampo_offset, tokens):
-                                    assert 0 <= val <= 0xffff, (val, breakpoint())
+                                if val is not None:
+                                    assert 0 <= val <= 0xffff
                                     self.out.append(val)
-                                    if not cli_args.nolog:
-                                        self.instr_log.append((pc, val, code, data))
+                                    self.instr_log.append((pc, val, line, "..."))
+                                elif line[0] == ".":
+                                    continue
+                                else:
+                                    for pc, val, code, data in self.assemble(line, pc, self.lineno + trampo_offset, tokens):
+                                        assert 0 <= val <= 0xffff, (val, breakpoint())
+                                        self.out.append(val)
+                                        if not cli_args.nolog:
+                                            self.instr_log.append((pc, val, code, data))
                 except Trampoline as e:
                     trampo_offset += e.offset
                     continue
