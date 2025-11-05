@@ -5,17 +5,20 @@ use alloc::vec::Vec;
 use core::str::FromStr;
 use core::time::Duration;
 use compact_str::CompactString;
+use hashbrown::HashMap;
 use htmlparser::{ElementEnd, Token};
 use parm::embedded_graphics::Drawable;
 use parm::embedded_graphics::geometry::{Point, Size};
 use parm::embedded_graphics::mono_font::{MonoFont, MonoTextStyle, MonoTextStyleBuilder};
 use parm::embedded_graphics::prelude::OriginDimensions;
 use parm::embedded_graphics::primitives::{Line, Primitive, PrimitiveStyle, Rectangle};
-use parm::embedded_graphics::text::{Baseline, TextStyle};
+use parm::embedded_graphics::text::{Baseline, Text, TextStyle};
 use parm::embedded_graphics::text::renderer::{CharacterStyle, TextRenderer};
-use parm::{embedded_graphics, keyb, rprintln};
+use parm::{embedded_graphics, keyb, rprint, rprintln};
 use parm::screen::{rgb32, Color, ColorSimple, ParmScreen};
 use parm::tty::ParmDisplay;
+use crate::http::{HttpResult, UrlComponents};
+use crate::speedy_telnet::SpeedyTelnet;
 
 #[derive(Debug, Clone)]
 pub enum Element {
@@ -29,7 +32,13 @@ pub enum Element {
     Em,
     Font,
     H1,
+    H2,
+    H3,
+    H4,
+    H5,
+    H6,
     Head,
+    Hr,
     I,
     Input {
         type_: InputType,
@@ -68,7 +77,13 @@ impl Element {
             Element::Em => "em",
             Element::Font => "font",
             Element::H1 => "h1",
+            Element::H2 => "h2",
+            Element::H3 => "h3",
+            Element::H4 => "h4",
+            Element::H5 => "h5",
+            Element::H6 => "h6",
             Element::Head => "head",
+            Element::Hr => "hr",
             Element::I => "i",
             Element::Input { .. } => "input",
             Element::Li => "li",
@@ -107,9 +122,9 @@ impl Element {
 
     pub fn is_void(&self) -> bool {
         match self {
-            Element::Br | Element::Input { .. } => true,
+            Element::Br | Element::Input { .. } | Element::Hr => true,
             Element::Other(s) => match s.as_str() {
-                "area" | "base" | "col" | "embed" | "hr" | "img" | "input" |
+                "area" | "base" | "col" | "embed" | "img" | 
                 "link" | "meta" | "param" | "source" | "track" | "wbr" => true,
                 _ => false,
             },
@@ -142,6 +157,11 @@ impl FromStr for Element {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s.to_ascii_lowercase().as_str() {
             "h1" => Ok(Element::H1),
+            "h2" => Ok(Element::H2),
+            "h3" => Ok(Element::H3),
+            "h4" => Ok(Element::H4),
+            "h5" => Ok(Element::H5),
+            "h6" => Ok(Element::H6),
             "head" | "header" => Ok(Element::Head),
             "a" => Ok(Element::A),
             "b" => Ok(Element::B),
@@ -313,7 +333,7 @@ struct FocusData {
     keyb_buf: Vec<char>
 }
 
-trait DynamicThing  {
+pub trait DynamicThing  {
     fn draw<'s, 'a>(&'s mut self, disp: &'a mut ParmScreen, has_focus: Option<&mut FocusData>);
 }
 
@@ -328,33 +348,40 @@ impl<T: FnMut(&mut ParmScreen, Option<&mut FocusData>)> DynamicThing for T {
         Box::new(f).into()
     }
 }*/
+const URL_PADDING: i32 = 4;
+const URL_FONT: MonoFont = parm::embedded_graphics::mono_font::ascii::FONT_6X13;
 
-pub fn render(url: &str, body: &str) {
-    let url_font = &parm::embedded_graphics::mono_font::ascii::FONT_6X13;
-    let url_padding = 4i32;
-
-    let mut disp = ParmScreen;
-    Rectangle::new(
-        Point::zero(),
-        Size::new(480, url_font.character_size.height + 2 * url_padding as u32),
-    )
-        .into_styled(PrimitiveStyle::with_stroke(ColorSimple::Black.into(), 1))
-        .draw(&mut disp)
-        .unwrap();
-
-    /*Text::with_baseline(
+fn draw_url(url: &str, disp: &mut ParmScreen) {
+    Text::with_baseline(
         url,
-        Point::new(url_padding, url_padding),
+        Point::new(URL_PADDING, URL_PADDING),
         MonoTextStyle::new(
-            url_font,
+            &URL_FONT,
             ColorSimple::Black.into()
         ),
         Baseline::Top,
-    ).draw(&mut disp).unwrap();*/
+    ).draw(disp).unwrap();
+}
+
+fn draw_url_bar(url: &str, disp: &mut ParmScreen) {
+    Rectangle::new(
+        Point::zero(),
+        Size::new(480, URL_FONT.character_size.height + 2 * URL_PADDING as u32),
+    )
+        .into_styled(PrimitiveStyle::with_stroke(ColorSimple::Black.into(), 1))
+        .draw(disp)
+        .unwrap();
+    
+    //draw_url(url, &mut disp);
+}
+
+pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
+    let mut disp = ParmScreen;
+    draw_url_bar(url, &mut disp);
 
     let page_base_cursor = Point::new(
         2,
-        url_font.character_size.height as i32 + 2 * url_padding + 2,
+        URL_FONT.character_size.height as i32 + 2 * URL_PADDING + 2,
     );
 
     let parser = htmlparser::Tokenizer::from(body);
@@ -369,8 +396,7 @@ pub fn render(url: &str, body: &str) {
 
     state.stack.push(state.cur().clone());
     
-    let mut focused_object: usize = 0;
-    let mut dynamic_objets: Vec<Box<dyn DynamicThing>> = Vec::new();
+    let mut dynamic_objects: Vec<Box<dyn DynamicThing>> = Vec::new();
     
     for tok in parser {
         let tok = tok.expect("parse error");
@@ -389,6 +415,13 @@ pub fn render(url: &str, body: &str) {
                     let current_tag_obj = state.cur_mut().element_obj.as_mut().unwrap();
                     let attr_value = value.map(|v| v.as_str());
                     match current_tag_obj {
+                        Element::A => match (local.to_ascii_lowercase().as_str(), attr_value) {
+                            ("href", Some(href)) => {
+                                state.cur_mut().text_color = ColorSimple::Blue.into();
+                                state.cur_mut().text_underline = true;
+                            }
+                            _ => {}
+                        },
                         Element::Input { type_, size, value } => match (local.to_ascii_lowercase().as_str(), attr_value) {
                             ("type", Some(t)) => {
                                 if t.eq_ignore_ascii_case("hidden") {
@@ -546,14 +579,36 @@ pub fn render(url: &str, body: &str) {
                         rprintln!("br tag -> line break");
                         state.cursor.y += state.cur().font().character_size.height as i32 + 2;
                         state.cursor.x = state.parent().base_cursor.x;
+                    },
+                    Element::Hr => {
+                        rprintln!("hr tag -> horizontal rule");
+                        let line_y = state.cursor.y + (state.cur().font().character_size.height as i32 / 2);
+                        Line::new(
+                            Point::new(state.parent().base_cursor.x, line_y),
+                            Point::new(disp.size().width as i32 - 1, line_y),
+                        )
+                            .into_styled(PrimitiveStyle::with_stroke(ColorSimple::Black.into(), 1))
+                            .draw(&mut disp)
+                            .unwrap();
+                        state.cursor.y += state.cur().font().character_size.height as i32 + 2;
+                        state.cursor.x = state.parent().base_cursor.x;
                     }
                     _ => {}
                 }
                 let mut new_state: CursorState = state.cur().clone();
                 let mut changed = true;
                 match tag_obj {
-                    Element::H1 => {
-                        new_state.text_size = 6;
+                    Element::H1 | Element::H2 | Element::H3 | Element::H4 | Element::H5 | Element::H6 => {
+                        match tag_obj {
+                            Element::H1 => new_state.text_size = 6,
+                            Element::H2 => new_state.text_size = 5,
+                            Element::H3 => new_state.text_size = 4,
+                            Element::H4 => new_state.text_size = 3,
+                            Element::H5 => new_state.text_size = 2,
+                            Element::H6 => new_state.text_size = 1,
+                            _ => {}
+                        }
+                        new_state.text_style = FontStyle::Bold;
                     }
                     Element::Big => {
                         new_state.text_size = (new_state.text_size + 1).min(7);
@@ -563,10 +618,6 @@ pub fn render(url: &str, body: &str) {
                     }
                     Element::Head => {
                         new_state.hide = true;
-                    }
-                    Element::A => {
-                        new_state.text_color = ColorSimple::Blue.into();
-                        new_state.text_underline = true;
                     }
                     Element::B | Element::Strong => {
                         new_state.text_style = FontStyle::Bold;
@@ -629,51 +680,6 @@ pub fn render(url: &str, body: &str) {
                                 match type_ {
                                     InputType::Text => {
                                         let size = size.unwrap_or(20);
-                                        
-                                        /*struct InputObj {
-                                            type_: InputType,
-                                            size: usize,
-                                            style: MonoTextStyle<'static, Color>,
-                                            cur_value: String,
-                                            pos: Point
-                                        }*/
-                                        
-                                        /*impl DynamicThing for InputObj {
-                                            fn draw(&mut self, disp: &mut ParmScreen, has_focus: bool) {
-                                                let input_padding = Size::new(4, 2);
-                                                let style = &self.style;
-                                                let text_size = style.measure_string(&self.cur_value, Point::zero(), Baseline::Top);
-                                                // draw box
-                                                let box_height = style.font.character_size.height + 2 * input_padding.height;
-                                                let box_width = match size {
-                                                    Some(s) => (*s as u32) * (style.font.character_size.width + style.font.character_spacing),
-                                                    None => text_size.bounding_box.size.width,
-                                                } + 2 * input_padding.width;
-                                                Rectangle::new(
-                                                    self.pos,
-                                                    Size::new(box_width, box_height),
-                                                )
-                                                    .into_styled(PrimitiveStyle::with_stroke(ColorSimple::Black.into(), 1))
-                                                    .draw(disp)
-                                                    .unwrap();
-                                                // draw text
-                                                let text_pos = self.pos + input_padding;
-                                                style
-                                                    .draw_string(&self.cur_value, text_pos, Baseline::Top, disp)
-                                                    .unwrap();
-                                            }
-                                        }*/
-
-                                        /*let obj = InputObj {
-                                            type_: *type_,
-                                            size: *size,
-                                            style: state.cur().create_text_style(),
-                                            cur_value: value.clone(),
-                                            pos: state.cursor
-                                        };
-                                        
-                                        dynamic_objets.push(Box::new(obj));*/
-
                                         let style = state.cur().create_text_style();
                                         let mut cur_value = value.clone();
                                         let input_padding = Size::new(4, 2);
@@ -762,36 +768,10 @@ pub fn render(url: &str, body: &str) {
                                                     .unwrap();
                                             }
                                         };
-                                        dynamic_objets.push(Box::new(closure));
+                                        dynamic_objects.push(Box::new(closure));
                                         state.cursor.x += box_width as i32 + 4;
                                         rprintln!("input text -> nonempty");
                                         state.cur_mut().nonempty = true;
-                                        
-                                        /*let input_padding = Size::new(4, 2);
-                                        let style = state.cur().create_text_style();
-                                        let text_size = style.measure_string(&value, Point::zero(), Baseline::Top);
-                                        // draw box
-                                        let box_height = style.font.character_size.height + 2 * input_padding.height;
-                                        let box_width = match size {
-                                            Some(s) => (*s as u32) * (style.font.character_size.width + style.font.character_spacing),
-                                            None => text_size.bounding_box.size.width,
-                                        } + 2 * input_padding.width;
-                                        Rectangle::new(
-                                            state.cursor,
-                                            Size::new(box_width, box_height),
-                                        )
-                                            .into_styled(PrimitiveStyle::with_stroke(ColorSimple::Black.into(), 1))
-                                            .draw(&mut disp)
-                                            .unwrap();
-                                        // draw text
-                                        let text_pos = state.cursor + input_padding;
-                                        style
-                                            .draw_string(&value, text_pos, Baseline::Top, &mut disp)
-                                            .unwrap();
-                                        // move cursor
-                                        state.cursor.x += box_width as i32 + 4;
-                                        rprintln!("input text -> nonempty");
-                                        state.cur_mut().nonempty = true;*/
                                     }
                                 }
                             }
@@ -852,23 +832,105 @@ pub fn render(url: &str, body: &str) {
             _ => {}
         }
     }
-    
+
+    dynamic_objects
+}
+
+
+fn render_dyn(disp: &mut ParmScreen, dynamic_objects: &mut Vec<Box<dyn DynamicThing>>) {
     let mut focus_data = FocusData::default();
-    
+    let mut focused_object: usize = 0;
     loop {
         if let Some(c) = keyb::try_read_char() {
-            if c == '\t' {
-                focused_object = (focused_object + 1) % dynamic_objets.len();
-            } else {
-                focus_data.keyb_buf.push(c);
+            match c {
+                '\t' => {
+                    focused_object = (focused_object + 1) % dynamic_objects.len();
+                }
+                '\u{1b}' => break,
+                _ => focus_data.keyb_buf.push(c),
             }
         }
-        if matches!(keyb::try_read_char(), Some('\t')) {
-            focused_object = (focused_object + 1) % dynamic_objets.len();
-            rprintln!("focus moved to {} of {}", focused_object, dynamic_objets.len());
+        for (i, obj) in dynamic_objects.iter_mut().enumerate() {
+            obj.draw(disp, if i == focused_object { Some(&mut focus_data) } else { None });
         }
-        for (i, obj) in dynamic_objets.iter_mut().enumerate() {
-            obj.draw(&mut disp, if i == focused_object { Some(&mut focus_data) } else { None });
+    }
+}
+
+pub fn web_browser(telnet: &mut SpeedyTelnet) {
+    rprintln!("change [u]rl");
+    
+    let mut current_url = String::from("about:test");
+    let mut current_url_view;
+    
+    let not_found = r#"<body><h1>404 Not Found</h1><p>The requested page was not found.</p></body>"#;
+    let inet_error = r#"<body><h1>Network Error</h1></body>"#;
+    let builtins = HashMap::<&str, &str>::from_iter([
+        ("home", r#"<body><h1>Welcome to PARM browser!</h1><p>This is the home page.</p><a href="ifconfig.me">IP test</a></body>"#),
+        ("test", include_str!("../test.html"))
+    ]);
+    
+    'load_page: loop {
+        current_url_view = current_url.trim_ascii();
+        let mut render_result = if current_url_view.starts_with("about:") {
+            // builtin
+            let page_name = &current_url_view[6..];
+            let body = builtins.get(page_name).map_or(not_found, |s| *s);
+            render("", body)
+        } else {
+            let mut url_result = UrlComponents::try_from(current_url_view);
+            if let Err(nourl::Error::NoScheme) = url_result {
+                // try adding http://
+                let mut new_url = String::from("http://");
+                new_url.push_str(current_url_view);
+                current_url = new_url;
+                current_url_view = &current_url[..];
+                url_result = UrlComponents::try_from(current_url_view);
+            }
+            rprintln!("Fetching URL: {}", current_url_view);
+            if let Ok(parsed) = url_result {
+                if let Ok(body) = telnet.fetch_http(parsed) {
+                    match body {
+                        HttpResult::Body(body) => {
+                            render(&current_url_view, core::str::from_utf8(&body).unwrap_or(inet_error))
+                        }
+                        HttpResult::Redirect(new_url) => {
+                            rprintln!("redirect to {}", new_url);
+                            current_url = new_url;
+                            continue 'load_page;
+                        }
+                    }
+                    
+                } else {
+                    render("HTTP error", inet_error)
+                }
+            } else {
+                render("Invalid URL", inet_error)
+            }
+        };
+        
+        'page: loop { 
+            render_dyn(&mut ParmScreen, &mut render_result);
+            // used pressed Esc to pause page
+            loop {
+                rprint!("? ");
+                let command = parm::keyb::read_char();
+                match command {
+                    'u' => {
+                        loop {
+                            rprint!("URL: ");
+                            current_url.clear();
+                            parm::tty::read_line_rust(&mut current_url);
+                            current_url_view = current_url.trim_ascii();
+                            if !current_url_view.is_empty() {
+                                parm::screen::clear(ColorSimple::White);
+                                break;
+                            }
+                        }
+                    }
+                    _ => continue
+                }
+                break 'page;
+            }
         }
     }
 }

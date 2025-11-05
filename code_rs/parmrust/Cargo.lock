@@ -757,6 +757,7 @@ dependencies = [
  "embedded-io",
  "embedded-timers",
  "embedded-tls",
+ "hashbrown",
  "htmlparser",
  "httparse",
  "log",
