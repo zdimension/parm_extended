@@ -118,5 +118,6 @@ pins! {
     // &hi = &lo + 1
     R0R1mulR2R3_lo => 13(in),
     R0R1mulR2R3_hi => 14(in),
+    TIMER => 15(in),
     BREAKpin => 15(out)
 }

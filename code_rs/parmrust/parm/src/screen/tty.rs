@@ -174,8 +174,8 @@ pub struct DisplayAttrs {
 impl DisplayAttrs {
     pub const fn new() -> Self {
         Self {
-            color_back: rgb32(255, 255, 255),
-            color_fore: rgb32(0, 0, 0),
+            color_back: rgb32(255, 255, 255).encode(),
+            color_fore: rgb32(0, 0, 0).encode(),
             bold: false,
             italic: false,
             underline: false,
@@ -245,22 +245,22 @@ pub fn get_videotty() -> &'static mut VideoTty {
 }
 
 pub const PALETTE: [ColorEncoded; 16] = [
-    rgb32(0, 0, 0),
-    rgb32(204, 0, 0),
-    rgb32(78, 154, 6),
-    rgb32(196, 160, 0),
-    rgb32(52, 101, 164),
-    rgb32(117, 80, 123),
-    rgb32(6, 152, 154),
-    rgb32(211, 215, 207),
-    rgb32(85, 87, 83),
-    rgb32(239, 41, 41),
-    rgb32(138, 226, 52),
-    rgb32(252, 233, 79),
-    rgb32(114, 159, 207),
-    rgb32(173, 127, 168),
-    rgb32(52, 226, 226),
-    rgb32(238, 238, 236),
+    rgb32(0, 0, 0).encode(),
+    rgb32(204, 0, 0).encode(),
+    rgb32(78, 154, 6).encode(),
+    rgb32(196, 160, 0).encode(),
+    rgb32(52, 101, 164).encode(),
+    rgb32(117, 80, 123).encode(),
+    rgb32(6, 152, 154).encode(),
+    rgb32(211, 215, 207).encode(),
+    rgb32(85, 87, 83).encode(),
+    rgb32(239, 41, 41).encode(),
+    rgb32(138, 226, 52).encode(),
+    rgb32(252, 233, 79).encode(),
+    rgb32(114, 159, 207).encode(),
+    rgb32(173, 127, 168).encode(),
+    rgb32(52, 226, 226).encode(),
+    rgb32(238, 238, 236).encode(),
 ];
 
 #[derive(Copy, Clone)]

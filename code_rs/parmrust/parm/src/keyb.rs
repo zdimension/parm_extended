@@ -17,6 +17,11 @@ pub fn read_char() -> char {
 }
 
 #[inline(always)]
+pub fn try_read_char() -> Option<char> {
+    read().map(|c| unsafe { char::from_u32_unchecked(c) })
+}
+
+#[inline(always)]
 pub fn read() -> Option<u32> {
     if KEYBeof.read() != 0 {
         Some(KEYBchr.read())

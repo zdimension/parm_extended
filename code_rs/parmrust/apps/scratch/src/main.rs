@@ -11,6 +11,12 @@ fn main() {
     //println!("Hello, world!");
     ParmLogger::init();
     info!("i");
+    
+    loop {
+        let c = parm::keyb::read_char();
+        rprintln!("Char: {:?}", c);
+    }
+    
     return;
     
     

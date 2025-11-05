@@ -20,6 +20,7 @@ pub mod telnet;
 pub mod tty;
 pub mod util;
 pub mod rand;
+pub mod time;
 
 #[cfg(feature = "embedded-graphics")]
 pub use embedded_graphics;

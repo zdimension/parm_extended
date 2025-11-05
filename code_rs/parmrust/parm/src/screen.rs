@@ -29,7 +29,7 @@ pub trait ColorEncodable: Copy {
     }
 }
 
-#[derive(Copy, Clone, Eq, PartialEq)]
+#[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum Color {
     Simple(ColorSimple),
     Grayscale(ColorGrayscale),
@@ -44,6 +44,7 @@ impl PixelColor for Color {
 
 
 #[cfg(feature = "embedded-graphics")]
+#[derive(Copy, Clone, Default)]
 pub struct ParmScreen;
 
 #[cfg(feature = "embedded-graphics")]
@@ -192,7 +193,7 @@ impl ParmDisplay for ColorEncoded {
 }
 
 #[repr(u32)]
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum ColorSimple {
     White,
     Black,
@@ -212,7 +213,7 @@ impl ColorEncodable for ColorSimple {
     }
 }
 
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub struct ColorGrayscale(pub u8);
 
 impl ColorEncodable for ColorGrayscale {
@@ -221,7 +222,7 @@ impl ColorEncodable for ColorGrayscale {
     }
 }
 
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub struct Color6bpp(pub u8, pub u8, pub u8);
 
 impl ColorEncodable for Color6bpp {
@@ -230,11 +231,11 @@ impl ColorEncodable for Color6bpp {
     }
 }
 
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub struct Color15bpp(pub u8, pub u8, pub u8);
 
-pub const fn rgb32(r: u8, g: u8, b: u8) -> ColorEncoded {
-    Color15bpp(r >> 3, g >> 3, b >> 3).encode()
+pub const fn rgb32(r: u8, g: u8, b: u8) -> Color15bpp {
+    Color15bpp(r >> 3, g >> 3, b >> 3)
 }
 
 impl Color15bpp {

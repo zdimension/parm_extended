@@ -11,6 +11,7 @@ embedded-io = { version = "0.6", features = ["alloc"] }
 rand_core = "0.6.3"
 getrandom = { version = "0.2.16", default-features = false, features = ["custom"] }
 log = "0.4.28"
+embedded-timers = "0.4.0"
 
 [lib]
 test = false
