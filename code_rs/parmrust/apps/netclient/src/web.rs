@@ -25,9 +25,11 @@ pub enum Element {
     A,
     B,
     Big,
+    Blink,
     Body,
     Br,
     Code,
+    Del,
     Div,
     Em,
     Font,
@@ -45,9 +47,11 @@ pub enum Element {
         size: Option<usize>,
         value: String,
     },
+    Ins,
     Li,
     Option,
     P,
+    Q,
     S,
     Select,
     Small,
@@ -70,9 +74,11 @@ impl Element {
             Element::A => "a",
             Element::B => "b",
             Element::Big => "big",
+            Element::Blink => "blink",
             Element::Body => "body",
             Element::Br => "br",
             Element::Code => "code",
+            Element::Del => "del",
             Element::Div => "div",
             Element::Em => "em",
             Element::Font => "font",
@@ -86,9 +92,11 @@ impl Element {
             Element::Hr => "hr",
             Element::I => "i",
             Element::Input { .. } => "input",
+            Element::Ins => "ins",
             Element::Li => "li",
             Element::Option => "option",
             Element::P => "p",
+            Element::Q => "q",
             Element::S => "s",
             Element::Select => "select",
             Element::Small => "small",
@@ -103,16 +111,18 @@ impl Element {
 
     pub fn is_inline(&self) -> bool {
         match self {
-            Element::A | Element::B | Element::I | Element::U | Element::S |
+            Element::A | Element::B | Element::I | Element::U | Element::S | Element::Q |
             Element::Big | Element::Small |
+            Element::Del | Element::Ins | // not listed anywhere but functionally inline
             Element::Code |
             Element::Strong | Element::Em | Element::Strike | Element::Tt |
+            Element::Blink |
             //Element::Input { .. } |  we don't handle inline-block yet
             Element::Br | Element::Font => true,
             Element::Other(s) => match s.as_str() {
                 "abbr" | "acronym" | "bdo" | "button" | "cite" | 
                 "dfn" | "img" | "kbd" | "label" | "map" | "object" |
-                "output" | "q" | "samp" | "script" | "select" | "span" | 
+                "output" | "samp" | "script" | "select" | "span" | 
                 "sub" | "sup" | "textarea" | "time" | "tt" | "var" => true,
                 _ => false,
             },
@@ -135,7 +145,10 @@ impl Element {
     pub fn is_formatting(&self) -> bool {
         match self {
             Element::B | Element::I | Element::U | Element::Font | Element::A | Element::Code |
-            Element::S | Element::Strike | Element::Tt => true,
+            Element::S | Element::Strike | Element::Tt  |
+            Element::Del | Element::Ins |
+            Element::Blink
+            => true,
             _ => false,
         }
     }
@@ -180,10 +193,18 @@ impl FromStr for Element {
             "font" => Ok(Element::Font),
             "div" => Ok(Element::Div),
             "p" => Ok(Element::P),
+            "q" => Ok(Element::Q),
             "s" => Ok(Element::S),
             "strike" => Ok(Element::Strike),
             "tt" => Ok(Element::Tt),
-            _ => Ok(Element::Other(CompactString::from(s))),
+            "del" => Ok(Element::Del),
+            "ins" => Ok(Element::Ins),
+            "hr" => Ok(Element::Hr),
+            "blink" => Ok(Element::Blink),
+            _ => { 
+                rprintln!("* unknown tag: {}", s);
+                Ok(Element::Other(CompactString::from(s)))
+            },
         }
     }
 }
@@ -191,14 +212,14 @@ impl FromStr for Element {
 const FONTS: [(MonoFont<'static>, MonoFont<'static>, MonoFont<'static>); 8] = {
     use parm::embedded_graphics::mono_font::ascii::*;
     [
-        (FONT_6X9, FONT_6X9, FONT_6X9),                // 0 - nonstandard
-        (FONT_6X10, FONT_6X10, FONT_6X10),             // 1 - H6 / xx-small
-        (FONT_6X12, FONT_6X12, FONT_6X12),             // 2 - H5 / small
-        (FONT_6X13, FONT_6X13_BOLD, FONT_6X13_ITALIC), // 3 - body / medium
-        (FONT_7X13, FONT_7X13_BOLD, FONT_7X13_ITALIC), // 4 - H3 / large
-        (FONT_7X14, FONT_7X14_BOLD, FONT_7X14),        // 5 - H2 / x-large
-        (FONT_8X13, FONT_8X13_BOLD, FONT_8X13_ITALIC), // 6 - H1 / xx-large
-        (FONT_9X15, FONT_9X15_BOLD, FONT_9X15),        // 7 - xxx-large
+        (FONT_6X9,  FONT_6X9,       FONT_6X9),         // 0 - nonstandard
+        (FONT_6X10, FONT_6X10,      FONT_6X10),        // 1 - xx-small (H6)
+        (FONT_6X12, FONT_6X12,      FONT_6X12),        // 2 - small (H5)
+        (FONT_6X13, FONT_6X13_BOLD, FONT_6X13_ITALIC), // 3 - medium (H4, body)
+        (FONT_7X13, FONT_7X13_BOLD, FONT_7X13_ITALIC), // 4 - large (H3)
+        (FONT_7X14, FONT_7X14_BOLD, FONT_7X14),        // 5 - x-large (H2)
+        (FONT_9X15, FONT_9X15_BOLD, FONT_9X15),        // 6 - xx-large (H1)
+        (FONT_9X18, FONT_9X18_BOLD, FONT_9X18),        // 7 - xxx-large
     ]
 };
 
@@ -378,10 +399,12 @@ fn draw_url_bar(url: &str, disp: &mut ParmScreen) {
 pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
     let mut disp = ParmScreen;
     draw_url_bar(url, &mut disp);
+    
+    const PAGE_PADDING: i32 = 2;
 
     let page_base_cursor = Point::new(
-        2,
-        URL_FONT.character_size.height as i32 + 2 * URL_PADDING + 2,
+        PAGE_PADDING,
+        URL_FONT.character_size.height as i32 + 2 * URL_PADDING + PAGE_PADDING,
     );
 
     let parser = htmlparser::Tokenizer::from(body);
@@ -493,41 +516,16 @@ pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
         if !state.cur().hide {
             match tok {
                 Token::Text { text } => {
-                    if state.cur().hide {
-                        continue;
-                    }
                     let text = text.as_str();
                     let fixed_text = text.trim_ascii();
                     if fixed_text.is_empty() {
                         continue;
                     }
                     state.add_auto_break(None);
-                    rprintln!("text => nonempty");
                     state.cur_mut().nonempty = true;
                     state.cur_mut().last_block_spacing = None;
-                    let textstate: &CursorState = state.cur();
-                    let char_width = textstate.font().character_size.width as i32
-                        + textstate.font().character_spacing as i32;
 
-                    let words = fixed_text.split_ascii_whitespace();
-                    let style = textstate.create_text_style();
-                    for (i, word) in words.enumerate() {
-                        if i != 0 {
-                            state.cursor = style
-                                .draw_string(" ", state.cursor, Baseline::Top, &mut disp)
-                                .unwrap();
-                        }
-                        // check if we need to cut the line
-                        let word_width = (word.chars().count() as i32) * char_width;
-                        if state.cursor.x + word_width > disp.size().width as i32 {
-                            // wrap
-                            state.cursor.y += style.font.character_size.height as i32 + 2;
-                            state.cursor.x = state.cur().base_cursor.x;
-                        }
-                        state.cursor = style
-                            .draw_string(word, state.cursor, Baseline::Top, &mut disp)
-                            .unwrap();
-                    }
+                    draw_text_node(&mut disp, &mut state, fixed_text);
                 }
                 _ => {}
             }
@@ -585,7 +583,7 @@ pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
                         let line_y = state.cursor.y + (state.cur().font().character_size.height as i32 / 2);
                         Line::new(
                             Point::new(state.parent().base_cursor.x, line_y),
-                            Point::new(disp.size().width as i32 - 1, line_y),
+                            Point::new(disp.size().width as i32 - 1 - PAGE_PADDING, line_y),
                         )
                             .into_styled(PrimitiveStyle::with_stroke(ColorSimple::Black.into(), 1))
                             .draw(&mut disp)
@@ -598,6 +596,13 @@ pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
                 let mut new_state: CursorState = state.cur().clone();
                 let mut changed = true;
                 match tag_obj {
+                    Element::Q => {
+                        state.add_auto_break(None);
+                        state.cur_mut().nonempty = true;
+                        state.cur_mut().last_block_spacing = None;
+
+                        draw_text_node(&mut disp, &mut state, "\"");
+                    }
                     Element::H1 | Element::H2 | Element::H3 | Element::H4 | Element::H5 | Element::H6 => {
                         match tag_obj {
                             Element::H1 => new_state.text_size = 6,
@@ -625,10 +630,10 @@ pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
                     Element::I | Element::Em => {
                         new_state.text_style = FontStyle::Italic;
                     }
-                    Element::U => {
+                    Element::U | Element::Ins => {
                         new_state.text_underline = true;
                     }
-                    Element::S | Element::Strike => {
+                    Element::S | Element::Strike | Element::Del => {
                         new_state.text_strike = true;
                     }
                     Element::Input { .. } => {
@@ -794,36 +799,7 @@ pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
                     ElementEnd::Close(_, tag) => {
                         let tag_obj = Element::from_str(tag.as_str()).unwrap();
                         if !tag_obj.is_void() {
-                            // is the element somewhere in the stack?
-                            // example:
-                            // <div><b><i><u>test</b>  <-- should close the b
-                            // <div><i><u>test</b>     <-- should warn but not break the tree
-
-                            // can we climb up to find it?
-                            let mut found = state.stack.iter().rev().position(|s| {
-                                s.element_obj.as_ref().map_or(false, |e| e.same_tag(&tag_obj))
-                            });
-                            // if the tag is well formed, found will be Some(0)
-                            // if it matches something further up, it will be Some(n)
-                            // it it doesn't exist, it will be None
-                            if let Some(pos) = found {
-                                rprintln!("closing tag {} at pos {}", tag_obj.tag_name(), pos);
-                                for i in 0..=pos {
-                                    // only climb through formatting tags
-                                    if i < pos && !state.cur().element_obj.as_ref().map_or(false, |e| e.is_formatting()) {
-                                        break;
-                                    }
-                                    let Some(old_state) = state.stack.pop() else {
-                                        break;
-                                    };
-                                    rprintln!("* closed through {}", old_state.element_obj.as_ref().unwrap().tag_name());
-                                    if old_state.nonempty {
-                                        state.cur_mut().nonempty = true;
-                                    }
-                                }
-                            } else {
-                                rprintln!("warning: unmatched end tag {}", tag_obj.tag_name());
-                            }
+                            close_tag(&mut disp, &mut state, &tag_obj);
                         }
                     }
                 }
@@ -836,6 +812,75 @@ pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
     dynamic_objects
 }
 
+fn close_tag(disp: &mut ParmScreen, state: &mut StateList, tag_obj: &Element) {
+    match tag_obj {
+        Element::Q => {
+            state.add_auto_break(None);
+            state.cur_mut().nonempty = true;
+            state.cur_mut().last_block_spacing = None;
+
+            draw_text_node(disp, state, "\"");
+        }
+        _ => {}
+    }
+    
+    // is the element somewhere in the stack?
+    // example:
+    // <div><b><i><u>test</b>  <-- should close the b
+    // <div><i><u>test</b>     <-- should warn but not break the tree
+
+    // can we climb up to find it?
+    let mut found = state.stack.iter().rev().position(|s| {
+        s.element_obj.as_ref().map_or(false, |e| e.same_tag(&tag_obj))
+    });
+    // if the tag is well formed, found will be Some(0)
+    // if it matches something further up, it will be Some(n)
+    // it it doesn't exist, it will be None
+    if let Some(pos) = found {
+        rprintln!("closing tag {} at pos {}", tag_obj.tag_name(), pos);
+        for i in 0..=pos {
+            // only climb through formatting tags
+            if i < pos && !state.cur().element_obj.as_ref().map_or(false, |e| e.is_formatting()) {
+                break;
+            }
+            let Some(old_state) = state.stack.pop() else {
+                break;
+            };
+            rprintln!("* closed through {}", old_state.element_obj.as_ref().unwrap().tag_name());
+            if old_state.nonempty {
+                state.cur_mut().nonempty = true;
+            }
+        }
+    } else {
+        rprintln!("warning: unmatched end tag {}", tag_obj.tag_name());
+    }
+}
+
+fn draw_text_node(disp: &mut ParmScreen, state: &mut StateList, fixed_text: &str) {
+    let textstate: &CursorState = state.cur();
+    let char_width = textstate.font().character_size.width as i32
+        + textstate.font().character_spacing as i32;
+
+    let words = fixed_text.split_ascii_whitespace();
+    let style = textstate.create_text_style();
+    for (i, word) in words.enumerate() {
+        if i != 0 {
+            state.cursor = style
+                .draw_string(" ", state.cursor, Baseline::Top, disp)
+                .unwrap();
+        }
+        // check if we need to cut the line
+        let word_width = (word.chars().count() as i32) * char_width;
+        if state.cursor.x + word_width > disp.size().width as i32 {
+            // wrap
+            state.cursor.y += style.font.character_size.height as i32 + 2;
+            state.cursor.x = state.cur().base_cursor.x;
+        }
+        state.cursor = style
+            .draw_string(word, state.cursor, Baseline::Top, disp)
+            .unwrap();
+    }
+}
 
 fn render_dyn(disp: &mut ParmScreen, dynamic_objects: &mut Vec<Box<dyn DynamicThing>>) {
     let mut focus_data = FocusData::default();

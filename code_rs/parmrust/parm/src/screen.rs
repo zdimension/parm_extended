@@ -14,7 +14,7 @@ const VRAM: *mut u32 = 0x100_0000 as *mut u32;
 
 
 pub const WIDTH: isize = 480;
-pub const HEIGHT: isize = 240;
+pub const HEIGHT: isize = 360;
 
 pub type ScreenRow = [u32; WIDTH as usize];
 pub type ScreenBuffer = [ScreenRow; HEIGHT as usize];

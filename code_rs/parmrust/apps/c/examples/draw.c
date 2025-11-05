@@ -1,5 +1,5 @@
 typedef int row[480];
-typedef row screen[240];
+typedef row screen[360];
 
 void hline(int x1, int x2, int y, int color) {
     volatile screen* disp = (screen*)0x1000000;
