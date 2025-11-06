@@ -15,7 +15,11 @@ use parm::embedded_graphics::primitives::{Line, Primitive, PrimitiveStyle, Recta
 use parm::embedded_graphics::text::{Baseline, Text};
 use parm::embedded_graphics::text::renderer::{CharacterStyle, TextRenderer};
 use parm::{keyb, rprint, rprintln};
+use parm::embedded_timers::clock::Clock;
+use parm::embedded_timers::instant::Instant;
+use parm::embedded_timers::timer::Timer;
 use parm::screen::{rgb32, Color, ColorSimple, ParmScreen};
+use parm::time::ParmTime;
 use crate::http::{HttpResult, UrlComponents};
 use crate::speedy_telnet::SpeedyTelnet;
 
@@ -396,6 +400,8 @@ fn draw_url_bar(_url: &str, disp: &mut ParmScreen) {
 }
 
 pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
+    let perf_timer = (ParmTime).now();
+    rprintln!("rendering HTML for URL: {}", url);
     let mut disp = ParmScreen;
     draw_url_bar(url, &mut disp);
     
@@ -807,6 +813,10 @@ pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
             _ => {}
         }
     }
+    
+    let end = (ParmTime).now();
+    let duration = end.duration_since(perf_timer);
+    rprintln!("render complete in {} s", duration.as_secs());
 
     dynamic_objects
 }
@@ -903,7 +913,7 @@ fn render_dyn(disp: &mut ParmScreen, dynamic_objects: &mut Vec<Box<dyn DynamicTh
 pub fn web_browser(telnet: &mut SpeedyTelnet) {
     rprintln!("change [u]rl");
     
-    let mut current_url = String::from("about:test");
+    let mut current_url = String::from("127.0.0.1:4568/test.html");
     let mut current_url_view;
     
     let not_found = r#"<body><h1>404 Not Found</h1><p>The requested page was not found.</p></body>"#;
@@ -932,20 +942,22 @@ pub fn web_browser(telnet: &mut SpeedyTelnet) {
             }
             rprintln!("Fetching URL: {}", current_url_view);
             if let Ok(parsed) = url_result {
-                if let Ok(body) = telnet.fetch_http(parsed) {
-                    match body {
-                        HttpResult::Body(body) => {
-                            render(&current_url_view, core::str::from_utf8(&body).unwrap_or(inet_error))
-                        }
-                        HttpResult::Redirect(new_url) => {
-                            rprintln!("redirect to {}", new_url);
-                            current_url = new_url;
-                            continue 'load_page;
+                match telnet.fetch_http(parsed) {
+                    Ok(body) => {
+                        match body {
+                            HttpResult::Body(body) => {
+                                render(&current_url_view, core::str::from_utf8(&body).unwrap_or(inet_error))
+                            }
+                            HttpResult::Redirect(new_url) => {
+                                rprintln!("redirect to {}", new_url);
+                                current_url = new_url;
+                                continue 'load_page;
+                            }
                         }
                     }
-                    
-                } else {
-                    render("HTTP error", inet_error)
+                    Err(errmsg) => {
+                        render(errmsg, inet_error)
+                    }
                 }
             } else {
                 render("Invalid URL", inet_error)

@@ -42,6 +42,10 @@ import datetime
 import sys
 import argparse
 import ssl
+import http.server
+import socketserver
+import threading
+import os
 from typing import Optional, Tuple
 
 DEFAULT_HOST = "127.0.0.1"
@@ -301,6 +305,15 @@ def parse_args(argv=None):
 
 if __name__ == "__main__":
     args = parse_args()
+    # Start HTTP server in background serving current directory on port 4568
+    def run_http_server():
+        os.chdir(os.path.dirname(__file__))
+        with socketserver.TCPServer(("", 4568), http.server.SimpleHTTPRequestHandler) as httpd:
+            httpd.serve_forever()
+    http_thread = threading.Thread(target=run_http_server)
+    http_thread.daemon = True
+    http_thread.start()
+    # Then run the main connector
     rc = connect_and_run(args.host, args.port)
     try:
         sys.exit(rc)

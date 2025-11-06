@@ -132,8 +132,13 @@ impl SpeedyTelnet {
         req.method = Some("GET");
         req.path = Some(&url_components.path);
         req.version = Some(1);
-
-        let ip = self.resolve_host(&url_components.host)?;
+        
+        let ip;
+        if let Ok(parsed_ip) = url_components.host.parse() {
+            ip = parsed_ip;
+        } else {
+            ip = self.resolve_host(&url_components.host)?;
+        }
 
         let body_data = self.send_http(
             SocketAddrV4::new(ip, url_components.port),
