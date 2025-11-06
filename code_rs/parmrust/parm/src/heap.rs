@@ -80,9 +80,9 @@ pub unsafe fn realloc(ptr: *mut u8, size: usize, align: usize) -> *mut u8 {
 pub unsafe fn calloc(size: usize, align: usize) -> *mut u8 {
     let ptr = malloc_aligned(size, align);
     if align % 4 == 0 {
-        __aeabi_memclr4(ptr as _, size);
+        __aeabi_memclr4_old(ptr as _, size);
     } else {
-        __aeabi_memclr(ptr as _, size);
+        __aeabi_memclr_old(ptr as _, size);
     }
     ptr
 }
@@ -146,7 +146,7 @@ pub unsafe fn ___rust_no_alloc_shim_is_unstable_v2() {
 const WORD_SIZE: usize = 4;
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memcpy(mut dest: *mut u8, mut src: *const u8, mut n: usize) {
+unsafe extern "C" fn __aeabi_memcpy_old(mut dest: *mut u8, mut src: *const u8, mut n: usize) {
     // Prologue: Copy bytes until destination is aligned
     while n > 0 && dest as usize % WORD_SIZE != 0 {
         *dest = *src;
@@ -188,7 +188,7 @@ unsafe extern "C" fn __aeabi_memcpy(mut dest: *mut u8, mut src: *const u8, mut n
 }
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memcpy4(dest: *mut u8, src: *const u8, n: usize) {
+unsafe extern "C" fn __aeabi_memcpy4_old(dest: *mut u8, src: *const u8, n: usize) {
     assert_unchecked((dest as usize) % WORD_SIZE == 0 && (src as usize) % WORD_SIZE == 0);
 
     let n_usize: usize = n / WORD_SIZE; // Number of word sized groups
@@ -205,7 +205,7 @@ unsafe extern "C" fn __aeabi_memcpy4(dest: *mut u8, src: *const u8, n: usize) {
 }
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memcpy8(dest: *mut u8, src: *const u8, n: usize) {
+unsafe extern "C" fn __aeabi_memcpy8_old(dest: *mut u8, src: *const u8, n: usize) {
     assert_unchecked((dest as usize) % (WORD_SIZE * 2) == 0 && (src as usize) % (WORD_SIZE * 2) == 0);
 
     let n_usize: usize = n / (WORD_SIZE * 2); // Number of double word sized groups
@@ -222,7 +222,7 @@ unsafe extern "C" fn __aeabi_memcpy8(dest: *mut u8, src: *const u8, n: usize) {
 }
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memclr(mut dest: *mut u8, mut n: usize) {
+unsafe extern "C" fn __aeabi_memclr_old(mut dest: *mut u8, mut n: usize) {
     // dest can be unaligned, so we clear the first few bytes one by one
 
     if dest as usize % WORD_SIZE != 0 {
@@ -234,11 +234,11 @@ unsafe extern "C" fn __aeabi_memclr(mut dest: *mut u8, mut n: usize) {
     }
 
     // Now we can clear the rest of the memory in word-sized chunks
-    __aeabi_memclr4(dest, n);
+    __aeabi_memclr4_old(dest, n);
 }
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memclr4(dest: *mut u8, n: usize) {
+unsafe extern "C" fn __aeabi_memclr4_old(dest: *mut u8, n: usize) {
     assert_unchecked((dest as usize) % WORD_SIZE == 0);
 
     let n_usize: usize = n / WORD_SIZE; // Number of word sized groups
@@ -259,7 +259,7 @@ unsafe extern "C" fn __aeabi_memclr4(dest: *mut u8, n: usize) {
 }
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memclr8(dest: *mut u8, n: usize) {
+unsafe extern "C" fn __aeabi_memclr8_old(dest: *mut u8, n: usize) {
     let n_usize: usize = n / (WORD_SIZE * 2); // Number of double word sized groups
     let mut i: usize = 0;
 
@@ -278,10 +278,10 @@ unsafe extern "C" fn __aeabi_memclr8(dest: *mut u8, n: usize) {
 }
 
 #[unsafe(export_name = "__aeabi_memmove4")]
-pub unsafe extern "C" fn __aeabi_memmove4(dest: *mut u8, src: *const u8, n: usize) {
+pub unsafe extern "C" fn __aeabi_memmove4_old(dest: *mut u8, src: *const u8, n: usize) {
     assert_unchecked((dest as usize) % WORD_SIZE == 0 && (src as usize) % WORD_SIZE == 0);
 
-    __aeabi_memmove(dest, src, n)
+    __aeabi_memmove_old(dest, src, n)
 }
 
 /*
@@ -319,7 +319,7 @@ char *d = dest;
  */
 
 #[unsafe(no_mangle)]
-unsafe extern "C" fn __aeabi_memmove(mut dest: *mut u8, mut src: *const u8, mut n: usize) {
+unsafe extern "C" fn __aeabi_memmove_old(mut dest: *mut u8, mut src: *const u8, mut n: usize) {
     if dest as *const u8 == src || n == 0 {
         return;
     }
