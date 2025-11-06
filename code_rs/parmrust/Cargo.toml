@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["apps/ball", "apps/basic", "apps/c","apps/calckeyb", "apps/helloworld", "apps/midi", "apps/netclient", "apps/plotter", "apps/scheme", "apps/scratch", "apps/telnet_text", "apps/telnet_video", "apps/testfp", "apps/webserver","parm"]
+members = ["apps/ball", "apps/basic", "apps/c","apps/calckeyb", "apps/clock", "apps/helloworld", "apps/midi", "apps/netclient", "apps/plotter", "apps/scheme", "apps/scratch", "apps/telnet_text", "apps/telnet_video", "apps/testfp", "apps/webserver","parm"]
 
 [workspace.package]
 edition = "2024"

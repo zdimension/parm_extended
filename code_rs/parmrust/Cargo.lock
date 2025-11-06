@@ -211,6 +211,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "clock"
+version = "0.1.0"
+
+[[package]]
 name = "compact_str"
 version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -754,13 +758,10 @@ version = "0.1.0"
 dependencies = [
  "chacha20poly1305",
  "compact_str",
- "embedded-io",
- "embedded-timers",
  "embedded-tls",
  "hashbrown",
  "htmlparser",
  "httparse",
- "log",
  "nourl",
  "parm",
  "sha2",

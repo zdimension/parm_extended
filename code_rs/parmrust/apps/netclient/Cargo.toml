@@ -5,18 +5,15 @@ edition.workspace = true
 
 [dependencies]
 hashbrown = { version = "0.16"}
-embedded-io = { version = "0.6", features = ["alloc"] }
 embedded-tls = { version = "0.17.0", default-features = false, features = ["alloc", "log"] }
 htmlparser = { version = "0.2.1", path = "vendor/htmlparser", default-features = false, features = [] }
 #fluent-uri = { version = "0.3.2", default-features = false }
 httparse = { version = "1.10.1", default-features = false }
 nourl = "0.1.4"
 parm = { workspace = true, features = ["embedded-graphics"] }
-log = "0.4.28"
 
 simple-dns = { version = "0.11.0", default-features = false, features = ["alloc"] }
 speedy = { version = "0.8.7", default-features = false, features = ["speedy-derive", "alloc"], git = "https://github.com/koute/speedy" }
-embedded-timers = "0.4.0"
 #suruga = { path = "vendor/suruga" }
 typenum = "1.19.0"
 sha2 = { version = "0.10", default-features = false, features = [] }

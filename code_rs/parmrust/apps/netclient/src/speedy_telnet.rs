@@ -1,5 +1,4 @@
-use speedy::{Context, Endianness, IsEof, LittleEndian as LE, LittleEndian, Reader, Writer};
-use parm::telnet::Telnet;
+use speedy::{Context, Endianness, IsEof, Reader, Writer};
 use crate::circular_buffer::CircularBuffer;
 
 #[derive(Debug)]
@@ -15,7 +14,7 @@ impl IsEof for TelnetError {
 }
 
 impl From<speedy::Error> for TelnetError {
-    fn from(err: speedy::Error) -> Self {
+    fn from(_err: speedy::Error) -> Self {
         TelnetError::Other(())
     }
 }
@@ -71,7 +70,7 @@ impl Reader<'_, TelnetContext> for SpeedyTelnet {
     fn peek_bytes(&mut self, output: &mut [u8]) -> Result<(), TelnetError> {
         if output.len() > self.buffer.len() {
             while self.buffer.len() < output.len() {
-                let mut chunk_size = output.len() - self.buffer.len();
+                let chunk_size = output.len() - self.buffer.len();
 
                 let bytes_written = self.buffer.try_append_with( chunk_size, |chunk| {
                     Ok::<usize, !>(parm::telnet::read_chunk_to_end( chunk ))

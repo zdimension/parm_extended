@@ -1,5 +1,5 @@
 use nourl::{Url, UrlScheme};
-use alloc::borrow::{Cow, ToOwned};
+use alloc::borrow::Cow;
 use alloc::string::{String, ToString};
 use alloc::vec::Vec;
 use core::net::SocketAddrV4;

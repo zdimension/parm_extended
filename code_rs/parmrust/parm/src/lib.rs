@@ -24,6 +24,9 @@ pub mod time;
 
 #[cfg(feature = "embedded-graphics")]
 pub use embedded_graphics;
+pub use embedded_io;
+pub use embedded_timers;
+pub use log;
 
 #[unsafe(link_section = ".start")]
 #[unsafe(no_mangle)]

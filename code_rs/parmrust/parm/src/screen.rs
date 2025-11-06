@@ -92,7 +92,7 @@ impl DrawTarget for ParmScreen {
                 colors.next();
             }
         }
-        for y in (sy.max(0))..ey {
+        for y in (sy.max(0))..ey.min(h) {
             for _ in sx..0 {
                 colors.next();
             }

@@ -12,11 +12,10 @@ use parm::embedded_graphics::geometry::{Point, Size};
 use parm::embedded_graphics::mono_font::{MonoFont, MonoTextStyle, MonoTextStyleBuilder};
 use parm::embedded_graphics::prelude::OriginDimensions;
 use parm::embedded_graphics::primitives::{Line, Primitive, PrimitiveStyle, Rectangle};
-use parm::embedded_graphics::text::{Baseline, Text, TextStyle};
+use parm::embedded_graphics::text::{Baseline, Text};
 use parm::embedded_graphics::text::renderer::{CharacterStyle, TextRenderer};
-use parm::{embedded_graphics, keyb, rprint, rprintln};
+use parm::{keyb, rprint, rprintln};
 use parm::screen::{rgb32, Color, ColorSimple, ParmScreen};
-use parm::tty::ParmDisplay;
 use crate::http::{HttpResult, UrlComponents};
 use crate::speedy_telnet::SpeedyTelnet;
 
@@ -384,7 +383,7 @@ fn draw_url(url: &str, disp: &mut ParmScreen) {
     ).draw(disp).unwrap();
 }
 
-fn draw_url_bar(url: &str, disp: &mut ParmScreen) {
+fn draw_url_bar(_url: &str, disp: &mut ParmScreen) {
     Rectangle::new(
         Point::zero(),
         Size::new(480, URL_FONT.character_size.height + 2 * URL_PADDING as u32),
@@ -439,13 +438,13 @@ pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
                     let attr_value = value.map(|v| v.as_str());
                     match current_tag_obj {
                         Element::A => match (local.to_ascii_lowercase().as_str(), attr_value) {
-                            ("href", Some(href)) => {
+                            ("href", Some(_href)) => {
                                 state.cur_mut().text_color = ColorSimple::Blue.into();
                                 state.cur_mut().text_underline = true;
                             }
                             _ => {}
                         },
-                        Element::Input { type_, size, value } => match (local.to_ascii_lowercase().as_str(), attr_value) {
+                        Element::Input { type_: _, size, value } => match (local.to_ascii_lowercase().as_str(), attr_value) {
                             ("type", Some(t)) => {
                                 if t.eq_ignore_ascii_case("hidden") {
                                     state.cur_mut().hide = true;
@@ -532,7 +531,7 @@ pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
         }
         match tok {
             // push new state
-            Token::ElementStart { prefix, local, span } => {
+            Token::ElementStart { prefix: _, local, span: _ } => {
                 let tag_name = local.as_str().to_ascii_lowercase();
                 let tag_obj = Element::from_str(&tag_name).expect(&tag_name);
                 
@@ -677,7 +676,7 @@ pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
         }
         match tok {
             // pop state
-            Token::ElementEnd { end, span } => {
+            Token::ElementEnd { end, span: _ } => {
                 match end {
                     ElementEnd::Open => {
                         match state.cur().element_obj.as_ref().unwrap() {
@@ -692,7 +691,7 @@ pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
                                         let box_width = (size as u32) * (style.font.character_size.width + style.font.character_spacing) + 2 * input_padding.width;
                                         // draw text
                                         let text_pos = state.cursor + input_padding;
-                                        let mut cursor_timer = embedded_timers::timer::Timer::new(&parm::time::ParmTime);
+                                        let mut cursor_timer = parm::embedded_timers::timer::Timer::new(&parm::time::ParmTime);
                                         let mut cursor_visible = true;
                                         const BLINK_INTERVAL: Duration = Duration::from_millis(500);
                                         cursor_timer.start(BLINK_INTERVAL);
@@ -830,7 +829,7 @@ fn close_tag(disp: &mut ParmScreen, state: &mut StateList, tag_obj: &Element) {
     // <div><i><u>test</b>     <-- should warn but not break the tree
 
     // can we climb up to find it?
-    let mut found = state.stack.iter().rev().position(|s| {
+    let found = state.stack.iter().rev().position(|s| {
         s.element_obj.as_ref().map_or(false, |e| e.same_tag(&tag_obj))
     });
     // if the tag is well formed, found will be Some(0)
