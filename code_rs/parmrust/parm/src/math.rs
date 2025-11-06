@@ -75,40 +75,6 @@ pub extern "C" fn __aeabi_idivmod(a: i32, b: i32) -> DivMod<i32> {
     )
 }
 
-#[unsafe(export_name = "__clzsi2")]
-pub fn __clzsi2(a: u32) -> u32 {
-    let mut x = a;
-    let mut n = 32;
-    let mut y: u32;
-    y = x >> 16;
-    if y != 0 {
-        n = n - 16;
-        x = y;
-    }
-    y = x >> 8;
-    if y != 0 {
-        n = n - 8;
-        x = y;
-    }
-    y = x >> 4;
-    if y != 0 {
-        n = n - 4;
-        x = y;
-    }
-    y = x >> 2;
-    if y != 0 {
-        n = n - 2;
-        x = y;
-    }
-    y = x >> 1;
-    if y != 0 {
-        n = n - 2;
-    } else {
-        n = n - x;
-    }
-    n
-}
-
 #[allow(non_camel_case_types)]
 #[derive(Ord, PartialOrd, Eq, PartialEq, Copy, Clone)]
 pub struct fp32(i32);
