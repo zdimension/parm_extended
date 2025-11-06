@@ -1,2 +1,3 @@
 [build]
-target = "thumbv6m-none-eabi"
+#target = "thumbv6m-none-eabi"
+target = "thumb-nofp.json"

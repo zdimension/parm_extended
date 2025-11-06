@@ -7,32 +7,32 @@ use core::ops::{
     Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, RemAssign, Sub, SubAssign,
 };
 
-#[unsafe(naked)]
 #[unsafe(no_mangle)]
 pub extern "C" fn __aeabi_uidiv(a: u32, b: u32) -> u32 {
-    core::arch::naked_asm!(
-        r#"
-        movs r2, {addr}
-        mvns r2, r2
-        ldr r0, [r2]
-        bx lr
-        "#,
-        addr = const !R0divR1U.address_int(),
-    )
+    let res;
+    unsafe {
+        core::arch::asm!(
+            "ldr {res}, [{addr}]",
+            addr = in(reg) R0divR1U.address(),
+            res = lateout(reg) res,
+            in("r0") a, in("r1") b,
+        )
+    }
+    res
 }
 
-#[unsafe(naked)]
 #[unsafe(no_mangle)]
 pub extern "C" fn __aeabi_idiv(a: i32, b: i32) -> i32 {
-    core::arch::naked_asm!(
-        r#"
-        movs r2, {addr}
-        mvns r2, r2
-        ldr r0, [r2]
-        bx lr
-        "#,
-        addr = const !R0divR1I.address_int(),
-    )
+    let res;
+    unsafe {
+        core::arch::asm!(
+            "ldr {res}, [{addr}]",
+            addr = in(reg) R0divR1I.address(),
+            res = lateout(reg) res,
+            in("r0") a, in("r1") b,
+        )
+    }
+    res
 }
 
 #[repr(C)]

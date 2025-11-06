@@ -2,7 +2,7 @@
 
 NAME=$1
 shift 1
-TARGET=thumbv6m-none-eabi
+TARGET=thumb-nofp
 RELEASE=1
 CARGO_ARG=
 TARGET_KIND=debug
