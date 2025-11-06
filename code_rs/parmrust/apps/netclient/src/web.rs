@@ -20,6 +20,7 @@ use parm::embedded_timers::instant::Instant;
 use parm::embedded_timers::timer::Timer;
 use parm::screen::{rgb32, Color, ColorSimple, ParmScreen};
 use parm::time::ParmTime;
+use crate::commands::{Date, Date2000};
 use crate::http::{HttpResult, UrlComponents};
 use crate::speedy_telnet::SpeedyTelnet;
 
@@ -400,7 +401,8 @@ fn draw_url_bar(_url: &str, disp: &mut ParmScreen) {
 }
 
 pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
-    let perf_timer = (ParmTime).now();
+    let mut tel = SpeedyTelnet::new();
+    let perf_timer = tel.send_command(&Date2000);
     rprintln!("rendering HTML for URL: {}", url);
     let mut disp = ParmScreen;
     draw_url_bar(url, &mut disp);
@@ -814,9 +816,8 @@ pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
         }
     }
     
-    let end = (ParmTime).now();
-    let duration = end.duration_since(perf_timer);
-    rprintln!("render complete in {} s", duration.as_secs());
+    let end = tel.send_command(&Date2000);
+    rprintln!("rendering complete, time taken: {} s", end - perf_timer);
 
     dynamic_objects
 }

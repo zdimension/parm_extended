@@ -28,12 +28,7 @@ Kinds implemented:
 3: Receive data. Payload: u16 (LE) socket ID, u16 (LE) length N. Reads up to N bytes from the socket and returns
    u16 (LE) length M then M bytes (M<=N). If the socket is closed or times out, returns length 0.
 4: Close socket. Payload: u16 (LE) socket ID. Closes the specified socket. No return value.
-
-Notes/assumptions:
-- Endianness: little-endian for u16 and IPv4 u32 values.
-- Kind 1 includes a u16 port (inferred as necessary for networking).
-- Unknown kinds are logged and cause the control connection to be closed.
-- Timeouts: peer socket recv uses a short timeout; on timeout, kind 3 returns 0-length buffer.
+5: No payload. Returns current date-time as u32 (LE) seconds since 2000-01-01 UTC.
 """
 
 import socket
@@ -263,6 +258,15 @@ def handle_session(ctrl_sock: socket.socket, addr: Tuple[str, int]) -> None:
                     _log(addr, f"kind=4 closed socket {sock_id}")
                 else:
                     _log(addr, f"kind=4 socket {sock_id} not found")
+
+            elif kind == 5:
+                # Return seconds since 2000-01-01 UTC as u32 LE
+                epoch_2000 = datetime.datetime(2000, 1, 1)
+                now = datetime.datetime.utcnow()
+                seconds = int((now - epoch_2000).total_seconds())
+                resp = struct.pack("<I", seconds)
+                ctrl_sock.sendall(resp)
+                _log(addr, f"kind=5 -> sent seconds since 2000 ({seconds})")
 
             else:
                 _log(addr, f"unknown kind={kind}; closing connection")

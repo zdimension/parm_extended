@@ -76,3 +76,11 @@ impl Command for SockClose {
     const TAG: u8 = 4;
     type Response = ();
 }
+
+#[derive(Writable)]
+pub struct Date2000;
+
+impl Command for Date2000 {
+    const TAG: u8 = 5;
+    type Response = u32;
+}
