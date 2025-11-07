@@ -1,3 +1,6 @@
+#[cfg(feature = "speedy")]
+pub mod speedy_telnet;
+
 extern crate alloc;
 use core::fmt::Write;
 use crate::heap::string::String;
@@ -180,3 +183,4 @@ impl DisplayTarget for Telnet {
         s.bytes().for_each(|c| self.print_char(c));
     }
 }
+

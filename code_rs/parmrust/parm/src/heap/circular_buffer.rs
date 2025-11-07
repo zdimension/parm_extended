@@ -77,6 +77,12 @@ fn empty(
     }
 }
 
+impl Default for CircularBuffer {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl CircularBuffer {
     pub fn new() -> Self {
         CircularBuffer { buffer: Vec::new().into_boxed_slice(), position: 0, length: 0 }

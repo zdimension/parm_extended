@@ -4,9 +4,9 @@ use simple_dns::{Name, Packet, PacketFlag, Question, CLASS, TYPE};
 use simple_dns::rdata::RData;
 use parm::rprintln;
 use crate::{ip, SockKind};
-use crate::speedy_telnet::SpeedyTelnet;
+use crate::net_telnet::NetTelnet;
 
-impl SpeedyTelnet {
+impl NetTelnet {
     pub fn resolve_host(&mut self, host: &str) -> Result<Ipv4Addr, &'static str> {
         // send DNS request to 8.8.8.8
         let dns_server = SocketAddrV4::new(ip(8, 8, 8, 8), 53);

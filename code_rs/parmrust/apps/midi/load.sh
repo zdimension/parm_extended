@@ -6,8 +6,4 @@ FILE=$(which "$1")
 len=$(wc -c < "$FILE")
 (
   cat <(perl -e "print pack('v', $len)") "$FILE"
-  while true; do
-    printf "\x01"
-    sleep 0.05
-  done
 ) | nc -N ::1 4567

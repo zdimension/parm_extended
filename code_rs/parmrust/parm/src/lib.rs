@@ -3,6 +3,7 @@
 #![allow(named_asm_labels)]
 #![feature(step_trait)]
 #![feature(specialization)]
+#![feature(never_type)]
 #![allow(incomplete_features)]
 
 extern crate alloc;

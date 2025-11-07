@@ -5,8 +5,8 @@ use alloc::vec::Vec;
 use core::net::SocketAddrV4;
 use httparse::{Header, Request, Response, Status};
 use parm::rprintln;
+use crate::net_telnet::NetTelnet;
 use crate::SockKind;
-use crate::speedy_telnet::SpeedyTelnet;
 
 pub struct UrlComponents<'a> {
     pub protocol: UrlScheme,
@@ -29,7 +29,7 @@ impl<'a> TryFrom<&'a str> for UrlComponents<'a> {
     }
 }
 
-impl SpeedyTelnet {
+impl NetTelnet {
     pub fn send_http<Res>(
         &mut self,
         addr: SocketAddrV4,

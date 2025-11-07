@@ -10,7 +10,7 @@ use midly::num::u7;
 use parm::math::fp32;
 use parm::midi::{press_key, release_key, set_instr, set_note, set_vol, MidiInstrument, MidiNote};
 use parm::{println, rprintln, telnet};
-use parm::mmio::MIDIvol;
+use parm::mmio::{MIDIvol, TIMER};
 
 #[derive(Copy, Clone, Add, AddAssign, Default, Mul)]
 struct Vec2(fp32, fp32);
@@ -50,14 +50,10 @@ fn sleep_clock(mut clock_ticks: u32) {
     if clock_ticks == 0 {
         return;
     }
-    telnet::flush_all();
-
-    loop {
-        telnet::read_blocking();
-        clock_ticks -= 1;
-        if clock_ticks == 0 {
-            break;
-        }
+    let cur = TIMER.read();
+    let target = cur.wrapping_add(clock_ticks);
+    while (TIMER.read().wrapping_sub(target) as i32) < 0 {
+        continue;
     }
 }
 
@@ -171,14 +167,14 @@ impl MidiSpeedSettings {
     
     /// Converts MIDI ticks to clock ticks
     /// 
-    /// (1 clock tick = 50ms)
+    /// (1 clock tick = 10ms)
     #[inline]
     fn midi_tick_to_clock_tick(&self, midi_ticks: u32) -> u32 {
         if midi_ticks == 0 {
             return 0;
         }
         let total_us = midi_ticks * self.us_per_tick;
-        let clock_ticks = total_us / 50000;
+        let clock_ticks = total_us / 10000;
         clock_ticks.max(1)
     }
 

@@ -4,3 +4,6 @@ version = "0.1.0"
 edition.workspace = true
 
 [dependencies]
+parm = { workspace = true, features = ["embedded-graphics"] }
+speedy = { version = "0.8.7", default-features = false, features = ["speedy-derive", "alloc"] }
+micromath = "2.1.0"

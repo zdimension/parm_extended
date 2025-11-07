@@ -3,8 +3,8 @@ use speedy::{Readable, Writable};
 use alloc::borrow::Cow;
 use alloc::string::String;
 use alloc::vec::Vec;
+use parm::telnet::speedy_telnet::TelnetContext;
 use crate::SockKind;
-use crate::speedy_telnet::TelnetContext;
 
 pub trait Command: Writable<TelnetContext> {
     const TAG: u8;

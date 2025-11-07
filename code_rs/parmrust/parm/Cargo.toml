@@ -12,6 +12,8 @@ rand_core = "0.6.3"
 getrandom = { version = "0.2.16", default-features = false, features = ["custom"] }
 log = "0.4.28"
 embedded-timers = "0.4.0"
+speedy = { version = "0.8.7", default-features = false, features = ["speedy-derive", "alloc"], optional = true }
+
 
 [lib]
 test = false
@@ -19,3 +21,4 @@ test = false
 [features]
 default = []
 embedded-graphics = ["dep:embedded-graphics"]
+speedy = ["dep:speedy"]

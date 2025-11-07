@@ -213,6 +213,11 @@ dependencies = [
 [[package]]
 name = "clock"
 version = "0.1.0"
+dependencies = [
+ "micromath",
+ "parm",
+ "speedy",
+]
 
 [[package]]
 name = "compact_str"
@@ -813,6 +818,7 @@ dependencies = [
  "indexmap",
  "log",
  "rand_core",
+ "speedy",
 ]
 
 [[package]]

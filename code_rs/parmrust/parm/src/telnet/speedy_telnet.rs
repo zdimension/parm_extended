@@ -1,5 +1,5 @@
 use speedy::{Context, Endianness, IsEof, Reader, Writer};
-use crate::circular_buffer::CircularBuffer;
+use crate::heap::circular_buffer::CircularBuffer;
 
 #[derive(Debug)]
 pub enum TelnetError {
@@ -30,16 +30,12 @@ impl Context for TelnetContext {
     }
 }
 
+#[derive(Default)]
 pub struct SpeedyTelnet {
     buffer: CircularBuffer,
 }
 
 impl SpeedyTelnet {
-    pub fn new() -> Self {
-        SpeedyTelnet {
-            buffer: CircularBuffer::new(),
-        }
-    }
     fn read_bytes_slow(&mut self, mut output: &mut [u8]) -> Result<(), TelnetError> {
         if self.buffer.len() > 0 {
             let length = core::cmp::min( self.buffer.len(), output.len() );
@@ -51,7 +47,7 @@ impl SpeedyTelnet {
             return Ok(());
         }
 
-        parm::telnet::read_chunk(output);
+        crate::telnet::read_chunk(output);
         
         Ok(())
     }
@@ -73,7 +69,7 @@ impl Reader<'_, TelnetContext> for SpeedyTelnet {
                 let chunk_size = output.len() - self.buffer.len();
 
                 let bytes_written = self.buffer.try_append_with( chunk_size, |chunk| {
-                    Ok::<usize, !>(parm::telnet::read_chunk_to_end( chunk ))
+                    Ok::<usize, !>(crate::telnet::read_chunk_to_end( chunk ))
                 }).unwrap();
 
                 if bytes_written == 0 {
@@ -104,7 +100,7 @@ impl Reader<'_, TelnetContext> for SpeedyTelnet {
 impl Writer<TelnetContext> for SpeedyTelnet {
     fn write_bytes(&mut self, slice: &[u8]) -> Result<(), TelnetError> {
         for &b in slice {
-            parm::telnet::send(b);
+            crate::telnet::send(b);
         }
         Ok(())
     }
@@ -118,7 +114,7 @@ impl Writer<TelnetContext> for SpeedyTelnet {
     }
     
     fn write_u8(&mut self, n: u8) -> Result<(), TelnetError> {
-        parm::telnet::send(n);
+        crate::telnet::send(n);
         Ok(())
     }
 }

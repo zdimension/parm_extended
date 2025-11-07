@@ -4,12 +4,11 @@
 #![feature(concat_bytes)]
 #![feature(try_blocks)]
 
-pub mod circular_buffer;
 pub mod commands;
-pub mod speedy_telnet;
 pub mod web;
 pub mod http;
 pub mod dns;
+mod net_telnet;
 
 extern crate alloc;
 use alloc::borrow::Cow;
@@ -19,14 +18,16 @@ use core::net::{Ipv4Addr, SocketAddrV4};
 use parm::embedded_io::{ErrorType, Write};
 use embedded_tls::{Sha256, TlsCipherSuite};
 //use fluent_uri::Uri;
-use crate::commands::{Date, SockClose};
+use crate::commands::{Date, Date2000, SockClose};
 use commands::{Command, SockOpen, SockRecv, SockSend};
 use parm::tty::ParmLogger;
 use parm::{log, rprintln};
 use sha2::digest;
 use speedy::{Readable, Writable, Writer};
-use speedy_telnet::SpeedyTelnet;
 use typenum::{Sum, U10, U12, U32};
+use parm::embedded_timers::clock::Clock;
+use parm::embedded_timers::instant::Instant;
+use crate::net_telnet::NetTelnet;
 use crate::web::{render, web_browser};
 /*#[derive(Writable, Copy, Clone, Debug)]
 struct Ipv4Addr {
@@ -44,36 +45,23 @@ enum SockKind {
     Udp,
 }
 
-/*#[derive(Writable)]
-#[speedy(tag_type = u8)]
-enum Command {
-    Date,
-    SockOpen {
-        addr: Ipv4Addr,
-        kind: SockKind
-    },
-    SockSend {
-
-    }
-}*/
-
 struct Socket(u16);
 
 impl Drop for Socket {
     fn drop(&mut self) {
-        SpeedyTelnet::new().send_command(&SockClose { sock_id: self.0 });
+        NetTelnet::default().send_command(&SockClose { sock_id: self.0 });
     }
 }
 
 impl Socket {
     pub fn send(&mut self, data: Cow<[u8]>) {
         rprintln!("Sending {} bytes on socket {}", data.len(), self.0);
-        SpeedyTelnet::new().send_command(&SockSend { sock_id: self.0, data });
+        NetTelnet::default().send_command(&SockSend { sock_id: self.0, data });
     }
 
     pub fn recv(&mut self, len: u16) -> Vec<u8> {
         rprintln!("Receiving up to {} bytes on socket {}", len, self.0);
-        SpeedyTelnet::new()
+        NetTelnet::default()
             .send_command(&SockRecv { sock_id: self.0, len })
             .data
     }
@@ -103,7 +91,7 @@ impl parm::embedded_io::Write for Socket {
     }
 }
 
-impl SpeedyTelnet {
+impl NetTelnet {
     fn socket_open(&mut self, host: SocketAddrV4, sock_kind: SockKind, use_tls: bool) -> Socket {
         let sock_id = self.send_command(&SockOpen {
             addr: *host.ip(),
@@ -116,10 +104,10 @@ impl SpeedyTelnet {
 
     fn send_command<Cmd: Command>(&mut self, cmd: &Cmd) -> Cmd::Response {
         parm::telnet::flush_all();
-        self.write_u8(Cmd::TAG).unwrap();
-        cmd.write_to(self).unwrap();
+        self.0.write_u8(Cmd::TAG).unwrap();
+        cmd.write_to(&mut self.0).unwrap();
 
-        let resp = Cmd::Response::read_from(self).expect("deserialization failed");
+        let resp = Cmd::Response::read_from(&mut self.0).expect("deserialization failed");
         resp
     }
 }
@@ -153,12 +141,31 @@ fn main() {
     // wait for server to connect
     while parm::telnet::read_blocking() != 0x55 {}
 
-    let mut reader = SpeedyTelnet::new();
+    let mut reader = NetTelnet::default();
+    
+    let sec_start = reader.send_command(&Date2000);
+    let parm_start = parm::time::ParmTime{}.now();
+    
+
+
+    web_browser(&mut reader);
+    let sec_end = reader.send_command(&Date2000);
+    let parm_end = parm::time::ParmTime{}.now();
+    
+    let sec_diff = sec_end - sec_start;
+    let parm_diff = parm_end.duration_since(parm_start).as_secs();
+    
+    rprintln!("Server seconds advanced: {}", sec_diff);
+    rprintln!("Local seconds advanced: {}", parm_diff);
+
+
+
+    
+    
 
     let cur_date = reader.send_command(&Date);
     rprintln!("Current date: {}", cur_date.date);
     
-    web_browser(&mut reader);
 
     /*let bot_token = concat_bytes!(b"Bot ", include_bytes!("../.secret"));
     let url = "https://discordapp.com/api/channels/1044363126558175376/messages";

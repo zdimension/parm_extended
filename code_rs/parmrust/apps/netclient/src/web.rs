@@ -22,7 +22,7 @@ use parm::screen::{rgb32, Color, ColorSimple, ParmScreen};
 use parm::time::ParmTime;
 use crate::commands::{Date, Date2000};
 use crate::http::{HttpResult, UrlComponents};
-use crate::speedy_telnet::SpeedyTelnet;
+use crate::net_telnet::NetTelnet;
 
 #[derive(Debug, Clone)]
 pub enum Element {
@@ -401,7 +401,7 @@ fn draw_url_bar(_url: &str, disp: &mut ParmScreen) {
 }
 
 pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
-    let mut tel = SpeedyTelnet::new();
+    let mut tel = NetTelnet::default();
     let perf_timer = tel.send_command(&Date2000);
     rprintln!("rendering HTML for URL: {}", url);
     let mut disp = ParmScreen;
@@ -911,7 +911,7 @@ fn render_dyn(disp: &mut ParmScreen, dynamic_objects: &mut Vec<Box<dyn DynamicTh
     }
 }
 
-pub fn web_browser(telnet: &mut SpeedyTelnet) {
+pub fn web_browser(telnet: &mut NetTelnet) {
     rprintln!("change [u]rl");
     
     let mut current_url = String::from("127.0.0.1:4568/test.html");
@@ -964,6 +964,8 @@ pub fn web_browser(telnet: &mut SpeedyTelnet) {
                 render("Invalid URL", inet_error)
             }
         };
+        
+        return;
         
         'page: loop { 
             render_dyn(&mut ParmScreen, &mut render_result);

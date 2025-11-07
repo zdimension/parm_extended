@@ -1,7 +1,7 @@
 pub mod budmap;
 pub mod string;
 pub mod prc;
-
+pub mod circular_buffer;
 
 use core::alloc::{GlobalAlloc, Layout};
 use core::hint::assert_unchecked;
