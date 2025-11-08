@@ -9,6 +9,7 @@ use core::ops::Not;
 use embedded_graphics::prelude::*;
 #[cfg(feature = "embedded-graphics")]
 use embedded_graphics::primitives::*;
+use core::marker::ConstParamTy;
 
 const VRAM: *mut u32 = 0x100_0000 as *mut u32;
 
@@ -18,8 +19,9 @@ pub const HEIGHT: isize = 360;
 
 pub type ScreenRow = [u32; WIDTH as usize];
 pub type ScreenBuffer = [ScreenRow; HEIGHT as usize];
+pub type ScreenBuffers = [ScreenBuffer; 2];
 
-const VRAM_BUF: *mut ScreenBuffer = VRAM as *mut ScreenBuffer;
+//const VRAM_BUF: *mut ScreenBuffer = VRAM as *mut ScreenBuffer;
 
 pub trait ColorEncodable: Copy {
     fn encode(&self) -> ColorEncoded;
@@ -45,17 +47,17 @@ impl PixelColor for Color {
 
 #[cfg(feature = "embedded-graphics")]
 #[derive(Copy, Clone, Default)]
-pub struct ParmScreen;
+pub struct ParmScreen<const BUF: Buffer = { Buffer::Front }>;
 
 #[cfg(feature = "embedded-graphics")]
-impl OriginDimensions for ParmScreen {
+impl<const BUF: Buffer> OriginDimensions for ParmScreen<BUF> {
     fn size(&self) -> Size {
         Size::new(WIDTH as u32, HEIGHT as u32)
     }
 }
 
 #[cfg(feature = "embedded-graphics")]
-impl DrawTarget for ParmScreen {
+impl<const BUF: Buffer> DrawTarget for ParmScreen<BUF> {
     type Color = Color;
     type Error = core::convert::Infallible;
 
@@ -64,7 +66,7 @@ impl DrawTarget for ParmScreen {
         I: IntoIterator<Item=Pixel<Self::Color>>
     {
         for Pixel(coord, color) in pixels {
-            set_pixel(coord.x as isize, coord.y as isize, color);
+            set_pixel_buf(BUF, coord.x as isize, coord.y as isize, color);
         }
         Ok(())
     }
@@ -99,7 +101,7 @@ impl DrawTarget for ParmScreen {
             for x in (sx.max(0))..(ex.min(w)) {
                 if let Some(color) = colors.next() {
                     // SAFETY: bounds checked
-                    unsafe { set_pixel_unchecked(x as isize, y as isize, color); }
+                    unsafe { set_pixel_buf_unchecked(BUF, x as isize, y as isize, color); }
                 } else {
                     return Ok(());
                 }
@@ -117,14 +119,14 @@ impl DrawTarget for ParmScreen {
         for y in area.top_left.y..(area.top_left.y + area.size.height as i32) {
             for x in area.top_left.x..(area.top_left.x + area.size.width as i32) {
                 // SAFETY: bounds checked
-                unsafe { set_pixel_unchecked(x as isize, y as isize, color); }
+                unsafe { set_pixel_buf_unchecked(BUF, x as isize, y as isize, color); }
             }
         }
         Ok(())
     }
 
     fn clear(&mut self, color: Self::Color) -> Result<(), Self::Error> {
-        clear(color);
+        clear(BUF, color);
         Ok(())
     }
 }
@@ -276,10 +278,19 @@ pub fn set_pixel(x: isize, y: isize, color: impl ColorEncodable) {
 }
 
 #[inline(always)]
-pub fn clear(color: impl ColorEncodable) {
+pub fn set_pixel_buf(buf: Buffer, x: isize, y: isize, color: impl ColorEncodable) {
+    if x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT {
+        unsafe {
+            set_pixel_buf_unchecked(buf, x, y, color);
+        }
+    }
+}
+
+#[inline(always)]
+pub fn clear(buf: Buffer, color: impl ColorEncodable) {
     unsafe {
         for i in 0..WIDTH * HEIGHT {
-            *VRAM.offset(i) = color.encode().0 as u32;
+            *VRAM.offset(buf.get_offset() + i) = color.encode().0 as u32;
         }
     }
     // 2x slower??
@@ -289,13 +300,11 @@ pub fn clear(color: impl ColorEncodable) {
 }
 
 #[inline(always)]
-pub fn set_pixel_buf(b: Buffer, x: isize, y: isize, color: impl ColorEncodable) {
-    unsafe {
-        *VRAM.offset(b.get_offset() + y * WIDTH + x) = color.encode().0 as u32;
-    }
+pub unsafe fn set_pixel_buf_unchecked(b: Buffer, x: isize, y: isize, color: impl ColorEncodable) {
+    *VRAM.offset(b.get_offset() + y * WIDTH + x) = color.encode().0 as u32;
 }
 
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, PartialEq, Eq, ConstParamTy)]
 pub enum Buffer {
     Front,
     Back,

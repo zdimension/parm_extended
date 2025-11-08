@@ -18,7 +18,7 @@ use parm::{keyb, rprint, rprintln};
 use parm::embedded_timers::clock::Clock;
 use parm::embedded_timers::instant::Instant;
 use parm::embedded_timers::timer::Timer;
-use parm::screen::{rgb32, Color, ColorSimple, ParmScreen};
+use parm::screen::{rgb32, Buffer, Color, ColorSimple, ParmScreen};
 use parm::time::ParmTime;
 use crate::commands::{Date, Date2000};
 use crate::http::{HttpResult, UrlComponents};
@@ -981,7 +981,7 @@ pub fn web_browser(telnet: &mut NetTelnet) {
                             parm::tty::read_line_rust(&mut current_url);
                             current_url_view = current_url.trim_ascii();
                             if !current_url_view.is_empty() {
-                                parm::screen::clear(ColorSimple::White);
+                                parm::screen::clear(Buffer::Front, ColorSimple::White);
                                 break;
                             }
                         }

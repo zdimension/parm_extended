@@ -4,6 +4,7 @@
 #![feature(step_trait)]
 #![feature(specialization)]
 #![feature(never_type)]
+#![feature(adt_const_params)]
 #![allow(incomplete_features)]
 
 extern crate alloc;
