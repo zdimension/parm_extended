@@ -221,13 +221,28 @@ fn main() {
     let mut instrs = [MidiInstrument::Piano1; 128];
     let mut last_instr = MidiInstrument::Piano1;
     let mut settings = MidiSpeedSettings::new(ppqn);
-    for EventAbs(abs, ev) in merged.iter() {
-        let delta = abs - last; // in MIDI ticks
+    let start = TIMER.read();
+    let mut prev_abs = 0;
+    let mut prev_event = TIMER.read();
+    for EventAbs(abs, ev) in merged {
+        let abs_delta = abs - prev_abs;
+        let abs_delta_in_tick = settings.midi_tick_to_clock_tick(abs_delta).wrapping_add(prev_event);
+        while TIMER.read() < abs_delta_in_tick {
+            continue;
+        }
+        prev_abs = abs;
+        prev_event = TIMER.read();
+        /*let abs_clock = settings.midi_tick_to_clock_tick(*abs).wrapping_add(start);
+        while TIMER.read() < abs_clock {
+            continue;
+        }*/
+        
+        //let delta = abs - last; // in MIDI ticks
         //println!("d", delta);
         //let ms = delta * settings.ms_per_tick;
         //sleep_ms(ms+100);
-        sleep_clock(settings.midi_tick_to_clock_tick(delta));
-        last = *abs;
+        //sleep_clock(settings.midi_tick_to_clock_tick(delta));
+        //last = *abs;
         match ev.kind {
             TrackEventKind::Midi { channel, message } => match message {
                 MidiMessage::NoteOn { key, vel } if vel.as_int() != 0 => {
