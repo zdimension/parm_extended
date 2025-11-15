@@ -79,7 +79,7 @@ impl<const BUF: Buffer> DrawTarget for ParmScreen<BUF> {
         let w = WIDTH as i32;
         let h = HEIGHT as i32;
         let sx = area.top_left.x;
-        let mut sy = area.top_left.y;
+        let sy = area.top_left.y;
         let ex = area.top_left.x + area.size.width as i32;
         let ey = area.top_left.y + area.size.height as i32;
         
