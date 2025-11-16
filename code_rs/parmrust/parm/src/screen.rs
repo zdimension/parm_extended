@@ -47,30 +47,33 @@ impl PixelColor for Color {
 
 #[cfg(feature = "embedded-graphics")]
 #[derive(Copy, Clone, Default)]
-pub struct ParmScreen<const BUF: Buffer = { Buffer::Front }>;
+//pub struct ParmScreen<const BUF: Buffer = { Buffer::Front }>;
+pub struct ParmScreen(pub Buffer);
 
 #[cfg(feature = "embedded-graphics")]
-impl<const BUF: Buffer> OriginDimensions for ParmScreen<BUF> {
+impl OriginDimensions for ParmScreen {
     fn size(&self) -> Size {
         Size::new(WIDTH as u32, HEIGHT as u32)
     }
 }
 
 #[cfg(feature = "embedded-graphics")]
-impl<const BUF: Buffer> DrawTarget for ParmScreen<BUF> {
+impl DrawTarget for ParmScreen {
     type Color = Color;
     type Error = core::convert::Infallible;
 
+    #[inline(always)]
     fn draw_iter<I>(&mut self, pixels: I) -> Result<(), Self::Error>
     where
         I: IntoIterator<Item=Pixel<Self::Color>>
     {
         for Pixel(coord, color) in pixels {
-            set_pixel_buf(BUF, coord.x as isize, coord.y as isize, color);
+            set_pixel_buf(self.0, coord.x as isize, coord.y as isize, color);
         }
         Ok(())
     }
 
+    #[inline(always)]
     fn fill_contiguous<I>(&mut self, area: &Rectangle, colors: I) -> Result<(), Self::Error>
     where
         I: IntoIterator<Item=Self::Color>,
@@ -101,7 +104,7 @@ impl<const BUF: Buffer> DrawTarget for ParmScreen<BUF> {
             for x in (sx.max(0))..(ex.min(w)) {
                 if let Some(color) = colors.next() {
                     // SAFETY: bounds checked
-                    unsafe { set_pixel_buf_unchecked(BUF, x as isize, y as isize, color); }
+                    unsafe { set_pixel_buf_unchecked(self.0, x as isize, y as isize, color); }
                 } else {
                     return Ok(());
                 }
@@ -114,19 +117,21 @@ impl<const BUF: Buffer> DrawTarget for ParmScreen<BUF> {
         Ok(())
     }
 
+    #[inline(always)]
     fn fill_solid(&mut self, area: &Rectangle, color: Self::Color) -> Result<(), Self::Error> {
         let area = area.intersection(&self.bounding_box());
         for y in area.top_left.y..(area.top_left.y + area.size.height as i32) {
             for x in area.top_left.x..(area.top_left.x + area.size.width as i32) {
                 // SAFETY: bounds checked
-                unsafe { set_pixel_buf_unchecked(BUF, x as isize, y as isize, color); }
+                unsafe { set_pixel_buf_unchecked(self.0, x as isize, y as isize, color); }
             }
         }
         Ok(())
     }
 
+    #[inline(always)]
     fn clear(&mut self, color: Self::Color) -> Result<(), Self::Error> {
-        clear(BUF, color);
+        clear(self.0, color);
         Ok(())
     }
 }
@@ -304,8 +309,9 @@ pub unsafe fn set_pixel_buf_unchecked(b: Buffer, x: isize, y: isize, color: impl
     *VRAM.offset(b.get_offset() + y * WIDTH + x) = color.encode().0 as u32;
 }
 
-#[derive(Copy, Clone, PartialEq, Eq, ConstParamTy)]
+#[derive(Copy, Clone, PartialEq, Eq, ConstParamTy, Default)]
 pub enum Buffer {
+    #[default]
     Front,
     Back,
 }
