@@ -1,0 +1,8 @@
+[package]
+name = "pong"
+version = "0.1.0"
+edition.workspace = true
+
+[dependencies]
+parm = { workspace = true }
+
