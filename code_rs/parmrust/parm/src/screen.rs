@@ -9,9 +9,9 @@ use core::ops::Not;
 use embedded_graphics::prelude::*;
 #[cfg(feature = "embedded-graphics")]
 use embedded_graphics::primitives::*;
-use core::marker::ConstParamTy;
 
-const VRAM: *mut u32 = 0x100_0000 as *mut u32;
+pub const VRAM_INT: usize = 0xffe0_0000;
+pub const VRAM: *mut u32 = VRAM_INT as *mut u32;
 
 
 pub const WIDTH: isize = 480;
@@ -309,18 +309,18 @@ pub unsafe fn set_pixel_buf_unchecked(b: Buffer, x: isize, y: isize, color: impl
     *VRAM.offset(b.get_offset() + y * WIDTH + x) = color.encode().0 as u32;
 }
 
-#[derive(Copy, Clone, PartialEq, Eq, ConstParamTy, Default)]
+#[derive(Copy, Clone, PartialEq, Eq, Default)]
 pub enum Buffer {
     #[default]
-    Front,
-    Back,
+    B0,
+    B1,
 }
 
 impl Buffer {
     pub fn get_offset(self) -> isize {
         match self {
-            Buffer::Front => 0,
-            Buffer::Back => WIDTH * HEIGHT,
+            Buffer::B0 => 0,
+            Buffer::B1 => WIDTH * HEIGHT,
         }
     }
 }
@@ -330,8 +330,8 @@ impl Not for Buffer {
 
     fn not(self) -> Self::Output {
         match self {
-            Buffer::Front => Buffer::Back,
-            Buffer::Back => Buffer::Front,
+            Buffer::B0 => Buffer::B1,
+            Buffer::B1 => Buffer::B0,
         }
     }
 }
@@ -339,8 +339,8 @@ impl Not for Buffer {
 #[inline(always)]
 pub fn get_buf() -> Buffer {
     match DISPbuf.read() {
-        0 => Buffer::Front,
-        _ => Buffer::Back,
+        0 => Buffer::B0,
+        _ => Buffer::B1,
     }
 }
 

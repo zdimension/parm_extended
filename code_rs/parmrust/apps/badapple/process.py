@@ -16,7 +16,7 @@ VIDEO_FILE = "badapple.mp4"
 MIDI_FILE = "../midi/examples/badapple.mid"
 TARGET_WIDTH = 100
 TARGET_HEIGHT = 75
-TARGET_FPS = 15  # Target frames per second
+TARGET_FPS = 8  # Target frames per second
 TEMP_FOLDER = "/tmp/badapple_frames"  # tmpfs
 OUTPUT_FILE = "src/badapple.rs"
 MAX_FRAMES = 500  # For testing, process only first 50 frames
@@ -163,8 +163,8 @@ def generate_rust_code():
     lines.append("")
     lines.append("const W: ColorEncoded = ColorEncoded(0); // White")
     lines.append("const B: ColorEncoded = ColorEncoded(1); // Black")
-    lines.append("const B0: Buffer = Buffer::Front;")
-    lines.append("const B1: Buffer = Buffer::Back;")
+    lines.append("const B0: Buffer = Buffer::B0;")
+    lines.append("const B1: Buffer = Buffer::B1;")
     lines.append("")
     # Calculate frame duration in timer ticks (timer increments 100 times per second)
     frame_duration_ticks = 100 // TARGET_FPS

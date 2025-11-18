@@ -226,7 +226,7 @@ fn main() {
     let mut prev_event = TIMER.read();
     for EventAbs(abs, ev) in merged {
         let abs_delta = abs - prev_abs;
-        if abs_delta == 0 {
+        if abs_delta != 0 {
             let abs_delta_in_tick = settings.midi_tick_to_clock_tick(abs_delta).wrapping_add(prev_event);
             while TIMER.read() < abs_delta_in_tick {
                 continue;

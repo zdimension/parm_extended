@@ -171,8 +171,7 @@ impl const BitSize for Condition {
     }
 }
 
-#[const_trait]
-pub trait BitSize: Copy {
+pub const trait BitSize: Copy {
     const SIZE: usize;
 
     fn get_bit_size(&self) -> usize {

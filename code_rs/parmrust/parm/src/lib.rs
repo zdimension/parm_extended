@@ -30,19 +30,19 @@ pub use embedded_io;
 pub use embedded_timers;
 pub use log;
 
+pub const RAM_START: usize = 0x100_0000;
+pub const RAM_SIZE: usize = 1 << 24;
+pub const STACK_TOP: *mut u32 = (crate::screen::VRAM);
+
 #[unsafe(link_section = ".start")]
 #[unsafe(no_mangle)]
-pub fn _start() -> ! {
+pub fn run() -> ! {
     unsafe {
         core::arch::asm!(
             r#"
-                .globl run
-                run:
-					movs r0, #1
-					lsls r0, r0, #24
-					add sp, r0
-					movs r0, #0
-				"#
+                    mov sp, r0
+            "#,
+            in("r0") (RAM_START + RAM_SIZE) as u32,
         );
         heap::init();
         // prevent inlining of main

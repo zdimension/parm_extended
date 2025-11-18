@@ -464,7 +464,7 @@
       <elementAttributes>
         <entry>
           <string>AddrBits</string>
-          <int>18</int>
+          <int>22</int>
         </entry>
         <entry>
           <string>isProgramMemory</string>
@@ -506,7 +506,7 @@
       <elementAttributes>
         <entry>
           <string>Value</string>
-          <long>1048575</long>
+          <long>16777215</long>
         </entry>
         <entry>
           <string>Bits</string>
@@ -535,7 +535,7 @@
       <elementAttributes>
         <entry>
           <string>Value</string>
-          <long>16777215</long>
+          <long>4292870143</long>
         </entry>
         <entry>
           <string>Bits</string>
@@ -559,7 +559,7 @@
       <elementAttributes>
         <entry>
           <string>Value</string>
-          <long>268435455</long>
+          <long>4294967039</long>
         </entry>
         <entry>
           <string>Bits</string>
@@ -635,7 +635,7 @@
         </entry>
         <entry>
           <string>Output Splitting</string>
-          <string>2-19</string>
+          <string>2-23</string>
         </entry>
       </elementAttributes>
       <pos x="80" y="580"/>
@@ -5798,7 +5798,7 @@
       <elementAttributes>
         <entry>
           <string>Value</string>
-          <long>1048576</long>
+          <long>16777216</long>
         </entry>
         <entry>
           <string>Bits</string>
@@ -15133,12 +15133,12 @@
       <elementName>Clock</elementName>
       <elementAttributes>
         <entry>
-          <string>Frequency</string>
-          <int>100</int>
-        </entry>
-        <entry>
           <string>runRealTime</string>
           <boolean>true</boolean>
+        </entry>
+        <entry>
+          <string>Frequency</string>
+          <int>100</int>
         </entry>
       </elementAttributes>
       <pos x="-320" y="-740"/>

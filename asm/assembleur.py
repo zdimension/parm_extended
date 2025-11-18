@@ -480,7 +480,7 @@ class Section:
     start: int
 
 
-RAM_BASE = 0x100000
+RAM_BASE = 0x100_0000
 
 sections = {
     "text": Section(start=0),

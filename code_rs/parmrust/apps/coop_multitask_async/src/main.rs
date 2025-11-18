@@ -154,7 +154,7 @@ fn main() {
             
             Circle::new(Point::new(10, 10), 4)
                 .into_styled(PrimitiveStyle::with_fill(color))
-                .draw(&mut parm::screen::ParmScreen::<{ Buffer::Front }>).unwrap();
+                .draw(&mut parm::screen::ParmScreen(Buffer::B0)).unwrap();
             wait_ticks(Duration::from_millis(250)).await;
         }
     }));
@@ -167,7 +167,7 @@ fn main() {
     }));
     
     executor.spawn(Box::pin(async {
-        for i in 1..=3 {
+        for i in 1..=30 {
             println!("{}", i);
             wait_ticks(Duration::from_secs(1)).await;
         }

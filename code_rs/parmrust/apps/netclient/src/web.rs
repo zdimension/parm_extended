@@ -404,7 +404,7 @@ pub fn render(url: &str, body: &str) -> Vec<Box<dyn DynamicThing>> {
     let mut tel = NetTelnet::default();
     let perf_timer = tel.send_command(&Date2000);
     rprintln!("rendering HTML for URL: {}", url);
-    let mut disp = ParmScreen;
+    let mut disp = ParmScreen::default();
     draw_url_bar(url, &mut disp);
     
     const PAGE_PADDING: i32 = 2;
@@ -965,10 +965,8 @@ pub fn web_browser(telnet: &mut NetTelnet) {
             }
         };
         
-        return;
-        
         'page: loop { 
-            render_dyn(&mut ParmScreen, &mut render_result);
+            render_dyn(&mut ParmScreen(Buffer::B0), &mut render_result);
             // used pressed Esc to pause page
             loop {
                 rprint!("? ");
@@ -981,7 +979,7 @@ pub fn web_browser(telnet: &mut NetTelnet) {
                             parm::tty::read_line_rust(&mut current_url);
                             current_url_view = current_url.trim_ascii();
                             if !current_url_view.is_empty() {
-                                parm::screen::clear(Buffer::Front, ColorSimple::White);
+                                parm::screen::clear(Buffer::B0, ColorSimple::White);
                                 break;
                             }
                         }

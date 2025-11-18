@@ -142,6 +142,17 @@ pub unsafe fn ___rust_no_alloc_shim_is_unstable_v2() {
     
 }
 
+#[unsafe(no_mangle)]
+unsafe extern "C" fn strlen(s: *const u8) -> usize {
+    let mut len = 0;
+    let mut ptr = s;
+    while *ptr != 0 {
+        len += 1;
+        ptr = ptr.add(1);
+    }
+    len
+}
+
 // from redox https://gitlab.redox-os.org/redox-os/kernel/-/blob/master/src/externs.rs
 const WORD_SIZE: usize = 4;
 

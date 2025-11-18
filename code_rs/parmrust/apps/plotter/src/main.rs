@@ -38,7 +38,7 @@ fn add(f: impl FnOnce(ColorEncoded), name: &'static str, color: impl ColorEncoda
 fn main() {
     init();
 
-    circle(10, 10, 100, ColorSimple::White);
+    //circle(10, 10, 100, ColorSimple::White);
 
     get_videotty().offset(10, 10);
 
