@@ -945,6 +945,7 @@ class AssemblerState:
             if instr.startswith("$bl"):
                 first = instr[3] == "1"
                 n = self.parse_imm(args) // 2 - (pc + (1 if first else 0)) - 1
+                assert -(1 << 22) <= n < (1 << 22), n
                 if first:
                     val = (0b1111_0 << 11) | ((n >> 11) & 0b111_1111_1111)
                 else:

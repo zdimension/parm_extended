@@ -5,14 +5,12 @@ extern crate alloc;
 use core::fmt::Write;
 use crate::heap::string::String;
 use alloc::vec::Vec;
-use crate::mmio::{TELNETavail, TELNETdata};
+use crate::mmio::{TELNETavail, TELNETdata, TELNETmulti};
 use crate::tty::{AsciiEncodable, DisplayTarget};
 use crate::print;
 
 pub fn flush_all() {
-    while data_available() {
-        let _ = TELNETdata.read();
-    }
+    while read().is_some() {}
 }
 
 #[inline(always)]
@@ -34,18 +32,38 @@ pub fn data_available() -> bool {
 
 #[inline(always)]
 pub fn read_blocking() -> u8 {
-    while !data_available() {
+    /*while !data_available() {
         continue;
     }
-    TELNETdata.read() as u8
+    TELNETdata.read() as u8*/
+    /*let res = TELNETmulti.read() as u8;
+    unsafe {
+        core::arch::asm!("nop");
+        core::arch::asm!("nop");
+    }
+    return res;*/
+    loop {
+        let data = TELNETmulti.read() as i32;
+        if data < 0 {
+            continue;
+        } else {
+            return data as u8;
+        }
+    }
 }
 
 #[inline(always)]
 pub fn read() -> Option<u8> {
-    if data_available() {
+    /*if data_available() {
         Some(TELNETdata.read() as u8)
     } else {
         None
+    }*/
+    let data = TELNETmulti.read() as i32;
+    if data < 0 {
+        None
+    } else {
+        Some(data as u8)
     }
 }
 
@@ -69,15 +87,11 @@ pub fn read_chunk_to_end(out: &mut [u8]) -> usize {
 }
 
 pub fn read_arr_blocking<const N: usize>() -> [u8; N] {
-    let mut arr = [0; N];
-    for i in 0..N {
-        arr[i] = read_blocking();
-    }
-    arr
+    core::array::from_fn(|_| read_blocking())
 }
 
 pub fn read_n_blocking(n: usize) -> Vec<u8> {
-    let mut res: Vec<u8> = Vec::with_capacity(n);
+    /*let mut res: Vec<u8> = Vec::with_capacity(n);
     unsafe {
         for i in 0..n {
             //RES.write(i as u32);
@@ -85,7 +99,8 @@ pub fn read_n_blocking(n: usize) -> Vec<u8> {
         }
         res.set_len(n);
     }
-    res
+    res*/
+    (0..n).map(|_| read_blocking()).collect()
 }
 
 pub fn read_all_as<T>(conv: fn(u8) -> T, stop: fn(u8) -> bool) -> Vec<T> {
@@ -93,8 +108,7 @@ pub fn read_all_as<T>(conv: fn(u8) -> T, stop: fn(u8) -> bool) -> Vec<T> {
         continue;
     }
     let mut data = Vec::with_capacity(32);
-    while data_available() {
-        let char_read = TELNETdata.read() as u8;
+    while let Some(char_read) = read() {
         if stop(char_read) {
             break;
         }

@@ -4,7 +4,7 @@
 
 extern crate alloc;
 
-use parm::screen::{set_pixel_buf, Buffer, ColorSimple, get_buf, set_buf};
+use parm::screen::{set_pixel_buf, Buffer, ColorSimple, get_buf, set_buf, clear};
 use parm::telnet;
 use parm::mmio::TIMER;
 
@@ -165,6 +165,11 @@ fn main() {
         BALL_SPEED_Y
     );
 
+    // Store previous positions for erasing
+    let mut prev_paddle1_y = paddle1.y;
+    let mut prev_ball_x = ball.x;
+    let mut prev_ball_y = ball.y;
+
     // Frame timing
     let mut last_frame_time = TIMER.read();
 
@@ -178,9 +183,9 @@ fn main() {
         }
         last_frame_time = current_time;
 
-        // Get the back buffer (the one NOT currently visible)
+        // Get the currently displayed buffer and draw to the other one
         let visible_buf = get_buf();
-        let back_buf = !visible_buf;
+        let draw_buf = !visible_buf;
 
         // Process input from telnet (player 1)
         while let Some(cmd) = telnet::read() {
@@ -195,21 +200,27 @@ fn main() {
         // Update game state
         ball.update(&paddle1, &paddle2);
 
-        // Clear the entire game area on the back buffer
-        clear_game_area(back_buf);
+        // Erase previous positions (draw black over old positions)
+        draw_rect_buf(draw_buf, paddle1.x, prev_paddle1_y, PADDLE_WIDTH, PADDLE_HEIGHT, ColorSimple::Black);
+        draw_rect_buf(draw_buf, prev_ball_x, prev_ball_y, BALL_SIZE, BALL_SIZE, ColorSimple::Black);
 
-        // Draw everything on the back buffer
-        paddle1.draw(back_buf, ColorSimple::White);
-        paddle2.draw(back_buf, ColorSimple::White);
-        ball.draw(back_buf, ColorSimple::White);
+        // Draw new positions
+        paddle1.draw(draw_buf, ColorSimple::White);
+        paddle2.draw(draw_buf, ColorSimple::White);
+        ball.draw(draw_buf, ColorSimple::White);
 
         // Draw center line
         for y in (0..SCREEN_HEIGHT).step_by(20) {
-            draw_rect_buf(back_buf, SCREEN_WIDTH / 2 - 1, y, 2, 10, ColorSimple::White);
+            draw_rect_buf(draw_buf, SCREEN_WIDTH / 2 - 1, y, 2, 10, ColorSimple::White);
         }
 
-        // Swap buffers - make the back buffer visible
-        set_buf(back_buf);
+        // Store current positions for next frame
+        prev_paddle1_y = paddle1.y;
+        prev_ball_x = ball.x;
+        prev_ball_y = ball.y;
+
+        // Swap buffers - make the drawn buffer visible
+        set_buf(draw_buf);
     }
 }
 

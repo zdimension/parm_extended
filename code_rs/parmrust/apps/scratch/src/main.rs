@@ -21,6 +21,77 @@ fn bench(f: impl FnOnce()) {
 
 #[unsafe(no_mangle)]
 fn main() {
+    while !parm::telnet::data_available() {
+        
+    }
+    /*let x: [u8; 40960] = parm::telnet::read_arr_blocking();
+    let mut y = [0u8; 4096];
+    let mut cnt = 0;
+    for k in x {
+        if k == 0xff {
+            continue;
+        }
+        y[cnt] = k;
+        cnt += 1;
+        if cnt == y.len() {
+            break;
+        }
+    }*/
+    let y: [u8; 4096] = parm::telnet::read_arr_blocking();
+    for i in 0..(y.len() / 16) {
+        for j in 0..16 {
+            let addr = y.as_ptr() as usize + i * 16 + j;
+            unsafe {
+                let ptr = addr as *mut u8;
+                let val = *ptr;
+                let char = if val.is_ascii_graphic() || val == b' ' { val as char } else { '.' };
+                print!(char);
+            }
+        }
+        println!();
+    }
+    return;
+    /*let mut cnt = 0;
+    let mut enabled = false;
+    for i in 0..x.len() {
+        let c = x[i];
+        if !enabled {
+            if c == b'0' {
+                enabled = true;
+            } else {
+                continue;
+            }
+        }
+        if c == 0xff {
+            continue;
+        }
+        print!(c as char);
+        cnt += 1;
+        if cnt == 16 {
+            cnt = 0;
+            println!();
+        }
+    }
+    println!("***");*/
+    main();
+    /*for i in 0..x.len() / 16 {
+        if x[i*16] != b'0' {
+            println!("! ", i*16);
+        }
+        for j in 0..16 {
+            let addr = x.as_ptr() as usize + i * 16 + j;
+            unsafe {
+                let ptr = addr as *mut u8;
+                let val = *ptr;
+                let char = if val.is_ascii_graphic() || val == b' ' { val as char } else { '.' };
+                print!(char);
+            }
+        }
+        println!();
+    }*/
+    
+    
+    
     return;
     let mut p = unsafe { parm::heap::HEAP_START } as usize;
     const lim: usize = 10;

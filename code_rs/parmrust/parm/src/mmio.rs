@@ -9,7 +9,7 @@ const fn mmio(pin: u8) -> *mut u32 {
 #[inline(always)]
 const fn mmio_int(pin: u8) ->  u32 {
     match pin {
-        0..=15 => MMIO_BASE_INT + (pin as u32 * 4),
+        0..=31 => MMIO_BASE_INT + (pin as u32 * 4),
         _ => panic!("Invalid pin"),
     }
 }
@@ -119,5 +119,6 @@ pins! {
     R0R1mulR2R3_lo => 13(in),
     R0R1mulR2R3_hi => 14(in),
     TIMER => 15(in),
-    BREAKpin => 15(out)
+    BREAKpin => 15(out),
+    TELNETmulti => 16(in)
 }

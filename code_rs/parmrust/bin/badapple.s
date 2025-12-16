@@ -14,7 +14,7 @@
 	.eabi_attribute	38, 1
 	.eabi_attribute	14, 0
 	.code	16
-	.file	"badapple.6b31027fad4cc7a1-cgu.0"
+	.file	"badapple.77c56aeeae157d65-cgu.0"
 
 	.text
 	.p2align	1
@@ -110,12 +110,12 @@ _ZN63_$LT$core..cell..BorrowMutError$u20$as$u20$core..fmt..Debug$GT$3fmt17hd3989
 
 
 
-	.section	.text._ZN8badapple8badapple6frame017h4adf6b925bcec135E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple6frame0,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple6frame017h4adf6b925bcec135E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame0,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple6frame017h4adf6b925bcec135E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame0:
 	.fnstart
 	.pad	#88
 	sub	sp, #88
@@ -139,7 +139,7 @@ _ZN8badapple8badapple6frame017h4adf6b925bcec135E:
 	add	r0, sp, #56
 	add	r1, sp, #40
 	add	r2, sp, #72
-	bl	_ZN22embedded_graphics_core10primitives9rectangle9Rectangle12intersection17ha0407d6d15645af7E
+	bl	_RNvMs0_NtNtCs3ByWt3msWm1_22embedded_graphics_core10primitives9rectangleNtB5_9Rectangle12intersection
 	ldr	r0, [sp, #60]
 	ldr	r1, [sp, #68]
 	adds	r1, r1, r0
@@ -246,7 +246,7 @@ _ZN8badapple8badapple6frame017h4adf6b925bcec135E:
 	add	r0, sp, #56
 	add	r1, sp, #40
 	add	r2, sp, #72
-	bl	_ZN22embedded_graphics_core10primitives9rectangle9Rectangle12intersection17ha0407d6d15645af7E
+	bl	_RNvMs0_NtNtCs3ByWt3msWm1_22embedded_graphics_core10primitives9rectangleNtB5_9Rectangle12intersection
 	ldr	r0, [sp, #60]
 	ldr	r1, [sp, #68]
 	adds	r1, r1, r0
@@ -348,23 +348,23 @@ _ZN8badapple8badapple6frame017h4adf6b925bcec135E:
 	ldr	r1, [sp, #12]
 	str	r1, [r0]
 	ldr	r0, [r0, #12]
-	bl	_ZN8badapple8badapple6frame117h15f5fb62aef221a6E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame1
 	.p2align	2
 .LCPI0_0:
 	.long	4292870144
 .LCPI0_1:
 	.long	4293561344
 .Lfunc_end0:
-	.size	_ZN8badapple8badapple6frame017h4adf6b925bcec135E, .Lfunc_end0-_ZN8badapple8badapple6frame017h4adf6b925bcec135E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame0, .Lfunc_end0-_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame0
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple6frame117h15f5fb62aef221a6E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple6frame1,"ax",%progbits
 	.p2align	1
-	.type	_ZN8badapple8badapple6frame117h15f5fb62aef221a6E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame1,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple6frame117h15f5fb62aef221a6E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame1:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -404,18 +404,18 @@ _ZN8badapple8badapple6frame117h15f5fb62aef221a6E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple6frame217h33ae84ec70923edeE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame2
 .Lfunc_end1:
-	.size	_ZN8badapple8badapple6frame117h15f5fb62aef221a6E, .Lfunc_end1-_ZN8badapple8badapple6frame117h15f5fb62aef221a6E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame1, .Lfunc_end1-_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame1
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple6frame217h33ae84ec70923edeE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple6frame2,"ax",%progbits
 	.p2align	1
-	.type	_ZN8badapple8badapple6frame217h33ae84ec70923edeE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame2,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple6frame217h33ae84ec70923edeE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame2:
 	.fnstart
 	adds	r0, #12
 	movs	r1, #195
@@ -439,18 +439,18 @@ _ZN8badapple8badapple6frame217h33ae84ec70923edeE:
 	movs	r2, #0
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple6frame317h84ccd57720317a73E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame3
 .Lfunc_end2:
-	.size	_ZN8badapple8badapple6frame217h33ae84ec70923edeE, .Lfunc_end2-_ZN8badapple8badapple6frame217h33ae84ec70923edeE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame2, .Lfunc_end2-_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame2
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple6frame317h84ccd57720317a73E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple6frame3,"ax",%progbits
 	.p2align	1
-	.type	_ZN8badapple8badapple6frame317h84ccd57720317a73E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame3,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple6frame317h84ccd57720317a73E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame3:
 	.fnstart
 	adds	r0, #12
 	movs	r1, #195
@@ -474,18 +474,18 @@ _ZN8badapple8badapple6frame317h84ccd57720317a73E:
 	movs	r2, #1
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple6frame417hff6911c1d9e7fa6aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame4
 .Lfunc_end3:
-	.size	_ZN8badapple8badapple6frame317h84ccd57720317a73E, .Lfunc_end3-_ZN8badapple8badapple6frame317h84ccd57720317a73E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame3, .Lfunc_end3-_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame3
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple6frame417hff6911c1d9e7fa6aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple6frame4,"ax",%progbits
 	.p2align	1
-	.type	_ZN8badapple8badapple6frame417hff6911c1d9e7fa6aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame4,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple6frame417hff6911c1d9e7fa6aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame4:
 	.fnstart
 	adds	r0, #12
 	movs	r1, #195
@@ -509,18 +509,18 @@ _ZN8badapple8badapple6frame417hff6911c1d9e7fa6aE:
 	movs	r2, #0
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple6frame517h3bca70f5c0739c7eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame5
 .Lfunc_end4:
-	.size	_ZN8badapple8badapple6frame417hff6911c1d9e7fa6aE, .Lfunc_end4-_ZN8badapple8badapple6frame417hff6911c1d9e7fa6aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame4, .Lfunc_end4-_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame4
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple6frame517h3bca70f5c0739c7eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple6frame5,"ax",%progbits
 	.p2align	1
-	.type	_ZN8badapple8badapple6frame517h3bca70f5c0739c7eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame5,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple6frame517h3bca70f5c0739c7eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame5:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -559,18 +559,18 @@ _ZN8badapple8badapple6frame517h3bca70f5c0739c7eE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple6frame617h4bd04788cff68763E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame6
 .Lfunc_end5:
-	.size	_ZN8badapple8badapple6frame517h3bca70f5c0739c7eE, .Lfunc_end5-_ZN8badapple8badapple6frame517h3bca70f5c0739c7eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame5, .Lfunc_end5-_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame5
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple6frame617h4bd04788cff68763E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple6frame6,"ax",%progbits
 	.p2align	1
-	.type	_ZN8badapple8badapple6frame617h4bd04788cff68763E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame6,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple6frame617h4bd04788cff68763E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame6:
 	.fnstart
 	adds	r0, #12
 	movs	r1, #195
@@ -594,18 +594,18 @@ _ZN8badapple8badapple6frame617h4bd04788cff68763E:
 	movs	r2, #0
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple6frame717h21df1f1127c87592E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame7
 .Lfunc_end6:
-	.size	_ZN8badapple8badapple6frame617h4bd04788cff68763E, .Lfunc_end6-_ZN8badapple8badapple6frame617h4bd04788cff68763E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame6, .Lfunc_end6-_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame6
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple6frame717h21df1f1127c87592E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple6frame7,"ax",%progbits
 	.p2align	1
-	.type	_ZN8badapple8badapple6frame717h21df1f1127c87592E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame7,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple6frame717h21df1f1127c87592E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame7:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -649,18 +649,18 @@ _ZN8badapple8badapple6frame717h21df1f1127c87592E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple6frame817hea702970238f6229E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame8
 .Lfunc_end7:
-	.size	_ZN8badapple8badapple6frame717h21df1f1127c87592E, .Lfunc_end7-_ZN8badapple8badapple6frame717h21df1f1127c87592E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame7, .Lfunc_end7-_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame7
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple6frame817hea702970238f6229E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple6frame8,"ax",%progbits
 	.p2align	1
-	.type	_ZN8badapple8badapple6frame817hea702970238f6229E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame8,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple6frame817hea702970238f6229E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame8:
 	.fnstart
 	adds	r0, #12
 	movs	r1, #195
@@ -684,18 +684,18 @@ _ZN8badapple8badapple6frame817hea702970238f6229E:
 	movs	r2, #0
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple6frame917he416eb172cef5f15E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame9
 .Lfunc_end8:
-	.size	_ZN8badapple8badapple6frame817hea702970238f6229E, .Lfunc_end8-_ZN8badapple8badapple6frame817hea702970238f6229E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame8, .Lfunc_end8-_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame8
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple6frame917he416eb172cef5f15E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple6frame9,"ax",%progbits
 	.p2align	1
-	.type	_ZN8badapple8badapple6frame917he416eb172cef5f15E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame9,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple6frame917he416eb172cef5f15E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame9:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -733,18 +733,18 @@ _ZN8badapple8badapple6frame917he416eb172cef5f15E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame1017h5692832fa642ef2aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame10
 .Lfunc_end9:
-	.size	_ZN8badapple8badapple6frame917he416eb172cef5f15E, .Lfunc_end9-_ZN8badapple8badapple6frame917he416eb172cef5f15E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame9, .Lfunc_end9-_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame9
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame1017h5692832fa642ef2aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame10,"ax",%progbits
 	.p2align	1
-	.type	_ZN8badapple8badapple7frame1017h5692832fa642ef2aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame10,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame1017h5692832fa642ef2aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame10:
 	.fnstart
 	adds	r0, #12
 	movs	r1, #195
@@ -768,18 +768,18 @@ _ZN8badapple8badapple7frame1017h5692832fa642ef2aE:
 	movs	r2, #0
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame1117h0b5afc99a530e8a7E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame11
 .Lfunc_end10:
-	.size	_ZN8badapple8badapple7frame1017h5692832fa642ef2aE, .Lfunc_end10-_ZN8badapple8badapple7frame1017h5692832fa642ef2aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame10, .Lfunc_end10-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame10
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame1117h0b5afc99a530e8a7E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame11,"ax",%progbits
 	.p2align	1
-	.type	_ZN8badapple8badapple7frame1117h0b5afc99a530e8a7E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame11,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame1117h0b5afc99a530e8a7E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame11:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -817,18 +817,18 @@ _ZN8badapple8badapple7frame1117h0b5afc99a530e8a7E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame1217h449a030e1e634f2bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame12
 .Lfunc_end11:
-	.size	_ZN8badapple8badapple7frame1117h0b5afc99a530e8a7E, .Lfunc_end11-_ZN8badapple8badapple7frame1117h0b5afc99a530e8a7E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame11, .Lfunc_end11-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame11
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame1217h449a030e1e634f2bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame12,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame1217h449a030e1e634f2bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame12,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame1217h449a030e1e634f2bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame12:
 	.fnstart
 	ldr	r2, .LCPI12_0
 	movs	r1, #0
@@ -863,7 +863,7 @@ _ZN8badapple8badapple7frame1217h449a030e1e634f2bE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame1317h17bfdb0be6e4f322E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame13
 	.p2align	2
 .LCPI12_0:
 	.long	4292935820
@@ -876,16 +876,16 @@ _ZN8badapple8badapple7frame1217h449a030e1e634f2bE:
 .LCPI12_4:
 	.long	4292943496
 .Lfunc_end12:
-	.size	_ZN8badapple8badapple7frame1217h449a030e1e634f2bE, .Lfunc_end12-_ZN8badapple8badapple7frame1217h449a030e1e634f2bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame12, .Lfunc_end12-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame12
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame1317h17bfdb0be6e4f322E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame13,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame1317h17bfdb0be6e4f322E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame13,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame1317h17bfdb0be6e4f322E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame13:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -1410,7 +1410,7 @@ _ZN8badapple8badapple7frame1317h17bfdb0be6e4f322E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame1417h160eac3e6d9c6b11E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame14
 	.p2align	2
 .LCPI13_0:
 	.long	4293565544
@@ -1531,16 +1531,16 @@ _ZN8badapple8badapple7frame1317h17bfdb0be6e4f322E:
 .LCPI13_58:
 	.long	4293676940
 .Lfunc_end13:
-	.size	_ZN8badapple8badapple7frame1317h17bfdb0be6e4f322E, .Lfunc_end13-_ZN8badapple8badapple7frame1317h17bfdb0be6e4f322E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame13, .Lfunc_end13-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame13
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame1417h160eac3e6d9c6b11E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame14,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame1417h160eac3e6d9c6b11E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame14,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame1417h160eac3e6d9c6b11E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame14:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -3134,7 +3134,7 @@ _ZN8badapple8badapple7frame1417h160eac3e6d9c6b11E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame1517hb6fe1d09fbc3d5d6E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame15
 	.p2align	2
 .LCPI14_51:
 	.long	4292968384
@@ -3185,16 +3185,16 @@ _ZN8badapple8badapple7frame1417h160eac3e6d9c6b11E:
 .LCPI14_74:
 	.long	4293012576
 .Lfunc_end14:
-	.size	_ZN8badapple8badapple7frame1417h160eac3e6d9c6b11E, .Lfunc_end14-_ZN8badapple8badapple7frame1417h160eac3e6d9c6b11E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame14, .Lfunc_end14-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame14
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame1517hb6fe1d09fbc3d5d6E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame15,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame1517hb6fe1d09fbc3d5d6E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame15,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame1517hb6fe1d09fbc3d5d6E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame15:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -5418,7 +5418,7 @@ _ZN8badapple8badapple7frame1517hb6fe1d09fbc3d5d6E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame1617h52559642d209ac94E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame16
 	.p2align	2
 .LCPI15_72:
 	.long	4293653808
@@ -5475,16 +5475,16 @@ _ZN8badapple8badapple7frame1517hb6fe1d09fbc3d5d6E:
 .LCPI15_98:
 	.long	4293703784
 .Lfunc_end15:
-	.size	_ZN8badapple8badapple7frame1517hb6fe1d09fbc3d5d6E, .Lfunc_end15-_ZN8badapple8badapple7frame1517hb6fe1d09fbc3d5d6E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame15, .Lfunc_end15-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame15
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame1617h52559642d209ac94E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame16,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame1617h52559642d209ac94E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame16,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame1617h52559642d209ac94E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame16:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -6545,7 +6545,7 @@ _ZN8badapple8badapple7frame1617h52559642d209ac94E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame1717h86077bc1c6fdf7daE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame17
 	.p2align	2
 .LCPI16_53:
 	.long	4292951104
@@ -6614,16 +6614,16 @@ _ZN8badapple8badapple7frame1617h52559642d209ac94E:
 .LCPI16_85:
 	.long	4293012576
 .Lfunc_end16:
-	.size	_ZN8badapple8badapple7frame1617h52559642d209ac94E, .Lfunc_end16-_ZN8badapple8badapple7frame1617h52559642d209ac94E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame16, .Lfunc_end16-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame16
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame1717h86077bc1c6fdf7daE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame17,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame1717h86077bc1c6fdf7daE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame17,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame1717h86077bc1c6fdf7daE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame17:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -8445,7 +8445,7 @@ _ZN8badapple8badapple7frame1717h86077bc1c6fdf7daE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame1817hd1e784e3eb731489E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame18
 	.p2align	2
 .LCPI17_89:
 	.long	4293646112
@@ -8522,16 +8522,16 @@ _ZN8badapple8badapple7frame1717h86077bc1c6fdf7daE:
 .LCPI17_125:
 	.long	4293703784
 .Lfunc_end17:
-	.size	_ZN8badapple8badapple7frame1717h86077bc1c6fdf7daE, .Lfunc_end17-_ZN8badapple8badapple7frame1717h86077bc1c6fdf7daE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame17, .Lfunc_end17-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame17
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame1817hd1e784e3eb731489E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame18,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame1817hd1e784e3eb731489E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame18,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame1817hd1e784e3eb731489E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame18:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -10536,7 +10536,7 @@ _ZN8badapple8badapple7frame1817hd1e784e3eb731489E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame1917h7bfcdc3135d99829E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame19
 	.p2align	2
 .LCPI18_84:
 	.long	4292947288
@@ -10657,16 +10657,16 @@ _ZN8badapple8badapple7frame1817hd1e784e3eb731489E:
 .LCPI18_142:
 	.long	4293012224
 .Lfunc_end18:
-	.size	_ZN8badapple8badapple7frame1817hd1e784e3eb731489E, .Lfunc_end18-_ZN8badapple8badapple7frame1817hd1e784e3eb731489E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame18, .Lfunc_end18-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame18
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame1917h7bfcdc3135d99829E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame19,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame1917h7bfcdc3135d99829E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame19,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame1917h7bfcdc3135d99829E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame19:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -13138,7 +13138,7 @@ _ZN8badapple8badapple7frame1917h7bfcdc3135d99829E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame2017h58eb76428e064531E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame20
 	.p2align	2
 .LCPI19_103:
 	.long	4293663104
@@ -13219,16 +13219,16 @@ _ZN8badapple8badapple7frame1917h7bfcdc3135d99829E:
 .LCPI19_141:
 	.long	4293703424
 .Lfunc_end19:
-	.size	_ZN8badapple8badapple7frame1917h7bfcdc3135d99829E, .Lfunc_end19-_ZN8badapple8badapple7frame1917h7bfcdc3135d99829E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame19, .Lfunc_end19-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame19
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame2017h58eb76428e064531E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame20,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame2017h58eb76428e064531E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame20,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame2017h58eb76428e064531E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame20:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -15259,7 +15259,7 @@ _ZN8badapple8badapple7frame2017h58eb76428e064531E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame2117h229ce7dffffe3812E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame21
 	.p2align	2
 .LCPI20_113:
 	.long	4292979952
@@ -15332,16 +15332,16 @@ _ZN8badapple8badapple7frame2017h58eb76428e064531E:
 .LCPI20_147:
 	.long	4293012544
 .Lfunc_end20:
-	.size	_ZN8badapple8badapple7frame2017h58eb76428e064531E, .Lfunc_end20-_ZN8badapple8badapple7frame2017h58eb76428e064531E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame20, .Lfunc_end20-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame20
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame2117h229ce7dffffe3812E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame21,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame2117h229ce7dffffe3812E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame21,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame2117h229ce7dffffe3812E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame21:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -16862,7 +16862,7 @@ _ZN8badapple8badapple7frame2117h229ce7dffffe3812E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame2217hb956d6b32b918585E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame22
 	.p2align	2
 .LCPI21_103:
 	.long	4293663472
@@ -16951,16 +16951,16 @@ _ZN8badapple8badapple7frame2117h229ce7dffffe3812E:
 .LCPI21_145:
 	.long	4293703736
 .Lfunc_end21:
-	.size	_ZN8badapple8badapple7frame2117h229ce7dffffe3812E, .Lfunc_end21-_ZN8badapple8badapple7frame2117h229ce7dffffe3812E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame21, .Lfunc_end21-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame21
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame2217hb956d6b32b918585E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame22,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame2217hb956d6b32b918585E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame22,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame2217hb956d6b32b918585E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame22:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -18248,7 +18248,7 @@ _ZN8badapple8badapple7frame2217hb956d6b32b918585E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame2317hefed0bf85316527aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame23
 	.p2align	2
 .LCPI22_89:
 	.long	4292958596
@@ -18367,16 +18367,16 @@ _ZN8badapple8badapple7frame2217hb956d6b32b918585E:
 .LCPI22_146:
 	.long	4293012544
 .Lfunc_end22:
-	.size	_ZN8badapple8badapple7frame2217hb956d6b32b918585E, .Lfunc_end22-_ZN8badapple8badapple7frame2217hb956d6b32b918585E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame22, .Lfunc_end22-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame22
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame2317hefed0bf85316527aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame23,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame2317hefed0bf85316527aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame23,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame2317hefed0bf85316527aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame23:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -20300,7 +20300,7 @@ _ZN8badapple8badapple7frame2317hefed0bf85316527aE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame2417h979a43cd3352cf63E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame24
 	.p2align	2
 .LCPI23_116:
 	.long	4293671172
@@ -20407,16 +20407,16 @@ _ZN8badapple8badapple7frame2317hefed0bf85316527aE:
 .LCPI23_167:
 	.long	4293703808
 .Lfunc_end23:
-	.size	_ZN8badapple8badapple7frame2317hefed0bf85316527aE, .Lfunc_end23-_ZN8badapple8badapple7frame2317hefed0bf85316527aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame23, .Lfunc_end23-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame23
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame2417h979a43cd3352cf63E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame24,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame2417h979a43cd3352cf63E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame24,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame2417h979a43cd3352cf63E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame24:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -22347,7 +22347,7 @@ _ZN8badapple8badapple7frame2417h979a43cd3352cf63E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame2517h1af277ba24359cc5E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame25
 	.p2align	2
 .LCPI24_110:
 	.long	4292975844
@@ -22430,16 +22430,16 @@ _ZN8badapple8badapple7frame2417h979a43cd3352cf63E:
 .LCPI24_149:
 	.long	4293012464
 .Lfunc_end24:
-	.size	_ZN8badapple8badapple7frame2417h979a43cd3352cf63E, .Lfunc_end24-_ZN8badapple8badapple7frame2417h979a43cd3352cf63E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame24, .Lfunc_end24-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame24
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame2517h1af277ba24359cc5E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame25,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame2517h1af277ba24359cc5E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame25,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame2517h1af277ba24359cc5E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame25:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -23984,7 +23984,7 @@ _ZN8badapple8badapple7frame2517h1af277ba24359cc5E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame2617ha81fedb7379538cdE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame26
 	.p2align	2
 .LCPI25_105:
 	.long	4293667036
@@ -24067,16 +24067,16 @@ _ZN8badapple8badapple7frame2517h1af277ba24359cc5E:
 .LCPI25_144:
 	.long	4293703656
 .Lfunc_end25:
-	.size	_ZN8badapple8badapple7frame2517h1af277ba24359cc5E, .Lfunc_end25-_ZN8badapple8badapple7frame2517h1af277ba24359cc5E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame25, .Lfunc_end25-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame25
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame2617ha81fedb7379538cdE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame26,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame2617ha81fedb7379538cdE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame26,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame2617ha81fedb7379538cdE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame26:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -25286,7 +25286,7 @@ _ZN8badapple8badapple7frame2617ha81fedb7379538cdE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame2717h710e56b7126ad2e0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame27
 	.p2align	2
 .LCPI26_83:
 	.long	4292952812
@@ -25417,16 +25417,16 @@ _ZN8badapple8badapple7frame2617ha81fedb7379538cdE:
 .LCPI26_146:
 	.long	4293012464
 .Lfunc_end26:
-	.size	_ZN8badapple8badapple7frame2617ha81fedb7379538cdE, .Lfunc_end26-_ZN8badapple8badapple7frame2617ha81fedb7379538cdE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame26, .Lfunc_end26-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame26
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame2717h710e56b7126ad2e0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame27,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame2717h710e56b7126ad2e0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame27,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame2717h710e56b7126ad2e0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame27:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -26662,7 +26662,7 @@ _ZN8badapple8badapple7frame2717h710e56b7126ad2e0E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame2817h38670c1912c6ebf8E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame28
 	.p2align	2
 .LCPI27_75:
 	.long	4293642240
@@ -26793,16 +26793,16 @@ _ZN8badapple8badapple7frame2717h710e56b7126ad2e0E:
 .LCPI27_138:
 	.long	4293703656
 .Lfunc_end27:
-	.size	_ZN8badapple8badapple7frame2717h710e56b7126ad2e0E, .Lfunc_end27-_ZN8badapple8badapple7frame2717h710e56b7126ad2e0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame27, .Lfunc_end27-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame27
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame2817h38670c1912c6ebf8E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame28,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame2817h38670c1912c6ebf8E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame28,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame2817h38670c1912c6ebf8E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame28:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -27750,7 +27750,7 @@ _ZN8badapple8badapple7frame2817h38670c1912c6ebf8E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame2917h084d369d7cb0f8e4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame29
 	.p2align	2
 .LCPI28_52:
 	.long	4292935656
@@ -27895,16 +27895,16 @@ _ZN8badapple8badapple7frame2817h38670c1912c6ebf8E:
 .LCPI28_122:
 	.long	4293012500
 .Lfunc_end28:
-	.size	_ZN8badapple8badapple7frame2817h38670c1912c6ebf8E, .Lfunc_end28-_ZN8badapple8badapple7frame2817h38670c1912c6ebf8E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame28, .Lfunc_end28-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame28
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame2917h084d369d7cb0f8e4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame29,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame2917h084d369d7cb0f8e4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame29,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame2917h084d369d7cb0f8e4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame29:
 	.fnstart
 	movs	r1, #243
 	mvns	r1, r1
@@ -28429,7 +28429,7 @@ _ZN8badapple8badapple7frame2917h084d369d7cb0f8e4E:
 .LBB29_5:
 	str	r2, [r1, #36]
 	ldr	r0, [r1, #48]
-	bl	_ZN8badapple8badapple7frame3017h6d3aae055452da9bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame30
 	.p2align	2
 .LCPI29_0:
 	.long	4293561444
@@ -28656,16 +28656,16 @@ _ZN8badapple8badapple7frame2917h084d369d7cb0f8e4E:
 .LCPI29_111:
 	.long	4293703696
 .Lfunc_end29:
-	.size	_ZN8badapple8badapple7frame2917h084d369d7cb0f8e4E, .Lfunc_end29-_ZN8badapple8badapple7frame2917h084d369d7cb0f8e4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame29, .Lfunc_end29-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame29
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame3017h6d3aae055452da9bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame30,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame3017h6d3aae055452da9bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame30,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame3017h6d3aae055452da9bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame30:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -29812,7 +29812,7 @@ _ZN8badapple8badapple7frame3017h6d3aae055452da9bE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame3117h74cd983e00f836c0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame31
 	.p2align	2
 .LCPI30_82:
 	.long	4292966240
@@ -29915,16 +29915,16 @@ _ZN8badapple8badapple7frame3017h6d3aae055452da9bE:
 .LCPI30_131:
 	.long	4293012496
 .Lfunc_end30:
-	.size	_ZN8badapple8badapple7frame3017h6d3aae055452da9bE, .Lfunc_end30-_ZN8badapple8badapple7frame3017h6d3aae055452da9bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame30, .Lfunc_end30-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame30
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame3117h74cd983e00f836c0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame31,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame3117h74cd983e00f836c0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame31,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame3117h74cd983e00f836c0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame31:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -31162,7 +31162,7 @@ _ZN8badapple8badapple7frame3117h74cd983e00f836c0E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame3217h2aed81e04a29a707E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame32
 	.p2align	2
 .LCPI31_68:
 	.long	4293646068
@@ -31287,16 +31287,16 @@ _ZN8badapple8badapple7frame3117h74cd983e00f836c0E:
 .LCPI31_128:
 	.long	4293703696
 .Lfunc_end31:
-	.size	_ZN8badapple8badapple7frame3117h74cd983e00f836c0E, .Lfunc_end31-_ZN8badapple8badapple7frame3117h74cd983e00f836c0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame31, .Lfunc_end31-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame31
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame3217h2aed81e04a29a707E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame32,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame3217h2aed81e04a29a707E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame32,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame3217h2aed81e04a29a707E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame32:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -32479,7 +32479,7 @@ _ZN8badapple8badapple7frame3217h2aed81e04a29a707E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame3317he6de32994025cd90E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame33
 	.p2align	2
 .LCPI32_65:
 	.long	4292956804
@@ -32600,16 +32600,16 @@ _ZN8badapple8badapple7frame3217h2aed81e04a29a707E:
 .LCPI32_123:
 	.long	4293012496
 .Lfunc_end32:
-	.size	_ZN8badapple8badapple7frame3217h2aed81e04a29a707E, .Lfunc_end32-_ZN8badapple8badapple7frame3217h2aed81e04a29a707E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame32, .Lfunc_end32-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame32
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame3317he6de32994025cd90E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame33,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame3317he6de32994025cd90E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame33,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame3317he6de32994025cd90E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame33:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -33547,7 +33547,7 @@ _ZN8badapple8badapple7frame3317he6de32994025cd90E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame3417hd2e9530c67647bc4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame34
 	.p2align	2
 .LCPI33_47:
 	.long	4293630724
@@ -33704,16 +33704,16 @@ _ZN8badapple8badapple7frame3317he6de32994025cd90E:
 .LCPI33_123:
 	.long	4293703712
 .Lfunc_end33:
-	.size	_ZN8badapple8badapple7frame3317he6de32994025cd90E, .Lfunc_end33-_ZN8badapple8badapple7frame3317he6de32994025cd90E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame33, .Lfunc_end33-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame33
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame3417hd2e9530c67647bc4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame34,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame3417hd2e9530c67647bc4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame34,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame3417hd2e9530c67647bc4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame34:
 	.fnstart
 	ldr	r3, .LCPI34_112
 	movs	r2, #1
@@ -34501,7 +34501,7 @@ _ZN8badapple8badapple7frame3417hd2e9530c67647bc4E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame3517h1b1348d755755202E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame35
 	.p2align	2
 .LCPI34_35:
 	.long	4292927904
@@ -34658,16 +34658,16 @@ _ZN8badapple8badapple7frame3417hd2e9530c67647bc4E:
 .LCPI34_111:
 	.long	4293012520
 .Lfunc_end34:
-	.size	_ZN8badapple8badapple7frame3417hd2e9530c67647bc4E, .Lfunc_end34-_ZN8badapple8badapple7frame3417hd2e9530c67647bc4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame34, .Lfunc_end34-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame34
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame3517h1b1348d755755202E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame35,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame3517h1b1348d755755202E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame35,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame3517h1b1348d755755202E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame35:
 	.fnstart
 	ldr	r3, .LCPI35_102
 	movs	r1, #1
@@ -35275,7 +35275,7 @@ _ZN8badapple8badapple7frame3517h1b1348d755755202E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame3617hfe89f7eb349c15d9E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame36
 	.p2align	2
 .LCPI35_11:
 	.long	4293574928
@@ -35460,16 +35460,16 @@ _ZN8badapple8badapple7frame3517h1b1348d755755202E:
 .LCPI35_101:
 	.long	4293703724
 .Lfunc_end35:
-	.size	_ZN8badapple8badapple7frame3517h1b1348d755755202E, .Lfunc_end35-_ZN8badapple8badapple7frame3517h1b1348d755755202E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame35, .Lfunc_end35-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame35
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame3617hfe89f7eb349c15d9E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame36,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame3617hfe89f7eb349c15d9E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame36,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame3617hfe89f7eb349c15d9E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame36:
 	.fnstart
 	ldr	r2, .LCPI36_0
 	movs	r1, #0
@@ -35916,7 +35916,7 @@ _ZN8badapple8badapple7frame3617hfe89f7eb349c15d9E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame3717h49e61733e723d382E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame37
 	.p2align	2
 .LCPI36_0:
 	.long	4292870368
@@ -36103,16 +36103,16 @@ _ZN8badapple8badapple7frame3617hfe89f7eb349c15d9E:
 .LCPI36_91:
 	.long	4293012500
 .Lfunc_end36:
-	.size	_ZN8badapple8badapple7frame3617hfe89f7eb349c15d9E, .Lfunc_end36-_ZN8badapple8badapple7frame3617hfe89f7eb349c15d9E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame36, .Lfunc_end36-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame36
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame3717h49e61733e723d382E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame37,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame3717h49e61733e723d382E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame37,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame3717h49e61733e723d382E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame37:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -36984,7 +36984,7 @@ _ZN8badapple8badapple7frame3717h49e61733e723d382E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame3817h7c72fd52f3b0fb7dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame38
 	.p2align	2
 .LCPI37_42:
 	.long	4293638424
@@ -37121,16 +37121,16 @@ _ZN8badapple8badapple7frame3717h49e61733e723d382E:
 .LCPI37_108:
 	.long	4293703688
 .Lfunc_end37:
-	.size	_ZN8badapple8badapple7frame3717h49e61733e723d382E, .Lfunc_end37-_ZN8badapple8badapple7frame3717h49e61733e723d382E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame37, .Lfunc_end37-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame37
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame3817h7c72fd52f3b0fb7dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame38,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame3817h7c72fd52f3b0fb7dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame38,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame3817h7c72fd52f3b0fb7dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame38:
 	.fnstart
 	ldr	r1, .LCPI38_107
 	movs	r2, #1
@@ -38085,7 +38085,7 @@ _ZN8badapple8badapple7frame3817h7c72fd52f3b0fb7dE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame3917h739332689bafbc7dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame39
 	.p2align	2
 .LCPI38_53:
 	.long	4292962436
@@ -38196,16 +38196,16 @@ _ZN8badapple8badapple7frame3817h7c72fd52f3b0fb7dE:
 .LCPI38_106:
 	.long	4293012480
 .Lfunc_end38:
-	.size	_ZN8badapple8badapple7frame3817h7c72fd52f3b0fb7dE, .Lfunc_end38-_ZN8badapple8badapple7frame3817h7c72fd52f3b0fb7dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame38, .Lfunc_end38-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame38
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame3917h739332689bafbc7dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame39,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame3917h739332689bafbc7dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame39,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame3917h739332689bafbc7dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame39:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -39232,7 +39232,7 @@ _ZN8badapple8badapple7frame3917h739332689bafbc7dE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame4017hed0dce5ddc2450cdE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame40
 	.p2align	2
 .LCPI39_53:
 	.long	4293655552
@@ -39339,16 +39339,16 @@ _ZN8badapple8badapple7frame3917h739332689bafbc7dE:
 .LCPI39_104:
 	.long	4293703680
 .Lfunc_end39:
-	.size	_ZN8badapple8badapple7frame3917h739332689bafbc7dE, .Lfunc_end39-_ZN8badapple8badapple7frame3917h739332689bafbc7dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame39, .Lfunc_end39-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame39
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame4017hed0dce5ddc2450cdE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame40,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame4017hed0dce5ddc2450cdE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame40,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame4017hed0dce5ddc2450cdE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame40:
 	.fnstart
 	ldr	r2, .LCPI40_107
 	movs	r1, #0
@@ -40160,7 +40160,7 @@ _ZN8badapple8badapple7frame4017hed0dce5ddc2450cdE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame4117h5642bb156df416d2E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame41
 	.p2align	2
 .LCPI40_33:
 	.long	4292935568
@@ -40311,16 +40311,16 @@ _ZN8badapple8badapple7frame4017hed0dce5ddc2450cdE:
 .LCPI40_106:
 	.long	4293012468
 .Lfunc_end40:
-	.size	_ZN8badapple8badapple7frame4017hed0dce5ddc2450cdE, .Lfunc_end40-_ZN8badapple8badapple7frame4017hed0dce5ddc2450cdE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame40, .Lfunc_end40-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame40
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame4117h5642bb156df416d2E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame41,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame4117h5642bb156df416d2E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame41,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame4117h5642bb156df416d2E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame41:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -40982,7 +40982,7 @@ _ZN8badapple8badapple7frame4117h5642bb156df416d2E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame4217h217dbc4a3f14210cE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame42
 	.p2align	2
 .LCPI41_15:
 	.long	4293594128
@@ -41163,16 +41163,16 @@ _ZN8badapple8badapple7frame4117h5642bb156df416d2E:
 .LCPI41_103:
 	.long	4293703676
 .Lfunc_end41:
-	.size	_ZN8badapple8badapple7frame4117h5642bb156df416d2E, .Lfunc_end41-_ZN8badapple8badapple7frame4117h5642bb156df416d2E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame41, .Lfunc_end41-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame41
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame4217h217dbc4a3f14210cE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame42,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame4217h217dbc4a3f14210cE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame42,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame4217h217dbc4a3f14210cE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame42:
 	.fnstart
 	ldr	r3, .LCPI42_0
 	movs	r1, #0
@@ -41643,7 +41643,7 @@ _ZN8badapple8badapple7frame4217h217dbc4a3f14210cE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame4317h96df7d013af4c225E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame43
 	.p2align	2
 .LCPI42_0:
 	.long	4292876040
@@ -41816,16 +41816,16 @@ _ZN8badapple8badapple7frame4217h217dbc4a3f14210cE:
 .LCPI42_84:
 	.long	4293012340
 .Lfunc_end42:
-	.size	_ZN8badapple8badapple7frame4217h217dbc4a3f14210cE, .Lfunc_end42-_ZN8badapple8badapple7frame4217h217dbc4a3f14210cE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame42, .Lfunc_end42-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame42
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame4317h96df7d013af4c225E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame43,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame4317h96df7d013af4c225E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame43,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame4317h96df7d013af4c225E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame43:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -42154,7 +42154,7 @@ _ZN8badapple8badapple7frame4317h96df7d013af4c225E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame4417hb3e6e0987cac9180E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame44
 	.p2align	2
 .LCPI43_0:
 	.long	4293565324
@@ -42317,16 +42317,16 @@ _ZN8badapple8badapple7frame4317h96df7d013af4c225E:
 .LCPI43_79:
 	.long	4293703668
 .Lfunc_end43:
-	.size	_ZN8badapple8badapple7frame4317h96df7d013af4c225E, .Lfunc_end43-_ZN8badapple8badapple7frame4317h96df7d013af4c225E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame43, .Lfunc_end43-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame43
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame4417hb3e6e0987cac9180E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame44,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame4417hb3e6e0987cac9180E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame44,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame4417hb3e6e0987cac9180E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame44:
 	.fnstart
 	ldr	r3, .LCPI44_100
 	movs	r2, #1
@@ -43150,7 +43150,7 @@ _ZN8badapple8badapple7frame4417hb3e6e0987cac9180E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame4517h46a18db623e9476eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame45
 	.p2align	2
 .LCPI44_36:
 	.long	4292945148
@@ -43281,16 +43281,16 @@ _ZN8badapple8badapple7frame4417hb3e6e0987cac9180E:
 .LCPI44_99:
 	.long	4293012464
 .Lfunc_end44:
-	.size	_ZN8badapple8badapple7frame4417hb3e6e0987cac9180E, .Lfunc_end44-_ZN8badapple8badapple7frame4417hb3e6e0987cac9180E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame44, .Lfunc_end44-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame44
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame4517h46a18db623e9476eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame45,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame4517h46a18db623e9476eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame45,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame4517h46a18db623e9476eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame45:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -44162,7 +44162,7 @@ _ZN8badapple8badapple7frame4517h46a18db623e9476eE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame4617h08841b02d9ce5ae7E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame46
 	.p2align	2
 .LCPI45_40:
 	.long	4293644036
@@ -44285,16 +44285,16 @@ _ZN8badapple8badapple7frame4517h46a18db623e9476eE:
 .LCPI45_99:
 	.long	4293703684
 .Lfunc_end45:
-	.size	_ZN8badapple8badapple7frame4517h46a18db623e9476eE, .Lfunc_end45-_ZN8badapple8badapple7frame4517h46a18db623e9476eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame45, .Lfunc_end45-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame45
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame4617h08841b02d9ce5ae7E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame46,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame4617h08841b02d9ce5ae7E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame46,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame4617h08841b02d9ce5ae7E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame46:
 	.fnstart
 	ldr	r2, .LCPI46_97
 	movs	r1, #0
@@ -45093,7 +45093,7 @@ _ZN8badapple8badapple7frame4617h08841b02d9ce5ae7E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame4717hc03a188762f185b3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame47
 	.p2align	2
 .LCPI46_32:
 	.long	4292937484
@@ -45226,16 +45226,16 @@ _ZN8badapple8badapple7frame4617h08841b02d9ce5ae7E:
 .LCPI46_96:
 	.long	4293012492
 .Lfunc_end46:
-	.size	_ZN8badapple8badapple7frame4617h08841b02d9ce5ae7E, .Lfunc_end46-_ZN8badapple8badapple7frame4617h08841b02d9ce5ae7E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame46, .Lfunc_end46-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame46
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame4717hc03a188762f185b3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame47,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame4717hc03a188762f185b3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame47,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame4717hc03a188762f185b3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame47:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -46038,7 +46038,7 @@ _ZN8badapple8badapple7frame4717hc03a188762f185b3E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame4817h5fc47031fc7187c0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame48
 	.p2align	2
 .LCPI47_30:
 	.long	4293624852
@@ -46189,16 +46189,16 @@ _ZN8badapple8badapple7frame4717hc03a188762f185b3E:
 .LCPI47_103:
 	.long	4293703696
 .Lfunc_end47:
-	.size	_ZN8badapple8badapple7frame4717hc03a188762f185b3E, .Lfunc_end47-_ZN8badapple8badapple7frame4717hc03a188762f185b3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame47, .Lfunc_end47-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame47
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame4817h5fc47031fc7187c0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame48,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame4817h5fc47031fc7187c0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame48,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame4817h5fc47031fc7187c0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame48:
 	.fnstart
 	ldr	r2, .LCPI48_106
 	movs	r1, #1
@@ -46923,7 +46923,7 @@ _ZN8badapple8badapple7frame4817h5fc47031fc7187c0E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame4917h19aa1568eaaf69c4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame49
 	.p2align	2
 .LCPI48_21:
 	.long	4292912556
@@ -47096,16 +47096,16 @@ _ZN8badapple8badapple7frame4817h5fc47031fc7187c0E:
 .LCPI48_105:
 	.long	4293012376
 .Lfunc_end48:
-	.size	_ZN8badapple8badapple7frame4817h5fc47031fc7187c0E, .Lfunc_end48-_ZN8badapple8badapple7frame4817h5fc47031fc7187c0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame48, .Lfunc_end48-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame48
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame4917h19aa1568eaaf69c4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame49,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame4917h19aa1568eaaf69c4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame49,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame4917h19aa1568eaaf69c4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame49:
 	.fnstart
 	ldr	r3, .LCPI49_0
 	movs	r1, #1
@@ -47498,7 +47498,7 @@ _ZN8badapple8badapple7frame4917h19aa1568eaaf69c4E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame5017h50f05d78d4d40b02E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame50
 	.p2align	2
 .LCPI49_0:
 	.long	4293567332
@@ -47667,16 +47667,16 @@ _ZN8badapple8badapple7frame4917h19aa1568eaaf69c4E:
 .LCPI49_82:
 	.long	4293703576
 .Lfunc_end49:
-	.size	_ZN8badapple8badapple7frame4917h19aa1568eaaf69c4E, .Lfunc_end49-_ZN8badapple8badapple7frame4917h19aa1568eaaf69c4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame49, .Lfunc_end49-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame49
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame5017h50f05d78d4d40b02E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame50,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame5017h50f05d78d4d40b02E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame50,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame5017h50f05d78d4d40b02E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame50:
 	.fnstart
 	ldr	r2, .LCPI50_0
 	movs	r1, #0
@@ -48070,7 +48070,7 @@ _ZN8badapple8badapple7frame5017h50f05d78d4d40b02E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame5117hb0d3057dbf2ac5a5E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame51
 	.p2align	2
 .LCPI50_0:
 	.long	4292872308
@@ -48261,16 +48261,16 @@ _ZN8badapple8badapple7frame5017h50f05d78d4d40b02E:
 .LCPI50_93:
 	.long	4293012500
 .Lfunc_end50:
-	.size	_ZN8badapple8badapple7frame5017h50f05d78d4d40b02E, .Lfunc_end50-_ZN8badapple8badapple7frame5017h50f05d78d4d40b02E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame50, .Lfunc_end50-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame50
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame5117hb0d3057dbf2ac5a5E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame51,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame5117hb0d3057dbf2ac5a5E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame51,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame5117hb0d3057dbf2ac5a5E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame51:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -49092,7 +49092,7 @@ _ZN8badapple8badapple7frame5117hb0d3057dbf2ac5a5E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame5217ha809f1ffd8cd54e5E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame52
 	.p2align	2
 .LCPI51_35:
 	.long	4293634456
@@ -49225,16 +49225,16 @@ _ZN8badapple8badapple7frame5117hb0d3057dbf2ac5a5E:
 .LCPI51_99:
 	.long	4293703684
 .Lfunc_end51:
-	.size	_ZN8badapple8badapple7frame5117hb0d3057dbf2ac5a5E, .Lfunc_end51-_ZN8badapple8badapple7frame5117hb0d3057dbf2ac5a5E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame51, .Lfunc_end51-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame51
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame5217ha809f1ffd8cd54e5E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame52,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame5217ha809f1ffd8cd54e5E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame52,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame5217ha809f1ffd8cd54e5E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame52:
 	.fnstart
 	ldr	r1, .LCPI52_101
 	movs	r2, #1
@@ -50079,7 +50079,7 @@ _ZN8badapple8badapple7frame5217ha809f1ffd8cd54e5E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame5317hfba2da4ffbc67651E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame53
 	.p2align	2
 .LCPI52_38:
 	.long	4292949008
@@ -50208,16 +50208,16 @@ _ZN8badapple8badapple7frame5217ha809f1ffd8cd54e5E:
 .LCPI52_100:
 	.long	4293012480
 .Lfunc_end52:
-	.size	_ZN8badapple8badapple7frame5217ha809f1ffd8cd54e5E, .Lfunc_end52-_ZN8badapple8badapple7frame5217ha809f1ffd8cd54e5E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame52, .Lfunc_end52-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame52
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame5317hfba2da4ffbc67651E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame53,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame5317hfba2da4ffbc67651E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame53,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame5317hfba2da4ffbc67651E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame53:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -50944,7 +50944,7 @@ _ZN8badapple8badapple7frame5317hfba2da4ffbc67651E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame5417he4b3aa881a8a0d35E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame54
 	.p2align	2
 .LCPI53_23:
 	.long	4293611428
@@ -51099,16 +51099,16 @@ _ZN8badapple8badapple7frame5317hfba2da4ffbc67651E:
 .LCPI53_98:
 	.long	4293703680
 .Lfunc_end53:
-	.size	_ZN8badapple8badapple7frame5317hfba2da4ffbc67651E, .Lfunc_end53-_ZN8badapple8badapple7frame5317hfba2da4ffbc67651E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame53, .Lfunc_end53-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame53
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame5417he4b3aa881a8a0d35E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame54,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame5417he4b3aa881a8a0d35E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame54,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame5417he4b3aa881a8a0d35E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame54:
 	.fnstart
 	ldr	r2, .LCPI54_0
 	movs	r1, #1
@@ -51455,7 +51455,7 @@ _ZN8badapple8badapple7frame5417he4b3aa881a8a0d35E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame5517hc698dd6af2934b6eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame55
 	.p2align	2
 .LCPI54_0:
 	.long	4292874140
@@ -51648,16 +51648,16 @@ _ZN8badapple8badapple7frame5417he4b3aa881a8a0d35E:
 .LCPI54_94:
 	.long	4293012476
 .Lfunc_end54:
-	.size	_ZN8badapple8badapple7frame5417he4b3aa881a8a0d35E, .Lfunc_end54-_ZN8badapple8badapple7frame5417he4b3aa881a8a0d35E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame54, .Lfunc_end54-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame54
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame5517hc698dd6af2934b6eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame55,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame5517hc698dd6af2934b6eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame55,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame5517hc698dd6af2934b6eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame55:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -52790,7 +52790,7 @@ _ZN8badapple8badapple7frame5517hc698dd6af2934b6eE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame5617hbeec2d63b976db81E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame56
 	.p2align	2
 .LCPI55_66:
 	.long	4293659528
@@ -52879,16 +52879,16 @@ _ZN8badapple8badapple7frame5517hc698dd6af2934b6eE:
 .LCPI55_108:
 	.long	4293703672
 .Lfunc_end55:
-	.size	_ZN8badapple8badapple7frame5517hc698dd6af2934b6eE, .Lfunc_end55-_ZN8badapple8badapple7frame5517hc698dd6af2934b6eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame55, .Lfunc_end55-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame55
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame5617hbeec2d63b976db81E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame56,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame5617hbeec2d63b976db81E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame56,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame5617hbeec2d63b976db81E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame56:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -54300,7 +54300,7 @@ _ZN8badapple8badapple7frame5617hbeec2d63b976db81E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame5717hdb428271ac3afd9bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame57
 	.p2align	2
 .LCPI56_81:
 	.long	4292977928
@@ -54377,16 +54377,16 @@ _ZN8badapple8badapple7frame5617hbeec2d63b976db81E:
 .LCPI56_117:
 	.long	4293012488
 .Lfunc_end56:
-	.size	_ZN8badapple8badapple7frame5617hbeec2d63b976db81E, .Lfunc_end56-_ZN8badapple8badapple7frame5617hbeec2d63b976db81E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame56, .Lfunc_end56-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame56
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame5717hdb428271ac3afd9bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame57,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame5717hdb428271ac3afd9bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame57,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame5717hdb428271ac3afd9bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame57:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -56124,7 +56124,7 @@ _ZN8badapple8badapple7frame5717hdb428271ac3afd9bE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame5817h167f62bcfd44dcc9E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame58
 	.p2align	2
 .LCPI57_107:
 	.long	4293680508
@@ -56179,16 +56179,16 @@ _ZN8badapple8badapple7frame5717hdb428271ac3afd9bE:
 .LCPI57_132:
 	.long	4293703708
 .Lfunc_end57:
-	.size	_ZN8badapple8badapple7frame5717hdb428271ac3afd9bE, .Lfunc_end57-_ZN8badapple8badapple7frame5717hdb428271ac3afd9bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame57, .Lfunc_end57-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame57
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame5817h167f62bcfd44dcc9E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame58,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame5817h167f62bcfd44dcc9E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame58,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame5817h167f62bcfd44dcc9E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame58:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -58436,7 +58436,7 @@ _ZN8badapple8badapple7frame5817h167f62bcfd44dcc9E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame5917ha419d60bfe9cff43E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame59
 	.p2align	2
 .LCPI58_124:
 	.long	4292989460
@@ -58489,16 +58489,16 @@ _ZN8badapple8badapple7frame5817h167f62bcfd44dcc9E:
 .LCPI58_148:
 	.long	4293012496
 .Lfunc_end58:
-	.size	_ZN8badapple8badapple7frame5817h167f62bcfd44dcc9E, .Lfunc_end58-_ZN8badapple8badapple7frame5817h167f62bcfd44dcc9E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame58, .Lfunc_end58-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame58
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame5917ha419d60bfe9cff43E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame59,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame5917ha419d60bfe9cff43E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame59,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame5917ha419d60bfe9cff43E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame59:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -60697,7 +60697,7 @@ _ZN8badapple8badapple7frame5917ha419d60bfe9cff43E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame6017h3146347520524765E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame60
 	.p2align	2
 .LCPI59_103:
 	.long	4293661512
@@ -60788,16 +60788,16 @@ _ZN8badapple8badapple7frame5917ha419d60bfe9cff43E:
 .LCPI59_146:
 	.long	4293703708
 .Lfunc_end59:
-	.size	_ZN8badapple8badapple7frame5917ha419d60bfe9cff43E, .Lfunc_end59-_ZN8badapple8badapple7frame5917ha419d60bfe9cff43E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame59, .Lfunc_end59-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame59
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame6017h3146347520524765E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame60,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame6017h3146347520524765E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame60,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame6017h3146347520524765E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame60:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -62810,7 +62810,7 @@ _ZN8badapple8badapple7frame6017h3146347520524765E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame6117hf5a29cf64d2ac4a3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame61
 	.p2align	2
 .LCPI60_118:
 	.long	4292983752
@@ -62875,16 +62875,16 @@ _ZN8badapple8badapple7frame6017h3146347520524765E:
 .LCPI60_148:
 	.long	4293012524
 .Lfunc_end60:
-	.size	_ZN8badapple8badapple7frame6017h3146347520524765E, .Lfunc_end60-_ZN8badapple8badapple7frame6017h3146347520524765E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame60, .Lfunc_end60-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame60
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame6117hf5a29cf64d2ac4a3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame61,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame6117hf5a29cf64d2ac4a3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame61,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame6117hf5a29cf64d2ac4a3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame61:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -64407,7 +64407,7 @@ _ZN8badapple8badapple7frame6117hf5a29cf64d2ac4a3E:
 .LBB61_114:
 	str	r2, [r1, #36]
 	ldr	r0, [r1, #48]
-	bl	_ZN8badapple8badapple7frame6217h442bcb59a18af563E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame62
 	.p2align	2
 .LCPI61_107:
 	.long	4293676864
@@ -64468,16 +64468,16 @@ _ZN8badapple8badapple7frame6117hf5a29cf64d2ac4a3E:
 .LCPI61_135:
 	.long	4293703736
 .Lfunc_end61:
-	.size	_ZN8badapple8badapple7frame6117hf5a29cf64d2ac4a3E, .Lfunc_end61-_ZN8badapple8badapple7frame6117hf5a29cf64d2ac4a3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame61, .Lfunc_end61-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame61
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame6217h442bcb59a18af563E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame62,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame6217h442bcb59a18af563E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame62,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame6217h442bcb59a18af563E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame62:
 	.fnstart
 	ldr	r2, .LCPI62_117
 	movs	r1, #0
@@ -65469,7 +65469,7 @@ _ZN8badapple8badapple7frame6217h442bcb59a18af563E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame6317hd13de471642857c0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame63
 	.p2align	2
 .LCPI62_73:
 	.long	4292970304
@@ -65560,16 +65560,16 @@ _ZN8badapple8badapple7frame6217h442bcb59a18af563E:
 .LCPI62_116:
 	.long	4293012568
 .Lfunc_end62:
-	.size	_ZN8badapple8badapple7frame6217h442bcb59a18af563E, .Lfunc_end62-_ZN8badapple8badapple7frame6217h442bcb59a18af563E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame62, .Lfunc_end62-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame62
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame6317hd13de471642857c0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame63,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame6317hd13de471642857c0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame63,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame6317hd13de471642857c0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame63:
 	.fnstart
 	ldr	r1, .LCPI63_112
 	movs	r2, #0
@@ -66373,7 +66373,7 @@ _ZN8badapple8badapple7frame6317hd13de471642857c0E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame6417h36dacac68034ec9bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame64
 	.p2align	2
 .LCPI63_53:
 	.long	4293636460
@@ -66494,16 +66494,16 @@ _ZN8badapple8badapple7frame6317hd13de471642857c0E:
 .LCPI63_111:
 	.long	4293703764
 .Lfunc_end63:
-	.size	_ZN8badapple8badapple7frame6317hd13de471642857c0E, .Lfunc_end63-_ZN8badapple8badapple7frame6317hd13de471642857c0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame63, .Lfunc_end63-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame63
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame6417h36dacac68034ec9bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame64,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame6417h36dacac68034ec9bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame64,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame6417h36dacac68034ec9bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame64:
 	.fnstart
 	ldr	r2, .LCPI64_108
 	movs	r1, #0
@@ -67067,7 +67067,7 @@ _ZN8badapple8badapple7frame6417h36dacac68034ec9bE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame6517h41dd24f404ba4cb0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame65
 	.p2align	2
 .LCPI64_5:
 	.long	4292885736
@@ -67276,16 +67276,16 @@ _ZN8badapple8badapple7frame6417h36dacac68034ec9bE:
 .LCPI64_107:
 	.long	4293012560
 .Lfunc_end64:
-	.size	_ZN8badapple8badapple7frame6417h36dacac68034ec9bE, .Lfunc_end64-_ZN8badapple8badapple7frame6417h36dacac68034ec9bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame64, .Lfunc_end64-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame64
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame6517h41dd24f404ba4cb0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame65,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame6517h41dd24f404ba4cb0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame65,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame6517h41dd24f404ba4cb0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame65:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -67693,7 +67693,7 @@ _ZN8badapple8badapple7frame6517h41dd24f404ba4cb0E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame6617hb8004762e164e034E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame66
 	.p2align	2
 .LCPI65_0:
 	.long	4293567356
@@ -67882,16 +67882,16 @@ _ZN8badapple8badapple7frame6517h41dd24f404ba4cb0E:
 .LCPI65_92:
 	.long	4293703644
 .Lfunc_end65:
-	.size	_ZN8badapple8badapple7frame6517h41dd24f404ba4cb0E, .Lfunc_end65-_ZN8badapple8badapple7frame6517h41dd24f404ba4cb0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame65, .Lfunc_end65-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame65
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame6617hb8004762e164e034E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame66,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame6617hb8004762e164e034E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame66,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame6617hb8004762e164e034E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame66:
 	.fnstart
 	ldr	r2, .LCPI66_0
 	movs	r1, #0
@@ -68178,7 +68178,7 @@ _ZN8badapple8badapple7frame6617hb8004762e164e034E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame6717h7556f7f93231f276E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame67
 	.p2align	2
 .LCPI66_0:
 	.long	4292878068
@@ -68367,16 +68367,16 @@ _ZN8badapple8badapple7frame6617hb8004762e164e034E:
 .LCPI66_92:
 	.long	4293012556
 .Lfunc_end66:
-	.size	_ZN8badapple8badapple7frame6617hb8004762e164e034E, .Lfunc_end66-_ZN8badapple8badapple7frame6617hb8004762e164e034E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame66, .Lfunc_end66-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame66
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame6717h7556f7f93231f276E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame67,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame6717h7556f7f93231f276E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame67,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame6717h7556f7f93231f276E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame67:
 	.fnstart
 	ldr	r2, .LCPI67_0
 	movs	r1, #1
@@ -68606,7 +68606,7 @@ _ZN8badapple8badapple7frame6717h7556f7f93231f276E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame6817hb742ab29bcdfb3a0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame68
 	.p2align	2
 .LCPI67_0:
 	.long	4293571176
@@ -68765,16 +68765,16 @@ _ZN8badapple8badapple7frame6717h7556f7f93231f276E:
 .LCPI67_77:
 	.long	4293703752
 .Lfunc_end67:
-	.size	_ZN8badapple8badapple7frame6717h7556f7f93231f276E, .Lfunc_end67-_ZN8badapple8badapple7frame6717h7556f7f93231f276E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame67, .Lfunc_end67-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame67
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame6817hb742ab29bcdfb3a0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame68,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame6817hb742ab29bcdfb3a0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame68,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame6817hb742ab29bcdfb3a0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame68:
 	.fnstart
 	ldr	r1, .LCPI68_0
 	movs	r2, #1
@@ -69104,7 +69104,7 @@ _ZN8badapple8badapple7frame6817hb742ab29bcdfb3a0E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame6917h6e0314af88be6e65E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame69
 	.p2align	2
 .LCPI68_0:
 	.long	4292878056
@@ -69293,16 +69293,16 @@ _ZN8badapple8badapple7frame6817hb742ab29bcdfb3a0E:
 .LCPI68_92:
 	.long	4293012360
 .Lfunc_end68:
-	.size	_ZN8badapple8badapple7frame6817hb742ab29bcdfb3a0E, .Lfunc_end68-_ZN8badapple8badapple7frame6817hb742ab29bcdfb3a0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame68, .Lfunc_end68-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame68
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame6917h6e0314af88be6e65E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame69,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame6917h6e0314af88be6e65E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame69,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame6917h6e0314af88be6e65E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame69:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -69687,7 +69687,7 @@ _ZN8badapple8badapple7frame6917h6e0314af88be6e65E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame7017h9b9224e710ba9077E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame70
 	.p2align	2
 .LCPI69_0:
 	.long	4293567336
@@ -69874,16 +69874,16 @@ _ZN8badapple8badapple7frame6917h6e0314af88be6e65E:
 .LCPI69_91:
 	.long	4293703752
 .Lfunc_end69:
-	.size	_ZN8badapple8badapple7frame6917h6e0314af88be6e65E, .Lfunc_end69-_ZN8badapple8badapple7frame6917h6e0314af88be6e65E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame69, .Lfunc_end69-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame69
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame7017h9b9224e710ba9077E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame70,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame7017h9b9224e710ba9077E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame70,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame7017h9b9224e710ba9077E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame70:
 	.fnstart
 	ldr	r2, .LCPI70_0
 	movs	r1, #1
@@ -70331,7 +70331,7 @@ _ZN8badapple8badapple7frame7017h9b9224e710ba9077E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame7117h138cac35ef9b300dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame71
 	.p2align	2
 .LCPI70_0:
 	.long	4292872308
@@ -70534,16 +70534,16 @@ _ZN8badapple8badapple7frame7017h9b9224e710ba9077E:
 .LCPI70_99:
 	.long	4293012448
 .Lfunc_end70:
-	.size	_ZN8badapple8badapple7frame7017h9b9224e710ba9077E, .Lfunc_end70-_ZN8badapple8badapple7frame7017h9b9224e710ba9077E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame70, .Lfunc_end70-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame70
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame7117h138cac35ef9b300dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame71,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame7117h138cac35ef9b300dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame71,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame7117h138cac35ef9b300dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame71:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -71115,7 +71115,7 @@ _ZN8badapple8badapple7frame7117h138cac35ef9b300dE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame7217h5e5aa9d47f31bcf5E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame72
 	.p2align	2
 .LCPI71_4:
 	.long	4293569284
@@ -71330,16 +71330,16 @@ _ZN8badapple8badapple7frame7117h138cac35ef9b300dE:
 .LCPI71_109:
 	.long	4293703648
 .Lfunc_end71:
-	.size	_ZN8badapple8badapple7frame7117h138cac35ef9b300dE, .Lfunc_end71-_ZN8badapple8badapple7frame7117h138cac35ef9b300dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame71, .Lfunc_end71-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame71
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame7217h5e5aa9d47f31bcf5E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame72,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame7217h5e5aa9d47f31bcf5E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame72,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame7217h5e5aa9d47f31bcf5E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame72:
 	.fnstart
 	ldr	r1, .LCPI72_120
 	movs	r2, #1
@@ -71971,7 +71971,7 @@ _ZN8badapple8badapple7frame7217h5e5aa9d47f31bcf5E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame7317hc3d0b426e8968d2dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame73
 	.p2align	2
 .LCPI72_13:
 	.long	4292895308
@@ -72188,16 +72188,16 @@ _ZN8badapple8badapple7frame7217h5e5aa9d47f31bcf5E:
 .LCPI72_119:
 	.long	4293012560
 .Lfunc_end72:
-	.size	_ZN8badapple8badapple7frame7217h5e5aa9d47f31bcf5E, .Lfunc_end72-_ZN8badapple8badapple7frame7217h5e5aa9d47f31bcf5E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame72, .Lfunc_end72-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame72
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame7317hc3d0b426e8968d2dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame73,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame7317hc3d0b426e8968d2dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame73,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame7317hc3d0b426e8968d2dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame73:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -72818,7 +72818,7 @@ _ZN8badapple8badapple7frame7317hc3d0b426e8968d2dE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame7417h3cfb1456ca5695e6E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame74
 	.p2align	2
 .LCPI73_11:
 	.long	4293582676
@@ -73041,16 +73041,16 @@ _ZN8badapple8badapple7frame7317hc3d0b426e8968d2dE:
 .LCPI73_120:
 	.long	4293703764
 .Lfunc_end73:
-	.size	_ZN8badapple8badapple7frame7317hc3d0b426e8968d2dE, .Lfunc_end73-_ZN8badapple8badapple7frame7317hc3d0b426e8968d2dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame73, .Lfunc_end73-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame73
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame7417h3cfb1456ca5695e6E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame74,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame7417h3cfb1456ca5695e6E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame74,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame7417h3cfb1456ca5695e6E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame74:
 	.fnstart
 	ldr	r3, .LCPI74_123
 	movs	r2, #1
@@ -73651,7 +73651,7 @@ _ZN8badapple8badapple7frame7417h3cfb1456ca5695e6E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame7517hef4c9e6462e004e7E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame75
 	.p2align	2
 .LCPI74_11:
 	.long	4292891472
@@ -73878,16 +73878,16 @@ _ZN8badapple8badapple7frame7417h3cfb1456ca5695e6E:
 .LCPI74_122:
 	.long	4293012568
 .Lfunc_end74:
-	.size	_ZN8badapple8badapple7frame7417h3cfb1456ca5695e6E, .Lfunc_end74-_ZN8badapple8badapple7frame7417h3cfb1456ca5695e6E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame74, .Lfunc_end74-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame74
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame7517hef4c9e6462e004e7E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame75,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame7517hef4c9e6462e004e7E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame75,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame7517hef4c9e6462e004e7E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame75:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -74652,7 +74652,7 @@ _ZN8badapple8badapple7frame7517hef4c9e6462e004e7E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame7617hc0f0d337d770b551E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame76
 	.p2align	2
 .LCPI75_46:
 	.long	4293623140
@@ -74817,16 +74817,16 @@ _ZN8badapple8badapple7frame7517hef4c9e6462e004e7E:
 .LCPI75_126:
 	.long	4293703772
 .Lfunc_end75:
-	.size	_ZN8badapple8badapple7frame7517hef4c9e6462e004e7E, .Lfunc_end75-_ZN8badapple8badapple7frame7517hef4c9e6462e004e7E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame75, .Lfunc_end75-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame75
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame7617hc0f0d337d770b551E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame76,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame7617hc0f0d337d770b551E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame76,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame7617hc0f0d337d770b551E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame76:
 	.fnstart
 	ldr	r3, .LCPI76_128
 	movs	r2, #1
@@ -75487,7 +75487,7 @@ _ZN8badapple8badapple7frame7617hc0f0d337d770b551E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame7717h3bbed195473a9944E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame77
 	.p2align	2
 .LCPI76_32:
 	.long	4292916584
@@ -75682,16 +75682,16 @@ _ZN8badapple8badapple7frame7617hc0f0d337d770b551E:
 .LCPI76_127:
 	.long	4293012580
 .Lfunc_end76:
-	.size	_ZN8badapple8badapple7frame7617hc0f0d337d770b551E, .Lfunc_end76-_ZN8badapple8badapple7frame7617hc0f0d337d770b551E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame76, .Lfunc_end76-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame76
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame7717h3bbed195473a9944E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame77,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame7717h3bbed195473a9944E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame77,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame7717h3bbed195473a9944E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame77:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -76076,7 +76076,7 @@ _ZN8badapple8badapple7frame7717h3bbed195473a9944E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame7817h3d44081f709dfab5E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame78
 	.p2align	2
 .LCPI77_0:
 	.long	4293561588
@@ -76301,16 +76301,16 @@ _ZN8badapple8badapple7frame7717h3bbed195473a9944E:
 .LCPI77_110:
 	.long	4293703784
 .Lfunc_end77:
-	.size	_ZN8badapple8badapple7frame7717h3bbed195473a9944E, .Lfunc_end77-_ZN8badapple8badapple7frame7717h3bbed195473a9944E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame77, .Lfunc_end77-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame77
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame7817h3d44081f709dfab5E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame78,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame7817h3d44081f709dfab5E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame78,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame7817h3d44081f709dfab5E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame78:
 	.fnstart
 	ldr	r1, .LCPI78_0
 	movs	r2, #1
@@ -76477,7 +76477,7 @@ _ZN8badapple8badapple7frame7817h3d44081f709dfab5E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame7917hc068543f863340e9E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame79
 	.p2align	2
 .LCPI78_0:
 	.long	4292870444
@@ -76590,16 +76590,16 @@ _ZN8badapple8badapple7frame7817h3d44081f709dfab5E:
 .LCPI78_54:
 	.long	4293012384
 .Lfunc_end78:
-	.size	_ZN8badapple8badapple7frame7817h3d44081f709dfab5E, .Lfunc_end78-_ZN8badapple8badapple7frame7817h3d44081f709dfab5E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame78, .Lfunc_end78-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame78
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame7917hc068543f863340e9E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame79,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame7917hc068543f863340e9E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame79,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame7917hc068543f863340e9E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame79:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -76749,7 +76749,7 @@ _ZN8badapple8badapple7frame7917hc068543f863340e9E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame8017h464dcbb879dada17E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame80
 	.p2align	2
 .LCPI79_0:
 	.long	4293561592
@@ -76848,16 +76848,16 @@ _ZN8badapple8badapple7frame7917hc068543f863340e9E:
 .LCPI79_47:
 	.long	4293703636
 .Lfunc_end79:
-	.size	_ZN8badapple8badapple7frame7917hc068543f863340e9E, .Lfunc_end79-_ZN8badapple8badapple7frame7917hc068543f863340e9E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame79, .Lfunc_end79-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame79
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame8017h464dcbb879dada17E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame80,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame8017h464dcbb879dada17E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame80,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame8017h464dcbb879dada17E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame80:
 	.fnstart
 	ldr	r2, .LCPI80_0
 	movs	r1, #0
@@ -77015,7 +77015,7 @@ _ZN8badapple8badapple7frame8017h464dcbb879dada17E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame8117h584b706664b028b1E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame81
 	.p2align	2
 .LCPI80_0:
 	.long	4292872368
@@ -77140,16 +77140,16 @@ _ZN8badapple8badapple7frame8017h464dcbb879dada17E:
 .LCPI80_60:
 	.long	4293012384
 .Lfunc_end80:
-	.size	_ZN8badapple8badapple7frame8017h464dcbb879dada17E, .Lfunc_end80-_ZN8badapple8badapple7frame8017h464dcbb879dada17E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame80, .Lfunc_end80-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame80
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame8117h584b706664b028b1E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame81,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame8117h584b706664b028b1E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame81,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame8117h584b706664b028b1E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame81:
 	.fnstart
 	ldr	r3, .LCPI81_0
 	movs	r2, #0
@@ -77335,7 +77335,7 @@ _ZN8badapple8badapple7frame8117h584b706664b028b1E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame8217hd201e19847516f68E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame82
 	.p2align	2
 .LCPI81_0:
 	.long	4293561592
@@ -77478,16 +77478,16 @@ _ZN8badapple8badapple7frame8117h584b706664b028b1E:
 .LCPI81_69:
 	.long	4293703632
 .Lfunc_end81:
-	.size	_ZN8badapple8badapple7frame8117h584b706664b028b1E, .Lfunc_end81-_ZN8badapple8badapple7frame8117h584b706664b028b1E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame81, .Lfunc_end81-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame81
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame8217hd201e19847516f68E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame82,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame8217hd201e19847516f68E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame82,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame8217hd201e19847516f68E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame82:
 	.fnstart
 	ldr	r3, .LCPI82_0
 	movs	r1, #0
@@ -77715,7 +77715,7 @@ _ZN8badapple8badapple7frame8217hd201e19847516f68E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame8317hfac984806a959dccE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame83
 	.p2align	2
 .LCPI82_0:
 	.long	4292870388
@@ -77872,16 +77872,16 @@ _ZN8badapple8badapple7frame8217hd201e19847516f68E:
 .LCPI82_76:
 	.long	4293012380
 .Lfunc_end82:
-	.size	_ZN8badapple8badapple7frame8217hd201e19847516f68E, .Lfunc_end82-_ZN8badapple8badapple7frame8217hd201e19847516f68E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame82, .Lfunc_end82-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame82
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame8317hfac984806a959dccE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame83,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame8317hfac984806a959dccE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame83,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame8317hfac984806a959dccE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame83:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -78255,7 +78255,7 @@ _ZN8badapple8badapple7frame8317hfac984806a959dccE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame8417h540153f7834eae0bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame84
 	.p2align	2
 .LCPI83_0:
 	.long	4293561584
@@ -78488,16 +78488,16 @@ _ZN8badapple8badapple7frame8317hfac984806a959dccE:
 .LCPI83_114:
 	.long	4293703792
 .Lfunc_end83:
-	.size	_ZN8badapple8badapple7frame8317hfac984806a959dccE, .Lfunc_end83-_ZN8badapple8badapple7frame8317hfac984806a959dccE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame83, .Lfunc_end83-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame83
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame8417h540153f7834eae0bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame84,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame8417h540153f7834eae0bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame84,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame8417h540153f7834eae0bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame84:
 	.fnstart
 	ldr	r3, .LCPI84_0
 	movs	r1, #0
@@ -78993,7 +78993,7 @@ _ZN8badapple8badapple7frame8417h540153f7834eae0bE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame8517h21d8c7bdd21744d3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame85
 	.p2align	2
 .LCPI84_0:
 	.long	4292870372
@@ -79260,16 +79260,16 @@ _ZN8badapple8badapple7frame8417h540153f7834eae0bE:
 .LCPI84_131:
 	.long	4293012592
 .Lfunc_end84:
-	.size	_ZN8badapple8badapple7frame8417h540153f7834eae0bE, .Lfunc_end84-_ZN8badapple8badapple7frame8417h540153f7834eae0bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame84, .Lfunc_end84-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame84
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame8517h21d8c7bdd21744d3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame85,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame8517h21d8c7bdd21744d3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame85,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame8517h21d8c7bdd21744d3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame85:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -80059,7 +80059,7 @@ _ZN8badapple8badapple7frame8517h21d8c7bdd21744d3E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame8617h34c94c3953cdb509E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame86
 	.p2align	2
 .LCPI85_49:
 	.long	4293615460
@@ -80244,16 +80244,16 @@ _ZN8badapple8badapple7frame8517h21d8c7bdd21744d3E:
 .LCPI85_139:
 	.long	4293703572
 .Lfunc_end85:
-	.size	_ZN8badapple8badapple7frame8517h21d8c7bdd21744d3E, .Lfunc_end85-_ZN8badapple8badapple7frame8517h21d8c7bdd21744d3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame85, .Lfunc_end85-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame85
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame8617h34c94c3953cdb509E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame86,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame8617h34c94c3953cdb509E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame86,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame8617h34c94c3953cdb509E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame86:
 	.fnstart
 	ldr	r3, .LCPI86_138
 	movs	r1, #0
@@ -81213,7 +81213,7 @@ _ZN8badapple8badapple7frame8617h34c94c3953cdb509E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame8717h78140fbc029d9898E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame87
 	.p2align	2
 .LCPI86_78:
 	.long	4292954980
@@ -81336,16 +81336,16 @@ _ZN8badapple8badapple7frame8617h34c94c3953cdb509E:
 .LCPI86_137:
 	.long	4293012368
 .Lfunc_end86:
-	.size	_ZN8badapple8badapple7frame8617h34c94c3953cdb509E, .Lfunc_end86-_ZN8badapple8badapple7frame8617h34c94c3953cdb509E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame86, .Lfunc_end86-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame86
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame8717h78140fbc029d9898E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame87,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame8717h78140fbc029d9898E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame87,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame8717h78140fbc029d9898E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame87:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -82391,7 +82391,7 @@ _ZN8badapple8badapple7frame8717h78140fbc029d9898E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame8817he39fd928110da82cE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame88
 	.p2align	2
 .LCPI87_77:
 	.long	4293655748
@@ -82490,16 +82490,16 @@ _ZN8badapple8badapple7frame8717h78140fbc029d9898E:
 .LCPI87_124:
 	.long	4293703760
 .Lfunc_end87:
-	.size	_ZN8badapple8badapple7frame8717h78140fbc029d9898E, .Lfunc_end87-_ZN8badapple8badapple7frame8717h78140fbc029d9898E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame87, .Lfunc_end87-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame87
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame8817he39fd928110da82cE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame88,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame8817he39fd928110da82cE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame88,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame8817he39fd928110da82cE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame88:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -83536,7 +83536,7 @@ _ZN8badapple8badapple7frame8817he39fd928110da82cE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame8917hedc743790faa9eadE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame89
 	.p2align	2
 .LCPI88_80:
 	.long	4292970312
@@ -83617,16 +83617,16 @@ _ZN8badapple8badapple7frame8817he39fd928110da82cE:
 .LCPI88_118:
 	.long	4293012556
 .Lfunc_end88:
-	.size	_ZN8badapple8badapple7frame8817he39fd928110da82cE, .Lfunc_end88-_ZN8badapple8badapple7frame8817he39fd928110da82cE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame88, .Lfunc_end88-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame88
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame8917hedc743790faa9eadE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame89,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame8917hedc743790faa9eadE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame89,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame8917hedc743790faa9eadE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame89:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -85101,7 +85101,7 @@ _ZN8badapple8badapple7frame8917hedc743790faa9eadE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame9017h3164e4acb62c3907E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame90
 	.p2align	2
 .LCPI89_101:
 	.long	4293671112
@@ -85176,16 +85176,16 @@ _ZN8badapple8badapple7frame8917hedc743790faa9eadE:
 .LCPI89_136:
 	.long	4293703760
 .Lfunc_end89:
-	.size	_ZN8badapple8badapple7frame8917hedc743790faa9eadE, .Lfunc_end89-_ZN8badapple8badapple7frame8917hedc743790faa9eadE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame89, .Lfunc_end89-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame89
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame9017h3164e4acb62c3907E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame90,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame9017h3164e4acb62c3907E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame90,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame9017h3164e4acb62c3907E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame90:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -87061,7 +87061,7 @@ _ZN8badapple8badapple7frame9017h3164e4acb62c3907E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame9117hf8401b7e3a991bf6E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame91
 	.p2align	2
 .LCPI90_122:
 	.long	4292987588
@@ -87124,16 +87124,16 @@ _ZN8badapple8badapple7frame9017h3164e4acb62c3907E:
 .LCPI90_151:
 	.long	4293012560
 .Lfunc_end90:
-	.size	_ZN8badapple8badapple7frame9017h3164e4acb62c3907E, .Lfunc_end90-_ZN8badapple8badapple7frame9017h3164e4acb62c3907E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame90, .Lfunc_end90-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame90
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame9117hf8401b7e3a991bf6E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame91,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame9117hf8401b7e3a991bf6E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame91,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame9117hf8401b7e3a991bf6E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame91:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -89037,7 +89037,7 @@ _ZN8badapple8badapple7frame9117hf8401b7e3a991bf6E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame9217h75e90d759e42edd2E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame92
 	.p2align	2
 .LCPI91_125:
 	.long	4293682648
@@ -89108,16 +89108,16 @@ _ZN8badapple8badapple7frame9117hf8401b7e3a991bf6E:
 .LCPI91_158:
 	.long	4293703784
 .Lfunc_end91:
-	.size	_ZN8badapple8badapple7frame9117hf8401b7e3a991bf6E, .Lfunc_end91-_ZN8badapple8badapple7frame9117hf8401b7e3a991bf6E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame91, .Lfunc_end91-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame91
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame9217h75e90d759e42edd2E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame92,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame9217h75e90d759e42edd2E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame92,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame9217h75e90d759e42edd2E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame92:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -91156,7 +91156,7 @@ _ZN8badapple8badapple7frame9217h75e90d759e42edd2E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame9317hdf55362c362113e8E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame93
 	.p2align	2
 .LCPI92_115:
 	.long	4292981856
@@ -91235,16 +91235,16 @@ _ZN8badapple8badapple7frame9217h75e90d759e42edd2E:
 .LCPI92_152:
 	.long	4293012572
 .Lfunc_end92:
-	.size	_ZN8badapple8badapple7frame9217h75e90d759e42edd2E, .Lfunc_end92-_ZN8badapple8badapple7frame9217h75e90d759e42edd2E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame92, .Lfunc_end92-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame92
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame9317hdf55362c362113e8E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame93,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame9317hdf55362c362113e8E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame93,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame9317hdf55362c362113e8E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame93:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -93792,7 +93792,7 @@ _ZN8badapple8badapple7frame9317hdf55362c362113e8E:
 .LBB93_114:
 	str	r2, [r1, #36]
 	ldr	r0, [r1, #48]
-	bl	_ZN8badapple8badapple7frame9417hf30731d73e269bc9E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame94
 	.p2align	2
 .LCPI93_105:
 	.long	4293669212
@@ -93869,16 +93869,16 @@ _ZN8badapple8badapple7frame9317hdf55362c362113e8E:
 .LCPI93_141:
 	.long	4293703808
 .Lfunc_end93:
-	.size	_ZN8badapple8badapple7frame9317hdf55362c362113e8E, .Lfunc_end93-_ZN8badapple8badapple7frame9317hdf55362c362113e8E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame93, .Lfunc_end93-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame93
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame9417hf30731d73e269bc9E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame94,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame9417hf30731d73e269bc9E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame94,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame9417hf30731d73e269bc9E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame94:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -96415,7 +96415,7 @@ _ZN8badapple8badapple7frame9417hf30731d73e269bc9E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame9517h904adf3f87b97c4dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame95
 	.p2align	2
 .LCPI94_98:
 	.long	4292972264
@@ -96494,16 +96494,16 @@ _ZN8badapple8badapple7frame9417hf30731d73e269bc9E:
 .LCPI94_135:
 	.long	4293012488
 .Lfunc_end94:
-	.size	_ZN8badapple8badapple7frame9417hf30731d73e269bc9E, .Lfunc_end94-_ZN8badapple8badapple7frame9417hf30731d73e269bc9E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame94, .Lfunc_end94-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame94
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame9517h904adf3f87b97c4dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame95,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame9517h904adf3f87b97c4dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame95,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame9517h904adf3f87b97c4dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame95:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -98572,7 +98572,7 @@ _ZN8badapple8badapple7frame9517h904adf3f87b97c4dE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame9617he7c686210495883eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame96
 	.p2align	2
 .LCPI95_89:
 	.long	4293657736
@@ -98649,16 +98649,16 @@ _ZN8badapple8badapple7frame9517h904adf3f87b97c4dE:
 .LCPI95_125:
 	.long	4293703620
 .Lfunc_end95:
-	.size	_ZN8badapple8badapple7frame9517h904adf3f87b97c4dE, .Lfunc_end95-_ZN8badapple8badapple7frame9517h904adf3f87b97c4dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame95, .Lfunc_end95-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame95
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame9617he7c686210495883eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame96,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame9617he7c686210495883eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame96,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame9617he7c686210495883eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame96:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -101890,7 +101890,7 @@ _ZN8badapple8badapple7frame9617he7c686210495883eE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame9717h13a362068854a978E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame97
 	.p2align	2
 .LCPI96_110:
 	.long	4292964520
@@ -101963,16 +101963,16 @@ _ZN8badapple8badapple7frame9617he7c686210495883eE:
 .LCPI96_144:
 	.long	4293012504
 .Lfunc_end96:
-	.size	_ZN8badapple8badapple7frame9617he7c686210495883eE, .Lfunc_end96-_ZN8badapple8badapple7frame9617he7c686210495883eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame96, .Lfunc_end96-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame96
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame9717h13a362068854a978E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame97,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame9717h13a362068854a978E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame97,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame9717h13a362068854a978E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame97:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -104373,7 +104373,7 @@ _ZN8badapple8badapple7frame9717h13a362068854a978E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple7frame9817h3c8defacd70334cbE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame98
 	.p2align	2
 .LCPI97_86:
 	.long	4293671100
@@ -104440,16 +104440,16 @@ _ZN8badapple8badapple7frame9717h13a362068854a978E:
 .LCPI97_117:
 	.long	4293703620
 .Lfunc_end97:
-	.size	_ZN8badapple8badapple7frame9717h13a362068854a978E, .Lfunc_end97-_ZN8badapple8badapple7frame9717h13a362068854a978E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame97, .Lfunc_end97-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame97
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame9817h3c8defacd70334cbE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame98,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame9817h3c8defacd70334cbE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame98,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame9817h3c8defacd70334cbE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame98:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -108433,7 +108433,7 @@ _ZN8badapple8badapple7frame9817h3c8defacd70334cbE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple7frame9917hf6637cf6241f3c5fE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame99
 	.p2align	2
 .LCPI98_139:
 	.long	4292987552
@@ -108464,16 +108464,16 @@ _ZN8badapple8badapple7frame9817h3c8defacd70334cbE:
 .LCPI98_152:
 	.long	4293012504
 .Lfunc_end98:
-	.size	_ZN8badapple8badapple7frame9817h3c8defacd70334cbE, .Lfunc_end98-_ZN8badapple8badapple7frame9817h3c8defacd70334cbE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame98, .Lfunc_end98-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame98
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple7frame9917hf6637cf6241f3c5fE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple7frame99,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple7frame9917hf6637cf6241f3c5fE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame99,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple7frame9917hf6637cf6241f3c5fE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame99:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -110691,7 +110691,7 @@ _ZN8badapple8badapple7frame9917hf6637cf6241f3c5fE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame10017h350de03ca0591669E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame100
 	.p2align	2
 .LCPI99_80:
 	.long	4293690280
@@ -110724,16 +110724,16 @@ _ZN8badapple8badapple7frame9917hf6637cf6241f3c5fE:
 .LCPI99_94:
 	.long	4293703752
 .Lfunc_end99:
-	.size	_ZN8badapple8badapple7frame9917hf6637cf6241f3c5fE, .Lfunc_end99-_ZN8badapple8badapple7frame9917hf6637cf6241f3c5fE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame99, .Lfunc_end99-_RNvNtCsahxqgaXFSyD_8badapple8badapple7frame99
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame10017h350de03ca0591669E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame100,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame10017h350de03ca0591669E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame100,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame10017h350de03ca0591669E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame100:
 	.fnstart
 	ldr	r2, .LCPI100_0
 	movs	r1, #0
@@ -111148,7 +111148,7 @@ _ZN8badapple8badapple8frame10017h350de03ca0591669E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame10117he0875b86ab98eb45E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame101
 	.p2align	2
 .LCPI100_0:
 	.long	4292870300
@@ -111197,16 +111197,16 @@ _ZN8badapple8badapple8frame10017h350de03ca0591669E:
 .LCPI100_22:
 	.long	4292924096
 .Lfunc_end100:
-	.size	_ZN8badapple8badapple8frame10017h350de03ca0591669E, .Lfunc_end100-_ZN8badapple8badapple8frame10017h350de03ca0591669E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame100, .Lfunc_end100-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame100
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame10117he0875b86ab98eb45E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame101,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame10117he0875b86ab98eb45E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame101,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame10117he0875b86ab98eb45E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame101:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -111973,7 +111973,7 @@ _ZN8badapple8badapple8frame10117he0875b86ab98eb45E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame10217hba8b18508057a3d5E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame102
 	.p2align	2
 .LCPI101_13:
 	.long	4293586472
@@ -112028,16 +112028,16 @@ _ZN8badapple8badapple8frame10117he0875b86ab98eb45E:
 .LCPI101_38:
 	.long	4293634504
 .Lfunc_end101:
-	.size	_ZN8badapple8badapple8frame10117he0875b86ab98eb45E, .Lfunc_end101-_ZN8badapple8badapple8frame10117he0875b86ab98eb45E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame101, .Lfunc_end101-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame101
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame10217hba8b18508057a3d5E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame102,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame10217hba8b18508057a3d5E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame102,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame10217hba8b18508057a3d5E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame102:
 	.fnstart
 	ldr	r2, .LCPI102_42
 	movs	r1, #0
@@ -112914,7 +112914,7 @@ _ZN8badapple8badapple8frame10217hba8b18508057a3d5E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame10317h6ecd5863591d4286E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame103
 	.p2align	2
 .LCPI102_19:
 	.long	4292920232
@@ -112963,16 +112963,16 @@ _ZN8badapple8badapple8frame10217hba8b18508057a3d5E:
 .LCPI102_41:
 	.long	4292962508
 .Lfunc_end102:
-	.size	_ZN8badapple8badapple8frame10217hba8b18508057a3d5E, .Lfunc_end102-_ZN8badapple8badapple8frame10217hba8b18508057a3d5E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame102, .Lfunc_end102-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame102
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame10317h6ecd5863591d4286E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame103,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame10317h6ecd5863591d4286E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame103,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame10317h6ecd5863591d4286E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame103:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -113908,7 +113908,7 @@ _ZN8badapple8badapple8frame10317h6ecd5863591d4286E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame10417hb53a0e9c8c2b4b80E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame104
 	.p2align	2
 .LCPI103_20:
 	.long	4293628716
@@ -113957,16 +113957,16 @@ _ZN8badapple8badapple8frame10317h6ecd5863591d4286E:
 .LCPI103_42:
 	.long	4293671004
 .Lfunc_end103:
-	.size	_ZN8badapple8badapple8frame10317h6ecd5863591d4286E, .Lfunc_end103-_ZN8badapple8badapple8frame10317h6ecd5863591d4286E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame103, .Lfunc_end103-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame103
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame10417hb53a0e9c8c2b4b80E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame104,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame10417hb53a0e9c8c2b4b80E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame104,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame10417hb53a0e9c8c2b4b80E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame104:
 	.fnstart
 	ldr	r2, .LCPI104_41
 	movs	r1, #0
@@ -114696,7 +114696,7 @@ _ZN8badapple8badapple8frame10417hb53a0e9c8c2b4b80E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame10517hc1c413832ab4af4aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame105
 	.p2align	2
 .LCPI104_12:
 	.long	4292941352
@@ -114757,16 +114757,16 @@ _ZN8badapple8badapple8frame10417hb53a0e9c8c2b4b80E:
 .LCPI104_40:
 	.long	4292995180
 .Lfunc_end104:
-	.size	_ZN8badapple8badapple8frame10417hb53a0e9c8c2b4b80E, .Lfunc_end104-_ZN8badapple8badapple8frame10417hb53a0e9c8c2b4b80E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame104, .Lfunc_end104-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame104
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame10517hc1c413832ab4af4aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame105,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame10517hc1c413832ab4af4aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame105,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame10517hc1c413832ab4af4aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame105:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -115257,7 +115257,7 @@ _ZN8badapple8badapple8frame10517hc1c413832ab4af4aE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame10617h1f20d8ae8fafb738E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame106
 	.p2align	2
 .LCPI105_0:
 	.long	4293624912
@@ -115328,16 +115328,16 @@ _ZN8badapple8badapple8frame10517hc1c413832ab4af4aE:
 .LCPI105_33:
 	.long	4293688284
 .Lfunc_end105:
-	.size	_ZN8badapple8badapple8frame10517hc1c413832ab4af4aE, .Lfunc_end105-_ZN8badapple8badapple8frame10517hc1c413832ab4af4aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame105, .Lfunc_end105-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame105
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame10617h1f20d8ae8fafb738E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame106,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame10617h1f20d8ae8fafb738E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame106,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame10617h1f20d8ae8fafb738E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame106:
 	.fnstart
 	ldr	r3, .LCPI106_0
 	movs	r1, #0
@@ -115447,7 +115447,7 @@ _ZN8badapple8badapple8frame10617h1f20d8ae8fafb738E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame10717h77edd31e92c2473cE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame107
 	.p2align	2
 .LCPI106_0:
 	.long	4292943304
@@ -115496,16 +115496,16 @@ _ZN8badapple8badapple8frame10617h1f20d8ae8fafb738E:
 .LCPI106_22:
 	.long	4292995180
 .Lfunc_end106:
-	.size	_ZN8badapple8badapple8frame10617h1f20d8ae8fafb738E, .Lfunc_end106-_ZN8badapple8badapple8frame10617h1f20d8ae8fafb738E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame106, .Lfunc_end106-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame106
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame10717h77edd31e92c2473cE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame107,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame10717h77edd31e92c2473cE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame107,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame10717h77edd31e92c2473cE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame107:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -115963,7 +115963,7 @@ _ZN8badapple8badapple8frame10717h77edd31e92c2473cE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame10817h2511e4505f7ef08bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame108
 	.p2align	2
 .LCPI107_0:
 	.long	4293622972
@@ -116036,16 +116036,16 @@ _ZN8badapple8badapple8frame10717h77edd31e92c2473cE:
 .LCPI107_34:
 	.long	4293688284
 .Lfunc_end107:
-	.size	_ZN8badapple8badapple8frame10717h77edd31e92c2473cE, .Lfunc_end107-_ZN8badapple8badapple8frame10717h77edd31e92c2473cE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame107, .Lfunc_end107-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame107
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame10817h2511e4505f7ef08bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame108,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame10817h2511e4505f7ef08bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame108,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame10817h2511e4505f7ef08bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame108:
 	.fnstart
 	ldr	r2, .LCPI108_39
 	movs	r1, #1
@@ -116782,7 +116782,7 @@ _ZN8badapple8badapple8frame10817h2511e4505f7ef08bE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame10917hbb1f3b6a0cf77d21E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame109
 	.p2align	2
 .LCPI108_10:
 	.long	4292939432
@@ -116843,16 +116843,16 @@ _ZN8badapple8badapple8frame10817h2511e4505f7ef08bE:
 .LCPI108_38:
 	.long	4292993232
 .Lfunc_end108:
-	.size	_ZN8badapple8badapple8frame10817h2511e4505f7ef08bE, .Lfunc_end108-_ZN8badapple8badapple8frame10817h2511e4505f7ef08bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame108, .Lfunc_end108-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame108
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame10917hbb1f3b6a0cf77d21E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame109,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame10917hbb1f3b6a0cf77d21E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame109,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame10917hbb1f3b6a0cf77d21E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame109:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -117585,7 +117585,7 @@ _ZN8badapple8badapple8frame10917hbb1f3b6a0cf77d21E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame11017h78a55b5fb2a800daE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame110
 	.p2align	2
 .LCPI109_10:
 	.long	4293619100
@@ -117648,16 +117648,16 @@ _ZN8badapple8badapple8frame10917hbb1f3b6a0cf77d21E:
 .LCPI109_39:
 	.long	4293674836
 .Lfunc_end109:
-	.size	_ZN8badapple8badapple8frame10917hbb1f3b6a0cf77d21E, .Lfunc_end109-_ZN8badapple8badapple8frame10917hbb1f3b6a0cf77d21E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame109, .Lfunc_end109-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame109
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame11017h78a55b5fb2a800daE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame110,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame11017h78a55b5fb2a800daE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame110,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame11017h78a55b5fb2a800daE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame110:
 	.fnstart
 	ldr	r2, .LCPI110_0
 	movs	r1, #1
@@ -118156,7 +118156,7 @@ _ZN8badapple8badapple8frame11017h78a55b5fb2a800daE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame11117heac1c6e4a79b45e9E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame111
 	.p2align	2
 .LCPI110_0:
 	.long	4292901064
@@ -118231,16 +118231,16 @@ _ZN8badapple8badapple8frame11017h78a55b5fb2a800daE:
 .LCPI110_35:
 	.long	4292968256
 .Lfunc_end110:
-	.size	_ZN8badapple8badapple8frame11017h78a55b5fb2a800daE, .Lfunc_end110-_ZN8badapple8badapple8frame11017h78a55b5fb2a800daE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame110, .Lfunc_end110-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame110
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame11117heac1c6e4a79b45e9E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame111,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame11117heac1c6e4a79b45e9E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame111,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame11117heac1c6e4a79b45e9E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame111:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -118455,7 +118455,7 @@ _ZN8badapple8badapple8frame11117heac1c6e4a79b45e9E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame11217h4a19a9bf111f922bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame112
 	.p2align	2
 .LCPI111_0:
 	.long	4293594192
@@ -118508,16 +118508,16 @@ _ZN8badapple8badapple8frame11117heac1c6e4a79b45e9E:
 .LCPI111_24:
 	.long	4293651792
 .Lfunc_end111:
-	.size	_ZN8badapple8badapple8frame11117heac1c6e4a79b45e9E, .Lfunc_end111-_ZN8badapple8badapple8frame11117heac1c6e4a79b45e9E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame111, .Lfunc_end111-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame111
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame11217h4a19a9bf111f922bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame112,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame11217h4a19a9bf111f922bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame112,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame11217h4a19a9bf111f922bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame112:
 	.fnstart
 	ldr	r2, .LCPI112_0
 	movs	r1, #0
@@ -118782,7 +118782,7 @@ _ZN8badapple8badapple8frame11217h4a19a9bf111f922bE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame11317h238e6310d882e70eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame113
 	.p2align	2
 .LCPI112_0:
 	.long	4292901064
@@ -118849,16 +118849,16 @@ _ZN8badapple8badapple8frame11217h4a19a9bf111f922bE:
 .LCPI112_31:
 	.long	4292960588
 .Lfunc_end112:
-	.size	_ZN8badapple8badapple8frame11217h4a19a9bf111f922bE, .Lfunc_end112-_ZN8badapple8badapple8frame11217h4a19a9bf111f922bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame112, .Lfunc_end112-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame112
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame11317h238e6310d882e70eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame113,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame11317h238e6310d882e70eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame113,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame11317h238e6310d882e70eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame113:
 	.fnstart
 	ldr	r1, .LCPI113_0
 	movs	r2, #0
@@ -119197,7 +119197,7 @@ _ZN8badapple8badapple8frame11317h238e6310d882e70eE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame11417h2be13707173a5518E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame114
 	.p2align	2
 .LCPI113_0:
 	.long	4293594192
@@ -119266,16 +119266,16 @@ _ZN8badapple8badapple8frame11317h238e6310d882e70eE:
 .LCPI113_32:
 	.long	4293655632
 .Lfunc_end113:
-	.size	_ZN8badapple8badapple8frame11317h238e6310d882e70eE, .Lfunc_end113-_ZN8badapple8badapple8frame11317h238e6310d882e70eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame113, .Lfunc_end113-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame113
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame11417h2be13707173a5518E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame114,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame11417h2be13707173a5518E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame114,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame11417h2be13707173a5518E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame114:
 	.fnstart
 	ldr	r2, .LCPI114_0
 	movs	r1, #0
@@ -119647,7 +119647,7 @@ _ZN8badapple8badapple8frame11417h2be13707173a5518E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame11517h2f9b2dfe69eb8b11E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame115
 	.p2align	2
 .LCPI114_0:
 	.long	4292903020
@@ -119720,16 +119720,16 @@ _ZN8badapple8badapple8frame11417h2be13707173a5518E:
 .LCPI114_34:
 	.long	4292968264
 .Lfunc_end114:
-	.size	_ZN8badapple8badapple8frame11417h2be13707173a5518E, .Lfunc_end114-_ZN8badapple8badapple8frame11417h2be13707173a5518E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame114, .Lfunc_end114-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame114
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame11517h2f9b2dfe69eb8b11E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame115,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame11517h2f9b2dfe69eb8b11E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame115,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame11517h2f9b2dfe69eb8b11E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame115:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -120159,7 +120159,7 @@ _ZN8badapple8badapple8frame11517h2f9b2dfe69eb8b11E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame11617h0d362c6105e815e5E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame116
 	.p2align	2
 .LCPI115_0:
 	.long	4293599936
@@ -120236,16 +120236,16 @@ _ZN8badapple8badapple8frame11517h2f9b2dfe69eb8b11E:
 .LCPI115_36:
 	.long	4293667168
 .Lfunc_end115:
-	.size	_ZN8badapple8badapple8frame11517h2f9b2dfe69eb8b11E, .Lfunc_end115-_ZN8badapple8badapple8frame11517h2f9b2dfe69eb8b11E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame115, .Lfunc_end115-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame115
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame11617h0d362c6105e815e5E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame116,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame11617h0d362c6105e815e5E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame116,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame11617h0d362c6105e815e5E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame116:
 	.fnstart
 	ldr	r2, .LCPI116_0
 	movs	r1, #0
@@ -120493,7 +120493,7 @@ _ZN8badapple8badapple8frame11617h0d362c6105e815e5E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame11717haca39ec079700491E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame117
 	.p2align	2
 .LCPI116_0:
 	.long	4292914516
@@ -120564,16 +120564,16 @@ _ZN8badapple8badapple8frame11617h0d362c6105e815e5E:
 .LCPI116_33:
 	.long	4292977924
 .Lfunc_end116:
-	.size	_ZN8badapple8badapple8frame11617h0d362c6105e815e5E, .Lfunc_end116-_ZN8badapple8badapple8frame11617h0d362c6105e815e5E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame116, .Lfunc_end116-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame116
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame11717haca39ec079700491E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame117,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame11717haca39ec079700491E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame117,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame11717haca39ec079700491E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame117:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -120781,7 +120781,7 @@ _ZN8badapple8badapple8frame11717haca39ec079700491E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame11817h143735a75e2cd503E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame118
 	.p2align	2
 .LCPI117_0:
 	.long	4293609564
@@ -120848,16 +120848,16 @@ _ZN8badapple8badapple8frame11717haca39ec079700491E:
 .LCPI117_31:
 	.long	4293669080
 .Lfunc_end117:
-	.size	_ZN8badapple8badapple8frame11717haca39ec079700491E, .Lfunc_end117-_ZN8badapple8badapple8frame11717haca39ec079700491E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame117, .Lfunc_end117-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame117
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame11817h143735a75e2cd503E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame118,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame11817h143735a75e2cd503E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame118,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame11817h143735a75e2cd503E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame118:
 	.fnstart
 	ldr	r2, .LCPI118_0
 	movs	r1, #1
@@ -121369,7 +121369,7 @@ _ZN8badapple8badapple8frame11817h143735a75e2cd503E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame11917h87c42c831a7e5e00E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame119
 	.p2align	2
 .LCPI118_0:
 	.long	4292870256
@@ -121458,16 +121458,16 @@ _ZN8badapple8badapple8frame11817h143735a75e2cd503E:
 .LCPI118_42:
 	.long	4292977868
 .Lfunc_end118:
-	.size	_ZN8badapple8badapple8frame11817h143735a75e2cd503E, .Lfunc_end118-_ZN8badapple8badapple8frame11817h143735a75e2cd503E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame118, .Lfunc_end118-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame118
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame11917h87c42c831a7e5e00E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame119,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame11917h87c42c831a7e5e00E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame119,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame11917h87c42c831a7e5e00E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame119:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -128558,7 +128558,7 @@ _ZN8badapple8badapple8frame11917h87c42c831a7e5e00E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame12017h5aa1c0562f742513E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame120
 	.p2align	2
 .LCPI119_243:
 	.long	4293696000
@@ -128597,16 +128597,16 @@ _ZN8badapple8badapple8frame11917h87c42c831a7e5e00E:
 .LCPI119_260:
 	.long	4293703808
 .Lfunc_end119:
-	.size	_ZN8badapple8badapple8frame11917h87c42c831a7e5e00E, .Lfunc_end119-_ZN8badapple8badapple8frame11917h87c42c831a7e5e00E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame119, .Lfunc_end119-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame119
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame12017h5aa1c0562f742513E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame120,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame12017h5aa1c0562f742513E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame120,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame12017h5aa1c0562f742513E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame120:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -136043,7 +136043,7 @@ _ZN8badapple8badapple8frame12017h5aa1c0562f742513E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame12117h22a8221bd2f9e023E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame121
 	.p2align	2
 .LCPI120_256:
 	.long	4293004928
@@ -136080,16 +136080,16 @@ _ZN8badapple8badapple8frame12017h5aa1c0562f742513E:
 .LCPI120_272:
 	.long	4293012608
 .Lfunc_end120:
-	.size	_ZN8badapple8badapple8frame12017h5aa1c0562f742513E, .Lfunc_end120-_ZN8badapple8badapple8frame12017h5aa1c0562f742513E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame120, .Lfunc_end120-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame120
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame12117h22a8221bd2f9e023E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame121,"ax",%progbits
 	.p2align	1
-	.type	_ZN8badapple8badapple8frame12117h22a8221bd2f9e023E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame121,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame12117h22a8221bd2f9e023E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame121:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -136136,18 +136136,18 @@ _ZN8badapple8badapple8frame12117h22a8221bd2f9e023E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame12217h7347eb2684da72ffE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame122
 .Lfunc_end121:
-	.size	_ZN8badapple8badapple8frame12117h22a8221bd2f9e023E, .Lfunc_end121-_ZN8badapple8badapple8frame12117h22a8221bd2f9e023E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame121, .Lfunc_end121-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame121
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame12217h7347eb2684da72ffE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame122,"ax",%progbits
 	.p2align	1
-	.type	_ZN8badapple8badapple8frame12217h7347eb2684da72ffE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame122,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame12217h7347eb2684da72ffE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame122:
 	.fnstart
 	adds	r0, #12
 	movs	r1, #195
@@ -136171,18 +136171,18 @@ _ZN8badapple8badapple8frame12217h7347eb2684da72ffE:
 	movs	r2, #0
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame12317hd350a5d3d23f8381E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame123
 .Lfunc_end122:
-	.size	_ZN8badapple8badapple8frame12217h7347eb2684da72ffE, .Lfunc_end122-_ZN8badapple8badapple8frame12217h7347eb2684da72ffE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame122, .Lfunc_end122-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame122
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame12317hd350a5d3d23f8381E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame123,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame12317hd350a5d3d23f8381E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame123,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame12317hd350a5d3d23f8381E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame123:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -139213,7 +139213,7 @@ _ZN8badapple8badapple8frame12317hd350a5d3d23f8381E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame12417hddae1cea2f4efb74E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame124
 	.p2align	2
 .LCPI123_97:
 	.long	4293646004
@@ -139262,16 +139262,16 @@ _ZN8badapple8badapple8frame12317hd350a5d3d23f8381E:
 .LCPI123_119:
 	.long	4293671000
 .Lfunc_end123:
-	.size	_ZN8badapple8badapple8frame12317hd350a5d3d23f8381E, .Lfunc_end123-_ZN8badapple8badapple8frame12317hd350a5d3d23f8381E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame123, .Lfunc_end123-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame123
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame12417hddae1cea2f4efb74E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame124,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame12417hddae1cea2f4efb74E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame124,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame12417hddae1cea2f4efb74E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame124:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -143780,7 +143780,7 @@ _ZN8badapple8badapple8frame12417hddae1cea2f4efb74E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame12517h6595593e6bab789fE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame125
 	.p2align	2
 .LCPI124_164:
 	.long	4292955012
@@ -143827,16 +143827,16 @@ _ZN8badapple8badapple8frame12417hddae1cea2f4efb74E:
 .LCPI124_185:
 	.long	4292979800
 .Lfunc_end124:
-	.size	_ZN8badapple8badapple8frame12417hddae1cea2f4efb74E, .Lfunc_end124-_ZN8badapple8badapple8frame12417hddae1cea2f4efb74E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame124, .Lfunc_end124-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame124
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame12517h6595593e6bab789fE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame125,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame12517h6595593e6bab789fE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame125,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame12517h6595593e6bab789fE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame125:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -149693,7 +149693,7 @@ _ZN8badapple8badapple8frame12517h6595593e6bab789fE:
 .LBB125_215:
 	str	r2, [r1, #36]
 	ldr	r0, [r1, #48]
-	bl	_ZN8badapple8badapple8frame12617h1d9be48396059f55E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame126
 	.p2align	2
 .LCPI125_200:
 	.long	4293674880
@@ -149752,16 +149752,16 @@ _ZN8badapple8badapple8frame12517h6595593e6bab789fE:
 .LCPI125_227:
 	.long	4293696132
 .Lfunc_end125:
-	.size	_ZN8badapple8badapple8frame12517h6595593e6bab789fE, .Lfunc_end125-_ZN8badapple8badapple8frame12517h6595593e6bab789fE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame125, .Lfunc_end125-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame125
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame12617h1d9be48396059f55E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame126,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame12617h1d9be48396059f55E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame126,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame12617h1d9be48396059f55E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame126:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -155577,7 +155577,7 @@ _ZN8badapple8badapple8frame12617h1d9be48396059f55E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame12717h7d0efb31f6957be7E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame127
 	.p2align	2
 .LCPI126_198:
 	.long	4292993176
@@ -155630,16 +155630,16 @@ _ZN8badapple8badapple8frame12617h1d9be48396059f55E:
 .LCPI126_222:
 	.long	4293012528
 .Lfunc_end126:
-	.size	_ZN8badapple8badapple8frame12617h1d9be48396059f55E, .Lfunc_end126-_ZN8badapple8badapple8frame12617h1d9be48396059f55E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame126, .Lfunc_end126-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame126
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame12717h7d0efb31f6957be7E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame127,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame12717h7d0efb31f6957be7E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame127,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame12717h7d0efb31f6957be7E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame127:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -158199,7 +158199,7 @@ _ZN8badapple8badapple8frame12717h7d0efb31f6957be7E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame12817hee44d3286d0cfae0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame128
 	.p2align	2
 .LCPI127_99:
 	.long	4293694080
@@ -158244,16 +158244,16 @@ _ZN8badapple8badapple8frame12717h7d0efb31f6957be7E:
 .LCPI127_119:
 	.long	4293703708
 .Lfunc_end127:
-	.size	_ZN8badapple8badapple8frame12717h7d0efb31f6957be7E, .Lfunc_end127-_ZN8badapple8badapple8frame12717h7d0efb31f6957be7E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame127, .Lfunc_end127-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame127
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame12817hee44d3286d0cfae0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame128,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame12817hee44d3286d0cfae0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame128,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame12817hee44d3286d0cfae0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame128:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -162328,7 +162328,7 @@ _ZN8badapple8badapple8frame12817hee44d3286d0cfae0E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame12917hfb1c8c02941ba0d4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame129
 	.p2align	2
 .LCPI128_171:
 	.long	4293002964
@@ -162363,16 +162363,16 @@ _ZN8badapple8badapple8frame12817hee44d3286d0cfae0E:
 .LCPI128_186:
 	.long	4293012524
 .Lfunc_end128:
-	.size	_ZN8badapple8badapple8frame12817hee44d3286d0cfae0E, .Lfunc_end128-_ZN8badapple8badapple8frame12817hee44d3286d0cfae0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame128, .Lfunc_end128-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame128
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame12917hfb1c8c02941ba0d4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame129,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame12917hfb1c8c02941ba0d4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame129,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame12917hfb1c8c02941ba0d4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame129:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -167520,7 +167520,7 @@ _ZN8badapple8badapple8frame12917hfb1c8c02941ba0d4E:
 .LBB129_185:
 	str	r2, [r1, #36]
 	ldr	r0, [r1, #48]
-	bl	_ZN8badapple8badapple8frame13017ha8aa581aff66a0c4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame130
 	.p2align	2
 .LCPI129_172:
 	.long	4293674752
@@ -167575,16 +167575,16 @@ _ZN8badapple8badapple8frame12917hfb1c8c02941ba0d4E:
 .LCPI129_197:
 	.long	4293703604
 .Lfunc_end129:
-	.size	_ZN8badapple8badapple8frame12917hfb1c8c02941ba0d4E, .Lfunc_end129-_ZN8badapple8badapple8frame12917hfb1c8c02941ba0d4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame129, .Lfunc_end129-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame129
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame13017ha8aa581aff66a0c4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame130,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame13017ha8aa581aff66a0c4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame130,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame13017ha8aa581aff66a0c4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame130:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -172617,7 +172617,7 @@ _ZN8badapple8badapple8frame13017ha8aa581aff66a0c4E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame13117ha0d6924b979893f4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame131
 	.p2align	2
 .LCPI130_193:
 	.long	4292996992
@@ -172660,16 +172660,16 @@ _ZN8badapple8badapple8frame13017ha8aa581aff66a0c4E:
 .LCPI130_212:
 	.long	4293012436
 .Lfunc_end130:
-	.size	_ZN8badapple8badapple8frame13017ha8aa581aff66a0c4E, .Lfunc_end130-_ZN8badapple8badapple8frame13017ha8aa581aff66a0c4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame130, .Lfunc_end130-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame130
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame13117ha0d6924b979893f4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame131,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame13117ha0d6924b979893f4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame131,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame13117ha0d6924b979893f4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame131:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -175486,7 +175486,7 @@ _ZN8badapple8badapple8frame13117ha0d6924b979893f4E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame13217h108a86e8c6f3858dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame132
 	.p2align	2
 .LCPI131_134:
 	.long	4293693952
@@ -175523,16 +175523,16 @@ _ZN8badapple8badapple8frame13117ha0d6924b979893f4E:
 .LCPI131_150:
 	.long	4293703680
 .Lfunc_end131:
-	.size	_ZN8badapple8badapple8frame13117ha0d6924b979893f4E, .Lfunc_end131-_ZN8badapple8badapple8frame13117ha0d6924b979893f4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame131, .Lfunc_end131-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame131
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame13217h108a86e8c6f3858dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame132,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame13217h108a86e8c6f3858dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame132,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame13217h108a86e8c6f3858dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame132:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -176869,7 +176869,7 @@ _ZN8badapple8badapple8frame13217h108a86e8c6f3858dE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame13317h0ae974a472d7dac1E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame133
 	.p2align	2
 .LCPI132_62:
 	.long	4292953072
@@ -176952,16 +176952,16 @@ _ZN8badapple8badapple8frame13217h108a86e8c6f3858dE:
 .LCPI132_101:
 	.long	4293012524
 .Lfunc_end132:
-	.size	_ZN8badapple8badapple8frame13217h108a86e8c6f3858dE, .Lfunc_end132-_ZN8badapple8badapple8frame13217h108a86e8c6f3858dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame132, .Lfunc_end132-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame132
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame13317h0ae974a472d7dac1E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame133,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame13317h0ae974a472d7dac1E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame133,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame13317h0ae974a472d7dac1E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame133:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -178169,7 +178169,7 @@ _ZN8badapple8badapple8frame13317h0ae974a472d7dac1E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame13417hd39ad5adcf04e7a3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame134
 	.p2align	2
 .LCPI133_48:
 	.long	4293640216
@@ -178246,16 +178246,16 @@ _ZN8badapple8badapple8frame13317h0ae974a472d7dac1E:
 .LCPI133_84:
 	.long	4293703648
 .Lfunc_end133:
-	.size	_ZN8badapple8badapple8frame13317h0ae974a472d7dac1E, .Lfunc_end133-_ZN8badapple8badapple8frame13317h0ae974a472d7dac1E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame133, .Lfunc_end133-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame133
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame13417hd39ad5adcf04e7a3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame134,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame13417hd39ad5adcf04e7a3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame134,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame13417hd39ad5adcf04e7a3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame134:
 	.fnstart
 	ldr	r2, .LCPI134_83
 	movs	r1, #0
@@ -179110,7 +179110,7 @@ _ZN8badapple8badapple8frame13417hd39ad5adcf04e7a3E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame13517h9f5617ab7736516fE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame135
 	.p2align	2
 .LCPI134_40:
 	.long	4292935584
@@ -179199,16 +179199,16 @@ _ZN8badapple8badapple8frame13417hd39ad5adcf04e7a3E:
 .LCPI134_82:
 	.long	4293012452
 .Lfunc_end134:
-	.size	_ZN8badapple8badapple8frame13417hd39ad5adcf04e7a3E, .Lfunc_end134-_ZN8badapple8badapple8frame13417hd39ad5adcf04e7a3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame134, .Lfunc_end134-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame134
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame13517h9f5617ab7736516fE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame135,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame13517h9f5617ab7736516fE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame135,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame13517h9f5617ab7736516fE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame135:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -179909,7 +179909,7 @@ _ZN8badapple8badapple8frame13517h9f5617ab7736516fE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame13617h05f43eac361d3aceE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame136
 	.p2align	2
 .LCPI135_33:
 	.long	4293609552
@@ -180006,16 +180006,16 @@ _ZN8badapple8badapple8frame13517h9f5617ab7736516fE:
 .LCPI135_79:
 	.long	4293703656
 .Lfunc_end135:
-	.size	_ZN8badapple8badapple8frame13517h9f5617ab7736516fE, .Lfunc_end135-_ZN8badapple8badapple8frame13517h9f5617ab7736516fE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame135, .Lfunc_end135-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame135
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame13617h05f43eac361d3aceE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame136,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame13617h05f43eac361d3aceE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame136,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame13617h05f43eac361d3aceE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame136:
 	.fnstart
 	ldr	r3, .LCPI136_93
 	movs	r2, #1
@@ -180950,7 +180950,7 @@ _ZN8badapple8badapple8frame13617h05f43eac361d3aceE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame13717hfb020d2c4450ef28E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame137
 	.p2align	2
 .LCPI136_51:
 	.long	4292937516
@@ -181037,16 +181037,16 @@ _ZN8badapple8badapple8frame13617h05f43eac361d3aceE:
 .LCPI136_92:
 	.long	4293012452
 .Lfunc_end136:
-	.size	_ZN8badapple8badapple8frame13617h05f43eac361d3aceE, .Lfunc_end136-_ZN8badapple8badapple8frame13617h05f43eac361d3aceE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame136, .Lfunc_end136-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame136
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame13717hfb020d2c4450ef28E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame137,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame13717hfb020d2c4450ef28E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame137,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame13717hfb020d2c4450ef28E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame137:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -182190,7 +182190,7 @@ _ZN8badapple8badapple8frame13717hfb020d2c4450ef28E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame13817h0d2a556d28e8d5f3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame138
 	.p2align	2
 .LCPI137_43:
 	.long	4293600104
@@ -182307,16 +182307,16 @@ _ZN8badapple8badapple8frame13717hfb020d2c4450ef28E:
 .LCPI137_99:
 	.long	4293703656
 .Lfunc_end137:
-	.size	_ZN8badapple8badapple8frame13717hfb020d2c4450ef28E, .Lfunc_end137-_ZN8badapple8badapple8frame13717hfb020d2c4450ef28E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame137, .Lfunc_end137-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame137
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame13817h0d2a556d28e8d5f3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame138,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame13817h0d2a556d28e8d5f3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame138,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame13817h0d2a556d28e8d5f3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame138:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -183729,7 +183729,7 @@ _ZN8badapple8badapple8frame13817h0d2a556d28e8d5f3E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame13917hda8b81391b335022E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame139
 	.p2align	2
 .LCPI138_53:
 	.long	4292918228
@@ -183850,16 +183850,16 @@ _ZN8badapple8badapple8frame13817h0d2a556d28e8d5f3E:
 .LCPI138_111:
 	.long	4293012616
 .Lfunc_end138:
-	.size	_ZN8badapple8badapple8frame13817h0d2a556d28e8d5f3E, .Lfunc_end138-_ZN8badapple8badapple8frame13817h0d2a556d28e8d5f3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame138, .Lfunc_end138-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame138
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame13917hda8b81391b335022E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame139,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame13917hda8b81391b335022E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame139,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame13917hda8b81391b335022E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame139:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -185419,7 +185419,7 @@ _ZN8badapple8badapple8frame13917hda8b81391b335022E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame14017he61bbb47bc1f1371E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame140
 	.p2align	2
 .LCPI139_57:
 	.long	4293609436
@@ -185558,16 +185558,16 @@ _ZN8badapple8badapple8frame13917hda8b81391b335022E:
 .LCPI139_124:
 	.long	4293703656
 .Lfunc_end139:
-	.size	_ZN8badapple8badapple8frame13917hda8b81391b335022E, .Lfunc_end139-_ZN8badapple8badapple8frame13917hda8b81391b335022E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame139, .Lfunc_end139-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame139
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame14017he61bbb47bc1f1371E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame140,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame14017he61bbb47bc1f1371E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame140,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame14017he61bbb47bc1f1371E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame140:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -187641,7 +187641,7 @@ _ZN8badapple8badapple8frame14017he61bbb47bc1f1371E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame14117hf968866833f9e488E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame141
 	.p2align	2
 .LCPI140_105:
 	.long	4292970300
@@ -187734,16 +187734,16 @@ _ZN8badapple8badapple8frame14017he61bbb47bc1f1371E:
 .LCPI140_149:
 	.long	4293012616
 .Lfunc_end140:
-	.size	_ZN8badapple8badapple8frame14017he61bbb47bc1f1371E, .Lfunc_end140-_ZN8badapple8badapple8frame14017he61bbb47bc1f1371E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame140, .Lfunc_end140-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame140
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame14117hf968866833f9e488E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame141,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame14117hf968866833f9e488E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame141,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame14117hf968866833f9e488E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame141:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -189775,7 +189775,7 @@ _ZN8badapple8badapple8frame14117hf968866833f9e488E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame14217h11a12e0ce4a5930dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame142
 	.p2align	2
 .LCPI141_91:
 	.long	4293659636
@@ -189874,16 +189874,16 @@ _ZN8badapple8badapple8frame14117hf968866833f9e488E:
 .LCPI141_138:
 	.long	4293703684
 .Lfunc_end141:
-	.size	_ZN8badapple8badapple8frame14117hf968866833f9e488E, .Lfunc_end141-_ZN8badapple8badapple8frame14117hf968866833f9e488E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame141, .Lfunc_end141-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame141
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame14217h11a12e0ce4a5930dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame142,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame14217h11a12e0ce4a5930dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame142,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame14217h11a12e0ce4a5930dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame142:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -192068,7 +192068,7 @@ _ZN8badapple8badapple8frame14217h11a12e0ce4a5930dE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame14317he610829ef81b3734E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame143
 	.p2align	2
 .LCPI142_111:
 	.long	4292989312
@@ -192121,16 +192121,16 @@ _ZN8badapple8badapple8frame14217h11a12e0ce4a5930dE:
 .LCPI142_135:
 	.long	4293012476
 .Lfunc_end142:
-	.size	_ZN8badapple8badapple8frame14217h11a12e0ce4a5930dE, .Lfunc_end142-_ZN8badapple8badapple8frame14217h11a12e0ce4a5930dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame142, .Lfunc_end142-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame142
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame14317he610829ef81b3734E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame143,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame14317he610829ef81b3734E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame143,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame14317he610829ef81b3734E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame143:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -194431,7 +194431,7 @@ _ZN8badapple8badapple8frame14317he610829ef81b3734E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame14417h4fdec816abc50bbbE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame144
 	.p2align	2
 .LCPI143_124:
 	.long	4293692224
@@ -194470,16 +194470,16 @@ _ZN8badapple8badapple8frame14317he610829ef81b3734E:
 .LCPI143_141:
 	.long	4293703808
 .Lfunc_end143:
-	.size	_ZN8badapple8badapple8frame14317he610829ef81b3734E, .Lfunc_end143-_ZN8badapple8badapple8frame14317he610829ef81b3734E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame143, .Lfunc_end143-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame143
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame14417h4fdec816abc50bbbE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame144,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame14417h4fdec816abc50bbbE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame144,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame14417h4fdec816abc50bbbE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame144:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -197051,7 +197051,7 @@ _ZN8badapple8badapple8frame14417h4fdec816abc50bbbE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame14517hf2772b41fe7697c0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame145
 	.p2align	2
 .LCPI144_107:
 	.long	4292998948
@@ -197100,16 +197100,16 @@ _ZN8badapple8badapple8frame14417h4fdec816abc50bbbE:
 .LCPI144_129:
 	.long	4293012604
 .Lfunc_end144:
-	.size	_ZN8badapple8badapple8frame14417h4fdec816abc50bbbE, .Lfunc_end144-_ZN8badapple8badapple8frame14417h4fdec816abc50bbbE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame144, .Lfunc_end144-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame144
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame14517hf2772b41fe7697c0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame145,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame14517hf2772b41fe7697c0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame145,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame14517hf2772b41fe7697c0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame145:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -198891,7 +198891,7 @@ _ZN8badapple8badapple8frame14517hf2772b41fe7697c0E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame14617h17ede424cb3b66afE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame146
 	.p2align	2
 .LCPI145_70:
 	.long	4293669176
@@ -198954,16 +198954,16 @@ _ZN8badapple8badapple8frame14517hf2772b41fe7697c0E:
 .LCPI145_99:
 	.long	4293694108
 .Lfunc_end145:
-	.size	_ZN8badapple8badapple8frame14517hf2772b41fe7697c0E, .Lfunc_end145-_ZN8badapple8badapple8frame14517hf2772b41fe7697c0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame145, .Lfunc_end145-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame145
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame14617h17ede424cb3b66afE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame146,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame14617h17ede424cb3b66afE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame146,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame14617h17ede424cb3b66afE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame146:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -200273,7 +200273,7 @@ _ZN8badapple8badapple8frame14617h17ede424cb3b66afE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame14717he17866628f318015E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame147
 	.p2align	2
 .LCPI146_54:
 	.long	4292964432
@@ -200328,16 +200328,16 @@ _ZN8badapple8badapple8frame14617h17ede424cb3b66afE:
 .LCPI146_79:
 	.long	4292985612
 .Lfunc_end146:
-	.size	_ZN8badapple8badapple8frame14617h17ede424cb3b66afE, .Lfunc_end146-_ZN8badapple8badapple8frame14617h17ede424cb3b66afE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame146, .Lfunc_end146-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame146
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame14717he17866628f318015E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame147,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame14717he17866628f318015E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame147,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame14717he17866628f318015E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame147:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -201440,7 +201440,7 @@ _ZN8badapple8badapple8frame14717he17866628f318015E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame14817h7676707b24b1b5adE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame148
 	.p2align	2
 .LCPI147_44:
 	.long	4293648072
@@ -201489,16 +201489,16 @@ _ZN8badapple8badapple8frame14717he17866628f318015E:
 .LCPI147_66:
 	.long	4293667188
 .Lfunc_end147:
-	.size	_ZN8badapple8badapple8frame14717he17866628f318015E, .Lfunc_end147-_ZN8badapple8badapple8frame14717he17866628f318015E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame147, .Lfunc_end147-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame147
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame14817h7676707b24b1b5adE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame148,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame14817h7676707b24b1b5adE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame148,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame14817h7676707b24b1b5adE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame148:
 	.fnstart
 	ldr	r1, .LCPI148_50
 	movs	r2, #1
@@ -202272,7 +202272,7 @@ _ZN8badapple8badapple8frame14817h7676707b24b1b5adE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame14917hdfaabb4f450b5dc5E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame149
 	.p2align	2
 .LCPI148_26:
 	.long	4292943260
@@ -202323,16 +202323,16 @@ _ZN8badapple8badapple8frame14817h7676707b24b1b5adE:
 .LCPI148_49:
 	.long	4292966392
 .Lfunc_end148:
-	.size	_ZN8badapple8badapple8frame14817h7676707b24b1b5adE, .Lfunc_end148-_ZN8badapple8badapple8frame14817h7676707b24b1b5adE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame148, .Lfunc_end148-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame148
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame14917hdfaabb4f450b5dc5E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame149,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame14917hdfaabb4f450b5dc5E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame149,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame14917hdfaabb4f450b5dc5E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame149:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -202799,7 +202799,7 @@ _ZN8badapple8badapple8frame14917hdfaabb4f450b5dc5E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame15017hbb5ee8264c950dbeE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame150
 	.p2align	2
 .LCPI149_0:
 	.long	4293592244
@@ -202880,16 +202880,16 @@ _ZN8badapple8badapple8frame14917hdfaabb4f450b5dc5E:
 .LCPI149_38:
 	.long	4293647976
 .Lfunc_end149:
-	.size	_ZN8badapple8badapple8frame14917hdfaabb4f450b5dc5E, .Lfunc_end149-_ZN8badapple8badapple8frame14917hdfaabb4f450b5dc5E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame149, .Lfunc_end149-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame149
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame15017hbb5ee8264c950dbeE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame150,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame15017hbb5ee8264c950dbeE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame150,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame15017hbb5ee8264c950dbeE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame150:
 	.fnstart
 	ldr	r2, .LCPI150_0
 	movs	r1, #0
@@ -203176,7 +203176,7 @@ _ZN8badapple8badapple8frame15017hbb5ee8264c950dbeE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame15117h15bf0c7f4fa6290cE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame151
 	.p2align	2
 .LCPI150_0:
 	.long	4292901052
@@ -203245,16 +203245,16 @@ _ZN8badapple8badapple8frame15017hbb5ee8264c950dbeE:
 .LCPI150_32:
 	.long	4292951012
 .Lfunc_end150:
-	.size	_ZN8badapple8badapple8frame15017hbb5ee8264c950dbeE, .Lfunc_end150-_ZN8badapple8badapple8frame15017hbb5ee8264c950dbeE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame150, .Lfunc_end150-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame150
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame15117h15bf0c7f4fa6290cE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame151,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame15117h15bf0c7f4fa6290cE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame151,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame15117h15bf0c7f4fa6290cE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame151:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -203428,7 +203428,7 @@ _ZN8badapple8badapple8frame15117h15bf0c7f4fa6290cE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame15217h761882b29a83fa18E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame152
 	.p2align	2
 .LCPI151_0:
 	.long	4293594188
@@ -203485,16 +203485,16 @@ _ZN8badapple8badapple8frame15117h15bf0c7f4fa6290cE:
 .LCPI151_26:
 	.long	4293638368
 .Lfunc_end151:
-	.size	_ZN8badapple8badapple8frame15117h15bf0c7f4fa6290cE, .Lfunc_end151-_ZN8badapple8badapple8frame15117h15bf0c7f4fa6290cE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame151, .Lfunc_end151-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame151
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame15217h761882b29a83fa18E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame152,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame15217h761882b29a83fa18E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame152,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame15217h761882b29a83fa18E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame152:
 	.fnstart
 	ldr	r2, .LCPI152_0
 	movs	r1, #0
@@ -203613,7 +203613,7 @@ _ZN8badapple8badapple8frame15217h761882b29a83fa18E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame15317h949976331fa34179E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame153
 	.p2align	2
 .LCPI152_0:
 	.long	4292901056
@@ -203664,16 +203664,16 @@ _ZN8badapple8badapple8frame15217h761882b29a83fa18E:
 .LCPI152_23:
 	.long	4292945252
 .Lfunc_end152:
-	.size	_ZN8badapple8badapple8frame15217h761882b29a83fa18E, .Lfunc_end152-_ZN8badapple8badapple8frame15217h761882b29a83fa18E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame152, .Lfunc_end152-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame152
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame15317h949976331fa34179E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame153,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame15317h949976331fa34179E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame153,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame15317h949976331fa34179E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame153:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -203843,7 +203843,7 @@ _ZN8badapple8badapple8frame15317h949976331fa34179E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame15417h9067699a253a39d3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame154
 	.p2align	2
 .LCPI153_0:
 	.long	4293590332
@@ -203900,16 +203900,16 @@ _ZN8badapple8badapple8frame15317h949976331fa34179E:
 .LCPI153_26:
 	.long	4293636452
 .Lfunc_end153:
-	.size	_ZN8badapple8badapple8frame15317h949976331fa34179E, .Lfunc_end153-_ZN8badapple8badapple8frame15317h949976331fa34179E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame153, .Lfunc_end153-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame153
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame15417h9067699a253a39d3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame154,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame15417h9067699a253a39d3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame154,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame15417h9067699a253a39d3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame154:
 	.fnstart
 	ldr	r2, .LCPI154_0
 	movs	r1, #0
@@ -204099,7 +204099,7 @@ _ZN8badapple8badapple8frame15417h9067699a253a39d3E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame15517hc1548b927267ec51E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame155
 	.p2align	2
 .LCPI154_0:
 	.long	4292899128
@@ -204160,16 +204160,16 @@ _ZN8badapple8badapple8frame15417h9067699a253a39d3E:
 .LCPI154_28:
 	.long	4292945248
 .Lfunc_end154:
-	.size	_ZN8badapple8badapple8frame15417h9067699a253a39d3E, .Lfunc_end154-_ZN8badapple8badapple8frame15417h9067699a253a39d3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame154, .Lfunc_end154-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame154
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame15517hc1548b927267ec51E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame155,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame15517hc1548b927267ec51E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame155,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame15517hc1548b927267ec51E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame155:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -204399,7 +204399,7 @@ _ZN8badapple8badapple8frame15517hc1548b927267ec51E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame15617h093e4c40f608a6a9E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame156
 	.p2align	2
 .LCPI155_0:
 	.long	4293590332
@@ -204462,16 +204462,16 @@ _ZN8badapple8badapple8frame15517hc1548b927267ec51E:
 .LCPI155_29:
 	.long	4293636448
 .Lfunc_end155:
-	.size	_ZN8badapple8badapple8frame15517hc1548b927267ec51E, .Lfunc_end155-_ZN8badapple8badapple8frame15517hc1548b927267ec51E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame155, .Lfunc_end155-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame155
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame15617h093e4c40f608a6a9E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame156,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame15617h093e4c40f608a6a9E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame156,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame15617h093e4c40f608a6a9E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame156:
 	.fnstart
 	ldr	r3, .LCPI156_0
 	movs	r1, #0
@@ -204655,7 +204655,7 @@ _ZN8badapple8badapple8frame15617h093e4c40f608a6a9E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame15717h02d1470fcdfe90a2E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame157
 	.p2align	2
 .LCPI156_0:
 	.long	4292899128
@@ -204708,16 +204708,16 @@ _ZN8badapple8badapple8frame15617h093e4c40f608a6a9E:
 .LCPI156_24:
 	.long	4292943324
 .Lfunc_end156:
-	.size	_ZN8badapple8badapple8frame15617h093e4c40f608a6a9E, .Lfunc_end156-_ZN8badapple8badapple8frame15617h093e4c40f608a6a9E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame156, .Lfunc_end156-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame156
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame15717h02d1470fcdfe90a2E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame157,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame15717h02d1470fcdfe90a2E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame157,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame15717h02d1470fcdfe90a2E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame157:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -204858,7 +204858,7 @@ _ZN8badapple8badapple8frame15717h02d1470fcdfe90a2E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame15817h9533964b74c3cd19E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame158
 	.p2align	2
 .LCPI157_0:
 	.long	4293590336
@@ -204911,16 +204911,16 @@ _ZN8badapple8badapple8frame15717h02d1470fcdfe90a2E:
 .LCPI157_24:
 	.long	4293634520
 .Lfunc_end157:
-	.size	_ZN8badapple8badapple8frame15717h02d1470fcdfe90a2E, .Lfunc_end157-_ZN8badapple8badapple8frame15717h02d1470fcdfe90a2E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame157, .Lfunc_end157-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame157
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame15817h9533964b74c3cd19E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame158,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame15817h9533964b74c3cd19E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame158,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame15817h9533964b74c3cd19E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame158:
 	.fnstart
 	ldr	r1, .LCPI158_0
 	movs	r2, #1
@@ -205027,7 +205027,7 @@ _ZN8badapple8badapple8frame15817h9533964b74c3cd19E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame15917h2bfcd81d3a9d45ecE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame159
 	.p2align	2
 .LCPI158_0:
 	.long	4292899136
@@ -205080,16 +205080,16 @@ _ZN8badapple8badapple8frame15817h9533964b74c3cd19E:
 .LCPI158_24:
 	.long	4292943320
 .Lfunc_end158:
-	.size	_ZN8badapple8badapple8frame15817h9533964b74c3cd19E, .Lfunc_end158-_ZN8badapple8badapple8frame15817h9533964b74c3cd19E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame158, .Lfunc_end158-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame158
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame15917h2bfcd81d3a9d45ecE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame159,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame15917h2bfcd81d3a9d45ecE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame159,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame15917h2bfcd81d3a9d45ecE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame159:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -205284,7 +205284,7 @@ _ZN8badapple8badapple8frame15917h2bfcd81d3a9d45ecE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame16017h4244a9cda0bdd563E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame160
 	.p2align	2
 .LCPI159_0:
 	.long	4293590336
@@ -205337,16 +205337,16 @@ _ZN8badapple8badapple8frame15917h2bfcd81d3a9d45ecE:
 .LCPI159_24:
 	.long	4293634524
 .Lfunc_end159:
-	.size	_ZN8badapple8badapple8frame15917h2bfcd81d3a9d45ecE, .Lfunc_end159-_ZN8badapple8badapple8frame15917h2bfcd81d3a9d45ecE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame159, .Lfunc_end159-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame159
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame16017h4244a9cda0bdd563E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame160,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame16017h4244a9cda0bdd563E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame160,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame16017h4244a9cda0bdd563E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame160:
 	.fnstart
 	ldr	r1, .LCPI160_0
 	movs	r2, #1
@@ -205617,7 +205617,7 @@ _ZN8badapple8badapple8frame16017h4244a9cda0bdd563E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame16117he0f0b38360512f66E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame161
 	.p2align	2
 .LCPI160_0:
 	.long	4292899140
@@ -205678,16 +205678,16 @@ _ZN8badapple8badapple8frame16017h4244a9cda0bdd563E:
 .LCPI160_28:
 	.long	4292945240
 .Lfunc_end160:
-	.size	_ZN8badapple8badapple8frame16017h4244a9cda0bdd563E, .Lfunc_end160-_ZN8badapple8badapple8frame16017h4244a9cda0bdd563E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame160, .Lfunc_end160-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame160
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame16117he0f0b38360512f66E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame161,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame16117he0f0b38360512f66E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame161,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame16117he0f0b38360512f66E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame161:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -205986,7 +205986,7 @@ _ZN8badapple8badapple8frame16117he0f0b38360512f66E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame16217hed5d94e55d07b3bbE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame162
 	.p2align	2
 .LCPI161_0:
 	.long	4293592236
@@ -206045,16 +206045,16 @@ _ZN8badapple8badapple8frame16117he0f0b38360512f66E:
 .LCPI161_27:
 	.long	4293638360
 .Lfunc_end161:
-	.size	_ZN8badapple8badapple8frame16117he0f0b38360512f66E, .Lfunc_end161-_ZN8badapple8badapple8frame16117he0f0b38360512f66E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame161, .Lfunc_end161-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame161
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame16217hed5d94e55d07b3bbE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame162,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame16217hed5d94e55d07b3bbE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame162,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame16217hed5d94e55d07b3bbE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame162:
 	.fnstart
 	ldr	r1, .LCPI162_0
 	movs	r2, #1
@@ -206334,7 +206334,7 @@ _ZN8badapple8badapple8frame16217hed5d94e55d07b3bbE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame16317h06cfb3250929ecb7E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame163
 	.p2align	2
 .LCPI162_0:
 	.long	4292901064
@@ -206399,16 +206399,16 @@ _ZN8badapple8badapple8frame16217hed5d94e55d07b3bbE:
 .LCPI162_30:
 	.long	4292949080
 .Lfunc_end162:
-	.size	_ZN8badapple8badapple8frame16217hed5d94e55d07b3bbE, .Lfunc_end162-_ZN8badapple8badapple8frame16217hed5d94e55d07b3bbE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame162, .Lfunc_end162-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame162
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame16317h06cfb3250929ecb7E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame163,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame16317h06cfb3250929ecb7E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame163,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame16317h06cfb3250929ecb7E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame163:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -206696,7 +206696,7 @@ _ZN8badapple8badapple8frame16317h06cfb3250929ecb7E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame16417h0142a3afe4efd33aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame164
 	.p2align	2
 .LCPI163_0:
 	.long	4293594180
@@ -206761,16 +206761,16 @@ _ZN8badapple8badapple8frame16317h06cfb3250929ecb7E:
 .LCPI163_30:
 	.long	4293642200
 .Lfunc_end163:
-	.size	_ZN8badapple8badapple8frame16317h06cfb3250929ecb7E, .Lfunc_end163-_ZN8badapple8badapple8frame16317h06cfb3250929ecb7E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame163, .Lfunc_end163-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame163
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame16417h0142a3afe4efd33aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame164,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame16417h0142a3afe4efd33aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame164,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame16417h0142a3afe4efd33aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame164:
 	.fnstart
 	ldr	r1, .LCPI164_0
 	movs	r2, #1
@@ -206949,7 +206949,7 @@ _ZN8badapple8badapple8frame16417h0142a3afe4efd33aE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame16517hdbe14e960f98122eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame165
 	.p2align	2
 .LCPI164_0:
 	.long	4292904876
@@ -207004,16 +207004,16 @@ _ZN8badapple8badapple8frame16417h0142a3afe4efd33aE:
 .LCPI164_25:
 	.long	4292951000
 .Lfunc_end164:
-	.size	_ZN8badapple8badapple8frame16417h0142a3afe4efd33aE, .Lfunc_end164-_ZN8badapple8badapple8frame16417h0142a3afe4efd33aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame164, .Lfunc_end164-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame164
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame16517hdbe14e960f98122eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame165,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame16517hdbe14e960f98122eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame165,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame16517hdbe14e960f98122eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame165:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -207127,7 +207127,7 @@ _ZN8badapple8badapple8frame16517hdbe14e960f98122eE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame16617hd0d46d02bc26cf61E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame166
 	.p2align	2
 .LCPI165_0:
 	.long	4293596084
@@ -207176,16 +207176,16 @@ _ZN8badapple8badapple8frame16517hdbe14e960f98122eE:
 .LCPI165_22:
 	.long	4293642208
 .Lfunc_end165:
-	.size	_ZN8badapple8badapple8frame16517hdbe14e960f98122eE, .Lfunc_end165-_ZN8badapple8badapple8frame16517hdbe14e960f98122eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame165, .Lfunc_end165-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame165
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame16617hd0d46d02bc26cf61E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame166,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame16617hd0d46d02bc26cf61E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame166,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame16617hd0d46d02bc26cf61E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame166:
 	.fnstart
 	ldr	r2, .LCPI166_0
 	movs	r1, #0
@@ -207393,7 +207393,7 @@ _ZN8badapple8badapple8frame16617hd0d46d02bc26cf61E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame16717h939b9d635c4ab46fE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame167
 	.p2align	2
 .LCPI166_0:
 	.long	4292904884
@@ -207456,16 +207456,16 @@ _ZN8badapple8badapple8frame16617hd0d46d02bc26cf61E:
 .LCPI166_29:
 	.long	4292951000
 .Lfunc_end166:
-	.size	_ZN8badapple8badapple8frame16617hd0d46d02bc26cf61E, .Lfunc_end166-_ZN8badapple8badapple8frame16617hd0d46d02bc26cf61E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame166, .Lfunc_end166-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame166
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame16717h939b9d635c4ab46fE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame167,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame16717h939b9d635c4ab46fE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame167,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame16717h939b9d635c4ab46fE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame167:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -207765,7 +207765,7 @@ _ZN8badapple8badapple8frame16717h939b9d635c4ab46fE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame16817hd81494cb72b4f348E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame168
 	.p2align	2
 .LCPI167_0:
 	.long	4293594164
@@ -207830,16 +207830,16 @@ _ZN8badapple8badapple8frame16717h939b9d635c4ab46fE:
 .LCPI167_30:
 	.long	4293642200
 .Lfunc_end167:
-	.size	_ZN8badapple8badapple8frame16717h939b9d635c4ab46fE, .Lfunc_end167-_ZN8badapple8badapple8frame16717h939b9d635c4ab46fE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame167, .Lfunc_end167-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame167
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame16817hd81494cb72b4f348E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame168,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame16817hd81494cb72b4f348E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame168,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame16817hd81494cb72b4f348E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame168:
 	.fnstart
 	ldr	r2, .LCPI168_0
 	movs	r1, #0
@@ -208141,7 +208141,7 @@ _ZN8badapple8badapple8frame16817hd81494cb72b4f348E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame16917hcb8ff2ada7c74cabE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame169
 	.p2align	2
 .LCPI168_0:
 	.long	4292902968
@@ -208206,16 +208206,16 @@ _ZN8badapple8badapple8frame16817hd81494cb72b4f348E:
 .LCPI168_30:
 	.long	4292949080
 .Lfunc_end168:
-	.size	_ZN8badapple8badapple8frame16817hd81494cb72b4f348E, .Lfunc_end168-_ZN8badapple8badapple8frame16817hd81494cb72b4f348E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame168, .Lfunc_end168-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame168
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame16917hcb8ff2ada7c74cabE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame169,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame16917hcb8ff2ada7c74cabE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame169,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame16917hcb8ff2ada7c74cabE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame169:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -208520,7 +208520,7 @@ _ZN8badapple8badapple8frame16917hcb8ff2ada7c74cabE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame17017hca18551f063677c8E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame170
 	.p2align	2
 .LCPI169_0:
 	.long	4293592248
@@ -208587,16 +208587,16 @@ _ZN8badapple8badapple8frame16917hcb8ff2ada7c74cabE:
 .LCPI169_31:
 	.long	4293638364
 .Lfunc_end169:
-	.size	_ZN8badapple8badapple8frame16917hcb8ff2ada7c74cabE, .Lfunc_end169-_ZN8badapple8badapple8frame16917hcb8ff2ada7c74cabE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame169, .Lfunc_end169-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame169
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame17017hca18551f063677c8E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame170,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame17017hca18551f063677c8E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame170,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame17017hca18551f063677c8E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame170:
 	.fnstart
 	ldr	r2, .LCPI170_0
 	movs	r1, #0
@@ -208891,7 +208891,7 @@ _ZN8badapple8badapple8frame17017hca18551f063677c8E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame17117hd3fbafa8b9955b07E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame171
 	.p2align	2
 .LCPI170_0:
 	.long	4292897220
@@ -208960,16 +208960,16 @@ _ZN8badapple8badapple8frame17017hca18551f063677c8E:
 .LCPI170_32:
 	.long	4292945248
 .Lfunc_end170:
-	.size	_ZN8badapple8badapple8frame17017hca18551f063677c8E, .Lfunc_end170-_ZN8badapple8badapple8frame17017hca18551f063677c8E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame170, .Lfunc_end170-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame170
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame17117hd3fbafa8b9955b07E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame171,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame17117hd3fbafa8b9955b07E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame171,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame17117hd3fbafa8b9955b07E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame171:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -209232,7 +209232,7 @@ _ZN8badapple8badapple8frame17117hd3fbafa8b9955b07E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame17217h2648385533be5408E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame172
 	.p2align	2
 .LCPI171_0:
 	.long	4293588416
@@ -209297,16 +209297,16 @@ _ZN8badapple8badapple8frame17117hd3fbafa8b9955b07E:
 .LCPI171_30:
 	.long	4293636448
 .Lfunc_end171:
-	.size	_ZN8badapple8badapple8frame17117hd3fbafa8b9955b07E, .Lfunc_end171-_ZN8badapple8badapple8frame17117hd3fbafa8b9955b07E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame171, .Lfunc_end171-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame171
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame17217h2648385533be5408E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame172,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame17217h2648385533be5408E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame172,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame17217h2648385533be5408E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame172:
 	.fnstart
 	ldr	r2, .LCPI172_0
 	movs	r1, #0
@@ -209748,7 +209748,7 @@ _ZN8badapple8badapple8frame17217h2648385533be5408E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame17317h150abee041ab70a3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame173
 	.p2align	2
 .LCPI172_0:
 	.long	4292895340
@@ -209817,16 +209817,16 @@ _ZN8badapple8badapple8frame17217h2648385533be5408E:
 .LCPI172_32:
 	.long	4292945280
 .Lfunc_end172:
-	.size	_ZN8badapple8badapple8frame17217h2648385533be5408E, .Lfunc_end172-_ZN8badapple8badapple8frame17217h2648385533be5408E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame172, .Lfunc_end172-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame172
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame17317h150abee041ab70a3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame173,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame17317h150abee041ab70a3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame173,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame17317h150abee041ab70a3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame173:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -210545,7 +210545,7 @@ _ZN8badapple8badapple8frame17317h150abee041ab70a3E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame17417h20a30bc700c5b8b7E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame174
 	.p2align	2
 .LCPI173_11:
 	.long	4293605708
@@ -210600,16 +210600,16 @@ _ZN8badapple8badapple8frame17317h150abee041ab70a3E:
 .LCPI173_36:
 	.long	4293638420
 .Lfunc_end173:
-	.size	_ZN8badapple8badapple8frame17317h150abee041ab70a3E, .Lfunc_end173-_ZN8badapple8badapple8frame17317h150abee041ab70a3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame173, .Lfunc_end173-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame173
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame17417h20a30bc700c5b8b7E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame174,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame17417h20a30bc700c5b8b7E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame174,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame17417h20a30bc700c5b8b7E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame174:
 	.fnstart
 	ldr	r2, .LCPI174_41
 	movs	r1, #0
@@ -211350,7 +211350,7 @@ _ZN8badapple8badapple8frame17417h20a30bc700c5b8b7E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame17517h6cf2131e2161deaaE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame175
 	.p2align	2
 .LCPI174_12:
 	.long	4292916452
@@ -211411,16 +211411,16 @@ _ZN8badapple8badapple8frame17417h20a30bc700c5b8b7E:
 .LCPI174_40:
 	.long	4292953008
 .Lfunc_end174:
-	.size	_ZN8badapple8badapple8frame17417h20a30bc700c5b8b7E, .Lfunc_end174-_ZN8badapple8badapple8frame17417h20a30bc700c5b8b7E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame174, .Lfunc_end174-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame174
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame17517h6cf2131e2161deaaE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame175,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame17517h6cf2131e2161deaaE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame175,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame17517h6cf2131e2161deaaE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame175:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -212094,7 +212094,7 @@ _ZN8badapple8badapple8frame17517h6cf2131e2161deaaE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame17617h0ced3503498c0b27E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame176
 	.p2align	2
 .LCPI175_11:
 	.long	4293605748
@@ -212163,16 +212163,16 @@ _ZN8badapple8badapple8frame17517h6cf2131e2161deaaE:
 .LCPI175_43:
 	.long	4293648048
 .Lfunc_end175:
-	.size	_ZN8badapple8badapple8frame17517h6cf2131e2161deaaE, .Lfunc_end175-_ZN8badapple8badapple8frame17517h6cf2131e2161deaaE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame175, .Lfunc_end175-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame175
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame17617h0ced3503498c0b27E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame176,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame17617h0ced3503498c0b27E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame176,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame17617h0ced3503498c0b27E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame176:
 	.fnstart
 	ldr	r1, .LCPI176_48
 	movs	r2, #1
@@ -212700,7 +212700,7 @@ _ZN8badapple8badapple8frame17617h0ced3503498c0b27E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame17717hfd38c6453b7951c6E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame177
 	.p2align	2
 .LCPI176_2:
 	.long	4292897288
@@ -212795,16 +212795,16 @@ _ZN8badapple8badapple8frame17617h0ced3503498c0b27E:
 .LCPI176_47:
 	.long	4292975744
 .Lfunc_end176:
-	.size	_ZN8badapple8badapple8frame17617h0ced3503498c0b27E, .Lfunc_end176-_ZN8badapple8badapple8frame17617h0ced3503498c0b27E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame176, .Lfunc_end176-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame176
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame17717hfd38c6453b7951c6E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame177,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame17717hfd38c6453b7951c6E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame177,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame17717hfd38c6453b7951c6E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame177:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -213920,7 +213920,7 @@ _ZN8badapple8badapple8frame17717hfd38c6453b7951c6E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame17817h86264a294eefaf39E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame178
 	.p2align	2
 .LCPI177_43:
 	.long	4293649936
@@ -213975,16 +213975,16 @@ _ZN8badapple8badapple8frame17717hfd38c6453b7951c6E:
 .LCPI177_68:
 	.long	4293703424
 .Lfunc_end177:
-	.size	_ZN8badapple8badapple8frame17717hfd38c6453b7951c6E, .Lfunc_end177-_ZN8badapple8badapple8frame17717hfd38c6453b7951c6E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame177, .Lfunc_end177-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame177
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame17817h86264a294eefaf39E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame178,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame17817h86264a294eefaf39E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame178,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame17817h86264a294eefaf39E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame178:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -215572,7 +215572,7 @@ _ZN8badapple8badapple8frame17817h86264a294eefaf39E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame17917h3681e8a638fabaa3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame179
 	.p2align	2
 .LCPI178_76:
 	.long	4292993152
@@ -215617,16 +215617,16 @@ _ZN8badapple8badapple8frame17817h86264a294eefaf39E:
 .LCPI178_96:
 	.long	4293012352
 .Lfunc_end178:
-	.size	_ZN8badapple8badapple8frame17817h86264a294eefaf39E, .Lfunc_end178-_ZN8badapple8badapple8frame17817h86264a294eefaf39E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame178, .Lfunc_end178-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame178
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame17917h3681e8a638fabaa3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame179,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame17917h3681e8a638fabaa3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame179,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame17917h3681e8a638fabaa3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame179:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -216611,7 +216611,7 @@ _ZN8badapple8badapple8frame17917h3681e8a638fabaa3E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame18017h6530a32b7853b24bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame180
 	.p2align	2
 .LCPI179_49:
 	.long	4293665168
@@ -216666,16 +216666,16 @@ _ZN8badapple8badapple8frame17917h3681e8a638fabaa3E:
 .LCPI179_74:
 	.long	4293703504
 .Lfunc_end179:
-	.size	_ZN8badapple8badapple8frame17917h3681e8a638fabaa3E, .Lfunc_end179-_ZN8badapple8badapple8frame17917h3681e8a638fabaa3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame179, .Lfunc_end179-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame179
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame18017h6530a32b7853b24bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame180,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame18017h6530a32b7853b24bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame180,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame18017h6530a32b7853b24bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame180:
 	.fnstart
 	ldr	r2, .LCPI180_0
 	movs	r1, #0
@@ -216893,7 +216893,7 @@ _ZN8badapple8badapple8frame18017h6530a32b7853b24bE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame18117h382809ac87fc129aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame181
 	.p2align	2
 .LCPI180_0:
 	.long	4292904964
@@ -217012,16 +217012,16 @@ _ZN8badapple8badapple8frame18017h6530a32b7853b24bE:
 .LCPI180_57:
 	.long	4293012380
 .Lfunc_end180:
-	.size	_ZN8badapple8badapple8frame18017h6530a32b7853b24bE, .Lfunc_end180-_ZN8badapple8badapple8frame18017h6530a32b7853b24bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame180, .Lfunc_end180-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame180
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame18117h382809ac87fc129aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame181,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame18117h382809ac87fc129aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame181,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame18117h382809ac87fc129aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame181:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -217266,7 +217266,7 @@ _ZN8badapple8badapple8frame18117h382809ac87fc129aE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame18217h77c52795f75e6067E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame182
 	.p2align	2
 .LCPI181_0:
 	.long	4293594244
@@ -217387,16 +217387,16 @@ _ZN8badapple8badapple8frame18117h382809ac87fc129aE:
 .LCPI181_58:
 	.long	4293703580
 .Lfunc_end181:
-	.size	_ZN8badapple8badapple8frame18117h382809ac87fc129aE, .Lfunc_end181-_ZN8badapple8badapple8frame18117h382809ac87fc129aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame181, .Lfunc_end181-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame181
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame18217h77c52795f75e6067E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame182,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame18217h77c52795f75e6067E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame182,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame18217h77c52795f75e6067E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame182:
 	.fnstart
 	ldr	r2, .LCPI182_0
 	movs	r1, #0
@@ -217635,7 +217635,7 @@ _ZN8badapple8badapple8frame18217h77c52795f75e6067E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame18317h1e29069e98de58f7E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame183
 	.p2align	2
 .LCPI182_0:
 	.long	4292903040
@@ -217754,16 +217754,16 @@ _ZN8badapple8badapple8frame18217h77c52795f75e6067E:
 .LCPI182_57:
 	.long	4293012384
 .Lfunc_end182:
-	.size	_ZN8badapple8badapple8frame18217h77c52795f75e6067E, .Lfunc_end182-_ZN8badapple8badapple8frame18217h77c52795f75e6067E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame182, .Lfunc_end182-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame182
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame18317h1e29069e98de58f7E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame183,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame18317h1e29069e98de58f7E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame183,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame18317h1e29069e98de58f7E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame183:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -218041,7 +218041,7 @@ _ZN8badapple8badapple8frame18317h1e29069e98de58f7E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame18417h7507eef54a92b0b9E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame184
 	.p2align	2
 .LCPI183_0:
 	.long	4293592320
@@ -218162,16 +218162,16 @@ _ZN8badapple8badapple8frame18317h1e29069e98de58f7E:
 .LCPI183_58:
 	.long	4293703584
 .Lfunc_end183:
-	.size	_ZN8badapple8badapple8frame18317h1e29069e98de58f7E, .Lfunc_end183-_ZN8badapple8badapple8frame18317h1e29069e98de58f7E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame183, .Lfunc_end183-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame183
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame18417h7507eef54a92b0b9E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame184,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame18417h7507eef54a92b0b9E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame184,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame18417h7507eef54a92b0b9E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame184:
 	.fnstart
 	ldr	r2, .LCPI184_0
 	movs	r1, #0
@@ -218411,7 +218411,7 @@ _ZN8badapple8badapple8frame18417h7507eef54a92b0b9E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame18517h3dfc06164d60b4a5E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame185
 	.p2align	2
 .LCPI184_0:
 	.long	4292899200
@@ -218534,16 +218534,16 @@ _ZN8badapple8badapple8frame18417h7507eef54a92b0b9E:
 .LCPI184_59:
 	.long	4293012388
 .Lfunc_end184:
-	.size	_ZN8badapple8badapple8frame18417h7507eef54a92b0b9E, .Lfunc_end184-_ZN8badapple8badapple8frame18417h7507eef54a92b0b9E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame184, .Lfunc_end184-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame184
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame18517h3dfc06164d60b4a5E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame185,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame18517h3dfc06164d60b4a5E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame185,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame18517h3dfc06164d60b4a5E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame185:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -218780,7 +218780,7 @@ _ZN8badapple8badapple8frame18517h3dfc06164d60b4a5E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame18617he6fe3dab427b44d3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame186
 	.p2align	2
 .LCPI185_0:
 	.long	4293590400
@@ -218903,16 +218903,16 @@ _ZN8badapple8badapple8frame18517h3dfc06164d60b4a5E:
 .LCPI185_59:
 	.long	4293703588
 .Lfunc_end185:
-	.size	_ZN8badapple8badapple8frame18517h3dfc06164d60b4a5E, .Lfunc_end185-_ZN8badapple8badapple8frame18517h3dfc06164d60b4a5E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame185, .Lfunc_end185-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame185
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame18617he6fe3dab427b44d3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame186,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame18617he6fe3dab427b44d3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame186,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame18617he6fe3dab427b44d3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame186:
 	.fnstart
 	ldr	r1, .LCPI186_0
 	movs	r2, #1
@@ -219085,7 +219085,7 @@ _ZN8badapple8badapple8frame18617he6fe3dab427b44d3E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame18717hc90c1d35ff5f9f95E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame187
 	.p2align	2
 .LCPI186_0:
 	.long	4292899204
@@ -219200,16 +219200,16 @@ _ZN8badapple8badapple8frame18617he6fe3dab427b44d3E:
 .LCPI186_55:
 	.long	4293008552
 .Lfunc_end186:
-	.size	_ZN8badapple8badapple8frame18617he6fe3dab427b44d3E, .Lfunc_end186-_ZN8badapple8badapple8frame18617he6fe3dab427b44d3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame186, .Lfunc_end186-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame186
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame18717hc90c1d35ff5f9f95E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame187,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame18717hc90c1d35ff5f9f95E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame187,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame18717hc90c1d35ff5f9f95E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame187:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -219435,7 +219435,7 @@ _ZN8badapple8badapple8frame18717hc90c1d35ff5f9f95E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame18817he576b9b813c01bbdE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame188
 	.p2align	2
 .LCPI187_0:
 	.long	4293590400
@@ -219548,16 +219548,16 @@ _ZN8badapple8badapple8frame18717hc90c1d35ff5f9f95E:
 .LCPI187_54:
 	.long	4293703592
 .Lfunc_end187:
-	.size	_ZN8badapple8badapple8frame18717hc90c1d35ff5f9f95E, .Lfunc_end187-_ZN8badapple8badapple8frame18717hc90c1d35ff5f9f95E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame187, .Lfunc_end187-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame187
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame18817he576b9b813c01bbdE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame188,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame18817he576b9b813c01bbdE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame188,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame18817he576b9b813c01bbdE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame188:
 	.fnstart
 	ldr	r1, .LCPI188_0
 	movs	r2, #1
@@ -219805,7 +219805,7 @@ _ZN8badapple8badapple8frame18817he576b9b813c01bbdE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame18917h6c77c260ebdfde42E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame189
 	.p2align	2
 .LCPI188_0:
 	.long	4292899200
@@ -219924,16 +219924,16 @@ _ZN8badapple8badapple8frame18817he576b9b813c01bbdE:
 .LCPI188_57:
 	.long	4293012392
 .Lfunc_end188:
-	.size	_ZN8badapple8badapple8frame18817he576b9b813c01bbdE, .Lfunc_end188-_ZN8badapple8badapple8frame18817he576b9b813c01bbdE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame188, .Lfunc_end188-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame188
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame18917h6c77c260ebdfde42E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame189,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame18917h6c77c260ebdfde42E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame189,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame18917h6c77c260ebdfde42E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame189:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -220203,7 +220203,7 @@ _ZN8badapple8badapple8frame18917h6c77c260ebdfde42E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame19017h96506f957079c602E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame190
 	.p2align	2
 .LCPI189_0:
 	.long	4293592316
@@ -220324,16 +220324,16 @@ _ZN8badapple8badapple8frame18917h6c77c260ebdfde42E:
 .LCPI189_58:
 	.long	4293703596
 .Lfunc_end189:
-	.size	_ZN8badapple8badapple8frame18917h6c77c260ebdfde42E, .Lfunc_end189-_ZN8badapple8badapple8frame18917h6c77c260ebdfde42E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame189, .Lfunc_end189-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame189
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame19017h96506f957079c602E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame190,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame19017h96506f957079c602E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame190,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame19017h96506f957079c602E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame190:
 	.fnstart
 	ldr	r1, .LCPI190_0
 	movs	r2, #1
@@ -220577,7 +220577,7 @@ _ZN8badapple8badapple8frame19017h96506f957079c602E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame19117h7e44c23232298b1bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame191
 	.p2align	2
 .LCPI190_0:
 	.long	4292903036
@@ -220698,16 +220698,16 @@ _ZN8badapple8badapple8frame19017h96506f957079c602E:
 .LCPI190_58:
 	.long	4293012400
 .Lfunc_end190:
-	.size	_ZN8badapple8badapple8frame19017h96506f957079c602E, .Lfunc_end190-_ZN8badapple8badapple8frame19017h96506f957079c602E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame190, .Lfunc_end190-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame190
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame19117h7e44c23232298b1bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame191,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame19117h7e44c23232298b1bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame191,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame19117h7e44c23232298b1bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame191:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -220957,7 +220957,7 @@ _ZN8badapple8badapple8frame19117h7e44c23232298b1bE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame19217h1aa065c479325aa5E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame192
 	.p2align	2
 .LCPI191_0:
 	.long	4293596152
@@ -221078,16 +221078,16 @@ _ZN8badapple8badapple8frame19117h7e44c23232298b1bE:
 .LCPI191_58:
 	.long	4293703600
 .Lfunc_end191:
-	.size	_ZN8badapple8badapple8frame19117h7e44c23232298b1bE, .Lfunc_end191-_ZN8badapple8badapple8frame19117h7e44c23232298b1bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame191, .Lfunc_end191-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame191
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame19217h1aa065c479325aa5E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame192,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame19217h1aa065c479325aa5E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame192,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame19217h1aa065c479325aa5E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame192:
 	.fnstart
 	ldr	r1, .LCPI192_0
 	movs	r2, #1
@@ -221297,7 +221297,7 @@ _ZN8badapple8badapple8frame19217h1aa065c479325aa5E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame19317hccf53903db493e4aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame193
 	.p2align	2
 .LCPI192_0:
 	.long	4292904956
@@ -221410,16 +221410,16 @@ _ZN8badapple8badapple8frame19217h1aa065c479325aa5E:
 .LCPI192_54:
 	.long	4293012404
 .Lfunc_end192:
-	.size	_ZN8badapple8badapple8frame19217h1aa065c479325aa5E, .Lfunc_end192-_ZN8badapple8badapple8frame19217h1aa065c479325aa5E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame192, .Lfunc_end192-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame192
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame19317hccf53903db493e4aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame193,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame19317hccf53903db493e4aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame193,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame19317hccf53903db493e4aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame193:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -221606,7 +221606,7 @@ _ZN8badapple8badapple8frame19317hccf53903db493e4aE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame19417h1907f3a29a974c81E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame194
 	.p2align	2
 .LCPI193_0:
 	.long	4293598080
@@ -221707,16 +221707,16 @@ _ZN8badapple8badapple8frame19317hccf53903db493e4aE:
 .LCPI193_48:
 	.long	4293703604
 .Lfunc_end193:
-	.size	_ZN8badapple8badapple8frame19317hccf53903db493e4aE, .Lfunc_end193-_ZN8badapple8badapple8frame19317hccf53903db493e4aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame193, .Lfunc_end193-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame193
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame19417h1907f3a29a974c81E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame194,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame19417h1907f3a29a974c81E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame194,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame19417h1907f3a29a974c81E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame194:
 	.fnstart
 	ldr	r2, .LCPI194_0
 	movs	r1, #0
@@ -221943,7 +221943,7 @@ _ZN8badapple8badapple8frame19417h1907f3a29a974c81E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame19517h68d2a26d59c24163E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame195
 	.p2align	2
 .LCPI194_0:
 	.long	4292906868
@@ -222068,16 +222068,16 @@ _ZN8badapple8badapple8frame19417h1907f3a29a974c81E:
 .LCPI194_60:
 	.long	4293012408
 .Lfunc_end194:
-	.size	_ZN8badapple8badapple8frame19417h1907f3a29a974c81E, .Lfunc_end194-_ZN8badapple8badapple8frame19417h1907f3a29a974c81E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame194, .Lfunc_end194-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame194
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame19517h68d2a26d59c24163E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame195,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame19517h68d2a26d59c24163E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame195,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame19517h68d2a26d59c24163E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame195:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -222368,7 +222368,7 @@ _ZN8badapple8badapple8frame19517h68d2a26d59c24163E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame19617hf4714ad0ee7fc54eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame196
 	.p2align	2
 .LCPI195_0:
 	.long	4293596148
@@ -222497,16 +222497,16 @@ _ZN8badapple8badapple8frame19517h68d2a26d59c24163E:
 .LCPI195_62:
 	.long	4293703608
 .Lfunc_end195:
-	.size	_ZN8badapple8badapple8frame19517h68d2a26d59c24163E, .Lfunc_end195-_ZN8badapple8badapple8frame19517h68d2a26d59c24163E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame195, .Lfunc_end195-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame195
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame19617hf4714ad0ee7fc54eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame196,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame19617hf4714ad0ee7fc54eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame196,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame19617hf4714ad0ee7fc54eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame196:
 	.fnstart
 	ldr	r2, .LCPI196_0
 	movs	r1, #0
@@ -222775,7 +222775,7 @@ _ZN8badapple8badapple8frame19617hf4714ad0ee7fc54eE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame19717h5a6e554ebb544515E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame197
 	.p2align	2
 .LCPI196_0:
 	.long	4292903028
@@ -222912,16 +222912,16 @@ _ZN8badapple8badapple8frame19617hf4714ad0ee7fc54eE:
 .LCPI196_66:
 	.long	4293012412
 .Lfunc_end196:
-	.size	_ZN8badapple8badapple8frame19617hf4714ad0ee7fc54eE, .Lfunc_end196-_ZN8badapple8badapple8frame19617hf4714ad0ee7fc54eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame196, .Lfunc_end196-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame196
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame19717h5a6e554ebb544515E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame197,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame19717h5a6e554ebb544515E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame197,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame19717h5a6e554ebb544515E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame197:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -223181,7 +223181,7 @@ _ZN8badapple8badapple8frame19717h5a6e554ebb544515E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame19817h24383b21d58ff9d7E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame198
 	.p2align	2
 .LCPI197_0:
 	.long	4293592312
@@ -223308,16 +223308,16 @@ _ZN8badapple8badapple8frame19717h5a6e554ebb544515E:
 .LCPI197_61:
 	.long	4293703612
 .Lfunc_end197:
-	.size	_ZN8badapple8badapple8frame19717h5a6e554ebb544515E, .Lfunc_end197-_ZN8badapple8badapple8frame19717h5a6e554ebb544515E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame197, .Lfunc_end197-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame197
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame19817h24383b21d58ff9d7E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame198,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame19817h24383b21d58ff9d7E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame198,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame19817h24383b21d58ff9d7E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame198:
 	.fnstart
 	ldr	r2, .LCPI198_0
 	movs	r1, #0
@@ -223555,7 +223555,7 @@ _ZN8badapple8badapple8frame19817h24383b21d58ff9d7E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame19917h2e937f5eb754c570E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame199
 	.p2align	2
 .LCPI198_0:
 	.long	4292901108
@@ -223668,16 +223668,16 @@ _ZN8badapple8badapple8frame19817h24383b21d58ff9d7E:
 .LCPI198_54:
 	.long	4293012416
 .Lfunc_end198:
-	.size	_ZN8badapple8badapple8frame19817h24383b21d58ff9d7E, .Lfunc_end198-_ZN8badapple8badapple8frame19817h24383b21d58ff9d7E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame198, .Lfunc_end198-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame198
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame19917h2e937f5eb754c570E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame199,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame19917h2e937f5eb754c570E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame199,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame19917h2e937f5eb754c570E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame199:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -223943,7 +223943,7 @@ _ZN8badapple8badapple8frame19917h2e937f5eb754c570E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame20017heb68b34160f48018E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame200
 	.p2align	2
 .LCPI199_0:
 	.long	4293590392
@@ -224060,16 +224060,16 @@ _ZN8badapple8badapple8frame19917h2e937f5eb754c570E:
 .LCPI199_56:
 	.long	4293703620
 .Lfunc_end199:
-	.size	_ZN8badapple8badapple8frame19917h2e937f5eb754c570E, .Lfunc_end199-_ZN8badapple8badapple8frame19917h2e937f5eb754c570E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame199, .Lfunc_end199-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame199
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame20017heb68b34160f48018E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame200,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame20017heb68b34160f48018E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame200,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame20017heb68b34160f48018E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame200:
 	.fnstart
 	ldr	r2, .LCPI200_83
 	movs	r1, #0
@@ -224870,7 +224870,7 @@ _ZN8badapple8badapple8frame20017heb68b34160f48018E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame20117h3c4edc9e4f7578daE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame201
 	.p2align	2
 .LCPI200_34:
 	.long	4292952948
@@ -224971,16 +224971,16 @@ _ZN8badapple8badapple8frame20017heb68b34160f48018E:
 .LCPI200_82:
 	.long	4293012420
 .Lfunc_end200:
-	.size	_ZN8badapple8badapple8frame20017heb68b34160f48018E, .Lfunc_end200-_ZN8badapple8badapple8frame20017heb68b34160f48018E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame200, .Lfunc_end200-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame200
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame20117h3c4edc9e4f7578daE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame201,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame20117h3c4edc9e4f7578daE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame201,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame20117h3c4edc9e4f7578daE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame201:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -226424,7 +226424,7 @@ _ZN8badapple8badapple8frame20117h3c4edc9e4f7578daE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame20217h7195e15212b97c35E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame202
 	.p2align	2
 .LCPI201_68:
 	.long	4293674808
@@ -226481,16 +226481,16 @@ _ZN8badapple8badapple8frame20117h3c4edc9e4f7578daE:
 .LCPI201_94:
 	.long	4293703600
 .Lfunc_end201:
-	.size	_ZN8badapple8badapple8frame20117h3c4edc9e4f7578daE, .Lfunc_end201-_ZN8badapple8badapple8frame20117h3c4edc9e4f7578daE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame201, .Lfunc_end201-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame201
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame20217h7195e15212b97c35E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame202,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame20217h7195e15212b97c35E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame202,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame20217h7195e15212b97c35E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame202:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -228547,7 +228547,7 @@ _ZN8badapple8badapple8frame20217h7195e15212b97c35E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame20317h033aed1771e42d47E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame203
 	.p2align	2
 .LCPI202_98:
 	.long	4292995080
@@ -228588,16 +228588,16 @@ _ZN8badapple8badapple8frame20217h7195e15212b97c35E:
 .LCPI202_116:
 	.long	4293012384
 .Lfunc_end202:
-	.size	_ZN8badapple8badapple8frame20217h7195e15212b97c35E, .Lfunc_end202-_ZN8badapple8badapple8frame20217h7195e15212b97c35E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame202, .Lfunc_end202-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame202
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame20317h033aed1771e42d47E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame203,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame20317h033aed1771e42d47E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame203,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame20317h033aed1771e42d47E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame203:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -230853,7 +230853,7 @@ _ZN8badapple8badapple8frame20317h033aed1771e42d47E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame20417hea9e5b849f7d47b6E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame204
 	.p2align	2
 .LCPI203_105:
 	.long	4293680572
@@ -230918,16 +230918,16 @@ _ZN8badapple8badapple8frame20317h033aed1771e42d47E:
 .LCPI203_135:
 	.long	4293703552
 .Lfunc_end203:
-	.size	_ZN8badapple8badapple8frame20317h033aed1771e42d47E, .Lfunc_end203-_ZN8badapple8badapple8frame20317h033aed1771e42d47E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame203, .Lfunc_end203-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame203
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame20417hea9e5b849f7d47b6E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame204,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame20417hea9e5b849f7d47b6E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame204,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame20417hea9e5b849f7d47b6E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame204:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -233084,7 +233084,7 @@ _ZN8badapple8badapple8frame20417hea9e5b849f7d47b6E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame20517h787b28ff86a0a120E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame205
 	.p2align	2
 .LCPI204_90:
 	.long	4292987540
@@ -233139,16 +233139,16 @@ _ZN8badapple8badapple8frame20417hea9e5b849f7d47b6E:
 .LCPI204_115:
 	.long	4293012548
 .Lfunc_end204:
-	.size	_ZN8badapple8badapple8frame20417hea9e5b849f7d47b6E, .Lfunc_end204-_ZN8badapple8badapple8frame20417hea9e5b849f7d47b6E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame204, .Lfunc_end204-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame204
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame20517h787b28ff86a0a120E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame205,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame20517h787b28ff86a0a120E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame205,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame20517h787b28ff86a0a120E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame205:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -235138,7 +235138,7 @@ _ZN8badapple8badapple8frame20517h787b28ff86a0a120E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame20617hf501a5016c17bcbbE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame206
 	.p2align	2
 .LCPI205_67:
 	.long	4293663360
@@ -235185,16 +235185,16 @@ _ZN8badapple8badapple8frame20517h787b28ff86a0a120E:
 .LCPI205_88:
 	.long	4293703728
 .Lfunc_end205:
-	.size	_ZN8badapple8badapple8frame20517h787b28ff86a0a120E, .Lfunc_end205-_ZN8badapple8badapple8frame20517h787b28ff86a0a120E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame205, .Lfunc_end205-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame205
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame20617hf501a5016c17bcbbE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame206,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame20617hf501a5016c17bcbbE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame206,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame20617hf501a5016c17bcbbE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame206:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -237594,7 +237594,7 @@ _ZN8badapple8badapple8frame20617hf501a5016c17bcbbE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame20717he97959614fadcd08E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame207
 	.p2align	2
 .LCPI206_90:
 	.long	4292981776
@@ -237631,16 +237631,16 @@ _ZN8badapple8badapple8frame20617hf501a5016c17bcbbE:
 .LCPI206_106:
 	.long	4293012548
 .Lfunc_end206:
-	.size	_ZN8badapple8badapple8frame20617hf501a5016c17bcbbE, .Lfunc_end206-_ZN8badapple8badapple8frame20617hf501a5016c17bcbbE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame206, .Lfunc_end206-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame206
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame20717he97959614fadcd08E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame207,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame20717he97959614fadcd08E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame207,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame20717he97959614fadcd08E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame207:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -239508,7 +239508,7 @@ _ZN8badapple8badapple8frame20717he97959614fadcd08E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame20817h70c44667efb307f1E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame208
 	.p2align	2
 .LCPI207_76:
 	.long	4293659428
@@ -239565,16 +239565,16 @@ _ZN8badapple8badapple8frame20717he97959614fadcd08E:
 .LCPI207_102:
 	.long	4293703728
 .Lfunc_end207:
-	.size	_ZN8badapple8badapple8frame20717he97959614fadcd08E, .Lfunc_end207-_ZN8badapple8badapple8frame20717he97959614fadcd08E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame207, .Lfunc_end207-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame207
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame20817h70c44667efb307f1E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame208,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame20817h70c44667efb307f1E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame208,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame20817h70c44667efb307f1E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame208:
 	.fnstart
 	ldr	r2, .LCPI208_60
 	movs	r1, #1
@@ -240124,7 +240124,7 @@ _ZN8badapple8badapple8frame20817h70c44667efb307f1E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame20917h6de78dc0c698c210E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame209
 	.p2align	2
 .LCPI208_4:
 	.long	4292878124
@@ -240239,16 +240239,16 @@ _ZN8badapple8badapple8frame20817h70c44667efb307f1E:
 .LCPI208_59:
 	.long	4292973996
 .Lfunc_end208:
-	.size	_ZN8badapple8badapple8frame20817h70c44667efb307f1E, .Lfunc_end208-_ZN8badapple8badapple8frame20817h70c44667efb307f1E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame208, .Lfunc_end208-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame208
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame20917h6de78dc0c698c210E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame209,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame20917h6de78dc0c698c210E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame209,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame20917h6de78dc0c698c210E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame209:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -241083,7 +241083,7 @@ _ZN8badapple8badapple8frame20917h6de78dc0c698c210E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame21017h5f2e9226f2e7540eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame210
 	.p2align	2
 .LCPI209_26:
 	.long	4293621140
@@ -241158,16 +241158,16 @@ _ZN8badapple8badapple8frame20917h6de78dc0c698c210E:
 .LCPI209_61:
 	.long	4293669060
 .Lfunc_end209:
-	.size	_ZN8badapple8badapple8frame20917h6de78dc0c698c210E, .Lfunc_end209-_ZN8badapple8badapple8frame20917h6de78dc0c698c210E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame209, .Lfunc_end209-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame209
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame21017h5f2e9226f2e7540eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame210,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame21017h5f2e9226f2e7540eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame210,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame21017h5f2e9226f2e7540eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame210:
 	.fnstart
 	ldr	r2, .LCPI210_60
 	movs	r1, #1
@@ -241903,7 +241903,7 @@ _ZN8badapple8badapple8frame21017h5f2e9226f2e7540eE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame21117h2e3a8bdefd3eb6d1E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame211
 	.p2align	2
 .LCPI210_22:
 	.long	4292927912
@@ -241982,16 +241982,16 @@ _ZN8badapple8badapple8frame21017h5f2e9226f2e7540eE:
 .LCPI210_59:
 	.long	4292979780
 .Lfunc_end210:
-	.size	_ZN8badapple8badapple8frame21017h5f2e9226f2e7540eE, .Lfunc_end210-_ZN8badapple8badapple8frame21017h5f2e9226f2e7540eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame210, .Lfunc_end210-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame210
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame21117h2e3a8bdefd3eb6d1E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame211,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame21117h2e3a8bdefd3eb6d1E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame211,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame21117h2e3a8bdefd3eb6d1E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame211:
 	.fnstart
 	ldr	r2, .LCPI211_59
 	movs	r1, #1
@@ -242532,7 +242532,7 @@ _ZN8badapple8badapple8frame21117h2e3a8bdefd3eb6d1E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame21217h5be4502f8893d16eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame212
 	.p2align	2
 .LCPI211_2:
 	.long	4293565536
@@ -242649,16 +242649,16 @@ _ZN8badapple8badapple8frame21117h2e3a8bdefd3eb6d1E:
 .LCPI211_58:
 	.long	4293669052
 .Lfunc_end211:
-	.size	_ZN8badapple8badapple8frame21117h2e3a8bdefd3eb6d1E, .Lfunc_end211-_ZN8badapple8badapple8frame21117h2e3a8bdefd3eb6d1E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame211, .Lfunc_end211-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame211
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame21217h5be4502f8893d16eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame212,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame21217h5be4502f8893d16eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame212,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame21217h5be4502f8893d16eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame212:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -243670,7 +243670,7 @@ _ZN8badapple8badapple8frame21217h5be4502f8893d16eE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame21317hb1c60db7f99bc5a5E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame213
 	.p2align	2
 .LCPI212_29:
 	.long	4292941344
@@ -243751,16 +243751,16 @@ _ZN8badapple8badapple8frame21217h5be4502f8893d16eE:
 .LCPI212_67:
 	.long	4292997052
 .Lfunc_end212:
-	.size	_ZN8badapple8badapple8frame21217h5be4502f8893d16eE, .Lfunc_end212-_ZN8badapple8badapple8frame21217h5be4502f8893d16eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame212, .Lfunc_end212-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame212
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame21317hb1c60db7f99bc5a5E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame213,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame21317hb1c60db7f99bc5a5E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame213,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame21317hb1c60db7f99bc5a5E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame213:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -245515,7 +245515,7 @@ _ZN8badapple8badapple8frame21317hb1c60db7f99bc5a5E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame21417h3ee3ff8e4f581f63E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame214
 	.p2align	2
 .LCPI213_55:
 	.long	4293636372
@@ -245600,16 +245600,16 @@ _ZN8badapple8badapple8frame21317hb1c60db7f99bc5a5E:
 .LCPI213_95:
 	.long	4293699764
 .Lfunc_end213:
-	.size	_ZN8badapple8badapple8frame21317hb1c60db7f99bc5a5E, .Lfunc_end213-_ZN8badapple8badapple8frame21317hb1c60db7f99bc5a5E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame213, .Lfunc_end213-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame213
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame21417h3ee3ff8e4f581f63E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame214,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame21417h3ee3ff8e4f581f63E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame214,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame21417h3ee3ff8e4f581f63E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame214:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -247129,7 +247129,7 @@ _ZN8badapple8badapple8frame21417h3ee3ff8e4f581f63E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame21517h59d39ef1a807ebfeE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame215
 	.p2align	2
 .LCPI214_50:
 	.long	4292943392
@@ -247190,16 +247190,16 @@ _ZN8badapple8badapple8frame21417h3ee3ff8e4f581f63E:
 .LCPI214_78:
 	.long	4292997052
 .Lfunc_end214:
-	.size	_ZN8badapple8badapple8frame21417h3ee3ff8e4f581f63E, .Lfunc_end214-_ZN8badapple8badapple8frame21417h3ee3ff8e4f581f63E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame214, .Lfunc_end214-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame214
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame21517h59d39ef1a807ebfeE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame215,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame21517h59d39ef1a807ebfeE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame215,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame21517h59d39ef1a807ebfeE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame215:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -248663,7 +248663,7 @@ _ZN8badapple8badapple8frame21517h59d39ef1a807ebfeE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame21617ha118f3a63601e127E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame216
 	.p2align	2
 .LCPI215_40:
 	.long	4293625004
@@ -248748,16 +248748,16 @@ _ZN8badapple8badapple8frame21517h59d39ef1a807ebfeE:
 .LCPI215_80:
 	.long	4293699764
 .Lfunc_end215:
-	.size	_ZN8badapple8badapple8frame21517h59d39ef1a807ebfeE, .Lfunc_end215-_ZN8badapple8badapple8frame21517h59d39ef1a807ebfeE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame215, .Lfunc_end215-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame215
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame21617ha118f3a63601e127E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame216,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame21617ha118f3a63601e127E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame216,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame21617ha118f3a63601e127E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame216:
 	.fnstart
 	ldr	r2, .LCPI216_50
 	movs	r1, #1
@@ -249293,7 +249293,7 @@ _ZN8badapple8badapple8frame21617ha118f3a63601e127E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame21717h6cc99ff65041f80cE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame217
 	.p2align	2
 .LCPI216_2:
 	.long	4292872200
@@ -249392,16 +249392,16 @@ _ZN8badapple8badapple8frame21617ha118f3a63601e127E:
 .LCPI216_49:
 	.long	4292993192
 .Lfunc_end216:
-	.size	_ZN8badapple8badapple8frame21617ha118f3a63601e127E, .Lfunc_end216-_ZN8badapple8badapple8frame21617ha118f3a63601e127E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame216, .Lfunc_end216-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame216
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame21717h6cc99ff65041f80cE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame217,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame21717h6cc99ff65041f80cE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame217,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame21717h6cc99ff65041f80cE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame217:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -249735,7 +249735,7 @@ _ZN8badapple8badapple8frame21717h6cc99ff65041f80cE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame21817heeea68df1fe029e6E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame218
 	.p2align	2
 .LCPI217_0:
 	.long	4293603736
@@ -249796,16 +249796,16 @@ _ZN8badapple8badapple8frame21717h6cc99ff65041f80cE:
 .LCPI217_28:
 	.long	4293657520
 .Lfunc_end217:
-	.size	_ZN8badapple8badapple8frame21717h6cc99ff65041f80cE, .Lfunc_end217-_ZN8badapple8badapple8frame21717h6cc99ff65041f80cE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame217, .Lfunc_end217-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame217
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame21817heeea68df1fe029e6E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame218,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame21817heeea68df1fe029e6E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame218,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame21817heeea68df1fe029e6E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame218:
 	.fnstart
 	ldr	r2, .LCPI218_0
 	movs	r1, #0
@@ -250122,7 +250122,7 @@ _ZN8badapple8badapple8frame21817heeea68df1fe029e6E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame21917h5db44bedeaf6cb6eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame219
 	.p2align	2
 .LCPI218_0:
 	.long	4292906772
@@ -250181,16 +250181,16 @@ _ZN8badapple8badapple8frame21817heeea68df1fe029e6E:
 .LCPI218_27:
 	.long	4292958600
 .Lfunc_end218:
-	.size	_ZN8badapple8badapple8frame21817heeea68df1fe029e6E, .Lfunc_end218-_ZN8badapple8badapple8frame21817heeea68df1fe029e6E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame218, .Lfunc_end218-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame218
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame21917h5db44bedeaf6cb6eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame219,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame21917h5db44bedeaf6cb6eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame219,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame21917h5db44bedeaf6cb6eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame219:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -252184,7 +252184,7 @@ _ZN8badapple8badapple8frame21917h5db44bedeaf6cb6eE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame22017h107bd126ab519862E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame220
 	.p2align	2
 .LCPI219_79:
 	.long	4293691904
@@ -252221,16 +252221,16 @@ _ZN8badapple8badapple8frame21917h5db44bedeaf6cb6eE:
 .LCPI219_95:
 	.long	4293703680
 .Lfunc_end219:
-	.size	_ZN8badapple8badapple8frame21917h5db44bedeaf6cb6eE, .Lfunc_end219-_ZN8badapple8badapple8frame21917h5db44bedeaf6cb6eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame219, .Lfunc_end219-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame219
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame22017h107bd126ab519862E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame220,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame22017h107bd126ab519862E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame220,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame22017h107bd126ab519862E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame220:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -260647,7 +260647,7 @@ _ZN8badapple8badapple8frame22017h107bd126ab519862E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame22117hc40b7eac313977e5E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame221
 	.p2align	2
 .LCPI220_282:
 	.long	4293004800
@@ -260686,16 +260686,16 @@ _ZN8badapple8badapple8frame22017h107bd126ab519862E:
 .LCPI220_299:
 	.long	4293012608
 .Lfunc_end220:
-	.size	_ZN8badapple8badapple8frame22017h107bd126ab519862E, .Lfunc_end220-_ZN8badapple8badapple8frame22017h107bd126ab519862E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame220, .Lfunc_end220-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame220
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame22117hc40b7eac313977e5E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame221,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame22117hc40b7eac313977e5E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame221,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame22117hc40b7eac313977e5E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame221:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -267487,7 +267487,7 @@ _ZN8badapple8badapple8frame22117hc40b7eac313977e5E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame22217hd5277382e1fd7331E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame222
 	.p2align	2
 .LCPI221_221:
 	.long	4293684556
@@ -267530,16 +267530,16 @@ _ZN8badapple8badapple8frame22117hc40b7eac313977e5E:
 .LCPI221_240:
 	.long	4293703696
 .Lfunc_end221:
-	.size	_ZN8badapple8badapple8frame22117hc40b7eac313977e5E, .Lfunc_end221-_ZN8badapple8badapple8frame22117hc40b7eac313977e5E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame221, .Lfunc_end221-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame221
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame22217hd5277382e1fd7331E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame222,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame22217hd5277382e1fd7331E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame222,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame22217hd5277382e1fd7331E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame222:
 	.fnstart
 	ldr	r1, .LCPI222_0
 	movs	r2, #1
@@ -267843,7 +267843,7 @@ _ZN8badapple8badapple8frame22217hd5277382e1fd7331E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame22317h3e0fe2c427803506E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame223
 	.p2align	2
 .LCPI222_0:
 	.long	4292870380
@@ -267896,16 +267896,16 @@ _ZN8badapple8badapple8frame22217hd5277382e1fd7331E:
 .LCPI222_24:
 	.long	4292916412
 .Lfunc_end222:
-	.size	_ZN8badapple8badapple8frame22217hd5277382e1fd7331E, .Lfunc_end222-_ZN8badapple8badapple8frame22217hd5277382e1fd7331E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame222, .Lfunc_end222-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame222
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame22317h3e0fe2c427803506E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame223,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame22317h3e0fe2c427803506E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame223,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame22317h3e0fe2c427803506E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame223:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -268264,7 +268264,7 @@ _ZN8badapple8badapple8frame22317h3e0fe2c427803506E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame22417h2785f77aa7a5b3f3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame224
 	.p2align	2
 .LCPI223_0:
 	.long	4293561588
@@ -268309,16 +268309,16 @@ _ZN8badapple8badapple8frame22317h3e0fe2c427803506E:
 .LCPI223_20:
 	.long	4293599976
 .Lfunc_end223:
-	.size	_ZN8badapple8badapple8frame22317h3e0fe2c427803506E, .Lfunc_end223-_ZN8badapple8badapple8frame22317h3e0fe2c427803506E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame223, .Lfunc_end223-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame223
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame22417h2785f77aa7a5b3f3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame224,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame22417h2785f77aa7a5b3f3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame224,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame22417h2785f77aa7a5b3f3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame224:
 	.fnstart
 	ldr	r1, .LCPI224_0
 	movs	r2, #1
@@ -268504,7 +268504,7 @@ _ZN8badapple8badapple8frame22417h2785f77aa7a5b3f3E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame22517h464575e8378ded22E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame225
 	.p2align	2
 .LCPI224_0:
 	.long	4292870356
@@ -268541,16 +268541,16 @@ _ZN8badapple8badapple8frame22417h2785f77aa7a5b3f3E:
 .LCPI224_16:
 	.long	4292901084
 .Lfunc_end224:
-	.size	_ZN8badapple8badapple8frame22417h2785f77aa7a5b3f3E, .Lfunc_end224-_ZN8badapple8badapple8frame22417h2785f77aa7a5b3f3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame224, .Lfunc_end224-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame224
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame22517h464575e8378ded22E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame225,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame22517h464575e8378ded22E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame225,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame22517h464575e8378ded22E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame225:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -268731,7 +268731,7 @@ _ZN8badapple8badapple8frame22517h464575e8378ded22E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame22617hd996d39207ce410fE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame226
 	.p2align	2
 .LCPI225_0:
 	.long	4293561588
@@ -268768,16 +268768,16 @@ _ZN8badapple8badapple8frame22517h464575e8378ded22E:
 .LCPI225_16:
 	.long	4293592320
 .Lfunc_end225:
-	.size	_ZN8badapple8badapple8frame22517h464575e8378ded22E, .Lfunc_end225-_ZN8badapple8badapple8frame22517h464575e8378ded22E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame225, .Lfunc_end225-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame225
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame22617hd996d39207ce410fE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame226,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame22617hd996d39207ce410fE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame226,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame22617hd996d39207ce410fE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame226:
 	.fnstart
 	ldr	r2, .LCPI226_52
 	movs	r1, #0
@@ -269691,7 +269691,7 @@ _ZN8badapple8badapple8frame22617hd996d39207ce410fE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame22717h9ac54b1f57e78e3cE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame227
 	.p2align	2
 .LCPI226_26:
 	.long	4292951120
@@ -269746,16 +269746,16 @@ _ZN8badapple8badapple8frame22617hd996d39207ce410fE:
 .LCPI226_51:
 	.long	4292979804
 .Lfunc_end226:
-	.size	_ZN8badapple8badapple8frame22617hd996d39207ce410fE, .Lfunc_end226-_ZN8badapple8badapple8frame22617hd996d39207ce410fE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame226, .Lfunc_end226-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame226
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame22717h9ac54b1f57e78e3cE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame227,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame22717h9ac54b1f57e78e3cE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame227,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame22717h9ac54b1f57e78e3cE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame227:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -270742,7 +270742,7 @@ _ZN8badapple8badapple8frame22717h9ac54b1f57e78e3cE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame22817h40220b94851c7a7aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame228
 	.p2align	2
 .LCPI227_28:
 	.long	4293624924
@@ -270809,16 +270809,16 @@ _ZN8badapple8badapple8frame22717h9ac54b1f57e78e3cE:
 .LCPI227_59:
 	.long	4293684504
 .Lfunc_end227:
-	.size	_ZN8badapple8badapple8frame22717h9ac54b1f57e78e3cE, .Lfunc_end227-_ZN8badapple8badapple8frame22717h9ac54b1f57e78e3cE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame227, .Lfunc_end227-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame227
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame22817h40220b94851c7a7aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame228,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame22817h40220b94851c7a7aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame228,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame22817h40220b94851c7a7aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame228:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -272005,7 +272005,7 @@ _ZN8badapple8badapple8frame22817h40220b94851c7a7aE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame22917h43b293fa86dfb1e6E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame229
 	.p2align	2
 .LCPI228_32:
 	.long	4292947152
@@ -272070,16 +272070,16 @@ _ZN8badapple8badapple8frame22817h40220b94851c7a7aE:
 .LCPI228_62:
 	.long	4292979804
 .Lfunc_end228:
-	.size	_ZN8badapple8badapple8frame22817h40220b94851c7a7aE, .Lfunc_end228-_ZN8badapple8badapple8frame22817h40220b94851c7a7aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame228, .Lfunc_end228-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame228
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame22917h43b293fa86dfb1e6E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame229,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame22917h43b293fa86dfb1e6E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame229,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame22917h43b293fa86dfb1e6E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame229:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -272965,7 +272965,7 @@ _ZN8badapple8badapple8frame22917h43b293fa86dfb1e6E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame23017ha97a2060520dfa14E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame230
 	.p2align	2
 .LCPI229_26:
 	.long	4293632640
@@ -273042,16 +273042,16 @@ _ZN8badapple8badapple8frame22917h43b293fa86dfb1e6E:
 .LCPI229_62:
 	.long	4293684504
 .Lfunc_end229:
-	.size	_ZN8badapple8badapple8frame22917h43b293fa86dfb1e6E, .Lfunc_end229-_ZN8badapple8badapple8frame22917h43b293fa86dfb1e6E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame229, .Lfunc_end229-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame229
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame23017ha97a2060520dfa14E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame230,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame23017ha97a2060520dfa14E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame230,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame23017ha97a2060520dfa14E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame230:
 	.fnstart
 	ldr	r2, .LCPI230_55
 	movs	r1, #0
@@ -273744,7 +273744,7 @@ _ZN8badapple8badapple8frame23017ha97a2060520dfa14E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame23117hac4b4104c909353bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame231
 	.p2align	2
 .LCPI230_19:
 	.long	4292933756
@@ -273819,16 +273819,16 @@ _ZN8badapple8badapple8frame23017ha97a2060520dfa14E:
 .LCPI230_54:
 	.long	4292977780
 .Lfunc_end230:
-	.size	_ZN8badapple8badapple8frame23017ha97a2060520dfa14E, .Lfunc_end230-_ZN8badapple8badapple8frame23017ha97a2060520dfa14E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame230, .Lfunc_end230-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame230
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame23117hac4b4104c909353bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame231,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame23117hac4b4104c909353bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame231,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame23117hac4b4104c909353bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame231:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -274565,7 +274565,7 @@ _ZN8badapple8badapple8frame23117hac4b4104c909353bE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame23217h687d8fd90f1ff525E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame232
 	.p2align	2
 .LCPI231_13:
 	.long	4293621084
@@ -274646,16 +274646,16 @@ _ZN8badapple8badapple8frame23117hac4b4104c909353bE:
 .LCPI231_51:
 	.long	4293682412
 .Lfunc_end231:
-	.size	_ZN8badapple8badapple8frame23117hac4b4104c909353bE, .Lfunc_end231-_ZN8badapple8badapple8frame23117hac4b4104c909353bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame231, .Lfunc_end231-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame231
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame23217h687d8fd90f1ff525E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame232,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame23217h687d8fd90f1ff525E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame232,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame23217h687d8fd90f1ff525E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame232:
 	.fnstart
 	ldr	r1, .LCPI232_49
 	movs	r2, #1
@@ -275428,7 +275428,7 @@ _ZN8badapple8badapple8frame23217h687d8fd90f1ff525E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame23317h800fc37ecd4160a6E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame233
 	.p2align	2
 .LCPI232_11:
 	.long	4292933600
@@ -275507,16 +275507,16 @@ _ZN8badapple8badapple8frame23217h687d8fd90f1ff525E:
 .LCPI232_48:
 	.long	4293004612
 .Lfunc_end232:
-	.size	_ZN8badapple8badapple8frame23217h687d8fd90f1ff525E, .Lfunc_end232-_ZN8badapple8badapple8frame23217h687d8fd90f1ff525E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame232, .Lfunc_end232-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame232
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame23317h800fc37ecd4160a6E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame233,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame23317h800fc37ecd4160a6E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame233,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame23317h800fc37ecd4160a6E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame233:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -276236,7 +276236,7 @@ _ZN8badapple8badapple8frame23317h800fc37ecd4160a6E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame23417h00bd41023fa8f485E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame234
 	.p2align	2
 .LCPI233_11:
 	.long	4293620944
@@ -276321,16 +276321,16 @@ _ZN8badapple8badapple8frame23317h800fc37ecd4160a6E:
 .LCPI233_51:
 	.long	4293697732
 .Lfunc_end233:
-	.size	_ZN8badapple8badapple8frame23317h800fc37ecd4160a6E, .Lfunc_end233-_ZN8badapple8badapple8frame23317h800fc37ecd4160a6E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame233, .Lfunc_end233-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame233
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame23417h00bd41023fa8f485E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame234,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame23417h00bd41023fa8f485E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame234,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame23417h00bd41023fa8f485E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame234:
 	.fnstart
 	ldr	r2, .LCPI234_55
 	movs	r1, #1
@@ -277059,7 +277059,7 @@ _ZN8badapple8badapple8frame23417h00bd41023fa8f485E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame23517h0bc783687bbb9976E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame235
 	.p2align	2
 .LCPI234_14:
 	.long	4292931644
@@ -277144,16 +277144,16 @@ _ZN8badapple8badapple8frame23417h00bd41023fa8f485E:
 .LCPI234_54:
 	.long	4293008448
 .Lfunc_end234:
-	.size	_ZN8badapple8badapple8frame23417h00bd41023fa8f485E, .Lfunc_end234-_ZN8badapple8badapple8frame23417h00bd41023fa8f485E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame234, .Lfunc_end234-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame234
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame23517h0bc783687bbb9976E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame235,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame23517h0bc783687bbb9976E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame235,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame23517h0bc783687bbb9976E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame235:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -277681,7 +277681,7 @@ _ZN8badapple8badapple8frame23517h0bc783687bbb9976E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame23617h2c3ce01db5e3c41eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame236
 	.p2align	2
 .LCPI235_0:
 	.long	4293595972
@@ -277798,16 +277798,16 @@ _ZN8badapple8badapple8frame23517h0bc783687bbb9976E:
 .LCPI235_56:
 	.long	4293703488
 .Lfunc_end235:
-	.size	_ZN8badapple8badapple8frame23517h0bc783687bbb9976E, .Lfunc_end235-_ZN8badapple8badapple8frame23517h0bc783687bbb9976E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame235, .Lfunc_end235-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame235
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame23617h2c3ce01db5e3c41eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame236,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame23617h2c3ce01db5e3c41eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame236,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame23617h2c3ce01db5e3c41eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame236:
 	.fnstart
 	ldr	r2, .LCPI236_0
 	movs	r1, #1
@@ -278179,7 +278179,7 @@ _ZN8badapple8badapple8frame23617h2c3ce01db5e3c41eE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame23717hc5afbd854f473abdE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame237
 	.p2align	2
 .LCPI236_0:
 	.long	4292893276
@@ -278302,16 +278302,16 @@ _ZN8badapple8badapple8frame23617h2c3ce01db5e3c41eE:
 .LCPI236_59:
 	.long	4293012296
 .Lfunc_end236:
-	.size	_ZN8badapple8badapple8frame23617h2c3ce01db5e3c41eE, .Lfunc_end236-_ZN8badapple8badapple8frame23617h2c3ce01db5e3c41eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame236, .Lfunc_end236-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame236
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame23717hc5afbd854f473abdE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame237,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame23717hc5afbd854f473abdE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame237,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame23717hc5afbd854f473abdE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame237:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -278824,7 +278824,7 @@ _ZN8badapple8badapple8frame23717hc5afbd854f473abdE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame23817h292008dde8076d9dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame238
 	.p2align	2
 .LCPI237_0:
 	.long	4293582564
@@ -278955,16 +278955,16 @@ _ZN8badapple8badapple8frame23717hc5afbd854f473abdE:
 .LCPI237_63:
 	.long	4293703480
 .Lfunc_end237:
-	.size	_ZN8badapple8badapple8frame23717hc5afbd854f473abdE, .Lfunc_end237-_ZN8badapple8badapple8frame23717hc5afbd854f473abdE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame237, .Lfunc_end237-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame237
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame23817h292008dde8076d9dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame238,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame23817h292008dde8076d9dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame238,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame23817h292008dde8076d9dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame238:
 	.fnstart
 	ldr	r2, .LCPI238_68
 	movs	r1, #1
@@ -279808,7 +279808,7 @@ _ZN8badapple8badapple8frame23817h292008dde8076d9dE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame23917h69bc915dfc488eb8E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame239
 	.p2align	2
 .LCPI238_28:
 	.long	4292937392
@@ -279891,16 +279891,16 @@ _ZN8badapple8badapple8frame23817h292008dde8076d9dE:
 .LCPI238_67:
 	.long	4293012288
 .Lfunc_end238:
-	.size	_ZN8badapple8badapple8frame23817h292008dde8076d9dE, .Lfunc_end238-_ZN8badapple8badapple8frame23817h292008dde8076d9dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame238, .Lfunc_end238-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame238
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame23917h69bc915dfc488eb8E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame239,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame23917h69bc915dfc488eb8E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame239,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame23917h69bc915dfc488eb8E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame239:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -280847,7 +280847,7 @@ _ZN8badapple8badapple8frame23917h69bc915dfc488eb8E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame24017hb09f43989f383b9eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame240
 	.p2align	2
 .LCPI239_34:
 	.long	4293638188
@@ -280920,16 +280920,16 @@ _ZN8badapple8badapple8frame23917h69bc915dfc488eb8E:
 .LCPI239_68:
 	.long	4293703480
 .Lfunc_end239:
-	.size	_ZN8badapple8badapple8frame23917h69bc915dfc488eb8E, .Lfunc_end239-_ZN8badapple8badapple8frame23917h69bc915dfc488eb8E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame239, .Lfunc_end239-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame239
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame24017hb09f43989f383b9eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame240,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame24017hb09f43989f383b9eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame240,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame24017hb09f43989f383b9eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame240:
 	.fnstart
 	ldr	r3, .LCPI240_68
 	movs	r2, #1
@@ -281811,7 +281811,7 @@ _ZN8badapple8badapple8frame24017hb09f43989f383b9eE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame24117hc7988db501a7a42dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame241
 	.p2align	2
 .LCPI240_32:
 	.long	4292945080
@@ -281886,16 +281886,16 @@ _ZN8badapple8badapple8frame24017hb09f43989f383b9eE:
 .LCPI240_67:
 	.long	4293012288
 .Lfunc_end240:
-	.size	_ZN8badapple8badapple8frame24017hb09f43989f383b9eE, .Lfunc_end240-_ZN8badapple8badapple8frame24017hb09f43989f383b9eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame240, .Lfunc_end240-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame240
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame24117hc7988db501a7a42dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame241,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame24117hc7988db501a7a42dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame241,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame24117hc7988db501a7a42dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame241:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -282880,7 +282880,7 @@ _ZN8badapple8badapple8frame24117hc7988db501a7a42dE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame24217hdc941c4d6887959cE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame242
 	.p2align	2
 .LCPI241_34:
 	.long	4293638208
@@ -282953,16 +282953,16 @@ _ZN8badapple8badapple8frame24117hc7988db501a7a42dE:
 .LCPI241_68:
 	.long	4293703492
 .Lfunc_end241:
-	.size	_ZN8badapple8badapple8frame24117hc7988db501a7a42dE, .Lfunc_end241-_ZN8badapple8badapple8frame24117hc7988db501a7a42dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame241, .Lfunc_end241-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame241
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame24217hdc941c4d6887959cE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame242,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame24217hdc941c4d6887959cE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame242,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame24217hdc941c4d6887959cE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame242:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -284086,7 +284086,7 @@ _ZN8badapple8badapple8frame24217hdc941c4d6887959cE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame24317he17c2bc6dd8fd9e4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame243
 	.p2align	2
 .LCPI242_37:
 	.long	4292950860
@@ -284155,16 +284155,16 @@ _ZN8badapple8badapple8frame24217hdc941c4d6887959cE:
 .LCPI242_69:
 	.long	4293012296
 .Lfunc_end242:
-	.size	_ZN8badapple8badapple8frame24217hdc941c4d6887959cE, .Lfunc_end242-_ZN8badapple8badapple8frame24217hdc941c4d6887959cE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame242, .Lfunc_end242-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame242
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame24317he17c2bc6dd8fd9e4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame243,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame24317he17c2bc6dd8fd9e4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame243,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame24317he17c2bc6dd8fd9e4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame243:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -285615,7 +285615,7 @@ _ZN8badapple8badapple8frame24317he17c2bc6dd8fd9e4E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame24417h2c4b853612d39bd9E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame244
 	.p2align	2
 .LCPI243_48:
 	.long	4293661292
@@ -285664,16 +285664,16 @@ _ZN8badapple8badapple8frame24317he17c2bc6dd8fd9e4E:
 .LCPI243_70:
 	.long	4293703508
 .Lfunc_end243:
-	.size	_ZN8badapple8badapple8frame24317he17c2bc6dd8fd9e4E, .Lfunc_end243-_ZN8badapple8badapple8frame24317he17c2bc6dd8fd9e4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame243, .Lfunc_end243-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame243
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame24417h2c4b853612d39bd9E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame244,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame24417h2c4b853612d39bd9E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame244,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame24417h2c4b853612d39bd9E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame244:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -287122,7 +287122,7 @@ _ZN8badapple8badapple8frame24417h2c4b853612d39bd9E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame24517h98c27447be4a9e22E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame245
 	.p2align	2
 .LCPI244_45:
 	.long	4292966268
@@ -287175,16 +287175,16 @@ _ZN8badapple8badapple8frame24417h2c4b853612d39bd9E:
 .LCPI244_69:
 	.long	4293012328
 .Lfunc_end244:
-	.size	_ZN8badapple8badapple8frame24417h2c4b853612d39bd9E, .Lfunc_end244-_ZN8badapple8badapple8frame24417h2c4b853612d39bd9E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame244, .Lfunc_end244-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame244
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame24517h98c27447be4a9e22E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame245,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame24517h98c27447be4a9e22E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame245,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame24517h98c27447be4a9e22E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame245:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -288276,7 +288276,7 @@ _ZN8badapple8badapple8frame24517h98c27447be4a9e22E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame24617h3c66f3b8736d8326E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame246
 	.p2align	2
 .LCPI245_37:
 	.long	4293640180
@@ -288347,16 +288347,16 @@ _ZN8badapple8badapple8frame24517h98c27447be4a9e22E:
 .LCPI245_70:
 	.long	4293703552
 .Lfunc_end245:
-	.size	_ZN8badapple8badapple8frame24517h98c27447be4a9e22E, .Lfunc_end245-_ZN8badapple8badapple8frame24517h98c27447be4a9e22E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame245, .Lfunc_end245-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame245
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame24617h3c66f3b8736d8326E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame246,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame24617h3c66f3b8736d8326E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame246,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame24617h3c66f3b8736d8326E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame246:
 	.fnstart
 	ldr	r3, .LCPI246_69
 	movs	r2, #1
@@ -289184,7 +289184,7 @@ _ZN8badapple8badapple8frame24617h3c66f3b8736d8326E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame24717h24d8b9c8e52ce8a2E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame247
 	.p2align	2
 .LCPI246_27:
 	.long	4292933660
@@ -289271,16 +289271,16 @@ _ZN8badapple8badapple8frame24617h3c66f3b8736d8326E:
 .LCPI246_68:
 	.long	4293012368
 .Lfunc_end246:
-	.size	_ZN8badapple8badapple8frame24617h3c66f3b8736d8326E, .Lfunc_end246-_ZN8badapple8badapple8frame24617h3c66f3b8736d8326E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame246, .Lfunc_end246-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame246
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame24717h24d8b9c8e52ce8a2E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame247,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame24717h24d8b9c8e52ce8a2E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame247,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame24717h24d8b9c8e52ce8a2E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame247:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -290239,7 +290239,7 @@ _ZN8badapple8badapple8frame24717h24d8b9c8e52ce8a2E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame24817ha3fea3b320763190E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame248
 	.p2align	2
 .LCPI247_33:
 	.long	4293636388
@@ -290314,16 +290314,16 @@ _ZN8badapple8badapple8frame24717h24d8b9c8e52ce8a2E:
 .LCPI247_68:
 	.long	4293703572
 .Lfunc_end247:
-	.size	_ZN8badapple8badapple8frame24717h24d8b9c8e52ce8a2E, .Lfunc_end247-_ZN8badapple8badapple8frame24717h24d8b9c8e52ce8a2E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame247, .Lfunc_end247-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame247
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame24817ha3fea3b320763190E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame248,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame24817ha3fea3b320763190E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame248,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame24817ha3fea3b320763190E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame248:
 	.fnstart
 	ldr	r2, .LCPI248_69
 	movs	r1, #0
@@ -291217,7 +291217,7 @@ _ZN8badapple8badapple8frame24817ha3fea3b320763190E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame24917h6febea42ccd716caE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame249
 	.p2align	2
 .LCPI248_32:
 	.long	4292943276
@@ -291294,16 +291294,16 @@ _ZN8badapple8badapple8frame24817ha3fea3b320763190E:
 .LCPI248_68:
 	.long	4293012380
 .Lfunc_end248:
-	.size	_ZN8badapple8badapple8frame24817ha3fea3b320763190E, .Lfunc_end248-_ZN8badapple8badapple8frame24817ha3fea3b320763190E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame248, .Lfunc_end248-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame248
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame24917h6febea42ccd716caE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame249,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame24917h6febea42ccd716caE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame249,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame24917h6febea42ccd716caE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame249:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -291909,7 +291909,7 @@ _ZN8badapple8badapple8frame24917h6febea42ccd716caE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame25017hf40fea864afa12feE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame250
 	.p2align	2
 .LCPI249_9:
 	.long	4293592248
@@ -292030,16 +292030,16 @@ _ZN8badapple8badapple8frame24917h6febea42ccd716caE:
 .LCPI249_67:
 	.long	4293703592
 .Lfunc_end249:
-	.size	_ZN8badapple8badapple8frame24917h6febea42ccd716caE, .Lfunc_end249-_ZN8badapple8badapple8frame24917h6febea42ccd716caE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame249, .Lfunc_end249-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame249
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame25017hf40fea864afa12feE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame250,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame25017hf40fea864afa12feE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame250,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame25017hf40fea864afa12feE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame250:
 	.fnstart
 	ldr	r1, .LCPI250_0
 	movs	r2, #1
@@ -292354,7 +292354,7 @@ _ZN8badapple8badapple8frame25017hf40fea864afa12feE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame25117hd746f338288fef8aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame251
 	.p2align	2
 .LCPI250_0:
 	.long	4292881904
@@ -292491,16 +292491,16 @@ _ZN8badapple8badapple8frame25017hf40fea864afa12feE:
 .LCPI250_66:
 	.long	4293012404
 .Lfunc_end250:
-	.size	_ZN8badapple8badapple8frame25017hf40fea864afa12feE, .Lfunc_end250-_ZN8badapple8badapple8frame25017hf40fea864afa12feE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame250, .Lfunc_end250-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame250
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame25117hd746f338288fef8aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame251,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame25117hd746f338288fef8aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame251,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame25117hd746f338288fef8aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame251:
 	.fnstart
 	ldr	r2, .LCPI251_0
 	movs	r1, #1
@@ -292889,7 +292889,7 @@ _ZN8badapple8badapple8frame25117hd746f338288fef8aE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame25217hb86f196e2af5805cE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame252
 	.p2align	2
 .LCPI251_0:
 	.long	4293573100
@@ -293040,16 +293040,16 @@ _ZN8badapple8badapple8frame25117hd746f338288fef8aE:
 .LCPI251_73:
 	.long	4293703608
 .Lfunc_end251:
-	.size	_ZN8badapple8badapple8frame25117hd746f338288fef8aE, .Lfunc_end251-_ZN8badapple8badapple8frame25117hd746f338288fef8aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame251, .Lfunc_end251-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame251
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame25217hb86f196e2af5805cE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame252,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame25217hb86f196e2af5805cE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame252,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame25217hb86f196e2af5805cE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame252:
 	.fnstart
 	ldr	r1, .LCPI252_81
 	movs	r2, #1
@@ -293647,7 +293647,7 @@ _ZN8badapple8badapple8frame25217hb86f196e2af5805cE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame25317haf0c853a051ef738E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame253
 	.p2align	2
 .LCPI252_16:
 	.long	4292912580
@@ -293780,16 +293780,16 @@ _ZN8badapple8badapple8frame25217hb86f196e2af5805cE:
 .LCPI252_80:
 	.long	4293012496
 .Lfunc_end252:
-	.size	_ZN8badapple8badapple8frame25217hb86f196e2af5805cE, .Lfunc_end252-_ZN8badapple8badapple8frame25217hb86f196e2af5805cE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame252, .Lfunc_end252-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame252
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame25317haf0c853a051ef738E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame253,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame25317haf0c853a051ef738E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame253,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame25317haf0c853a051ef738E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame253:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -294570,7 +294570,7 @@ _ZN8badapple8badapple8frame25317haf0c853a051ef738E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame25417hd61749f7aac2905dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame254
 	.p2align	2
 .LCPI253_34:
 	.long	4293621140
@@ -294673,16 +294673,16 @@ _ZN8badapple8badapple8frame25317haf0c853a051ef738E:
 .LCPI253_83:
 	.long	4293703612
 .Lfunc_end253:
-	.size	_ZN8badapple8badapple8frame25317haf0c853a051ef738E, .Lfunc_end253-_ZN8badapple8badapple8frame25317haf0c853a051ef738E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame253, .Lfunc_end253-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame253
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame25417hd61749f7aac2905dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame254,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame25417hd61749f7aac2905dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame254,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame25417hd61749f7aac2905dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame254:
 	.fnstart
 	ldr	r3, .LCPI254_82
 	movs	r2, #1
@@ -295201,7 +295201,7 @@ _ZN8badapple8badapple8frame25417hd61749f7aac2905dE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame25517h4b5b89bda4af29b2E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame255
 	.p2align	2
 .LCPI254_1:
 	.long	4292883796
@@ -295366,16 +295366,16 @@ _ZN8badapple8badapple8frame25417hd61749f7aac2905dE:
 .LCPI254_81:
 	.long	4293012412
 .Lfunc_end254:
-	.size	_ZN8badapple8badapple8frame25417hd61749f7aac2905dE, .Lfunc_end254-_ZN8badapple8badapple8frame25417hd61749f7aac2905dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame254, .Lfunc_end254-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame254
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame25517h4b5b89bda4af29b2E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame255,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame25517h4b5b89bda4af29b2E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame255,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame25517h4b5b89bda4af29b2E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame255:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -295828,7 +295828,7 @@ _ZN8badapple8badapple8frame25517h4b5b89bda4af29b2E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame25617h3fc959be0b31a3f2E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame256
 	.p2align	2
 .LCPI255_0:
 	.long	4293569260
@@ -295973,16 +295973,16 @@ _ZN8badapple8badapple8frame25517h4b5b89bda4af29b2E:
 .LCPI255_70:
 	.long	4293703612
 .Lfunc_end255:
-	.size	_ZN8badapple8badapple8frame25517h4b5b89bda4af29b2E, .Lfunc_end255-_ZN8badapple8badapple8frame25517h4b5b89bda4af29b2E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame255, .Lfunc_end255-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame255
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame25617h3fc959be0b31a3f2E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame256,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame25617h3fc959be0b31a3f2E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame256,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame25617h3fc959be0b31a3f2E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame256:
 	.fnstart
 	ldr	r2, .LCPI256_88
 	movs	r1, #1
@@ -296692,7 +296692,7 @@ _ZN8badapple8badapple8frame25617h3fc959be0b31a3f2E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame25717hcfa1a3b1b18b938fE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame257
 	.p2align	2
 .LCPI256_30:
 	.long	4292924192
@@ -296811,16 +296811,16 @@ _ZN8badapple8badapple8frame25617h3fc959be0b31a3f2E:
 .LCPI256_87:
 	.long	4293012404
 .Lfunc_end256:
-	.size	_ZN8badapple8badapple8frame25617h3fc959be0b31a3f2E, .Lfunc_end256-_ZN8badapple8badapple8frame25617h3fc959be0b31a3f2E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame256, .Lfunc_end256-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame256
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame25717hcfa1a3b1b18b938fE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame257,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame25717hcfa1a3b1b18b938fE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame257,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame25717hcfa1a3b1b18b938fE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame257:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -297437,7 +297437,7 @@ _ZN8badapple8badapple8frame25717hcfa1a3b1b18b938fE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame25817h4227513ec0d2378dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame258
 	.p2align	2
 .LCPI257_12:
 	.long	4293588400
@@ -297582,16 +297582,16 @@ _ZN8badapple8badapple8frame25717hcfa1a3b1b18b938fE:
 .LCPI257_82:
 	.long	4293703608
 .Lfunc_end257:
-	.size	_ZN8badapple8badapple8frame25717hcfa1a3b1b18b938fE, .Lfunc_end257-_ZN8badapple8badapple8frame25717hcfa1a3b1b18b938fE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame257, .Lfunc_end257-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame257
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame25817h4227513ec0d2378dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame258,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame25817h4227513ec0d2378dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame258,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame25817h4227513ec0d2378dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame258:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -298629,7 +298629,7 @@ _ZN8badapple8badapple8frame25817h4227513ec0d2378dE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame25917h175c61187a9980e1E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame259
 	.p2align	2
 .LCPI258_46:
 	.long	4292943392
@@ -298718,16 +298718,16 @@ _ZN8badapple8badapple8frame25817h4227513ec0d2378dE:
 .LCPI258_88:
 	.long	4293012404
 .Lfunc_end258:
-	.size	_ZN8badapple8badapple8frame25817h4227513ec0d2378dE, .Lfunc_end258-_ZN8badapple8badapple8frame25817h4227513ec0d2378dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame258, .Lfunc_end258-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame258
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame25917h175c61187a9980e1E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame259,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame25917h175c61187a9980e1E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame259,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame25917h175c61187a9980e1E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame259:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -299831,7 +299831,7 @@ _ZN8badapple8badapple8frame25917h175c61187a9980e1E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame26017h369266b7e728f3e3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame260
 	.p2align	2
 .LCPI259_49:
 	.long	4293642096
@@ -299958,16 +299958,16 @@ _ZN8badapple8badapple8frame25917h175c61187a9980e1E:
 .LCPI259_110:
 	.long	4293703608
 .Lfunc_end259:
-	.size	_ZN8badapple8badapple8frame25917h175c61187a9980e1E, .Lfunc_end259-_ZN8badapple8badapple8frame25917h175c61187a9980e1E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame259, .Lfunc_end259-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame259
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame26017h369266b7e728f3e3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame260,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame26017h369266b7e728f3e3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame260,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame26017h369266b7e728f3e3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame260:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -300701,7 +300701,7 @@ _ZN8badapple8badapple8frame26017h369266b7e728f3e3E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame26117h53538890f91d8cabE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame261
 	.p2align	2
 .LCPI260_25:
 	.long	4292927952
@@ -300816,16 +300816,16 @@ _ZN8badapple8badapple8frame26017h369266b7e728f3e3E:
 .LCPI260_80:
 	.long	4293012416
 .Lfunc_end260:
-	.size	_ZN8badapple8badapple8frame26017h369266b7e728f3e3E, .Lfunc_end260-_ZN8badapple8badapple8frame26017h369266b7e728f3e3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame260, .Lfunc_end260-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame260
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame26117h53538890f91d8cabE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame261,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame26117h53538890f91d8cabE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame261,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame26117h53538890f91d8cabE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame261:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -301382,7 +301382,7 @@ _ZN8badapple8badapple8frame26117h53538890f91d8cabE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame26217h86d903660879a6c7E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame262
 	.p2align	2
 .LCPI261_5:
 	.long	4293578832
@@ -301535,16 +301535,16 @@ _ZN8badapple8badapple8frame26117h53538890f91d8cabE:
 .LCPI261_79:
 	.long	4293703616
 .Lfunc_end261:
-	.size	_ZN8badapple8badapple8frame26117h53538890f91d8cabE, .Lfunc_end261-_ZN8badapple8badapple8frame26117h53538890f91d8cabE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame261, .Lfunc_end261-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame261
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame26217h86d903660879a6c7E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame262,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame26217h86d903660879a6c7E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame262,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame26217h86d903660879a6c7E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame262:
 	.fnstart
 	ldr	r2, .LCPI262_0
 	movs	r1, #0
@@ -301865,7 +301865,7 @@ _ZN8badapple8badapple8frame26217h86d903660879a6c7E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame26317hed2901bff123581dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame263
 	.p2align	2
 .LCPI262_0:
 	.long	4292879972
@@ -302022,16 +302022,16 @@ _ZN8badapple8badapple8frame26217h86d903660879a6c7E:
 .LCPI262_76:
 	.long	4293012532
 .Lfunc_end262:
-	.size	_ZN8badapple8badapple8frame26217h86d903660879a6c7E, .Lfunc_end262-_ZN8badapple8badapple8frame26217h86d903660879a6c7E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame262, .Lfunc_end262-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame262
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame26317hed2901bff123581dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame263,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame26317hed2901bff123581dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame263,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame26317hed2901bff123581dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame263:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -302498,7 +302498,7 @@ _ZN8badapple8badapple8frame26317hed2901bff123581dE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame26417hd8ba6c380c24c200E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame264
 	.p2align	2
 .LCPI263_0:
 	.long	4293575000
@@ -302671,16 +302671,16 @@ _ZN8badapple8badapple8frame26317hed2901bff123581dE:
 .LCPI263_84:
 	.long	4293703732
 .Lfunc_end263:
-	.size	_ZN8badapple8badapple8frame26317hed2901bff123581dE, .Lfunc_end263-_ZN8badapple8badapple8frame26317hed2901bff123581dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame263, .Lfunc_end263-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame263
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame26417hd8ba6c380c24c200E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame264,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame26417hd8ba6c380c24c200E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame264,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame26417hd8ba6c380c24c200E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame264:
 	.fnstart
 	ldr	r2, .LCPI264_94
 	movs	r1, #0
@@ -303464,7 +303464,7 @@ _ZN8badapple8badapple8frame26417hd8ba6c380c24c200E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame26517h8530428a519f1c8cE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame265
 	.p2align	2
 .LCPI264_37:
 	.long	4292954824
@@ -303581,16 +303581,16 @@ _ZN8badapple8badapple8frame26417hd8ba6c380c24c200E:
 .LCPI264_93:
 	.long	4293012532
 .Lfunc_end264:
-	.size	_ZN8badapple8badapple8frame26417hd8ba6c380c24c200E, .Lfunc_end264-_ZN8badapple8badapple8frame26417hd8ba6c380c24c200E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame264, .Lfunc_end264-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame264
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame26517h8530428a519f1c8cE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame265,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame26517h8530428a519f1c8cE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame265,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame26517h8530428a519f1c8cE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame265:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -304483,7 +304483,7 @@ _ZN8badapple8badapple8frame26517h8530428a519f1c8cE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame26617h86da2e4bb5c12a8aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame266
 	.p2align	2
 .LCPI265_55:
 	.long	4293663420
@@ -304558,16 +304558,16 @@ _ZN8badapple8badapple8frame26517h8530428a519f1c8cE:
 .LCPI265_90:
 	.long	4293703736
 .Lfunc_end265:
-	.size	_ZN8badapple8badapple8frame26517h8530428a519f1c8cE, .Lfunc_end265-_ZN8badapple8badapple8frame26517h8530428a519f1c8cE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame265, .Lfunc_end265-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame265
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame26617h86da2e4bb5c12a8aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame266,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame26617h86da2e4bb5c12a8aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame266,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame26617h86da2e4bb5c12a8aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame266:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -305697,7 +305697,7 @@ _ZN8badapple8badapple8frame26617h86da2e4bb5c12a8aE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame26717h8f66ad55c2150ae0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame267
 	.p2align	2
 .LCPI266_59:
 	.long	4292972212
@@ -305780,16 +305780,16 @@ _ZN8badapple8badapple8frame26617h86da2e4bb5c12a8aE:
 .LCPI266_98:
 	.long	4293012424
 .Lfunc_end266:
-	.size	_ZN8badapple8badapple8frame26617h86da2e4bb5c12a8aE, .Lfunc_end266-_ZN8badapple8badapple8frame26617h86da2e4bb5c12a8aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame266, .Lfunc_end266-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame266
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame26717h8f66ad55c2150ae0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame267,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame26717h8f66ad55c2150ae0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame267,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame26717h8f66ad55c2150ae0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame267:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -307047,7 +307047,7 @@ _ZN8badapple8badapple8frame26717h8f66ad55c2150ae0E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame26817h185637d993184823E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame268
 	.p2align	2
 .LCPI267_54:
 	.long	4293653804
@@ -307142,16 +307142,16 @@ _ZN8badapple8badapple8frame26717h8f66ad55c2150ae0E:
 .LCPI267_99:
 	.long	4293703628
 .Lfunc_end267:
-	.size	_ZN8badapple8badapple8frame26717h8f66ad55c2150ae0E, .Lfunc_end267-_ZN8badapple8badapple8frame26717h8f66ad55c2150ae0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame267, .Lfunc_end267-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame267
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame26817h185637d993184823E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame268,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame26817h185637d993184823E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame268,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame26817h185637d993184823E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame268:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -308182,7 +308182,7 @@ _ZN8badapple8badapple8frame26817h185637d993184823E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame26917h3e61e7e8c5925af6E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame269
 	.p2align	2
 .LCPI268_48:
 	.long	4292950916
@@ -308273,16 +308273,16 @@ _ZN8badapple8badapple8frame26817h185637d993184823E:
 .LCPI268_91:
 	.long	4293012432
 .Lfunc_end268:
-	.size	_ZN8badapple8badapple8frame26817h185637d993184823E, .Lfunc_end268-_ZN8badapple8badapple8frame26817h185637d993184823E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame268, .Lfunc_end268-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame268
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame26917h3e61e7e8c5925af6E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame269,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame26917h3e61e7e8c5925af6E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame269,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame26917h3e61e7e8c5925af6E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame269:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -309418,7 +309418,7 @@ _ZN8badapple8badapple8frame26917h3e61e7e8c5925af6E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame27017ha771ece3af801e81E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame270
 	.p2align	2
 .LCPI269_56:
 	.long	4293638444
@@ -309517,16 +309517,16 @@ _ZN8badapple8badapple8frame26917h3e61e7e8c5925af6E:
 .LCPI269_103:
 	.long	4293703632
 .Lfunc_end269:
-	.size	_ZN8badapple8badapple8frame26917h3e61e7e8c5925af6E, .Lfunc_end269-_ZN8badapple8badapple8frame26917h3e61e7e8c5925af6E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame269, .Lfunc_end269-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame269
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame27017ha771ece3af801e81E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame270,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame27017ha771ece3af801e81E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame270,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame27017ha771ece3af801e81E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame270:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -310887,7 +310887,7 @@ _ZN8badapple8badapple8frame27017ha771ece3af801e81E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame27117h7ceb2351f8f98ed5E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame271
 	.p2align	2
 .LCPI270_65:
 	.long	4292945156
@@ -311010,16 +311010,16 @@ _ZN8badapple8badapple8frame27017ha771ece3af801e81E:
 .LCPI270_124:
 	.long	4293012556
 .Lfunc_end270:
-	.size	_ZN8badapple8badapple8frame27017ha771ece3af801e81E, .Lfunc_end270-_ZN8badapple8badapple8frame27017ha771ece3af801e81E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame270, .Lfunc_end270-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame270
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame27117h7ceb2351f8f98ed5E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame271,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame27117h7ceb2351f8f98ed5E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame271,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame27117h7ceb2351f8f98ed5E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame271:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -312330,7 +312330,7 @@ _ZN8badapple8badapple8frame27117h7ceb2351f8f98ed5E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame27217h90070b6ccc4614e7E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame272
 	.p2align	2
 .LCPI271_61:
 	.long	4293626940
@@ -312473,16 +312473,16 @@ _ZN8badapple8badapple8frame27117h7ceb2351f8f98ed5E:
 .LCPI271_130:
 	.long	4293703756
 .Lfunc_end271:
-	.size	_ZN8badapple8badapple8frame27117h7ceb2351f8f98ed5E, .Lfunc_end271-_ZN8badapple8badapple8frame27117h7ceb2351f8f98ed5E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame271, .Lfunc_end271-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame271
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame27217h90070b6ccc4614e7E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame272,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame27217h90070b6ccc4614e7E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame272,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame27217h90070b6ccc4614e7E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame272:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -313775,7 +313775,7 @@ _ZN8badapple8badapple8frame27217h90070b6ccc4614e7E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame27317h9d58d3e9eb3f75edE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame273
 	.p2align	2
 .LCPI272_62:
 	.long	4292941508
@@ -313912,16 +313912,16 @@ _ZN8badapple8badapple8frame27217h90070b6ccc4614e7E:
 .LCPI272_128:
 	.long	4293012564
 .Lfunc_end272:
-	.size	_ZN8badapple8badapple8frame27217h90070b6ccc4614e7E, .Lfunc_end272-_ZN8badapple8badapple8frame27217h90070b6ccc4614e7E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame272, .Lfunc_end272-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame272
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame27317h9d58d3e9eb3f75edE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame273,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame27317h9d58d3e9eb3f75edE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame273,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame27317h9d58d3e9eb3f75edE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame273:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -315889,7 +315889,7 @@ _ZN8badapple8badapple8frame27317h9d58d3e9eb3f75edE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame27417h7034ec483ec53d7eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame274
 	.p2align	2
 .LCPI273_96:
 	.long	4293657680
@@ -315988,16 +315988,16 @@ _ZN8badapple8badapple8frame27317h9d58d3e9eb3f75edE:
 .LCPI273_143:
 	.long	4293703780
 .Lfunc_end273:
-	.size	_ZN8badapple8badapple8frame27317h9d58d3e9eb3f75edE, .Lfunc_end273-_ZN8badapple8badapple8frame27317h9d58d3e9eb3f75edE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame273, .Lfunc_end273-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame273
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame27417h7034ec483ec53d7eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame274,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame27417h7034ec483ec53d7eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame274,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame27417h7034ec483ec53d7eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame274:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -318186,7 +318186,7 @@ _ZN8badapple8badapple8frame27417h7034ec483ec53d7eE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame27517h84bf8fb726ee49feE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame275
 	.p2align	2
 .LCPI274_101:
 	.long	4292970340
@@ -318279,16 +318279,16 @@ _ZN8badapple8badapple8frame27417h7034ec483ec53d7eE:
 .LCPI274_145:
 	.long	4293012596
 .Lfunc_end274:
-	.size	_ZN8badapple8badapple8frame27417h7034ec483ec53d7eE, .Lfunc_end274-_ZN8badapple8badapple8frame27417h7034ec483ec53d7eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame274, .Lfunc_end274-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame274
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame27517h84bf8fb726ee49feE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame275,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame27517h84bf8fb726ee49feE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame275,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame27517h84bf8fb726ee49feE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame275:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -320098,7 +320098,7 @@ _ZN8badapple8badapple8frame27517h84bf8fb726ee49feE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame27617ha8d3cac54c2b00a3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame276
 	.p2align	2
 .LCPI275_106:
 	.long	4293657584
@@ -320163,16 +320163,16 @@ _ZN8badapple8badapple8frame27517h84bf8fb726ee49feE:
 .LCPI275_136:
 	.long	4293703584
 .Lfunc_end275:
-	.size	_ZN8badapple8badapple8frame27517h84bf8fb726ee49feE, .Lfunc_end275-_ZN8badapple8badapple8frame27517h84bf8fb726ee49feE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame275, .Lfunc_end275-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame275
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame27617ha8d3cac54c2b00a3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame276,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame27617ha8d3cac54c2b00a3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame276,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame27617ha8d3cac54c2b00a3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame276:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -321021,7 +321021,7 @@ _ZN8badapple8badapple8frame27617ha8d3cac54c2b00a3E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame27717h88a193af0ec0b902E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame277
 	.p2align	2
 .LCPI276_43:
 	.long	4292947216
@@ -321106,16 +321106,16 @@ _ZN8badapple8badapple8frame27617ha8d3cac54c2b00a3E:
 .LCPI276_83:
 	.long	4293012380
 .Lfunc_end276:
-	.size	_ZN8badapple8badapple8frame27617ha8d3cac54c2b00a3E, .Lfunc_end276-_ZN8badapple8badapple8frame27617ha8d3cac54c2b00a3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame276, .Lfunc_end276-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame276
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame27717h88a193af0ec0b902E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame277,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame27717h88a193af0ec0b902E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame277,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame27717h88a193af0ec0b902E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame277:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -321851,7 +321851,7 @@ _ZN8badapple8badapple8frame27717h88a193af0ec0b902E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame27817h297cddaa92ab5a49E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame278
 	.p2align	2
 .LCPI277_27:
 	.long	4293603772
@@ -321978,16 +321978,16 @@ _ZN8badapple8badapple8frame27717h88a193af0ec0b902E:
 .LCPI277_88:
 	.long	4293703580
 .Lfunc_end277:
-	.size	_ZN8badapple8badapple8frame27717h88a193af0ec0b902E, .Lfunc_end277-_ZN8badapple8badapple8frame27717h88a193af0ec0b902E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame277, .Lfunc_end277-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame277
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame27817h297cddaa92ab5a49E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame278,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame27817h297cddaa92ab5a49E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame278,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame27817h297cddaa92ab5a49E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame278:
 	.fnstart
 	ldr	r3, .LCPI278_121
 	movs	r1, #0
@@ -322905,7 +322905,7 @@ _ZN8badapple8badapple8frame27817h297cddaa92ab5a49E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame27917h21b013ebbc3e7f81E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame279
 	.p2align	2
 .LCPI278_58:
 	.long	4292952816
@@ -323034,16 +323034,16 @@ _ZN8badapple8badapple8frame27817h297cddaa92ab5a49E:
 .LCPI278_120:
 	.long	4293012380
 .Lfunc_end278:
-	.size	_ZN8badapple8badapple8frame27817h297cddaa92ab5a49E, .Lfunc_end278-_ZN8badapple8badapple8frame27817h297cddaa92ab5a49E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame278, .Lfunc_end278-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame278
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame27917h21b013ebbc3e7f81E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame279,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame27917h21b013ebbc3e7f81E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame279,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame27917h21b013ebbc3e7f81E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame279:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -323706,7 +323706,7 @@ _ZN8badapple8badapple8frame27917h21b013ebbc3e7f81E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame28017h4bf9d8e5635d8815E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame280
 	.p2align	2
 .LCPI279_24:
 	.long	4293598016
@@ -323841,16 +323841,16 @@ _ZN8badapple8badapple8frame27917h21b013ebbc3e7f81E:
 .LCPI279_89:
 	.long	4293703580
 .Lfunc_end279:
-	.size	_ZN8badapple8badapple8frame27917h21b013ebbc3e7f81E, .Lfunc_end279-_ZN8badapple8badapple8frame27917h21b013ebbc3e7f81E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame279, .Lfunc_end279-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame279
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame28017h4bf9d8e5635d8815E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame280,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame28017h4bf9d8e5635d8815E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame280,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame28017h4bf9d8e5635d8815E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame280:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -324934,7 +324934,7 @@ _ZN8badapple8badapple8frame28017h4bf9d8e5635d8815E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame28117h885afad890884024E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame281
 	.p2align	2
 .LCPI280_68:
 	.long	4292960620
@@ -325049,16 +325049,16 @@ _ZN8badapple8badapple8frame28017h4bf9d8e5635d8815E:
 .LCPI280_123:
 	.long	4293012384
 .Lfunc_end280:
-	.size	_ZN8badapple8badapple8frame28017h4bf9d8e5635d8815E, .Lfunc_end280-_ZN8badapple8badapple8frame28017h4bf9d8e5635d8815E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame280, .Lfunc_end280-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame280
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame28117h885afad890884024E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame281,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame28117h885afad890884024E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame281,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame28117h885afad890884024E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame281:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -325789,7 +325789,7 @@ _ZN8badapple8badapple8frame28117h885afad890884024E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame28217hce34ecde762d157aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame282
 	.p2align	2
 .LCPI281_33:
 	.long	4293619072
@@ -325902,16 +325902,16 @@ _ZN8badapple8badapple8frame28117h885afad890884024E:
 .LCPI281_87:
 	.long	4293703588
 .Lfunc_end281:
-	.size	_ZN8badapple8badapple8frame28117h885afad890884024E, .Lfunc_end281-_ZN8badapple8badapple8frame28117h885afad890884024E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame281, .Lfunc_end281-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame281
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame28217hce34ecde762d157aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame282,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame28217hce34ecde762d157aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame282,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame28217hce34ecde762d157aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame282:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -327428,7 +327428,7 @@ _ZN8badapple8badapple8frame28217hce34ecde762d157aE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame28317hfef9e90d3ae2348fE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame283
 	.p2align	2
 .LCPI282_72:
 	.long	4292966388
@@ -327507,16 +327507,16 @@ _ZN8badapple8badapple8frame28217hce34ecde762d157aE:
 .LCPI282_109:
 	.long	4293012396
 .Lfunc_end282:
-	.size	_ZN8badapple8badapple8frame28217hce34ecde762d157aE, .Lfunc_end282-_ZN8badapple8badapple8frame28217hce34ecde762d157aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame282, .Lfunc_end282-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame282
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame28317hfef9e90d3ae2348fE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame283,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame28317hfef9e90d3ae2348fE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame283,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame28317hfef9e90d3ae2348fE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame283:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -330115,7 +330115,7 @@ _ZN8badapple8badapple8frame28317hfef9e90d3ae2348fE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame28417he7604f2ccb0a099cE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame284
 	.p2align	2
 .LCPI283_86:
 	.long	4293670916
@@ -330180,16 +330180,16 @@ _ZN8badapple8badapple8frame28317hfef9e90d3ae2348fE:
 .LCPI283_116:
 	.long	4293703604
 .Lfunc_end283:
-	.size	_ZN8badapple8badapple8frame28317hfef9e90d3ae2348fE, .Lfunc_end283-_ZN8badapple8badapple8frame28317hfef9e90d3ae2348fE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame283, .Lfunc_end283-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame283
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame28417he7604f2ccb0a099cE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame284,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame28417he7604f2ccb0a099cE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame284,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame28417he7604f2ccb0a099cE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame284:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -333658,7 +333658,7 @@ _ZN8badapple8badapple8frame28417he7604f2ccb0a099cE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame28517hb7339e13dab98c66E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame285
 	.p2align	2
 .LCPI284_128:
 	.long	4292989472
@@ -333711,16 +333711,16 @@ _ZN8badapple8badapple8frame28417he7604f2ccb0a099cE:
 .LCPI284_152:
 	.long	4293012540
 .Lfunc_end284:
-	.size	_ZN8badapple8badapple8frame28417he7604f2ccb0a099cE, .Lfunc_end284-_ZN8badapple8badapple8frame28417he7604f2ccb0a099cE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame284, .Lfunc_end284-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame284
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame28517hb7339e13dab98c66E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame285,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame28517hb7339e13dab98c66E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame285,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame28517hb7339e13dab98c66E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame285:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -336047,7 +336047,7 @@ _ZN8badapple8badapple8frame28517hb7339e13dab98c66E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame28617h3802c37d8a344ac6E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame286
 	.p2align	2
 .LCPI285_118:
 	.long	4293682448
@@ -336098,16 +336098,16 @@ _ZN8badapple8badapple8frame28517hb7339e13dab98c66E:
 .LCPI285_141:
 	.long	4293703728
 .Lfunc_end285:
-	.size	_ZN8badapple8badapple8frame28517hb7339e13dab98c66E, .Lfunc_end285-_ZN8badapple8badapple8frame28517hb7339e13dab98c66E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame285, .Lfunc_end285-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame285
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame28617h3802c37d8a344ac6E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame286,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame28617h3802c37d8a344ac6E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame286,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame28617h3802c37d8a344ac6E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame286:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -337111,7 +337111,7 @@ _ZN8badapple8badapple8frame28617h3802c37d8a344ac6E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame28717h4b1a14649d618cafE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame287
 	.p2align	2
 .LCPI286_40:
 	.long	4292922168
@@ -337228,16 +337228,16 @@ _ZN8badapple8badapple8frame28617h3802c37d8a344ac6E:
 .LCPI286_96:
 	.long	4293012404
 .Lfunc_end286:
-	.size	_ZN8badapple8badapple8frame28617h3802c37d8a344ac6E, .Lfunc_end286-_ZN8badapple8badapple8frame28617h3802c37d8a344ac6E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame286, .Lfunc_end286-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame286
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame28717h4b1a14649d618cafE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame287,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame28717h4b1a14649d618cafE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame287,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame28717h4b1a14649d618cafE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame287:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -339269,7 +339269,7 @@ _ZN8badapple8badapple8frame28717h4b1a14649d618cafE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame28817hc156dc16fd355e65E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame288
 	.p2align	2
 .LCPI287_87:
 	.long	4293670896
@@ -339344,16 +339344,16 @@ _ZN8badapple8badapple8frame28717h4b1a14649d618cafE:
 .LCPI287_122:
 	.long	4293703728
 .Lfunc_end287:
-	.size	_ZN8badapple8badapple8frame28717h4b1a14649d618cafE, .Lfunc_end287-_ZN8badapple8badapple8frame28717h4b1a14649d618cafE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame287, .Lfunc_end287-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame287
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame28817hc156dc16fd355e65E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame288,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame28817hc156dc16fd355e65E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame288,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame28817hc156dc16fd355e65E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame288:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -340342,7 +340342,7 @@ _ZN8badapple8badapple8frame28817hc156dc16fd355e65E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame28917h4bc7ba5034e317edE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame289
 	.p2align	2
 .LCPI288_31:
 	.long	4292943228
@@ -340465,16 +340465,16 @@ _ZN8badapple8badapple8frame28817hc156dc16fd355e65E:
 .LCPI288_90:
 	.long	4293012524
 .Lfunc_end288:
-	.size	_ZN8badapple8badapple8frame28817hc156dc16fd355e65E, .Lfunc_end288-_ZN8badapple8badapple8frame28817hc156dc16fd355e65E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame288, .Lfunc_end288-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame288
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame28917h4bc7ba5034e317edE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame289,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame28917h4bc7ba5034e317edE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame289,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame28917h4bc7ba5034e317edE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame289:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -342539,7 +342539,7 @@ _ZN8badapple8badapple8frame28917h4bc7ba5034e317edE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame29017ha15b346c315ada08E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame290
 	.p2align	2
 .LCPI289_83:
 	.long	4293669100
@@ -342616,16 +342616,16 @@ _ZN8badapple8badapple8frame28917h4bc7ba5034e317edE:
 .LCPI289_119:
 	.long	4293703740
 .Lfunc_end289:
-	.size	_ZN8badapple8badapple8frame28917h4bc7ba5034e317edE, .Lfunc_end289-_ZN8badapple8badapple8frame28917h4bc7ba5034e317edE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame289, .Lfunc_end289-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame289
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame29017ha15b346c315ada08E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame290,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame29017ha15b346c315ada08E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame290,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame29017ha15b346c315ada08E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame290:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -343902,7 +343902,7 @@ _ZN8badapple8badapple8frame29017ha15b346c315ada08E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame29117h0243824b671cf421E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame291
 	.p2align	2
 .LCPI290_63:
 	.long	4292981628
@@ -343973,16 +343973,16 @@ _ZN8badapple8badapple8frame29017ha15b346c315ada08E:
 .LCPI290_96:
 	.long	4293012536
 .Lfunc_end290:
-	.size	_ZN8badapple8badapple8frame29017ha15b346c315ada08E, .Lfunc_end290-_ZN8badapple8badapple8frame29017ha15b346c315ada08E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame290, .Lfunc_end290-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame290
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame29117h0243824b671cf421E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame291,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame29117h0243824b671cf421E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame291,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame29117h0243824b671cf421E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame291:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -345576,7 +345576,7 @@ _ZN8badapple8badapple8frame29117h0243824b671cf421E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame29217hacd048fd29ad29eeE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame292
 	.p2align	2
 .LCPI291_73:
 	.long	4293684364
@@ -345623,16 +345623,16 @@ _ZN8badapple8badapple8frame29117h0243824b671cf421E:
 .LCPI291_94:
 	.long	4293703740
 .Lfunc_end291:
-	.size	_ZN8badapple8badapple8frame29117h0243824b671cf421E, .Lfunc_end291-_ZN8badapple8badapple8frame29117h0243824b671cf421E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame291, .Lfunc_end291-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame291
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame29217hacd048fd29ad29eeE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame292,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame29217hacd048fd29ad29eeE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame292,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame29217hacd048fd29ad29eeE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame292:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -347576,7 +347576,7 @@ _ZN8badapple8badapple8frame29217hacd048fd29ad29eeE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame29317h39362ee365f9fa77E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame293
 	.p2align	2
 .LCPI292_81:
 	.long	4292978044
@@ -347653,16 +347653,16 @@ _ZN8badapple8badapple8frame29217hacd048fd29ad29eeE:
 .LCPI292_117:
 	.long	4293012608
 .Lfunc_end292:
-	.size	_ZN8badapple8badapple8frame29217hacd048fd29ad29eeE, .Lfunc_end292-_ZN8badapple8badapple8frame29217hacd048fd29ad29eeE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame292, .Lfunc_end292-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame292
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame29317h39362ee365f9fa77E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame293,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame29317h39362ee365f9fa77E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame293,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame29317h39362ee365f9fa77E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame293:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -350237,7 +350237,7 @@ _ZN8badapple8badapple8frame29317h39362ee365f9fa77E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame29417haa3c2588351bb947E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame294
 	.p2align	2
 .LCPI293_97:
 	.long	4293663240
@@ -350316,16 +350316,16 @@ _ZN8badapple8badapple8frame29317h39362ee365f9fa77E:
 .LCPI293_134:
 	.long	4293703660
 .Lfunc_end293:
-	.size	_ZN8badapple8badapple8frame29317h39362ee365f9fa77E, .Lfunc_end293-_ZN8badapple8badapple8frame29317h39362ee365f9fa77E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame293, .Lfunc_end293-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame293
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame29417haa3c2588351bb947E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame294,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame29417haa3c2588351bb947E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame294,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame29417haa3c2588351bb947E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame294:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -352956,7 +352956,7 @@ _ZN8badapple8badapple8frame29417haa3c2588351bb947E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame29517hac25cdf5825f74f9E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame295
 	.p2align	2
 .LCPI294_108:
 	.long	4292979956
@@ -353029,16 +353029,16 @@ _ZN8badapple8badapple8frame29417haa3c2588351bb947E:
 .LCPI294_142:
 	.long	4293012576
 .Lfunc_end294:
-	.size	_ZN8badapple8badapple8frame29417haa3c2588351bb947E, .Lfunc_end294-_ZN8badapple8badapple8frame29417haa3c2588351bb947E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame294, .Lfunc_end294-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame294
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame29517hac25cdf5825f74f9E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame295,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame29517hac25cdf5825f74f9E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame295,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame29517hac25cdf5825f74f9E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame295:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -356239,7 +356239,7 @@ _ZN8badapple8badapple8frame29517hac25cdf5825f74f9E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame29617h15a0708dfc21b3e0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame296
 	.p2align	2
 .LCPI295_131:
 	.long	4293680532
@@ -356294,16 +356294,16 @@ _ZN8badapple8badapple8frame29517hac25cdf5825f74f9E:
 .LCPI295_156:
 	.long	4293703744
 .Lfunc_end295:
-	.size	_ZN8badapple8badapple8frame29517hac25cdf5825f74f9E, .Lfunc_end295-_ZN8badapple8badapple8frame29517hac25cdf5825f74f9E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame295, .Lfunc_end295-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame295
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame29617h15a0708dfc21b3e0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame296,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame29617h15a0708dfc21b3e0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame296,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame29617h15a0708dfc21b3e0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame296:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -359491,7 +359491,7 @@ _ZN8badapple8badapple8frame29617h15a0708dfc21b3e0E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame29717hc32215dfc85700acE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame297
 	.p2align	2
 .LCPI296_137:
 	.long	4292991400
@@ -359540,16 +359540,16 @@ _ZN8badapple8badapple8frame29617h15a0708dfc21b3e0E:
 .LCPI296_159:
 	.long	4293012528
 .Lfunc_end296:
-	.size	_ZN8badapple8badapple8frame29617h15a0708dfc21b3e0E, .Lfunc_end296-_ZN8badapple8badapple8frame29617h15a0708dfc21b3e0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame296, .Lfunc_end296-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame296
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame29717hc32215dfc85700acE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame297,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame29717hc32215dfc85700acE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame297,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame29717hc32215dfc85700acE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame297:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -362071,7 +362071,7 @@ _ZN8badapple8badapple8frame29717hc32215dfc85700acE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame29817hd57adf3c082677ccE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame298
 	.p2align	2
 .LCPI297_116:
 	.long	4293670940
@@ -362144,16 +362144,16 @@ _ZN8badapple8badapple8frame29717hc32215dfc85700acE:
 .LCPI297_150:
 	.long	4293703704
 .Lfunc_end297:
-	.size	_ZN8badapple8badapple8frame29717hc32215dfc85700acE, .Lfunc_end297-_ZN8badapple8badapple8frame29717hc32215dfc85700acE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame297, .Lfunc_end297-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame297
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame29817hd57adf3c082677ccE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame298,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame29817hd57adf3c082677ccE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame298,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame29817hd57adf3c082677ccE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame298:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -363924,7 +363924,7 @@ _ZN8badapple8badapple8frame29817hd57adf3c082677ccE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame29917h9d0ebc1dae160b2bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame299
 	.p2align	2
 .LCPI298_87:
 	.long	4292966276
@@ -364005,16 +364005,16 @@ _ZN8badapple8badapple8frame29817hd57adf3c082677ccE:
 .LCPI298_125:
 	.long	4293012364
 .Lfunc_end298:
-	.size	_ZN8badapple8badapple8frame29817hd57adf3c082677ccE, .Lfunc_end298-_ZN8badapple8badapple8frame29817hd57adf3c082677ccE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame298, .Lfunc_end298-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame298
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame29917h9d0ebc1dae160b2bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame299,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame29917h9d0ebc1dae160b2bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame299,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame29917h9d0ebc1dae160b2bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame299:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -365399,7 +365399,7 @@ _ZN8badapple8badapple8frame29917h9d0ebc1dae160b2bE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame30017hc56c8bf5ddd52b6bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame300
 	.p2align	2
 .LCPI299_68:
 	.long	4293651968
@@ -365506,16 +365506,16 @@ _ZN8badapple8badapple8frame29917h9d0ebc1dae160b2bE:
 .LCPI299_119:
 	.long	4293703564
 .Lfunc_end299:
-	.size	_ZN8badapple8badapple8frame29917h9d0ebc1dae160b2bE, .Lfunc_end299-_ZN8badapple8badapple8frame29917h9d0ebc1dae160b2bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame299, .Lfunc_end299-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame299
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame30017hc56c8bf5ddd52b6bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame300,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame30017hc56c8bf5ddd52b6bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame300,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame30017hc56c8bf5ddd52b6bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame300:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -366516,7 +366516,7 @@ _ZN8badapple8badapple8frame30017hc56c8bf5ddd52b6bE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame30117hca9df549f23e702dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame301
 	.p2align	2
 .LCPI300_55:
 	.long	4292960384
@@ -366613,16 +366613,16 @@ _ZN8badapple8badapple8frame30017hc56c8bf5ddd52b6bE:
 .LCPI300_101:
 	.long	4293012456
 .Lfunc_end300:
-	.size	_ZN8badapple8badapple8frame30017hc56c8bf5ddd52b6bE, .Lfunc_end300-_ZN8badapple8badapple8frame30017hc56c8bf5ddd52b6bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame300, .Lfunc_end300-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame300
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame30117hca9df549f23e702dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame301,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame30117hca9df549f23e702dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame301,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame30117hca9df549f23e702dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame301:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -367061,7 +367061,7 @@ _ZN8badapple8badapple8frame30117hca9df549f23e702dE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame30217h26db9d0fd9b032fcE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame302
 	.p2align	2
 .LCPI301_0:
 	.long	4293578800
@@ -367238,16 +367238,16 @@ _ZN8badapple8badapple8frame30117hca9df549f23e702dE:
 .LCPI301_86:
 	.long	4293701644
 .Lfunc_end301:
-	.size	_ZN8badapple8badapple8frame30117hca9df549f23e702dE, .Lfunc_end301-_ZN8badapple8badapple8frame30117hca9df549f23e702dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame301, .Lfunc_end301-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame301
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame30217h26db9d0fd9b032fcE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame302,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame30217h26db9d0fd9b032fcE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame302,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame30217h26db9d0fd9b032fcE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame302:
 	.fnstart
 	ldr	r2, .LCPI302_0
 	movs	r1, #1
@@ -367684,7 +367684,7 @@ _ZN8badapple8badapple8frame30217h26db9d0fd9b032fcE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame30317h1354415758907302E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame303
 	.p2align	2
 .LCPI302_0:
 	.long	4292887596
@@ -367871,16 +367871,16 @@ _ZN8badapple8badapple8frame30217h26db9d0fd9b032fcE:
 .LCPI302_91:
 	.long	4293002852
 .Lfunc_end302:
-	.size	_ZN8badapple8badapple8frame30217h26db9d0fd9b032fcE, .Lfunc_end302-_ZN8badapple8badapple8frame30217h26db9d0fd9b032fcE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame302, .Lfunc_end302-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame302
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame30317h1354415758907302E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame303,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame30317h1354415758907302E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame303,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame30317h1354415758907302E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame303:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -368346,7 +368346,7 @@ _ZN8badapple8badapple8frame30317h1354415758907302E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame30417h3f31cce38bae8449E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame304
 	.p2align	2
 .LCPI303_0:
 	.long	4293578800
@@ -368545,16 +368545,16 @@ _ZN8badapple8badapple8frame30317h1354415758907302E:
 .LCPI303_97:
 	.long	4293703564
 .Lfunc_end303:
-	.size	_ZN8badapple8badapple8frame30317h1354415758907302E, .Lfunc_end303-_ZN8badapple8badapple8frame30317h1354415758907302E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame303, .Lfunc_end303-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame303
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame30417h3f31cce38bae8449E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame304,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame30417h3f31cce38bae8449E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame304,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame30417h3f31cce38bae8449E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame304:
 	.fnstart
 	ldr	r3, .LCPI304_102
 	movs	r2, #1
@@ -369331,7 +369331,7 @@ _ZN8badapple8badapple8frame30417h3f31cce38bae8449E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame30517hf7f74d984989fb54E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame305
 	.p2align	2
 .LCPI304_47:
 	.long	4292952704
@@ -369444,16 +369444,16 @@ _ZN8badapple8badapple8frame30417h3f31cce38bae8449E:
 .LCPI304_101:
 	.long	4293012364
 .Lfunc_end304:
-	.size	_ZN8badapple8badapple8frame30417h3f31cce38bae8449E, .Lfunc_end304-_ZN8badapple8badapple8frame30417h3f31cce38bae8449E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame304, .Lfunc_end304-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame304
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame30517hf7f74d984989fb54E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame305,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame30517hf7f74d984989fb54E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame305,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame30517hf7f74d984989fb54E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame305:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -370611,7 +370611,7 @@ _ZN8badapple8badapple8frame30517hf7f74d984989fb54E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame30617ha0e0761f9c180e17E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame306
 	.p2align	2
 .LCPI305_66:
 	.long	4293657600
@@ -370704,16 +370704,16 @@ _ZN8badapple8badapple8frame30517hf7f74d984989fb54E:
 .LCPI305_110:
 	.long	4293703568
 .Lfunc_end305:
-	.size	_ZN8badapple8badapple8frame30517hf7f74d984989fb54E, .Lfunc_end305-_ZN8badapple8badapple8frame30517hf7f74d984989fb54E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame305, .Lfunc_end305-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame305
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame30617ha0e0761f9c180e17E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame306,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame30617ha0e0761f9c180e17E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame306,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame30617ha0e0761f9c180e17E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame306:
 	.fnstart
 	ldr	r3, .LCPI306_103
 	movs	r2, #1
@@ -371563,7 +371563,7 @@ _ZN8badapple8badapple8frame30617ha0e0761f9c180e17E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame30717heb0f418ca5b1e3f1E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame307
 	.p2align	2
 .LCPI306_43:
 	.long	4292950932
@@ -371686,16 +371686,16 @@ _ZN8badapple8badapple8frame30617ha0e0761f9c180e17E:
 .LCPI306_102:
 	.long	4293012376
 .Lfunc_end306:
-	.size	_ZN8badapple8badapple8frame30617ha0e0761f9c180e17E, .Lfunc_end306-_ZN8badapple8badapple8frame30617ha0e0761f9c180e17E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame306, .Lfunc_end306-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame306
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame30717heb0f418ca5b1e3f1E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame307,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame30717heb0f418ca5b1e3f1E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame307,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame30717heb0f418ca5b1e3f1E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame307:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -372536,7 +372536,7 @@ _ZN8badapple8badapple8frame30717heb0f418ca5b1e3f1E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame30817he52ad25e6a07b3d2E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame308
 	.p2align	2
 .LCPI307_41:
 	.long	4293640096
@@ -372653,16 +372653,16 @@ _ZN8badapple8badapple8frame30717heb0f418ca5b1e3f1E:
 .LCPI307_97:
 	.long	4293703580
 .Lfunc_end307:
-	.size	_ZN8badapple8badapple8frame30717heb0f418ca5b1e3f1E, .Lfunc_end307-_ZN8badapple8badapple8frame30717heb0f418ca5b1e3f1E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame307, .Lfunc_end307-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame307
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame30817he52ad25e6a07b3d2E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame308,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame30817he52ad25e6a07b3d2E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame308,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame30817he52ad25e6a07b3d2E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame308:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -373412,7 +373412,7 @@ _ZN8badapple8badapple8frame30817he52ad25e6a07b3d2E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame30917h61b4098378710f6aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame309
 	.p2align	2
 .LCPI308_35:
 	.long	4292945376
@@ -373547,16 +373547,16 @@ _ZN8badapple8badapple8frame30817he52ad25e6a07b3d2E:
 .LCPI308_100:
 	.long	4293012388
 .Lfunc_end308:
-	.size	_ZN8badapple8badapple8frame30817he52ad25e6a07b3d2E, .Lfunc_end308-_ZN8badapple8badapple8frame30817he52ad25e6a07b3d2E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame308, .Lfunc_end308-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame308
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame30917h61b4098378710f6aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame309,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame30917h61b4098378710f6aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame309,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame30917h61b4098378710f6aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame309:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -374417,7 +374417,7 @@ _ZN8badapple8badapple8frame30917h61b4098378710f6aE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame31017h6d4d46c6d1743854E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame310
 	.p2align	2
 .LCPI309_43:
 	.long	4293640120
@@ -374540,16 +374540,16 @@ _ZN8badapple8badapple8frame30917h61b4098378710f6aE:
 .LCPI309_102:
 	.long	4293703680
 .Lfunc_end309:
-	.size	_ZN8badapple8badapple8frame30917h61b4098378710f6aE, .Lfunc_end309-_ZN8badapple8badapple8frame30917h61b4098378710f6aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame309, .Lfunc_end309-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame309
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame31017h6d4d46c6d1743854E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame310,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame31017h6d4d46c6d1743854E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame310,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame31017h6d4d46c6d1743854E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame310:
 	.fnstart
 	ldr	r2, .LCPI310_88
 	movs	r1, #0
@@ -375143,7 +375143,7 @@ _ZN8badapple8badapple8frame31017h6d4d46c6d1743854E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame31117h3a12f3f74b7bd3b8E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame311
 	.p2align	2
 .LCPI310_6:
 	.long	4292899100
@@ -375310,16 +375310,16 @@ _ZN8badapple8badapple8frame31017h6d4d46c6d1743854E:
 .LCPI310_87:
 	.long	4293012476
 .Lfunc_end310:
-	.size	_ZN8badapple8badapple8frame31017h6d4d46c6d1743854E, .Lfunc_end310-_ZN8badapple8badapple8frame31017h6d4d46c6d1743854E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame310, .Lfunc_end310-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame310
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame31117h3a12f3f74b7bd3b8E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame311,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame31117h3a12f3f74b7bd3b8E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame311,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame31117h3a12f3f74b7bd3b8E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame311:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -376356,7 +376356,7 @@ _ZN8badapple8badapple8frame31117h3a12f3f74b7bd3b8E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame31217hb08f2c08d562be0eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame312
 	.p2align	2
 .LCPI311_61:
 	.long	4293653520
@@ -376439,16 +376439,16 @@ _ZN8badapple8badapple8frame31117h3a12f3f74b7bd3b8E:
 .LCPI311_100:
 	.long	4293703576
 .Lfunc_end311:
-	.size	_ZN8badapple8badapple8frame31117h3a12f3f74b7bd3b8E, .Lfunc_end311-_ZN8badapple8badapple8frame31117h3a12f3f74b7bd3b8E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame311, .Lfunc_end311-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame311
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame31217hb08f2c08d562be0eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame312,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame31217hb08f2c08d562be0eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame312,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame31217hb08f2c08d562be0eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame312:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -377856,7 +377856,7 @@ _ZN8badapple8badapple8frame31217hb08f2c08d562be0eE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame31317h5831d7c28097f1bfE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame313
 	.p2align	2
 .LCPI312_83:
 	.long	4292970244
@@ -377937,16 +377937,16 @@ _ZN8badapple8badapple8frame31217hb08f2c08d562be0eE:
 .LCPI312_121:
 	.long	4293012364
 .Lfunc_end312:
-	.size	_ZN8badapple8badapple8frame31217hb08f2c08d562be0eE, .Lfunc_end312-_ZN8badapple8badapple8frame31217hb08f2c08d562be0eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame312, .Lfunc_end312-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame312
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame31317h5831d7c28097f1bfE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame313,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame31317h5831d7c28097f1bfE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame313,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame31317h5831d7c28097f1bfE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame313:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -379387,7 +379387,7 @@ _ZN8badapple8badapple8frame31317h5831d7c28097f1bfE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame31417hae49acde93fe8eedE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame314
 	.p2align	2
 .LCPI313_81:
 	.long	4293657612
@@ -379484,16 +379484,16 @@ _ZN8badapple8badapple8frame31317h5831d7c28097f1bfE:
 .LCPI313_127:
 	.long	4293703560
 .Lfunc_end313:
-	.size	_ZN8badapple8badapple8frame31317h5831d7c28097f1bfE, .Lfunc_end313-_ZN8badapple8badapple8frame31317h5831d7c28097f1bfE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame313, .Lfunc_end313-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame313
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame31417hae49acde93fe8eedE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame314,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame31417hae49acde93fe8eedE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame314,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame31417hae49acde93fe8eedE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame314:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -380948,7 +380948,7 @@ _ZN8badapple8badapple8frame31417hae49acde93fe8eedE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame31517h50994444f3d1f598E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame315
 	.p2align	2
 .LCPI314_74:
 	.long	4292951032
@@ -381071,16 +381071,16 @@ _ZN8badapple8badapple8frame31417hae49acde93fe8eedE:
 .LCPI314_133:
 	.long	4293010536
 .Lfunc_end314:
-	.size	_ZN8badapple8badapple8frame31417hae49acde93fe8eedE, .Lfunc_end314-_ZN8badapple8badapple8frame31417hae49acde93fe8eedE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame314, .Lfunc_end314-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame314
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame31517h50994444f3d1f598E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame315,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame31517h50994444f3d1f598E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame315,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame31517h50994444f3d1f598E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame315:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -382825,7 +382825,7 @@ _ZN8badapple8badapple8frame31517h50994444f3d1f598E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame31617h392034aab27bc7dbE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame316
 	.p2align	2
 .LCPI315_98:
 	.long	4293655816
@@ -382914,16 +382914,16 @@ _ZN8badapple8badapple8frame31517h50994444f3d1f598E:
 .LCPI315_140:
 	.long	4293703560
 .Lfunc_end315:
-	.size	_ZN8badapple8badapple8frame31517h50994444f3d1f598E, .Lfunc_end315-_ZN8badapple8badapple8frame31517h50994444f3d1f598E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame315, .Lfunc_end315-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame315
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame31617h392034aab27bc7dbE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame316,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame31617h392034aab27bc7dbE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame316,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame31617h392034aab27bc7dbE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame316:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -385292,7 +385292,7 @@ _ZN8badapple8badapple8frame31617h392034aab27bc7dbE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame31717ha71e9bef36723242E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame317
 	.p2align	2
 .LCPI316_122:
 	.long	4292987388
@@ -385349,16 +385349,16 @@ _ZN8badapple8badapple8frame31617h392034aab27bc7dbE:
 .LCPI316_148:
 	.long	4293012492
 .Lfunc_end316:
-	.size	_ZN8badapple8badapple8frame31617h392034aab27bc7dbE, .Lfunc_end316-_ZN8badapple8badapple8frame31617h392034aab27bc7dbE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame316, .Lfunc_end316-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame316
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame31717ha71e9bef36723242E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame317,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame31717ha71e9bef36723242E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame317,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame31717ha71e9bef36723242E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame317:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -387742,7 +387742,7 @@ _ZN8badapple8badapple8frame31717ha71e9bef36723242E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame31817he6aeaa4f097cfe45E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame318
 	.p2align	2
 .LCPI317_116:
 	.long	4293668996
@@ -387821,16 +387821,16 @@ _ZN8badapple8badapple8frame31717ha71e9bef36723242E:
 .LCPI317_153:
 	.long	4293703708
 .Lfunc_end317:
-	.size	_ZN8badapple8badapple8frame31717ha71e9bef36723242E, .Lfunc_end317-_ZN8badapple8badapple8frame31717ha71e9bef36723242E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame317, .Lfunc_end317-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame317
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame31817he6aeaa4f097cfe45E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame318,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame31817he6aeaa4f097cfe45E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame318,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame31817he6aeaa4f097cfe45E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame318:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -389825,7 +389825,7 @@ _ZN8badapple8badapple8frame31817he6aeaa4f097cfe45E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame31917hca92c8b8bd0ab13bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame319
 	.p2align	2
 .LCPI318_108:
 	.long	4292968296
@@ -389924,16 +389924,16 @@ _ZN8badapple8badapple8frame31817he6aeaa4f097cfe45E:
 .LCPI318_155:
 	.long	4293012616
 .Lfunc_end318:
-	.size	_ZN8badapple8badapple8frame31817he6aeaa4f097cfe45E, .Lfunc_end318-_ZN8badapple8badapple8frame31817he6aeaa4f097cfe45E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame318, .Lfunc_end318-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame318
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame31917hca92c8b8bd0ab13bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame319,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame31917hca92c8b8bd0ab13bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame319,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame31917hca92c8b8bd0ab13bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame319:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -392204,7 +392204,7 @@ _ZN8badapple8badapple8frame31917hca92c8b8bd0ab13bE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame32017hbb59bfe5ae113229E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame320
 	.p2align	2
 .LCPI319_112:
 	.long	4293663444
@@ -392289,16 +392289,16 @@ _ZN8badapple8badapple8frame31917hca92c8b8bd0ab13bE:
 .LCPI319_152:
 	.long	4293703640
 .Lfunc_end319:
-	.size	_ZN8badapple8badapple8frame31917hca92c8b8bd0ab13bE, .Lfunc_end319-_ZN8badapple8badapple8frame31917hca92c8b8bd0ab13bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame319, .Lfunc_end319-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame319
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame32017hbb59bfe5ae113229E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame320,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame32017hbb59bfe5ae113229E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame320,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame32017hbb59bfe5ae113229E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame320:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -394092,7 +394092,7 @@ _ZN8badapple8badapple8frame32017hbb59bfe5ae113229E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame32117hc9a72102c81fa56fE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame321
 	.p2align	2
 .LCPI320_98:
 	.long	4292962676
@@ -394207,16 +394207,16 @@ _ZN8badapple8badapple8frame32017hbb59bfe5ae113229E:
 .LCPI320_153:
 	.long	4293012616
 .Lfunc_end320:
-	.size	_ZN8badapple8badapple8frame32017hbb59bfe5ae113229E, .Lfunc_end320-_ZN8badapple8badapple8frame32017hbb59bfe5ae113229E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame320, .Lfunc_end320-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame320
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame32117hc9a72102c81fa56fE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame321,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame32117hc9a72102c81fa56fE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame321,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame32117hc9a72102c81fa56fE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame321:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -395064,7 +395064,7 @@ _ZN8badapple8badapple8frame32117hc9a72102c81fa56fE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame32217h86bc3d47eeeba4a1E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame322
 	.p2align	2
 .LCPI321_50:
 	.long	4293640148
@@ -395197,16 +395197,16 @@ _ZN8badapple8badapple8frame32117hc9a72102c81fa56fE:
 .LCPI321_114:
 	.long	4293703676
 .Lfunc_end321:
-	.size	_ZN8badapple8badapple8frame32117hc9a72102c81fa56fE, .Lfunc_end321-_ZN8badapple8badapple8frame32117hc9a72102c81fa56fE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame321, .Lfunc_end321-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame321
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame32217h86bc3d47eeeba4a1E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame322,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame32217h86bc3d47eeeba4a1E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame322,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame32217h86bc3d47eeeba4a1E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame322:
 	.fnstart
 	ldr	r2, .LCPI322_0
 	movs	r1, #0
@@ -395617,7 +395617,7 @@ _ZN8badapple8badapple8frame32217h86bc3d47eeeba4a1E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame32317hf98d4c3c51526819E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame323
 	.p2align	2
 .LCPI322_0:
 	.long	4292870500
@@ -395792,16 +395792,16 @@ _ZN8badapple8badapple8frame32217h86bc3d47eeeba4a1E:
 .LCPI322_85:
 	.long	4293012564
 .Lfunc_end322:
-	.size	_ZN8badapple8badapple8frame32217h86bc3d47eeeba4a1E, .Lfunc_end322-_ZN8badapple8badapple8frame32217h86bc3d47eeeba4a1E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame322, .Lfunc_end322-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame322
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame32317hf98d4c3c51526819E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame323,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame32317hf98d4c3c51526819E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame323,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame32317hf98d4c3c51526819E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame323:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -396323,7 +396323,7 @@ _ZN8badapple8badapple8frame32317hf98d4c3c51526819E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame32417h80a9fccc85fe087eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame324
 	.p2align	2
 .LCPI323_0:
 	.long	4293561712
@@ -396510,16 +396510,16 @@ _ZN8badapple8badapple8frame32317hf98d4c3c51526819E:
 .LCPI323_91:
 	.long	4293703764
 .Lfunc_end323:
-	.size	_ZN8badapple8badapple8frame32317hf98d4c3c51526819E, .Lfunc_end323-_ZN8badapple8badapple8frame32317hf98d4c3c51526819E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame323, .Lfunc_end323-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame323
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame32417h80a9fccc85fe087eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame324,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame32417h80a9fccc85fe087eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame324,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame32417h80a9fccc85fe087eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame324:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -397825,7 +397825,7 @@ _ZN8badapple8badapple8frame32417h80a9fccc85fe087eE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame32517hd1afcfec1874d7e3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame325
 	.p2align	2
 .LCPI324_65:
 	.long	4292960780
@@ -397934,16 +397934,16 @@ _ZN8badapple8badapple8frame32417h80a9fccc85fe087eE:
 .LCPI324_117:
 	.long	4293012620
 .Lfunc_end324:
-	.size	_ZN8badapple8badapple8frame32417h80a9fccc85fe087eE, .Lfunc_end324-_ZN8badapple8badapple8frame32417h80a9fccc85fe087eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame324, .Lfunc_end324-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame324
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame32517hd1afcfec1874d7e3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame325,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame32517hd1afcfec1874d7e3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame325,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame32517hd1afcfec1874d7e3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame325:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -400032,7 +400032,7 @@ _ZN8badapple8badapple8frame32517hd1afcfec1874d7e3E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame32617hca71036cd9f26121E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame326
 	.p2align	2
 .LCPI325_90:
 	.long	4293667112
@@ -400091,16 +400091,16 @@ _ZN8badapple8badapple8frame32517hd1afcfec1874d7e3E:
 .LCPI325_117:
 	.long	4293703812
 .Lfunc_end325:
-	.size	_ZN8badapple8badapple8frame32517hd1afcfec1874d7e3E, .Lfunc_end325-_ZN8badapple8badapple8frame32517hd1afcfec1874d7e3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame325, .Lfunc_end325-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame325
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame32617hca71036cd9f26121E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame326,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame32617hca71036cd9f26121E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame326,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame32617hca71036cd9f26121E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame326:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -404260,7 +404260,7 @@ _ZN8badapple8badapple8frame32617hca71036cd9f26121E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame32717h9555a0e7e1caa2aeE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame327
 	.p2align	2
 .LCPI326_150:
 	.long	4292985472
@@ -404309,16 +404309,16 @@ _ZN8badapple8badapple8frame32617hca71036cd9f26121E:
 .LCPI326_172:
 	.long	4293012620
 .Lfunc_end326:
-	.size	_ZN8badapple8badapple8frame32617hca71036cd9f26121E, .Lfunc_end326-_ZN8badapple8badapple8frame32617hca71036cd9f26121E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame326, .Lfunc_end326-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame326
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame32717h9555a0e7e1caa2aeE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame327,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame32717h9555a0e7e1caa2aeE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame327,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame32717h9555a0e7e1caa2aeE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame327:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -408000,7 +408000,7 @@ _ZN8badapple8badapple8frame32717h9555a0e7e1caa2aeE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame32817h29b36e36031c6c1bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame328
 	.p2align	2
 .LCPI327_139:
 	.long	4293686444
@@ -408041,16 +408041,16 @@ _ZN8badapple8badapple8frame32717h9555a0e7e1caa2aeE:
 .LCPI327_157:
 	.long	4293703724
 .Lfunc_end327:
-	.size	_ZN8badapple8badapple8frame32717h9555a0e7e1caa2aeE, .Lfunc_end327-_ZN8badapple8badapple8frame32717h9555a0e7e1caa2aeE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame327, .Lfunc_end327-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame327
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame32817h29b36e36031c6c1bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame328,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame32817h29b36e36031c6c1bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame328,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame32817h29b36e36031c6c1bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame328:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -410884,7 +410884,7 @@ _ZN8badapple8badapple8frame32817h29b36e36031c6c1bE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame32917h8f99b46ed37529efE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame329
 	.p2align	2
 .LCPI328_110:
 	.long	4292983804
@@ -410943,16 +410943,16 @@ _ZN8badapple8badapple8frame32817h29b36e36031c6c1bE:
 .LCPI328_137:
 	.long	4293012600
 .Lfunc_end328:
-	.size	_ZN8badapple8badapple8frame32817h29b36e36031c6c1bE, .Lfunc_end328-_ZN8badapple8badapple8frame32817h29b36e36031c6c1bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame328, .Lfunc_end328-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame328
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame32917h8f99b46ed37529efE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame329,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame32917h8f99b46ed37529efE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame329,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame32917h8f99b46ed37529efE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame329:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -413027,7 +413027,7 @@ _ZN8badapple8badapple8frame32917h8f99b46ed37529efE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame33017hd495a87fec870f67E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame330
 	.p2align	2
 .LCPI329_51:
 	.long	4293609632
@@ -413088,16 +413088,16 @@ _ZN8badapple8badapple8frame32917h8f99b46ed37529efE:
 .LCPI329_79:
 	.long	4293703556
 .Lfunc_end329:
-	.size	_ZN8badapple8badapple8frame32917h8f99b46ed37529efE, .Lfunc_end329-_ZN8badapple8badapple8frame32917h8f99b46ed37529efE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame329, .Lfunc_end329-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame329
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame33017hd495a87fec870f67E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame330,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame33017hd495a87fec870f67E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame330,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame33017hd495a87fec870f67E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame330:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -414354,7 +414354,7 @@ _ZN8badapple8badapple8frame33017hd495a87fec870f67E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame33117h16c63c908553fe9aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame331
 	.p2align	2
 .LCPI330_27:
 	.long	4292968212
@@ -414397,16 +414397,16 @@ _ZN8badapple8badapple8frame33017hd495a87fec870f67E:
 .LCPI330_46:
 	.long	4293012336
 .Lfunc_end330:
-	.size	_ZN8badapple8badapple8frame33017hd495a87fec870f67E, .Lfunc_end330-_ZN8badapple8badapple8frame33017hd495a87fec870f67E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame330, .Lfunc_end330-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame330
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame33117h16c63c908553fe9aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame331,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame33117h16c63c908553fe9aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame331,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame33117h16c63c908553fe9aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame331:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -415630,7 +415630,7 @@ _ZN8badapple8badapple8frame33117h16c63c908553fe9aE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame33217h7bbc85eafedb25bdE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame332
 	.p2align	2
 .LCPI331_29:
 	.long	4293669072
@@ -415671,16 +415671,16 @@ _ZN8badapple8badapple8frame33117h16c63c908553fe9aE:
 .LCPI331_47:
 	.long	4293703564
 .Lfunc_end331:
-	.size	_ZN8badapple8badapple8frame33117h16c63c908553fe9aE, .Lfunc_end331-_ZN8badapple8badapple8frame33117h16c63c908553fe9aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame331, .Lfunc_end331-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame331
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame33217h7bbc85eafedb25bdE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame332,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame33217h7bbc85eafedb25bdE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame332,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame33217h7bbc85eafedb25bdE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame332:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -417103,7 +417103,7 @@ _ZN8badapple8badapple8frame33217h7bbc85eafedb25bdE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame33317h14529640fa652520E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame333
 	.p2align	2
 .LCPI332_40:
 	.long	4292948988
@@ -417144,16 +417144,16 @@ _ZN8badapple8badapple8frame33217h7bbc85eafedb25bdE:
 .LCPI332_58:
 	.long	4292983580
 .Lfunc_end332:
-	.size	_ZN8badapple8badapple8frame33217h7bbc85eafedb25bdE, .Lfunc_end332-_ZN8badapple8badapple8frame33217h7bbc85eafedb25bdE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame332, .Lfunc_end332-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame332
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame33317h14529640fa652520E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame333,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame33317h14529640fa652520E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame333,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame33317h14529640fa652520E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame333:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -418248,7 +418248,7 @@ _ZN8badapple8badapple8frame33317h14529640fa652520E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame33417h015384eebf8472b9E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame334
 	.p2align	2
 .LCPI333_26:
 	.long	4293603720
@@ -418301,16 +418301,16 @@ _ZN8badapple8badapple8frame33317h14529640fa652520E:
 .LCPI333_50:
 	.long	4293644076
 .Lfunc_end333:
-	.size	_ZN8badapple8badapple8frame33317h14529640fa652520E, .Lfunc_end333-_ZN8badapple8badapple8frame33317h14529640fa652520E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame333, .Lfunc_end333-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame333
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame33417h015384eebf8472b9E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame334,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame33417h015384eebf8472b9E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame334,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame33417h015384eebf8472b9E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame334:
 	.fnstart
 	ldr	r1, .LCPI334_45
 	movs	r2, #1
@@ -418845,7 +418845,7 @@ _ZN8badapple8badapple8frame33417h015384eebf8472b9E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame33517hb7a623575de0a444E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame335
 	.p2align	2
 .LCPI334_2:
 	.long	4292874124
@@ -418934,16 +418934,16 @@ _ZN8badapple8badapple8frame33417h015384eebf8472b9E:
 .LCPI334_44:
 	.long	4292933696
 .Lfunc_end334:
-	.size	_ZN8badapple8badapple8frame33417h015384eebf8472b9E, .Lfunc_end334-_ZN8badapple8badapple8frame33417h015384eebf8472b9E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame334, .Lfunc_end334-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame334
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame33517hb7a623575de0a444E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame335,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame33517hb7a623575de0a444E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame335,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame33517hb7a623575de0a444E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame335:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -419268,7 +419268,7 @@ _ZN8badapple8badapple8frame33517hb7a623575de0a444E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame33617h8649968fdff10351E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame336
 	.p2align	2
 .LCPI335_0:
 	.long	4293565336
@@ -419351,16 +419351,16 @@ _ZN8badapple8badapple8frame33517hb7a623575de0a444E:
 .LCPI335_39:
 	.long	4293619136
 .Lfunc_end335:
-	.size	_ZN8badapple8badapple8frame33517hb7a623575de0a444E, .Lfunc_end335-_ZN8badapple8badapple8frame33517hb7a623575de0a444E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame335, .Lfunc_end335-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame335
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame33617h8649968fdff10351E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame336,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame33617h8649968fdff10351E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame336,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame33617h8649968fdff10351E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame336:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -420721,7 +420721,7 @@ _ZN8badapple8badapple8frame33617h8649968fdff10351E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame33717h6b276337a4540859E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame337
 	.p2align	2
 .LCPI336_37:
 	.long	4292926092
@@ -420776,16 +420776,16 @@ _ZN8badapple8badapple8frame33617h8649968fdff10351E:
 .LCPI336_62:
 	.long	4292958660
 .Lfunc_end336:
-	.size	_ZN8badapple8badapple8frame33617h8649968fdff10351E, .Lfunc_end336-_ZN8badapple8badapple8frame33617h8649968fdff10351E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame336, .Lfunc_end336-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame336
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame33717h6b276337a4540859E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame337,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame33717h6b276337a4540859E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame337,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame33717h6b276337a4540859E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame337:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -422434,7 +422434,7 @@ _ZN8badapple8badapple8frame33717h6b276337a4540859E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame33817h96a1374cc655f44cE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame338
 	.p2align	2
 .LCPI337_50:
 	.long	4293649936
@@ -422489,16 +422489,16 @@ _ZN8badapple8badapple8frame33717h6b276337a4540859E:
 .LCPI337_75:
 	.long	4293682492
 .Lfunc_end337:
-	.size	_ZN8badapple8badapple8frame33717h6b276337a4540859E, .Lfunc_end337-_ZN8badapple8badapple8frame33717h6b276337a4540859E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame337, .Lfunc_end337-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame337
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame33817h96a1374cc655f44cE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame338,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame33817h96a1374cc655f44cE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame338,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame33817h96a1374cc655f44cE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame338:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -429498,7 +429498,7 @@ _ZN8badapple8badapple8frame33817h96a1374cc655f44cE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame33917hd3de74235bf3dd10E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame339
 	.p2align	2
 .LCPI338_246:
 	.long	4293002624
@@ -429547,16 +429547,16 @@ _ZN8badapple8badapple8frame33817h96a1374cc655f44cE:
 .LCPI338_268:
 	.long	4293012608
 .Lfunc_end338:
-	.size	_ZN8badapple8badapple8frame33817h96a1374cc655f44cE, .Lfunc_end338-_ZN8badapple8badapple8frame33817h96a1374cc655f44cE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame338, .Lfunc_end338-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame338
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame33917hd3de74235bf3dd10E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame339,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame33917hd3de74235bf3dd10E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame339,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame33917hd3de74235bf3dd10E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame339:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -437094,7 +437094,7 @@ _ZN8badapple8badapple8frame33917hd3de74235bf3dd10E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame34017h9a252a2809ff30daE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame340
 	.p2align	2
 .LCPI339_254:
 	.long	4293692188
@@ -437145,16 +437145,16 @@ _ZN8badapple8badapple8frame33917hd3de74235bf3dd10E:
 .LCPI339_277:
 	.long	4293703808
 .Lfunc_end339:
-	.size	_ZN8badapple8badapple8frame33917hd3de74235bf3dd10E, .Lfunc_end339-_ZN8badapple8badapple8frame33917hd3de74235bf3dd10E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame339, .Lfunc_end339-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame339
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame34017h9a252a2809ff30daE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame340,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame34017h9a252a2809ff30daE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame340,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame34017h9a252a2809ff30daE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame340:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -437905,7 +437905,7 @@ _ZN8badapple8badapple8frame34017h9a252a2809ff30daE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame34117hded270bce7e239d3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame341
 	.p2align	2
 .LCPI340_19:
 	.long	4292966384
@@ -437992,16 +437992,16 @@ _ZN8badapple8badapple8frame34017h9a252a2809ff30daE:
 .LCPI340_60:
 	.long	4293012372
 .Lfunc_end340:
-	.size	_ZN8badapple8badapple8frame34017h9a252a2809ff30daE, .Lfunc_end340-_ZN8badapple8badapple8frame34017h9a252a2809ff30daE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame340, .Lfunc_end340-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame340
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame34117hded270bce7e239d3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame341,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame34117hded270bce7e239d3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame341,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame34117hded270bce7e239d3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame341:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -438883,7 +438883,7 @@ _ZN8badapple8badapple8frame34117hded270bce7e239d3E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame34217h7d5072528a52cb9eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame342
 	.p2align	2
 .LCPI341_33:
 	.long	4293659524
@@ -438972,16 +438972,16 @@ _ZN8badapple8badapple8frame34117hded270bce7e239d3E:
 .LCPI341_75:
 	.long	4293703632
 .Lfunc_end341:
-	.size	_ZN8badapple8badapple8frame34117hded270bce7e239d3E, .Lfunc_end341-_ZN8badapple8badapple8frame34117hded270bce7e239d3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame341, .Lfunc_end341-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame341
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame34217h7d5072528a52cb9eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame342,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame34217h7d5072528a52cb9eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame342,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame34217h7d5072528a52cb9eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame342:
 	.fnstart
 	ldr	r2, .LCPI342_76
 	movs	r1, #0
@@ -439817,7 +439817,7 @@ _ZN8badapple8badapple8frame34217h7d5072528a52cb9eE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame34317h544eb951f5529678E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame343
 	.p2align	2
 .LCPI342_32:
 	.long	4292968276
@@ -439908,16 +439908,16 @@ _ZN8badapple8badapple8frame34217h7d5072528a52cb9eE:
 .LCPI342_75:
 	.long	4293012372
 .Lfunc_end342:
-	.size	_ZN8badapple8badapple8frame34217h7d5072528a52cb9eE, .Lfunc_end342-_ZN8badapple8badapple8frame34217h7d5072528a52cb9eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame342, .Lfunc_end342-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame342
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame34317h544eb951f5529678E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame343,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame34317h544eb951f5529678E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame343,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame34317h544eb951f5529678E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame343:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -441047,7 +441047,7 @@ _ZN8badapple8badapple8frame34317h544eb951f5529678E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame34417hc1b906d798e22017E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame344
 	.p2align	2
 .LCPI343_57:
 	.long	4293661528
@@ -441136,16 +441136,16 @@ _ZN8badapple8badapple8frame34317h544eb951f5529678E:
 .LCPI343_99:
 	.long	4293703572
 .Lfunc_end343:
-	.size	_ZN8badapple8badapple8frame34317h544eb951f5529678E, .Lfunc_end343-_ZN8badapple8badapple8frame34317h544eb951f5529678E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame343, .Lfunc_end343-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame343
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame34417hc1b906d798e22017E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame344,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame34417hc1b906d798e22017E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame344,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame34417hc1b906d798e22017E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame344:
 	.fnstart
 	ldr	r2, .LCPI344_85
 	movs	r1, #0
@@ -442111,7 +442111,7 @@ _ZN8badapple8badapple8frame34417hc1b906d798e22017E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame34517h5daabd3d8dc6dfc4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame345
 	.p2align	2
 .LCPI344_42:
 	.long	4292972236
@@ -442200,16 +442200,16 @@ _ZN8badapple8badapple8frame34417hc1b906d798e22017E:
 .LCPI344_84:
 	.long	4293012504
 .Lfunc_end344:
-	.size	_ZN8badapple8badapple8frame34417hc1b906d798e22017E, .Lfunc_end344-_ZN8badapple8badapple8frame34417hc1b906d798e22017E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame344, .Lfunc_end344-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame344
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame34517h5daabd3d8dc6dfc4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame345,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame34517h5daabd3d8dc6dfc4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame345,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame34517h5daabd3d8dc6dfc4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame345:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -443280,7 +443280,7 @@ _ZN8badapple8badapple8frame34517h5daabd3d8dc6dfc4E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame34617h80a3b3ea25074e35E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame346
 	.p2align	2
 .LCPI345_58:
 	.long	4293667156
@@ -443361,16 +443361,16 @@ _ZN8badapple8badapple8frame34517h5daabd3d8dc6dfc4E:
 .LCPI345_96:
 	.long	4293703696
 .Lfunc_end345:
-	.size	_ZN8badapple8badapple8frame34517h5daabd3d8dc6dfc4E, .Lfunc_end345-_ZN8badapple8badapple8frame34517h5daabd3d8dc6dfc4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame345, .Lfunc_end345-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame345
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame34617h80a3b3ea25074e35E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame346,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame34617h80a3b3ea25074e35E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame346,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame34617h80a3b3ea25074e35E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame346:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -444675,7 +444675,7 @@ _ZN8badapple8badapple8frame34617h80a3b3ea25074e35E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame34717ha5fe116ebe367c3bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame347
 	.p2align	2
 .LCPI346_57:
 	.long	4292991216
@@ -444732,16 +444732,16 @@ _ZN8badapple8badapple8frame34617h80a3b3ea25074e35E:
 .LCPI346_83:
 	.long	4293012512
 .Lfunc_end346:
-	.size	_ZN8badapple8badapple8frame34617h80a3b3ea25074e35E, .Lfunc_end346-_ZN8badapple8badapple8frame34617h80a3b3ea25074e35E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame346, .Lfunc_end346-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame346
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame34717ha5fe116ebe367c3bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame347,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame34717ha5fe116ebe367c3bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame347,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame34717ha5fe116ebe367c3bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame347:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -446259,7 +446259,7 @@ _ZN8badapple8badapple8frame34717ha5fe116ebe367c3bE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame34817h976dd00a99db9f21E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame348
 	.p2align	2
 .LCPI347_77:
 	.long	4293684480
@@ -446304,16 +446304,16 @@ _ZN8badapple8badapple8frame34717ha5fe116ebe367c3bE:
 .LCPI347_97:
 	.long	4293703696
 .Lfunc_end347:
-	.size	_ZN8badapple8badapple8frame34717ha5fe116ebe367c3bE, .Lfunc_end347-_ZN8badapple8badapple8frame34717ha5fe116ebe367c3bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame347, .Lfunc_end347-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame347
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame34817h976dd00a99db9f21E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame348,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame34817h976dd00a99db9f21E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame348,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame34817h976dd00a99db9f21E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame348:
 	.fnstart
 	ldr	r2, .LCPI348_66
 	movs	r1, #1
@@ -447114,7 +447114,7 @@ _ZN8badapple8badapple8frame34817h976dd00a99db9f21E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame34917h124f116c4554678fE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame349
 	.p2align	2
 .LCPI348_41:
 	.long	4292991216
@@ -447167,16 +447167,16 @@ _ZN8badapple8badapple8frame34817h976dd00a99db9f21E:
 .LCPI348_65:
 	.long	4293012496
 .Lfunc_end348:
-	.size	_ZN8badapple8badapple8frame34817h976dd00a99db9f21E, .Lfunc_end348-_ZN8badapple8badapple8frame34817h976dd00a99db9f21E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame348, .Lfunc_end348-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame348
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame34917h124f116c4554678fE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame349,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame34917h124f116c4554678fE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame349,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame34917h124f116c4554678fE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame349:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -447504,7 +447504,7 @@ _ZN8badapple8badapple8frame34917h124f116c4554678fE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame35017h1b3bf1955658803eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame350
 	.p2align	2
 .LCPI349_0:
 	.long	4293588352
@@ -447583,16 +447583,16 @@ _ZN8badapple8badapple8frame34917h124f116c4554678fE:
 .LCPI349_37:
 	.long	4293701896
 .Lfunc_end349:
-	.size	_ZN8badapple8badapple8frame34917h124f116c4554678fE, .Lfunc_end349-_ZN8badapple8badapple8frame34917h124f116c4554678fE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame349, .Lfunc_end349-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame349
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame35017h1b3bf1955658803eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame350,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame35017h1b3bf1955658803eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame350,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame35017h1b3bf1955658803eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame350:
 	.fnstart
 	ldr	r1, .LCPI350_0
 	movs	r2, #1
@@ -447805,7 +447805,7 @@ _ZN8badapple8badapple8frame35017h1b3bf1955658803eE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame35117h2e19219b74897349E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame351
 	.p2align	2
 .LCPI350_0:
 	.long	4292914444
@@ -447858,16 +447858,16 @@ _ZN8badapple8badapple8frame35017h1b3bf1955658803eE:
 .LCPI350_24:
 	.long	4292960580
 .Lfunc_end350:
-	.size	_ZN8badapple8badapple8frame35017h1b3bf1955658803eE, .Lfunc_end350-_ZN8badapple8badapple8frame35017h1b3bf1955658803eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame350, .Lfunc_end350-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame350
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame35117h2e19219b74897349E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame351,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame35117h2e19219b74897349E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame351,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame35117h2e19219b74897349E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame351:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -448051,7 +448051,7 @@ _ZN8badapple8badapple8frame35117h2e19219b74897349E:
 	subs	r0, #12
 	str	r7, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame35217h806d95f4000db32aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame352
 	.p2align	2
 .LCPI351_0:
 	.long	4293622988
@@ -448080,16 +448080,16 @@ _ZN8badapple8badapple8frame35117h2e19219b74897349E:
 .LCPI351_12:
 	.long	4293646048
 .Lfunc_end351:
-	.size	_ZN8badapple8badapple8frame35117h2e19219b74897349E, .Lfunc_end351-_ZN8badapple8badapple8frame35117h2e19219b74897349E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame351, .Lfunc_end351-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame351
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame35217h806d95f4000db32aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame352,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame35217h806d95f4000db32aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame352,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame35217h806d95f4000db32aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame352:
 	.fnstart
 	ldr	r2, .LCPI352_0
 	movs	r1, #0
@@ -448301,7 +448301,7 @@ _ZN8badapple8badapple8frame35217h806d95f4000db32aE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame35317hfd54507ef50aab92E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame353
 	.p2align	2
 .LCPI352_0:
 	.long	4292914504
@@ -448358,16 +448358,16 @@ _ZN8badapple8badapple8frame35217h806d95f4000db32aE:
 .LCPI352_26:
 	.long	4292966336
 .Lfunc_end352:
-	.size	_ZN8badapple8badapple8frame35217h806d95f4000db32aE, .Lfunc_end352-_ZN8badapple8badapple8frame35217h806d95f4000db32aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame352, .Lfunc_end352-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame352
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame35317hfd54507ef50aab92E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame353,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame35317hfd54507ef50aab92E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame353,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame35317hfd54507ef50aab92E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame353:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -448625,7 +448625,7 @@ _ZN8badapple8badapple8frame35317hfd54507ef50aab92E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame35417h94ec9277d6976f90E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame354
 	.p2align	2
 .LCPI353_0:
 	.long	4293611420
@@ -448672,16 +448672,16 @@ _ZN8badapple8badapple8frame35317hfd54507ef50aab92E:
 .LCPI353_21:
 	.long	4293651820
 .Lfunc_end353:
-	.size	_ZN8badapple8badapple8frame35317hfd54507ef50aab92E, .Lfunc_end353-_ZN8badapple8badapple8frame35317hfd54507ef50aab92E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame353, .Lfunc_end353-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame353
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame35417h94ec9277d6976f90E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame354,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame35417h94ec9277d6976f90E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame354,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame35417h94ec9277d6976f90E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame354:
 	.fnstart
 	ldr	r2, .LCPI354_0
 	movs	r1, #1
@@ -448964,7 +448964,7 @@ _ZN8badapple8badapple8frame35417h94ec9277d6976f90E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame35517he1b5c8ad763c3128E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame355
 	.p2align	2
 .LCPI354_0:
 	.long	4292914504
@@ -449023,16 +449023,16 @@ _ZN8badapple8badapple8frame35417h94ec9277d6976f90E:
 .LCPI354_27:
 	.long	4292966336
 .Lfunc_end354:
-	.size	_ZN8badapple8badapple8frame35417h94ec9277d6976f90E, .Lfunc_end354-_ZN8badapple8badapple8frame35417h94ec9277d6976f90E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame354, .Lfunc_end354-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame354
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame35517he1b5c8ad763c3128E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame355,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame35517he1b5c8ad763c3128E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame355,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame35517he1b5c8ad763c3128E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame355:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -449324,7 +449324,7 @@ _ZN8badapple8badapple8frame35517he1b5c8ad763c3128E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame35617he664b62f8a341d3aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame356
 	.p2align	2
 .LCPI355_0:
 	.long	4293599928
@@ -449399,16 +449399,16 @@ _ZN8badapple8badapple8frame35517he1b5c8ad763c3128E:
 .LCPI355_35:
 	.long	4293667140
 .Lfunc_end355:
-	.size	_ZN8badapple8badapple8frame35517he1b5c8ad763c3128E, .Lfunc_end355-_ZN8badapple8badapple8frame35517he1b5c8ad763c3128E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame355, .Lfunc_end355-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame355
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame35617he664b62f8a341d3aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame356,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame35617he664b62f8a341d3aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame356,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame35617he664b62f8a341d3aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame356:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -449690,7 +449690,7 @@ _ZN8badapple8badapple8frame35617he664b62f8a341d3aE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame35717h38845cbbe1a7a0a2E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame357
 	.p2align	2
 .LCPI356_0:
 	.long	4292926012
@@ -449729,16 +449729,16 @@ _ZN8badapple8badapple8frame35617he664b62f8a341d3aE:
 .LCPI356_17:
 	.long	4292958720
 .Lfunc_end356:
-	.size	_ZN8badapple8badapple8frame35617he664b62f8a341d3aE, .Lfunc_end356-_ZN8badapple8badapple8frame35617he664b62f8a341d3aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame356, .Lfunc_end356-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame356
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame35717h38845cbbe1a7a0a2E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame357,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame35717h38845cbbe1a7a0a2E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame357,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame35717h38845cbbe1a7a0a2E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame357:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -450064,7 +450064,7 @@ _ZN8badapple8badapple8frame35717h38845cbbe1a7a0a2E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame35817h78cd3f8a81c03af2E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame358
 	.p2align	2
 .LCPI357_0:
 	.long	4293599928
@@ -450139,16 +450139,16 @@ _ZN8badapple8badapple8frame35717h38845cbbe1a7a0a2E:
 .LCPI357_35:
 	.long	4293667140
 .Lfunc_end357:
-	.size	_ZN8badapple8badapple8frame35717h38845cbbe1a7a0a2E, .Lfunc_end357-_ZN8badapple8badapple8frame35717h38845cbbe1a7a0a2E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame357, .Lfunc_end357-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame357
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame35817h78cd3f8a81c03af2E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame358,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame35817h78cd3f8a81c03af2E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame358,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame35817h78cd3f8a81c03af2E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame358:
 	.fnstart
 	ldr	r2, .LCPI358_0
 	movs	r1, #0
@@ -450482,7 +450482,7 @@ _ZN8badapple8badapple8frame35817h78cd3f8a81c03af2E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame35917h3a1ab2e422e70eb0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame359
 	.p2align	2
 .LCPI358_0:
 	.long	4292899136
@@ -450571,16 +450571,16 @@ _ZN8badapple8badapple8frame35817h78cd3f8a81c03af2E:
 .LCPI358_42:
 	.long	4292979816
 .Lfunc_end358:
-	.size	_ZN8badapple8badapple8frame35817h78cd3f8a81c03af2E, .Lfunc_end358-_ZN8badapple8badapple8frame35817h78cd3f8a81c03af2E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame358, .Lfunc_end358-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame358
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame35917h3a1ab2e422e70eb0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame359,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame35917h3a1ab2e422e70eb0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame359,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame35917h3a1ab2e422e70eb0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame359:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -450942,7 +450942,7 @@ _ZN8badapple8badapple8frame35917h3a1ab2e422e70eb0E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame36017hfe768fbbee52bae6E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame360
 	.p2align	2
 .LCPI359_0:
 	.long	4293615288
@@ -451005,16 +451005,16 @@ _ZN8badapple8badapple8frame35917h3a1ab2e422e70eb0E:
 .LCPI359_29:
 	.long	4293657480
 .Lfunc_end359:
-	.size	_ZN8badapple8badapple8frame35917h3a1ab2e422e70eb0E, .Lfunc_end359-_ZN8badapple8badapple8frame35917h3a1ab2e422e70eb0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame359, .Lfunc_end359-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame359
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame36017hfe768fbbee52bae6E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame360,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame36017hfe768fbbee52bae6E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame360,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame36017hfe768fbbee52bae6E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame360:
 	.fnstart
 	ldr	r2, .LCPI360_0
 	movs	r1, #0
@@ -451400,7 +451400,7 @@ _ZN8badapple8badapple8frame36017hfe768fbbee52bae6E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame36117h923fcbf3b06f525eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame361
 	.p2align	2
 .LCPI360_0:
 	.long	4292893392
@@ -451497,16 +451497,16 @@ _ZN8badapple8badapple8frame36017hfe768fbbee52bae6E:
 .LCPI360_46:
 	.long	4292981660
 .Lfunc_end360:
-	.size	_ZN8badapple8badapple8frame36017hfe768fbbee52bae6E, .Lfunc_end360-_ZN8badapple8badapple8frame36017hfe768fbbee52bae6E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame360, .Lfunc_end360-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame360
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame36117h923fcbf3b06f525eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame361,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame36117h923fcbf3b06f525eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame361,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame36117h923fcbf3b06f525eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame361:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -451914,7 +451914,7 @@ _ZN8badapple8badapple8frame36117h923fcbf3b06f525eE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame36217h743ece37184918e8E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame362
 	.p2align	2
 .LCPI361_0:
 	.long	4293599868
@@ -452005,16 +452005,16 @@ _ZN8badapple8badapple8frame36117h923fcbf3b06f525eE:
 .LCPI361_43:
 	.long	4293672940
 .Lfunc_end361:
-	.size	_ZN8badapple8badapple8frame36117h923fcbf3b06f525eE, .Lfunc_end361-_ZN8badapple8badapple8frame36117h923fcbf3b06f525eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame361, .Lfunc_end361-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame361
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame36217h743ece37184918e8E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame362,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame36217h743ece37184918e8E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame362,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame36217h743ece37184918e8E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame362:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -452457,7 +452457,7 @@ _ZN8badapple8badapple8frame36217h743ece37184918e8E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame36317h239b3aff1a7e3b31E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame363
 	.p2align	2
 .LCPI362_0:
 	.long	4292893392
@@ -452562,16 +452562,16 @@ _ZN8badapple8badapple8frame36217h743ece37184918e8E:
 .LCPI362_50:
 	.long	4292981660
 .Lfunc_end362:
-	.size	_ZN8badapple8badapple8frame36217h743ece37184918e8E, .Lfunc_end362-_ZN8badapple8badapple8frame36217h743ece37184918e8E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame362, .Lfunc_end362-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame362
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame36317h239b3aff1a7e3b31E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame363,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame36317h239b3aff1a7e3b31E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame363,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame36317h239b3aff1a7e3b31E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame363:
 	.fnstart
 	ldr	r2, .LCPI363_59
 	movs	r1, #0
@@ -453094,7 +453094,7 @@ _ZN8badapple8badapple8frame36317h239b3aff1a7e3b31E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame36417ha7d9df7a474256d4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame364
 	.p2align	2
 .LCPI363_2:
 	.long	4293574980
@@ -453211,16 +453211,16 @@ _ZN8badapple8badapple8frame36317h239b3aff1a7e3b31E:
 .LCPI363_58:
 	.long	4293682540
 .Lfunc_end363:
-	.size	_ZN8badapple8badapple8frame36317h239b3aff1a7e3b31E, .Lfunc_end363-_ZN8badapple8badapple8frame36317h239b3aff1a7e3b31E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame363, .Lfunc_end363-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame363
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame36417ha7d9df7a474256d4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame364,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame36417ha7d9df7a474256d4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame364,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame36417ha7d9df7a474256d4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame364:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -454447,7 +454447,7 @@ _ZN8badapple8badapple8frame36417ha7d9df7a474256d4E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame36517h5c222edff79afe20E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame365
 	.p2align	2
 .LCPI364_41:
 	.long	4292947076
@@ -454508,16 +454508,16 @@ _ZN8badapple8badapple8frame36417ha7d9df7a474256d4E:
 .LCPI364_69:
 	.long	4292981692
 .Lfunc_end364:
-	.size	_ZN8badapple8badapple8frame36417ha7d9df7a474256d4E, .Lfunc_end364-_ZN8badapple8badapple8frame36417ha7d9df7a474256d4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame364, .Lfunc_end364-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame364
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame36517h5c222edff79afe20E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame365,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame36517h5c222edff79afe20E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame365,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame36517h5c222edff79afe20E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame365:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -456333,7 +456333,7 @@ _ZN8badapple8badapple8frame36517h5c222edff79afe20E:
 	subs	r0, #12
 	str	r5, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame36617h16579c2f9014fefcE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame366
 	.p2align	2
 .LCPI365_77:
 	.long	4293670824
@@ -456388,16 +456388,16 @@ _ZN8badapple8badapple8frame36517h5c222edff79afe20E:
 .LCPI365_102:
 	.long	4293703608
 .Lfunc_end365:
-	.size	_ZN8badapple8badapple8frame36517h5c222edff79afe20E, .Lfunc_end365-_ZN8badapple8badapple8frame36517h5c222edff79afe20E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame365, .Lfunc_end365-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame365
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame36617h16579c2f9014fefcE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame366,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame36617h16579c2f9014fefcE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame366,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame36617h16579c2f9014fefcE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame366:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -457931,7 +457931,7 @@ _ZN8badapple8badapple8frame36617h16579c2f9014fefcE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame36717hedd71e0736e0125eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame367
 	.p2align	2
 .LCPI366_73:
 	.long	4292987416
@@ -457968,16 +457968,16 @@ _ZN8badapple8badapple8frame36617h16579c2f9014fefcE:
 .LCPI366_89:
 	.long	4293012372
 .Lfunc_end366:
-	.size	_ZN8badapple8badapple8frame36617h16579c2f9014fefcE, .Lfunc_end366-_ZN8badapple8badapple8frame36617h16579c2f9014fefcE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame366, .Lfunc_end366-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame366
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame36717hedd71e0736e0125eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame367,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame36717hedd71e0736e0125eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame367,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame36717hedd71e0736e0125eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame367:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -459553,7 +459553,7 @@ _ZN8badapple8badapple8frame36717hedd71e0736e0125eE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame36817hf8c6a4607f97e5eeE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame368
 	.p2align	2
 .LCPI367_67:
 	.long	4293661244
@@ -459628,16 +459628,16 @@ _ZN8badapple8badapple8frame36717hedd71e0736e0125eE:
 .LCPI367_102:
 	.long	4293703552
 .Lfunc_end367:
-	.size	_ZN8badapple8badapple8frame36717hedd71e0736e0125eE, .Lfunc_end367-_ZN8badapple8badapple8frame36717hedd71e0736e0125eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame367, .Lfunc_end367-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame367
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame36817hf8c6a4607f97e5eeE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame368,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame36817hf8c6a4607f97e5eeE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame368,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame36817hf8c6a4607f97e5eeE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame368:
 	.fnstart
 	ldr	r2, .LCPI368_70
 	movs	r1, #1
@@ -460432,7 +460432,7 @@ _ZN8badapple8badapple8frame36817hf8c6a4607f97e5eeE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame36917hb6560704261c9570E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame369
 	.p2align	2
 .LCPI368_28:
 	.long	4292943264
@@ -460519,16 +460519,16 @@ _ZN8badapple8badapple8frame36817hf8c6a4607f97e5eeE:
 .LCPI368_69:
 	.long	4293012372
 .Lfunc_end368:
-	.size	_ZN8badapple8badapple8frame36817hf8c6a4607f97e5eeE, .Lfunc_end368-_ZN8badapple8badapple8frame36817hf8c6a4607f97e5eeE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame368, .Lfunc_end368-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame368
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame36917hb6560704261c9570E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame369,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame36917hb6560704261c9570E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame369,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame36917hb6560704261c9570E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame369:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -460906,7 +460906,7 @@ _ZN8badapple8badapple8frame36917hb6560704261c9570E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame37017hb889a27bd98e687bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame370
 	.p2align	2
 .LCPI369_0:
 	.long	4293594172
@@ -461015,16 +461015,16 @@ _ZN8badapple8badapple8frame36917hb6560704261c9570E:
 .LCPI369_52:
 	.long	4293703552
 .Lfunc_end369:
-	.size	_ZN8badapple8badapple8frame36917hb6560704261c9570E, .Lfunc_end369-_ZN8badapple8badapple8frame36917hb6560704261c9570E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame369, .Lfunc_end369-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame369
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame37017hb889a27bd98e687bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame370,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame37017hb889a27bd98e687bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame370,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame37017hb889a27bd98e687bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame370:
 	.fnstart
 	ldr	r2, .LCPI370_0
 	movs	r1, #0
@@ -461325,7 +461325,7 @@ _ZN8badapple8badapple8frame37017hb889a27bd98e687bE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame37117hb5c6ba69ed4eb5a3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame371
 	.p2align	2
 .LCPI370_0:
 	.long	4292904892
@@ -461422,16 +461422,16 @@ _ZN8badapple8badapple8frame37017hb889a27bd98e687bE:
 .LCPI370_46:
 	.long	4293012372
 .Lfunc_end370:
-	.size	_ZN8badapple8badapple8frame37017hb889a27bd98e687bE, .Lfunc_end370-_ZN8badapple8badapple8frame37017hb889a27bd98e687bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame370, .Lfunc_end370-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame370
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame37117hb5c6ba69ed4eb5a3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame371,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame37117hb5c6ba69ed4eb5a3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame371,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame37117hb5c6ba69ed4eb5a3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame371:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -461735,7 +461735,7 @@ _ZN8badapple8badapple8frame37117hb5c6ba69ed4eb5a3E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame37217hdc3a52c5a1f4c377E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame372
 	.p2align	2
 .LCPI371_0:
 	.long	4293598004
@@ -461842,16 +461842,16 @@ _ZN8badapple8badapple8frame37117hb5c6ba69ed4eb5a3E:
 .LCPI371_51:
 	.long	4293703568
 .Lfunc_end371:
-	.size	_ZN8badapple8badapple8frame37117hb5c6ba69ed4eb5a3E, .Lfunc_end371-_ZN8badapple8badapple8frame37117hb5c6ba69ed4eb5a3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame371, .Lfunc_end371-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame371
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame37217hdc3a52c5a1f4c377E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame372,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame37217hdc3a52c5a1f4c377E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame372,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame37217hdc3a52c5a1f4c377E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame372:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -462260,7 +462260,7 @@ _ZN8badapple8badapple8frame37217hdc3a52c5a1f4c377E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame37317h9ac1fc2dd0a80cbcE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame373
 	.p2align	2
 .LCPI372_0:
 	.long	4292904892
@@ -462377,16 +462377,16 @@ _ZN8badapple8badapple8frame37217hdc3a52c5a1f4c377E:
 .LCPI372_56:
 	.long	4293012368
 .Lfunc_end372:
-	.size	_ZN8badapple8badapple8frame37217hdc3a52c5a1f4c377E, .Lfunc_end372-_ZN8badapple8badapple8frame37217hdc3a52c5a1f4c377E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame372, .Lfunc_end372-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame372
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame37317h9ac1fc2dd0a80cbcE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame373,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame37317h9ac1fc2dd0a80cbcE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame373,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame37317h9ac1fc2dd0a80cbcE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame373:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -462824,7 +462824,7 @@ _ZN8badapple8badapple8frame37317h9ac1fc2dd0a80cbcE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame37417hfe7af9e016759400E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame374
 	.p2align	2
 .LCPI373_0:
 	.long	4293598004
@@ -462939,16 +462939,16 @@ _ZN8badapple8badapple8frame37317h9ac1fc2dd0a80cbcE:
 .LCPI373_55:
 	.long	4293703556
 .Lfunc_end373:
-	.size	_ZN8badapple8badapple8frame37317h9ac1fc2dd0a80cbcE, .Lfunc_end373-_ZN8badapple8badapple8frame37317h9ac1fc2dd0a80cbcE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame373, .Lfunc_end373-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame373
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame37417hfe7af9e016759400E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame374,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame37417hfe7af9e016759400E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame374,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame37417hfe7af9e016759400E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame374:
 	.fnstart
 	ldr	r2, .LCPI374_0
 	movs	r1, #0
@@ -463386,7 +463386,7 @@ _ZN8badapple8badapple8frame37417hfe7af9e016759400E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame37517h6e7ff84b1a684e83E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame375
 	.p2align	2
 .LCPI374_0:
 	.long	4292904892
@@ -463503,16 +463503,16 @@ _ZN8badapple8badapple8frame37417hfe7af9e016759400E:
 .LCPI374_56:
 	.long	4293012364
 .Lfunc_end374:
-	.size	_ZN8badapple8badapple8frame37417hfe7af9e016759400E, .Lfunc_end374-_ZN8badapple8badapple8frame37417hfe7af9e016759400E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame374, .Lfunc_end374-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame374
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame37517h6e7ff84b1a684e83E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame375,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame37517h6e7ff84b1a684e83E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame375,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame37517h6e7ff84b1a684e83E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame375:
 	.fnstart
 	movs	r1, #243
 	mvns	r1, r1
@@ -463911,7 +463911,7 @@ _ZN8badapple8badapple8frame37517h6e7ff84b1a684e83E:
 .LBB375_5:
 	str	r2, [r1, #36]
 	ldr	r0, [r1, #48]
-	bl	_ZN8badapple8badapple8frame37617h45f5145b10278f65E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame376
 	.p2align	2
 .LCPI375_0:
 	.long	4293590344
@@ -464034,16 +464034,16 @@ _ZN8badapple8badapple8frame37517h6e7ff84b1a684e83E:
 .LCPI375_59:
 	.long	4293703556
 .Lfunc_end375:
-	.size	_ZN8badapple8badapple8frame37517h6e7ff84b1a684e83E, .Lfunc_end375-_ZN8badapple8badapple8frame37517h6e7ff84b1a684e83E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame375, .Lfunc_end375-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame375
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame37617h45f5145b10278f65E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame376,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame37617h45f5145b10278f65E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame376,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame37617h45f5145b10278f65E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame376:
 	.fnstart
 	ldr	r2, .LCPI376_0
 	movs	r1, #0
@@ -464508,7 +464508,7 @@ _ZN8badapple8badapple8frame37617h45f5145b10278f65E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame37717h8de534bdc2cd8390E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame377
 	.p2align	2
 .LCPI376_0:
 	.long	4292895304
@@ -464643,16 +464643,16 @@ _ZN8badapple8badapple8frame37617h45f5145b10278f65E:
 .LCPI376_65:
 	.long	4293012364
 .Lfunc_end376:
-	.size	_ZN8badapple8badapple8frame37617h45f5145b10278f65E, .Lfunc_end376-_ZN8badapple8badapple8frame37617h45f5145b10278f65E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame376, .Lfunc_end376-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame376
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame37717h8de534bdc2cd8390E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame377,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame37717h8de534bdc2cd8390E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame377,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame37717h8de534bdc2cd8390E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame377:
 	.fnstart
 	movs	r1, #243
 	mvns	r1, r1
@@ -465063,7 +465063,7 @@ _ZN8badapple8badapple8frame37717h8de534bdc2cd8390E:
 .LBB377_5:
 	str	r2, [r1, #36]
 	ldr	r0, [r1, #48]
-	bl	_ZN8badapple8badapple8frame37817h7f4dc454e6c29109E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame378
 	.p2align	2
 .LCPI377_0:
 	.long	4293584588
@@ -465186,16 +465186,16 @@ _ZN8badapple8badapple8frame37717h8de534bdc2cd8390E:
 .LCPI377_59:
 	.long	4293703568
 .Lfunc_end377:
-	.size	_ZN8badapple8badapple8frame37717h8de534bdc2cd8390E, .Lfunc_end377-_ZN8badapple8badapple8frame37717h8de534bdc2cd8390E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame377, .Lfunc_end377-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame377
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame37817h7f4dc454e6c29109E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame378,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame37817h7f4dc454e6c29109E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame378,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame37817h7f4dc454e6c29109E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame378:
 	.fnstart
 	ldr	r3, .LCPI378_0
 	movs	r1, #0
@@ -465634,7 +465634,7 @@ _ZN8badapple8badapple8frame37817h7f4dc454e6c29109E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame37917he03dcfd3000f7527E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame379
 	.p2align	2
 .LCPI378_0:
 	.long	4292895304
@@ -465777,16 +465777,16 @@ _ZN8badapple8badapple8frame37817h7f4dc454e6c29109E:
 .LCPI378_69:
 	.long	4293012372
 .Lfunc_end378:
-	.size	_ZN8badapple8badapple8frame37817h7f4dc454e6c29109E, .Lfunc_end378-_ZN8badapple8badapple8frame37817h7f4dc454e6c29109E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame378, .Lfunc_end378-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame378
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame37917he03dcfd3000f7527E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame379,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame37917he03dcfd3000f7527E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame379,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame37917he03dcfd3000f7527E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame379:
 	.fnstart
 	ldr	r2, .LCPI379_0
 	movs	r1, #1
@@ -466285,7 +466285,7 @@ _ZN8badapple8badapple8frame37917he03dcfd3000f7527E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame38017h376f3785fb3e63a4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame380
 	.p2align	2
 .LCPI379_0:
 	.long	4293584588
@@ -466446,16 +466446,16 @@ _ZN8badapple8badapple8frame37917he03dcfd3000f7527E:
 .LCPI379_78:
 	.long	4293703576
 .Lfunc_end379:
-	.size	_ZN8badapple8badapple8frame37917he03dcfd3000f7527E, .Lfunc_end379-_ZN8badapple8badapple8frame37917he03dcfd3000f7527E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame379, .Lfunc_end379-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame379
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame38017h376f3785fb3e63a4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame380,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame38017h376f3785fb3e63a4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame380,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame38017h376f3785fb3e63a4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame380:
 	.fnstart
 	ldr	r1, .LCPI380_0
 	movs	r2, #1
@@ -466831,7 +466831,7 @@ _ZN8badapple8badapple8frame38017h376f3785fb3e63a4E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame38117h0bab04009848c521E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame381
 	.p2align	2
 .LCPI380_0:
 	.long	4292895312
@@ -466962,16 +466962,16 @@ _ZN8badapple8badapple8frame38017h376f3785fb3e63a4E:
 .LCPI380_63:
 	.long	4293012380
 .Lfunc_end380:
-	.size	_ZN8badapple8badapple8frame38017h376f3785fb3e63a4E, .Lfunc_end380-_ZN8badapple8badapple8frame38017h376f3785fb3e63a4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame380, .Lfunc_end380-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame380
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame38117h0bab04009848c521E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame381,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame38117h0bab04009848c521E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame381,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame38117h0bab04009848c521E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame381:
 	.fnstart
 	movs	r1, #243
 	mvns	r1, r1
@@ -467246,7 +467246,7 @@ _ZN8badapple8badapple8frame38117h0bab04009848c521E:
 .LBB381_5:
 	str	r2, [r1, #36]
 	ldr	r0, [r1, #48]
-	bl	_ZN8badapple8badapple8frame38217h79b2a0c130658e65E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame382
 	.p2align	2
 .LCPI381_0:
 	.long	4293588344
@@ -467367,16 +467367,16 @@ _ZN8badapple8badapple8frame38117h0bab04009848c521E:
 .LCPI381_58:
 	.long	4293703588
 .Lfunc_end381:
-	.size	_ZN8badapple8badapple8frame38117h0bab04009848c521E, .Lfunc_end381-_ZN8badapple8badapple8frame38117h0bab04009848c521E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame381, .Lfunc_end381-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame381
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame38217h79b2a0c130658e65E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame382,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame38217h79b2a0c130658e65E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame382,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame38217h79b2a0c130658e65E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame382:
 	.fnstart
 	ldr	r2, .LCPI382_0
 	movs	r1, #0
@@ -467572,7 +467572,7 @@ _ZN8badapple8badapple8frame38217h79b2a0c130658e65E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame38317h76df6cc4049d2298E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame383
 	.p2align	2
 .LCPI382_0:
 	.long	4292895312
@@ -467677,16 +467677,16 @@ _ZN8badapple8badapple8frame38217h79b2a0c130658e65E:
 .LCPI382_50:
 	.long	4293006708
 .Lfunc_end382:
-	.size	_ZN8badapple8badapple8frame38217h79b2a0c130658e65E, .Lfunc_end382-_ZN8badapple8badapple8frame38217h79b2a0c130658e65E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame382, .Lfunc_end382-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame382
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame38317h76df6cc4049d2298E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame383,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame38317h76df6cc4049d2298E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame383,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame38317h76df6cc4049d2298E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame383:
 	.fnstart
 	ldr	r2, .LCPI383_0
 	movs	r1, #0
@@ -468196,7 +468196,7 @@ _ZN8badapple8badapple8frame38317h76df6cc4049d2298E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame38417h4b75a1a429cd3dc1E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame384
 	.p2align	2
 .LCPI383_0:
 	.long	4293582652
@@ -468329,16 +468329,16 @@ _ZN8badapple8badapple8frame38317h76df6cc4049d2298E:
 .LCPI383_64:
 	.long	4293703576
 .Lfunc_end383:
-	.size	_ZN8badapple8badapple8frame38317h76df6cc4049d2298E, .Lfunc_end383-_ZN8badapple8badapple8frame38317h76df6cc4049d2298E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame383, .Lfunc_end383-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame383
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame38417h4b75a1a429cd3dc1E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame384,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame38417h4b75a1a429cd3dc1E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame384,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame38417h4b75a1a429cd3dc1E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame384:
 	.fnstart
 	ldr	r2, .LCPI384_68
 	movs	r1, #0
@@ -469286,7 +469286,7 @@ _ZN8badapple8badapple8frame38417h4b75a1a429cd3dc1E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame38517hca5d6fad663e54afE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame385
 	.p2align	2
 .LCPI384_34:
 	.long	4292949004
@@ -469357,16 +469357,16 @@ _ZN8badapple8badapple8frame38417h4b75a1a429cd3dc1E:
 .LCPI384_67:
 	.long	4293012364
 .Lfunc_end384:
-	.size	_ZN8badapple8badapple8frame38417h4b75a1a429cd3dc1E, .Lfunc_end384-_ZN8badapple8badapple8frame38417h4b75a1a429cd3dc1E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame384, .Lfunc_end384-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame384
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame38517hca5d6fad663e54afE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame385,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame38517hca5d6fad663e54afE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame385,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame38517hca5d6fad663e54afE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame385:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -470367,7 +470367,7 @@ _ZN8badapple8badapple8frame38517hca5d6fad663e54afE:
 .LBB385_42:
 	str	r2, [r1, #36]
 	ldr	r0, [r1, #48]
-	bl	_ZN8badapple8badapple8frame38617hc40b8f18715e3e39E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame386
 	.p2align	2
 .LCPI385_36:
 	.long	4293645960
@@ -470452,16 +470452,16 @@ _ZN8badapple8badapple8frame38517hca5d6fad663e54afE:
 .LCPI385_76:
 	.long	4293703572
 .Lfunc_end385:
-	.size	_ZN8badapple8badapple8frame38517hca5d6fad663e54afE, .Lfunc_end385-_ZN8badapple8badapple8frame38517hca5d6fad663e54afE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame385, .Lfunc_end385-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame385
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame38617hc40b8f18715e3e39E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame386,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame38617hc40b8f18715e3e39E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame386,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame38617hc40b8f18715e3e39E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame386:
 	.fnstart
 	ldr	r2, .LCPI386_96
 	movs	r1, #0
@@ -471358,7 +471358,7 @@ _ZN8badapple8badapple8frame38617hc40b8f18715e3e39E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame38717h942320862b9e6bceE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame387
 	.p2align	2
 .LCPI386_45:
 	.long	4292954896
@@ -471463,16 +471463,16 @@ _ZN8badapple8badapple8frame38617hc40b8f18715e3e39E:
 .LCPI386_95:
 	.long	4293012364
 .Lfunc_end386:
-	.size	_ZN8badapple8badapple8frame38617hc40b8f18715e3e39E, .Lfunc_end386-_ZN8badapple8badapple8frame38617hc40b8f18715e3e39E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame386, .Lfunc_end386-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame386
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame38717h942320862b9e6bceE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame387,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame38717h942320862b9e6bceE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame387,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame38717h942320862b9e6bceE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame387:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -472905,7 +472905,7 @@ _ZN8badapple8badapple8frame38717h942320862b9e6bceE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame38817h18a24919c2609024E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame388
 	.p2align	2
 .LCPI387_82:
 	.long	4293648020
@@ -473022,16 +473022,16 @@ _ZN8badapple8badapple8frame38717h942320862b9e6bceE:
 .LCPI387_138:
 	.long	4293703700
 .Lfunc_end387:
-	.size	_ZN8badapple8badapple8frame38717h942320862b9e6bceE, .Lfunc_end387-_ZN8badapple8badapple8frame38717h942320862b9e6bceE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame387, .Lfunc_end387-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame387
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame38817h18a24919c2609024E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame388,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame38817h18a24919c2609024E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame388,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame38817h18a24919c2609024E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame388:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -475186,7 +475186,7 @@ _ZN8badapple8badapple8frame38817h18a24919c2609024E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame38917h67266e60cf2a48c5E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame389
 	.p2align	2
 .LCPI388_105:
 	.long	4292977964
@@ -475263,16 +475263,16 @@ _ZN8badapple8badapple8frame38817h18a24919c2609024E:
 .LCPI388_141:
 	.long	4293012508
 .Lfunc_end388:
-	.size	_ZN8badapple8badapple8frame38817h18a24919c2609024E, .Lfunc_end388-_ZN8badapple8badapple8frame38817h18a24919c2609024E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame388, .Lfunc_end388-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame388
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame38917h67266e60cf2a48c5E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame389,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame38917h67266e60cf2a48c5E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame389,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame38917h67266e60cf2a48c5E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame389:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -477381,7 +477381,7 @@ _ZN8badapple8badapple8frame38917h67266e60cf2a48c5E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame39017h9206bf468be0f8a5E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame390
 	.p2align	2
 .LCPI389_103:
 	.long	4293667260
@@ -477462,16 +477462,16 @@ _ZN8badapple8badapple8frame38917h67266e60cf2a48c5E:
 .LCPI389_141:
 	.long	4293703720
 .Lfunc_end389:
-	.size	_ZN8badapple8badapple8frame38917h67266e60cf2a48c5E, .Lfunc_end389-_ZN8badapple8badapple8frame38917h67266e60cf2a48c5E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame389, .Lfunc_end389-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame389
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame39017h9206bf468be0f8a5E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame390,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame39017h9206bf468be0f8a5E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame390,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame39017h9206bf468be0f8a5E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame390:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -478944,7 +478944,7 @@ _ZN8badapple8badapple8frame39017h9206bf468be0f8a5E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame39117h75410d7e4c546dd1E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame391
 	.p2align	2
 .LCPI390_74:
 	.long	4292947296
@@ -479077,16 +479077,16 @@ _ZN8badapple8badapple8frame39017h9206bf468be0f8a5E:
 .LCPI390_138:
 	.long	4293012544
 .Lfunc_end390:
-	.size	_ZN8badapple8badapple8frame39017h9206bf468be0f8a5E, .Lfunc_end390-_ZN8badapple8badapple8frame39017h9206bf468be0f8a5E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame390, .Lfunc_end390-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame390
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame39117h75410d7e4c546dd1E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame391,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame39117h75410d7e4c546dd1E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame391,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame39117h75410d7e4c546dd1E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame391:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -480074,7 +480074,7 @@ _ZN8badapple8badapple8frame39117h75410d7e4c546dd1E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame39217hd72581d5982e0492E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame392
 	.p2align	2
 .LCPI391_55:
 	.long	4293619288
@@ -480221,16 +480221,16 @@ _ZN8badapple8badapple8frame39117h75410d7e4c546dd1E:
 .LCPI391_126:
 	.long	4293703632
 .Lfunc_end391:
-	.size	_ZN8badapple8badapple8frame39117h75410d7e4c546dd1E, .Lfunc_end391-_ZN8badapple8badapple8frame39117h75410d7e4c546dd1E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame391, .Lfunc_end391-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame391
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame39217hd72581d5982e0492E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame392,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame39217hd72581d5982e0492E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame392,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame39217hd72581d5982e0492E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame392:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -481375,7 +481375,7 @@ _ZN8badapple8badapple8frame39217hd72581d5982e0492E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame39317hc879494ab9d39c95E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame393
 	.p2align	2
 .LCPI392_51:
 	.long	4292924248
@@ -481520,16 +481520,16 @@ _ZN8badapple8badapple8frame39217hd72581d5982e0492E:
 .LCPI392_121:
 	.long	4293012436
 .Lfunc_end392:
-	.size	_ZN8badapple8badapple8frame39217hd72581d5982e0492E, .Lfunc_end392-_ZN8badapple8badapple8frame39217hd72581d5982e0492E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame392, .Lfunc_end392-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame392
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame39317hc879494ab9d39c95E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame393,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame39317hc879494ab9d39c95E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame393,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame39317hc879494ab9d39c95E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame393:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -483178,7 +483178,7 @@ _ZN8badapple8badapple8frame39317hc879494ab9d39c95E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame39417h80998cbbad6e8e07E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame394
 	.p2align	2
 .LCPI393_85:
 	.long	4293648068
@@ -483277,16 +483277,16 @@ _ZN8badapple8badapple8frame39317hc879494ab9d39c95E:
 .LCPI393_132:
 	.long	4293703636
 .Lfunc_end393:
-	.size	_ZN8badapple8badapple8frame39317hc879494ab9d39c95E, .Lfunc_end393-_ZN8badapple8badapple8frame39317hc879494ab9d39c95E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame393, .Lfunc_end393-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame393
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame39417h80998cbbad6e8e07E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame394,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame39417h80998cbbad6e8e07E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame394,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame39417h80998cbbad6e8e07E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame394:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -485233,7 +485233,7 @@ _ZN8badapple8badapple8frame39417h80998cbbad6e8e07E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame39517h4f678bc6afff5f8fE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame395
 	.p2align	2
 .LCPI394_89:
 	.long	4292962548
@@ -485318,16 +485318,16 @@ _ZN8badapple8badapple8frame39417h80998cbbad6e8e07E:
 .LCPI394_129:
 	.long	4293012564
 .Lfunc_end394:
-	.size	_ZN8badapple8badapple8frame39417h80998cbbad6e8e07E, .Lfunc_end394-_ZN8badapple8badapple8frame39417h80998cbbad6e8e07E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame394, .Lfunc_end394-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame394
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame39517h4f678bc6afff5f8fE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame395,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame39517h4f678bc6afff5f8fE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame395,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame39517h4f678bc6afff5f8fE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame395:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -488110,7 +488110,7 @@ _ZN8badapple8badapple8frame39517h4f678bc6afff5f8fE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame39617he0ea7a8292323ceaE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame396
 	.p2align	2
 .LCPI395_100:
 	.long	4293682500
@@ -488153,16 +488153,16 @@ _ZN8badapple8badapple8frame39517h4f678bc6afff5f8fE:
 .LCPI395_119:
 	.long	4293703636
 .Lfunc_end395:
-	.size	_ZN8badapple8badapple8frame39517h4f678bc6afff5f8fE, .Lfunc_end395-_ZN8badapple8badapple8frame39517h4f678bc6afff5f8fE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame395, .Lfunc_end395-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame395
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame39617he0ea7a8292323ceaE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame396,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame39617he0ea7a8292323ceaE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame396,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame39617he0ea7a8292323ceaE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame396:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -490087,7 +490087,7 @@ _ZN8badapple8badapple8frame39617he0ea7a8292323ceaE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame39717hb31dc1fa404718b4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame397
 	.p2align	2
 .LCPI396_57:
 	.long	4292983672
@@ -490130,16 +490130,16 @@ _ZN8badapple8badapple8frame39617he0ea7a8292323ceaE:
 .LCPI396_76:
 	.long	4293012512
 .Lfunc_end396:
-	.size	_ZN8badapple8badapple8frame39617he0ea7a8292323ceaE, .Lfunc_end396-_ZN8badapple8badapple8frame39617he0ea7a8292323ceaE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame396, .Lfunc_end396-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame396
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame39717hb31dc1fa404718b4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame397,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame39717hb31dc1fa404718b4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame397,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame39717hb31dc1fa404718b4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame397:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -490372,7 +490372,7 @@ _ZN8badapple8badapple8frame39717hb31dc1fa404718b4E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame39817h9177281ec7343214E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame398
 	.p2align	2
 .LCPI397_0:
 	.long	4293602060
@@ -490449,16 +490449,16 @@ _ZN8badapple8badapple8frame39717hb31dc1fa404718b4E:
 .LCPI397_36:
 	.long	4293655820
 .Lfunc_end397:
-	.size	_ZN8badapple8badapple8frame39717hb31dc1fa404718b4E, .Lfunc_end397-_ZN8badapple8badapple8frame39717hb31dc1fa404718b4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame397, .Lfunc_end397-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame397
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame39817h9177281ec7343214E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame398,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame39817h9177281ec7343214E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame398,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame39817h9177281ec7343214E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame398:
 	.fnstart
 	ldr	r3, .LCPI398_0
 	movs	r1, #0
@@ -490631,7 +490631,7 @@ _ZN8badapple8badapple8frame39817h9177281ec7343214E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame39917ha082f626111ef3dfE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame399
 	.p2align	2
 .LCPI398_0:
 	.long	4292943228
@@ -490658,16 +490658,16 @@ _ZN8badapple8badapple8frame39817h9177281ec7343214E:
 .LCPI398_11:
 	.long	4292958680
 .Lfunc_end398:
-	.size	_ZN8badapple8badapple8frame39817h9177281ec7343214E, .Lfunc_end398-_ZN8badapple8badapple8frame39817h9177281ec7343214E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame398, .Lfunc_end398-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame398
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame39917ha082f626111ef3dfE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame399,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame39917ha082f626111ef3dfE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame399,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame39917ha082f626111ef3dfE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame399:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -490920,7 +490920,7 @@ _ZN8badapple8badapple8frame39917ha082f626111ef3dfE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame40017h9b0bb9e3b70dfaa8E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame400
 	.p2align	2
 .LCPI399_0:
 	.long	4293628800
@@ -490955,16 +490955,16 @@ _ZN8badapple8badapple8frame39917ha082f626111ef3dfE:
 .LCPI399_15:
 	.long	4293647912
 .Lfunc_end399:
-	.size	_ZN8badapple8badapple8frame39917ha082f626111ef3dfE, .Lfunc_end399-_ZN8badapple8badapple8frame39917ha082f626111ef3dfE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame399, .Lfunc_end399-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame399
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame40017h9b0bb9e3b70dfaa8E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame400,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame40017h9b0bb9e3b70dfaa8E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame400,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame40017h9b0bb9e3b70dfaa8E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame400:
 	.fnstart
 	ldr	r2, .LCPI400_0
 	movs	r1, #0
@@ -491444,7 +491444,7 @@ _ZN8badapple8badapple8frame40017h9b0bb9e3b70dfaa8E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame40117h92b1f243e8a179e3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame401
 	.p2align	2
 .LCPI400_0:
 	.long	4292928072
@@ -491501,16 +491501,16 @@ _ZN8badapple8badapple8frame40017h9b0bb9e3b70dfaa8E:
 .LCPI400_26:
 	.long	4292958680
 .Lfunc_end400:
-	.size	_ZN8badapple8badapple8frame40017h9b0bb9e3b70dfaa8E, .Lfunc_end400-_ZN8badapple8badapple8frame40017h9b0bb9e3b70dfaa8E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame400, .Lfunc_end400-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame400
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame40117h92b1f243e8a179e3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame401,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame40117h92b1f243e8a179e3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame401,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame40117h92b1f243e8a179e3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame401:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -491935,7 +491935,7 @@ _ZN8badapple8badapple8frame40117h92b1f243e8a179e3E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame40217h4fe577cce90cba0dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame402
 	.p2align	2
 .LCPI401_0:
 	.long	4293626904
@@ -491976,16 +491976,16 @@ _ZN8badapple8badapple8frame40117h92b1f243e8a179e3E:
 .LCPI401_18:
 	.long	4293648000
 .Lfunc_end401:
-	.size	_ZN8badapple8badapple8frame40117h92b1f243e8a179e3E, .Lfunc_end401-_ZN8badapple8badapple8frame40117h92b1f243e8a179e3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame401, .Lfunc_end401-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame401
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame40217h4fe577cce90cba0dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame402,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame40217h4fe577cce90cba0dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame402,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame40217h4fe577cce90cba0dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame402:
 	.fnstart
 	ldr	r1, .LCPI402_45
 	movs	r2, #1
@@ -492672,7 +492672,7 @@ _ZN8badapple8badapple8frame40217h4fe577cce90cba0dE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame40317hb935c4cf58018ca7E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame403
 	.p2align	2
 .LCPI402_14:
 	.long	4292954948
@@ -492737,16 +492737,16 @@ _ZN8badapple8badapple8frame40217h4fe577cce90cba0dE:
 .LCPI402_44:
 	.long	4293012572
 .Lfunc_end402:
-	.size	_ZN8badapple8badapple8frame40217h4fe577cce90cba0dE, .Lfunc_end402-_ZN8badapple8badapple8frame40217h4fe577cce90cba0dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame402, .Lfunc_end402-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame402
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame40317hb935c4cf58018ca7E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame403,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame40317hb935c4cf58018ca7E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame403,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame40317hb935c4cf58018ca7E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame403:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -494723,7 +494723,7 @@ _ZN8badapple8badapple8frame40317hb935c4cf58018ca7E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame40417h649e8911079bf1caE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame404
 	.p2align	2
 .LCPI403_69:
 	.long	4293680780
@@ -494776,16 +494776,16 @@ _ZN8badapple8badapple8frame40317hb935c4cf58018ca7E:
 .LCPI403_93:
 	.long	4293703704
 .Lfunc_end403:
-	.size	_ZN8badapple8badapple8frame40317hb935c4cf58018ca7E, .Lfunc_end403-_ZN8badapple8badapple8frame40317hb935c4cf58018ca7E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame403, .Lfunc_end403-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame403
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame40417h649e8911079bf1caE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame404,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame40417h649e8911079bf1caE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame404,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame40417h649e8911079bf1caE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame404:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -497447,7 +497447,7 @@ _ZN8badapple8badapple8frame40417h649e8911079bf1caE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame40517hb8c6a032d29ecef9E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame405
 	.p2align	2
 .LCPI404_103:
 	.long	4292993048
@@ -497516,16 +497516,16 @@ _ZN8badapple8badapple8frame40417h649e8911079bf1caE:
 .LCPI404_135:
 	.long	4293012576
 .Lfunc_end404:
-	.size	_ZN8badapple8badapple8frame40417h649e8911079bf1caE, .Lfunc_end404-_ZN8badapple8badapple8frame40417h649e8911079bf1caE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame404, .Lfunc_end404-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame404
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame40517hb8c6a032d29ecef9E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame405,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame40517hb8c6a032d29ecef9E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame405,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame40517hb8c6a032d29ecef9E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame405:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -500403,7 +500403,7 @@ _ZN8badapple8badapple8frame40517hb8c6a032d29ecef9E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame40617h05c9213ec3b33cd4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame406
 	.p2align	2
 .LCPI405_144:
 	.long	4293686408
@@ -500462,16 +500462,16 @@ _ZN8badapple8badapple8frame40517hb8c6a032d29ecef9E:
 .LCPI405_171:
 	.long	4293703740
 .Lfunc_end405:
-	.size	_ZN8badapple8badapple8frame40517hb8c6a032d29ecef9E, .Lfunc_end405-_ZN8badapple8badapple8frame40517hb8c6a032d29ecef9E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame405, .Lfunc_end405-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame405
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame40617h05c9213ec3b33cd4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame406,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame40617h05c9213ec3b33cd4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame406,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame40617h05c9213ec3b33cd4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame406:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -503991,7 +503991,7 @@ _ZN8badapple8badapple8frame40617h05c9213ec3b33cd4E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame40717hcf8f4a6645c34a10E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame407
 	.p2align	2
 .LCPI406_150:
 	.long	4292997252
@@ -504052,16 +504052,16 @@ _ZN8badapple8badapple8frame40617h05c9213ec3b33cd4E:
 .LCPI406_178:
 	.long	4293012576
 .Lfunc_end406:
-	.size	_ZN8badapple8badapple8frame40617h05c9213ec3b33cd4E, .Lfunc_end406-_ZN8badapple8badapple8frame40617h05c9213ec3b33cd4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame406, .Lfunc_end406-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame406
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame40717hcf8f4a6645c34a10E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame407,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame40717hcf8f4a6645c34a10E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame407,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame40717hcf8f4a6645c34a10E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame407:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -507826,7 +507826,7 @@ _ZN8badapple8badapple8frame40717hcf8f4a6645c34a10E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame40817h09a98690daa20a9fE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame408
 	.p2align	2
 .LCPI407_167:
 	.long	4293684612
@@ -507895,16 +507895,16 @@ _ZN8badapple8badapple8frame40717hcf8f4a6645c34a10E:
 .LCPI407_199:
 	.long	4293703788
 .Lfunc_end407:
-	.size	_ZN8badapple8badapple8frame40717hcf8f4a6645c34a10E, .Lfunc_end407-_ZN8badapple8badapple8frame40717hcf8f4a6645c34a10E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame407, .Lfunc_end407-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame407
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame40817h09a98690daa20a9fE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame408,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame40817h09a98690daa20a9fE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame408,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame40817h09a98690daa20a9fE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame408:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -511629,7 +511629,7 @@ _ZN8badapple8badapple8frame40817h09a98690daa20a9fE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame40917h282d7d5d1067f310E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame409
 	.p2align	2
 .LCPI408_156:
 	.long	4292989476
@@ -511698,16 +511698,16 @@ _ZN8badapple8badapple8frame40817h09a98690daa20a9fE:
 .LCPI408_188:
 	.long	4293012564
 .Lfunc_end408:
-	.size	_ZN8badapple8badapple8frame40817h09a98690daa20a9fE, .Lfunc_end408-_ZN8badapple8badapple8frame40817h09a98690daa20a9fE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame408, .Lfunc_end408-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame408
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame40917h282d7d5d1067f310E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame409,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame40917h282d7d5d1067f310E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame409,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame40917h282d7d5d1067f310E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame409:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -514454,7 +514454,7 @@ _ZN8badapple8badapple8frame40917h282d7d5d1067f310E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame41017h8201db7648b226b0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame410
 	.p2align	2
 .LCPI409_130:
 	.long	4293671124
@@ -514543,16 +514543,16 @@ _ZN8badapple8badapple8frame40917h282d7d5d1067f310E:
 .LCPI409_172:
 	.long	4293703756
 .Lfunc_end409:
-	.size	_ZN8badapple8badapple8frame40917h282d7d5d1067f310E, .Lfunc_end409-_ZN8badapple8badapple8frame40917h282d7d5d1067f310E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame409, .Lfunc_end409-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame409
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame41017h8201db7648b226b0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame410,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame41017h8201db7648b226b0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame410,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame41017h8201db7648b226b0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame410:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -515658,7 +515658,7 @@ _ZN8badapple8badapple8frame41017h8201db7648b226b0E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame41117h626fef0bf0af7497E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame411
 	.p2align	2
 .LCPI410_104:
 	.long	4292973972
@@ -515763,16 +515763,16 @@ _ZN8badapple8badapple8frame41017h8201db7648b226b0E:
 .LCPI410_154:
 	.long	4293012556
 .Lfunc_end410:
-	.size	_ZN8badapple8badapple8frame41017h8201db7648b226b0E, .Lfunc_end410-_ZN8badapple8badapple8frame41017h8201db7648b226b0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame410, .Lfunc_end410-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame410
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame41117h626fef0bf0af7497E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame411,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame41117h626fef0bf0af7497E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame411,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame41117h626fef0bf0af7497E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame411:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -516098,7 +516098,7 @@ _ZN8badapple8badapple8frame41117h626fef0bf0af7497E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame41217h4421cf52428fdb5cE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame412
 	.p2align	2
 .LCPI411_0:
 	.long	4293573156
@@ -516283,16 +516283,16 @@ _ZN8badapple8badapple8frame41117h626fef0bf0af7497E:
 .LCPI411_90:
 	.long	4293695916
 .Lfunc_end411:
-	.size	_ZN8badapple8badapple8frame41117h626fef0bf0af7497E, .Lfunc_end411-_ZN8badapple8badapple8frame41117h626fef0bf0af7497E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame411, .Lfunc_end411-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame411
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame41217h4421cf52428fdb5cE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame412,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame41217h4421cf52428fdb5cE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame412,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame41217h4421cf52428fdb5cE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame412:
 	.fnstart
 	ldr	r1, .LCPI412_0
 	movs	r2, #1
@@ -516692,7 +516692,7 @@ _ZN8badapple8badapple8frame41217h4421cf52428fdb5cE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame41317hce2fee9a13b7ddecE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame413
 	.p2align	2
 .LCPI412_0:
 	.long	4292881904
@@ -516917,16 +516917,16 @@ _ZN8badapple8badapple8frame41217h4421cf52428fdb5cE:
 .LCPI412_110:
 	.long	4293012552
 .Lfunc_end412:
-	.size	_ZN8badapple8badapple8frame41217h4421cf52428fdb5cE, .Lfunc_end412-_ZN8badapple8badapple8frame41217h4421cf52428fdb5cE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame412, .Lfunc_end412-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame412
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame41317hce2fee9a13b7ddecE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame413,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame41317hce2fee9a13b7ddecE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame413,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame41317hce2fee9a13b7ddecE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame413:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -517622,7 +517622,7 @@ _ZN8badapple8badapple8frame41317hce2fee9a13b7ddecE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame41417hf55384ec95dc6c0aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame414
 	.p2align	2
 .LCPI413_35:
 	.long	4293611576
@@ -517837,16 +517837,16 @@ _ZN8badapple8badapple8frame41317hce2fee9a13b7ddecE:
 .LCPI413_140:
 	.long	4293703752
 .Lfunc_end413:
-	.size	_ZN8badapple8badapple8frame41317hce2fee9a13b7ddecE, .Lfunc_end413-_ZN8badapple8badapple8frame41317hce2fee9a13b7ddecE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame413, .Lfunc_end413-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame413
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame41417hf55384ec95dc6c0aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame414,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame41417hf55384ec95dc6c0aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame414,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame41417hf55384ec95dc6c0aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame414:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -519085,7 +519085,7 @@ _ZN8badapple8badapple8frame41417hf55384ec95dc6c0aE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame41517h53f834b102cc9463E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame415
 	.p2align	2
 .LCPI414_72:
 	.long	4292954756
@@ -519236,16 +519236,16 @@ _ZN8badapple8badapple8frame41417hf55384ec95dc6c0aE:
 .LCPI414_145:
 	.long	4293012548
 .Lfunc_end414:
-	.size	_ZN8badapple8badapple8frame41417hf55384ec95dc6c0aE, .Lfunc_end414-_ZN8badapple8badapple8frame41417hf55384ec95dc6c0aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame414, .Lfunc_end414-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame414
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame41517h53f834b102cc9463E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame415,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame41517h53f834b102cc9463E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame415,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame41517h53f834b102cc9463E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame415:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -520948,7 +520948,7 @@ _ZN8badapple8badapple8frame41517h53f834b102cc9463E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame41617h2de90e8f827436beE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame416
 	.p2align	2
 .LCPI415_94:
 	.long	4293655756
@@ -521071,16 +521071,16 @@ _ZN8badapple8badapple8frame41517h53f834b102cc9463E:
 .LCPI415_153:
 	.long	4293703744
 .Lfunc_end415:
-	.size	_ZN8badapple8badapple8frame41517h53f834b102cc9463E, .Lfunc_end415-_ZN8badapple8badapple8frame41517h53f834b102cc9463E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame415, .Lfunc_end415-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame415
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame41617h2de90e8f827436beE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame416,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame41617h2de90e8f827436beE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame416,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame41617h2de90e8f827436beE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame416:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -522679,7 +522679,7 @@ _ZN8badapple8badapple8frame41617h2de90e8f827436beE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame41717h9e5f17a4a91d89b0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame417
 	.p2align	2
 .LCPI416_90:
 	.long	4292964224
@@ -522794,16 +522794,16 @@ _ZN8badapple8badapple8frame41617h2de90e8f827436beE:
 .LCPI416_145:
 	.long	4293012416
 .Lfunc_end416:
-	.size	_ZN8badapple8badapple8frame41617h2de90e8f827436beE, .Lfunc_end416-_ZN8badapple8badapple8frame41617h2de90e8f827436beE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame416, .Lfunc_end416-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame416
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame41717h9e5f17a4a91d89b0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame417,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame41717h9e5f17a4a91d89b0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame417,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame41717h9e5f17a4a91d89b0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame417:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -523853,7 +523853,7 @@ _ZN8badapple8badapple8frame41717h9e5f17a4a91d89b0E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame41817hdd270f3453f1caeeE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame418
 	.p2align	2
 .LCPI417_81:
 	.long	4293655584
@@ -523958,16 +523958,16 @@ _ZN8badapple8badapple8frame41717h9e5f17a4a91d89b0E:
 .LCPI417_131:
 	.long	4293703736
 .Lfunc_end417:
-	.size	_ZN8badapple8badapple8frame41717h9e5f17a4a91d89b0E, .Lfunc_end417-_ZN8badapple8badapple8frame41717h9e5f17a4a91d89b0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame417, .Lfunc_end417-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame417
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame41817hdd270f3453f1caeeE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame418,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame41817hdd270f3453f1caeeE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame418,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame41817hdd270f3453f1caeeE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame418:
 	.fnstart
 	ldr	r2, .LCPI418_136
 	movs	r1, #0
@@ -524853,7 +524853,7 @@ _ZN8badapple8badapple8frame41817hdd270f3453f1caeeE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame41917h5fb1493a6fb6c909E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame419
 	.p2align	2
 .LCPI418_71:
 	.long	4292954940
@@ -524986,16 +524986,16 @@ _ZN8badapple8badapple8frame41817hdd270f3453f1caeeE:
 .LCPI418_135:
 	.long	4293012416
 .Lfunc_end418:
-	.size	_ZN8badapple8badapple8frame41817hdd270f3453f1caeeE, .Lfunc_end418-_ZN8badapple8badapple8frame41817hdd270f3453f1caeeE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame418, .Lfunc_end418-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame418
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame41917h5fb1493a6fb6c909E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame419,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame41917h5fb1493a6fb6c909E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame419,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame41917h5fb1493a6fb6c909E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame419:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -525806,7 +525806,7 @@ _ZN8badapple8badapple8frame41917h5fb1493a6fb6c909E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame42017h8297b1a7d5953c1bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame420
 	.p2align	2
 .LCPI419_55:
 	.long	4293636364
@@ -525965,16 +525965,16 @@ _ZN8badapple8badapple8frame41917h5fb1493a6fb6c909E:
 .LCPI419_132:
 	.long	4293703616
 .Lfunc_end419:
-	.size	_ZN8badapple8badapple8frame41917h5fb1493a6fb6c909E, .Lfunc_end419-_ZN8badapple8badapple8frame41917h5fb1493a6fb6c909E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame419, .Lfunc_end419-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame419
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame42017h8297b1a7d5953c1bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame420,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame42017h8297b1a7d5953c1bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame420,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame42017h8297b1a7d5953c1bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame420:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -527666,7 +527666,7 @@ _ZN8badapple8badapple8frame42017h8297b1a7d5953c1bE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame42117h71ac79ea5cb6feb4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame421
 	.p2align	2
 .LCPI420_94:
 	.long	4292968216
@@ -527757,16 +527757,16 @@ _ZN8badapple8badapple8frame42017h8297b1a7d5953c1bE:
 .LCPI420_137:
 	.long	4293012404
 .Lfunc_end420:
-	.size	_ZN8badapple8badapple8frame42017h8297b1a7d5953c1bE, .Lfunc_end420-_ZN8badapple8badapple8frame42017h8297b1a7d5953c1bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame420, .Lfunc_end420-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame420
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame42117h71ac79ea5cb6feb4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame421,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame42117h71ac79ea5cb6feb4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame421,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame42117h71ac79ea5cb6feb4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame421:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -530244,7 +530244,7 @@ _ZN8badapple8badapple8frame42117h71ac79ea5cb6feb4E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame42217h541452c0d9b2fc5dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame422
 	.p2align	2
 .LCPI421_114:
 	.long	4293663116
@@ -530347,16 +530347,16 @@ _ZN8badapple8badapple8frame42117h71ac79ea5cb6feb4E:
 .LCPI421_163:
 	.long	4293703712
 .Lfunc_end421:
-	.size	_ZN8badapple8badapple8frame42117h71ac79ea5cb6feb4E, .Lfunc_end421-_ZN8badapple8badapple8frame42117h71ac79ea5cb6feb4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame421, .Lfunc_end421-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame421
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame42217h541452c0d9b2fc5dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame422,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame42217h541452c0d9b2fc5dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame422,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame42217h541452c0d9b2fc5dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame422:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -533403,7 +533403,7 @@ _ZN8badapple8badapple8frame42217h541452c0d9b2fc5dE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame42317h47d388a88e65cea4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame423
 	.p2align	2
 .LCPI422_135:
 	.long	4292983424
@@ -533482,16 +533482,16 @@ _ZN8badapple8badapple8frame42217h541452c0d9b2fc5dE:
 .LCPI422_172:
 	.long	4293012476
 .Lfunc_end422:
-	.size	_ZN8badapple8badapple8frame42217h541452c0d9b2fc5dE, .Lfunc_end422-_ZN8badapple8badapple8frame42217h541452c0d9b2fc5dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame422, .Lfunc_end422-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame422
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame42317h47d388a88e65cea4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame423,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame42317h47d388a88e65cea4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame423,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame42317h47d388a88e65cea4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame423:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -535935,7 +535935,7 @@ _ZN8badapple8badapple8frame42317h47d388a88e65cea4E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame42417hc881dce061b922ceE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame424
 	.p2align	2
 .LCPI423_116:
 	.long	4293674748
@@ -536002,16 +536002,16 @@ _ZN8badapple8badapple8frame42317h47d388a88e65cea4E:
 .LCPI423_147:
 	.long	4293703696
 .Lfunc_end423:
-	.size	_ZN8badapple8badapple8frame42317h47d388a88e65cea4E, .Lfunc_end423-_ZN8badapple8badapple8frame42317h47d388a88e65cea4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame423, .Lfunc_end423-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame423
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame42417hc881dce061b922ceE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame424,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame42417hc881dce061b922ceE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame424,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame42417hc881dce061b922ceE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame424:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -537700,7 +537700,7 @@ _ZN8badapple8badapple8frame42417hc881dce061b922ceE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame42517he231803562c4076dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame425
 	.p2align	2
 .LCPI424_79:
 	.long	4292956612
@@ -537813,16 +537813,16 @@ _ZN8badapple8badapple8frame42417hc881dce061b922ceE:
 .LCPI424_133:
 	.long	4293012476
 .Lfunc_end424:
-	.size	_ZN8badapple8badapple8frame42417hc881dce061b922ceE, .Lfunc_end424-_ZN8badapple8badapple8frame42417hc881dce061b922ceE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame424, .Lfunc_end424-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame424
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame42517he231803562c4076dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame425,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame42517he231803562c4076dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame425,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame42517he231803562c4076dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame425:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -539853,7 +539853,7 @@ _ZN8badapple8badapple8frame42517he231803562c4076dE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame42617hf3f6716c361a9cd0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame426
 	.p2align	2
 .LCPI425_104:
 	.long	4293669016
@@ -539930,16 +539930,16 @@ _ZN8badapple8badapple8frame42517he231803562c4076dE:
 .LCPI425_140:
 	.long	4293703560
 .Lfunc_end425:
-	.size	_ZN8badapple8badapple8frame42517he231803562c4076dE, .Lfunc_end425-_ZN8badapple8badapple8frame42517he231803562c4076dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame425, .Lfunc_end425-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame425
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame42617hf3f6716c361a9cd0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame426,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame42617hf3f6716c361a9cd0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame426,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame42617hf3f6716c361a9cd0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame426:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -541195,7 +541195,7 @@ _ZN8badapple8badapple8frame42617hf3f6716c361a9cd0E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame42717h9d58dd8690ec00c6E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame427
 	.p2align	2
 .LCPI426_59:
 	.long	4292947220
@@ -541308,16 +541308,16 @@ _ZN8badapple8badapple8frame42617hf3f6716c361a9cd0E:
 .LCPI426_113:
 	.long	4293012484
 .Lfunc_end426:
-	.size	_ZN8badapple8badapple8frame42617hf3f6716c361a9cd0E, .Lfunc_end426-_ZN8badapple8badapple8frame42617hf3f6716c361a9cd0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame426, .Lfunc_end426-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame426
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame42717h9d58dd8690ec00c6E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame427,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame42717h9d58dd8690ec00c6E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame427,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame42717h9d58dd8690ec00c6E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame427:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -542518,7 +542518,7 @@ _ZN8badapple8badapple8frame42717h9d58dd8690ec00c6E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame42817h3a98f574bcc23b00E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame428
 	.p2align	2
 .LCPI427_62:
 	.long	4293649664
@@ -542629,16 +542629,16 @@ _ZN8badapple8badapple8frame42717h9d58dd8690ec00c6E:
 .LCPI427_115:
 	.long	4293703688
 .Lfunc_end427:
-	.size	_ZN8badapple8badapple8frame42717h9d58dd8690ec00c6E, .Lfunc_end427-_ZN8badapple8badapple8frame42717h9d58dd8690ec00c6E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame427, .Lfunc_end427-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame427
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame42817h3a98f574bcc23b00E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame428,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame42817h3a98f574bcc23b00E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame428,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame42817h3a98f574bcc23b00E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame428:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -543812,7 +543812,7 @@ _ZN8badapple8badapple8frame42817h3a98f574bcc23b00E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame42917hc27b9beb77c1adf7E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame429
 	.p2align	2
 .LCPI428_60:
 	.long	4292956928
@@ -543925,16 +543925,16 @@ _ZN8badapple8badapple8frame42817h3a98f574bcc23b00E:
 .LCPI428_114:
 	.long	4293012488
 .Lfunc_end428:
-	.size	_ZN8badapple8badapple8frame42817h3a98f574bcc23b00E, .Lfunc_end428-_ZN8badapple8badapple8frame42817h3a98f574bcc23b00E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame428, .Lfunc_end428-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame428
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame42917hc27b9beb77c1adf7E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame429,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame42917hc27b9beb77c1adf7E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame429,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame42917hc27b9beb77c1adf7E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame429:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -545136,7 +545136,7 @@ _ZN8badapple8badapple8frame42917hc27b9beb77c1adf7E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame43017h74eac3329979967eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame430
 	.p2align	2
 .LCPI429_64:
 	.long	4293649928
@@ -545253,16 +545253,16 @@ _ZN8badapple8badapple8frame42917hc27b9beb77c1adf7E:
 .LCPI429_120:
 	.long	4293699832
 .Lfunc_end429:
-	.size	_ZN8badapple8badapple8frame42917hc27b9beb77c1adf7E, .Lfunc_end429-_ZN8badapple8badapple8frame42917hc27b9beb77c1adf7E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame429, .Lfunc_end429-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame429
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame43017h74eac3329979967eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame430,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame43017h74eac3329979967eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame430,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame43017h74eac3329979967eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame430:
 	.fnstart
 	ldr	r2, .LCPI430_114
 	movs	r1, #0
@@ -546175,7 +546175,7 @@ _ZN8badapple8badapple8frame43017h74eac3329979967eE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame43117h6dc71ad8bbedc9d8E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame431
 	.p2align	2
 .LCPI430_57:
 	.long	4292956544
@@ -546292,16 +546292,16 @@ _ZN8badapple8badapple8frame43017h74eac3329979967eE:
 .LCPI430_113:
 	.long	4293008632
 .Lfunc_end430:
-	.size	_ZN8badapple8badapple8frame43017h74eac3329979967eE, .Lfunc_end430-_ZN8badapple8badapple8frame43017h74eac3329979967eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame430, .Lfunc_end430-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame430
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame43117h6dc71ad8bbedc9d8E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame431,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame43117h6dc71ad8bbedc9d8E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame431,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame43117h6dc71ad8bbedc9d8E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame431:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -547127,7 +547127,7 @@ _ZN8badapple8badapple8frame43117h6dc71ad8bbedc9d8E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame43217h870b61715e5da016E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame432
 	.p2align	2
 .LCPI431_45:
 	.long	4293642356
@@ -547244,16 +547244,16 @@ _ZN8badapple8badapple8frame43117h6dc71ad8bbedc9d8E:
 .LCPI431_101:
 	.long	4293703568
 .Lfunc_end431:
-	.size	_ZN8badapple8badapple8frame43117h6dc71ad8bbedc9d8E, .Lfunc_end431-_ZN8badapple8badapple8frame43117h6dc71ad8bbedc9d8E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame431, .Lfunc_end431-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame431
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame43217h870b61715e5da016E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame432,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame43217h870b61715e5da016E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame432,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame43217h870b61715e5da016E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame432:
 	.fnstart
 	ldr	r2, .LCPI432_104
 	movs	r1, #0
@@ -548133,7 +548133,7 @@ _ZN8badapple8badapple8frame43217h870b61715e5da016E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame43317h89b9e62f83948728E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame433
 	.p2align	2
 .LCPI432_52:
 	.long	4292952732
@@ -548240,16 +548240,16 @@ _ZN8badapple8badapple8frame43217h870b61715e5da016E:
 .LCPI432_103:
 	.long	4293012368
 .Lfunc_end432:
-	.size	_ZN8badapple8badapple8frame43217h870b61715e5da016E, .Lfunc_end432-_ZN8badapple8badapple8frame43217h870b61715e5da016E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame432, .Lfunc_end432-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame432
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame43317h89b9e62f83948728E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame433,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame43317h89b9e62f83948728E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame433,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame43317h89b9e62f83948728E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame433:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -549084,7 +549084,7 @@ _ZN8badapple8badapple8frame43317h89b9e62f83948728E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame43417hfbdb98c848130f5aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame434
 	.p2align	2
 .LCPI433_50:
 	.long	4293642008
@@ -549191,16 +549191,16 @@ _ZN8badapple8badapple8frame43317h89b9e62f83948728E:
 .LCPI433_101:
 	.long	4293703692
 .Lfunc_end433:
-	.size	_ZN8badapple8badapple8frame43317h89b9e62f83948728E, .Lfunc_end433-_ZN8badapple8badapple8frame43317h89b9e62f83948728E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame433, .Lfunc_end433-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame433
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame43417hfbdb98c848130f5aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame434,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame43417hfbdb98c848130f5aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame434,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame43417hfbdb98c848130f5aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame434:
 	.fnstart
 	ldr	r2, .LCPI434_108
 	movs	r1, #0
@@ -550024,7 +550024,7 @@ _ZN8badapple8badapple8frame43417hfbdb98c848130f5aE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame43517h1fac6f18c5df8ed8E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame435
 	.p2align	2
 .LCPI434_56:
 	.long	4292958480
@@ -550131,16 +550131,16 @@ _ZN8badapple8badapple8frame43417hfbdb98c848130f5aE:
 .LCPI434_107:
 	.long	4293012476
 .Lfunc_end434:
-	.size	_ZN8badapple8badapple8frame43417hfbdb98c848130f5aE, .Lfunc_end434-_ZN8badapple8badapple8frame43417hfbdb98c848130f5aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame434, .Lfunc_end434-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame434
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame43517h1fac6f18c5df8ed8E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame435,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame43517h1fac6f18c5df8ed8E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame435,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame43517h1fac6f18c5df8ed8E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame435:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -551036,7 +551036,7 @@ _ZN8badapple8badapple8frame43517h1fac6f18c5df8ed8E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame43617h8906248c4ce0815bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame436
 	.p2align	2
 .LCPI435_63:
 	.long	4293653528
@@ -551143,16 +551143,16 @@ _ZN8badapple8badapple8frame43517h1fac6f18c5df8ed8E:
 .LCPI435_114:
 	.long	4293703676
 .Lfunc_end435:
-	.size	_ZN8badapple8badapple8frame43517h1fac6f18c5df8ed8E, .Lfunc_end435-_ZN8badapple8badapple8frame43517h1fac6f18c5df8ed8E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame435, .Lfunc_end435-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame435
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame43617h8906248c4ce0815bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame436,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame43617h8906248c4ce0815bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame436,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame43617h8906248c4ce0815bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame436:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -552117,7 +552117,7 @@ _ZN8badapple8badapple8frame43617h8906248c4ce0815bE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame43717h935fe86c88c7a29fE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame437
 	.p2align	2
 .LCPI436_67:
 	.long	4292964600
@@ -552208,16 +552208,16 @@ _ZN8badapple8badapple8frame43617h8906248c4ce0815bE:
 .LCPI436_110:
 	.long	4293012500
 .Lfunc_end436:
-	.size	_ZN8badapple8badapple8frame43617h8906248c4ce0815bE, .Lfunc_end436-_ZN8badapple8badapple8frame43617h8906248c4ce0815bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame436, .Lfunc_end436-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame436
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame43717h935fe86c88c7a29fE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame437,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame43717h935fe86c88c7a29fE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame437,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame43717h935fe86c88c7a29fE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame437:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -553007,7 +553007,7 @@ _ZN8badapple8badapple8frame43717h935fe86c88c7a29fE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame43817h1e16a240f60b2fe0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame438
 	.p2align	2
 .LCPI437_57:
 	.long	4293648036
@@ -553104,16 +553104,16 @@ _ZN8badapple8badapple8frame43717h935fe86c88c7a29fE:
 .LCPI437_103:
 	.long	4293692056
 .Lfunc_end437:
-	.size	_ZN8badapple8badapple8frame43717h935fe86c88c7a29fE, .Lfunc_end437-_ZN8badapple8badapple8frame43717h935fe86c88c7a29fE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame437, .Lfunc_end437-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame437
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame43817h1e16a240f60b2fe0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame438,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame43817h1e16a240f60b2fe0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame438,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame43817h1e16a240f60b2fe0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame438:
 	.fnstart
 	ldr	r2, .LCPI438_105
 	movs	r1, #0
@@ -553631,7 +553631,7 @@ _ZN8badapple8badapple8frame43817h1e16a240f60b2fe0E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame43917h429631cbbbe435adE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame439
 	.p2align	2
 .LCPI438_1:
 	.long	4292881836
@@ -553842,16 +553842,16 @@ _ZN8badapple8badapple8frame43817h1e16a240f60b2fe0E:
 .LCPI438_104:
 	.long	4292999096
 .Lfunc_end438:
-	.size	_ZN8badapple8badapple8frame43817h1e16a240f60b2fe0E, .Lfunc_end438-_ZN8badapple8badapple8frame43817h1e16a240f60b2fe0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame438, .Lfunc_end438-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame438
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame43917h429631cbbbe435adE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame439,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame43917h429631cbbbe435adE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame439,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame43917h429631cbbbe435adE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame439:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -554373,7 +554373,7 @@ _ZN8badapple8badapple8frame43917h429631cbbbe435adE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame44017h1e95c911a6e402c6E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame440
 	.p2align	2
 .LCPI439_0:
 	.long	4293571120
@@ -554602,16 +554602,16 @@ _ZN8badapple8badapple8frame43917h429631cbbbe435adE:
 .LCPI439_112:
 	.long	4293692224
 .Lfunc_end439:
-	.size	_ZN8badapple8badapple8frame43917h429631cbbbe435adE, .Lfunc_end439-_ZN8badapple8badapple8frame43917h429631cbbbe435adE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame439, .Lfunc_end439-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame439
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame44017h1e95c911a6e402c6E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame440,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame44017h1e95c911a6e402c6E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame440,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame44017h1e95c911a6e402c6E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame440:
 	.fnstart
 	ldr	r2, .LCPI440_117
 	movs	r1, #0
@@ -555429,7 +555429,7 @@ _ZN8badapple8badapple8frame44017h1e95c911a6e402c6E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame44117h7bb409f89e404095E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame441
 	.p2align	2
 .LCPI440_54:
 	.long	4292954760
@@ -555558,16 +555558,16 @@ _ZN8badapple8badapple8frame44017h1e95c911a6e402c6E:
 .LCPI440_116:
 	.long	4293001020
 .Lfunc_end440:
-	.size	_ZN8badapple8badapple8frame44017h1e95c911a6e402c6E, .Lfunc_end440-_ZN8badapple8badapple8frame44017h1e95c911a6e402c6E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame440, .Lfunc_end440-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame440
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame44117h7bb409f89e404095E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame441,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame44117h7bb409f89e404095E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame441,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame44117h7bb409f89e404095E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame441:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -556305,7 +556305,7 @@ _ZN8badapple8badapple8frame44117h7bb409f89e404095E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame44217h0835908eaed34c8aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame442
 	.p2align	2
 .LCPI441_45:
 	.long	4293642260
@@ -556430,16 +556430,16 @@ _ZN8badapple8badapple8frame44117h7bb409f89e404095E:
 .LCPI441_105:
 	.long	4293694152
 .Lfunc_end441:
-	.size	_ZN8badapple8badapple8frame44117h7bb409f89e404095E, .Lfunc_end441-_ZN8badapple8badapple8frame44117h7bb409f89e404095E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame441, .Lfunc_end441-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame441
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame44217h0835908eaed34c8aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame442,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame44217h0835908eaed34c8aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame442,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame44217h0835908eaed34c8aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame442:
 	.fnstart
 	ldr	r2, .LCPI442_109
 	movs	r1, #0
@@ -557180,7 +557180,7 @@ _ZN8badapple8badapple8frame44217h0835908eaed34c8aE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame44317hcceac484882bfe69E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame443
 	.p2align	2
 .LCPI442_47:
 	.long	4292954920
@@ -557307,16 +557307,16 @@ _ZN8badapple8badapple8frame44217h0835908eaed34c8aE:
 .LCPI442_108:
 	.long	4293002948
 .Lfunc_end442:
-	.size	_ZN8badapple8badapple8frame44217h0835908eaed34c8aE, .Lfunc_end442-_ZN8badapple8badapple8frame44217h0835908eaed34c8aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame442, .Lfunc_end442-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame442
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame44317hcceac484882bfe69E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame443,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame44317hcceac484882bfe69E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame443,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame44317hcceac484882bfe69E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame443:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -558211,7 +558211,7 @@ _ZN8badapple8badapple8frame44317hcceac484882bfe69E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame44417h5cb12683fb66890fE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame444
 	.p2align	2
 .LCPI443_59:
 	.long	4293649800
@@ -558338,16 +558338,16 @@ _ZN8badapple8badapple8frame44317hcceac484882bfe69E:
 .LCPI443_120:
 	.long	4293694144
 .Lfunc_end443:
-	.size	_ZN8badapple8badapple8frame44317hcceac484882bfe69E, .Lfunc_end443-_ZN8badapple8badapple8frame44317hcceac484882bfe69E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame443, .Lfunc_end443-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame443
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame44417h5cb12683fb66890fE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame444,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame44417h5cb12683fb66890fE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame444,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame44417h5cb12683fb66890fE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame444:
 	.fnstart
 	ldr	r2, .LCPI444_121
 	movs	r1, #0
@@ -559169,7 +559169,7 @@ _ZN8badapple8badapple8frame44417h5cb12683fb66890fE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame44517hc5b1c016e41dcaebE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame445
 	.p2align	2
 .LCPI444_54:
 	.long	4292954768
@@ -559306,16 +559306,16 @@ _ZN8badapple8badapple8frame44417h5cb12683fb66890fE:
 .LCPI444_120:
 	.long	4293004600
 .Lfunc_end444:
-	.size	_ZN8badapple8badapple8frame44417h5cb12683fb66890fE, .Lfunc_end444-_ZN8badapple8badapple8frame44417h5cb12683fb66890fE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame444, .Lfunc_end444-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame444
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame44517hc5b1c016e41dcaebE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame445,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame44517hc5b1c016e41dcaebE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame445,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame44517hc5b1c016e41dcaebE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame445:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -559797,7 +559797,7 @@ _ZN8badapple8badapple8frame44517hc5b1c016e41dcaebE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame44617h655ee98ad0dc1d96E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame446
 	.p2align	2
 .LCPI445_0:
 	.long	4293567276
@@ -560012,16 +560012,16 @@ _ZN8badapple8badapple8frame44517hc5b1c016e41dcaebE:
 .LCPI445_105:
 	.long	4293696068
 .Lfunc_end445:
-	.size	_ZN8badapple8badapple8frame44517hc5b1c016e41dcaebE, .Lfunc_end445-_ZN8badapple8badapple8frame44517hc5b1c016e41dcaebE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame445, .Lfunc_end445-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame445
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame44617h655ee98ad0dc1d96E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame446,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame44617h655ee98ad0dc1d96E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame446,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame44617h655ee98ad0dc1d96E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame446:
 	.fnstart
 	ldr	r2, .LCPI446_0
 	movs	r1, #0
@@ -560390,7 +560390,7 @@ _ZN8badapple8badapple8frame44617h655ee98ad0dc1d96E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame44717ha9cc8d0e932df4d9E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame447
 	.p2align	2
 .LCPI446_0:
 	.long	4292876072
@@ -560593,16 +560593,16 @@ _ZN8badapple8badapple8frame44617h655ee98ad0dc1d96E:
 .LCPI446_99:
 	.long	4293006528
 .Lfunc_end446:
-	.size	_ZN8badapple8badapple8frame44617h655ee98ad0dc1d96E, .Lfunc_end446-_ZN8badapple8badapple8frame44617h655ee98ad0dc1d96E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame446, .Lfunc_end446-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame446
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame44717ha9cc8d0e932df4d9E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame447,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame44717ha9cc8d0e932df4d9E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame447,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame44717ha9cc8d0e932df4d9E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame447:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -560980,7 +560980,7 @@ _ZN8badapple8badapple8frame44717ha9cc8d0e932df4d9E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame44817h649b42ef06048ca9E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame448
 	.p2align	2
 .LCPI447_0:
 	.long	4293567272
@@ -561181,16 +561181,16 @@ _ZN8badapple8badapple8frame44717ha9cc8d0e932df4d9E:
 .LCPI447_98:
 	.long	4293697716
 .Lfunc_end447:
-	.size	_ZN8badapple8badapple8frame44717ha9cc8d0e932df4d9E, .Lfunc_end447-_ZN8badapple8badapple8frame44717ha9cc8d0e932df4d9E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame447, .Lfunc_end447-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame447
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame44817h649b42ef06048ca9E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame448,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame44817h649b42ef06048ca9E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame448,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame44817h649b42ef06048ca9E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame448:
 	.fnstart
 	ldr	r1, .LCPI448_0
 	movs	r2, #1
@@ -561686,7 +561686,7 @@ _ZN8badapple8badapple8frame44817h649b42ef06048ca9E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame44917h1b358235367d93cdE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame449
 	.p2align	2
 .LCPI448_0:
 	.long	4292876072
@@ -561889,16 +561889,16 @@ _ZN8badapple8badapple8frame44817h649b42ef06048ca9E:
 .LCPI448_99:
 	.long	4293006528
 .Lfunc_end448:
-	.size	_ZN8badapple8badapple8frame44817h649b42ef06048ca9E, .Lfunc_end448-_ZN8badapple8badapple8frame44817h649b42ef06048ca9E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame448, .Lfunc_end448-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame448
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame44917h1b358235367d93cdE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame449,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame44917h1b358235367d93cdE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame449,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame44917h1b358235367d93cdE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame449:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -563007,7 +563007,7 @@ _ZN8badapple8badapple8frame44917h1b358235367d93cdE:
 .LBB449_105:
 	str	r2, [r1, #36]
 	ldr	r0, [r1, #48]
-	bl	_ZN8badapple8badapple8frame45017haf793cb4ca472b5bE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame450
 	.p2align	2
 .LCPI449_99:
 	.long	4293678488
@@ -563060,16 +563060,16 @@ _ZN8badapple8badapple8frame44917h1b358235367d93cdE:
 .LCPI449_123:
 	.long	4293699732
 .Lfunc_end449:
-	.size	_ZN8badapple8badapple8frame44917h1b358235367d93cdE, .Lfunc_end449-_ZN8badapple8badapple8frame44917h1b358235367d93cdE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame449, .Lfunc_end449-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame449
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame45017haf793cb4ca472b5bE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame450,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame45017haf793cb4ca472b5bE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame450,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame45017haf793cb4ca472b5bE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame450:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -565041,7 +565041,7 @@ _ZN8badapple8badapple8frame45017haf793cb4ca472b5bE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame45117h72b4a9773dcca733E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame451
 	.p2align	2
 .LCPI450_114:
 	.long	4292966540
@@ -565150,16 +565150,16 @@ _ZN8badapple8badapple8frame45017haf793cb4ca472b5bE:
 .LCPI450_166:
 	.long	4293012368
 .Lfunc_end450:
-	.size	_ZN8badapple8badapple8frame45017haf793cb4ca472b5bE, .Lfunc_end450-_ZN8badapple8badapple8frame45017haf793cb4ca472b5bE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame450, .Lfunc_end450-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame450
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame45117h72b4a9773dcca733E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame451,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame45117h72b4a9773dcca733E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame451,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame45117h72b4a9773dcca733E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame451:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -572375,7 +572375,7 @@ _ZN8badapple8badapple8frame45117h72b4a9773dcca733E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame45217hc34b433358aeccbdE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame452
 	.p2align	2
 .LCPI451_268:
 	.long	4293695744
@@ -572418,16 +572418,16 @@ _ZN8badapple8badapple8frame45117h72b4a9773dcca733E:
 .LCPI451_287:
 	.long	4293703808
 .Lfunc_end451:
-	.size	_ZN8badapple8badapple8frame45117h72b4a9773dcca733E, .Lfunc_end451-_ZN8badapple8badapple8frame45117h72b4a9773dcca733E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame451, .Lfunc_end451-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame451
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame45217hc34b433358aeccbdE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame452,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame45217hc34b433358aeccbdE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame452,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame45217hc34b433358aeccbdE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame452:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -580616,7 +580616,7 @@ _ZN8badapple8badapple8frame45217hc34b433358aeccbdE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame45317hdb2e659153800f1dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame453
 	.p2align	2
 .LCPI452_277:
 	.long	4293004544
@@ -580659,16 +580659,16 @@ _ZN8badapple8badapple8frame45217hc34b433358aeccbdE:
 .LCPI452_296:
 	.long	4293012608
 .Lfunc_end452:
-	.size	_ZN8badapple8badapple8frame45217hc34b433358aeccbdE, .Lfunc_end452-_ZN8badapple8badapple8frame45217hc34b433358aeccbdE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame452, .Lfunc_end452-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame452
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame45317hdb2e659153800f1dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame453,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame45317hdb2e659153800f1dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame453,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame45317hdb2e659153800f1dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame453:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -581773,7 +581773,7 @@ _ZN8badapple8badapple8frame45317hdb2e659153800f1dE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame45417h7c4d9ccaebe58224E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame454
 	.p2align	2
 .LCPI453_91:
 	.long	4293646080
@@ -581894,16 +581894,16 @@ _ZN8badapple8badapple8frame45317hdb2e659153800f1dE:
 .LCPI453_149:
 	.long	4293701648
 .Lfunc_end453:
-	.size	_ZN8badapple8badapple8frame45317hdb2e659153800f1dE, .Lfunc_end453-_ZN8badapple8badapple8frame45317hdb2e659153800f1dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame453, .Lfunc_end453-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame453
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame45417h7c4d9ccaebe58224E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame454,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame45417h7c4d9ccaebe58224E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame454,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame45417h7c4d9ccaebe58224E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame454:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -583262,7 +583262,7 @@ _ZN8badapple8badapple8frame45417h7c4d9ccaebe58224E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame45517h91260fa352a7ce10E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame455
 	.p2align	2
 .LCPI454_83:
 	.long	4292943244
@@ -583429,16 +583429,16 @@ _ZN8badapple8badapple8frame45417h7c4d9ccaebe58224E:
 .LCPI454_164:
 	.long	4293010684
 .Lfunc_end454:
-	.size	_ZN8badapple8badapple8frame45417h7c4d9ccaebe58224E, .Lfunc_end454-_ZN8badapple8badapple8frame45417h7c4d9ccaebe58224E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame454, .Lfunc_end454-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame454
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame45517h91260fa352a7ce10E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame455,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame45517h91260fa352a7ce10E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame455,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame45517h91260fa352a7ce10E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame455:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -585222,7 +585222,7 @@ _ZN8badapple8badapple8frame45517h91260fa352a7ce10E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame45617h22f2769992a6953eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame456
 	.p2align	2
 .LCPI455_124:
 	.long	4293669136
@@ -585319,16 +585319,16 @@ _ZN8badapple8badapple8frame45517h91260fa352a7ce10E:
 .LCPI455_170:
 	.long	4293703748
 .Lfunc_end455:
-	.size	_ZN8badapple8badapple8frame45517h91260fa352a7ce10E, .Lfunc_end455-_ZN8badapple8badapple8frame45517h91260fa352a7ce10E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame455, .Lfunc_end455-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame455
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame45617h22f2769992a6953eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame456,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame45617h22f2769992a6953eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame456,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame45617h22f2769992a6953eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame456:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -587362,7 +587362,7 @@ _ZN8badapple8badapple8frame45617h22f2769992a6953eE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame45717he5e4c0179d737cb6E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame457
 	.p2align	2
 .LCPI456_112:
 	.long	4292956816
@@ -587513,16 +587513,16 @@ _ZN8badapple8badapple8frame45617h22f2769992a6953eE:
 .LCPI456_185:
 	.long	4293012544
 .Lfunc_end456:
-	.size	_ZN8badapple8badapple8frame45617h22f2769992a6953eE, .Lfunc_end456-_ZN8badapple8badapple8frame45617h22f2769992a6953eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame456, .Lfunc_end456-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame456
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame45717he5e4c0179d737cb6E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame457,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame45717he5e4c0179d737cb6E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame457,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame45717he5e4c0179d737cb6E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame457:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -589584,7 +589584,7 @@ _ZN8badapple8badapple8frame45717he5e4c0179d737cb6E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame45817h399c811f70ac59a4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame458
 	.p2align	2
 .LCPI457_105:
 	.long	4293642040
@@ -589739,16 +589739,16 @@ _ZN8badapple8badapple8frame45717he5e4c0179d737cb6E:
 .LCPI457_180:
 	.long	4293703744
 .Lfunc_end457:
-	.size	_ZN8badapple8badapple8frame45717he5e4c0179d737cb6E, .Lfunc_end457-_ZN8badapple8badapple8frame45717he5e4c0179d737cb6E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame457, .Lfunc_end457-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame457
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame45817h399c811f70ac59a4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame458,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame45817h399c811f70ac59a4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame458,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame45817h399c811f70ac59a4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame458:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -592096,7 +592096,7 @@ _ZN8badapple8badapple8frame45817h399c811f70ac59a4E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame45917h3aca027c8b96925eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame459
 	.p2align	2
 .LCPI458_120:
 	.long	4292960664
@@ -592229,16 +592229,16 @@ _ZN8badapple8badapple8frame45817h399c811f70ac59a4E:
 .LCPI458_184:
 	.long	4293012484
 .Lfunc_end458:
-	.size	_ZN8badapple8badapple8frame45817h399c811f70ac59a4E, .Lfunc_end458-_ZN8badapple8badapple8frame45817h399c811f70ac59a4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame458, .Lfunc_end458-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame458
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame45917h3aca027c8b96925eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame459,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame45917h3aca027c8b96925eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame459,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame45917h3aca027c8b96925eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame459:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -594855,7 +594855,7 @@ _ZN8badapple8badapple8frame45917h3aca027c8b96925eE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame46017h56b3addf3b4bf540E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame460
 	.p2align	2
 .LCPI459_134:
 	.long	4293665112
@@ -594988,16 +594988,16 @@ _ZN8badapple8badapple8frame45917h3aca027c8b96925eE:
 .LCPI459_198:
 	.long	4293703684
 .Lfunc_end459:
-	.size	_ZN8badapple8badapple8frame45917h3aca027c8b96925eE, .Lfunc_end459-_ZN8badapple8badapple8frame45917h3aca027c8b96925eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame459, .Lfunc_end459-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame459
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame46017h56b3addf3b4bf540E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame460,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame46017h56b3addf3b4bf540E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame460,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame46017h56b3addf3b4bf540E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame460:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -597353,7 +597353,7 @@ _ZN8badapple8badapple8frame46017h56b3addf3b4bf540E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame46117h139b35f39f7e07b7E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame461
 	.p2align	2
 .LCPI460_113:
 	.long	4292970060
@@ -597462,16 +597462,16 @@ _ZN8badapple8badapple8frame46017h56b3addf3b4bf540E:
 .LCPI460_165:
 	.long	4293012488
 .Lfunc_end460:
-	.size	_ZN8badapple8badapple8frame46017h56b3addf3b4bf540E, .Lfunc_end460-_ZN8badapple8badapple8frame46017h56b3addf3b4bf540E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame460, .Lfunc_end460-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame460
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame46117h139b35f39f7e07b7E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame461,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame46117h139b35f39f7e07b7E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame461,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame46117h139b35f39f7e07b7E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame461:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -599820,7 +599820,7 @@ _ZN8badapple8badapple8frame46117h139b35f39f7e07b7E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame46217ha9c494a8f1b5473aE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame462
 	.p2align	2
 .LCPI461_111:
 	.long	4293667000
@@ -599903,16 +599903,16 @@ _ZN8badapple8badapple8frame46117h139b35f39f7e07b7E:
 .LCPI461_150:
 	.long	4293703692
 .Lfunc_end461:
-	.size	_ZN8badapple8badapple8frame46117h139b35f39f7e07b7E, .Lfunc_end461-_ZN8badapple8badapple8frame46117h139b35f39f7e07b7E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame461, .Lfunc_end461-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame461
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame46217ha9c494a8f1b5473aE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame462,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame46217ha9c494a8f1b5473aE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame462,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame46217ha9c494a8f1b5473aE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame462:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -602444,7 +602444,7 @@ _ZN8badapple8badapple8frame46217ha9c494a8f1b5473aE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame46317h7cca747997514d68E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame463
 	.p2align	2
 .LCPI462_130:
 	.long	4292976068
@@ -602525,16 +602525,16 @@ _ZN8badapple8badapple8frame46217ha9c494a8f1b5473aE:
 .LCPI462_168:
 	.long	4293012504
 .Lfunc_end462:
-	.size	_ZN8badapple8badapple8frame46217ha9c494a8f1b5473aE, .Lfunc_end462-_ZN8badapple8badapple8frame46217ha9c494a8f1b5473aE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame462, .Lfunc_end462-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame462
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame46317h7cca747997514d68E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame463,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame46317h7cca747997514d68E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame463,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame46317h7cca747997514d68E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame463:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -604975,7 +604975,7 @@ _ZN8badapple8badapple8frame46317h7cca747997514d68E:
 .LBB463_126:
 	str	r2, [r1, #36]
 	ldr	r0, [r1, #48]
-	bl	_ZN8badapple8badapple8frame46417hddfa2dc757575e58E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame464
 	.p2align	2
 .LCPI463_118:
 	.long	4293670792
@@ -605050,16 +605050,16 @@ _ZN8badapple8badapple8frame46317h7cca747997514d68E:
 .LCPI463_153:
 	.long	4293703712
 .Lfunc_end463:
-	.size	_ZN8badapple8badapple8frame46317h7cca747997514d68E, .Lfunc_end463-_ZN8badapple8badapple8frame46317h7cca747997514d68E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame463, .Lfunc_end463-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame463
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame46417hddfa2dc757575e58E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame464,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame46417hddfa2dc757575e58E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame464,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame46417hddfa2dc757575e58E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame464:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -607165,7 +607165,7 @@ _ZN8badapple8badapple8frame46417hddfa2dc757575e58E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame46517h0aeec553ac91a463E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame465
 	.p2align	2
 .LCPI464_106:
 	.long	4292971904
@@ -607256,16 +607256,16 @@ _ZN8badapple8badapple8frame46417hddfa2dc757575e58E:
 .LCPI464_149:
 	.long	4293012524
 .Lfunc_end464:
-	.size	_ZN8badapple8badapple8frame46417hddfa2dc757575e58E, .Lfunc_end464-_ZN8badapple8badapple8frame46417hddfa2dc757575e58E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame464, .Lfunc_end464-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame464
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame46517h0aeec553ac91a463E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame465,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame46517h0aeec553ac91a463E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame465,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame46517h0aeec553ac91a463E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame465:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -608637,7 +608637,7 @@ _ZN8badapple8badapple8frame46517h0aeec553ac91a463E:
 .LBB465_84:
 	str	r2, [r1, #36]
 	ldr	r0, [r1, #48]
-	bl	_ZN8badapple8badapple8frame46617h8cfe4b5780e33302E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame466
 	.p2align	2
 .LCPI465_77:
 	.long	4293634432
@@ -608772,16 +608772,16 @@ _ZN8badapple8badapple8frame46517h0aeec553ac91a463E:
 .LCPI465_142:
 	.long	4293703744
 .Lfunc_end465:
-	.size	_ZN8badapple8badapple8frame46517h0aeec553ac91a463E, .Lfunc_end465-_ZN8badapple8badapple8frame46517h0aeec553ac91a463E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame465, .Lfunc_end465-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame465
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame46617h8cfe4b5780e33302E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame466,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame46617h8cfe4b5780e33302E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame466,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame46617h8cfe4b5780e33302E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame466:
 	.fnstart
 	ldr	r2, .LCPI466_56
 	movs	r1, #1
@@ -609543,7 +609543,7 @@ _ZN8badapple8badapple8frame46617h8cfe4b5780e33302E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame46717h4f5b5a50d18f3ce8E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame467
 	.p2align	2
 .LCPI466_25:
 	.long	4292941568
@@ -609608,16 +609608,16 @@ _ZN8badapple8badapple8frame46617h8cfe4b5780e33302E:
 .LCPI466_55:
 	.long	4293012568
 .Lfunc_end466:
-	.size	_ZN8badapple8badapple8frame46617h8cfe4b5780e33302E, .Lfunc_end466-_ZN8badapple8badapple8frame46617h8cfe4b5780e33302E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame466, .Lfunc_end466-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame466
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame46717h4f5b5a50d18f3ce8E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame467,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame46717h4f5b5a50d18f3ce8E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame467,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame46717h4f5b5a50d18f3ce8E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame467:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -610370,7 +610370,7 @@ _ZN8badapple8badapple8frame46717h4f5b5a50d18f3ce8E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame46817h99af9489ee4a6fc3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame468
 	.p2align	2
 .LCPI467_12:
 	.long	4293632384
@@ -610425,16 +610425,16 @@ _ZN8badapple8badapple8frame46717h4f5b5a50d18f3ce8E:
 .LCPI467_37:
 	.long	4293703784
 .Lfunc_end467:
-	.size	_ZN8badapple8badapple8frame46717h4f5b5a50d18f3ce8E, .Lfunc_end467-_ZN8badapple8badapple8frame46717h4f5b5a50d18f3ce8E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame467, .Lfunc_end467-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame467
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame46817h99af9489ee4a6fc3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame468,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame46817h99af9489ee4a6fc3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame468,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame46817h99af9489ee4a6fc3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame468:
 	.fnstart
 	movs	r1, #195
 	mvns	r1, r1
@@ -611125,7 +611125,7 @@ _ZN8badapple8badapple8frame46817h99af9489ee4a6fc3E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame46917hb866626c339547eeE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame469
 	.p2align	2
 .LCPI468_11:
 	.long	4292937628
@@ -611196,16 +611196,16 @@ _ZN8badapple8badapple8frame46817h99af9489ee4a6fc3E:
 .LCPI468_44:
 	.long	4293012228
 .Lfunc_end468:
-	.size	_ZN8badapple8badapple8frame46817h99af9489ee4a6fc3E, .Lfunc_end468-_ZN8badapple8badapple8frame46817h99af9489ee4a6fc3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame468, .Lfunc_end468-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame468
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame46917hb866626c339547eeE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame469,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame46917hb866626c339547eeE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame469,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame46917hb866626c339547eeE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame469:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -612133,7 +612133,7 @@ _ZN8badapple8badapple8frame46917hb866626c339547eeE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame47017h89a234b1bad596e3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame470
 	.p2align	2
 .LCPI469_25:
 	.long	4293634576
@@ -612226,16 +612226,16 @@ _ZN8badapple8badapple8frame46917hb866626c339547eeE:
 .LCPI469_69:
 	.long	4293703808
 .Lfunc_end469:
-	.size	_ZN8badapple8badapple8frame46917hb866626c339547eeE, .Lfunc_end469-_ZN8badapple8badapple8frame46917hb866626c339547eeE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame469, .Lfunc_end469-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame469
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame47017h89a234b1bad596e3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame470,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame47017h89a234b1bad596e3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame470,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame47017h89a234b1bad596e3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame470:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -613612,7 +613612,7 @@ _ZN8badapple8badapple8frame47017h89a234b1bad596e3E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame47117h15d3c754d33bd8dfE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame471
 	.p2align	2
 .LCPI470_54:
 	.long	4292974152
@@ -613677,16 +613677,16 @@ _ZN8badapple8badapple8frame47017h89a234b1bad596e3E:
 .LCPI470_84:
 	.long	4293012508
 .Lfunc_end470:
-	.size	_ZN8badapple8badapple8frame47017h89a234b1bad596e3E, .Lfunc_end470-_ZN8badapple8badapple8frame47017h89a234b1bad596e3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame470, .Lfunc_end470-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame470
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame47117h15d3c754d33bd8dfE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame471,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame47117h15d3c754d33bd8dfE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame471,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame47117h15d3c754d33bd8dfE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame471:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -615512,7 +615512,7 @@ _ZN8badapple8badapple8frame47117h15d3c754d33bd8dfE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame47217h34c9570554ae05b3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame472
 	.p2align	2
 .LCPI471_68:
 	.long	4293674824
@@ -615575,16 +615575,16 @@ _ZN8badapple8badapple8frame47117h15d3c754d33bd8dfE:
 .LCPI471_97:
 	.long	4293703756
 .Lfunc_end471:
-	.size	_ZN8badapple8badapple8frame47117h15d3c754d33bd8dfE, .Lfunc_end471-_ZN8badapple8badapple8frame47117h15d3c754d33bd8dfE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame471, .Lfunc_end471-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame471
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame47217h34c9570554ae05b3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame472,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame47217h34c9570554ae05b3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame472,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame47217h34c9570554ae05b3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame472:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -617672,7 +617672,7 @@ _ZN8badapple8badapple8frame47217h34c9570554ae05b3E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame47317hdda826cca67828d0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame473
 	.p2align	2
 .LCPI472_80:
 	.long	4292993244
@@ -617719,16 +617719,16 @@ _ZN8badapple8badapple8frame47217h34c9570554ae05b3E:
 .LCPI472_101:
 	.long	4293012552
 .Lfunc_end472:
-	.size	_ZN8badapple8badapple8frame47217h34c9570554ae05b3E, .Lfunc_end472-_ZN8badapple8badapple8frame47217h34c9570554ae05b3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame472, .Lfunc_end472-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame472
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame47317hdda826cca67828d0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame473,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame47317hdda826cca67828d0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame473,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame47317hdda826cca67828d0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame473:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -619628,7 +619628,7 @@ _ZN8badapple8badapple8frame47317hdda826cca67828d0E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame47417hd686de7b134d9027E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame474
 	.p2align	2
 .LCPI473_95:
 	.long	4293676876
@@ -619689,16 +619689,16 @@ _ZN8badapple8badapple8frame47317hdda826cca67828d0E:
 .LCPI473_123:
 	.long	4293703744
 .Lfunc_end473:
-	.size	_ZN8badapple8badapple8frame47317hdda826cca67828d0E, .Lfunc_end473-_ZN8badapple8badapple8frame47317hdda826cca67828d0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame473, .Lfunc_end473-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame473
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame47417hd686de7b134d9027E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame474,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame47417hd686de7b134d9027E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame474,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame47417hd686de7b134d9027E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame474:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -621542,7 +621542,7 @@ _ZN8badapple8badapple8frame47417hd686de7b134d9027E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame47517hc5bec5ce4ff5b754E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame475
 	.p2align	2
 .LCPI474_85:
 	.long	4292977664
@@ -621623,16 +621623,16 @@ _ZN8badapple8badapple8frame47417hd686de7b134d9027E:
 .LCPI474_123:
 	.long	4293012540
 .Lfunc_end474:
-	.size	_ZN8badapple8badapple8frame47417hd686de7b134d9027E, .Lfunc_end474-_ZN8badapple8badapple8frame47417hd686de7b134d9027E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame474, .Lfunc_end474-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame474
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame47517hc5bec5ce4ff5b754E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame475,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame47517hc5bec5ce4ff5b754E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame475,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame47517hc5bec5ce4ff5b754E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame475:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -623417,7 +623417,7 @@ _ZN8badapple8badapple8frame47517hc5bec5ce4ff5b754E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame47617h5ce54745f6498399E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame476
 	.p2align	2
 .LCPI475_76:
 	.long	4293661360
@@ -623510,16 +623510,16 @@ _ZN8badapple8badapple8frame47517hc5bec5ce4ff5b754E:
 .LCPI475_120:
 	.long	4293703724
 .Lfunc_end475:
-	.size	_ZN8badapple8badapple8frame47517hc5bec5ce4ff5b754E, .Lfunc_end475-_ZN8badapple8badapple8frame47517hc5bec5ce4ff5b754E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame475, .Lfunc_end475-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame475
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame47617h5ce54745f6498399E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame476,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame47617h5ce54745f6498399E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame476,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame47617h5ce54745f6498399E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame476:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -625069,7 +625069,7 @@ _ZN8badapple8badapple8frame47617h5ce54745f6498399E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame47717ha2ccc4ab0b4bbaaeE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame477
 	.p2align	2
 .LCPI476_71:
 	.long	4292966436
@@ -625168,16 +625168,16 @@ _ZN8badapple8badapple8frame47617h5ce54745f6498399E:
 .LCPI476_118:
 	.long	4293012512
 .Lfunc_end476:
-	.size	_ZN8badapple8badapple8frame47617h5ce54745f6498399E, .Lfunc_end476-_ZN8badapple8badapple8frame47617h5ce54745f6498399E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame476, .Lfunc_end476-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame476
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame47717ha2ccc4ab0b4bbaaeE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame477,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame47717ha2ccc4ab0b4bbaaeE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame477,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame47717ha2ccc4ab0b4bbaaeE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame477:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -626318,7 +626318,7 @@ _ZN8badapple8badapple8frame47717ha2ccc4ab0b4bbaaeE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame47817h87f78c3575cc835cE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame478
 	.p2align	2
 .LCPI477_52:
 	.long	4293642012
@@ -626435,16 +626435,16 @@ _ZN8badapple8badapple8frame47717ha2ccc4ab0b4bbaaeE:
 .LCPI477_108:
 	.long	4293703708
 .Lfunc_end477:
-	.size	_ZN8badapple8badapple8frame47717ha2ccc4ab0b4bbaaeE, .Lfunc_end477-_ZN8badapple8badapple8frame47717ha2ccc4ab0b4bbaaeE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame477, .Lfunc_end477-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame477
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame47817h87f78c3575cc835cE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame478,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame47817h87f78c3575cc835cE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame478,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame47817h87f78c3575cc835cE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame478:
 	.fnstart
 	ldr	r3, .LCPI478_0
 	movs	r2, #1
@@ -626788,7 +626788,7 @@ _ZN8badapple8badapple8frame47817h87f78c3575cc835cE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame47917hdca982806f90d376E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame479
 	.p2align	2
 .LCPI478_0:
 	.long	4292870336
@@ -626947,16 +626947,16 @@ _ZN8badapple8badapple8frame47817h87f78c3575cc835cE:
 .LCPI478_77:
 	.long	4293012380
 .Lfunc_end478:
-	.size	_ZN8badapple8badapple8frame47817h87f78c3575cc835cE, .Lfunc_end478-_ZN8badapple8badapple8frame47817h87f78c3575cc835cE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame478, .Lfunc_end478-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame478
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame47917hdca982806f90d376E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame479,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame47917hdca982806f90d376E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame479,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame47917hdca982806f90d376E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame479:
 	.fnstart
 	.pad	#8
 	sub	sp, #8
@@ -627489,7 +627489,7 @@ _ZN8badapple8badapple8frame47917hdca982806f90d376E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame48017hf89bec3395d20076E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame480
 	.p2align	2
 .LCPI479_0:
 	.long	4293561532
@@ -627678,16 +627678,16 @@ _ZN8badapple8badapple8frame47917hdca982806f90d376E:
 .LCPI479_92:
 	.long	4293703624
 .Lfunc_end479:
-	.size	_ZN8badapple8badapple8frame47917hdca982806f90d376E, .Lfunc_end479-_ZN8badapple8badapple8frame47917hdca982806f90d376E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame479, .Lfunc_end479-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame479
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame48017hf89bec3395d20076E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame480,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame48017hf89bec3395d20076E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame480,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame48017hf89bec3395d20076E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame480:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -629390,7 +629390,7 @@ _ZN8badapple8badapple8frame48017hf89bec3395d20076E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame48117hf4af272eaa4374e0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame481
 	.p2align	2
 .LCPI480_89:
 	.long	4292971904
@@ -629453,16 +629453,16 @@ _ZN8badapple8badapple8frame48017hf89bec3395d20076E:
 .LCPI480_118:
 	.long	4293012376
 .Lfunc_end480:
-	.size	_ZN8badapple8badapple8frame48017hf89bec3395d20076E, .Lfunc_end480-_ZN8badapple8badapple8frame48017hf89bec3395d20076E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame480, .Lfunc_end480-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame480
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame48117hf4af272eaa4374e0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame481,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame48117hf4af272eaa4374e0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame481,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame48117hf4af272eaa4374e0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame481:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -631408,7 +631408,7 @@ _ZN8badapple8badapple8frame48117hf4af272eaa4374e0E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame48217h3329e671b62d4f89E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame482
 	.p2align	2
 .LCPI481_90:
 	.long	4293667192
@@ -631473,16 +631473,16 @@ _ZN8badapple8badapple8frame48117hf4af272eaa4374e0E:
 .LCPI481_120:
 	.long	4293703572
 .Lfunc_end481:
-	.size	_ZN8badapple8badapple8frame48117hf4af272eaa4374e0E, .Lfunc_end481-_ZN8badapple8badapple8frame48117hf4af272eaa4374e0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame481, .Lfunc_end481-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame481
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame48217h3329e671b62d4f89E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame482,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame48217h3329e671b62d4f89E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame482,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame48217h3329e671b62d4f89E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame482:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -633337,7 +633337,7 @@ _ZN8badapple8badapple8frame48217h3329e671b62d4f89E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame48317h1965265aeb37ecc9E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame483
 	.p2align	2
 .LCPI482_88:
 	.long	4292964432
@@ -633410,16 +633410,16 @@ _ZN8badapple8badapple8frame48217h3329e671b62d4f89E:
 .LCPI482_122:
 	.long	4293012372
 .Lfunc_end482:
-	.size	_ZN8badapple8badapple8frame48217h3329e671b62d4f89E, .Lfunc_end482-_ZN8badapple8badapple8frame48217h3329e671b62d4f89E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame482, .Lfunc_end482-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame482
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame48317h1965265aeb37ecc9E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame483,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame48317h1965265aeb37ecc9E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame483,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame48317h1965265aeb37ecc9E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame483:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -635235,7 +635235,7 @@ _ZN8badapple8badapple8frame48317h1965265aeb37ecc9E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame48417h12dfe2430ab5464cE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame484
 	.p2align	2
 .LCPI483_92:
 	.long	4293642028
@@ -635330,16 +635330,16 @@ _ZN8badapple8badapple8frame48317h1965265aeb37ecc9E:
 .LCPI483_137:
 	.long	4293703584
 .Lfunc_end483:
-	.size	_ZN8badapple8badapple8frame48317h1965265aeb37ecc9E, .Lfunc_end483-_ZN8badapple8badapple8frame48317h1965265aeb37ecc9E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame483, .Lfunc_end483-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame483
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame48417h12dfe2430ab5464cE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame484,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame48417h12dfe2430ab5464cE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame484,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame48417h12dfe2430ab5464cE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame484:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -636516,7 +636516,7 @@ _ZN8badapple8badapple8frame48417h12dfe2430ab5464cE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame48517hd67500f503664d87E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame485
 	.p2align	2
 .LCPI484_68:
 	.long	4292941224
@@ -636631,16 +636631,16 @@ _ZN8badapple8badapple8frame48417h12dfe2430ab5464cE:
 .LCPI484_123:
 	.long	4293012420
 .Lfunc_end484:
-	.size	_ZN8badapple8badapple8frame48417h12dfe2430ab5464cE, .Lfunc_end484-_ZN8badapple8badapple8frame48417h12dfe2430ab5464cE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame484, .Lfunc_end484-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame484
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame48517hd67500f503664d87E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame485,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame48517hd67500f503664d87E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame485,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame48517hd67500f503664d87E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame485:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -637723,7 +637723,7 @@ _ZN8badapple8badapple8frame48517hd67500f503664d87E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame48617he231eea0869c61beE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame486
 	.p2align	2
 .LCPI485_66:
 	.long	4293632588
@@ -637830,16 +637830,16 @@ _ZN8badapple8badapple8frame48517hd67500f503664d87E:
 .LCPI485_117:
 	.long	4293703632
 .Lfunc_end485:
-	.size	_ZN8badapple8badapple8frame48517hd67500f503664d87E, .Lfunc_end485-_ZN8badapple8badapple8frame48517hd67500f503664d87E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame485, .Lfunc_end485-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame485
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame48617he231eea0869c61beE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame486,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame48617he231eea0869c61beE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame486,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame48617he231eea0869c61beE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame486:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -639546,7 +639546,7 @@ _ZN8badapple8badapple8frame48617he231eea0869c61beE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame48717h35c40de11e7586a4E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame487
 	.p2align	2
 .LCPI486_91:
 	.long	4292962592
@@ -639651,16 +639651,16 @@ _ZN8badapple8badapple8frame48617he231eea0869c61beE:
 .LCPI486_141:
 	.long	4293012420
 .Lfunc_end486:
-	.size	_ZN8badapple8badapple8frame48617he231eea0869c61beE, .Lfunc_end486-_ZN8badapple8badapple8frame48617he231eea0869c61beE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame486, .Lfunc_end486-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame486
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame48717h35c40de11e7586a4E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame487,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame48717h35c40de11e7586a4E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame487,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame48717h35c40de11e7586a4E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame487:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -640964,7 +640964,7 @@ _ZN8badapple8badapple8frame48717h35c40de11e7586a4E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame48817h83704c1c610079aeE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame488
 	.p2align	2
 .LCPI487_67:
 	.long	4293649936
@@ -641083,16 +641083,16 @@ _ZN8badapple8badapple8frame48717h35c40de11e7586a4E:
 .LCPI487_124:
 	.long	4293703624
 .Lfunc_end487:
-	.size	_ZN8badapple8badapple8frame48717h35c40de11e7586a4E, .Lfunc_end487-_ZN8badapple8badapple8frame48717h35c40de11e7586a4E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame487, .Lfunc_end487-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame487
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame48817h83704c1c610079aeE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame488,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame48817h83704c1c610079aeE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame488,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame48817h83704c1c610079aeE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame488:
 	.fnstart
 	ldr	r3, .LCPI488_105
 	movs	r2, #1
@@ -641971,7 +641971,7 @@ _ZN8badapple8badapple8frame48817h83704c1c610079aeE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame48917hbcec0e1357bf7bd1E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame489
 	.p2align	2
 .LCPI488_41:
 	.long	4292941260
@@ -642102,16 +642102,16 @@ _ZN8badapple8badapple8frame48817h83704c1c610079aeE:
 .LCPI488_104:
 	.long	4293006624
 .Lfunc_end488:
-	.size	_ZN8badapple8badapple8frame48817h83704c1c610079aeE, .Lfunc_end488-_ZN8badapple8badapple8frame48817h83704c1c610079aeE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame488, .Lfunc_end488-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame488
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame48917hbcec0e1357bf7bd1E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame489,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame48917hbcec0e1357bf7bd1E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame489,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame48917hbcec0e1357bf7bd1E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame489:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -643110,7 +643110,7 @@ _ZN8badapple8badapple8frame48917hbcec0e1357bf7bd1E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame49017h16f852ca3ee7b313E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame490
 	.p2align	2
 .LCPI489_51:
 	.long	4293638300
@@ -643239,16 +643239,16 @@ _ZN8badapple8badapple8frame48917hbcec0e1357bf7bd1E:
 .LCPI489_113:
 	.long	4293699800
 .Lfunc_end489:
-	.size	_ZN8badapple8badapple8frame48917hbcec0e1357bf7bd1E, .Lfunc_end489-_ZN8badapple8badapple8frame48917hbcec0e1357bf7bd1E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame489, .Lfunc_end489-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame489
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame49017h16f852ca3ee7b313E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame490,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame49017h16f852ca3ee7b313E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame490,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame49017h16f852ca3ee7b313E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame490:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -644284,7 +644284,7 @@ _ZN8badapple8badapple8frame49017h16f852ca3ee7b313E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame49117h67a0b15b8b0f52d7E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame491
 	.p2align	2
 .LCPI490_50:
 	.long	4292931784
@@ -644429,16 +644429,16 @@ _ZN8badapple8badapple8frame49017h16f852ca3ee7b313E:
 .LCPI490_120:
 	.long	4293008600
 .Lfunc_end490:
-	.size	_ZN8badapple8badapple8frame49017h16f852ca3ee7b313E, .Lfunc_end490-_ZN8badapple8badapple8frame49017h16f852ca3ee7b313E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame490, .Lfunc_end490-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame490
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame49117h67a0b15b8b0f52d7E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame491,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame49117h67a0b15b8b0f52d7E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame491,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame49117h67a0b15b8b0f52d7E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame491:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -645620,7 +645620,7 @@ _ZN8badapple8badapple8frame49117h67a0b15b8b0f52d7E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame49217hb68cd94b6ff3464dE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame492
 	.p2align	2
 .LCPI491_58:
 	.long	4293632456
@@ -645777,16 +645777,16 @@ _ZN8badapple8badapple8frame49117h67a0b15b8b0f52d7E:
 .LCPI491_134:
 	.long	4293699912
 .Lfunc_end491:
-	.size	_ZN8badapple8badapple8frame49117h67a0b15b8b0f52d7E, .Lfunc_end491-_ZN8badapple8badapple8frame49117h67a0b15b8b0f52d7E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame491, .Lfunc_end491-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame491
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame49217hb68cd94b6ff3464dE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame492,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame49217hb68cd94b6ff3464dE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame492,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame49217hb68cd94b6ff3464dE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame492:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -646729,7 +646729,7 @@ _ZN8badapple8badapple8frame49217hb68cd94b6ff3464dE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame49317h00491b613735114cE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame493
 	.p2align	2
 .LCPI492_49:
 	.long	4292922372
@@ -646870,16 +646870,16 @@ _ZN8badapple8badapple8frame49217hb68cd94b6ff3464dE:
 .LCPI492_117:
 	.long	4293010452
 .Lfunc_end492:
-	.size	_ZN8badapple8badapple8frame49217hb68cd94b6ff3464dE, .Lfunc_end492-_ZN8badapple8badapple8frame49217hb68cd94b6ff3464dE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame492, .Lfunc_end492-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame492
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame49317h00491b613735114cE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame493,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame49317h00491b613735114cE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame493,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame49317h00491b613735114cE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame493:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -648118,7 +648118,7 @@ _ZN8badapple8badapple8frame49317h00491b613735114cE:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame49417h70da4bec66b3f1e8E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame494
 	.p2align	2
 .LCPI493_60:
 	.long	4293626824
@@ -648263,16 +648263,16 @@ _ZN8badapple8badapple8frame49317h00491b613735114cE:
 .LCPI493_130:
 	.long	4293699732
 .Lfunc_end493:
-	.size	_ZN8badapple8badapple8frame49317h00491b613735114cE, .Lfunc_end493-_ZN8badapple8badapple8frame49317h00491b613735114cE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame493, .Lfunc_end493-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame493
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame49417h70da4bec66b3f1e8E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame494,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame49417h70da4bec66b3f1e8E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame494,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame49417h70da4bec66b3f1e8E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame494:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -649710,7 +649710,7 @@ _ZN8badapple8badapple8frame49417h70da4bec66b3f1e8E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame49517hd07fa68ff5ae7207E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame495
 	.p2align	2
 .LCPI494_83:
 	.long	4292958500
@@ -649797,16 +649797,16 @@ _ZN8badapple8badapple8frame49417h70da4bec66b3f1e8E:
 .LCPI494_124:
 	.long	4293012384
 .Lfunc_end494:
-	.size	_ZN8badapple8badapple8frame49417h70da4bec66b3f1e8E, .Lfunc_end494-_ZN8badapple8badapple8frame49417h70da4bec66b3f1e8E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame494, .Lfunc_end494-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame494
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame49517hd07fa68ff5ae7207E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame495,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame49517hd07fa68ff5ae7207E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame495,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame49517hd07fa68ff5ae7207E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame495:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -651707,7 +651707,7 @@ _ZN8badapple8badapple8frame49517hd07fa68ff5ae7207E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame49617hd9f37b029a0286e3E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame496
 	.p2align	2
 .LCPI495_106:
 	.long	4293661416
@@ -651790,16 +651790,16 @@ _ZN8badapple8badapple8frame49517hd07fa68ff5ae7207E:
 .LCPI495_145:
 	.long	4293703572
 .Lfunc_end495:
-	.size	_ZN8badapple8badapple8frame49517hd07fa68ff5ae7207E, .Lfunc_end495-_ZN8badapple8badapple8frame49517hd07fa68ff5ae7207E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame495, .Lfunc_end495-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame495
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame49617hd9f37b029a0286e3E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame496,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame49617hd9f37b029a0286e3E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame496,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame49617hd9f37b029a0286e3E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame496:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -653652,7 +653652,7 @@ _ZN8badapple8badapple8frame49617hd9f37b029a0286e3E:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame49717hc5789dadb80a0911E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame497
 	.p2align	2
 .LCPI496_107:
 	.long	4292974048
@@ -653727,16 +653727,16 @@ _ZN8badapple8badapple8frame49617hd9f37b029a0286e3E:
 .LCPI496_142:
 	.long	4293012356
 .Lfunc_end496:
-	.size	_ZN8badapple8badapple8frame49617hd9f37b029a0286e3E, .Lfunc_end496-_ZN8badapple8badapple8frame49617hd9f37b029a0286e3E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame496, .Lfunc_end496-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame496
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame49717hc5789dadb80a0911E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame497,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame49717hc5789dadb80a0911E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame497,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame49717hc5789dadb80a0911E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame497:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -655665,7 +655665,7 @@ _ZN8badapple8badapple8frame49717hc5789dadb80a0911E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame49817hd0da822427e39a7eE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame498
 	.p2align	2
 .LCPI497_116:
 	.long	4293665252
@@ -655750,16 +655750,16 @@ _ZN8badapple8badapple8frame49717hc5789dadb80a0911E:
 .LCPI497_156:
 	.long	4293703684
 .Lfunc_end497:
-	.size	_ZN8badapple8badapple8frame49717hc5789dadb80a0911E, .Lfunc_end497-_ZN8badapple8badapple8frame49717hc5789dadb80a0911E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame497, .Lfunc_end497-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame497
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame49817hd0da822427e39a7eE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame498,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame49817hd0da822427e39a7eE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame498,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame49817hd0da822427e39a7eE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame498:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -657234,7 +657234,7 @@ _ZN8badapple8badapple8frame49817hd0da822427e39a7eE:
 	subs	r0, #12
 	str	r1, [r0]
 	ldr	r0, [r2]
-	bl	_ZN8badapple8badapple8frame49917h43a75a0340f74bf0E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame499
 	.p2align	2
 .LCPI498_86:
 	.long	4292962560
@@ -657335,16 +657335,16 @@ _ZN8badapple8badapple8frame49817hd0da822427e39a7eE:
 .LCPI498_134:
 	.long	4293012480
 .Lfunc_end498:
-	.size	_ZN8badapple8badapple8frame49817hd0da822427e39a7eE, .Lfunc_end498-_ZN8badapple8badapple8frame49817hd0da822427e39a7eE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame498, .Lfunc_end498-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame498
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame49917h43a75a0340f74bf0E,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame499,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame49917h43a75a0340f74bf0E,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame499,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame49917h43a75a0340f74bf0E:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame499:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -658866,7 +658866,7 @@ _ZN8badapple8badapple8frame49917h43a75a0340f74bf0E:
 	subs	r0, #12
 	str	r2, [r0]
 	ldr	r0, [r1]
-	bl	_ZN8badapple8badapple8frame50017h1d10fb8e12ca10ebE
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame500
 	.p2align	2
 .LCPI499_87:
 	.long	4293659292
@@ -658957,16 +658957,16 @@ _ZN8badapple8badapple8frame49917h43a75a0340f74bf0E:
 .LCPI499_130:
 	.long	4293703448
 .Lfunc_end499:
-	.size	_ZN8badapple8badapple8frame49917h43a75a0340f74bf0E, .Lfunc_end499-_ZN8badapple8badapple8frame49917h43a75a0340f74bf0E
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame499, .Lfunc_end499-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame499
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN8badapple8badapple8frame50017h1d10fb8e12ca10ebE,"ax",%progbits
+	.section	.text._RNvNtCsahxqgaXFSyD_8badapple8badapple8frame500,"ax",%progbits
 	.p2align	2
-	.type	_ZN8badapple8badapple8frame50017h1d10fb8e12ca10ebE,%function
+	.type	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame500,%function
 	.code	16
 	.thumb_func
-_ZN8badapple8badapple8frame50017h1d10fb8e12ca10ebE:
+_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame500:
 	.fnstart
 	.save	{lr}
 	push	{lr}
@@ -660405,7 +660405,7 @@ _ZN8badapple8badapple8frame50017h1d10fb8e12ca10ebE:
 .LCPI500_129:
 	.long	4293012488
 .Lfunc_end500:
-	.size	_ZN8badapple8badapple8frame50017h1d10fb8e12ca10ebE, .Lfunc_end500-_ZN8badapple8badapple8frame50017h1d10fb8e12ca10ebE
+	.size	_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame500, .Lfunc_end500-_RNvNtCsahxqgaXFSyD_8badapple8badapple8frame500
 	.cantunwind
 	.fnend
 
@@ -660444,18 +660444,41 @@ main:
 	str	r1, [r0]
 	movs	r1, #10
 	str	r1, [r0]
-	bl	_ZN8badapple8badapple6frame017h4adf6b925bcec135E
+	bl	_RNvNtCsahxqgaXFSyD_8badapple8badapple6frame0
 .Lfunc_end501:
 	.size	main, .Lfunc_end501-main
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN4core3fmt5write17ha8b4780ab1cafcb0E,"ax",%progbits
-	.p2align	2
-	.type	_ZN4core3fmt5write17ha8b4780ab1cafcb0E,%function
+	.section	.text.unlikely._RNvNtCsc6P1BMjYAM_4core9panicking9panic_fmt,"ax",%progbits
+	.p2align	1
+	.type	_RNvNtCsc6P1BMjYAM_4core9panicking9panic_fmt,%function
 	.code	16
 	.thumb_func
-_ZN4core3fmt5write17ha8b4780ab1cafcb0E:
+_RNvNtCsc6P1BMjYAM_4core9panicking9panic_fmt:
+	.fnstart
+	.pad	#24
+	sub	sp, #24
+	str	r1, [sp, #8]
+	str	r0, [sp, #4]
+	add	r0, sp, #12
+	movs	r1, #1
+	strh	r1, [r0, #8]
+	str	r2, [sp, #16]
+	add	r1, sp, #4
+	str	r1, [sp, #12]
+	bl	_RNvCs6aZZ1a95nPm_7___rustc17rust_begin_unwind
+.Lfunc_end502:
+	.size	_RNvNtCsc6P1BMjYAM_4core9panicking9panic_fmt, .Lfunc_end502-_RNvNtCsc6P1BMjYAM_4core9panicking9panic_fmt
+	.cantunwind
+	.fnend
+
+	.section	.text._RNvNtCsc6P1BMjYAM_4core3fmt5write,"ax",%progbits
+	.p2align	2
+	.type	_RNvNtCsc6P1BMjYAM_4core3fmt5write,%function
+	.code	16
+	.thumb_func
+_RNvNtCsc6P1BMjYAM_4core3fmt5write:
 	.fnstart
 	.save	{r4, r5, r6, r7, lr}
 	push	{r4, r5, r6, r7, lr}
@@ -660464,16 +660487,16 @@ _ZN4core3fmt5write17ha8b4780ab1cafcb0E:
 	mov	r5, r2
 	mov	r6, r0
 	lsls	r0, r3, #31
-	beq	.LBB502_1
-	b	.LBB502_28
-.LBB502_1:
+	beq	.LBB503_1
+	b	.LBB503_28
+.LBB503_1:
 	str	r1, [sp, #4]
 	str	r3, [sp, #8]
 	ldrb	r4, [r5]
 	cmp	r4, #0
-	bne	.LBB502_2
-	b	.LBB502_29
-.LBB502_2:
+	bne	.LBB503_2
+	b	.LBB503_29
+.LBB503_2:
 	ldr	r0, [sp, #4]
 	ldr	r0, [r0, #12]
 	str	r0, [sp, #16]
@@ -660481,36 +660504,36 @@ _ZN4core3fmt5write17ha8b4780ab1cafcb0E:
 	str	r0, [sp, #12]
 	movs	r0, #1
 	str	r0, [sp]
-	b	.LBB502_4
-.LBB502_3:
+	b	.LBB503_4
+.LBB503_3:
 	ldrb	r4, [r5]
 	cmp	r4, #0
-	bne	.LBB502_4
-	b	.LBB502_29
-.LBB502_4:
+	bne	.LBB503_4
+	b	.LBB503_29
+.LBB503_4:
 	adds	r7, r5, #1
 	sxtb	r0, r4
 	cmp	r0, #0
-	bmi	.LBB502_7
+	bmi	.LBB503_7
 	mov	r0, r6
 	mov	r1, r7
 	mov	r2, r4
 	ldr	r3, [sp, #16]
 	blx	r3
 	cmp	r0, #0
-	beq	.LBB502_6
-	b	.LBB502_30
-.LBB502_6:
+	beq	.LBB503_6
+	b	.LBB503_30
+.LBB503_6:
 	adds	r5, r7, r4
-	b	.LBB502_3
-.LBB502_7:
+	b	.LBB503_3
+.LBB503_7:
 	cmp	r4, #128
-	beq	.LBB502_11
+	beq	.LBB503_11
 	cmp	r4, #192
-	bne	.LBB502_13
+	bne	.LBB503_13
 	movs	r0, #0
 	str	r0, [sp, #32]
-	ldr	r0, .LCPI502_0
+	ldr	r0, .LCPI503_0
 	str	r0, [sp, #28]
 	ldr	r0, [sp, #4]
 	str	r0, [sp, #24]
@@ -660524,12 +660547,12 @@ _ZN4core3fmt5write17ha8b4780ab1cafcb0E:
 	add	r1, sp, #20
 	blx	r2
 	cmp	r0, #0
-	bne	.LBB502_30
+	bne	.LBB503_30
 	adds	r4, r4, #1
 	str	r4, [sp, #12]
 	mov	r5, r7
-	b	.LBB502_3
-.LBB502_11:
+	b	.LBB503_3
+.LBB503_11:
 	ldrb	r0, [r7]
 	ldrb	r1, [r7, #1]
 	lsls	r1, r1, #8
@@ -660541,26 +660564,26 @@ _ZN4core3fmt5write17ha8b4780ab1cafcb0E:
 	ldr	r3, [sp, #16]
 	blx	r3
 	cmp	r0, #0
-	bne	.LBB502_30
+	bne	.LBB503_30
 	adds	r5, r5, r4
-	b	.LBB502_3
-.LBB502_13:
+	b	.LBB503_3
+.LBB503_13:
 	lsls	r0, r4, #31
-	bne	.LBB502_16
-	ldr	r0, .LCPI502_0
+	bne	.LBB503_16
+	ldr	r0, .LCPI503_0
 	movs	r2, #0
 	lsls	r1, r4, #30
-	bpl	.LBB502_17
-.LBB502_15:
+	bpl	.LBB503_17
+.LBB503_15:
 	ldrb	r1, [r7]
 	ldrb	r3, [r7, #1]
 	lsls	r3, r3, #8
 	adds	r3, r3, r1
 	adds	r7, r7, #2
 	lsls	r1, r4, #29
-	bmi	.LBB502_18
-	b	.LBB502_19
-.LBB502_16:
+	bmi	.LBB503_18
+	b	.LBB503_19
+.LBB503_16:
 	ldrb	r0, [r7]
 	ldrb	r1, [r7, #1]
 	lsls	r1, r1, #8
@@ -660574,25 +660597,25 @@ _ZN4core3fmt5write17ha8b4780ab1cafcb0E:
 	adds	r7, r7, #4
 	movs	r2, #0
 	lsls	r1, r4, #30
-	bmi	.LBB502_15
-.LBB502_17:
+	bmi	.LBB503_15
+.LBB503_17:
 	mov	r3, r2
 	lsls	r1, r4, #29
-	bpl	.LBB502_19
-.LBB502_18:
+	bpl	.LBB503_19
+.LBB503_18:
 	ldrb	r1, [r7]
 	ldrb	r2, [r7, #1]
 	lsls	r2, r2, #8
 	adds	r2, r2, r1
 	adds	r7, r7, #2
-.LBB502_19:
+.LBB503_19:
 	lsls	r1, r4, #28
-	bmi	.LBB502_21
+	bmi	.LBB503_21
 	mov	r5, r7
 	lsls	r1, r4, #27
-	bmi	.LBB502_22
-	b	.LBB502_23
-.LBB502_21:
+	bmi	.LBB503_22
+	b	.LBB503_23
+.LBB503_21:
 	ldrb	r1, [r7]
 	ldrb	r5, [r7, #1]
 	lsls	r5, r5, #8
@@ -660600,23 +660623,23 @@ _ZN4core3fmt5write17ha8b4780ab1cafcb0E:
 	str	r1, [sp, #12]
 	adds	r5, r7, #2
 	lsls	r1, r4, #27
-	bpl	.LBB502_23
-.LBB502_22:
+	bpl	.LBB503_23
+.LBB503_22:
 	lsls	r1, r3, #3
 	ldr	r3, [sp, #8]
 	adds	r1, r3, r1
 	ldrh	r3, [r1, #4]
-.LBB502_23:
+.LBB503_23:
 	lsls	r1, r4, #26
-	bmi	.LBB502_25
+	bmi	.LBB503_25
 	ldr	r4, [sp, #8]
-	b	.LBB502_26
-.LBB502_25:
+	b	.LBB503_26
+.LBB503_25:
 	lsls	r1, r2, #3
 	ldr	r4, [sp, #8]
 	adds	r1, r4, r1
 	ldrh	r2, [r1, #4]
-.LBB502_26:
+.LBB503_26:
 	add	r1, sp, #20
 	strh	r2, [r1, #14]
 	strh	r3, [r1, #12]
@@ -660631,11 +660654,11 @@ _ZN4core3fmt5write17ha8b4780ab1cafcb0E:
 	ldr	r2, [r2, #4]
 	blx	r2
 	cmp	r0, #0
-	bne	.LBB502_30
+	bne	.LBB503_30
 	adds	r7, r7, #1
 	str	r7, [sp, #12]
-	b	.LBB502_3
-.LBB502_28:
+	b	.LBB503_3
+.LBB503_28:
 	ldr	r4, [r1, #12]
 	lsrs	r2, r3, #1
 	mov	r0, r6
@@ -660643,47 +660666,47 @@ _ZN4core3fmt5write17ha8b4780ab1cafcb0E:
 	blx	r4
 	add	sp, #36
 	pop	{r4, r5, r6, r7, pc}
-.LBB502_29:
+.LBB503_29:
 	movs	r0, #0
 	add	sp, #36
 	pop	{r4, r5, r6, r7, pc}
-.LBB502_30:
+.LBB503_30:
 	ldr	r0, [sp]
 	add	sp, #36
 	pop	{r4, r5, r6, r7, pc}
 	.p2align	2
-.LCPI502_0:
+.LCPI503_0:
 	.long	1610612768
-.Lfunc_end502:
-	.size	_ZN4core3fmt5write17ha8b4780ab1cafcb0E, .Lfunc_end502-_ZN4core3fmt5write17ha8b4780ab1cafcb0E
+.Lfunc_end503:
+	.size	_RNvNtCsc6P1BMjYAM_4core3fmt5write, .Lfunc_end503-_RNvNtCsc6P1BMjYAM_4core3fmt5write
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN4core3fmt9Formatter12pad_integral17h1f543ea066342a93E,"ax",%progbits
+	.section	.text._RNvMsa_NtCsc6P1BMjYAM_4core3fmtNtB5_9Formatter12pad_integral,"ax",%progbits
 	.p2align	2
-	.type	_ZN4core3fmt9Formatter12pad_integral17h1f543ea066342a93E,%function
+	.type	_RNvMsa_NtCsc6P1BMjYAM_4core3fmtNtB5_9Formatter12pad_integral,%function
 	.code	16
 	.thumb_func
-_ZN4core3fmt9Formatter12pad_integral17h1f543ea066342a93E:
+_RNvMsa_NtCsc6P1BMjYAM_4core3fmtNtB5_9Formatter12pad_integral:
 	.fnstart
 	.save	{r4, r5, r6, r7, lr}
 	push	{r4, r5, r6, r7, lr}
 	.pad	#28
 	sub	sp, #28
 	mov	r6, r0
-	ldr	r0, .LCPI503_0
+	ldr	r0, .LCPI504_0
 	str	r0, [sp, #24]
 	adds	r4, r0, #1
 	ldr	r0, [r6, #8]
 	ands	r4, r0
 	str	r1, [sp, #12]
-	beq	.LBB503_2
+	beq	.LBB504_2
 	movs	r1, #43
-	b	.LBB503_3
-.LBB503_2:
+	b	.LBB504_3
+.LBB504_2:
 	movs	r3, #17
 	lsls	r1, r3, #16
-.LBB503_3:
+.LBB504_3:
 	str	r1, [sp, #16]
 	movs	r7, #1
 	lsls	r3, r7, #23
@@ -660693,11 +660716,11 @@ _ZN4core3fmt9Formatter12pad_integral17h1f543ea066342a93E:
 	adds	r4, r1, r2
 	ldrh	r5, [r6, #12]
 	cmp	r4, r5
-	bhs	.LBB503_8
+	bhs	.LBB504_8
 	lsls	r1, r0, #7
 	str	r7, [sp, #8]
 	str	r2, [sp, #4]
-	bmi	.LBB503_11
+	bmi	.LBB504_11
 	ldr	r1, [sp, #24]
 	ands	r1, r0
 	str	r1, [sp, #24]
@@ -660710,43 +660733,43 @@ _ZN4core3fmt9Formatter12pad_integral17h1f543ea066342a93E:
 	add	r0, pc
 	ldrb	r0, [r0, #4]
 	lsls	r0, r0, #1
-.LCPI503_3:
+.LCPI504_3:
 	add	pc, r0
 	.p2align	2
-.LJTI503_0:
-	.byte	(.LBB503_18-(.LCPI503_3+4))/2
-	.byte	(.LBB503_7-(.LCPI503_3+4))/2
-	.byte	(.LBB503_17-(.LCPI503_3+4))/2
-	.byte	(.LBB503_7-(.LCPI503_3+4))/2
+.LJTI504_0:
+	.byte	(.LBB504_18-(.LCPI504_3+4))/2
+	.byte	(.LBB504_7-(.LCPI504_3+4))/2
+	.byte	(.LBB504_17-(.LCPI504_3+4))/2
+	.byte	(.LBB504_7-(.LCPI504_3+4))/2
 	.p2align	1
-.LBB503_7:
+.LBB504_7:
 	str	r5, [sp, #20]
-	b	.LBB503_18
-.LBB503_8:
+	b	.LBB504_18
+.LBB504_8:
 	mov	r4, r2
 	ldm	r6, {r5, r6}
 	mov	r0, r5
 	mov	r1, r6
 	ldr	r2, [sp, #16]
-	bl	_ZN4core3fmt9Formatter12pad_integral12write_prefix17h95396058438df0b5E
+	bl	_RNvNvMsa_NtCsc6P1BMjYAM_4core3fmtNtB7_9Formatter12pad_integral12write_prefix
 	cmp	r0, #0
-	bne	.LBB503_10
+	bne	.LBB504_10
 	ldr	r3, [r6, #12]
 	mov	r0, r5
 	ldr	r1, [sp, #12]
 	mov	r2, r4
 	blx	r3
 	mov	r7, r0
-.LBB503_10:
+.LBB504_10:
 	mov	r0, r7
 	add	sp, #28
 	pop	{r4, r5, r6, r7, pc}
-.LBB503_11:
+.LBB504_11:
 	ldr	r1, [r6, #8]
-	ldr	r0, .LCPI503_1
+	ldr	r0, .LCPI504_1
 	str	r1, [sp, #20]
 	ands	r0, r1
-	ldr	r1, .LCPI503_2
+	ldr	r1, .LCPI504_2
 	adds	r0, r0, r1
 	str	r0, [r6, #8]
 	ldr	r0, [r6, #12]
@@ -660756,25 +660779,25 @@ _ZN4core3fmt9Formatter12pad_integral17h1f543ea066342a93E:
 	mov	r1, r7
 	ldr	r2, [sp, #16]
 	subs	r6, #8
-	bl	_ZN4core3fmt9Formatter12pad_integral12write_prefix17h95396058438df0b5E
+	bl	_RNvNvMsa_NtCsc6P1BMjYAM_4core3fmtNtB7_9Formatter12pad_integral12write_prefix
 	cmp	r0, #0
-	bne	.LBB503_26
+	bne	.LBB504_26
 	subs	r0, r5, r4
 	movs	r4, #0
 	uxth	r5, r0
-.LBB503_13:
+.LBB504_13:
 	uxth	r0, r4
 	cmp	r0, r5
-	bhs	.LBB503_15
+	bhs	.LBB504_15
 	ldr	r2, [r7, #16]
 	movs	r1, #48
 	ldr	r0, [sp, #24]
 	blx	r2
 	adds	r4, r4, #1
 	cmp	r0, #0
-	beq	.LBB503_13
-	b	.LBB503_26
-.LBB503_15:
+	beq	.LBB504_13
+	b	.LBB504_26
+.LBB504_15:
 	ldr	r3, [r7, #12]
 	ldr	r0, [sp, #24]
 	ldr	r1, [sp, #12]
@@ -660782,7 +660805,7 @@ _ZN4core3fmt9Formatter12pad_integral17h1f543ea066342a93E:
 	blx	r3
 	cmp	r0, #0
 	ldr	r7, [sp, #8]
-	bne	.LBB503_10
+	bne	.LBB504_10
 	ldr	r0, [sp, #20]
 	str	r0, [r6, #8]
 	ldr	r0, [sp]
@@ -660791,21 +660814,21 @@ _ZN4core3fmt9Formatter12pad_integral17h1f543ea066342a93E:
 	mov	r0, r7
 	add	sp, #28
 	pop	{r4, r5, r6, r7, pc}
-.LBB503_17:
+.LBB504_17:
 	uxth	r0, r5
 	lsrs	r0, r0, #1
 	str	r0, [sp, #20]
-.LBB503_18:
+.LBB504_18:
 	str	r5, [sp]
 	mov	r0, r6
 	ldr	r6, [r6]
 	ldr	r7, [r0, #4]
-.LBB503_19:
+.LBB504_19:
 	ldr	r0, [sp, #20]
 	uxth	r0, r0
 	uxth	r1, r4
 	cmp	r1, r0
-	bhs	.LBB503_21
+	bhs	.LBB504_21
 	ldr	r2, [r7, #16]
 	mov	r0, r6
 	ldr	r1, [sp, #24]
@@ -660814,69 +660837,69 @@ _ZN4core3fmt9Formatter12pad_integral17h1f543ea066342a93E:
 	mov	r3, r5
 	adds	r4, r4, #1
 	cmp	r0, #0
-	beq	.LBB503_19
-	b	.LBB503_26
-.LBB503_21:
+	beq	.LBB504_19
+	b	.LBB504_26
+.LBB504_21:
 	mov	r5, r6
 	mov	r0, r6
 	mov	r6, r7
 	mov	r1, r7
 	ldr	r2, [sp, #16]
-	bl	_ZN4core3fmt9Formatter12pad_integral12write_prefix17h95396058438df0b5E
+	bl	_RNvNvMsa_NtCsc6P1BMjYAM_4core3fmtNtB7_9Formatter12pad_integral12write_prefix
 	cmp	r0, #0
-	bne	.LBB503_26
+	bne	.LBB504_26
 	ldr	r3, [r6, #12]
 	mov	r0, r5
 	ldr	r1, [sp, #12]
 	ldr	r2, [sp, #4]
 	blx	r3
 	cmp	r0, #0
-	bne	.LBB503_26
+	bne	.LBB504_26
 	ldr	r0, [sp]
 	ldr	r1, [sp, #20]
 	subs	r0, r0, r1
 	movs	r4, #0
 	uxth	r7, r0
 	str	r4, [sp, #20]
-.LBB503_24:
+.LBB504_24:
 	uxth	r0, r4
 	cmp	r0, r7
-	bhs	.LBB503_27
+	bhs	.LBB504_27
 	ldr	r2, [r6, #16]
 	mov	r0, r5
 	ldr	r1, [sp, #24]
 	blx	r2
 	adds	r4, r4, #1
 	cmp	r0, #0
-	beq	.LBB503_24
-.LBB503_26:
+	beq	.LBB504_24
+.LBB504_26:
 	ldr	r7, [sp, #8]
 	mov	r0, r7
 	add	sp, #28
 	pop	{r4, r5, r6, r7, pc}
-.LBB503_27:
+.LBB504_27:
 	ldr	r7, [sp, #20]
 	mov	r0, r7
 	add	sp, #28
 	pop	{r4, r5, r6, r7, pc}
 	.p2align	2
-.LCPI503_0:
+.LCPI504_0:
 	.long	2097151
-.LCPI503_1:
+.LCPI504_1:
 	.long	2682257408
-.LCPI503_2:
+.LCPI504_2:
 	.long	536870960
-.Lfunc_end503:
-	.size	_ZN4core3fmt9Formatter12pad_integral17h1f543ea066342a93E, .Lfunc_end503-_ZN4core3fmt9Formatter12pad_integral17h1f543ea066342a93E
+.Lfunc_end504:
+	.size	_RNvMsa_NtCsc6P1BMjYAM_4core3fmtNtB5_9Formatter12pad_integral, .Lfunc_end504-_RNvMsa_NtCsc6P1BMjYAM_4core3fmtNtB5_9Formatter12pad_integral
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN4core3fmt9Formatter12pad_integral12write_prefix17h95396058438df0b5E,"ax",%progbits
+	.section	.text._RNvNvMsa_NtCsc6P1BMjYAM_4core3fmtNtB7_9Formatter12pad_integral12write_prefix,"ax",%progbits
 	.p2align	1
-	.type	_ZN4core3fmt9Formatter12pad_integral12write_prefix17h95396058438df0b5E,%function
+	.type	_RNvNvMsa_NtCsc6P1BMjYAM_4core3fmtNtB7_9Formatter12pad_integral12write_prefix,%function
 	.code	16
 	.thumb_func
-_ZN4core3fmt9Formatter12pad_integral12write_prefix17h95396058438df0b5E:
+_RNvNvMsa_NtCsc6P1BMjYAM_4core3fmtNtB7_9Formatter12pad_integral12write_prefix:
 	.fnstart
 	.save	{r4, r5, r6, lr}
 	push	{r4, r5, r6, lr}
@@ -660885,7 +660908,7 @@ _ZN4core3fmt9Formatter12pad_integral12write_prefix17h95396058438df0b5E:
 	movs	r1, #17
 	lsls	r1, r1, #16
 	cmp	r2, r1
-	beq	.LBB504_3
+	beq	.LBB505_3
 	ldr	r3, [r5, #16]
 	mov	r6, r0
 	mov	r1, r2
@@ -660893,54 +660916,31 @@ _ZN4core3fmt9Formatter12pad_integral12write_prefix17h95396058438df0b5E:
 	mov	r1, r0
 	mov	r0, r6
 	cmp	r1, #0
-	beq	.LBB504_3
+	beq	.LBB505_3
 	movs	r0, #1
 	pop	{r4, r5, r6, pc}
-.LBB504_3:
+.LBB505_3:
 	cmp	r4, #0
-	beq	.LBB504_5
+	beq	.LBB505_5
 	ldr	r3, [r5, #12]
 	movs	r2, #0
 	mov	r1, r4
 	blx	r3
 	pop	{r4, r5, r6, pc}
-.LBB504_5:
+.LBB505_5:
 	movs	r0, #0
 	pop	{r4, r5, r6, pc}
-.Lfunc_end504:
-	.size	_ZN4core3fmt9Formatter12pad_integral12write_prefix17h95396058438df0b5E, .Lfunc_end504-_ZN4core3fmt9Formatter12pad_integral12write_prefix17h95396058438df0b5E
-	.cantunwind
-	.fnend
-
-	.section	.text.unlikely._ZN4core9panicking9panic_fmt17hd3729d02fc04906eE,"ax",%progbits
-	.p2align	1
-	.type	_ZN4core9panicking9panic_fmt17hd3729d02fc04906eE,%function
-	.code	16
-	.thumb_func
-_ZN4core9panicking9panic_fmt17hd3729d02fc04906eE:
-	.fnstart
-	.pad	#24
-	sub	sp, #24
-	str	r1, [sp, #8]
-	str	r0, [sp, #4]
-	add	r0, sp, #12
-	movs	r1, #1
-	strh	r1, [r0, #8]
-	str	r2, [sp, #16]
-	add	r1, sp, #4
-	str	r1, [sp, #12]
-	bl	_RNvCskMp5Q9dhGpN_7___rustc17rust_begin_unwind
 .Lfunc_end505:
-	.size	_ZN4core9panicking9panic_fmt17hd3729d02fc04906eE, .Lfunc_end505-_ZN4core9panicking9panic_fmt17hd3729d02fc04906eE
+	.size	_RNvNvMsa_NtCsc6P1BMjYAM_4core3fmtNtB7_9Formatter12pad_integral12write_prefix, .Lfunc_end505-_RNvNvMsa_NtCsc6P1BMjYAM_4core3fmtNtB7_9Formatter12pad_integral12write_prefix
 	.cantunwind
 	.fnend
 
-	.section	".text._ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u32$GT$3fmt17h9f19328257e7c4bfE","ax",%progbits
+	.section	.text._RNvXs8_NtNtNtCsc6P1BMjYAM_4core3fmt3num3impmNtB9_7Display3fmt,"ax",%progbits
 	.p2align	2
-	.type	_ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u32$GT$3fmt17h9f19328257e7c4bfE,%function
+	.type	_RNvXs8_NtNtNtCsc6P1BMjYAM_4core3fmt3num3impmNtB9_7Display3fmt,%function
 	.code	16
 	.thumb_func
-_ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u32$GT$3fmt17h9f19328257e7c4bfE:
+_RNvXs8_NtNtNtCsc6P1BMjYAM_4core3fmt3num3impmNtB9_7Display3fmt:
 	.fnstart
 	.save	{r4, r5, r6, r7, lr}
 	push	{r4, r5, r6, r7, lr}
@@ -661067,7 +661067,7 @@ _ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u32$GT$3fmt17
 	movs	r2, #10
 	subs	r2, r2, r0
 	ldr	r0, [sp, #4]
-	bl	_ZN4core3fmt9Formatter12pad_integral17h1f543ea066342a93E
+	bl	_RNvMsa_NtCsc6P1BMjYAM_4core3fmtNtB5_9Formatter12pad_integral
 	add	sp, #20
 	pop	{r4, r5, r6, r7, pc}
 	.p2align	2
@@ -661076,125 +661076,146 @@ _ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u32$GT$3fmt17
 .LCPI506_1:
 	.long	5243
 .LCPI506_2:
-	.long	.Lanon.28e8fa57f47a72ee3b082142dfa29f98.14
+	.long	.Lanon.cb3ead32577d551a8f8128d2923648a0.155
 .LCPI506_3:
 	.long	9999999
 .LCPI506_4:
 	.long	100000000
 .Lfunc_end506:
-	.size	_ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u32$GT$3fmt17h9f19328257e7c4bfE, .Lfunc_end506-_ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u32$GT$3fmt17h9f19328257e7c4bfE
+	.size	_RNvXs8_NtNtNtCsc6P1BMjYAM_4core3fmt3num3impmNtB9_7Display3fmt, .Lfunc_end506-_RNvXs8_NtNtNtCsc6P1BMjYAM_4core3fmt3num3impmNtB9_7Display3fmt
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN22embedded_graphics_core10primitives9rectangle9Rectangle12intersection17ha0407d6d15645af7E,"ax",%progbits
+	.section	.text._RNvMs0_NtNtCs3ByWt3msWm1_22embedded_graphics_core10primitives9rectangleNtB5_9Rectangle12intersection,"ax",%progbits
 	.p2align	1
-	.type	_ZN22embedded_graphics_core10primitives9rectangle9Rectangle12intersection17ha0407d6d15645af7E,%function
+	.type	_RNvMs0_NtNtCs3ByWt3msWm1_22embedded_graphics_core10primitives9rectangleNtB5_9Rectangle12intersection,%function
 	.code	16
 	.thumb_func
-_ZN22embedded_graphics_core10primitives9rectangle9Rectangle12intersection17ha0407d6d15645af7E:
+_RNvMs0_NtNtCs3ByWt3msWm1_22embedded_graphics_core10primitives9rectangleNtB5_9Rectangle12intersection:
 	.fnstart
 	.save	{r4, r5, r6, r7, lr}
 	push	{r4, r5, r6, r7, lr}
 	.pad	#8
 	sub	sp, #8
-	ldr	r3, [r2, #8]
-	cmp	r3, #0
-	beq	.LBB507_7
-	ldr	r6, [r2, #12]
-	cmp	r6, #0
-	beq	.LBB507_7
-	ldm	r2!, {r4, r5}
-	adds	r2, r6, r5
-	subs	r2, r2, #1
-	adds	r3, r3, r4
+	ldr	r4, [r2, #8]
+	movs	r3, #0
+	cmp	r4, #0
+	beq	.LBB507_3
+	ldr	r5, [r2, #12]
+	cmp	r5, #0
+	beq	.LBB507_3
+	ldm	r2!, {r3, r6}
+	adds	r5, r5, r6
+	subs	r5, r5, #1
+	str	r5, [sp]
+	adds	r3, r4, r3
 	subs	r3, r3, #1
-	ldr	r6, [r1, #8]
-	cmp	r6, #0
-	beq	.LBB507_14
+	str	r3, [sp, #4]
+	movs	r3, #1
+	subs	r2, #8
+	ldr	r5, [r1, #8]
+	cmp	r5, #0
+	bne	.LBB507_4
+	b	.LBB507_8
+.LBB507_3:
+	ldr	r5, [r1, #8]
+	cmp	r5, #0
+	beq	.LBB507_8
+.LBB507_4:
 	ldr	r7, [r1, #12]
 	cmp	r7, #0
-	beq	.LBB507_14
-	str	r2, [sp, #4]
-	ldr	r2, [r1]
-	ldr	r1, [r1, #4]
-	adds	r6, r6, r2
-	subs	r6, r6, #1
-	cmp	r4, r2
-	str	r2, [sp]
-	ble	.LBB507_19
-	cmp	r6, r3
-	ldr	r2, [sp, #4]
-	bgt	.LBB507_22
-	cmp	r4, r6
-	bgt	.LBB507_25
-	b	.LBB507_22
-.LBB507_7:
-	ldr	r4, [r1, #8]
-	cmp	r4, #0
-	beq	.LBB507_25
-	ldr	r3, [r1, #12]
-	cmp	r3, #0
-	beq	.LBB507_25
-	ldr	r7, [r1]
-	ldr	r6, [r2]
-	cmp	r6, r7
-	blt	.LBB507_25
-	ldr	r5, [r2, #4]
-	ldr	r1, [r1, #4]
-	cmp	r5, r1
-	blt	.LBB507_25
-	adds	r4, r4, r7
-	subs	r4, r4, #1
-	cmp	r6, r4
-	bgt	.LBB507_25
-	adds	r1, r3, r1
-	subs	r1, r1, #1
-	cmp	r5, r1
-	bgt	.LBB507_25
-	ldm	r2!, {r1, r3, r4}
-	ldr	r2, [r2]
-	stm	r0!, {r1, r3, r4}
-	str	r2, [r0]
-	add	sp, #8
-	pop	{r4, r5, r6, r7, pc}
-.LBB507_14:
+	beq	.LBB507_8
 	ldr	r6, [r1]
-	cmp	r6, r4
-	blt	.LBB507_25
 	ldr	r4, [r1, #4]
-	cmp	r4, r5
-	blt	.LBB507_25
-	cmp	r6, r3
-	bgt	.LBB507_25
-	cmp	r4, r2
-	bgt	.LBB507_25
+	adds	r1, r7, r4
+	subs	r7, r1, #1
+	adds	r1, r5, r6
+	subs	r5, r1, #1
+	ldr	r1, [r2]
+	cmp	r3, #0
+	beq	.LBB507_16
+	cmp	r1, r6
+	ble	.LBB507_21
+	ldr	r3, [sp, #4]
+	cmp	r5, r3
+	ble	.LBB507_23
+	b	.LBB507_24
+.LBB507_8:
+	cmp	r3, #0
+	beq	.LBB507_29
+	ldr	r5, [r2]
+	ldr	r3, [r1]
+	cmp	r3, r5
+	blt	.LBB507_29
+	cmp	r4, #0
+	beq	.LBB507_29
+	ldr	r6, [r1, #4]
+	ldr	r7, [r2, #4]
+	cmp	r6, r7
+	blt	.LBB507_29
+	ldr	r2, [r2, #12]
+	cmp	r2, #0
+	beq	.LBB507_29
+	adds	r4, r4, r5
+	subs	r4, r4, #1
+	cmp	r3, r4
+	bgt	.LBB507_29
+	adds	r2, r7, r2
+	subs	r2, r2, #1
+	cmp	r6, r2
+	bgt	.LBB507_29
 	ldm	r1!, {r2, r3, r4}
 	ldr	r1, [r1]
 	stm	r0!, {r2, r3, r4}
-	subs	r0, #12
-	str	r1, [r0, #12]
+	str	r1, [r0]
 	add	sp, #8
 	pop	{r4, r5, r6, r7, pc}
-.LBB507_19:
-	cmp	r2, r3
-	ldr	r2, [sp, #4]
-	ble	.LBB507_22
-	cmp	r4, r6
-	bgt	.LBB507_25
-	cmp	r6, r3
-	bgt	.LBB507_25
-.LBB507_22:
-	str	r6, [sp, #4]
-	adds	r6, r7, r1
-	subs	r7, r6, #1
-	cmp	r5, r1
-	ble	.LBB507_26
-	cmp	r7, r2
-	ldr	r6, [sp, #4]
+.LBB507_16:
+	cmp	r1, r6
+	blt	.LBB507_29
+	ldr	r3, [r2, #4]
+	cmp	r3, r4
+	blt	.LBB507_29
+	cmp	r1, r5
 	bgt	.LBB507_29
-	cmp	r5, r7
-	ble	.LBB507_29
-.LBB507_25:
+	cmp	r3, r7
+	bgt	.LBB507_29
+	ldm	r2!, {r1, r3, r4}
+	ldr	r2, [r2]
+	stm	r0!, {r1, r3, r4}
+	subs	r0, #12
+	str	r2, [r0, #12]
+	add	sp, #8
+	pop	{r4, r5, r6, r7, pc}
+.LBB507_21:
+	ldr	r3, [sp, #4]
+	cmp	r6, r3
+	ble	.LBB507_24
+	ldr	r3, [sp, #4]
+	cmp	r5, r3
+	bgt	.LBB507_29
+.LBB507_23:
+	cmp	r1, r5
+	bgt	.LBB507_29
+.LBB507_24:
+	ldr	r2, [r2, #4]
+	cmp	r2, r4
+	ble	.LBB507_26
+	ldr	r3, [sp]
+	cmp	r7, r3
+	ble	.LBB507_28
+	b	.LBB507_30
+.LBB507_26:
+	ldr	r3, [sp]
+	cmp	r4, r3
+	ble	.LBB507_30
+	ldr	r3, [sp]
+	cmp	r7, r3
+	bgt	.LBB507_29
+.LBB507_28:
+	cmp	r2, r7
+	ble	.LBB507_30
+.LBB507_29:
 	movs	r1, #0
 	str	r1, [r0]
 	str	r1, [r0, #4]
@@ -661202,80 +661223,76 @@ _ZN22embedded_graphics_core10primitives9rectangle9Rectangle12intersection17ha040
 	str	r1, [r0, #12]
 	add	sp, #8
 	pop	{r4, r5, r6, r7, pc}
-.LBB507_26:
-	cmp	r1, r2
-	ldr	r6, [sp, #4]
-	ble	.LBB507_29
-	cmp	r5, r7
-	bgt	.LBB507_25
-	cmp	r7, r2
-	bgt	.LBB507_25
-.LBB507_29:
-	cmp	r5, r1
-	ble	.LBB507_37
-	cmp	r2, r7
-	bge	.LBB507_38
-.LBB507_31:
-	cmp	r2, r5
-	mov	r1, r2
+.LBB507_30:
+	cmp	r2, r4
+	ble	.LBB507_38
+	ldr	r4, [sp]
+	cmp	r4, r7
 	bge	.LBB507_39
 .LBB507_32:
-	str	r1, [r0, #4]
-	ldr	r1, [sp]
-	cmp	r4, r1
-	ble	.LBB507_40
+	cmp	r4, r2
+	mov	r3, r4
+	mov	r7, r4
+	bge	.LBB507_40
 .LBB507_33:
-	cmp	r3, r6
-	bge	.LBB507_41
+	str	r3, [r0, #4]
+	cmp	r1, r6
+	ldr	r4, [sp, #4]
+	ble	.LBB507_41
 .LBB507_34:
-	cmp	r3, r4
-	mov	r1, r3
-	blt	.LBB507_36
+	cmp	r4, r5
+	bge	.LBB507_42
 .LBB507_35:
-	mov	r1, r4
+	cmp	r4, r1
+	mov	r3, r4
+	blt	.LBB507_37
 .LBB507_36:
-	str	r1, [r0]
-	subs	r1, r5, r2
-	asrs	r2, r1, #31
-	eors	r1, r2
-	subs	r1, r1, r2
-	adds	r1, r1, #1
-	subs	r2, r4, r3
+	mov	r3, r1
+.LBB507_37:
+	str	r3, [r0]
+	subs	r2, r2, r7
 	asrs	r3, r2, #31
 	eors	r2, r3
 	subs	r2, r2, r3
 	adds	r2, r2, #1
-	str	r2, [r0, #8]
-	str	r1, [r0, #12]
+	subs	r1, r1, r4
+	asrs	r3, r1, #31
+	eors	r1, r3
+	subs	r1, r1, r3
+	adds	r1, r1, #1
+	str	r1, [r0, #8]
+	str	r2, [r0, #12]
 	add	sp, #8
 	pop	{r4, r5, r6, r7, pc}
-.LBB507_37:
-	mov	r5, r1
-	cmp	r2, r7
-	blt	.LBB507_31
 .LBB507_38:
-	mov	r2, r7
-	cmp	r2, r5
-	mov	r1, r2
+	mov	r2, r4
+	ldr	r4, [sp]
+	cmp	r4, r7
 	blt	.LBB507_32
 .LBB507_39:
-	mov	r1, r5
-	str	r1, [r0, #4]
-	ldr	r1, [sp]
-	cmp	r4, r1
-	bgt	.LBB507_33
+	mov	r4, r7
+	cmp	r4, r2
+	mov	r3, r4
+	mov	r7, r4
+	blt	.LBB507_33
 .LBB507_40:
-	mov	r4, r1
-	cmp	r3, r6
-	blt	.LBB507_34
+	mov	r3, r2
+	str	r3, [r0, #4]
+	cmp	r1, r6
+	ldr	r4, [sp, #4]
+	bgt	.LBB507_34
 .LBB507_41:
-	mov	r3, r6
-	cmp	r3, r4
-	mov	r1, r3
-	bge	.LBB507_35
-	b	.LBB507_36
+	mov	r1, r6
+	cmp	r4, r5
+	blt	.LBB507_35
+.LBB507_42:
+	mov	r4, r5
+	cmp	r4, r1
+	mov	r3, r4
+	bge	.LBB507_36
+	b	.LBB507_37
 .Lfunc_end507:
-	.size	_ZN22embedded_graphics_core10primitives9rectangle9Rectangle12intersection17ha0407d6d15645af7E, .Lfunc_end507-_ZN22embedded_graphics_core10primitives9rectangle9Rectangle12intersection17ha0407d6d15645af7E
+	.size	_RNvMs0_NtNtCs3ByWt3msWm1_22embedded_graphics_core10primitives9rectangleNtB5_9Rectangle12intersection, .Lfunc_end507-_RNvMs0_NtNtCs3ByWt3msWm1_22embedded_graphics_core10primitives9rectangleNtB5_9Rectangle12intersection
 	.cantunwind
 	.fnend
 
@@ -661293,12 +661310,12 @@ XXX___rust_no_alloc_shim_is_unstable_v2:
 	.cantunwind
 	.fnend
 
-	.section	.text._RNvCskMp5Q9dhGpN_7___rustc17rust_begin_unwind,"ax",%progbits
+	.section	.text._RNvCs6aZZ1a95nPm_7___rustc17rust_begin_unwind,"ax",%progbits
 	.p2align	2
-	.type	_RNvCskMp5Q9dhGpN_7___rustc17rust_begin_unwind,%function
+	.type	_RNvCs6aZZ1a95nPm_7___rustc17rust_begin_unwind,%function
 	.code	16
 	.thumb_func
-_RNvCskMp5Q9dhGpN_7___rustc17rust_begin_unwind:
+_RNvCs6aZZ1a95nPm_7___rustc17rust_begin_unwind:
 	.fnstart
 	.pad	#40
 	sub	sp, #40
@@ -661330,54 +661347,63 @@ _RNvCskMp5Q9dhGpN_7___rustc17rust_begin_unwind:
 	ldr	r1, .LCPI509_4
 	ldr	r2, .LCPI509_5
 	add	r3, sp, #16
-	bl	_ZN4core3fmt5write17ha8b4780ab1cafcb0E
+	bl	_RNvNtCsc6P1BMjYAM_4core3fmt5write
 .LBB509_1:
 	b	.LBB509_1
 	.p2align	2
 .LCPI509_0:
-	.long	_ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u32$GT$3fmt17h9f19328257e7c4bfE
+	.long	_RNvXs8_NtNtNtCsc6P1BMjYAM_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI509_1:
-	.long	_ZN44_$LT$$RF$T$u20$as$u20$core..fmt..Display$GT$3fmt17h34b70eaee3e7f50eE
+	.long	_RNvXs1i_NtCsc6P1BMjYAM_4core3fmtReNtB6_7Display3fmtCs6UyBOS6LwsO_4parm
 .LCPI509_2:
-	.long	_ZN76_$LT$core..panic..panic_info..PanicMessage$u20$as$u20$core..fmt..Display$GT$3fmt17hd2a87d99e7c1e3d7E
+	.long	_RNvXs1_NtNtCsc6P1BMjYAM_4core5panic10panic_infoNtB5_12PanicMessageNtNtB9_3fmt7Display3fmt
 .LCPI509_3:
-	.long	_ZN4parm3tty3TTY17hdf36b6ada3d60373E
+	.long	_RNvNtCs6UyBOS6LwsO_4parm3tty3TTY
 .LCPI509_4:
-	.long	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.56
+	.long	.Lanon.2781341b575617417edf2d7b8ddb3350.48
 .LCPI509_5:
-	.long	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.0
+	.long	.Lanon.2781341b575617417edf2d7b8ddb3350.16
 .Lfunc_end509:
-	.size	_RNvCskMp5Q9dhGpN_7___rustc17rust_begin_unwind, .Lfunc_end509-_RNvCskMp5Q9dhGpN_7___rustc17rust_begin_unwind
+	.size	_RNvCs6aZZ1a95nPm_7___rustc17rust_begin_unwind, .Lfunc_end509-_RNvCs6aZZ1a95nPm_7___rustc17rust_begin_unwind
 	.cantunwind
 	.fnend
 
-	.section	".text._ZN76_$LT$core..panic..panic_info..PanicMessage$u20$as$u20$core..fmt..Display$GT$3fmt17hd2a87d99e7c1e3d7E","ax",%progbits
+	.section	.text._RNvXs1_NtNtCsc6P1BMjYAM_4core5panic10panic_infoNtB5_12PanicMessageNtNtB9_3fmt7Display3fmt,"ax",%progbits
 	.p2align	1
-	.type	_ZN76_$LT$core..panic..panic_info..PanicMessage$u20$as$u20$core..fmt..Display$GT$3fmt17hd2a87d99e7c1e3d7E,%function
+	.type	_RNvXs1_NtNtCsc6P1BMjYAM_4core5panic10panic_infoNtB5_12PanicMessageNtNtB9_3fmt7Display3fmt,%function
 	.code	16
 	.thumb_func
-_ZN76_$LT$core..panic..panic_info..PanicMessage$u20$as$u20$core..fmt..Display$GT$3fmt17hd2a87d99e7c1e3d7E:
+_RNvXs1_NtNtCsc6P1BMjYAM_4core5panic10panic_infoNtB5_12PanicMessageNtNtB9_3fmt7Display3fmt:
 	.fnstart
-	.save	{r4, lr}
-	push	{r4, lr}
-	ldr	r4, [r1]
-	ldr	r1, [r1, #4]
-	ldr	r0, [r0]
-	ldm	r0!, {r2, r3}
-	mov	r0, r4
-	bl	_ZN4core3fmt5write17ha8b4780ab1cafcb0E
-	pop	{r4, pc}
+	.save	{r4, r5, r7, lr}
+	push	{r4, r5, r7, lr}
+	mov	r2, r0
+	ldm	r1, {r0, r1}
+	ldr	r2, [r2]
+	ldr	r4, [r2]
+	ldr	r3, [r2, #4]
+	lsls	r2, r3, #31
+	bne	.LBB510_2
+	mov	r2, r4
+	bl	_RNvNtCsc6P1BMjYAM_4core3fmt5write
+	pop	{r4, r5, r7, pc}
+.LBB510_2:
+	ldr	r5, [r1, #12]
+	lsrs	r2, r3, #1
+	mov	r1, r4
+	blx	r5
+	pop	{r4, r5, r7, pc}
 .Lfunc_end510:
-	.size	_ZN76_$LT$core..panic..panic_info..PanicMessage$u20$as$u20$core..fmt..Display$GT$3fmt17hd2a87d99e7c1e3d7E, .Lfunc_end510-_ZN76_$LT$core..panic..panic_info..PanicMessage$u20$as$u20$core..fmt..Display$GT$3fmt17hd2a87d99e7c1e3d7E
+	.size	_RNvXs1_NtNtCsc6P1BMjYAM_4core5panic10panic_infoNtB5_12PanicMessageNtNtB9_3fmt7Display3fmt, .Lfunc_end510-_RNvXs1_NtNtCsc6P1BMjYAM_4core5panic10panic_infoNtB5_12PanicMessageNtNtB9_3fmt7Display3fmt
 	.cantunwind
 	.fnend
 
-	.section	".text._ZN44_$LT$$RF$T$u20$as$u20$core..fmt..Display$GT$3fmt17h34b70eaee3e7f50eE","ax",%progbits
+	.section	.text._RNvXs1i_NtCsc6P1BMjYAM_4core3fmtReNtB6_7Display3fmtCs6UyBOS6LwsO_4parm,"ax",%progbits
 	.p2align	2
-	.type	_ZN44_$LT$$RF$T$u20$as$u20$core..fmt..Display$GT$3fmt17h34b70eaee3e7f50eE,%function
+	.type	_RNvXs1i_NtCsc6P1BMjYAM_4core3fmtReNtB6_7Display3fmtCs6UyBOS6LwsO_4parm,%function
 	.code	16
 	.thumb_func
-_ZN44_$LT$$RF$T$u20$as$u20$core..fmt..Display$GT$3fmt17h34b70eaee3e7f50eE:
+_RNvXs1i_NtCsc6P1BMjYAM_4core3fmtReNtB6_7Display3fmtCs6UyBOS6LwsO_4parm:
 	.fnstart
 	.save	{r4, r5, r6, r7, lr}
 	push	{r4, r5, r6, r7, lr}
@@ -662021,7 +662047,6 @@ _ZN44_$LT$$RF$T$u20$as$u20$core..fmt..Display$GT$3fmt17h34b70eaee3e7f50eE:
 	b	.LBB511_110
 .LBB511_77:
 	movs	r7, #0
-	mov	r3, r7
 	b	.LBB511_110
 .LBB511_78:
 	mov	r1, r3
@@ -662264,16 +662289,16 @@ _ZN44_$LT$$RF$T$u20$as$u20$core..fmt..Display$GT$3fmt17h34b70eaee3e7f50eE:
 .LCPI511_4:
 	.long	2097151
 .Lfunc_end511:
-	.size	_ZN44_$LT$$RF$T$u20$as$u20$core..fmt..Display$GT$3fmt17h34b70eaee3e7f50eE, .Lfunc_end511-_ZN44_$LT$$RF$T$u20$as$u20$core..fmt..Display$GT$3fmt17h34b70eaee3e7f50eE
+	.size	_RNvXs1i_NtCsc6P1BMjYAM_4core3fmtReNtB6_7Display3fmtCs6UyBOS6LwsO_4parm, .Lfunc_end511-_RNvXs1i_NtCsc6P1BMjYAM_4core3fmtReNtB6_7Display3fmtCs6UyBOS6LwsO_4parm
 	.cantunwind
 	.fnend
 
-	.section	".text._ZN51_$LT$parm..tty..Tty$u20$as$u20$core..fmt..Write$GT$9write_str17h8ef9a4b4c8d71e3aE","ax",%progbits
+	.section	.text._RNvXs_NtCs6UyBOS6LwsO_4parm3ttyNtB4_3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write9write_str,"ax",%progbits
 	.p2align	1
-	.type	_ZN51_$LT$parm..tty..Tty$u20$as$u20$core..fmt..Write$GT$9write_str17h8ef9a4b4c8d71e3aE,%function
+	.type	_RNvXs_NtCs6UyBOS6LwsO_4parm3ttyNtB4_3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write9write_str,%function
 	.code	16
 	.thumb_func
-_ZN51_$LT$parm..tty..Tty$u20$as$u20$core..fmt..Write$GT$9write_str17h8ef9a4b4c8d71e3aE:
+_RNvXs_NtCs6UyBOS6LwsO_4parm3ttyNtB4_3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write9write_str:
 	.fnstart
 	.save	{r4, lr}
 	push	{r4, lr}
@@ -662328,16 +662353,16 @@ _ZN51_$LT$parm..tty..Tty$u20$as$u20$core..fmt..Write$GT$9write_str17h8ef9a4b4c8d
 	bhs	.LBB512_7
 	b	.LBB512_9
 .Lfunc_end512:
-	.size	_ZN51_$LT$parm..tty..Tty$u20$as$u20$core..fmt..Write$GT$9write_str17h8ef9a4b4c8d71e3aE, .Lfunc_end512-_ZN51_$LT$parm..tty..Tty$u20$as$u20$core..fmt..Write$GT$9write_str17h8ef9a4b4c8d71e3aE
+	.size	_RNvXs_NtCs6UyBOS6LwsO_4parm3ttyNtB4_3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write9write_str, .Lfunc_end512-_RNvXs_NtCs6UyBOS6LwsO_4parm3ttyNtB4_3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write9write_str
 	.cantunwind
 	.fnend
 
-	.section	".text._ZN51_$LT$parm..tty..Tty$u20$as$u20$core..fmt..Write$GT$10write_char17h6c0b953b73395d51E","ax",%progbits
+	.section	.text._RNvXs_NtCs6UyBOS6LwsO_4parm3ttyNtB4_3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write10write_char,"ax",%progbits
 	.p2align	1
-	.type	_ZN51_$LT$parm..tty..Tty$u20$as$u20$core..fmt..Write$GT$10write_char17h6c0b953b73395d51E,%function
+	.type	_RNvXs_NtCs6UyBOS6LwsO_4parm3ttyNtB4_3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write10write_char,%function
 	.code	16
 	.thumb_func
-_ZN51_$LT$parm..tty..Tty$u20$as$u20$core..fmt..Write$GT$10write_char17h6c0b953b73395d51E:
+_RNvXs_NtCs6UyBOS6LwsO_4parm3ttyNtB4_3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write10write_char:
 	.fnstart
 	lsrs	r0, r1, #8
 	beq	.LBB513_2
@@ -662349,29 +662374,79 @@ _ZN51_$LT$parm..tty..Tty$u20$as$u20$core..fmt..Write$GT$10write_char17h6c0b953b7
 	movs	r0, #0
 	bx	lr
 .Lfunc_end513:
-	.size	_ZN51_$LT$parm..tty..Tty$u20$as$u20$core..fmt..Write$GT$10write_char17h6c0b953b73395d51E, .Lfunc_end513-_ZN51_$LT$parm..tty..Tty$u20$as$u20$core..fmt..Write$GT$10write_char17h6c0b953b73395d51E
+	.size	_RNvXs_NtCs6UyBOS6LwsO_4parm3ttyNtB4_3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write10write_char, .Lfunc_end513-_RNvXs_NtCs6UyBOS6LwsO_4parm3ttyNtB4_3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write10write_char
 	.cantunwind
 	.fnend
 
-	.section	.text._ZN4core3fmt5Write9write_fmt17h255c4d59707f2342E,"ax",%progbits
+	.section	.text._RNvYNtNtCs6UyBOS6LwsO_4parm3tty3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write9write_fmtB6_,"ax",%progbits
 	.p2align	2
-	.type	_ZN4core3fmt5Write9write_fmt17h255c4d59707f2342E,%function
+	.type	_RNvYNtNtCs6UyBOS6LwsO_4parm3tty3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write9write_fmtB6_,%function
 	.code	16
 	.thumb_func
-_ZN4core3fmt5Write9write_fmt17h255c4d59707f2342E:
+_RNvYNtNtCs6UyBOS6LwsO_4parm3tty3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write9write_fmtB6_:
 	.fnstart
-	.save	{r7, lr}
-	push	{r7, lr}
+	.save	{r4, r5, r6, lr}
+	push	{r4, r5, r6, lr}
 	mov	r3, r2
 	mov	r2, r1
+	lsls	r1, r3, #31
+	bne	.LBB514_2
 	ldr	r1, .LCPI514_0
-	bl	_ZN4core3fmt5write17ha8b4780ab1cafcb0E
-	pop	{r7, pc}
+	bl	_RNvNtCsc6P1BMjYAM_4core3fmt5write
+	pop	{r4, r5, r6, pc}
+.LBB514_2:
+	movs	r0, #0
+	cmp	r3, #2
+	blo	.LBB514_12
+	lsrs	r3, r3, #1
+	movs	r6, #3
+	ands	r6, r3
+	subs	r4, r3, #1
+	movs	r1, #255
+	mvns	r1, r1
+	cmp	r6, #0
+	mov	r5, r2
+	beq	.LBB514_9
+	ldrb	r5, [r2]
+	str	r5, [r1]
+	cmp	r6, #1
+	bne	.LBB514_6
+	adds	r5, r2, #1
+	b	.LBB514_9
+.LBB514_6:
+	ldrb	r5, [r2, #1]
+	str	r5, [r1]
+	cmp	r6, #2
+	bne	.LBB514_8
+	adds	r5, r2, #2
+	b	.LBB514_9
+.LBB514_8:
+	ldrb	r5, [r2, #2]
+	str	r5, [r1]
+	adds	r5, r2, #3
+.LBB514_9:
+	cmp	r4, #3
+	blo	.LBB514_12
+	adds	r2, r2, r3
+.LBB514_11:
+	ldrb	r3, [r5]
+	str	r3, [r1]
+	ldrb	r3, [r5, #1]
+	str	r3, [r1]
+	ldrb	r3, [r5, #2]
+	str	r3, [r1]
+	ldrb	r3, [r5, #3]
+	str	r3, [r1]
+	adds	r5, r5, #4
+	cmp	r5, r2
+	bne	.LBB514_11
+.LBB514_12:
+	pop	{r4, r5, r6, pc}
 	.p2align	2
 .LCPI514_0:
-	.long	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.56
+	.long	.Lanon.2781341b575617417edf2d7b8ddb3350.48
 .Lfunc_end514:
-	.size	_ZN4core3fmt5Write9write_fmt17h255c4d59707f2342E, .Lfunc_end514-_ZN4core3fmt5Write9write_fmt17h255c4d59707f2342E
+	.size	_RNvYNtNtCs6UyBOS6LwsO_4parm3tty3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write9write_fmtB6_, .Lfunc_end514-_RNvYNtNtCs6UyBOS6LwsO_4parm3tty3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write9write_fmtB6_
 	.cantunwind
 	.fnend
 
@@ -664459,12 +664534,12 @@ invalid_instruction:
 	ldr	r0, .LCPI530_0
 	movs	r1, #39
 	ldr	r2, .LCPI530_1
-	bl	_ZN4core9panicking9panic_fmt17hd3729d02fc04906eE
+	bl	_RNvNtCsc6P1BMjYAM_4core9panicking9panic_fmt
 	.p2align	2
 .LCPI530_0:
-	.long	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.57
+	.long	.Lanon.2781341b575617417edf2d7b8ddb3350.57
 .LCPI530_1:
-	.long	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.59
+	.long	.Lanon.2781341b575617417edf2d7b8ddb3350.59
 .Lfunc_end530:
 	.size	invalid_instruction, .Lfunc_end530-invalid_instruction
 	.cantunwind
@@ -664611,84 +664686,133 @@ run:
 	.cantunwind
 	.fnend
 
-	.type	.Lanon.28e8fa57f47a72ee3b082142dfa29f98.14,%object
-	.section	.rodata..Lanon.28e8fa57f47a72ee3b082142dfa29f98.14,"a",%progbits
-.Lanon.28e8fa57f47a72ee3b082142dfa29f98.14:
+	.section	.text.strlen,"ax",%progbits
+	.globl	strlen
+	.p2align	1
+	.type	strlen,%function
+	.code	16
+	.thumb_func
+strlen:
+	.fnstart
+	mov	r1, r0
+	ldrb	r0, [r0]
+	cmp	r0, #0
+	beq	.LBB533_7
+	movs	r0, #0
+.LBB533_2:
+	adds	r2, r1, r0
+	ldrb	r3, [r2, #1]
+	cmp	r3, #0
+	beq	.LBB533_8
+	ldrb	r3, [r2, #2]
+	cmp	r3, #0
+	beq	.LBB533_9
+	ldrb	r3, [r2, #3]
+	cmp	r3, #0
+	beq	.LBB533_10
+	ldrb	r2, [r2, #4]
+	adds	r0, r0, #4
+	cmp	r2, #0
+	bne	.LBB533_2
+	bx	lr
+.LBB533_7:
+	movs	r0, #0
+	bx	lr
+.LBB533_8:
+	movs	r1, #1
+	orrs	r0, r1
+	bx	lr
+.LBB533_9:
+	movs	r1, #2
+	orrs	r0, r1
+	bx	lr
+.LBB533_10:
+	movs	r1, #3
+	orrs	r0, r1
+	bx	lr
+.Lfunc_end533:
+	.size	strlen, .Lfunc_end533-strlen
+	.cantunwind
+	.fnend
+
+	.type	.Lanon.cb3ead32577d551a8f8128d2923648a0.155,%object
+	.section	.rodata..Lanon.cb3ead32577d551a8f8128d2923648a0.155,"a",%progbits
+.Lanon.cb3ead32577d551a8f8128d2923648a0.155:
 	.ascii	"00010203040506070809101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899"
-	.size	.Lanon.28e8fa57f47a72ee3b082142dfa29f98.14, 200
+	.size	.Lanon.cb3ead32577d551a8f8128d2923648a0.155, 200
 
-	.type	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.0,%object
+	.type	.Lanon.2781341b575617417edf2d7b8ddb3350.16,%object
 	.section	.rodata.str1.1,"aMS",%progbits,1
-.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.0:
+.Lanon.2781341b575617417edf2d7b8ddb3350.16:
 	.asciz	"\007PANIC: \300\004 at \300\001:\300\001\n"
-	.size	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.0, 21
+	.size	.Lanon.2781341b575617417edf2d7b8ddb3350.16, 21
 
-	.type	_ZN4parm3tty3TTY17hdf36b6ada3d60373E,%object
-	.section	.bss._ZN4parm3tty3TTY17hdf36b6ada3d60373E,"aw",%nobits
-_ZN4parm3tty3TTY17hdf36b6ada3d60373E:
-	.size	_ZN4parm3tty3TTY17hdf36b6ada3d60373E, 0
+	.type	_RNvNtCs6UyBOS6LwsO_4parm3tty3TTY,%object
+	.section	.bss._RNvNtCs6UyBOS6LwsO_4parm3tty3TTY,"aw",%nobits
+_RNvNtCs6UyBOS6LwsO_4parm3tty3TTY:
+	.size	_RNvNtCs6UyBOS6LwsO_4parm3tty3TTY, 0
 
-	.type	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.56,%object
-	.section	.rodata..Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.56,"a",%progbits
+	.type	.Lanon.2781341b575617417edf2d7b8ddb3350.48,%object
+	.section	.rodata..Lanon.2781341b575617417edf2d7b8ddb3350.48,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.56:
+.Lanon.2781341b575617417edf2d7b8ddb3350.48:
 	.asciz	"\000\000\000\000\000\000\000\000\001\000\000"
-	.long	_ZN51_$LT$parm..tty..Tty$u20$as$u20$core..fmt..Write$GT$9write_str17h8ef9a4b4c8d71e3aE
-	.long	_ZN51_$LT$parm..tty..Tty$u20$as$u20$core..fmt..Write$GT$10write_char17h6c0b953b73395d51E
-	.long	_ZN4core3fmt5Write9write_fmt17h255c4d59707f2342E
-	.size	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.56, 24
+	.long	_RNvXs_NtCs6UyBOS6LwsO_4parm3ttyNtB4_3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write9write_str
+	.long	_RNvXs_NtCs6UyBOS6LwsO_4parm3ttyNtB4_3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write10write_char
+	.long	_RNvYNtNtCs6UyBOS6LwsO_4parm3tty3TtyNtNtCsc6P1BMjYAM_4core3fmt5Write9write_fmtB6_
+	.size	.Lanon.2781341b575617417edf2d7b8ddb3350.48, 24
 
-	.type	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.57,%object
-	.section	.rodata..Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.57,"a",%progbits
-.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.57:
+	.type	.Lanon.2781341b575617417edf2d7b8ddb3350.57,%object
+	.section	.rodata..Lanon.2781341b575617417edf2d7b8ddb3350.57,"a",%progbits
+.Lanon.2781341b575617417edf2d7b8ddb3350.57:
 	.ascii	"invalid instruction"
-	.size	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.57, 19
+	.size	.Lanon.2781341b575617417edf2d7b8ddb3350.57, 19
 
-	.type	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.58,%object
+	.type	.Lanon.2781341b575617417edf2d7b8ddb3350.58,%object
 	.section	.rodata.str1.1,"aMS",%progbits,1
-.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.58:
+.Lanon.2781341b575617417edf2d7b8ddb3350.58:
 	.asciz	"parm/src/lib.rs"
-	.size	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.58, 16
+	.size	.Lanon.2781341b575617417edf2d7b8ddb3350.58, 16
 
-	.type	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.59,%object
-	.section	.rodata..Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.59,"a",%progbits
+	.type	.Lanon.2781341b575617417edf2d7b8ddb3350.59,%object
+	.section	.rodata..Lanon.2781341b575617417edf2d7b8ddb3350.59,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.59:
-	.long	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.58
+.Lanon.2781341b575617417edf2d7b8ddb3350.59:
+	.long	.Lanon.2781341b575617417edf2d7b8ddb3350.58
 	.asciz	"\017\000\000\000>\000\000\000\005\000\000"
-	.size	.Lanon.5573bf410350ec4f0c96bf33c9fb3bcb.59, 16
+	.size	.Lanon.2781341b575617417edf2d7b8ddb3350.59, 16
 
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
-	.ident	"rustc version 1.93.0-nightly (518b42830 2025-11-16)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
+	.ident	"rustc version 1.94.0-nightly (c61a3a44d 2025-12-09)"
 	.section	".note.GNU-stack","",%progbits
 	.eabi_attribute	30, 2

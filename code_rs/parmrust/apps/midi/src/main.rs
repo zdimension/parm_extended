@@ -10,7 +10,9 @@ use midly::num::u7;
 use parm::math::fp32;
 use parm::midi::{press_key, release_key, set_instr, set_note, set_vol, MidiInstrument, MidiNote};
 use parm::{println, rprintln, telnet};
+use parm::embedded_timers::clock::Clock;
 use parm::mmio::{MIDIvol, TIMER};
+use parm::time::ParmTime;
 
 #[derive(Copy, Clone, Add, AddAssign, Default, Mul)]
 struct Vec2(fp32, fp32);
@@ -191,9 +193,9 @@ fn main() {
     let data_len: [u8; 2] = telnet::read_arr_blocking();
     let data_len: u16 = u16::from_le_bytes(data_len);
     println!("# bytes = ", data_len);
-
+    let start = ParmTime{}.now();
     let data = telnet::read_n_blocking(data_len as usize);
-    println!("data read, parsing");
+    println!((data_len as u32 * 1000 / ParmTime{}.elapsed(start).as_millis() as u32), " B/s data read, parsing");
     let (header, tracks) = midly::parse(&data).unwrap_or_else(|_| panic!("midi error"));
     let timing = header.timing;
     let ppqn = match timing {
