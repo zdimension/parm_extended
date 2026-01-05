@@ -10461,7 +10461,7 @@
         </entry>
         <entry>
           <string>NetName</string>
-          <string>Mmio_Clock</string>
+          <string>Clock</string>
         </entry>
       </elementAttributes>
       <pos x="-800" y="-1000"/>
@@ -10499,7 +10499,7 @@
         </entry>
         <entry>
           <string>NetName</string>
-          <string>Telnet_Read</string>
+          <string>Telnet_Av</string>
         </entry>
       </elementAttributes>
       <pos x="-800" y="-960"/>
@@ -15313,7 +15313,7 @@
           <int>32</int>
         </entry>
       </elementAttributes>
-      <pos x="-300" y="-700"/>
+      <pos x="-260" y="-680"/>
     </visualElement>
     <visualElement>
       <elementName>Tunnel</elementName>
@@ -15324,24 +15324,10 @@
         </entry>
         <entry>
           <string>NetName</string>
-          <string>Telnet_Av</string>
+          <string>TelnetBuf_RdData</string>
         </entry>
       </elementAttributes>
-      <pos x="-300" y="-620"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Tunnel</elementName>
-      <elementAttributes>
-        <entry>
-          <string>rotation</string>
-          <rotation rotation="2"/>
-        </entry>
-        <entry>
-          <string>NetName</string>
-          <string>Telnet_Out</string>
-        </entry>
-      </elementAttributes>
-      <pos x="-400" y="-660"/>
+      <pos x="-360" y="-640"/>
     </visualElement>
     <visualElement>
       <elementName>Splitter</elementName>
@@ -15355,7 +15341,7 @@
           <string>32</string>
         </entry>
       </elementAttributes>
-      <pos x="-380" y="-660"/>
+      <pos x="-340" y="-640"/>
     </visualElement>
     <visualElement>
       <elementName>Ground</elementName>
@@ -15365,7 +15351,7 @@
           <int>24</int>
         </entry>
       </elementAttributes>
-      <pos x="-380" y="-640"/>
+      <pos x="-340" y="-620"/>
     </visualElement>
     <visualElement>
       <elementName>Const</elementName>
@@ -15379,7 +15365,7 @@
           <int>32</int>
         </entry>
       </elementAttributes>
-      <pos x="-320" y="-700"/>
+      <pos x="-280" y="-680"/>
     </visualElement>
     <visualElement>
       <elementName>And</elementName>
@@ -15417,6 +15403,347 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
         </entry>
       </elementAttributes>
       <pos x="160" y="-700"/>
+    </visualElement>
+    <visualElement>
+      <elementName>RAMDualAccess</elementName>
+      <elementAttributes>
+        <entry>
+          <string>AddrBits</string>
+          <int>24</int>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>8</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-640" y="-1460"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>Telnet_Out</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-680" y="-1380"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Counter</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>TelnetBuf_WrPos</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>24</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-860" y="-1400"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Counter</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>TelnetBuf_RdPos</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>24</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-780" y="-1280"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Ground</elementName>
+      <elementAttributes/>
+      <pos x="-660" y="-1420"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>Clock</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-660" y="-1440"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>Clock</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-800" y="-1260"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>Clock</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-880" y="-1380"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Ground</elementName>
+      <elementAttributes/>
+      <pos x="-880" y="-1360"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Ground</elementName>
+      <elementAttributes/>
+      <pos x="-800" y="-1240"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>NetName</string>
+          <string>TelnetData_Read</string>
+        </entry>
+      </elementAttributes>
+      <pos x="200" y="-460"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Ground</elementName>
+      <elementAttributes/>
+      <pos x="140" y="-740"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>TelnetData_Read</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-1220" y="-1300"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>NetName</string>
+          <string>TelnetBuf_RdData</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-440" y="-1440"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Comparator</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Bits</string>
+          <int>24</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-580" y="-1280"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>TelnetBuf_Av</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-260" y="-600"/>
+    </visualElement>
+    <visualElement>
+      <elementName>And</elementName>
+      <elementAttributes/>
+      <pos x="-1200" y="-1300"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>TelnetBuf_Av</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-1220" y="-1260"/>
+    </visualElement>
+    <visualElement>
+      <elementName>CounterPreset</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>TelnetBuf_Len</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>20</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-920" y="-1600"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>Clock</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-940" y="-1580"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Ground</elementName>
+      <elementAttributes/>
+      <pos x="-940" y="-1520"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Ground</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Bits</string>
+          <int>20</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-940" y="-1540"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Ground</elementName>
+      <elementAttributes/>
+      <pos x="-940" y="-1500"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>NetName</string>
+          <string>TelnetBuf_IsFull</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-800" y="-1580"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Comparator</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Bits</string>
+          <int>20</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-780" y="-1660"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Ground</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Bits</string>
+          <int>20</int>
+        </entry>
+      </elementAttributes>
+      <pos x="-800" y="-1660"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Not</elementName>
+      <elementAttributes/>
+      <pos x="-700" y="-1640"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>NetName</string>
+          <string>TelnetBuf_Av</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-640" y="-1640"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>TelnetBuf_IsFull</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-1300" y="-1440"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Not</elementName>
+      <elementAttributes/>
+      <pos x="-1280" y="-1440"/>
+    </visualElement>
+    <visualElement>
+      <elementName>And</elementName>
+      <elementAttributes>
+        <entry>
+          <string>wideShape</string>
+          <boolean>true</boolean>
+        </entry>
+      </elementAttributes>
+      <pos x="-1220" y="-1440"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>Telnet_Av</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-1240" y="-1400"/>
+    </visualElement>
+    <visualElement>
+      <elementName>XOr</elementName>
+      <elementAttributes>
+        <entry>
+          <string>wideShape</string>
+          <boolean>true</boolean>
+        </entry>
+      </elementAttributes>
+      <pos x="-1060" y="-1620"/>
     </visualElement>
   </visualElements>
   <wires>
@@ -16969,6 +17296,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="600" y="3280"/>
     </wire>
     <wire>
+      <p1 x="-800" y="-1240"/>
+      <p2 x="-780" y="-1240"/>
+    </wire>
+    <wire>
       <p1 x="-720" y="1240"/>
       <p2 x="-700" y="1240"/>
     </wire>
@@ -17081,6 +17412,18 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="440" y="2280"/>
     </wire>
     <wire>
+      <p1 x="-800" y="-1260"/>
+      <p2 x="-780" y="-1260"/>
+    </wire>
+    <wire>
+      <p1 x="-700" y="-1260"/>
+      <p2 x="-580" y="-1260"/>
+    </wire>
+    <wire>
+      <p1 x="-1220" y="-1260"/>
+      <p2 x="-1200" y="-1260"/>
+    </wire>
+    <wire>
       <p1 x="-720" y="1260"/>
       <p2 x="-700" y="1260"/>
     </wire>
@@ -17155,6 +17498,26 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="160" y="2300"/>
       <p2 x="420" y="2300"/>
+    </wire>
+    <wire>
+      <p1 x="-720" y="-1280"/>
+      <p2 x="-660" y="-1280"/>
+    </wire>
+    <wire>
+      <p1 x="-1140" y="-1280"/>
+      <p2 x="-1100" y="-1280"/>
+    </wire>
+    <wire>
+      <p1 x="-1020" y="-1280"/>
+      <p2 x="-780" y="-1280"/>
+    </wire>
+    <wire>
+      <p1 x="-1100" y="-1280"/>
+      <p2 x="-1020" y="-1280"/>
+    </wire>
+    <wire>
+      <p1 x="-660" y="-1280"/>
+      <p2 x="-580" y="-1280"/>
     </wire>
     <wire>
       <p1 x="-640" y="1280"/>
@@ -17259,6 +17622,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="140" y="2320"/>
       <p2 x="420" y="2320"/>
+    </wire>
+    <wire>
+      <p1 x="-1220" y="-1300"/>
+      <p2 x="-1200" y="-1300"/>
     </wire>
     <wire>
       <p1 x="-720" y="1300"/>
@@ -17553,6 +17920,14 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="-480" y="7500"/>
     </wire>
     <wire>
+      <p1 x="-660" y="-1360"/>
+      <p2 x="-640" y="-1360"/>
+    </wire>
+    <wire>
+      <p1 x="-880" y="-1360"/>
+      <p2 x="-860" y="-1360"/>
+    </wire>
+    <wire>
       <p1 x="-360" y="1360"/>
       <p2 x="-340" y="1360"/>
     </wire>
@@ -17641,6 +18016,14 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="-1700" y="7520"/>
     </wire>
     <wire>
+      <p1 x="-680" y="-1380"/>
+      <p2 x="-640" y="-1380"/>
+    </wire>
+    <wire>
+      <p1 x="-880" y="-1380"/>
+      <p2 x="-860" y="-1380"/>
+    </wire>
+    <wire>
       <p1 x="-1440" y="6500"/>
       <p2 x="-1420" y="6500"/>
     </wire>
@@ -17727,6 +18110,22 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="140" y="2420"/>
       <p2 x="420" y="2420"/>
+    </wire>
+    <wire>
+      <p1 x="-800" y="-1400"/>
+      <p2 x="-700" y="-1400"/>
+    </wire>
+    <wire>
+      <p1 x="-1240" y="-1400"/>
+      <p2 x="-1220" y="-1400"/>
+    </wire>
+    <wire>
+      <p1 x="-920" y="-1400"/>
+      <p2 x="-860" y="-1400"/>
+    </wire>
+    <wire>
+      <p1 x="-700" y="-1400"/>
+      <p2 x="-640" y="-1400"/>
     </wire>
     <wire>
       <p1 x="-980" y="1400"/>
@@ -17835,6 +18234,18 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="-1900" y="7560"/>
       <p2 x="-1880" y="7560"/>
+    </wire>
+    <wire>
+      <p1 x="-660" y="-1420"/>
+      <p2 x="-640" y="-1420"/>
+    </wire>
+    <wire>
+      <p1 x="-1140" y="-1420"/>
+      <p2 x="-1080" y="-1420"/>
+    </wire>
+    <wire>
+      <p1 x="-1080" y="-1420"/>
+      <p2 x="-920" y="-1420"/>
     </wire>
     <wire>
       <p1 x="-980" y="1420"/>
@@ -17949,6 +18360,22 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="-1460" y="7580"/>
     </wire>
     <wire>
+      <p1 x="-660" y="-1440"/>
+      <p2 x="-640" y="-1440"/>
+    </wire>
+    <wire>
+      <p1 x="-580" y="-1440"/>
+      <p2 x="-440" y="-1440"/>
+    </wire>
+    <wire>
+      <p1 x="-1300" y="-1440"/>
+      <p2 x="-1280" y="-1440"/>
+    </wire>
+    <wire>
+      <p1 x="-1240" y="-1440"/>
+      <p2 x="-1220" y="-1440"/>
+    </wire>
+    <wire>
       <p1 x="-980" y="1440"/>
       <p2 x="-920" y="1440"/>
     </wire>
@@ -18035,6 +18462,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="-540" y="7600"/>
       <p2 x="-520" y="7600"/>
+    </wire>
+    <wire>
+      <p1 x="-920" y="-1460"/>
+      <p2 x="-640" y="-1460"/>
     </wire>
     <wire>
       <p1 x="-260" y="1460"/>
@@ -18153,6 +18584,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="-140" y="-460"/>
     </wire>
     <wire>
+      <p1 x="100" y="-460"/>
+      <p2 x="200" y="-460"/>
+    </wire>
+    <wire>
       <p1 x="0" y="460"/>
       <p2 x="140" y="460"/>
     </wire>
@@ -18227,6 +18662,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="-520" y="7640"/>
       <p2 x="-500" y="7640"/>
+    </wire>
+    <wire>
+      <p1 x="-940" y="-1500"/>
+      <p2 x="-920" y="-1500"/>
     </wire>
     <wire>
       <p1 x="-1400" y="1500"/>
@@ -18319,6 +18758,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="-1500" y="7660"/>
       <p2 x="-1460" y="7660"/>
+    </wire>
+    <wire>
+      <p1 x="-940" y="-1520"/>
+      <p2 x="-920" y="-1520"/>
     </wire>
     <wire>
       <p1 x="-460" y="1520"/>
@@ -18417,6 +18860,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="-480" y="7680"/>
     </wire>
     <wire>
+      <p1 x="-940" y="-1540"/>
+      <p2 x="-920" y="-1540"/>
+    </wire>
+    <wire>
       <p1 x="-260" y="1540"/>
       <p2 x="-220" y="1540"/>
     </wire>
@@ -18487,6 +18934,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="-920" y="2580"/>
       <p2 x="-900" y="2580"/>
+    </wire>
+    <wire>
+      <p1 x="-1020" y="-1560"/>
+      <p2 x="-920" y="-1560"/>
     </wire>
     <wire>
       <p1 x="-500" y="1560"/>
@@ -18591,6 +19042,18 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="-1360" y="7720"/>
       <p2 x="-1320" y="7720"/>
+    </wire>
+    <wire>
+      <p1 x="-940" y="-1580"/>
+      <p2 x="-920" y="-1580"/>
+    </wire>
+    <wire>
+      <p1 x="-860" y="-1580"/>
+      <p2 x="-800" y="-1580"/>
+    </wire>
+    <wire>
+      <p1 x="-1080" y="-1580"/>
+      <p2 x="-1060" y="-1580"/>
     </wire>
     <wire>
       <p1 x="-1460" y="1580"/>
@@ -18699,6 +19162,14 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="140" y="2620"/>
       <p2 x="420" y="2620"/>
+    </wire>
+    <wire>
+      <p1 x="-860" y="-1600"/>
+      <p2 x="-800" y="-1600"/>
+    </wire>
+    <wire>
+      <p1 x="-980" y="-1600"/>
+      <p2 x="-920" y="-1600"/>
     </wire>
     <wire>
       <p1 x="-1460" y="1600"/>
@@ -18817,6 +19288,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="600" y="2640"/>
     </wire>
     <wire>
+      <p1 x="-1100" y="-1620"/>
+      <p2 x="-1060" y="-1620"/>
+    </wire>
+    <wire>
       <p1 x="-1120" y="1620"/>
       <p2 x="-1100" y="1620"/>
     </wire>
@@ -18843,6 +19318,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="-160" y="-600"/>
       <p2 x="-140" y="-600"/>
+    </wire>
+    <wire>
+      <p1 x="-260" y="-600"/>
+      <p2 x="-240" y="-600"/>
     </wire>
     <wire>
       <p1 x="200" y="600"/>
@@ -18901,6 +19380,18 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="420" y="2660"/>
     </wire>
     <wire>
+      <p1 x="-800" y="-1640"/>
+      <p2 x="-780" y="-1640"/>
+    </wire>
+    <wire>
+      <p1 x="-720" y="-1640"/>
+      <p2 x="-700" y="-1640"/>
+    </wire>
+    <wire>
+      <p1 x="-660" y="-1640"/>
+      <p2 x="-640" y="-1640"/>
+    </wire>
+    <wire>
       <p1 x="-340" y="1640"/>
       <p2 x="-320" y="1640"/>
     </wire>
@@ -18939,10 +19430,6 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="-160" y="-620"/>
       <p2 x="-140" y="-620"/>
-    </wire>
-    <wire>
-      <p1 x="-300" y="-620"/>
-      <p2 x="-280" y="-620"/>
     </wire>
     <wire>
       <p1 x="120" y="620"/>
@@ -19009,6 +19496,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="440" y="2680"/>
     </wire>
     <wire>
+      <p1 x="-800" y="-1660"/>
+      <p2 x="-780" y="-1660"/>
+    </wire>
+    <wire>
       <p1 x="-1500" y="1660"/>
       <p2 x="-1300" y="1660"/>
     </wire>
@@ -19019,6 +19510,14 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="-1220" y="6780"/>
       <p2 x="-1200" y="6780"/>
+    </wire>
+    <wire>
+      <p1 x="-360" y="-640"/>
+      <p2 x="-340" y="-640"/>
+    </wire>
+    <wire>
+      <p1 x="-320" y="-640"/>
+      <p2 x="-260" y="-640"/>
     </wire>
     <wire>
       <p1 x="-780" y="-640"/>
@@ -19141,12 +19640,8 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="-140" y="-660"/>
     </wire>
     <wire>
-      <p1 x="-400" y="-660"/>
-      <p2 x="-380" y="-660"/>
-    </wire>
-    <wire>
-      <p1 x="-360" y="-660"/>
-      <p2 x="-300" y="-660"/>
+      <p1 x="-220" y="-660"/>
+      <p2 x="-200" y="-660"/>
     </wire>
     <wire>
       <p1 x="-900" y="660"/>
@@ -19261,16 +19756,16 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="-480" y="1700"/>
     </wire>
     <wire>
+      <p1 x="-280" y="-680"/>
+      <p2 x="-260" y="-680"/>
+    </wire>
+    <wire>
       <p1 x="-780" y="-680"/>
       <p2 x="-760" y="-680"/>
     </wire>
     <wire>
       <p1 x="-160" y="-680"/>
       <p2 x="-140" y="-680"/>
-    </wire>
-    <wire>
-      <p1 x="-260" y="-680"/>
-      <p2 x="-200" y="-680"/>
     </wire>
     <wire>
       <p1 x="-460" y="680"/>
@@ -19351,10 +19846,6 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="-160" y="-700"/>
       <p2 x="-140" y="-700"/>
-    </wire>
-    <wire>
-      <p1 x="-320" y="-700"/>
-      <p2 x="-300" y="-700"/>
     </wire>
     <wire>
       <p1 x="-820" y="700"/>
@@ -19533,12 +20024,16 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="-400" y="-740"/>
     </wire>
     <wire>
-      <p1 x="-200" y="-740"/>
-      <p2 x="-140" y="-740"/>
+      <p1 x="80" y="-740"/>
+      <p2 x="100" y="-740"/>
     </wire>
     <wire>
-      <p1 x="80" y="-740"/>
+      <p1 x="140" y="-740"/>
       <p2 x="160" y="-740"/>
+    </wire>
+    <wire>
+      <p1 x="-200" y="-740"/>
+      <p2 x="-140" y="-740"/>
     </wire>
     <wire>
       <p1 x="60" y="740"/>
@@ -21393,10 +21888,6 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="-280" y="-780"/>
     </wire>
     <wire>
-      <p1 x="-280" y="-660"/>
-      <p2 x="-280" y="-620"/>
-    </wire>
-    <wire>
       <p1 x="-1820" y="7000"/>
       <p2 x="-1820" y="7080"/>
     </wire>
@@ -21431,6 +21922,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="-800" y="8320"/>
       <p2 x="-800" y="8380"/>
+    </wire>
+    <wire>
+      <p1 x="-800" y="-1640"/>
+      <p2 x="-800" y="-1600"/>
     </wire>
     <wire>
       <p1 x="-1060" y="900"/>
@@ -21589,6 +22084,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="-1080" y="8340"/>
     </wire>
     <wire>
+      <p1 x="-1080" y="-1580"/>
+      <p2 x="-1080" y="-1420"/>
+    </wire>
+    <wire>
       <p1 x="-1340" y="2520"/>
       <p2 x="-1340" y="2640"/>
     </wire>
@@ -21711,6 +22210,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="-1100" y="6440"/>
       <p2 x="-1100" y="6540"/>
+    </wire>
+    <wire>
+      <p1 x="-1100" y="-1620"/>
+      <p2 x="-1100" y="-1280"/>
     </wire>
     <wire>
       <p1 x="-1100" y="6660"/>
@@ -21871,6 +22374,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="100" y="720"/>
       <p2 x="100" y="740"/>
+    </wire>
+    <wire>
+      <p1 x="100" y="-740"/>
+      <p2 x="100" y="-460"/>
     </wire>
     <wire>
       <p1 x="100" y="1840"/>
@@ -22281,6 +22788,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="-660" y="140"/>
     </wire>
     <wire>
+      <p1 x="-660" y="-1360"/>
+      <p2 x="-660" y="-1280"/>
+    </wire>
+    <wire>
       <p1 x="660" y="300"/>
       <p2 x="660" y="340"/>
     </wire>
@@ -22299,6 +22810,14 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="-920" y="-260"/>
       <p2 x="-920" y="-220"/>
+    </wire>
+    <wire>
+      <p1 x="-920" y="-1460"/>
+      <p2 x="-920" y="-1420"/>
+    </wire>
+    <wire>
+      <p1 x="-920" y="-1420"/>
+      <p2 x="-920" y="-1400"/>
     </wire>
     <wire>
       <p1 x="920" y="340"/>
@@ -22585,6 +23104,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="-700" y="-900"/>
     </wire>
     <wire>
+      <p1 x="-700" y="-1400"/>
+      <p2 x="-700" y="-1260"/>
+    </wire>
+    <wire>
       <p1 x="-700" y="4180"/>
       <p2 x="-700" y="4200"/>
     </wire>
@@ -22650,7 +23173,7 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     </wire>
     <wire>
       <p1 x="-200" y="-740"/>
-      <p2 x="-200" y="-680"/>
+      <p2 x="-200" y="-660"/>
     </wire>
     <wire>
       <p1 x="-1480" y="2980"/>
@@ -22989,6 +23512,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       <p2 x="1260" y="420"/>
     </wire>
     <wire>
+      <p1 x="-240" y="-640"/>
+      <p2 x="-240" y="-600"/>
+    </wire>
+    <wire>
       <p1 x="-240" y="1140"/>
       <p2 x="-240" y="1160"/>
     </wire>
@@ -23143,6 +23670,10 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="-1020" y="7520"/>
       <p2 x="-1020" y="7540"/>
+    </wire>
+    <wire>
+      <p1 x="-1020" y="-1560"/>
+      <p2 x="-1020" y="-1280"/>
     </wire>
     <wire>
       <p1 x="-1020" y="7540"/>

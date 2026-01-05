@@ -1379,29 +1379,23 @@ _RINvNtCsc6P1BMjYAM_4core3ptr13drop_in_placeNCNvNtCskL9aS9YUD5U_9netclient3web6r
 	.thumb_func
 _RINvNtCsc6P1BMjYAM_4core3ptr13drop_in_placeNtCskL9aS9YUD5U_9netclient6SocketEBH_:
 	.fnstart
-	movs	r1, #247
+	movs	r1, #191
 	mvns	r1, r1
-	ldr	r2, [r1, #4]
-	cmp	r2, #0
-	beq	.LBB4_5
 .LBB4_1:
 	ldr	r2, [r1]
-	ldr	r2, [r1, #4]
 	cmp	r2, #0
-	beq	.LBB4_5
+	bmi	.LBB4_5
 	ldr	r2, [r1]
-	ldr	r2, [r1, #4]
 	cmp	r2, #0
-	beq	.LBB4_5
+	bmi	.LBB4_5
 	ldr	r2, [r1]
-	ldr	r2, [r1, #4]
 	cmp	r2, #0
-	beq	.LBB4_5
+	bmi	.LBB4_5
 	ldr	r2, [r1]
-	ldr	r2, [r1, #4]
 	cmp	r2, #0
-	bne	.LBB4_1
+	bpl	.LBB4_1
 .LBB4_5:
+	subs	r1, #56
 	movs	r2, #4
 	str	r2, [r1]
 	uxtb	r2, r0
@@ -11131,41 +11125,34 @@ _RNvMs_CskL9aS9YUD5U_9netclientNtB4_6Socket4recv:
 	str	r0, [sp, #12]
 	movs	r5, #1
 	str	r5, [sp, #8]
+	movs	r0, #247
+	mvns	r0, r0
+	ldrh	r1, [r6]
 	ldrh	r2, [r7]
-	ldrh	r0, [r6]
-	movs	r1, #247
-	mvns	r1, r1
-	ldr	r3, [r1, #4]
-	cmp	r3, #0
-	beq	.LBB19_5
 .LBB19_1:
-	ldr	r3, [r1]
-	ldr	r3, [r1, #4]
+	ldr	r3, [r0, #56]
 	cmp	r3, #0
-	beq	.LBB19_5
-	ldr	r3, [r1]
-	ldr	r3, [r1, #4]
+	bmi	.LBB19_5
+	ldr	r3, [r0, #56]
 	cmp	r3, #0
-	beq	.LBB19_5
-	ldr	r3, [r1]
-	ldr	r3, [r1, #4]
+	bmi	.LBB19_5
+	ldr	r3, [r0, #56]
 	cmp	r3, #0
-	beq	.LBB19_5
-	ldr	r3, [r1]
-	ldr	r3, [r1, #4]
+	bmi	.LBB19_5
+	ldr	r3, [r0, #56]
 	cmp	r3, #0
-	bne	.LBB19_1
+	bpl	.LBB19_1
 .LBB19_5:
 	movs	r3, #3
-	str	r3, [r1]
+	str	r3, [r0]
 	uxtb	r3, r2
-	str	r3, [r1]
+	str	r3, [r0]
 	lsrs	r2, r2, #8
-	str	r2, [r1]
-	uxtb	r2, r0
-	str	r2, [r1]
-	lsrs	r0, r0, #8
-	str	r0, [r1]
+	str	r2, [r0]
+	uxtb	r2, r1
+	str	r2, [r0]
+	lsrs	r1, r1, #8
+	str	r1, [r0]
 	add	r0, sp, #8
 	add	r7, sp, #36
 	movs	r2, #2
@@ -11253,8 +11240,8 @@ _RNvMs_CskL9aS9YUD5U_9netclientNtB4_6Socket4send:
 	push	{r4, r5, r6, lr}
 	.pad	#24
 	sub	sp, #24
-	mov	r4, r1
-	mov	r5, r0
+	mov	r5, r1
+	mov	r4, r0
 	ldr	r6, [r1, #8]
 	str	r6, [sp, #4]
 	ldr	r0, .LCPI20_0
@@ -11263,36 +11250,29 @@ _RNvMs_CskL9aS9YUD5U_9netclientNtB4_6Socket4send:
 	str	r0, [sp, #12]
 	add	r0, sp, #4
 	str	r0, [sp, #8]
-	str	r5, [sp, #16]
+	str	r4, [sp, #16]
 	ldr	r0, .LCPI20_2
 	ldr	r1, .LCPI20_3
 	ldr	r2, .LCPI20_4
 	add	r3, sp, #8
 	bl	_RNvNtCsc6P1BMjYAM_4core3fmt5write
-	ldrh	r2, [r5]
-	ldr	r1, [r4, #4]
 	movs	r0, #247
 	mvns	r0, r0
-	ldr	r3, [r0, #4]
-	cmp	r3, #0
-	beq	.LBB20_5
+	ldr	r1, [r5, #4]
+	ldrh	r2, [r4]
 .LBB20_1:
-	ldr	r3, [r0]
-	ldr	r3, [r0, #4]
+	ldr	r3, [r0, #56]
 	cmp	r3, #0
-	beq	.LBB20_5
-	ldr	r3, [r0]
-	ldr	r3, [r0, #4]
+	bmi	.LBB20_5
+	ldr	r3, [r0, #56]
 	cmp	r3, #0
-	beq	.LBB20_5
-	ldr	r3, [r0]
-	ldr	r3, [r0, #4]
+	bmi	.LBB20_5
+	ldr	r3, [r0, #56]
 	cmp	r3, #0
-	beq	.LBB20_5
-	ldr	r3, [r0]
-	ldr	r3, [r0, #4]
+	bmi	.LBB20_5
+	ldr	r3, [r0, #56]
 	cmp	r3, #0
-	bne	.LBB20_1
+	bpl	.LBB20_1
 .LBB20_5:
 	movs	r3, #2
 	str	r3, [r0]
@@ -11771,7 +11751,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	sub	sp, #508
 	.pad	#288
 	sub	sp, #288
-	str	r3, [sp, #240]
+	mov	r7, r3
 	mov	r4, r0
 	str	r2, [sp, #260]
 	str	r1, [sp, #256]
@@ -11784,34 +11764,29 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	str	r0, [sp, #204]
 	str	r0, [sp, #264]
 	add	r0, sp, #520
-	str	r0, [sp, #176]
+	adds	r0, #48
+	str	r0, [sp, #116]
 	movs	r5, #255
 	mvns	r1, r5
-	ldr	r0, [r1, #12]
-	ldr	r7, [sp, #816]
-	cmp	r0, #0
-	beq	.LBB22_5
+	ldr	r0, [sp, #816]
+	str	r0, [sp, #232]
 .LBB22_1:
-	ldr	r0, [r1, #8]
-	ldr	r0, [r1, #12]
+	ldr	r0, [r1, #64]
 	cmp	r0, #0
-	beq	.LBB22_5
-	ldr	r0, [r1, #8]
-	ldr	r0, [r1, #12]
+	bmi	.LBB22_5
+	ldr	r0, [r1, #64]
 	cmp	r0, #0
-	beq	.LBB22_5
-	ldr	r0, [r1, #8]
-	ldr	r0, [r1, #12]
+	bmi	.LBB22_5
+	ldr	r0, [r1, #64]
 	cmp	r0, #0
-	beq	.LBB22_5
-	ldr	r0, [r1, #8]
-	ldr	r0, [r1, #12]
+	bmi	.LBB22_5
+	ldr	r0, [r1, #64]
 	cmp	r0, #0
-	bne	.LBB22_1
+	bpl	.LBB22_1
 .LBB22_5:
 	movs	r0, #5
 	str	r1, [sp, #216]
-	str	r0, [sp, #156]
+	str	r0, [sp, #160]
 	str	r0, [r1, #8]
 	add	r0, sp, #264
 	add	r1, sp, #648
@@ -11819,7 +11794,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	mov	r2, r6
 	bl	_RNvXs2_NtNtCs6UyBOS6LwsO_4parm6telnet13speedy_telnetNtB5_12SpeedyTelnetINtNtCsfkGjHGYaK9V_6speedy6reader6ReaderNtB5_13TelnetContextE10read_bytes
 	ldr	r0, [sp, #648]
-	str	r0, [sp, #140]
+	str	r0, [sp, #144]
 	ldr	r0, .LCPI22_104
 	str	r0, [sp, #652]
 	add	r0, sp, #256
@@ -11836,7 +11811,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	strb	r1, [r0, r2]
 	ldr	r2, [sp, #252]
 	strb	r2, [r0, #24]
-	str	r6, [sp, #148]
+	str	r6, [sp, #152]
 	strb	r6, [r0, #16]
 	str	r1, [sp, #680]
 	str	r1, [sp, #676]
@@ -11845,14 +11820,15 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	movs	r1, #15
 	str	r1, [sp, #248]
 	lsls	r1, r1, #5
-	str	r1, [sp, #132]
+	str	r1, [sp, #136]
 	str	r1, [sp, #656]
 	str	r2, [sp, #652]
 	str	r2, [sp, #648]
 	mov	r1, r0
 	adds	r1, #16
 	bl	_RINvXs1_NtNtNtCs1EsS1vc5CG7_17embedded_graphics10primitives9rectangle6styledNtNtNtCs3ByWt3msWm1_22embedded_graphics_core10primitives9rectangle9RectangleINtNtBa_6styled14StyledDrawableINtNtBa_15primitive_style14PrimitiveStyleNtNtCs6UyBOS6LwsO_4parm6screen5ColorEE11draw_styledNtB3C_10ParmScreenECskL9aS9YUD5U_9netclient
-	cmp	r7, #3
+	ldr	r0, [sp, #232]
+	cmp	r0, #3
 	blo	.LBB22_6
 	bl	.LBB22_1446
 .LBB22_6:
@@ -11884,11 +11860,11 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	bl	.LBB22_1460
 .LBB22_9:
 	str	r5, [sp, #180]
-	str	r4, [sp, #136]
+	str	r4, [sp, #140]
 	movs	r1, #37
-	str	r1, [sp, #172]
+	str	r1, [sp, #176]
 	str	r1, [r0, #8]
-	str	r7, [sp, #232]
+	str	r7, [sp, #240]
 	movs	r7, #0
 	str	r7, [r0]
 	strb	r7, [r0, #28]
@@ -11922,7 +11898,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	str	r6, [r0, #96]
 	str	r4, [r0, #100]
 	str	r7, [r0, #104]
-	ldr	r1, [sp, #172]
+	ldr	r1, [sp, #176]
 	str	r1, [r0, #64]
 	str	r7, [r0, #56]
 	adds	r0, #104
@@ -11930,104 +11906,101 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	str	r6, [sp, #104]
 	str	r6, [sp, #288]
 	str	r7, [sp, #308]
-	ldr	r0, [sp, #148]
+	ldr	r0, [sp, #152]
 	str	r0, [sp, #304]
 	str	r7, [sp, #300]
 	add	r0, sp, #312
 	strh	r7, [r0, #24]
-	ldr	r6, [sp, #232]
-	str	r6, [sp, #332]
+	ldr	r2, [sp, #232]
+	str	r2, [sp, #332]
 	str	r7, [sp, #324]
-	str	r6, [sp, #320]
+	str	r2, [sp, #320]
 	ldr	r0, [sp, #240]
 	str	r0, [sp, #316]
-	str	r7, [sp, #124]
+	str	r7, [sp, #128]
 	str	r7, [sp, #312]
-	ldr	r3, [sp, #252]
-	str	r3, [sp, #328]
+	ldr	r7, [sp, #252]
+	str	r7, [sp, #328]
 	add	r1, sp, #340
 	ldr	r0, [sp, #248]
 	str	r1, [sp, #240]
 	strb	r0, [r1]
+	add	r3, sp, #648
 	add	r4, sp, #648
 	add	r5, sp, #648
-	add	r1, sp, #648
-	add	r7, sp, #472
+	add	r1, sp, #472
 	add	r0, sp, #648
-	str	r0, [sp, #152]
+	str	r0, [sp, #156]
+	add	r6, sp, #648
 	add	r0, sp, #648
-	add	r2, sp, #648
-	str	r2, [sp, #228]
-	add	r2, sp, #520
-	str	r2, [sp, #168]
-	add	r2, sp, #648
-	str	r2, [sp, #196]
-	add	r2, sp, #520
-	str	r2, [sp, #164]
-	add	r2, sp, #472
-	str	r2, [sp, #160]
-	add	r2, sp, #396
-	str	r2, [sp, #236]
-	cmp	r3, r6
+	str	r0, [sp, #228]
+	add	r0, sp, #520
+	str	r0, [sp, #172]
+	add	r0, sp, #648
+	str	r0, [sp, #196]
+	add	r0, sp, #520
+	str	r0, [sp, #168]
+	add	r0, sp, #472
+	str	r0, [sp, #164]
+	add	r0, sp, #396
+	str	r0, [sp, #236]
+	cmp	r7, r2
 	blo	.LBB22_10
 	bl	.LBB22_1435
 .LBB22_10:
-	ldr	r2, [sp, #176]
-	adds	r2, #48
-	str	r2, [sp, #176]
-	mov	r2, r4
-	adds	r2, #8
-	str	r2, [sp, #44]
-	adds	r2, r4, #4
-	str	r2, [sp, #48]
-	adds	r4, #51
-	str	r4, [sp, #52]
-	mov	r2, r5
-	adds	r2, #36
-	str	r2, [sp, #56]
-	adds	r5, #16
-	str	r5, [sp, #60]
-	mov	r2, r1
-	adds	r2, #51
-	str	r2, [sp, #76]
-	adds	r2, r1, #4
-	str	r2, [sp, #80]
-	adds	r1, #12
-	str	r1, [sp, #32]
-	adds	r1, r7, #4
-	str	r1, [sp, #28]
-	ldr	r1, [sp, #152]
-	adds	r1, #8
-	str	r1, [sp, #152]
-	adds	r1, r0, #4
-	str	r1, [sp, #84]
+	mov	r0, r3
 	adds	r0, #8
-	str	r0, [sp, #64]
+	str	r0, [sp, #44]
+	adds	r0, r3, #4
+	str	r0, [sp, #48]
+	adds	r3, #51
+	str	r3, [sp, #52]
+	mov	r0, r4
+	adds	r0, #36
+	str	r0, [sp, #56]
+	adds	r4, #16
+	str	r4, [sp, #60]
+	mov	r0, r5
+	adds	r0, #51
+	str	r0, [sp, #76]
+	adds	r0, r5, #4
+	str	r0, [sp, #80]
+	adds	r5, #12
+	str	r5, [sp, #32]
+	adds	r0, r1, #4
+	str	r0, [sp, #28]
+	ldr	r1, [sp, #156]
+	adds	r1, #8
+	str	r1, [sp, #156]
+	adds	r0, r6, #4
+	str	r0, [sp, #84]
+	adds	r6, #8
+	str	r6, [sp, #64]
 	ldr	r0, [sp, #228]
 	adds	r0, r0, #1
 	str	r0, [sp, #40]
-	ldr	r3, [sp, #168]
-	mov	r0, r3
+	ldr	r7, [sp, #172]
+	mov	r0, r7
 	adds	r0, #29
 	str	r0, [sp, #36]
-	adds	r3, #8
-	str	r3, [sp, #168]
-	ldr	r0, [sp, #196]
-	adds	r1, r0, #1
-	str	r1, [sp, #116]
-	adds	r0, #8
-	str	r0, [sp, #196]
-	ldr	r0, [sp, #164]
+	adds	r7, #8
+	str	r7, [sp, #172]
+	ldr	r2, [sp, #196]
+	adds	r0, r2, #1
+	str	r0, [sp, #120]
+	adds	r2, #8
+	str	r2, [sp, #196]
+	ldr	r0, [sp, #168]
 	adds	r1, r0, #1
 	str	r1, [sp, #72]
 	adds	r0, #8
-	str	r0, [sp, #164]
-	ldr	r0, [sp, #160]
+	str	r0, [sp, #168]
+	ldr	r0, [sp, #164]
 	mov	r1, r0
 	adds	r1, #25
 	str	r1, [sp, #68]
 	adds	r0, #36
-	str	r0, [sp, #160]
+	str	r0, [sp, #164]
 	ldr	r0, [sp, #236]
 	mov	r1, r0
 	adds	r1, #28
@@ -12044,11 +12017,11 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	str	r1, [sp, #228]
 	adds	r0, #36
 	str	r0, [sp, #236]
-	ldr	r3, [sp, #240]
-	adds	r0, r3, #1
+	ldr	r2, [sp, #240]
+	adds	r0, r2, #1
 	str	r0, [sp, #224]
-	adds	r3, #36
-	str	r3, [sp, #240]
+	adds	r2, #36
+	str	r2, [sp, #240]
 .LBB22_11:
 	add	r5, sp, #340
 	add	r4, sp, #312
@@ -12130,14 +12103,14 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldr	r0, [r0, #4]
 	str	r0, [sp, #524]
 	str	r1, [sp, #520]
-	ldr	r0, .LCPI22_202
+	ldr	r0, .LCPI22_195
 	str	r0, [sp, #652]
 	add	r0, sp, #520
 	str	r0, [sp, #648]
 	add	r3, sp, #648
-	ldr	r0, .LCPI22_203
-	ldr	r1, .LCPI22_204
-	ldr	r2, .LCPI22_205
+	ldr	r0, .LCPI22_196
+	ldr	r1, .LCPI22_197
+	ldr	r2, .LCPI22_198
 	bl	_RNvNtCsc6P1BMjYAM_4core3fmt5write
 	ldr	r6, [sp, #416]
 	cmp	r5, #9
@@ -12326,7 +12299,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	bne	.LBB22_60
 	b	.LBB22_86
 .LBB22_60:
-	str	r3, [sp, #144]
+	str	r3, [sp, #148]
 	cmp	r0, #20
 	beq	.LBB22_61
 	bl	.LBB22_1235
@@ -12359,13 +12332,13 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	bl	__aeabi_memcpy
 	subs	r0, r7, #1
 	cmp	r0, #3
-	ldr	r4, [sp, #124]
+	ldr	r4, [sp, #128]
 	mov	r6, r5
 	bhs	.LBB22_64
 	bl	.LBB22_419
 .LBB22_64:
 	str	r6, [sp, #200]
-	str	r7, [sp, #128]
+	str	r7, [sp, #132]
 	subs	r0, r7, #4
 	lsrs	r1, r0, #2
 	adds	r2, r1, #1
@@ -12379,7 +12352,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldr	r0, [sp, #212]
 	ands	r5, r0
 	ldr	r6, [sp, #200]
-	ldr	r7, [sp, #128]
+	ldr	r7, [sp, #132]
 	bne	.LBB22_67
 	bl	.LBB22_419
 .LBB22_67:
@@ -12572,40 +12545,40 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 .LBB22_96:
 	bl	.LBB22_1235
 	.p2align	2
-.LCPI22_202:
+.LCPI22_195:
 	.long	_RNvXs1i_NtCsc6P1BMjYAM_4core3fmtReNtB6_7Display3fmtB8_
 	.p2align	2
-.LCPI22_203:
+.LCPI22_196:
 	.long	.L_MergedGlobals
 	.p2align	2
-.LCPI22_204:
+.LCPI22_197:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.250
 	.p2align	2
-.LCPI22_205:
+.LCPI22_198:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.150
 	.p2align	1
 .LBB22_101:
 	str	r6, [sp, #200]
-	str	r7, [sp, #128]
+	str	r7, [sp, #132]
 	subs	r0, r7, #4
 	lsrs	r1, r0, #2
 	adds	r3, r1, #1
 	cmp	r0, #12
-	str	r3, [sp, #144]
+	str	r3, [sp, #148]
 	blo	.LBB22_102
 	b	.LBB22_159
 .LBB22_102:
 	movs	r4, #0
 .LBB22_103:
 	ldr	r2, [sp, #184]
-	ldr	r0, [sp, #144]
+	ldr	r0, [sp, #148]
 	ands	r0, r2
 	ldr	r6, [sp, #200]
-	ldr	r7, [sp, #128]
+	ldr	r7, [sp, #132]
 	bne	.LBB22_104
 	b	.LBB22_311
 .LBB22_104:
-	str	r0, [sp, #144]
+	str	r0, [sp, #148]
 	ldr	r0, [sp, #252]
 	ldrb	r1, [r0, r4]
 	mov	r2, r1
@@ -12657,7 +12630,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	orrs	r3, r1
 	strb	r3, [r2, r4]
 	adds	r3, r4, #4
-	ldr	r0, [sp, #144]
+	ldr	r0, [sp, #148]
 	cmp	r0, #1
 	beq	.LBB22_122
 	str	r2, [sp, #88]
@@ -12712,7 +12685,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	strb	r0, [r2, r3]
 	mov	r3, r4
 	adds	r3, #8
-	ldr	r0, [sp, #144]
+	ldr	r0, [sp, #148]
 	cmp	r0, #2
 	beq	.LBB22_122
 	b	.LBB22_301
@@ -12728,7 +12701,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	.p2align	1
 .LBB22_128:
 	str	r6, [sp, #200]
-	str	r7, [sp, #128]
+	str	r7, [sp, #132]
 	subs	r0, r7, #4
 	lsrs	r1, r0, #2
 	adds	r3, r1, #1
@@ -12743,7 +12716,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldr	r0, [sp, #184]
 	ands	r0, r2
 	ldr	r6, [sp, #200]
-	ldr	r7, [sp, #128]
+	ldr	r7, [sp, #132]
 	bne	.LBB22_131
 	bl	.LBB22_370
 .LBB22_131:
@@ -12763,7 +12736,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	orrs	r2, r1
 	ldr	r1, [sp, #252]
 	strb	r2, [r1, r4]
-	str	r6, [sp, #144]
+	str	r6, [sp, #148]
 	ldrb	r1, [r6, r4]
 	mov	r2, r1
 	subs	r2, #65
@@ -12774,7 +12747,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 .LBB22_135:
 	adds	r6, r5, #6
 	orrs	r2, r1
-	ldr	r1, [sp, #144]
+	ldr	r1, [sp, #148]
 	strb	r2, [r1, r4]
 	str	r6, [sp, #100]
 	ldrb	r1, [r6, r4]
@@ -12818,7 +12791,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	orrs	r6, r1
 	ldr	r1, [sp, #252]
 	strb	r6, [r1, r3]
-	ldr	r1, [sp, #144]
+	ldr	r1, [sp, #148]
 	ldrb	r1, [r1, r3]
 	mov	r6, r1
 	subs	r6, #65
@@ -12828,7 +12801,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldr	r6, [sp, #96]
 .LBB22_144:
 	orrs	r6, r1
-	ldr	r1, [sp, #144]
+	ldr	r1, [sp, #148]
 	strb	r6, [r1, r3]
 	ldr	r1, [sp, #100]
 	ldrb	r1, [r1, r3]
@@ -12880,7 +12853,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	movs	r1, #1
 	mov	r3, r1
 	lsls	r3, r2
-	ldr	r2, .LCPI22_250
+	ldr	r2, .LCPI22_247
 	tst	r3, r2
 	bne	.LBB22_155
 	bl	.LBB22_524
@@ -13430,7 +13403,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	mov	r3, r0
 	b	.LBB22_228
 	.p2align	2
-.LCPI22_250:
+.LCPI22_247:
 	.long	8388635
 	.p2align	1
 .LBB22_262:
@@ -13469,7 +13442,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 .LBB22_269:
 	mov	r0, r3
 	cmp	r5, #9
-	ldr	r3, .LCPI22_206
+	ldr	r3, .LCPI22_199
 	beq	.LBB22_288
 	cmp	r5, #11
 	mov	r3, r0
@@ -13653,7 +13626,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	beq	.LBB22_300
 	bl	.LBB22_1235
 .LBB22_300:
-	ldr	r0, [sp, #152]
+	ldr	r0, [sp, #156]
 	bl	_RINvNtCsc6P1BMjYAM_4core3ptr13drop_in_placeNtNtCskL9aS9YUD5U_9netclient3web7ElementEBJ_
 	bl	.LBB22_1235
 .LBB22_301:
@@ -13663,11 +13636,11 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	subs	r6, #65
 	movs	r0, #32
 	movs	r2, #0
-	str	r2, [sp, #144]
+	str	r2, [sp, #148]
 	cmp	r6, #26
 	mov	r6, r0
 	blo	.LBB22_303
-	ldr	r6, [sp, #144]
+	ldr	r6, [sp, #148]
 .LBB22_303:
 	orrs	r6, r1
 	ldr	r1, [sp, #252]
@@ -13679,7 +13652,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	cmp	r6, #26
 	mov	r6, r0
 	blo	.LBB22_305
-	ldr	r6, [sp, #144]
+	ldr	r6, [sp, #148]
 .LBB22_305:
 	orrs	r6, r1
 	ldr	r1, [sp, #100]
@@ -13692,7 +13665,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	mov	r6, r0
 	ldr	r2, [sp, #88]
 	blo	.LBB22_307
-	ldr	r6, [sp, #144]
+	ldr	r6, [sp, #148]
 .LBB22_307:
 	orrs	r6, r1
 	ldr	r1, [sp, #96]
@@ -13702,7 +13675,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	subs	r6, #65
 	cmp	r6, #26
 	blo	.LBB22_309
-	ldr	r0, [sp, #144]
+	ldr	r0, [sp, #148]
 .LBB22_309:
 	orrs	r0, r1
 	strb	r0, [r2, r3]
@@ -13987,7 +13960,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldr	r6, [sp, #200]
 	bl	.LBB22_1011
 	.p2align	2
-.LCPI22_206:
+.LCPI22_199:
 	.long	.L_MergedGlobals
 	.p2align	1
 .LBB22_360:
@@ -14006,7 +13979,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	orrs	r6, r1
 	ldr	r1, [sp, #252]
 	strb	r6, [r1, r3]
-	ldr	r1, [sp, #144]
+	ldr	r1, [sp, #148]
 	ldrb	r1, [r1, r3]
 	mov	r6, r1
 	subs	r6, #65
@@ -14016,7 +13989,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldr	r6, [sp, #184]
 .LBB22_364:
 	orrs	r6, r1
-	ldr	r1, [sp, #144]
+	ldr	r1, [sp, #148]
 	strb	r6, [r1, r3]
 	ldr	r1, [sp, #100]
 	ldrb	r1, [r1, r3]
@@ -14566,7 +14539,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	bl	.LBB22_964
 .LBB22_466:
 	ldr	r0, .LCPI22_126
-	ldr	r1, [sp, #156]
+	ldr	r1, [sp, #160]
 	b	.LBB22_593
 .LBB22_467:
 	ldr	r7, .LCPI22_127
@@ -14677,7 +14650,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	orrs	r0, r1
 	ldr	r1, [sp, #220]
 	strb	r0, [r1, r5]
-	str	r2, [sp, #144]
+	str	r2, [sp, #148]
 	ldrb	r2, [r2, r5]
 	mov	r0, r2
 	subs	r0, #65
@@ -14688,7 +14661,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 .LBB22_487:
 	adds	r1, r7, #6
 	orrs	r0, r2
-	ldr	r2, [sp, #144]
+	ldr	r2, [sp, #148]
 	strb	r0, [r2, r5]
 	ldrb	r0, [r1, r5]
 	mov	r2, r0
@@ -14721,26 +14694,26 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	subs	r0, #65
 	movs	r4, #32
 	movs	r6, #0
-	str	r6, [sp, #128]
+	str	r6, [sp, #132]
 	cmp	r0, #26
 	mov	r0, r4
 	blo	.LBB22_494
-	ldr	r0, [sp, #128]
+	ldr	r0, [sp, #132]
 .LBB22_494:
 	orrs	r0, r7
 	ldr	r7, [sp, #220]
 	strb	r0, [r7, r3]
-	ldr	r0, [sp, #144]
+	ldr	r0, [sp, #148]
 	ldrb	r0, [r0, r3]
 	mov	r6, r0
 	subs	r6, #65
 	cmp	r6, #26
 	mov	r6, r4
 	blo	.LBB22_496
-	ldr	r6, [sp, #128]
+	ldr	r6, [sp, #132]
 .LBB22_496:
 	orrs	r6, r0
-	ldr	r0, [sp, #144]
+	ldr	r0, [sp, #148]
 	strb	r6, [r0, r3]
 	ldrb	r0, [r1, r3]
 	mov	r6, r0
@@ -14748,7 +14721,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	cmp	r6, #26
 	mov	r6, r4
 	blo	.LBB22_498
-	ldr	r6, [sp, #128]
+	ldr	r6, [sp, #132]
 .LBB22_498:
 	orrs	r6, r0
 	strb	r6, [r1, r3]
@@ -14757,7 +14730,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	subs	r6, #65
 	cmp	r6, #26
 	blo	.LBB22_500
-	ldr	r4, [sp, #128]
+	ldr	r4, [sp, #132]
 .LBB22_500:
 	orrs	r4, r0
 	strb	r4, [r2, r3]
@@ -15240,7 +15213,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	bl	.LBB22_940
 .LBB22_592:
 	str	r2, [sp, #184]
-	ldr	r1, [sp, #148]
+	ldr	r1, [sp, #152]
 .LBB22_593:
 	ldrb	r2, [r0]
 	ldrb	r3, [r0, #1]
@@ -15430,11 +15403,11 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.50
 	.p2align	1
 .LBB22_624:
-	ldr	r0, .LCPI22_207
+	ldr	r0, .LCPI22_200
 	mov	r1, r2
 	bl	.LBB22_1232
 	.p2align	2
-.LCPI22_207:
+.LCPI22_200:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.51
 	.p2align	1
 .LBB22_626:
@@ -15499,7 +15472,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	str	r0, [sp, #184]
 	subs	r0, r4, #7
 	ldrb	r0, [r0]
-	str	r0, [sp, #144]
+	str	r0, [sp, #148]
 	subs	r4, #32
 	ldr	r2, [r4]
 	cmp	r2, #0
@@ -15532,7 +15505,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	bl	__aeabi_memcpy
 	ldr	r0, [r5, #24]
 	ldr	r1, [r5, #28]
-	str	r5, [sp, #128]
+	str	r5, [sp, #132]
 	ldr	r2, [r5, #32]
 	ldr	r7, [sp, #292]
 	ldr	r6, [sp, #296]
@@ -15597,7 +15570,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldr	r0, [sp, #184]
 	adds	r0, r0, #4
 	str	r0, [sp, #16]
-	ldr	r0, [sp, #144]
+	ldr	r0, [sp, #148]
 	adds	r0, r0, #4
 	str	r0, [sp, #184]
 	ldr	r0, [sp, #200]
@@ -15635,7 +15608,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	adds	r0, r0, #2
 	ldr	r1, [sp, #92]
 	adds	r1, r1, #4
-	ldr	r2, [sp, #128]
+	ldr	r2, [sp, #132]
 	str	r2, [r7, #60]
 	ldr	r2, [sp, #252]
 	str	r2, [r7, #64]
@@ -15789,7 +15762,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	orrs	r0, r7
 	ldr	r6, [sp, #220]
 	strb	r0, [r6, r3]
-	ldr	r0, [sp, #144]
+	ldr	r0, [sp, #148]
 	ldrb	r0, [r0, r3]
 	mov	r6, r0
 	subs	r6, #65
@@ -15799,7 +15772,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldr	r6, [sp, #200]
 .LBB22_654:
 	orrs	r6, r0
-	ldr	r0, [sp, #144]
+	ldr	r0, [sp, #148]
 	strb	r6, [r0, r3]
 	ldrb	r0, [r1, r3]
 	mov	r6, r0
@@ -15957,7 +15930,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	lsls	r3, r3, #27
 	cmp	r2, r3
 	bne	.LBB22_678
-	ldr	r2, .LCPI22_208
+	ldr	r2, .LCPI22_201
 	cmp	r1, r2
 	bne	.LBB22_678
 	subs	r0, r0, #4
@@ -16220,12 +16193,12 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	str	r6, [sp, #100]
 	strb	r6, [r4, #16]
 	movs	r7, #1
-	ldr	r6, [sp, #160]
+	ldr	r6, [sp, #164]
 	strb	r7, [r6]
 	str	r7, [sp, #504]
 	str	r7, [sp, #92]
 	str	r7, [sp, #500]
-	ldr	r7, [sp, #132]
+	ldr	r7, [sp, #136]
 	subs	r6, r7, #3
 	str	r6, [sp, #480]
 	ldr	r6, [sp, #244]
@@ -16243,7 +16216,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldr	r0, [sp, #72]
 	ldr	r1, [sp, #68]
 	bl	__aeabi_memcpy
-	ldr	r0, [sp, #164]
+	ldr	r0, [sp, #168]
 	mov	r1, r4
 	bl	_RNvMs0_NtNtNtCs1EsS1vc5CG7_17embedded_graphics10primitives4line12thick_pointsNtB5_11ThickPoints3new
 	add	r1, sp, #520
@@ -16279,7 +16252,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	bne	.LBB22_729
 	b	.LBB22_738
 .LBB22_726:
-	ldr	r0, [sp, #116]
+	ldr	r0, [sp, #120]
 	ldrb	r1, [r0, #6]
 	str	r1, [sp, #252]
 	ldrb	r1, [r0, #4]
@@ -16289,9 +16262,9 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldrb	r1, [r0, #3]
 	str	r1, [sp, #184]
 	ldrb	r1, [r0, #2]
-	str	r1, [sp, #144]
+	str	r1, [sp, #148]
 	ldrb	r1, [r0]
-	str	r1, [sp, #128]
+	str	r1, [sp, #132]
 	ldrb	r5, [r0, #1]
 	add	r0, sp, #776
 	ldr	r1, [sp, #196]
@@ -16301,9 +16274,9 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldr	r0, [sp, #100]
 	beq	.LBB22_728
 	lsls	r0, r5, #8
-	ldr	r1, [sp, #128]
+	ldr	r1, [sp, #132]
 	adds	r0, r0, r1
-	ldr	r1, [sp, #144]
+	ldr	r1, [sp, #148]
 	lsls	r1, r1, #16
 	ldr	r2, [sp, #184]
 	lsls	r2, r2, #24
@@ -16319,7 +16292,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	lsrs	r2, r0, #24
 	lsls	r1, r1, #8
 	adds	r1, r1, r2
-	str	r1, [sp, #120]
+	str	r1, [sp, #124]
 	lsls	r6, r0, #8
 	ldr	r7, [sp, #784]
 	ldr	r0, [sp, #780]
@@ -16329,7 +16302,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldr	r1, [sp, #180]
 	bics	r6, r1
 	adds	r6, r6, r0
-	ldr	r5, [sp, #132]
+	ldr	r5, [sp, #136]
 	uxtb	r0, r6
 	cmp	r0, #4
 	beq	.LBB22_738
@@ -16342,7 +16315,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	cmp	r7, r1
 	bhs	.LBB22_724
 	lsrs	r1, r6, #24
-	ldr	r4, [sp, #120]
+	ldr	r4, [sp, #124]
 	lsls	r2, r4, #8
 	adds	r2, r1, r2
 	lsrs	r1, r6, #16
@@ -16365,7 +16338,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	.byte	(.LBB22_736-(.LCPI22_99+4))/2
 	.p2align	1
 	.p2align	2
-.LCPI22_208:
+.LCPI22_201:
 	.long	3640655871
 	.p2align	1
 .LBB22_734:
@@ -16379,7 +16352,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	adds	r0, #64
 	b	.LBB22_723
 .LBB22_735:
-	ldr	r0, [sp, #120]
+	ldr	r0, [sp, #124]
 	b	.LBB22_723
 .LBB22_736:
 	lsls	r0, r3, #10
@@ -16452,7 +16425,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	mov	r0, r2
 	subs	r0, #8
 	ldrb	r0, [r0]
-	ldr	r5, [sp, #176]
+	ldr	r5, [sp, #116]
 	strb	r0, [r5]
 	subs	r0, r2, #4
 	ldrb	r1, [r0]
@@ -16465,7 +16438,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldrb	r0, [r0]
 	str	r0, [sp, #252]
 	strb	r0, [r5, #1]
-	ldr	r0, [sp, #172]
+	ldr	r0, [sp, #176]
 	str	r0, [sp, #528]
 	mov	r0, r2
 	subs	r0, #28
@@ -16557,7 +16530,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	.p2align	1
 .LBB22_752:
 	movs	r0, #1
-	ldr	r1, [sp, #176]
+	ldr	r1, [sp, #116]
 	strb	r0, [r1, #2]
 	ldr	r0, [sp, #528]
 	cmp	r0, #37
@@ -16571,7 +16544,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 .LBB22_755:
 	movs	r0, #1
 .LBB22_756:
-	ldr	r1, [sp, #176]
+	ldr	r1, [sp, #116]
 	strb	r0, [r1, #4]
 	ldr	r0, [sp, #528]
 	cmp	r0, #37
@@ -16581,7 +16554,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	b	.LBB22_888
 .LBB22_758:
 	movs	r0, #1
-	ldr	r1, [sp, #176]
+	ldr	r1, [sp, #116]
 	strb	r0, [r1, #1]
 	ldr	r0, [sp, #528]
 	cmp	r0, #37
@@ -16682,7 +16655,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	b	.LBB22_798
 .LBB22_778:
 	movs	r0, #1
-	ldr	r1, [sp, #176]
+	ldr	r1, [sp, #116]
 	strb	r0, [r1]
 	ldr	r0, [sp, #528]
 	cmp	r0, #37
@@ -16762,7 +16735,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	b	.LBB22_787
 .LBB22_790:
 	add	r0, sp, #452
-	ldr	r1, [sp, #168]
+	ldr	r1, [sp, #172]
 	ldm	r0!, {r2, r3}
 	stm	r1!, {r2, r3}
 	ldm	r0!, {r2, r3, r4}
@@ -16772,7 +16745,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	movs	r2, #5
 .LBB22_792:
 	movs	r0, #1
-	ldr	r1, [sp, #176]
+	ldr	r1, [sp, #116]
 	strb	r0, [r1, #4]
 	str	r2, [sp, #556]
 	ldr	r0, [sp, #528]
@@ -17032,12 +17005,12 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	.long	.LBB22_1252+1
 	.long	.LBB22_1254+1
 	.long	.LBB22_1247+1
-	.long	.LBB22_1259+1
+	.long	.LBB22_1258+1
 	.long	.LBB22_1264+1
 	.long	.LBB22_1255+1
-	.long	.LBB22_1266+1
-	.long	.LBB22_1249+1
 	.long	.LBB22_1267+1
+	.long	.LBB22_1249+1
+	.long	.LBB22_1265+1
 	.long	.LBB22_1246+1
 	.long	.LBB22_1248+1
 	.long	.LBB22_1262+1
@@ -17045,9 +17018,9 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	.long	.LBB22_1253+1
 	.long	.LBB22_1243+1
 	.long	.LBB22_1257+1
-	.long	.LBB22_1265+1
+	.long	.LBB22_1266+1
 	.long	.LBB22_1271+1
-	.long	.LBB22_1258+1
+	.long	.LBB22_1259+1
 	.long	.LBB22_1260+1
 	.long	.LBB22_1270+1
 	.long	.LBB22_1272+1
@@ -17076,11 +17049,11 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.50
 	.p2align	1
 .LBB22_861:
-	ldr	r0, .LCPI22_209
+	ldr	r0, .LCPI22_202
 	mov	r1, r2
 	bl	.LBB22_1280
 	.p2align	2
-.LCPI22_209:
+.LCPI22_202:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.51
 	.p2align	1
 .LBB22_863:
@@ -17238,7 +17211,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	bl	.LBB22_1431
 .LBB22_888:
 	add	r0, sp, #452
-	ldr	r1, [sp, #168]
+	ldr	r1, [sp, #172]
 	ldm	r0!, {r2, r3}
 	stm	r1!, {r2, r3}
 	ldm	r0!, {r2, r3, r4}
@@ -17717,7 +17690,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	.long	1702521203
 	.p2align	1
 .LBB22_990:
-	ldr	r2, .LCPI22_210
+	ldr	r2, .LCPI22_203
 	ldrb	r1, [r2]
 	ldrb	r4, [r2, #1]
 	lsls	r0, r4, #8
@@ -18288,7 +18261,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	bvc	.LBB22_1100
 	b	.LBB22_1235
 	.p2align	2
-.LCPI22_210:
+.LCPI22_203:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.159
 	.p2align	1
 .LBB22_1105:
@@ -18387,7 +18360,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	bl	.LBB22_1462
 .LBB22_1123:
 	str	r5, [r2]
-	ldr	r1, .LCPI22_251
+	ldr	r1, .LCPI22_248
 	str	r0, [r1, #8]
 	b	.LBB22_1125
 .LBB22_1124:
@@ -18397,7 +18370,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	mov	r1, r6
 	mov	r2, r5
 	bl	__aeabi_memcpy
-	ldr	r1, [sp, #144]
+	ldr	r1, [sp, #148]
 	mov	r0, r1
 	subs	r0, #32
 	str	r5, [r0]
@@ -18573,7 +18546,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	subs	r0, r7, r4
 	b	.LBB22_1195
 .LBB22_1157:
-	ldr	r0, .LCPI22_212
+	ldr	r0, .LCPI22_205
 	movs	r1, #6
 	b	.LBB22_1232
 .LBB22_1158:
@@ -18594,123 +18567,123 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldr	r0, [sp, #28]
 	b	.LBB22_1230
 .LBB22_1162:
-	ldr	r0, .LCPI22_213
+	ldr	r0, .LCPI22_206
 	movs	r1, #2
 	b	.LBB22_1232
 .LBB22_1163:
-	ldr	r0, .LCPI22_214
+	ldr	r0, .LCPI22_207
 	movs	r1, #2
 	b	.LBB22_1232
 .LBB22_1164:
-	ldr	r0, .LCPI22_215
+	ldr	r0, .LCPI22_208
 	movs	r1, #2
 	b	.LBB22_1232
 .LBB22_1165:
-	ldr	r0, .LCPI22_216
+	ldr	r0, .LCPI22_209
 	movs	r1, #2
 	b	.LBB22_1232
 .LBB22_1166:
-	ldr	r0, .LCPI22_217
+	ldr	r0, .LCPI22_210
 	mov	r1, r2
 	b	.LBB22_1232
 .LBB22_1167:
-	ldr	r0, .LCPI22_218
+	ldr	r0, .LCPI22_211
 	movs	r1, #2
 	b	.LBB22_1232
 .LBB22_1168:
-	ldr	r0, .LCPI22_219
+	ldr	r0, .LCPI22_212
 	movs	r1, #2
 	b	.LBB22_1232
 .LBB22_1169:
-	ldr	r0, .LCPI22_220
+	ldr	r0, .LCPI22_213
 	b	.LBB22_1232
 .LBB22_1170:
-	ldr	r0, .LCPI22_221
+	ldr	r0, .LCPI22_214
 	b	.LBB22_1232
 .LBB22_1171:
-	ldr	r0, .LCPI22_222
+	ldr	r0, .LCPI22_215
 	movs	r1, #3
 	b	.LBB22_1232
 .LBB22_1172:
-	ldr	r0, .LCPI22_223
+	ldr	r0, .LCPI22_216
 	movs	r1, #2
 	b	.LBB22_1232
 .LBB22_1173:
-	ldr	r0, .LCPI22_224
+	ldr	r0, .LCPI22_217
 	movs	r1, #5
 	b	.LBB22_1232
 .LBB22_1174:
-	ldr	r0, .LCPI22_225
+	ldr	r0, .LCPI22_218
 	movs	r1, #3
 	b	.LBB22_1232
 .LBB22_1175:
-	ldr	r0, .LCPI22_226
+	ldr	r0, .LCPI22_219
 	movs	r1, #2
 	b	.LBB22_1232
 .LBB22_1176:
-	ldr	r0, .LCPI22_227
+	ldr	r0, .LCPI22_220
 	movs	r1, #4
 	b	.LBB22_1232
 .LBB22_1177:
-	ldr	r0, .LCPI22_228
+	ldr	r0, .LCPI22_221
 	movs	r1, #5
 	b	.LBB22_1232
 .LBB22_1178:
-	ldr	r0, .LCPI22_229
+	ldr	r0, .LCPI22_222
 	movs	r1, #2
 	b	.LBB22_1232
 .LBB22_1179:
-	ldr	r0, .LCPI22_230
+	ldr	r0, .LCPI22_223
 	movs	r1, #3
 	b	.LBB22_1232
 .LBB22_1180:
-	ldr	r0, .LCPI22_231
+	ldr	r0, .LCPI22_224
 	movs	r1, #2
 	b	.LBB22_1232
 .LBB22_1181:
-	ldr	r0, .LCPI22_232
+	ldr	r0, .LCPI22_225
 	movs	r1, #4
 	b	.LBB22_1232
 .LBB22_1182:
-	ldr	r0, .LCPI22_233
+	ldr	r0, .LCPI22_226
 	movs	r1, #2
 	b	.LBB22_1232
 .LBB22_1183:
-	ldr	r0, .LCPI22_234
+	ldr	r0, .LCPI22_227
 	movs	r1, #4
 	b	.LBB22_1232
 .LBB22_1184:
-	ldr	r0, .LCPI22_235
+	ldr	r0, .LCPI22_228
 	movs	r1, #3
 	b	.LBB22_1232
 .LBB22_1185:
-	ldr	r0, .LCPI22_236
+	ldr	r0, .LCPI22_229
 	movs	r1, #6
 	b	.LBB22_1232
 .LBB22_1186:
-	ldr	r0, .LCPI22_237
+	ldr	r0, .LCPI22_230
 	b	.LBB22_1232
 .LBB22_1187:
-	ldr	r0, .LCPI22_238
+	ldr	r0, .LCPI22_231
 	movs	r1, #2
 	b	.LBB22_1232
 .LBB22_1188:
-	ldr	r0, .LCPI22_239
+	ldr	r0, .LCPI22_232
 	b	.LBB22_1232
 .LBB22_1189:
-	ldr	r0, .LCPI22_240
+	ldr	r0, .LCPI22_233
 	movs	r1, #6
 	b	.LBB22_1232
 .LBB22_1190:
-	ldr	r0, .LCPI22_241
+	ldr	r0, .LCPI22_234
 	movs	r1, #5
 	b	.LBB22_1232
 .LBB22_1191:
-	ldr	r0, .LCPI22_242
+	ldr	r0, .LCPI22_235
 	movs	r1, #6
 	b	.LBB22_1232
 .LBB22_1192:
-	ldr	r0, .LCPI22_243
+	ldr	r0, .LCPI22_236
 	b	.LBB22_1232
 .LBB22_1193:
 	ldr	r1, [sp, #216]
@@ -18858,7 +18831,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	movs	r1, #1
 	ldr	r2, [sp, #88]
 	str	r1, [r2]
-	ldr	r1, [sp, #144]
+	ldr	r1, [sp, #148]
 	subs	r1, #44
 	str	r0, [r1]
 	b	.LBB22_1235
@@ -18878,13 +18851,13 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 .LBB22_1232:
 	str	r1, [sp, #524]
 	str	r0, [sp, #520]
-	ldr	r0, .LCPI22_244
+	ldr	r0, .LCPI22_237
 	str	r0, [sp, #652]
 	add	r0, sp, #520
 	str	r0, [sp, #648]
 	ldr	r0, .LCPI22_153
-	ldr	r1, .LCPI22_245
-	ldr	r2, .LCPI22_246
+	ldr	r1, .LCPI22_238
+	ldr	r2, .LCPI22_239
 	add	r3, sp, #648
 	bl	_RNvNtCsc6P1BMjYAM_4core3fmt5write
 .LBB22_1233:
@@ -18991,19 +18964,19 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	movs	r1, #4
 	b	.LBB22_1280
 .LBB22_1258:
-	ldr	r0, .LCPI22_170
-	movs	r1, #5
-	b	.LBB22_1280
-.LBB22_1259:
 	ldr	r0, .LCPI22_171
 	movs	r1, #2
+	b	.LBB22_1280
+.LBB22_1259:
+	ldr	r0, .LCPI22_170
+	movs	r1, #5
 	b	.LBB22_1280
 .LBB22_1260:
 	ldr	r0, .LCPI22_172
 	movs	r1, #3
 	b	.LBB22_1280
 	.p2align	2
-.LCPI22_251:
+.LCPI22_248:
 	.long	.L_MergedGlobals
 	.p2align	1
 .LBB22_1262:
@@ -19016,16 +18989,16 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	movs	r1, #4
 	b	.LBB22_1280
 .LBB22_1265:
+	ldr	r0, .LCPI22_176
+	movs	r1, #4
+	b	.LBB22_1280
+.LBB22_1266:
 	ldr	r0, .LCPI22_175
 	movs	r1, #2
 	b	.LBB22_1280
-.LBB22_1266:
+.LBB22_1267:
 	ldr	r0, .LCPI22_177
 	movs	r1, #3
-	b	.LBB22_1280
-.LBB22_1267:
-	ldr	r0, .LCPI22_176
-	movs	r1, #4
 	b	.LBB22_1280
 .LBB22_1268:
 	ldr	r0, .LCPI22_178
@@ -19086,8 +19059,8 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	subs	r5, #61
 	movs	r0, #0
 	ldr	r2, [sp, #788]
-	str	r0, [sp, #128]
-	str	r2, [sp, #144]
+	str	r0, [sp, #132]
+	str	r2, [sp, #148]
 	b	.LBB22_1282
 .LBB22_1281:
 	subs	r5, #56
@@ -19099,7 +19072,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 .LBB22_1282:
 	cmp	r0, r2
 	blo	.LBB22_1284
-	ldr	r6, [sp, #128]
+	ldr	r6, [sp, #132]
 	b	.LBB22_1285
 .LBB22_1284:
 	movs	r6, #1
@@ -19142,100 +19115,100 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 .LCPI22_102:
 	add	pc, r2
 	.p2align	2
-.LCPI22_212:
+.LCPI22_205:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.77
 	.p2align	2
-.LCPI22_213:
+.LCPI22_206:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.66
 	.p2align	2
-.LCPI22_214:
+.LCPI22_207:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.64
 	.p2align	2
-.LCPI22_215:
+.LCPI22_208:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.83
 	.p2align	2
-.LCPI22_216:
+.LCPI22_209:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.61
 	.p2align	2
-.LCPI22_217:
+.LCPI22_210:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.54
 	.p2align	2
-.LCPI22_218:
+.LCPI22_211:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.62
 	.p2align	2
-.LCPI22_219:
+.LCPI22_212:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.59
 	.p2align	2
-.LCPI22_220:
+.LCPI22_213:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.75
 	.p2align	2
-.LCPI22_221:
+.LCPI22_214:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.74
 	.p2align	2
-.LCPI22_222:
+.LCPI22_215:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.52
 	.p2align	2
-.LCPI22_223:
+.LCPI22_216:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.65
 	.p2align	2
-.LCPI22_224:
+.LCPI22_217:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.53
 	.p2align	2
-.LCPI22_225:
+.LCPI22_218:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.57
 	.p2align	2
-.LCPI22_226:
+.LCPI22_219:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.81
 	.p2align	2
-.LCPI22_227:
+.LCPI22_220:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.67
 	.p2align	2
-.LCPI22_228:
+.LCPI22_221:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.70
 	.p2align	2
-.LCPI22_229:
+.LCPI22_222:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.55
 	.p2align	2
-.LCPI22_230:
+.LCPI22_223:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.71
 	.p2align	2
-.LCPI22_231:
+.LCPI22_224:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.63
 	.p2align	2
-.LCPI22_232:
+.LCPI22_225:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.56
 	.p2align	2
-.LCPI22_233:
+.LCPI22_226:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.68
 	.p2align	2
-.LCPI22_234:
+.LCPI22_227:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.60
 	.p2align	2
-.LCPI22_235:
+.LCPI22_228:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.58
 	.p2align	2
-.LCPI22_236:
+.LCPI22_229:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.80
 	.p2align	2
-.LCPI22_237:
+.LCPI22_230:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.82
 	.p2align	2
-.LCPI22_238:
+.LCPI22_231:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.72
 	.p2align	2
-.LCPI22_239:
+.LCPI22_232:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.69
 	.p2align	2
-.LCPI22_240:
+.LCPI22_233:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.73
 	.p2align	2
-.LCPI22_241:
+.LCPI22_234:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.78
 	.p2align	2
-.LCPI22_242:
+.LCPI22_235:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.79
 	.p2align	2
-.LCPI22_243:
+.LCPI22_236:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.76
 	.p2align	1
 	.p2align	2
@@ -19431,13 +19404,13 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldr	r3, [r4, r3]
 	mov	pc, r3
 	.p2align	2
-.LCPI22_244:
+.LCPI22_237:
 	.long	_RNvXs1i_NtCsc6P1BMjYAM_4core3fmtReNtB6_7Display3fmtB8_
 	.p2align	2
-.LCPI22_245:
+.LCPI22_238:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.250
 	.p2align	2
-.LCPI22_246:
+.LCPI22_239:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.179
 	.p2align	1
 	.p2align	2
@@ -19501,7 +19474,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	mov	r1, r2
 	b	.LBB22_1418
 .LBB22_1379:
-	ldr	r0, .LCPI22_247
+	ldr	r0, .LCPI22_249
 	movs	r1, #6
 	b	.LBB22_1418
 .LBB22_1380:
@@ -19520,53 +19493,53 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldr	r0, [sp, #32]
 	b	.LBB22_1416
 .LBB22_1384:
-	ldr	r0, .LCPI22_194
+	ldr	r0, .LCPI22_240
 	movs	r1, #2
 	b	.LBB22_1418
 .LBB22_1385:
-	ldr	r0, .LCPI22_195
+	ldr	r0, .LCPI22_241
 	movs	r1, #2
 	b	.LBB22_1418
 .LBB22_1386:
-	ldr	r0, .LCPI22_252
+	ldr	r0, .LCPI22_32
 	movs	r1, #2
 	b	.LBB22_1418
 .LBB22_1387:
-	ldr	r0, .LCPI22_196
+	ldr	r0, .LCPI22_242
 	movs	r1, #2
 	b	.LBB22_1418
 .LBB22_1388:
-	ldr	r0, .LCPI22_197
+	ldr	r0, .LCPI22_194
 	mov	r1, r2
 	b	.LBB22_1418
 .LBB22_1389:
-	ldr	r0, .LCPI22_198
+	ldr	r0, .LCPI22_243
 	movs	r1, #2
 	b	.LBB22_1418
 .LBB22_1390:
-	ldr	r0, .LCPI22_199
+	ldr	r0, .LCPI22_244
 	movs	r1, #2
 	b	.LBB22_1418
 .LBB22_1391:
-	ldr	r0, .LCPI22_254
+	ldr	r0, .LCPI22_40
 	b	.LBB22_1418
 .LBB22_1392:
-	ldr	r0, .LCPI22_255
+	ldr	r0, .LCPI22_41
 	b	.LBB22_1418
 .LBB22_1393:
-	ldr	r0, .LCPI22_200
+	ldr	r0, .LCPI22_245
 	movs	r1, #3
 	b	.LBB22_1418
 .LBB22_1394:
-	ldr	r0, .LCPI22_248
+	ldr	r0, .LCPI22_50
 	movs	r1, #2
 	b	.LBB22_1418
 .LBB22_1395:
-	ldr	r0, .LCPI22_201
+	ldr	r0, .LCPI22_246
 	movs	r1, #5
 	b	.LBB22_1418
 .LBB22_1396:
-	ldr	r0, .LCPI22_249
+	ldr	r0, .LCPI22_58
 	movs	r1, #3
 	b	.LBB22_1418
 .LBB22_1397:
@@ -19582,7 +19555,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	movs	r1, #5
 	b	.LBB22_1418
 .LBB22_1400:
-	ldr	r0, .LCPI22_253
+	ldr	r0, .LCPI22_60
 	movs	r1, #2
 	b	.LBB22_1418
 .LBB22_1401:
@@ -19676,7 +19649,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	cmp	r0, #216
 	beq	.LBB22_1429
 .LBB22_1424:
-	ldr	r2, [sp, #144]
+	ldr	r2, [sp, #148]
 	ldr	r3, [sp, #220]
 	cmp	r3, r2
 	bhi	.LBB22_1426
@@ -19755,35 +19728,28 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	b	.LBB22_1235
 .LBB22_1435:
 	ldr	r1, [sp, #216]
-	ldr	r0, [r1, #12]
-	cmp	r0, #0
-	beq	.LBB22_1440
 .LBB22_1436:
-	ldr	r0, [r1, #8]
-	ldr	r0, [r1, #12]
+	ldr	r0, [r1, #64]
 	cmp	r0, #0
-	beq	.LBB22_1440
-	ldr	r0, [r1, #8]
-	ldr	r0, [r1, #12]
+	bmi	.LBB22_1440
+	ldr	r0, [r1, #64]
 	cmp	r0, #0
-	beq	.LBB22_1440
-	ldr	r0, [r1, #8]
-	ldr	r0, [r1, #12]
+	bmi	.LBB22_1440
+	ldr	r0, [r1, #64]
 	cmp	r0, #0
-	beq	.LBB22_1440
-	ldr	r0, [r1, #8]
-	ldr	r0, [r1, #12]
+	bmi	.LBB22_1440
+	ldr	r0, [r1, #64]
 	cmp	r0, #0
-	bne	.LBB22_1436
+	bpl	.LBB22_1436
 .LBB22_1440:
-	ldr	r0, [sp, #156]
+	ldr	r0, [sp, #160]
 	str	r0, [r1, #8]
 	add	r0, sp, #264
 	add	r1, sp, #648
 	movs	r2, #4
 	bl	_RNvXs2_NtNtCs6UyBOS6LwsO_4parm6telnet13speedy_telnetNtB5_12SpeedyTelnetINtNtCsfkGjHGYaK9V_6speedy6reader6ReaderNtB5_13TelnetContextE10read_bytes
 	ldr	r0, [sp, #648]
-	ldr	r1, [sp, #140]
+	ldr	r1, [sp, #144]
 	subs	r0, r0, r1
 	str	r0, [sp, #520]
 	ldr	r0, .LCPI22_9
@@ -19798,7 +19764,7 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	ldr	r0, [sp, #308]
 	ldr	r1, [sp, #304]
 	ldr	r2, [sp, #300]
-	ldr	r3, [sp, #136]
+	ldr	r3, [sp, #140]
 	str	r2, [r3]
 	str	r1, [r3, #4]
 	str	r0, [r3, #8]
@@ -19825,42 +19791,39 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	pop	{r4, r5, r6, r7, pc}
 .LBB22_1446:
 	ldr	r0, .LCPI22_4
-	ldr	r1, [sp, #240]
-	orrs	r0, r1
+	orrs	r0, r7
 	lsls	r0, r0, #30
 	bne	.LBB22_1451
-	ldrb	r0, [r1]
+	ldrb	r0, [r7]
 	cmp	r0, #239
 	ldr	r3, .LCPI22_1
 	beq	.LBB22_1448
 	bl	.LBB22_7
 .LBB22_1448:
-	ldrb	r0, [r1, #1]
+	ldrb	r0, [r7, #1]
 	cmp	r0, #187
 	beq	.LBB22_1449
 	bl	.LBB22_7
 .LBB22_1449:
-	ldr	r0, [sp, #240]
-	ldrb	r0, [r0, #2]
+	ldrb	r0, [r7, #2]
 	cmp	r0, #191
 	bne	.LBB22_1454
 .LBB22_1450:
 	movs	r0, #3
 	b	.LBB22_1455
 .LBB22_1451:
-	ldrb	r0, [r1]
+	ldrb	r0, [r7]
 	cmp	r0, #239
 	ldr	r3, .LCPI22_1
 	beq	.LBB22_1452
 	bl	.LBB22_7
 .LBB22_1452:
-	ldrb	r0, [r1, #1]
+	ldrb	r0, [r7, #1]
 	cmp	r0, #187
 	beq	.LBB22_1453
 	bl	.LBB22_7
 .LBB22_1453:
-	ldr	r0, [sp, #240]
-	ldrb	r0, [r0, #2]
+	ldrb	r0, [r7, #2]
 	cmp	r0, #191
 	beq	.LBB22_1450
 .LBB22_1454:
@@ -20039,49 +20002,31 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.51
 	.p2align	2
 .LCPI22_194:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.66
-	.p2align	2
-.LCPI22_195:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.64
-	.p2align	2
-.LCPI22_196:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.61
-	.p2align	2
-.LCPI22_197:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.54
 	.p2align	2
-.LCPI22_198:
+.LCPI22_240:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.66
+	.p2align	2
+.LCPI22_241:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.64
+	.p2align	2
+.LCPI22_242:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.61
+	.p2align	2
+.LCPI22_243:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.62
 	.p2align	2
-.LCPI22_199:
+.LCPI22_244:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.59
 	.p2align	2
-.LCPI22_200:
+.LCPI22_245:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.52
 	.p2align	2
-.LCPI22_201:
+.LCPI22_246:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.53
 	.p2align	2
-.LCPI22_247:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.77
-	.p2align	2
-.LCPI22_248:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.65
-	.p2align	2
 .LCPI22_249:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.57
-	.p2align	2
-.LCPI22_252:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.83
-	.p2align	2
-.LCPI22_253:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.55
-	.p2align	2
-.LCPI22_254:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.75
-	.p2align	2
-.LCPI22_255:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.74
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.77
 	.p2align	2
 .LCPI22_0:
 	.long	_RNvXs1i_NtCsc6P1BMjYAM_4core3fmtReNtB6_7Display3fmtB8_
@@ -20115,6 +20060,8 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.156
 .LCPI22_28:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.152
+.LCPI22_32:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.83
 .LCPI22_33:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.82
 .LCPI22_34:
@@ -20127,6 +20074,10 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.78
 .LCPI22_39:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.76
+.LCPI22_40:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.75
+.LCPI22_41:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.74
 .LCPI22_42:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.73
 .LCPI22_43:
@@ -20141,14 +20092,20 @@ _RNvNtCskL9aS9YUD5U_9netclient3web6render:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.68
 .LCPI22_48:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.67
+.LCPI22_50:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.65
 .LCPI22_52:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.63
 .LCPI22_55:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.60
 .LCPI22_57:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.58
+.LCPI22_58:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.57
 .LCPI22_59:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.56
+.LCPI22_60:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.55
 .LCPI22_66:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.182
 .LCPI22_67:
@@ -29254,19 +29211,19 @@ main:
 	.fnstart
 	.save	{r4, r5, r6, lr}
 	push	{r4, r5, r6, lr}
-	ldr	r6, .LCPI57_181
+	ldr	r6, .LCPI57_83
 	.pad	#1720
 	add	sp, r6
-	ldr	r2, .LCPI57_182
+	ldr	r2, .LCPI57_84
 	add	r2, sp
 	add	r1, sp, #424
 	add	r4, sp, #520
 	add	r5, sp, #640
-	ldr	r3, .LCPI57_183
+	ldr	r3, .LCPI57_85
 	ldrb	r0, [r3]
 	cmp	r0, #1
 	bne	.LBB57_1
-	bl	.LBB57_1017
+	bl	.LBB57_1014
 .LBB57_1:
 	adds	r1, #62
 	str	r1, [sp, #264]
@@ -29288,18 +29245,18 @@ main:
 	movs	r3, #116
 	str	r3, [sp, #80]
 	str	r3, [r4]
-	str	r0, [sp, #224]
+	str	r0, [sp, #228]
 	str	r0, [r4]
 	movs	r0, #110
-	str	r0, [sp, #196]
+	str	r0, [sp, #200]
 	str	r0, [r4]
 	movs	r0, #103
-	str	r0, [sp, #192]
+	str	r0, [sp, #196]
 	str	r0, [r4]
 	movs	r0, #32
 	str	r0, [r4]
 	movs	r3, #102
-	str	r3, [sp, #180]
+	str	r3, [sp, #184]
 	str	r3, [r4]
 	movs	r3, #111
 	str	r3, [sp, #88]
@@ -29309,26 +29266,26 @@ main:
 	str	r0, [sp, #332]
 	str	r0, [r4]
 	movs	r0, #115
-	str	r0, [sp, #204]
+	str	r0, [sp, #208]
 	str	r0, [r4]
 	movs	r7, #101
 	str	r7, [r4]
 	str	r3, [r4]
 	movs	r0, #118
 	str	r0, [r4]
-	str	r7, [sp, #188]
+	str	r7, [sp, #192]
 	str	r7, [r4]
-	str	r3, [sp, #208]
+	str	r3, [sp, #212]
 	str	r3, [r4]
 	movs	r0, #46
 	str	r0, [r4]
 	str	r0, [r4]
-	str	r0, [sp, #184]
+	str	r0, [sp, #188]
 	str	r0, [r4]
 	movs	r0, #10
 	str	r0, [sp, #312]
 	str	r0, [r4]
-	str	r1, [sp, #232]
+	str	r1, [sp, #236]
 	lsls	r0, r1, #31
 	str	r0, [sp, #268]
 .LBB57_2:
@@ -29360,26 +29317,19 @@ main:
 	movs	r0, #1
 	str	r0, [sp, #140]
 	str	r0, [sp, #344]
-	ldr	r0, [r4, #12]
-	cmp	r0, #0
-	beq	.LBB57_11
 .LBB57_7:
-	ldr	r0, [r4, #8]
-	ldr	r0, [r4, #12]
+	ldr	r0, [r4, #64]
 	cmp	r0, #0
-	beq	.LBB57_11
-	ldr	r0, [r4, #8]
-	ldr	r0, [r4, #12]
+	bmi	.LBB57_11
+	ldr	r0, [r4, #64]
 	cmp	r0, #0
-	beq	.LBB57_11
-	ldr	r0, [r4, #8]
-	ldr	r0, [r4, #12]
+	bmi	.LBB57_11
+	ldr	r0, [r4, #64]
 	cmp	r0, #0
-	beq	.LBB57_11
-	ldr	r0, [r4, #8]
-	ldr	r0, [r4, #12]
+	bmi	.LBB57_11
+	ldr	r0, [r4, #64]
 	cmp	r0, #0
-	bne	.LBB57_7
+	bpl	.LBB57_7
 .LBB57_11:
 	movs	r0, #5
 	str	r0, [sp, #96]
@@ -29391,33 +29341,33 @@ main:
 	bl	_RNvXs2_NtNtCs6UyBOS6LwsO_4parm6telnet13speedy_telnetNtB5_12SpeedyTelnetINtNtCsfkGjHGYaK9V_6speedy6reader6ReaderNtB5_13TelnetContextE10read_bytes
 	ldr	r0, [r4, #60]
 	movs	r0, #99
-	str	r0, [sp, #200]
+	str	r0, [sp, #204]
 	str	r0, [r4]
 	movs	r0, #104
-	str	r0, [sp, #176]
+	str	r0, [sp, #180]
 	str	r0, [r4]
 	ldr	r0, [sp, #120]
+	str	r0, [r4]
+	ldr	r0, [sp, #200]
 	str	r0, [r4]
 	ldr	r0, [sp, #196]
 	str	r0, [r4]
 	ldr	r0, [sp, #192]
 	str	r0, [r4]
-	ldr	r0, [sp, #188]
-	str	r0, [r4]
 	ldr	r0, [sp, #332]
 	str	r0, [r4]
 	movs	r0, #91
-	str	r0, [sp, #228]
+	str	r0, [sp, #232]
 	str	r0, [r4]
 	movs	r0, #117
 	str	r0, [sp, #84]
 	str	r0, [r4]
 	movs	r0, #93
 	str	r0, [r4]
-	ldr	r0, [sp, #208]
+	ldr	r0, [sp, #212]
 	str	r0, [r4]
 	movs	r0, #108
-	str	r0, [sp, #212]
+	str	r0, [sp, #216]
 	str	r0, [r4]
 	str	r4, [sp, #336]
 	ldr	r0, [sp, #312]
@@ -29435,7 +29385,7 @@ main:
 	adds	r0, #54
 	cmp	r1, r0
 	bhs	.LBB57_12
-	bl	.LBB57_991
+	bl	.LBB57_988
 .LBB57_12:
 	str	r5, [sp, #112]
 	mov	r5, r6
@@ -29519,7 +29469,7 @@ main:
 	ldr	r3, [sp, #340]
 	cmp	r3, r2
 	bhs	.LBB57_13
-	bl	.LBB57_1005
+	bl	.LBB57_1002
 .LBB57_13:
 	subs	r3, r6, #4
 	ldr	r4, [sp, #100]
@@ -29528,7 +29478,7 @@ main:
 	str	r2, [r3, #8]
 	cmp	r6, #0
 	bne	.LBB57_14
-	bl	.LBB57_1003
+	bl	.LBB57_1000
 .LBB57_14:
 	ldr	r2, [sp, #316]
 	ldr	r3, [sp, #308]
@@ -29566,7 +29516,7 @@ main:
 	str	r1, [sp, #668]
 	ldr	r0, .LCPI57_92
 	str	r0, [sp, #664]
-	ldr	r0, [sp, #212]
+	ldr	r0, [sp, #216]
 	str	r0, [sp, #660]
 	ldr	r0, .LCPI57_93
 	str	r0, [sp, #656]
@@ -29582,9 +29532,9 @@ main:
 	str	r0, [sp, #220]
 	mov	r5, r4
 	mov	r0, r4
-	b	.LBB57_94
+	b	.LBB57_91
 .LBB57_15:
-	str	r1, [sp, #216]
+	str	r1, [sp, #176]
 	ldrb	r0, [r4, r5]
 	adds	r1, r4, r5
 	ldrb	r2, [r1, #1]
@@ -29604,7 +29554,7 @@ main:
 	bics	r0, r1
 	ands	r0, r2
 	bne	.LBB57_16
-	b	.LBB57_86
+	b	.LBB57_83
 .LBB57_16:
 	add	r1, sp, #164
 	stm	r1!, {r3, r5, r6}
@@ -29637,7 +29587,7 @@ main:
 	bhs	.LBB57_29
 	cmp	r5, #0
 	bne	.LBB57_21
-	b	.LBB57_93
+	b	.LBB57_90
 .LBB57_21:
 	ldr	r0, [sp, #320]
 	ldrb	r0, [r0]
@@ -29648,7 +29598,7 @@ main:
 	ldr	r0, [sp, #328]
 	cmp	r0, #1
 	bne	.LBB57_23
-	b	.LBB57_93
+	b	.LBB57_90
 .LBB57_23:
 	ldr	r0, [sp, #320]
 	ldrb	r0, [r0, #1]
@@ -29659,7 +29609,7 @@ main:
 	ldr	r0, [sp, #328]
 	cmp	r0, #2
 	bne	.LBB57_25
-	b	.LBB57_93
+	b	.LBB57_90
 .LBB57_25:
 	ldr	r0, [sp, #320]
 	ldrb	r0, [r0, #2]
@@ -29667,12 +29617,12 @@ main:
 	ldrb	r2, [r1, #2]
 	cmp	r2, r0
 	bne	.LBB57_26
-	b	.LBB57_93
+	b	.LBB57_90
 .LBB57_26:
 	subs	r0, r2, r0
 	cmp	r0, #0
 	bne	.LBB57_45
-	b	.LBB57_93
+	b	.LBB57_90
 .LBB57_27:
 	ldr	r0, [sp, #328]
 	cmp	r0, #4
@@ -29681,7 +29631,7 @@ main:
 	ldr	r1, [sp, #288]
 	cmp	r1, #0
 	bne	.LBB57_39
-	b	.LBB57_93
+	b	.LBB57_90
 .LBB57_29:
 	movs	r6, #0
 	mov	r0, r7
@@ -29692,7 +29642,7 @@ main:
 	mov	r7, r4
 	orrs	r7, r0
 	lsls	r7, r7, #30
-	beq	.LBB57_50
+	beq	.LBB57_47
 	ldrb	r7, [r3]
 	ldrb	r1, [r2]
 	cmp	r1, r7
@@ -29704,7 +29654,7 @@ main:
 	adds	r2, r2, #1
 	subs	r5, r5, #1
 	bne	.LBB57_30
-	b	.LBB57_93
+	b	.LBB57_90
 .LBB57_33:
 	ldr	r0, [sp, #256]
 	adds	r3, r7, r0
@@ -29715,7 +29665,7 @@ main:
 	ldr	r2, [r5]
 	cmp	r2, r0
 	beq	.LBB57_35
-	b	.LBB57_73
+	b	.LBB57_70
 .LBB57_35:
 	cmp	r4, #1
 	beq	.LBB57_38
@@ -29723,7 +29673,7 @@ main:
 	ldr	r2, [r5, #4]
 	cmp	r2, r0
 	beq	.LBB57_37
-	b	.LBB57_73
+	b	.LBB57_70
 .LBB57_37:
 	adds	r7, #8
 	adds	r5, #8
@@ -29731,11 +29681,11 @@ main:
 	bne	.LBB57_34
 .LBB57_38:
 	str	r3, [sp, #320]
-	ldr	r0, [sp, #236]
+	ldr	r0, [sp, #224]
 	ldr	r1, [sp, #288]
 	cmp	r1, #0
 	bne	.LBB57_39
-	b	.LBB57_93
+	b	.LBB57_90
 .LBB57_39:
 	ldr	r1, [sp, #320]
 	ldrb	r2, [r1]
@@ -29745,7 +29695,7 @@ main:
 	ldr	r1, [sp, #288]
 	cmp	r1, #1
 	bne	.LBB57_41
-	b	.LBB57_93
+	b	.LBB57_90
 .LBB57_41:
 	ldr	r1, [sp, #320]
 	ldrb	r2, [r1, #1]
@@ -29755,7 +29705,7 @@ main:
 	ldr	r1, [sp, #288]
 	cmp	r1, #2
 	bne	.LBB57_43
-	b	.LBB57_93
+	b	.LBB57_90
 .LBB57_43:
 	ldr	r1, [sp, #320]
 	ldrb	r1, [r1, #2]
@@ -29765,7 +29715,7 @@ main:
 	ldr	r0, [sp, #288]
 	cmp	r0, #3
 	bne	.LBB57_45
-	b	.LBB57_93
+	b	.LBB57_90
 .LBB57_45:
 	ldr	r1, [sp, #272]
 	subs	r0, r1, #1
@@ -29778,25 +29728,21 @@ main:
 	beq	.LBB57_46
 	b	.LBB57_17
 .LBB57_46:
-	b	.LBB57_86
-	.p2align	2
-.LCPI57_181:
-	.long	4294965576
-	.p2align	2
-.LCPI57_182:
-	.long	1668
-	.p2align	2
-.LCPI57_183:
-	.long	.L_MergedGlobals
-	.p2align	1
-.LBB57_50:
+	b	.LBB57_83
+.LBB57_47:
 	cmp	r5, #4
 	ldr	r7, [sp, #320]
-	blo	.LBB57_77
+	blo	.LBB57_74
 	lsrs	r0, r5, #2
 	str	r0, [sp, #160]
 	ldr	r0, [sp, #140]
-	b	.LBB57_67
+	b	.LBB57_64
+	.p2align	2
+.LCPI57_83:
+	.long	4294965576
+	.p2align	2
+.LCPI57_84:
+	.long	1668
 	.p2align	2
 .LCPI57_85:
 	.long	.L_MergedGlobals
@@ -29834,14 +29780,14 @@ main:
 .LCPI57_96:
 	.long	2155905152
 	.p2align	1
-.LBB57_66:
+.LBB57_63:
 	adds	r6, r6, #4
 	ldr	r4, [sp, #244]
 	adds	r0, r4, #1
 	ldr	r1, [sp, #160]
 	cmp	r4, r1
-	bhs	.LBB57_77
-.LBB57_67:
+	bhs	.LBB57_74
+.LBB57_64:
 	str	r0, [sp, #244]
 	ldrb	r4, [r7, r6]
 	adds	r0, r7, r6
@@ -29871,60 +29817,60 @@ main:
 	adds	r1, r4, r1
 	ldr	r4, [sp, #248]
 	cmp	r1, r4
-	beq	.LBB57_66
+	beq	.LBB57_63
 	mov	r1, r0
 	ldrb	r4, [r7, r6]
 	ldr	r0, [sp, #340]
 	ldrb	r0, [r0, r6]
 	cmp	r0, r4
-	bne	.LBB57_72
+	bne	.LBB57_69
 	ldrb	r4, [r1, #1]
 	ldr	r0, [sp, #284]
 	ldrb	r0, [r0, #1]
 	cmp	r0, r4
-	bne	.LBB57_72
+	bne	.LBB57_69
 	ldrb	r4, [r1, #2]
 	ldr	r0, [sp, #284]
 	ldrb	r0, [r0, #2]
 	cmp	r0, r4
-	bne	.LBB57_72
+	bne	.LBB57_69
 	ldrb	r4, [r1, #3]
 	ldr	r0, [sp, #284]
 	ldrb	r0, [r0, #3]
 	cmp	r0, r4
-	beq	.LBB57_66
-.LBB57_72:
+	beq	.LBB57_63
+.LBB57_69:
 	subs	r0, r0, r4
 	cmp	r0, #0
-	beq	.LBB57_93
+	beq	.LBB57_90
 	b	.LBB57_45
-.LBB57_73:
+.LBB57_70:
 	uxtb	r1, r0
 	uxtb	r3, r2
 	cmp	r3, r1
-	bne	.LBB57_84
+	bne	.LBB57_81
 	lsrs	r1, r0, #8
 	uxtb	r4, r1
 	lsrs	r3, r2, #8
 	uxtb	r5, r3
 	cmp	r5, r4
-	bne	.LBB57_85
+	bne	.LBB57_82
 	lsrs	r1, r0, #16
 	lsrs	r3, r2, #16
 	uxtb	r4, r1
 	uxtb	r5, r3
 	cmp	r5, r4
-	bne	.LBB57_85
+	bne	.LBB57_82
 	lsrs	r1, r0, #24
 	lsrs	r3, r2, #24
 	cmp	r3, r1
-	bne	.LBB57_85
-	b	.LBB57_93
-.LBB57_77:
+	bne	.LBB57_82
+	b	.LBB57_90
+.LBB57_74:
 	mov	r0, r5
 	ldr	r1, [sp, #144]
 	ands	r0, r1
-	beq	.LBB57_93
+	beq	.LBB57_90
 	ldr	r1, [sp, #144]
 	bics	r5, r1
 	adds	r3, r3, r5
@@ -29932,43 +29878,43 @@ main:
 	ldrb	r2, [r3]
 	ldrb	r4, [r1]
 	cmp	r4, r2
-	bne	.LBB57_83
+	bne	.LBB57_80
 	cmp	r0, #1
-	beq	.LBB57_93
+	beq	.LBB57_90
 	ldrb	r2, [r3, #1]
 	ldrb	r4, [r1, #1]
 	cmp	r4, r2
-	bne	.LBB57_83
+	bne	.LBB57_80
 	cmp	r0, #2
-	beq	.LBB57_93
+	beq	.LBB57_90
 	ldrb	r2, [r3, #2]
 	ldrb	r4, [r1, #2]
 	cmp	r4, r2
-	beq	.LBB57_93
-.LBB57_83:
+	beq	.LBB57_90
+.LBB57_80:
 	subs	r0, r4, r2
 	cmp	r0, #0
-	beq	.LBB57_93
+	beq	.LBB57_90
 	b	.LBB57_45
-.LBB57_84:
+.LBB57_81:
 	mov	r3, r2
 	mov	r1, r0
-.LBB57_85:
+.LBB57_82:
 	uxtb	r0, r1
 	uxtb	r1, r3
 	subs	r0, r1, r0
 	cmp	r0, #0
-	beq	.LBB57_93
+	beq	.LBB57_90
 	b	.LBB57_45
-.LBB57_86:
+.LBB57_83:
 	ldr	r4, [sp, #292]
 	ldr	r0, .LCPI57_97
 	ands	r4, r0
 	cmp	r6, #1
 	ldr	r2, [sp, #152]
-	beq	.LBB57_89
+	beq	.LBB57_86
 	cmp	r4, #0
-	beq	.LBB57_91
+	beq	.LBB57_88
 	rev	r0, r4
 	mov	r6, r3
 	bl	__clzsi2
@@ -29977,27 +29923,27 @@ main:
 	adds	r2, r0, r5
 	ldr	r0, [sp, #324]
 	ands	r2, r0
-.LBB57_89:
+.LBB57_86:
 	ldr	r0, [sp, #292]
 	lsls	r0, r0, #1
 	tst	r4, r0
-	beq	.LBB57_90
-	b	.LBB57_99
-.LBB57_90:
+	beq	.LBB57_87
+	b	.LBB57_96
+.LBB57_87:
 	movs	r6, #1
-	b	.LBB57_92
-.LBB57_91:
+	b	.LBB57_89
+.LBB57_88:
 	movs	r6, #0
-.LBB57_92:
+.LBB57_89:
 	ldr	r4, [sp, #260]
-	ldr	r1, [sp, #216]
+	ldr	r1, [sp, #176]
 	str	r2, [sp, #152]
 	adds	r1, r1, #4
 	adds	r5, r1, r5
 	ldr	r0, [sp, #324]
 	ands	r5, r0
 	b	.LBB57_15
-.LBB57_93:
+.LBB57_90:
 	ldr	r2, [sp, #316]
 	subs	r0, r2, #4
 	ldr	r1, [sp, #296]
@@ -30009,10 +29955,10 @@ main:
 	ldr	r5, [sp, #304]
 	movs	r0, #1
 	lsls	r1, r5, #31
-	ldr	r5, [sp, #232]
-	beq	.LBB57_94
-	b	.LBB57_113
-.LBB57_94:
+	ldr	r5, [sp, #236]
+	beq	.LBB57_91
+	b	.LBB57_110
+.LBB57_91:
 	lsls	r0, r0, #4
 	ldr	r1, [sp, #220]
 	ldr	r2, [r1, r0]
@@ -30034,11 +29980,11 @@ main:
 	str	r0, [sp, #296]
 	str	r6, [sp, #256]
 	str	r7, [sp, #252]
-	blo	.LBB57_95
-	b	.LBB57_109
-.LBB57_95:
+	blo	.LBB57_92
+	b	.LBB57_106
+.LBB57_92:
 	cmp	r1, #7
-	bls	.LBB57_97
+	bls	.LBB57_94
 	ldr	r7, [sp, #340]
 	adds	r0, r7, r1
 	subs	r0, #8
@@ -30052,7 +29998,7 @@ main:
 	lsls	r5, r5, #24
 	adds	r4, r5, r4
 	adds	r4, r4, r1
-	ldr	r1, .LCPI57_184
+	ldr	r1, .LCPI57_178
 	eors	r4, r1
 	str	r4, [sp, #316]
 	ldrb	r1, [r0]
@@ -30065,7 +30011,7 @@ main:
 	lsls	r0, r0, #24
 	adds	r0, r0, r4
 	adds	r1, r0, r1
-	ldr	r0, .LCPI57_185
+	ldr	r0, .LCPI57_179
 	eors	r1, r0
 	str	r1, [sp, #320]
 	ldrb	r0, [r7, #4]
@@ -30091,10 +30037,10 @@ main:
 	adds	r0, r1, r0
 	eors	r0, r2
 	str	r0, [sp, #292]
-	b	.LBB57_106
-.LBB57_97:
+	b	.LBB57_103
+.LBB57_94:
 	cmp	r1, #3
-	bls	.LBB57_102
+	bls	.LBB57_99
 	ldr	r5, [sp, #340]
 	adds	r0, r5, r1
 	subs	r0, r0, #4
@@ -30126,16 +30072,16 @@ main:
 	mov	r6, r3
 	ldr	r0, .LCPI57_98
 	str	r0, [sp, #316]
-	b	.LBB57_106
-.LBB57_99:
+	b	.LBB57_103
+.LBB57_96:
 	ldr	r4, [sp, #260]
 	ldrsb	r0, [r4, r2]
 	cmp	r0, #0
 	ldr	r6, [sp, #336]
 	ldr	r5, [sp, #304]
-	bmi	.LBB57_100
-	b	.LBB57_111
-.LBB57_100:
+	bmi	.LBB57_97
+	b	.LBB57_108
+.LBB57_97:
 	str	r0, [sp, #328]
 	movs	r1, #127
 	ldr	r3, [sp, #280]
@@ -30173,14 +30119,14 @@ main:
 	str	r0, [sp, #528]
 	movs	r0, #1
 	lsls	r1, r5, #31
-	ldr	r5, [sp, #232]
-	bne	.LBB57_101
-	b	.LBB57_94
-.LBB57_101:
-	b	.LBB57_113
-.LBB57_102:
+	ldr	r5, [sp, #236]
+	bne	.LBB57_98
+	b	.LBB57_91
+.LBB57_98:
+	b	.LBB57_110
+.LBB57_99:
 	cmp	r1, #0
-	beq	.LBB57_104
+	beq	.LBB57_101
 	lsrs	r0, r1, #1
 	ldr	r4, [sp, #340]
 	ldrb	r0, [r4, r0]
@@ -30195,16 +30141,16 @@ main:
 	ldrb	r0, [r4]
 	eors	r2, r0
 	mov	r6, r3
-	b	.LBB57_105
-.LBB57_104:
+	b	.LBB57_102
+.LBB57_101:
 	mov	r6, r3
 	ldr	r0, .LCPI57_99
 	str	r0, [sp, #320]
-.LBB57_105:
+.LBB57_102:
 	ldr	r0, .LCPI57_98
 	str	r0, [sp, #316]
 	str	r2, [sp, #292]
-.LBB57_106:
+.LBB57_103:
 	movs	r4, #0
 	mov	r0, r6
 	ldr	r7, [sp, #240]
@@ -30249,7 +30195,7 @@ main:
 	ldr	r0, [sp, #284]
 	eors	r4, r0
 	eors	r4, r1
-.LBB57_107:
+.LBB57_104:
 	movs	r6, #0
 	mov	r0, r5
 	mov	r1, r6
@@ -30291,8 +30237,8 @@ main:
 	lsls	r4, r1, #7
 	ldr	r0, [sp, #528]
 	cmp	r0, #0
-	beq	.LBB57_110
-.LBB57_108:
+	beq	.LBB57_107
+.LBB57_105:
 	adds	r0, r3, r4
 	str	r0, [sp, #280]
 	movs	r0, #3
@@ -30308,7 +30254,7 @@ main:
 	ldr	r0, [sp, #340]
 	str	r1, [sp, #256]
 	adds	r0, r0, r1
-	str	r0, [sp, #236]
+	str	r0, [sp, #224]
 	ldr	r0, .LCPI57_102
 	muls	r3, r0, r3
 	lsrs	r0, r7, #2
@@ -30316,15 +30262,15 @@ main:
 	mov	r1, r6
 	ldr	r4, [sp, #260]
 	b	.LBB57_15
-.LBB57_109:
+.LBB57_106:
 	ldr	r0, .LCPI57_103
 	str	r0, [sp]
 	ldr	r0, [sp, #340]
 	bl	_RNvCs2Uvs0167igg_8foldhash15hash_bytes_long
 	mov	r4, r0
 	mov	r5, r1
-	b	.LBB57_107
-.LBB57_110:
+	b	.LBB57_104
+.LBB57_107:
 	add	r0, sp, #520
 	ldr	r2, [sp, #252]
 	mov	r7, r3
@@ -30335,8 +30281,8 @@ main:
 	str	r0, [sp, #324]
 	ldr	r0, [sp, #520]
 	str	r0, [sp, #260]
-	b	.LBB57_108
-.LBB57_111:
+	b	.LBB57_105
+.LBB57_108:
 	ldr	r0, [r4]
 	ldr	r1, .LCPI57_97
 	ands	r0, r1
@@ -30344,12 +30290,12 @@ main:
 	bl	__clzsi2
 	lsrs	r2, r0, #3
 	ldrb	r0, [r4, r2]
-	b	.LBB57_100
+	b	.LBB57_97
 	.p2align	2
 .LCPI57_97:
 	.long	2155905152
 	.p2align	1
-.LBB57_113:
+.LBB57_110:
 	ldr	r0, [sp, #540]
 	str	r0, [sp, #108]
 	ldr	r0, [sp, #536]
@@ -30382,78 +30328,78 @@ main:
 	lsls	r0, r1, #8
 	str	r0, [sp, #316]
 	lsls	r0, r1, #9
-	str	r0, [sp, #216]
+	str	r0, [sp, #220]
 	movs	r0, #225
 	lsls	r0, r0, #2
-	str	r0, [sp, #220]
+	str	r0, [sp, #224]
 	lsls	r0, r1, #10
 	str	r0, [sp, #280]
 	str	r1, [sp, #300]
 	lsls	r0, r1, #16
 	str	r0, [sp, #296]
-.LBB57_114:
+.LBB57_111:
 	ldr	r2, [sp, #368]
 	ldr	r1, [sp, #364]
 	cmp	r2, #0
-	beq	.LBB57_123
+	beq	.LBB57_120
 	adds	r0, r1, r2
 	str	r0, [sp, #340]
 	mov	r4, r6
 	adds	r4, #255
 	subs	r6, r2, #1
 	movs	r5, #0
-.LBB57_116:
+.LBB57_113:
 	adds	r0, r1, r5
 	ldrb	r3, [r1, r5]
 	subs	r3, #9
 	cmp	r3, #23
+	bls	.LBB57_114
+	b	.LBB57_170
+.LBB57_114:
+	ldr	r7, [sp, #300]
+	lsls	r7, r3
+	ldr	r3, .LCPI57_104
+	tst	r7, r3
+	bne	.LBB57_115
+	b	.LBB57_170
+.LBB57_115:
+	cmp	r6, r5
+	beq	.LBB57_119
+	ldrb	r3, [r0, #1]
+	subs	r3, #9
+	cmp	r3, #23
 	bls	.LBB57_117
-	b	.LBB57_173
+	b	.LBB57_171
 .LBB57_117:
 	ldr	r7, [sp, #300]
 	lsls	r7, r3
 	ldr	r3, .LCPI57_104
 	tst	r7, r3
 	bne	.LBB57_118
-	b	.LBB57_173
+	b	.LBB57_171
 .LBB57_118:
-	cmp	r6, r5
-	beq	.LBB57_122
-	ldrb	r3, [r0, #1]
-	subs	r3, #9
-	cmp	r3, #23
-	bls	.LBB57_120
-	b	.LBB57_174
-.LBB57_120:
-	ldr	r7, [sp, #300]
-	lsls	r7, r3
-	ldr	r3, .LCPI57_104
-	tst	r7, r3
-	bne	.LBB57_121
-	b	.LBB57_174
-.LBB57_121:
 	subs	r4, r4, #2
 	adds	r5, r5, #2
 	cmp	r2, r5
-	bne	.LBB57_116
-.LBB57_122:
+	bne	.LBB57_113
+.LBB57_119:
 	ldr	r1, [sp, #340]
 	ldr	r6, [sp, #336]
-.LBB57_123:
+.LBB57_120:
 	movs	r2, #0
 	str	r2, [sp, #376]
 	str	r1, [sp, #372]
-.LBB57_124:
+.LBB57_121:
 	add	r0, sp, #640
 	bl	_RNvMs0_CsabyXoQurl1O_5nourlNtB5_3Url5parse
 	ldr	r0, [sp, #640]
 	cmp	r0, #2
-	bne	.LBB57_131
+	bne	.LBB57_128
 	add	r0, sp, #640
 	ldrb	r0, [r0, #4]
 	cmp	r0, #0
 	ldr	r2, .LCPI57_105
-	bne	.LBB57_130
+	bne	.LBB57_127
 	movs	r4, #7
 	ldr	r0, [sp, #276]
 	str	r4, [r0, #36]
@@ -30465,9 +30411,9 @@ main:
 	mov	r0, r5
 	adds	r0, #11
 	cmp	r1, r0
-	bhs	.LBB57_127
-	bl	.LBB57_991
-.LBB57_127:
+	bhs	.LBB57_124
+	bl	.LBB57_988
+.LBB57_124:
 	stm	r5!, {r4}
 	str	r0, [r2, #8]
 	mov	r0, r5
@@ -30480,9 +30426,9 @@ main:
 	ldr	r6, [sp, #376]
 	ldr	r1, [sp, #372]
 	cmp	r6, #0
-	beq	.LBB57_128
-	bl	.LBB57_360
-.LBB57_128:
+	beq	.LBB57_125
+	bl	.LBB57_357
+.LBB57_125:
 	adds	r0, r5, r4
 	mov	r2, r6
 	bl	__aeabi_memcpy
@@ -30499,10 +30445,10 @@ main:
 	bl	_RNvMs0_CsabyXoQurl1O_5nourlNtB5_3Url5parse
 	ldr	r0, [sp, #640]
 	cmp	r0, #2
-	bne	.LBB57_137
+	bne	.LBB57_134
 	ldr	r2, .LCPI57_105
 	ldr	r6, [sp, #336]
-.LBB57_130:
+.LBB57_127:
 	ldr	r0, .LCPI57_107
 	str	r0, [sp, #644]
 	add	r0, sp, #372
@@ -30517,8 +30463,8 @@ main:
 	add	r0, sp, #380
 	movs	r2, #11
 	ldr	r1, .LCPI57_110
-	bl	.LBB57_409
-.LBB57_131:
+	bl	.LBB57_410
+.LBB57_128:
 	add	r2, sp, #640
 	ldrb	r0, [r2, #29]
 	str	r0, [sp, #320]
@@ -30530,13 +30476,13 @@ main:
 	lsls	r1, r1, #31
 	ldr	r0, .LCPI57_105
 	str	r3, [sp, #260]
-	beq	.LBB57_133
-.LBB57_132:
+	beq	.LBB57_130
+.LBB57_129:
 	ldrh	r1, [r2, #10]
 	str	r1, [sp, #288]
 	lsrs	r3, r1, #8
-	b	.LBB57_158
-.LBB57_133:
+	b	.LBB57_155
+.LBB57_130:
 	movs	r1, #80
 	str	r1, [sp, #288]
 	ldr	r3, [sp, #320]
@@ -30546,19 +30492,19 @@ main:
 	mov	pc, r1
 	.p2align	2
 .LJTI57_0:
-	.long	.LBB57_158+1
-	.long	.LBB57_136+1
 	.long	.LBB57_155+1
-	.long	.LBB57_156+1
+	.long	.LBB57_133+1
+	.long	.LBB57_152+1
+	.long	.LBB57_153+1
 	.p2align	2
-.LCPI57_184:
+.LCPI57_178:
 	.long	1065670069
 	.p2align	1
-.LBB57_136:
+.LBB57_133:
 	movs	r3, #1
 	movs	r1, #187
-	b	.LBB57_157
-.LBB57_137:
+	b	.LBB57_154
+.LBB57_134:
 	add	r2, sp, #640
 	ldrb	r0, [r2, #29]
 	str	r0, [sp, #320]
@@ -30571,7 +30517,7 @@ main:
 	ldr	r0, .LCPI57_105
 	ldr	r6, [sp, #336]
 	str	r3, [sp, #260]
-	bne	.LBB57_132
+	bne	.LBB57_129
 	movs	r1, #80
 	str	r1, [sp, #288]
 	ldr	r3, [sp, #320]
@@ -30583,15 +30529,15 @@ main:
 .LCPI57_98:
 	.long	1065670069
 	.p2align	2
-.LCPI57_185:
+.LCPI57_179:
 	.long	3041331479
 	.p2align	1
 	.p2align	2
 .LJTI57_1:
-	.long	.LBB57_158+1
-	.long	.LBB57_154+1
 	.long	.LBB57_155+1
-	.long	.LBB57_156+1
+	.long	.LBB57_151+1
+	.long	.LBB57_152+1
+	.long	.LBB57_153+1
 	.p2align	2
 .LCPI57_99:
 	.long	3041331479
@@ -30629,32 +30575,32 @@ main:
 .LCPI57_110:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.143
 	.p2align	1
-.LBB57_154:
-	b	.LBB57_136
-.LBB57_155:
+.LBB57_151:
+	b	.LBB57_133
+.LBB57_152:
 	movs	r3, #7
-	ldr	r1, [sp, #228]
-	b	.LBB57_157
-.LBB57_156:
+	ldr	r1, [sp, #232]
+	b	.LBB57_154
+.LBB57_153:
 	movs	r3, #34
 	movs	r1, #179
-.LBB57_157:
+.LBB57_154:
 	str	r1, [sp, #288]
-.LBB57_158:
+.LBB57_155:
 	str	r3, [sp, #252]
-	ldr	r1, .LCPI57_195
+	ldr	r1, .LCPI57_192
 	str	r1, [sp, #644]
 	add	r1, sp, #372
 	str	r1, [sp, #640]
 	add	r3, sp, #640
-	ldr	r1, .LCPI57_196
-	ldr	r2, .LCPI57_197
+	ldr	r1, .LCPI57_193
+	ldr	r2, .LCPI57_194
 	bl	_RNvNtCsc6P1BMjYAM_4core3fmt5write
 	cmp	r7, #15
 	str	r4, [sp, #292]
 	str	r7, [sp, #284]
 	str	r5, [sp, #248]
-	bls	.LBB57_160
+	bls	.LBB57_157
 	movs	r0, #1
 	ldr	r1, [sp, #272]
 	orrs	r1, r0
@@ -30662,111 +30608,122 @@ main:
 	bics	r1, r0
 	str	r1, [sp, #272]
 	ldr	r1, [sp, #276]
-	bl	.LBB57_372
-.LBB57_160:
+	bl	.LBB57_369
+.LBB57_157:
 	cmp	r7, #0
 	ldr	r1, [sp, #276]
-	beq	.LBB57_170
+	beq	.LBB57_167
 	ldrb	r1, [r4]
 	subs	r1, #48
 	cmp	r1, #9
-	bhi	.LBB57_171
+	bhi	.LBB57_168
 	subs	r2, r7, #1
 	mov	r0, r1
-	bne	.LBB57_163
-	b	.LBB57_216
-.LBB57_163:
+	bne	.LBB57_160
+	b	.LBB57_213
+.LBB57_160:
 	ldrb	r0, [r4, #1]
 	subs	r0, #48
 	cmp	r0, #9
-	bhi	.LBB57_189
+	bhi	.LBB57_186
 	subs	r2, r7, #2
 	ldr	r3, [sp, #312]
 	muls	r3, r1, r3
 	adds	r0, r0, r3
 	cmp	r2, #0
-	bne	.LBB57_165
-	b	.LBB57_216
-.LBB57_165:
+	bne	.LBB57_162
+	b	.LBB57_213
+.LBB57_162:
 	ldrb	r3, [r4, #2]
 	subs	r3, #48
 	cmp	r3, #9
-	bhi	.LBB57_190
+	bhi	.LBB57_187
 	subs	r2, r7, #3
 	ldr	r4, [sp, #312]
 	muls	r0, r4, r0
 	adds	r0, r3, r0
 	cmp	r2, #0
-	bne	.LBB57_167
-	b	.LBB57_215
-.LBB57_167:
+	bne	.LBB57_164
+	b	.LBB57_212
+.LBB57_164:
 	ldr	r3, [sp, #292]
 	adds	r4, r3, #3
 	ldrb	r3, [r4]
 	subs	r3, #48
 	cmp	r3, #10
-	ldr	r3, [sp, #232]
-	blo	.LBB57_168
-	b	.LBB57_217
-.LBB57_168:
+	ldr	r3, [sp, #236]
+	blo	.LBB57_165
+	b	.LBB57_214
+.LBB57_165:
 	movs	r1, #0
 	mov	r2, r7
 	ldr	r4, [sp, #292]
 	lsls	r1, r1, #31
-	beq	.LBB57_169
-	b	.LBB57_223
-.LBB57_169:
-	bl	.LBB57_371
-.LBB57_170:
+	beq	.LBB57_166
+	b	.LBB57_220
+.LBB57_166:
+	bl	.LBB57_368
+.LBB57_167:
 	movs	r0, #1
 	ldr	r2, [sp, #272]
 	orrs	r2, r0
 	movs	r0, #254
 	bics	r2, r0
 	str	r2, [sp, #272]
-	bl	.LBB57_372
-.LBB57_171:
+	bl	.LBB57_369
+.LBB57_168:
 	movs	r1, #0
 	mov	r2, r7
 	lsls	r1, r1, #31
-	beq	.LBB57_172
-	b	.LBB57_223
-.LBB57_172:
-	b	.LBB57_371
-.LBB57_173:
+	beq	.LBB57_169
+	b	.LBB57_220
+.LBB57_169:
+	b	.LBB57_368
+.LBB57_170:
 	subs	r2, r2, r5
-	b	.LBB57_175
-.LBB57_174:
+	b	.LBB57_172
+.LBB57_171:
 	adds	r2, r2, r4
 	adds	r0, r0, #1
-.LBB57_175:
+.LBB57_172:
 	subs	r1, r0, #4
 	ldr	r6, [sp, #336]
-.LBB57_176:
+.LBB57_173:
 	adds	r3, r1, r2
 	ldrb	r4, [r3, #3]
 	subs	r4, #9
 	cmp	r4, #23
-	bhi	.LBB57_193
+	bhi	.LBB57_190
 	ldr	r5, [sp, #300]
 	lsls	r5, r4
 	ldr	r4, .LCPI57_114
 	tst	r5, r4
-	beq	.LBB57_193
+	beq	.LBB57_190
 	cmp	r2, #1
-	beq	.LBB57_188
+	beq	.LBB57_185
 	ldrb	r4, [r3, #2]
 	subs	r4, #9
 	cmp	r4, #23
-	bhi	.LBB57_191
+	bhi	.LBB57_188
 	ldr	r5, [sp, #300]
 	lsls	r5, r4
 	ldr	r4, .LCPI57_114
 	tst	r5, r4
-	beq	.LBB57_191
-	cmp	r2, #2
 	beq	.LBB57_188
+	cmp	r2, #2
+	beq	.LBB57_185
 	ldrb	r3, [r3, #1]
+	subs	r3, #9
+	cmp	r3, #23
+	bhi	.LBB57_189
+	ldr	r4, [sp, #300]
+	lsls	r4, r3
+	ldr	r3, .LCPI57_114
+	tst	r4, r3
+	beq	.LBB57_189
+	cmp	r2, #3
+	beq	.LBB57_185
+	ldrb	r3, [r1, r2]
 	subs	r3, #9
 	cmp	r3, #23
 	bhi	.LBB57_192
@@ -30775,290 +30732,279 @@ main:
 	ldr	r3, .LCPI57_114
 	tst	r4, r3
 	beq	.LBB57_192
-	cmp	r2, #3
-	beq	.LBB57_188
-	ldrb	r3, [r1, r2]
-	subs	r3, #9
-	cmp	r3, #23
-	bhi	.LBB57_195
-	ldr	r4, [sp, #300]
-	lsls	r4, r3
-	ldr	r3, .LCPI57_114
-	tst	r4, r3
-	beq	.LBB57_195
 	subs	r2, r2, #4
-	bne	.LBB57_176
-.LBB57_188:
+	bne	.LBB57_173
+.LBB57_185:
 	mov	r1, r0
-	b	.LBB57_123
-.LBB57_189:
+	b	.LBB57_120
+.LBB57_186:
 	adds	r4, r4, #1
 	movs	r3, #0
 	mov	r0, r1
-	b	.LBB57_217
-.LBB57_190:
+	b	.LBB57_214
+.LBB57_187:
 	adds	r4, r4, #2
-	ldr	r3, [sp, #232]
-	b	.LBB57_217
-.LBB57_191:
+	ldr	r3, [sp, #236]
+	b	.LBB57_214
+.LBB57_188:
 	subs	r2, r2, #1
 	str	r0, [sp, #372]
 	str	r2, [sp, #376]
 	cmp	r2, #6
-	blo	.LBB57_194
-	b	.LBB57_196
-.LBB57_192:
+	blo	.LBB57_191
+	b	.LBB57_193
+.LBB57_189:
 	subs	r2, r2, #2
-.LBB57_193:
+.LBB57_190:
 	str	r0, [sp, #372]
 	str	r2, [sp, #376]
 	cmp	r2, #6
-	bhs	.LBB57_196
-.LBB57_194:
+	bhs	.LBB57_193
+.LBB57_191:
 	mov	r1, r0
-	b	.LBB57_124
-.LBB57_195:
+	b	.LBB57_121
+.LBB57_192:
 	subs	r2, r2, #3
 	str	r0, [sp, #372]
 	str	r2, [sp, #376]
 	cmp	r2, #6
-	blo	.LBB57_194
-.LBB57_196:
+	blo	.LBB57_191
+.LBB57_193:
 	mov	r1, r0
 	ldr	r3, .LCPI57_115
 	orrs	r1, r3
 	lsls	r1, r1, #30
-	beq	.LBB57_211
+	beq	.LBB57_208
 	cmp	r1, #0
-	bne	.LBB57_198
-	b	.LBB57_262
-.LBB57_198:
+	bne	.LBB57_195
+	b	.LBB57_259
+.LBB57_195:
 	ldrb	r1, [r0]
 	cmp	r1, #97
 	ldr	r3, [sp, #120]
-	beq	.LBB57_199
-	b	.LBB57_279
-.LBB57_199:
+	beq	.LBB57_196
+	b	.LBB57_276
+.LBB57_196:
 	ldr	r1, .LCPI57_115
 	adds	r1, r1, #1
 	adds	r3, r0, #1
 	mov	r4, r3
 	orrs	r4, r1
 	lsls	r4, r4, #30
-	bne	.LBB57_200
-	b	.LBB57_274
-.LBB57_200:
+	bne	.LBB57_197
+	b	.LBB57_271
+.LBB57_197:
 	ldrb	r1, [r3]
 	cmp	r1, #98
-	beq	.LBB57_201
-	b	.LBB57_278
-.LBB57_201:
+	beq	.LBB57_198
+	b	.LBB57_275
+.LBB57_198:
 	ldr	r1, .LCPI57_115
 	adds	r1, r1, #2
 	adds	r3, r0, #2
 	mov	r4, r3
 	orrs	r4, r1
 	lsls	r4, r4, #30
-	bne	.LBB57_202
-	b	.LBB57_315
-.LBB57_202:
+	bne	.LBB57_199
+	b	.LBB57_312
+.LBB57_199:
 	ldrb	r1, [r3]
 	cmp	r1, #111
 	ldr	r3, [sp, #88]
-	beq	.LBB57_203
-	b	.LBB57_279
-.LBB57_203:
+	beq	.LBB57_200
+	b	.LBB57_276
+.LBB57_200:
 	ldr	r1, .LCPI57_115
 	adds	r1, r1, #3
 	adds	r3, r0, #3
 	mov	r4, r3
 	orrs	r4, r1
 	lsls	r4, r4, #30
-	bne	.LBB57_204
-	b	.LBB57_362
-.LBB57_204:
+	bne	.LBB57_201
+	b	.LBB57_359
+.LBB57_201:
 	ldrb	r1, [r3]
 	cmp	r1, #117
 	ldr	r3, [sp, #84]
-	beq	.LBB57_205
-	b	.LBB57_279
-.LBB57_205:
+	beq	.LBB57_202
+	b	.LBB57_276
+.LBB57_202:
 	ldr	r1, .LCPI57_115
 	adds	r1, r1, #4
 	adds	r3, r0, #4
 	mov	r4, r3
 	orrs	r4, r1
 	lsls	r4, r4, #30
-	bne	.LBB57_206
-	bl	.LBB57_794
-.LBB57_206:
+	bne	.LBB57_203
+	bl	.LBB57_790
+.LBB57_203:
 	ldrb	r1, [r3]
 	cmp	r1, #116
 	ldr	r3, [sp, #80]
-	beq	.LBB57_207
-	b	.LBB57_279
-.LBB57_207:
+	beq	.LBB57_204
+	b	.LBB57_276
+.LBB57_204:
 	ldr	r1, .LCPI57_115
 	adds	r1, r1, #5
 	adds	r3, r0, #5
 	mov	r4, r3
 	orrs	r4, r1
 	lsls	r4, r4, #30
-	bne	.LBB57_208
-	bl	.LBB57_795
-.LBB57_208:
+	bne	.LBB57_205
+	bl	.LBB57_791
+.LBB57_205:
 	ldrb	r1, [r3]
 	cmp	r1, #58
-	bne	.LBB57_209
-	b	.LBB57_326
-.LBB57_209:
+	bne	.LBB57_206
+	b	.LBB57_323
+.LBB57_206:
 	movs	r3, #58
 	subs	r1, r3, r1
 	cmp	r1, #0
-	beq	.LBB57_210
-	b	.LBB57_337
-.LBB57_210:
-	b	.LBB57_326
-.LBB57_211:
+	beq	.LBB57_207
+	b	.LBB57_334
+.LBB57_207:
+	b	.LBB57_323
+.LBB57_208:
 	ldr	r1, [r0]
 	ldr	r3, .LCPI57_116
 	cmp	r1, r3
-	beq	.LBB57_212
-	b	.LBB57_263
-.LBB57_212:
+	beq	.LBB57_209
+	b	.LBB57_260
+.LBB57_209:
 	ldrb	r1, [r0, #4]
 	cmp	r1, #116
-	bne	.LBB57_194
+	bne	.LBB57_191
 	ldrb	r1, [r0, #5]
 	cmp	r1, #58
-	bne	.LBB57_214
-	b	.LBB57_326
-.LBB57_214:
-	b	.LBB57_337
-.LBB57_215:
+	bne	.LBB57_211
+	b	.LBB57_323
+.LBB57_211:
+	b	.LBB57_334
+.LBB57_212:
 	ldr	r4, [sp, #292]
-.LBB57_216:
+.LBB57_213:
 	subs	r3, r7, #1
 	subs	r2, r3, #1
 	sbcs	r3, r2
 	adds	r4, r4, r7
 	movs	r2, #0
-.LBB57_217:
+.LBB57_214:
 	subs	r5, r1, #1
 	sbcs	r1, r5
 	ldr	r5, [sp, #316]
 	cmp	r0, r5
-	blo	.LBB57_219
+	blo	.LBB57_216
 	movs	r5, #0
-	b	.LBB57_220
-.LBB57_219:
+	b	.LBB57_217
+.LBB57_216:
 	movs	r5, #1
-.LBB57_220:
+.LBB57_217:
 	mvns	r3, r3
 	orrs	r1, r3
 	ands	r1, r5
 	cmp	r1, #0
-	bne	.LBB57_235
+	bne	.LBB57_232
 	ldr	r4, [sp, #292]
-	beq	.LBB57_236
-.LBB57_222:
+	beq	.LBB57_233
+.LBB57_219:
 	lsls	r1, r1, #31
-	bne	.LBB57_223
-	b	.LBB57_371
-.LBB57_223:
+	bne	.LBB57_220
+	b	.LBB57_368
+.LBB57_220:
 	cmp	r2, #0
-	bne	.LBB57_224
-	b	.LBB57_371
-.LBB57_224:
+	bne	.LBB57_221
+	b	.LBB57_368
+.LBB57_221:
 	subs	r3, r2, #1
 	rsbs	r1, r3, #0
 	adcs	r1, r3
 	ldrb	r5, [r4]
 	cmp	r5, #46
-	ldr	r5, [sp, #232]
-	bne	.LBB57_226
+	ldr	r5, [sp, #236]
+	bne	.LBB57_223
 	mov	r5, r1
-.LBB57_226:
+.LBB57_223:
 	cmp	r5, #0
-	beq	.LBB57_227
-	b	.LBB57_371
-.LBB57_227:
+	beq	.LBB57_224
+	b	.LBB57_368
+.LBB57_224:
 	adds	r5, r4, #1
 	ldrb	r6, [r4, #1]
 	subs	r6, #48
 	cmp	r6, #9
-	bhi	.LBB57_237
+	bhi	.LBB57_234
 	str	r5, [sp, #324]
 	subs	r1, r2, #2
 	mov	r5, r6
 	str	r0, [sp, #328]
-	beq	.LBB57_240
+	beq	.LBB57_237
 	ldrb	r5, [r4, #2]
 	subs	r5, #48
 	cmp	r5, #9
-	bhi	.LBB57_238
+	bhi	.LBB57_235
 	subs	r1, r2, #3
 	ldr	r7, [sp, #312]
 	muls	r7, r6, r7
 	adds	r5, r5, r7
 	cmp	r1, #0
-	beq	.LBB57_239
+	beq	.LBB57_236
 	str	r5, [sp, #340]
 	ldrb	r0, [r4, #3]
 	subs	r0, #48
 	cmp	r0, #9
-	bls	.LBB57_232
-	b	.LBB57_268
-.LBB57_232:
+	bls	.LBB57_229
+	b	.LBB57_265
+.LBB57_229:
 	subs	r1, r2, #4
 	ldr	r7, [sp, #312]
 	ldr	r5, [sp, #340]
 	muls	r5, r7, r5
 	adds	r5, r0, r5
 	cmp	r1, #0
-	beq	.LBB57_239
+	beq	.LBB57_236
 	str	r5, [sp, #340]
 	adds	r2, r4, #4
 	ldrb	r4, [r2]
 	subs	r4, #48
 	cmp	r4, #10
-	ldr	r5, [sp, #232]
+	ldr	r5, [sp, #236]
 	ldr	r7, [sp, #284]
-	bhs	.LBB57_241
+	bhs	.LBB57_238
 	movs	r6, #0
 	mov	r1, r3
 	ldr	r2, [sp, #324]
-	b	.LBB57_248
-.LBB57_235:
-	bne	.LBB57_222
-.LBB57_236:
+	b	.LBB57_245
+.LBB57_232:
+	bne	.LBB57_219
+.LBB57_233:
 	mov	r2, r7
 	lsls	r1, r1, #31
-	bne	.LBB57_223
-	b	.LBB57_371
-.LBB57_237:
+	bne	.LBB57_220
+	b	.LBB57_368
+.LBB57_234:
 	movs	r6, #0
 	mov	r1, r3
 	mov	r2, r5
 	lsls	r3, r6, #31
 	ldr	r6, [sp, #336]
-	bne	.LBB57_249
-	b	.LBB57_371
-.LBB57_238:
+	bne	.LBB57_246
+	b	.LBB57_368
+.LBB57_235:
 	adds	r2, r4, #2
 	movs	r5, #0
 	str	r6, [sp, #340]
-	b	.LBB57_241
-.LBB57_239:
+	b	.LBB57_238
+.LBB57_236:
 	ldr	r7, [sp, #284]
-.LBB57_240:
+.LBB57_237:
 	str	r5, [sp, #340]
 	subs	r5, r3, #1
 	subs	r1, r5, #1
 	sbcs	r5, r1
 	adds	r2, r4, r2
 	movs	r1, #0
-.LBB57_241:
+.LBB57_238:
 	mov	r0, r1
 	mov	r1, r2
 	subs	r4, r6, #1
@@ -31066,63 +31012,63 @@ main:
 	ldr	r4, [sp, #316]
 	ldr	r2, [sp, #340]
 	cmp	r2, r4
-	blo	.LBB57_243
+	blo	.LBB57_240
 	movs	r4, #0
-	b	.LBB57_244
-.LBB57_243:
+	b	.LBB57_241
+.LBB57_240:
 	movs	r4, #1
-.LBB57_244:
+.LBB57_241:
 	mvns	r5, r5
 	orrs	r6, r5
 	ands	r6, r4
 	cmp	r6, #0
 	mov	r2, r1
-	bne	.LBB57_246
+	bne	.LBB57_243
 	ldr	r2, [sp, #324]
-.LBB57_246:
+.LBB57_243:
 	mov	r1, r0
-	bne	.LBB57_248
+	bne	.LBB57_245
 	mov	r1, r3
-.LBB57_248:
+.LBB57_245:
 	ldr	r0, [sp, #328]
 	lsls	r3, r6, #31
 	ldr	r6, [sp, #336]
-	bne	.LBB57_249
-	b	.LBB57_371
-.LBB57_249:
+	bne	.LBB57_246
+	b	.LBB57_368
+.LBB57_246:
 	cmp	r1, #0
-	bne	.LBB57_250
-	b	.LBB57_371
-.LBB57_250:
+	bne	.LBB57_247
+	b	.LBB57_368
+.LBB57_247:
 	subs	r4, r1, #1
 	rsbs	r3, r4, #0
 	adcs	r3, r4
 	ldrb	r5, [r2]
 	cmp	r5, #46
-	ldr	r5, [sp, #232]
-	bne	.LBB57_252
+	ldr	r5, [sp, #236]
+	bne	.LBB57_249
 	mov	r5, r3
-.LBB57_252:
+.LBB57_249:
 	cmp	r5, #0
-	beq	.LBB57_253
-	b	.LBB57_371
-.LBB57_253:
+	beq	.LBB57_250
+	b	.LBB57_368
+.LBB57_250:
 	adds	r3, r2, #1
 	ldrb	r6, [r2, #1]
 	subs	r6, #48
 	cmp	r6, #9
-	bhi	.LBB57_261
+	bhi	.LBB57_258
 	str	r3, [sp, #240]
 	str	r2, [sp, #324]
 	str	r1, [sp, #256]
 	subs	r5, r1, #2
 	mov	r2, r6
-	beq	.LBB57_283
+	beq	.LBB57_280
 	ldr	r1, [sp, #324]
 	ldrb	r3, [r1, #2]
 	subs	r3, #48
 	cmp	r3, #9
-	bhi	.LBB57_273
+	bhi	.LBB57_270
 	str	r0, [sp, #328]
 	ldr	r0, [sp, #256]
 	subs	r0, r0, #3
@@ -31130,15 +31076,15 @@ main:
 	muls	r7, r6, r7
 	adds	r2, r3, r7
 	cmp	r0, #0
-	beq	.LBB57_282
+	beq	.LBB57_279
 	str	r2, [sp, #304]
 	ldr	r1, [sp, #324]
 	ldrb	r3, [r1, #3]
 	subs	r3, #48
 	cmp	r3, #9
-	bls	.LBB57_258
-	b	.LBB57_312
-.LBB57_258:
+	bls	.LBB57_255
+	b	.LBB57_309
+.LBB57_255:
 	ldr	r0, [sp, #256]
 	subs	r0, r0, #4
 	ldr	r7, [sp, #312]
@@ -31146,7 +31092,7 @@ main:
 	muls	r2, r7, r2
 	adds	r2, r3, r2
 	cmp	r0, #0
-	beq	.LBB57_282
+	beq	.LBB57_279
 	str	r0, [sp, #256]
 	str	r2, [sp, #304]
 	ldr	r1, [sp, #324]
@@ -31155,102 +31101,102 @@ main:
 	ldrb	r1, [r0]
 	subs	r1, #48
 	cmp	r1, #10
-	ldr	r3, [sp, #232]
+	ldr	r3, [sp, #236]
 	ldr	r7, [sp, #284]
 	ldr	r0, [sp, #328]
-	bhs	.LBB57_284
+	bhs	.LBB57_281
 	movs	r6, #0
 	mov	r5, r4
 	ldr	r2, [sp, #240]
 	lsls	r1, r6, #31
 	ldr	r6, [sp, #336]
-	bne	.LBB57_296
-	b	.LBB57_371
-.LBB57_261:
+	bne	.LBB57_293
+	b	.LBB57_368
+.LBB57_258:
 	movs	r6, #0
 	mov	r5, r4
 	mov	r2, r3
 	lsls	r1, r6, #31
 	ldr	r6, [sp, #336]
-	bne	.LBB57_296
-	b	.LBB57_371
-.LBB57_262:
+	bne	.LBB57_293
+	b	.LBB57_368
+.LBB57_259:
 	movs	r1, #6
 	str	r1, [sp, #340]
 	ldr	r1, .LCPI57_115
 	mov	r3, r0
-	b	.LBB57_317
-.LBB57_263:
+	b	.LBB57_314
+.LBB57_260:
 	uxtb	r3, r1
 	cmp	r3, #97
-	bne	.LBB57_269
+	bne	.LBB57_266
 	ldr	r5, [sp, #156]
 	lsls	r3, r5, #8
 	ands	r3, r1
 	movs	r4, #49
 	lsls	r4, r4, #9
 	cmp	r3, r4
-	bne	.LBB57_281
+	bne	.LBB57_278
 	lsls	r4, r5, #16
 	ands	r4, r1
 	movs	r3, #111
 	lsls	r5, r3, #16
 	cmp	r4, r5
-	beq	.LBB57_266
-	b	.LBB57_313
-.LBB57_266:
+	beq	.LBB57_263
+	b	.LBB57_310
+.LBB57_263:
 	lsrs	r1, r1, #24
 	cmp	r1, #117
-	bne	.LBB57_267
-	b	.LBB57_326
-.LBB57_267:
+	bne	.LBB57_264
+	b	.LBB57_323
+.LBB57_264:
 	movs	r3, #117
-	b	.LBB57_314
-.LBB57_268:
+	b	.LBB57_311
+.LBB57_265:
 	adds	r2, r4, #3
-	ldr	r5, [sp, #232]
+	ldr	r5, [sp, #236]
 	ldr	r7, [sp, #284]
-	b	.LBB57_241
-.LBB57_269:
+	b	.LBB57_238
+.LBB57_266:
 	movs	r3, #97
-	b	.LBB57_314
+	b	.LBB57_311
 	.p2align	2
-.LCPI57_195:
+.LCPI57_192:
 	.long	_RNvXs1i_NtCsc6P1BMjYAM_4core3fmtReNtB6_7Display3fmtB8_
 	.p2align	2
-.LCPI57_196:
+.LCPI57_193:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.250
 	.p2align	2
-.LCPI57_197:
+.LCPI57_194:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.140
 	.p2align	1
-.LBB57_273:
+.LBB57_270:
 	str	r5, [sp, #256]
 	adds	r5, r1, #2
 	movs	r3, #0
 	str	r6, [sp, #304]
-	b	.LBB57_284
-.LBB57_274:
+	b	.LBB57_281
+.LBB57_271:
 	ldr	r4, [sp, #96]
-	b	.LBB57_316
+	b	.LBB57_313
 	.p2align	1
-.LBB57_278:
+.LBB57_275:
 	movs	r3, #98
-.LBB57_279:
+.LBB57_276:
 	subs	r1, r3, r1
 	cmp	r1, #0
-	beq	.LBB57_280
-	b	.LBB57_337
-.LBB57_280:
-	b	.LBB57_326
-.LBB57_281:
+	beq	.LBB57_277
+	b	.LBB57_334
+.LBB57_277:
+	b	.LBB57_323
+.LBB57_278:
 	lsrs	r1, r1, #8
 	movs	r3, #98
-	b	.LBB57_314
-.LBB57_282:
+	b	.LBB57_311
+.LBB57_279:
 	ldr	r7, [sp, #284]
 	ldr	r0, [sp, #328]
-.LBB57_283:
+.LBB57_280:
 	str	r2, [sp, #304]
 	subs	r3, r4, #1
 	subs	r5, r3, #1
@@ -31262,15 +31208,15 @@ main:
 	mov	r0, r2
 	movs	r1, #0
 	str	r1, [sp, #256]
-.LBB57_284:
+.LBB57_281:
 	subs	r1, r6, #1
 	sbcs	r6, r1
 	ldr	r1, [sp, #316]
 	ldr	r2, [sp, #304]
 	cmp	r2, r1
-	blo	.LBB57_292
+	blo	.LBB57_289
 	movs	r1, #0
-	b	.LBB57_293
+	b	.LBB57_290
 	.p2align	2
 .LCPI57_114:
 	.long	8388635
@@ -31281,68 +31227,68 @@ main:
 .LCPI57_116:
 	.long	1970233953
 	.p2align	1
-.LBB57_292:
+.LBB57_289:
 	movs	r1, #1
-.LBB57_293:
+.LBB57_290:
 	mov	r2, r5
 	mvns	r3, r3
 	orrs	r6, r3
 	ands	r6, r1
 	cmp	r6, #0
 	ldr	r5, [sp, #256]
-	bne	.LBB57_308
+	bne	.LBB57_305
 	ldr	r2, [sp, #240]
-	beq	.LBB57_309
-.LBB57_295:
+	beq	.LBB57_306
+.LBB57_292:
 	lsls	r1, r6, #31
 	ldr	r6, [sp, #336]
-	bne	.LBB57_296
-	b	.LBB57_371
-.LBB57_296:
+	bne	.LBB57_293
+	b	.LBB57_368
+.LBB57_293:
 	cmp	r5, #0
-	bne	.LBB57_297
-	b	.LBB57_371
-.LBB57_297:
+	bne	.LBB57_294
+	b	.LBB57_368
+.LBB57_294:
 	ldrb	r1, [r2]
 	cmp	r1, #46
-	beq	.LBB57_298
-	b	.LBB57_371
-.LBB57_298:
+	beq	.LBB57_295
+	b	.LBB57_368
+.LBB57_295:
 	subs	r1, r5, #1
-	beq	.LBB57_310
+	beq	.LBB57_307
 	str	r1, [sp, #256]
 	ldrb	r1, [r2, #1]
 	subs	r1, #48
 	movs	r3, #0
 	cmp	r1, #9
 	mov	r4, r3
-	bhi	.LBB57_306
+	bhi	.LBB57_303
 	subs	r6, r5, #2
 	str	r1, [sp, #324]
-	bne	.LBB57_301
-	b	.LBB57_359
-.LBB57_301:
+	bne	.LBB57_298
+	b	.LBB57_356
+.LBB57_298:
 	ldrb	r3, [r2, #2]
 	subs	r3, #48
 	cmp	r3, #9
-	bls	.LBB57_302
-	b	.LBB57_361
-.LBB57_302:
+	bls	.LBB57_299
+	b	.LBB57_358
+.LBB57_299:
 	subs	r6, r5, #3
 	ldr	r4, [sp, #312]
 	muls	r4, r1, r4
 	adds	r3, r3, r4
 	str	r3, [sp, #324]
 	cmp	r6, #0
-	bne	.LBB57_303
-	b	.LBB57_359
-.LBB57_303:
+	bne	.LBB57_300
+	b	.LBB57_356
+.LBB57_300:
 	ldrb	r3, [r2, #3]
 	subs	r3, #48
 	cmp	r3, #9
-	bls	.LBB57_304
-	b	.LBB57_363
-.LBB57_304:
+	bls	.LBB57_301
+	b	.LBB57_360
+.LBB57_301:
 	subs	r6, r5, #4
 	ldr	r4, [sp, #312]
 	ldr	r5, [sp, #324]
@@ -31350,61 +31296,61 @@ main:
 	adds	r5, r3, r5
 	str	r5, [sp, #324]
 	cmp	r6, #0
-	bne	.LBB57_305
-	b	.LBB57_359
-.LBB57_305:
+	bne	.LBB57_302
+	b	.LBB57_356
+.LBB57_302:
 	ldrb	r2, [r2, #4]
 	subs	r2, #48
 	movs	r3, #0
 	cmp	r2, #10
-	ldr	r2, [sp, #232]
+	ldr	r2, [sp, #236]
 	mov	r4, r3
-	blo	.LBB57_306
-	b	.LBB57_364
-.LBB57_306:
+	blo	.LBB57_303
+	b	.LBB57_361
+.LBB57_303:
 	lsls	r1, r4, #31
 	ldr	r6, [sp, #336]
-	beq	.LBB57_307
-	b	.LBB57_369
-.LBB57_307:
-	b	.LBB57_371
-.LBB57_308:
-	bne	.LBB57_295
-.LBB57_309:
+	beq	.LBB57_304
+	b	.LBB57_366
+.LBB57_304:
+	b	.LBB57_368
+.LBB57_305:
+	bne	.LBB57_292
+.LBB57_306:
 	mov	r5, r4
 	lsls	r1, r6, #31
 	ldr	r6, [sp, #336]
-	bne	.LBB57_296
-	b	.LBB57_371
-.LBB57_310:
+	bne	.LBB57_293
+	b	.LBB57_368
+.LBB57_307:
 	movs	r4, #0
-	ldr	r3, [sp, #232]
+	ldr	r3, [sp, #236]
 	lsls	r1, r4, #31
 	ldr	r6, [sp, #336]
-	beq	.LBB57_311
-	b	.LBB57_369
-.LBB57_311:
-	b	.LBB57_371
-.LBB57_312:
+	beq	.LBB57_308
+	b	.LBB57_366
+.LBB57_308:
+	b	.LBB57_368
+.LBB57_309:
 	str	r0, [sp, #256]
 	adds	r5, r1, #3
-	ldr	r3, [sp, #232]
+	ldr	r3, [sp, #236]
 	ldr	r7, [sp, #284]
 	ldr	r0, [sp, #328]
-	b	.LBB57_284
-.LBB57_313:
+	b	.LBB57_281
+.LBB57_310:
 	lsrs	r1, r1, #16
-.LBB57_314:
+.LBB57_311:
 	uxtb	r1, r1
 	subs	r1, r3, r1
 	cmp	r1, #0
-	beq	.LBB57_326
-	b	.LBB57_337
-.LBB57_315:
+	beq	.LBB57_323
+	b	.LBB57_334
+.LBB57_312:
 	ldr	r4, [sp, #92]
-.LBB57_316:
+.LBB57_313:
 	str	r4, [sp, #340]
-.LBB57_317:
+.LBB57_314:
 	ldrb	r5, [r3]
 	ldrb	r6, [r3, #1]
 	lsls	r6, r6, #8
@@ -31426,54 +31372,54 @@ main:
 	adds	r4, r4, r7
 	adds	r4, r4, r6
 	cmp	r4, r5
-	bne	.LBB57_332
-.LBB57_318:
+	bne	.LBB57_329
+.LBB57_315:
 	movs	r5, #3
 	ldr	r6, [sp, #340]
 	ands	r5, r6
-	beq	.LBB57_326
+	beq	.LBB57_323
 	movs	r4, #4
 	ands	r6, r4
 	adds	r3, r3, r6
 	adds	r1, r1, r6
-.LBB57_320:
+.LBB57_317:
 	ldrb	r4, [r3]
 	ldrb	r6, [r1]
 	cmp	r6, r4
-	bne	.LBB57_325
+	bne	.LBB57_322
 	cmp	r5, #1
-	beq	.LBB57_326
+	beq	.LBB57_323
 	ldrb	r4, [r3, #1]
 	ldrb	r6, [r1, #1]
 	cmp	r6, r4
-	bne	.LBB57_325
+	bne	.LBB57_322
 	cmp	r5, #2
-	beq	.LBB57_326
+	beq	.LBB57_323
 	ldrb	r4, [r3, #2]
 	ldrb	r6, [r1, #2]
 	cmp	r6, r4
-	beq	.LBB57_326
-.LBB57_325:
+	beq	.LBB57_323
+.LBB57_322:
 	subs	r1, r6, r4
 	cmp	r1, #0
-	bne	.LBB57_337
-.LBB57_326:
+	bne	.LBB57_334
+.LBB57_323:
 	adds	r6, r0, #6
 	subs	r5, r2, #6
-	beq	.LBB57_338
+	beq	.LBB57_335
 	movs	r1, #0
 	ldrsb	r1, [r6, r1]
 	movs	r3, #64
 	mvns	r3, r3
 	cmp	r1, r3
-	bgt	.LBB57_328
-	bl	.LBB57_999
-.LBB57_328:
+	bgt	.LBB57_325
+	bl	.LBB57_996
+.LBB57_325:
 	movs	r4, #75
 	ldr	r1, [sp, #124]
 	cmp	r1, #0
-	beq	.LBB57_339
-.LBB57_329:
+	beq	.LBB57_336
+.LBB57_326:
 	mov	r1, r2
 	ldr	r3, [sp, #108]
 	rors	r3, r5
@@ -31483,11 +31429,11 @@ main:
 	str	r6, [sp, #284]
 	str	r4, [sp, #260]
 	str	r5, [sp, #288]
-	blo	.LBB57_330
-	bl	.LBB57_944
-.LBB57_330:
+	blo	.LBB57_327
+	bl	.LBB57_941
+.LBB57_327:
 	cmp	r5, #7
-	bls	.LBB57_340
+	bls	.LBB57_337
 	adds	r0, r0, r1
 	subs	r0, #8
 	ldrb	r1, [r0, #4]
@@ -31500,7 +31446,7 @@ main:
 	lsls	r5, r5, #24
 	adds	r4, r5, r4
 	adds	r4, r4, r1
-	ldr	r1, .LCPI57_117
+	ldr	r1, .LCPI57_183
 	eors	r4, r1
 	str	r4, [sp, #340]
 	ldrb	r1, [r0]
@@ -31513,7 +31459,7 @@ main:
 	lsls	r0, r0, #24
 	adds	r0, r0, r4
 	adds	r5, r0, r1
-	ldr	r0, .LCPI57_118
+	ldr	r0, .LCPI57_195
 	eors	r5, r0
 	ldrb	r0, [r6, #4]
 	ldrb	r1, [r6, #5]
@@ -31539,44 +31485,44 @@ main:
 	eors	r0, r2
 	str	r0, [sp, #328]
 	movs	r7, #0
-	b	.LBB57_346
-.LBB57_332:
+	b	.LBB57_343
+.LBB57_329:
 	ldrb	r5, [r3]
 	ldrb	r6, [r1]
 	cmp	r6, r5
-	bne	.LBB57_336
+	bne	.LBB57_333
 	ldrb	r5, [r3, #1]
 	ldrb	r6, [r1, #1]
 	cmp	r6, r5
-	bne	.LBB57_336
+	bne	.LBB57_333
 	ldrb	r5, [r3, #2]
 	ldrb	r6, [r1, #2]
 	cmp	r6, r5
-	bne	.LBB57_336
+	bne	.LBB57_333
 	ldrb	r5, [r3, #3]
 	ldrb	r6, [r1, #3]
 	cmp	r6, r5
-	beq	.LBB57_318
-.LBB57_336:
+	beq	.LBB57_315
+.LBB57_333:
 	subs	r1, r6, r5
 	cmp	r1, #0
-	beq	.LBB57_326
-.LBB57_337:
+	beq	.LBB57_323
+.LBB57_334:
 	mov	r1, r0
 	ldr	r6, [sp, #336]
-	b	.LBB57_124
-.LBB57_338:
+	b	.LBB57_121
+.LBB57_335:
 	movs	r5, #0
 	movs	r4, #75
 	ldr	r1, [sp, #124]
 	cmp	r1, #0
-	bne	.LBB57_329
-.LBB57_339:
+	bne	.LBB57_326
+.LBB57_336:
 	ldr	r3, .LCPI57_119
-	b	.LBB57_356
-.LBB57_340:
+	b	.LBB57_353
+.LBB57_337:
 	cmp	r5, #3
-	bls	.LBB57_342
+	bls	.LBB57_339
 	adds	r0, r0, r1
 	subs	r0, r0, #4
 	ldrb	r1, [r0]
@@ -31607,11 +31553,11 @@ main:
 	mov	r4, r3
 	ldr	r0, .LCPI57_117
 	str	r0, [sp, #340]
-	b	.LBB57_346
-.LBB57_342:
+	b	.LBB57_343
+.LBB57_339:
 	movs	r7, #0
 	cmp	r5, #0
-	beq	.LBB57_344
+	beq	.LBB57_341
 	lsrs	r4, r5, #1
 	ldrb	r4, [r6, r4]
 	adds	r1, r0, r1
@@ -31624,15 +31570,15 @@ main:
 	ldrb	r0, [r0, #6]
 	eors	r2, r0
 	mov	r4, r3
-	b	.LBB57_345
-.LBB57_344:
+	b	.LBB57_342
+.LBB57_341:
 	mov	r4, r3
 	ldr	r5, .LCPI57_118
-.LBB57_345:
+.LBB57_342:
 	ldr	r0, .LCPI57_117
 	str	r0, [sp, #340]
 	str	r2, [sp, #328]
-.LBB57_346:
+.LBB57_343:
 	movs	r6, #0
 	mov	r0, r4
 	mov	r1, r7
@@ -31677,7 +31623,7 @@ main:
 	ldr	r0, [sp, #320]
 	eors	r4, r0
 	eors	r4, r1
-.LBB57_347:
+.LBB57_344:
 	movs	r6, #0
 	mov	r0, r5
 	mov	r1, r6
@@ -31717,7 +31663,7 @@ main:
 	ldr	r0, .LCPI57_122
 	muls	r3, r0, r3
 	ldr	r6, [sp, #336]
-.LBB57_348:
+.LBB57_345:
 	ldr	r1, [sp, #132]
 	ldrb	r0, [r1, r4]
 	adds	r1, r1, r4
@@ -31737,10 +31683,10 @@ main:
 	ldr	r5, .LCPI57_124
 	bics	r5, r0
 	ands	r5, r1
-	beq	.LBB57_353
+	beq	.LBB57_350
 	str	r3, [sp, #340]
 	str	r2, [sp, #328]
-.LBB57_350:
+.LBB57_347:
 	rev	r0, r5
 	bl	__clzsi2
 	lsrs	r0, r0, #3
@@ -31755,57 +31701,57 @@ main:
 	ldr	r0, [r0]
 	ldr	r2, [sp, #288]
 	cmp	r2, r0
-	bne	.LBB57_352
+	bne	.LBB57_349
 	mov	r0, r6
 	subs	r0, #16
 	ldr	r1, [r0]
 	ldr	r0, [sp, #284]
 	bl	memcmp
 	cmp	r0, #0
-	beq	.LBB57_355
-.LBB57_352:
+	beq	.LBB57_352
+.LBB57_349:
 	subs	r0, r5, #1
 	ands	r5, r0
 	ldr	r6, [sp, #336]
 	ldr	r3, [sp, #340]
 	ldr	r2, [sp, #328]
-	bne	.LBB57_350
-.LBB57_353:
+	bne	.LBB57_347
+.LBB57_350:
 	lsls	r0, r2, #1
 	ldr	r1, .LCPI57_124
 	ands	r2, r1
 	tst	r2, r0
-	bne	.LBB57_357
+	bne	.LBB57_354
 	adds	r7, r7, #4
 	adds	r4, r7, r4
 	ldr	r0, [sp, #128]
 	ands	r4, r0
-	b	.LBB57_348
-.LBB57_355:
+	b	.LBB57_345
+.LBB57_352:
 	subs	r0, r6, #4
 	ldr	r4, [r0]
 	subs	r6, #8
 	ldr	r3, [r6]
-.LBB57_356:
+.LBB57_353:
 	ldr	r6, [sp, #336]
-	b	.LBB57_358
-.LBB57_357:
+	b	.LBB57_355
+.LBB57_354:
 	ldr	r3, .LCPI57_119
 	ldr	r4, [sp, #260]
-.LBB57_358:
+.LBB57_355:
 	str	r4, [sp]
 	add	r0, sp, #380
 	movs	r1, #1
 	movs	r2, #0
-	b	.LBB57_410
-.LBB57_359:
+	b	.LBB57_411
+.LBB57_356:
 	ldr	r2, [sp, #256]
 	subs	r2, r2, #1
 	subs	r3, r2, #1
 	sbcs	r2, r3
 	movs	r6, #0
-	b	.LBB57_364
-.LBB57_360:
+	b	.LBB57_361
+.LBB57_357:
 	add	r0, sp, #392
 	movs	r2, #7
 	mov	r4, r1
@@ -31815,47 +31761,47 @@ main:
 	mov	r1, r4
 	ldr	r5, [sp, #396]
 	ldr	r4, [sp, #400]
-	bl	.LBB57_128
-.LBB57_361:
+	bl	.LBB57_125
+.LBB57_358:
 	movs	r2, #0
 	str	r1, [sp, #324]
-	b	.LBB57_364
-.LBB57_362:
+	b	.LBB57_361
+.LBB57_359:
 	ldr	r5, [sp, #144]
-	b	.LBB57_320
-.LBB57_363:
-	ldr	r2, [sp, #232]
-.LBB57_364:
+	b	.LBB57_317
+.LBB57_360:
+	ldr	r2, [sp, #236]
+.LBB57_361:
 	subs	r3, r1, #1
 	sbcs	r1, r3
 	ldr	r3, [sp, #316]
 	ldr	r4, [sp, #324]
 	cmp	r4, r3
-	blo	.LBB57_366
+	blo	.LBB57_363
 	movs	r3, #0
 	mvns	r2, r2
 	orrs	r1, r2
 	ands	r1, r3
-	beq	.LBB57_367
-	b	.LBB57_368
-.LBB57_366:
+	beq	.LBB57_364
+	b	.LBB57_365
+.LBB57_363:
 	movs	r3, #1
 	mvns	r2, r2
 	orrs	r1, r2
 	ands	r1, r3
-	bne	.LBB57_368
-.LBB57_367:
+	bne	.LBB57_365
+.LBB57_364:
 	ldr	r6, [sp, #256]
-.LBB57_368:
+.LBB57_365:
 	rsbs	r3, r6, #0
 	adcs	r3, r6
 	mov	r4, r1
 	lsls	r1, r4, #31
 	ldr	r6, [sp, #336]
-	beq	.LBB57_371
-.LBB57_369:
+	beq	.LBB57_368
+.LBB57_366:
 	cmp	r3, #0
-	beq	.LBB57_371
+	beq	.LBB57_368
 	ldr	r1, [sp, #304]
 	uxtb	r1, r1
 	lsls	r1, r1, #16
@@ -31867,11 +31813,10 @@ main:
 	lsls	r2, r2, #8
 	adds	r1, r1, r2
 	uxtb	r0, r0
-	adds	r0, r1, r0
-	str	r0, [sp, #272]
-	str	r0, [sp, #328]
-	bl	.LBB57_679
-.LBB57_371:
+	adds	r4, r1, r0
+	str	r4, [sp, #272]
+	bl	.LBB57_675
+.LBB57_368:
 	movs	r0, #1
 	ldr	r1, [sp, #272]
 	orrs	r1, r0
@@ -31880,7 +31825,7 @@ main:
 	str	r1, [sp, #272]
 	ldr	r1, [sp, #276]
 	ldr	r4, [sp, #292]
-.LBB57_372:
+.LBB57_369:
 	str	r7, [sp, #420]
 	str	r4, [sp, #416]
 	movs	r2, #1
@@ -31932,22 +31877,22 @@ main:
 	ldr	r0, [r3, #12]
 	str	r1, [sp, #328]
 	cmp	r0, r1
-	bne	.LBB57_389
+	bne	.LBB57_377
 	ldr	r0, [sp, #520]
 	cmp	r0, r4
-	beq	.LBB57_374
-	b	.LBB57_406
-.LBB57_374:
+	beq	.LBB57_371
+	b	.LBB57_407
+.LBB57_371:
 	str	r4, [sp, #304]
 	movs	r5, #4
 	movs	r4, #0
-	str	r4, [sp, #328]
-.LBB57_375:
+	str	r4, [sp, #340]
+.LBB57_372:
 	add	r0, sp, #424
 	bl	_RNvMs0_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB5_6RawVecNtNtNtCsbo90dWa4sKs_10simple_dns3dns8question8QuestionE8grow_oneBS_
 	ldr	r6, [sp, #428]
 	stm	r6!, {r4, r5}
-	ldr	r0, [sp, #328]
+	ldr	r0, [sp, #340]
 	str	r0, [r6]
 	movs	r0, #0
 	str	r0, [sp, #240]
@@ -31958,7 +31903,7 @@ main:
 	lsls	r0, r0, #8
 	strh	r0, [r6, #8]
 	ldr	r3, [sp, #276]
-	ldr	r5, [sp, #220]
+	ldr	r5, [sp, #224]
 	str	r5, [r3, #12]
 	ldr	r4, .LCPI57_127
 	ldr	r0, [r4, #8]
@@ -31971,22 +31916,82 @@ main:
 	adds	r1, r0, r1
 	subs	r6, #8
 	cmp	r2, r1
-	bhs	.LBB57_376
-	bl	.LBB57_996
-.LBB57_376:
+	bhs	.LBB57_373
+	bl	.LBB57_993
+.LBB57_373:
 	str	r5, [r0]
 	str	r1, [r4, #8]
 	ldr	r2, [sp, #468]
 	ldr	r4, [sp, #472]
 	ldr	r1, [sp, #268]
-	str	r4, [sp, #236]
+	str	r4, [sp, #176]
 	cmp	r4, r1
 	str	r2, [sp, #172]
-	beq	.LBB57_377
-	b	.LBB57_529
-.LBB57_377:
+	beq	.LBB57_374
+	b	.LBB57_527
+.LBB57_374:
 	mov	r1, r2
-	b	.LBB57_530
+	b	.LBB57_528
+	.p2align	2
+.LCPI57_183:
+	.long	1065670069
+	.p2align	2
+.LCPI57_195:
+	.long	3041331479
+	.p2align	1
+.LBB57_377:
+	str	r4, [sp, #304]
+	movs	r0, #48
+	str	r0, [sp, #604]
+	ldr	r6, .LCPI57_127
+	ldr	r1, [r6, #8]
+	@APP
+	mov	r2, sp
+	@NO_APP
+	str	r2, [sp, #616]
+	adds	r4, r1, #7
+	movs	r7, #3
+	bics	r4, r7
+	mov	r1, r4
+	adds	r1, #48
+	cmp	r2, r1
+	bhs	.LBB57_378
+	bl	.LBB57_987
+.LBB57_378:
+	subs	r2, r4, #4
+	str	r0, [r2]
+	str	r1, [r6, #8]
+	cmp	r4, #0
+	bne	.LBB57_379
+	bl	.LBB57_1000
+.LBB57_379:
+	str	r7, [sp, #240]
+	ldr	r0, [r3, #20]
+	str	r0, [r4, #8]
+	ldr	r0, [r3, #16]
+	str	r0, [r4, #4]
+	ldr	r0, [r3, #12]
+	str	r0, [r4]
+	ldr	r0, [sp, #340]
+	ldr	r1, .LCPI57_128
+	add	r1, sp
+	str	r0, [r1]
+	ldr	r0, .LCPI57_129
+	add	r0, sp
+	str	r4, [r0]
+	ldr	r0, [sp, #324]
+	str	r0, [r3]
+	mov	r2, r3
+	adds	r2, #36
+	ldm	r2, {r0, r1, r2}
+	mov	r7, r3
+	ldr	r3, [r3, #48]
+	str	r3, [sp, #652]
+	str	r2, [sp, #648]
+	str	r1, [sp, #644]
+	str	r0, [sp, #640]
+	movs	r6, #12
+	b	.LBB57_394
 	.p2align	2
 .LCPI57_117:
 	.long	1065670069
@@ -32020,61 +32025,14 @@ main:
 	.p2align	2
 .LCPI57_127:
 	.long	.L_MergedGlobals
+	.p2align	2
+.LCPI57_128:
+	.long	1676
+	.p2align	2
+.LCPI57_129:
+	.long	1672
 	.p2align	1
-.LBB57_389:
-	str	r4, [sp, #304]
-	movs	r0, #48
-	str	r0, [sp, #604]
-	ldr	r6, .LCPI57_189
-	ldr	r1, [r6, #8]
-	@APP
-	mov	r2, sp
-	@NO_APP
-	str	r2, [sp, #616]
-	adds	r4, r1, #7
-	movs	r1, #3
-	str	r1, [sp, #240]
-	bics	r4, r1
-	mov	r1, r4
-	adds	r1, #48
-	cmp	r2, r1
-	bhs	.LBB57_390
-	bl	.LBB57_990
-.LBB57_390:
-	subs	r2, r4, #4
-	str	r0, [r2]
-	str	r1, [r6, #8]
-	cmp	r4, #0
-	bne	.LBB57_391
-	bl	.LBB57_1003
-.LBB57_391:
-	ldr	r0, [r3, #20]
-	str	r0, [r4, #8]
-	ldr	r0, [r3, #16]
-	str	r0, [r4, #4]
-	ldr	r0, [r3, #12]
-	str	r0, [r4]
-	ldr	r0, [sp, #340]
-	ldr	r1, .LCPI57_129
-	add	r1, sp
-	str	r0, [r1]
-	ldr	r0, .LCPI57_130
-	add	r0, sp
-	str	r4, [r0]
-	ldr	r0, [sp, #324]
-	str	r0, [r3]
-	mov	r2, r3
-	adds	r2, #36
-	ldm	r2, {r0, r1, r2}
-	mov	r7, r3
-	ldr	r3, [r3, #48]
-	str	r3, [sp, #652]
-	str	r2, [sp, #648]
-	str	r1, [sp, #644]
-	str	r0, [sp, #640]
-	movs	r6, #12
-	b	.LBB57_393
-.LBB57_392:
+.LBB57_393:
 	ldr	r0, [r2, #24]
 	str	r0, [r4, r6]
 	adds	r0, r4, r6
@@ -32090,8 +32048,8 @@ main:
 	adds	r6, #12
 	adds	r5, r5, #1
 	mov	r7, r2
-.LBB57_393:
-	ldr	r0, .LCPI57_131
+.LBB57_394:
+	ldr	r0, .LCPI57_184
 	add	r0, sp
 	add	r1, sp, #640
 	bl	_RNvXNtNtCsc6P1BMjYAM_4core4iter8adaptersINtB2_12GenericShuntINtNtB2_3map3MapNtNtNtCsbo90dWa4sKs_10simple_dns3dns4name10LabelsIterINvMs9_B1e_NtB1e_5Label3newINtNtCsiJHXauYZ6PE_5alloc6borrow3CowShEEEINtNtB6_6result6ResultNtNtB6_7convert10InfallibleNtNtB1i_16simple_dns_error14SimpleDnsErrorEENtNtNtB4_6traits8iterator8Iterator4nextB1i_
@@ -32100,50 +32058,49 @@ main:
 	ldr	r2, [sp, #328]
 	cmp	r0, r2
 	mov	r2, r7
-	beq	.LBB57_396
+	beq	.LBB57_397
 	ldr	r0, [r2]
 	cmp	r1, r0
-	bne	.LBB57_392
+	bne	.LBB57_393
 	movs	r0, #12
 	str	r0, [sp]
-	ldr	r0, .LCPI57_132
+	ldr	r0, .LCPI57_131
 	add	r0, sp
 	movs	r2, #1
 	movs	r3, #4
 	bl	_RINvNvMs2_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECsbo90dWa4sKs_10simple_dns
 	ldr	r2, [sp, #276]
 	ldr	r4, [r2, #4]
-	b	.LBB57_392
-.LBB57_396:
-	str	r1, [sp, #328]
+	b	.LBB57_393
+.LBB57_397:
+	mov	r4, r1
 	ldr	r0, [sp, #520]
 	ldr	r1, [sp, #304]
 	cmp	r0, r1
 	ldr	r6, [sp, #336]
-	bne	.LBB57_406
+	bne	.LBB57_407
 	ldr	r0, [r2]
-	str	r0, [sp, #236]
+	str	r0, [sp, #328]
 	ldr	r3, [r2, #4]
 	cmp	r5, #3
-	bhs	.LBB57_399
+	bhs	.LBB57_400
 	movs	r2, #1
 	movs	r1, #0
 	mov	r5, r3
-	ldr	r3, [sp, #328]
-	ldr	r4, [sp, #240]
-	ands	r4, r3
-	bne	.LBB57_402
-	b	.LBB57_405
-.LBB57_399:
-	ldr	r4, [sp, #340]
+	ldr	r3, [sp, #240]
+	ands	r3, r4
+	bne	.LBB57_403
+	b	.LBB57_406
+.LBB57_400:
+	ldr	r7, [sp, #340]
 	ldr	r0, [sp, #240]
-	bics	r4, r0
+	bics	r7, r0
 	mov	r2, r3
 	adds	r2, #44
 	movs	r1, #0
 	mov	r0, r1
 	mov	r5, r3
-.LBB57_400:
+.LBB57_401:
 	mov	r3, r2
 	subs	r3, #36
 	ldr	r3, [r3]
@@ -32161,53 +32118,50 @@ main:
 	adds	r0, r0, #4
 	adds	r2, #48
 	adds	r1, r1, #4
-	cmp	r4, r1
-	bne	.LBB57_400
+	cmp	r7, r1
+	bne	.LBB57_401
 	adds	r2, r0, #1
-	ldr	r3, [sp, #328]
-	ldr	r4, [sp, #240]
-	ands	r4, r3
-	beq	.LBB57_405
-.LBB57_402:
-	mov	r3, r4
+	ldr	r3, [sp, #240]
+	ands	r3, r4
+	beq	.LBB57_406
+.LBB57_403:
 	movs	r0, #12
 	muls	r0, r1, r0
 	adds	r1, r5, r0
 	ldr	r0, [r1, #8]
 	adds	r0, r2, r0
-	cmp	r4, #1
-	beq	.LBB57_405
+	cmp	r3, #1
+	beq	.LBB57_406
 	ldr	r2, [r1, #20]
 	adds	r0, r0, r2
 	adds	r0, r0, #1
 	cmp	r3, #2
-	beq	.LBB57_405
+	beq	.LBB57_406
 	ldr	r1, [r1, #32]
 	adds	r0, r0, r1
 	adds	r0, r0, #1
-.LBB57_405:
+.LBB57_406:
 	subs	r0, #255
 	cmp	r0, r6
-	blo	.LBB57_406
-	b	.LBB57_527
-.LBB57_406:
-	movs	r0, #13
-	str	r0, [sp, #328]
-	ldr	r5, .LCPI57_133
+	blo	.LBB57_407
+	b	.LBB57_525
 .LBB57_407:
+	movs	r4, #13
+	ldr	r5, .LCPI57_132
+.LBB57_408:
 	add	r0, sp, #424
 	bl	_RINvNtCsc6P1BMjYAM_4core3ptr13drop_in_placeNtNtNtCsbo90dWa4sKs_10simple_dns3dns6packet6PacketECskL9aS9YUD5U_9netclient
-.LBB57_408:
+.LBB57_409:
 	movs	r0, #35
 	str	r0, [sp]
 	add	r0, sp, #380
 	mov	r1, r5
-	ldr	r2, [sp, #328]
-.LBB57_409:
-	ldr	r3, .LCPI57_134
+	mov	r2, r4
 .LBB57_410:
-	bl	_RNvNtCskL9aS9YUD5U_9netclient3web6render
+	ldr	r3, .LCPI57_133
 .LBB57_411:
+	bl	_RNvNtCskL9aS9YUD5U_9netclient3web6render
+.LBB57_412:
 	add	r0, sp, #520
 	movs	r7, #0
 	strb	r7, [r0]
@@ -32221,42 +32175,42 @@ main:
 	cmp	r0, #0
 	str	r1, [sp, #328]
 	str	r0, [sp, #304]
-	beq	.LBB57_425
+	beq	.LBB57_426
 	lsls	r0, r0, #3
 	adds	r4, r1, r0
-	b	.LBB57_414
-.LBB57_413:
-	ldr	r6, [sp, #336]
+	b	.LBB57_415
 .LBB57_414:
+	ldr	r6, [sp, #336]
+.LBB57_415:
 	ldr	r0, [r6, #24]
 	cmp	r0, #0
-	beq	.LBB57_420
+	beq	.LBB57_421
 	ldr	r5, [r6, #28]
 	cmp	r5, #9
-	beq	.LBB57_419
+	beq	.LBB57_420
 	cmp	r5, #27
-	beq	.LBB57_433
+	beq	.LBB57_434
 	ldr	r6, [sp, #648]
 	ldr	r0, [sp, #640]
 	cmp	r6, r0
-	beq	.LBB57_424
-.LBB57_418:
+	beq	.LBB57_425
+.LBB57_419:
 	lsls	r0, r6, #2
 	ldr	r1, [sp, #644]
 	str	r5, [r1, r0]
 	adds	r0, r6, #1
 	str	r0, [sp, #648]
-	b	.LBB57_420
-.LBB57_419:
+	b	.LBB57_421
+.LBB57_420:
 	adds	r0, r7, #1
 	ldr	r1, [sp, #304]
 	bl	__aeabi_uidivmod
 	mov	r7, r1
-.LBB57_420:
+.LBB57_421:
 	mov	r6, r7
 	ldr	r5, [sp, #328]
-	b	.LBB57_422
-.LBB57_421:
+	b	.LBB57_423
+.LBB57_422:
 	ldm	r5!, {r0, r1}
 	ldr	r3, [r1, #12]
 	add	r1, sp, #520
@@ -32265,79 +32219,79 @@ main:
 	subs	r6, r6, #1
 	adds	r5, #8
 	cmp	r5, r4
-	beq	.LBB57_413
-.LBB57_422:
+	beq	.LBB57_414
+.LBB57_423:
 	add	r2, sp, #640
 	cmp	r6, #0
-	beq	.LBB57_421
+	beq	.LBB57_422
 	movs	r2, #0
-	b	.LBB57_421
-.LBB57_424:
+	b	.LBB57_422
+.LBB57_425:
 	add	r0, sp, #640
 	bl	_RNvMs0_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB5_6RawVeccE8grow_oneCs6UyBOS6LwsO_4parm
-	b	.LBB57_418
-.LBB57_425:
-	movs	r4, #0
-	b	.LBB57_427
+	b	.LBB57_419
 .LBB57_426:
+	movs	r4, #0
+	b	.LBB57_428
+.LBB57_427:
 	lsls	r0, r4, #2
 	ldr	r1, [sp, #644]
 	str	r5, [r1, r0]
 	adds	r4, r4, #1
 	str	r4, [sp, #648]
-.LBB57_427:
+.LBB57_428:
 	ldr	r0, [r6, #24]
 	cmp	r0, #0
-	beq	.LBB57_427
+	beq	.LBB57_428
 	ldr	r5, [r6, #28]
 	cmp	r5, #27
-	beq	.LBB57_433
+	beq	.LBB57_434
 	cmp	r5, #9
-	bne	.LBB57_430
-	bl	.LBB57_995
-.LBB57_430:
+	bne	.LBB57_431
+	bl	.LBB57_992
+.LBB57_431:
 	ldr	r0, [sp, #640]
 	cmp	r4, r0
-	bne	.LBB57_426
+	bne	.LBB57_427
 	add	r0, sp, #640
 	bl	_RNvMs0_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB5_6RawVeccE8grow_oneCs6UyBOS6LwsO_4parm
-	b	.LBB57_426
-.LBB57_432:
+	b	.LBB57_427
+.LBB57_433:
 	ldr	r0, [r6, #28]
 	cmp	r0, #117
-	beq	.LBB57_438
-.LBB57_433:
+	beq	.LBB57_439
+.LBB57_434:
 	movs	r1, #63
 	str	r1, [r6]
 	ldr	r0, [sp, #332]
 	str	r0, [r6]
-.LBB57_434:
+.LBB57_435:
 	ldr	r0, [r6, #24]
 	cmp	r0, #0
-	bne	.LBB57_432
+	bne	.LBB57_433
 	ldr	r0, [r6, #24]
 	cmp	r0, #0
-	bne	.LBB57_432
+	bne	.LBB57_433
 	ldr	r0, [r6, #24]
 	cmp	r0, #0
-	bne	.LBB57_432
+	bne	.LBB57_433
 	ldr	r0, [r6, #24]
 	cmp	r0, #0
-	beq	.LBB57_434
-	b	.LBB57_432
-.LBB57_438:
-	str	r1, [sp, #320]
-	b	.LBB57_441
+	beq	.LBB57_435
+	b	.LBB57_433
 .LBB57_439:
+	str	r1, [sp, #320]
+	b	.LBB57_442
+.LBB57_440:
 	movs	r2, #0
 	mov	r1, r3
-.LBB57_440:
+.LBB57_441:
 	str	r1, [sp, #372]
 	str	r2, [sp, #376]
 	cmp	r2, #0
-	beq	.LBB57_441
-	b	.LBB57_522
-.LBB57_441:
+	beq	.LBB57_442
+	b	.LBB57_520
+.LBB57_442:
 	movs	r0, #85
 	str	r0, [r6]
 	movs	r0, #82
@@ -32350,30 +32304,30 @@ main:
 	str	r0, [r6]
 	movs	r5, #0
 	str	r5, [sp, #368]
-.LBB57_442:
-	mov	r1, r5
 .LBB57_443:
-	mov	r0, r1
+	mov	r1, r5
 .LBB57_444:
+	mov	r0, r1
+.LBB57_445:
 	ldr	r1, [r6, #24]
 	cmp	r1, #0
-	bne	.LBB57_448
+	bne	.LBB57_449
 	ldr	r1, [r6, #24]
 	cmp	r1, #0
-	bne	.LBB57_448
+	bne	.LBB57_449
 	ldr	r1, [r6, #24]
 	cmp	r1, #0
-	bne	.LBB57_448
+	bne	.LBB57_449
 	ldr	r1, [r6, #24]
 	cmp	r1, #0
-	beq	.LBB57_444
-.LBB57_448:
+	beq	.LBB57_445
+.LBB57_449:
 	ldr	r4, [r6, #28]
 	cmp	r4, #8
-	bne	.LBB57_452
+	bne	.LBB57_453
 	movs	r1, #0
 	cmp	r0, #0
-	beq	.LBB57_443
+	beq	.LBB57_444
 	ldr	r1, [sp, #364]
 	adds	r3, r1, r0
 	movs	r1, #0
@@ -32382,105 +32336,105 @@ main:
 	mov	r1, r6
 	adds	r1, #255
 	cmp	r2, #0
-	bmi	.LBB57_457
-.LBB57_451:
+	bmi	.LBB57_458
+.LBB57_452:
 	adds	r5, r1, r0
 	str	r5, [sp, #368]
 	movs	r0, #8
 	str	r0, [r6]
-	b	.LBB57_442
-.LBB57_452:
-	cmp	r4, #10
-	bne	.LBB57_453
-	b	.LBB57_486
+	b	.LBB57_443
 .LBB57_453:
+	cmp	r4, #10
+	bne	.LBB57_454
+	b	.LBB57_486
+.LBB57_454:
 	cmp	r4, #128
-	bhs	.LBB57_455
+	bhs	.LBB57_456
 	movs	r6, #1
-	b	.LBB57_464
-.LBB57_455:
+	b	.LBB57_465
+.LBB57_456:
 	ldr	r0, [sp, #308]
 	cmp	r4, r0
-	bhs	.LBB57_460
+	bhs	.LBB57_461
 	movs	r6, #2
-	b	.LBB57_464
-.LBB57_457:
+	b	.LBB57_465
+.LBB57_458:
 	subs	r2, r3, #2
 	ldrb	r4, [r2]
 	sxtb	r2, r4
 	movs	r5, #64
 	mvns	r5, r5
 	cmp	r2, r5
-	bgt	.LBB57_462
+	bgt	.LBB57_463
 	subs	r4, r3, #3
 	ldrb	r5, [r4]
 	sxtb	r6, r5
 	movs	r4, #63
 	mvns	r7, r4
 	cmp	r6, r7
-	bge	.LBB57_467
+	bge	.LBB57_468
 	ands	r6, r4
 	subs	r3, r3, #4
 	ldrb	r3, [r3]
 	lsls	r3, r3, #29
 	lsrs	r3, r3, #23
 	adds	r5, r3, r6
-	b	.LBB57_468
-.LBB57_460:
+	b	.LBB57_469
+.LBB57_461:
 	ldr	r0, [sp, #296]
 	cmp	r4, r0
-	blo	.LBB57_463
+	blo	.LBB57_464
 	ldr	r6, [sp, #284]
-	b	.LBB57_464
-.LBB57_462:
+	b	.LBB57_465
+.LBB57_463:
 	movs	r2, #31
 	ands	r4, r2
 	cmp	r4, #2
-	bhs	.LBB57_469
-	b	.LBB57_451
-.LBB57_463:
-	movs	r6, #3
+	bhs	.LBB57_470
+	b	.LBB57_452
 .LBB57_464:
+	movs	r6, #3
+.LBB57_465:
 	ldr	r0, [sp, #360]
 	subs	r0, r0, r5
 	cmp	r6, r0
 	mov	r0, r5
-	bhi	.LBB57_474
+	bhi	.LBB57_475
 	ldr	r1, [sp, #364]
 	adds	r0, r1, r0
 	cmp	r4, #128
-	bhs	.LBB57_475
-.LBB57_466:
-	strb	r4, [r0]
-	b	.LBB57_482
+	bhs	.LBB57_476
 .LBB57_467:
+	strb	r4, [r0]
+	b	.LBB57_483
+.LBB57_468:
 	movs	r3, #15
 	ands	r5, r3
-.LBB57_468:
+.LBB57_469:
 	ands	r2, r4
 	lsls	r3, r5, #6
 	adds	r4, r3, r2
 	ldr	r6, [sp, #336]
 	cmp	r4, #2
-	blo	.LBB57_451
-.LBB57_469:
+	blo	.LBB57_452
+.LBB57_470:
 	cmp	r4, #32
-	bhs	.LBB57_471
+	bhs	.LBB57_472
 	mov	r1, r6
 	adds	r1, #254
-	b	.LBB57_451
-.LBB57_471:
+	b	.LBB57_452
+.LBB57_472:
 	ldr	r1, [sp, #280]
 	cmp	r4, r1
-	blo	.LBB57_473
+	blo	.LBB57_474
 	mov	r1, r6
 	adds	r1, #252
-	b	.LBB57_451
-.LBB57_473:
+	b	.LBB57_452
+.LBB57_474:
 	mov	r1, r6
 	adds	r1, #253
-	b	.LBB57_451
-.LBB57_474:
+	b	.LBB57_452
+.LBB57_475:
 	add	r0, sp, #360
 	mov	r1, r5
 	mov	r2, r6
@@ -32489,8 +32443,8 @@ main:
 	ldr	r1, [sp, #364]
 	adds	r0, r1, r0
 	cmp	r4, #128
-	blo	.LBB57_466
-.LBB57_475:
+	blo	.LBB57_467
+.LBB57_476:
 	str	r6, [sp, #340]
 	mov	r1, r4
 	ldr	r7, [sp, #320]
@@ -32501,27 +32455,27 @@ main:
 	lsrs	r1, r4, #6
 	ldr	r3, [sp, #308]
 	cmp	r4, r3
-	bhs	.LBB57_477
+	bhs	.LBB57_478
 	strb	r6, [r0, #1]
 	movs	r2, #192
 	orrs	r1, r2
-	b	.LBB57_480
-.LBB57_477:
+	b	.LBB57_481
+.LBB57_478:
 	str	r6, [sp, #324]
 	lsrs	r3, r4, #12
 	ands	r1, r7
 	adds	r6, r1, r2
 	ldr	r1, [sp, #296]
 	cmp	r4, r1
-	bhs	.LBB57_479
+	bhs	.LBB57_480
 	ldr	r1, [sp, #324]
 	strb	r1, [r0, #2]
 	strb	r6, [r0, #1]
 	movs	r1, #224
 	orrs	r3, r1
 	strb	r3, [r0]
-	b	.LBB57_481
-.LBB57_479:
+	b	.LBB57_482
+.LBB57_480:
 	movs	r1, #15
 	mvns	r1, r1
 	str	r1, [sp, #292]
@@ -32536,32 +32490,28 @@ main:
 	ldr	r3, [sp, #288]
 	strb	r3, [r0, #2]
 	strb	r2, [r0, #1]
-.LBB57_480:
-	strb	r1, [r0]
 .LBB57_481:
-	ldr	r6, [sp, #340]
+	strb	r1, [r0]
 .LBB57_482:
+	ldr	r6, [sp, #340]
+.LBB57_483:
 	adds	r5, r6, r5
 	str	r5, [sp, #368]
 	ldr	r0, [sp, #316]
 	cmp	r4, r0
-	blo	.LBB57_484
+	blo	.LBB57_485
 	ldr	r4, [sp, #320]
-.LBB57_484:
+.LBB57_485:
 	ldr	r6, [sp, #336]
 	str	r4, [r6]
-	b	.LBB57_442
-	.p2align	2
-.LCPI57_189:
-	.long	.L_MergedGlobals
-	.p2align	1
+	b	.LBB57_443
 .LBB57_486:
 	ldr	r1, [sp, #312]
 	str	r1, [r6]
 	ldr	r3, [sp, #364]
 	cmp	r0, #0
 	bne	.LBB57_487
-	b	.LBB57_439
+	b	.LBB57_440
 .LBB57_487:
 	adds	r1, r3, r0
 	str	r1, [sp, #324]
@@ -32575,13 +32525,13 @@ main:
 	ldrb	r2, [r3, r6]
 	subs	r2, #9
 	cmp	r2, #23
-	bhi	.LBB57_496
+	bhi	.LBB57_495
 	movs	r4, #1
 	mov	r7, r4
 	lsls	r7, r2
-	ldr	r2, .LCPI57_135
+	ldr	r2, .LCPI57_134
 	tst	r7, r2
-	beq	.LBB57_496
+	beq	.LBB57_495
 	movs	r2, #0
 	ldr	r7, [sp, #340]
 	cmp	r7, r6
@@ -32589,11 +32539,11 @@ main:
 	ldrb	r7, [r1, #1]
 	subs	r7, #9
 	cmp	r7, #23
-	bhi	.LBB57_503
+	bhi	.LBB57_496
 	lsls	r4, r7
-	ldr	r7, .LCPI57_135
+	ldr	r7, .LCPI57_134
 	tst	r4, r7
-	beq	.LBB57_503
+	beq	.LBB57_496
 	subs	r5, r5, #2
 	adds	r6, r6, #2
 	cmp	r0, r6
@@ -32601,142 +32551,138 @@ main:
 .LBB57_494:
 	ldr	r1, [sp, #324]
 	ldr	r6, [sp, #336]
-	b	.LBB57_440
-	.p2align	1
-.LBB57_496:
+	b	.LBB57_441
+.LBB57_495:
 	subs	r2, r0, r6
-	b	.LBB57_504
-	.p2align	2
-.LCPI57_129:
-	.long	1676
-	.p2align	2
-.LCPI57_130:
-	.long	1672
-	.p2align	2
-.LCPI57_131:
-	.long	1692
-	.p2align	2
-.LCPI57_132:
-	.long	1668
-	.p2align	2
-.LCPI57_133:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.34
-	.p2align	2
-.LCPI57_134:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.141
-	.p2align	1
-.LBB57_503:
+	b	.LBB57_497
+.LBB57_496:
 	adds	r2, r0, r5
 	adds	r1, r1, #1
-.LBB57_504:
+.LBB57_497:
 	subs	r0, r1, #4
 	ldr	r6, [sp, #336]
-.LBB57_505:
+.LBB57_498:
 	adds	r5, r0, r2
 	ldrb	r3, [r5, #3]
 	subs	r3, #9
 	cmp	r3, #23
-	bls	.LBB57_506
-	b	.LBB57_440
-.LBB57_506:
+	bls	.LBB57_499
+	b	.LBB57_441
+.LBB57_499:
 	movs	r4, #1
 	mov	r6, r4
 	lsls	r6, r3
-	ldr	r3, .LCPI57_135
+	ldr	r3, .LCPI57_134
 	tst	r6, r3
 	ldr	r6, [sp, #336]
-	bne	.LBB57_507
-	b	.LBB57_440
-.LBB57_507:
+	bne	.LBB57_500
+	b	.LBB57_441
+.LBB57_500:
 	movs	r3, #0
 	cmp	r2, #1
-	beq	.LBB57_517
+	beq	.LBB57_510
 	ldrb	r6, [r5, #2]
 	subs	r6, #9
 	cmp	r6, #23
-	bhi	.LBB57_519
+	bhi	.LBB57_513
 	mov	r7, r4
 	lsls	r7, r6
-	ldr	r6, .LCPI57_135
+	ldr	r6, .LCPI57_134
 	tst	r7, r6
-	beq	.LBB57_519
+	beq	.LBB57_513
 	cmp	r2, #2
-	beq	.LBB57_518
+	beq	.LBB57_512
 	ldrb	r5, [r5, #1]
 	subs	r5, #9
 	cmp	r5, #23
-	bhi	.LBB57_520
+	bhi	.LBB57_518
 	mov	r6, r4
 	lsls	r6, r5
-	ldr	r5, .LCPI57_135
+	ldr	r5, .LCPI57_134
 	tst	r6, r5
-	beq	.LBB57_520
-	cmp	r2, #3
 	beq	.LBB57_518
+	cmp	r2, #3
+	beq	.LBB57_512
 	ldrb	r5, [r0, r2]
 	subs	r5, #9
 	cmp	r5, #23
 	ldr	r6, [sp, #336]
-	bhi	.LBB57_521
+	bhi	.LBB57_519
 	lsls	r4, r5
-	ldr	r5, .LCPI57_135
+	ldr	r5, .LCPI57_134
 	tst	r4, r5
-	beq	.LBB57_521
+	beq	.LBB57_519
 	subs	r2, r2, #4
-	bne	.LBB57_505
-.LBB57_517:
+	bne	.LBB57_498
+.LBB57_510:
 	mov	r2, r3
-	b	.LBB57_440
-.LBB57_518:
+	b	.LBB57_441
+	.p2align	2
+.LCPI57_184:
+	.long	1692
+	.p2align	1
+.LBB57_512:
 	mov	r2, r3
 	ldr	r6, [sp, #336]
-	b	.LBB57_440
-.LBB57_519:
+	b	.LBB57_441
+.LBB57_513:
 	subs	r2, r2, #1
 	ldr	r6, [sp, #336]
-	b	.LBB57_440
-.LBB57_520:
+	b	.LBB57_441
+	.p2align	2
+.LCPI57_131:
+	.long	1668
+	.p2align	2
+.LCPI57_132:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.34
+	.p2align	2
+.LCPI57_133:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.141
+	.p2align	1
+.LBB57_518:
 	subs	r2, r2, #2
 	ldr	r6, [sp, #336]
-	b	.LBB57_440
-.LBB57_521:
+	b	.LBB57_441
+.LBB57_519:
 	subs	r2, r2, #3
-	b	.LBB57_440
-.LBB57_522:
-	ldr	r0, .LCPI57_136
-	ldr	r1, .LCPI57_137
+	b	.LBB57_441
+.LBB57_520:
+	ldr	r0, .LCPI57_135
+	ldr	r1, .LCPI57_136
 	bl	__aeabi_memclr8
 	ldr	r5, [sp, #304]
 	cmp	r5, #0
-	bne	.LBB57_523
-	bl	.LBB57_114
-.LBB57_523:
+	bne	.LBB57_521
+	bl	.LBB57_111
+.LBB57_521:
 	ldr	r4, [sp, #328]
-	b	.LBB57_525
-.LBB57_524:
+	b	.LBB57_523
+.LBB57_522:
 	adds	r4, #8
 	subs	r5, r5, #1
-	bne	.LBB57_525
-	bl	.LBB57_114
-.LBB57_525:
+	bne	.LBB57_523
+	bl	.LBB57_111
+.LBB57_523:
 	ldr	r0, [r4, #4]
 	ldr	r1, [r0]
 	cmp	r1, #0
-	beq	.LBB57_524
+	beq	.LBB57_522
 	ldr	r0, [r4]
 	blx	r1
-	b	.LBB57_524
-.LBB57_527:
+	b	.LBB57_522
+.LBB57_525:
 	ldr	r0, [sp, #268]
-	ldr	r4, [sp, #236]
-	cmp	r4, r0
-	bne	.LBB57_528
-	b	.LBB57_407
-.LBB57_528:
-	b	.LBB57_375
-.LBB57_529:
+	ldr	r1, [sp, #328]
+	cmp	r1, r0
+	bne	.LBB57_526
+	b	.LBB57_408
+.LBB57_526:
+	str	r4, [sp, #340]
+	mov	r4, r1
+	b	.LBB57_372
+.LBB57_527:
 	adds	r1, r2, #1
-.LBB57_530:
+.LBB57_528:
 	rev	r1, r1
 	lsrs	r2, r1, #24
 	strb	r2, [r0, #15]
@@ -32784,29 +32730,29 @@ main:
 	strb	r2, [r0, #7]
 	lsrs	r1, r1, #16
 	strb	r1, [r0, #6]
-	ldr	r0, [sp, #220]
+	ldr	r0, [sp, #224]
 	str	r0, [r7, #36]
 	movs	r4, #12
 	str	r4, [r7, #44]
 	ldr	r1, [r6, #4]
 	ldr	r2, [r6, #8]
 	add	r0, sp, #640
-	ldr	r3, .LCPI57_138
+	ldr	r3, .LCPI57_137
 	add	r3, sp
 	bl	_RINvMNtNtCsbo90dWa4sKs_10simple_dns3dns4nameNtB3_4Name12plain_appendINtNtCsiJHXauYZ6PE_5alloc3vec3VechEEB7_
 	ldr	r0, [sp, #640]
 	ldr	r1, [sp, #304]
 	cmp	r0, r1
-	beq	.LBB57_531
-	b	.LBB57_585
-.LBB57_531:
+	beq	.LBB57_529
+	b	.LBB57_583
+.LBB57_529:
 	mov	r7, r4
 	ldrh	r0, [r6, #12]
 	mov	r2, r0
 	subs	r2, #41
-	bhi	.LBB57_533
+	bhi	.LBB57_531
 	ldr	r2, [sp, #240]
-.LBB57_533:
+.LBB57_531:
 	ldrh	r1, [r6, #14]
 	ldrb	r4, [r6, #17]
 	ldrb	r3, [r6, #16]
@@ -32820,14 +32766,14 @@ main:
 	add	pc, r2
 	.p2align	2
 .LJTI57_2:
-	.byte	(.LBB57_535-(.LCPI57_79+4))/2
-	.byte	(.LBB57_546-(.LCPI57_79+4))/2
-	.byte	(.LBB57_539-(.LCPI57_79+4))/2
-	.byte	(.LBB57_540-(.LCPI57_79+4))/2
+	.byte	(.LBB57_533-(.LCPI57_79+4))/2
+	.byte	(.LBB57_544-(.LCPI57_79+4))/2
+	.byte	(.LBB57_537-(.LCPI57_79+4))/2
 	.byte	(.LBB57_538-(.LCPI57_79+4))/2
-	.byte	(.LBB57_545-(.LCPI57_79+4))/2
+	.byte	(.LBB57_536-(.LCPI57_79+4))/2
+	.byte	(.LBB57_543-(.LCPI57_79+4))/2
 	.p2align	1
-.LBB57_535:
+.LBB57_533:
 	movs	r6, #1
 	lsls	r2, r0, #2
 	adr	r3, .LJTI57_3
@@ -32835,84 +32781,84 @@ main:
 	mov	pc, r2
 	.p2align	2
 .LJTI57_3:
-	.long	.LBB57_546+1
+	.long	.LBB57_544+1
+	.long	.LBB57_636+1
+	.long	.LBB57_535+1
+	.long	.LBB57_535+1
+	.long	.LBB57_659+1
+	.long	.LBB57_637+1
+	.long	.LBB57_660+1
+	.long	.LBB57_638+1
 	.long	.LBB57_639+1
-	.long	.LBB57_537+1
-	.long	.LBB57_537+1
-	.long	.LBB57_662+1
 	.long	.LBB57_640+1
-	.long	.LBB57_663+1
 	.long	.LBB57_641+1
 	.long	.LBB57_642+1
 	.long	.LBB57_643+1
 	.long	.LBB57_644+1
 	.long	.LBB57_645+1
+	.long	.LBB57_661+1
 	.long	.LBB57_646+1
+	.long	.LBB57_535+1
+	.long	.LBB57_535+1
 	.long	.LBB57_647+1
+	.long	.LBB57_662+1
+	.long	.LBB57_663+1
+	.long	.LBB57_535+1
+	.long	.LBB57_535+1
 	.long	.LBB57_648+1
-	.long	.LBB57_664+1
 	.long	.LBB57_649+1
-	.long	.LBB57_537+1
-	.long	.LBB57_537+1
+	.long	.LBB57_664+1
 	.long	.LBB57_650+1
 	.long	.LBB57_665+1
 	.long	.LBB57_666+1
-	.long	.LBB57_537+1
-	.long	.LBB57_537+1
-	.long	.LBB57_651+1
-	.long	.LBB57_652+1
 	.long	.LBB57_667+1
-	.long	.LBB57_653+1
+	.long	.LBB57_651+1
 	.long	.LBB57_668+1
-	.long	.LBB57_669+1
-	.long	.LBB57_670+1
+	.long	.LBB57_652+1
+	.long	.LBB57_653+1
 	.long	.LBB57_654+1
-	.long	.LBB57_671+1
 	.long	.LBB57_655+1
 	.long	.LBB57_656+1
+	.long	.LBB57_669+1
+	.long	.LBB57_670+1
 	.long	.LBB57_657+1
 	.long	.LBB57_658+1
-	.long	.LBB57_659+1
-	.long	.LBB57_672+1
-	.long	.LBB57_673+1
-	.long	.LBB57_660+1
-	.long	.LBB57_661+1
-.LBB57_537:
+.LBB57_535:
 	mov	r6, r0
-	b	.LBB57_546
-.LBB57_538:
+	b	.LBB57_544
+.LBB57_536:
 	movs	r6, #254
-	b	.LBB57_546
-.LBB57_539:
+	b	.LBB57_544
+.LBB57_537:
 	movs	r6, #252
-	b	.LBB57_546
-.LBB57_540:
+	b	.LBB57_544
+.LBB57_538:
 	movs	r6, #253
-	b	.LBB57_546
+	b	.LBB57_544
 	.p2align	2
-.LCPI57_135:
+.LCPI57_134:
 	.long	8388635
 	.p2align	2
-.LCPI57_136:
+.LCPI57_135:
 	.long	4292870144
 	.p2align	2
-.LCPI57_137:
+.LCPI57_136:
 	.long	691200
 	.p2align	2
-.LCPI57_138:
+.LCPI57_137:
 	.long	1704
 	.p2align	1
-.LBB57_545:
+.LBB57_543:
 	ldr	r6, [sp, #156]
-.LBB57_546:
+.LBB57_544:
 	ldr	r3, [sp, #276]
 	ldr	r1, [r3, #44]
 	ldr	r2, [r3, #36]
 	subs	r0, r2, r1
 	cmp	r0, #1
-	bhi	.LBB57_547
-	bl	.LBB57_796
-.LBB57_547:
+	bhi	.LBB57_545
+	bl	.LBB57_792
+.LBB57_545:
 	rev16	r3, r6
 	ldr	r7, [sp, #276]
 	ldr	r0, [r7, #40]
@@ -32924,29 +32870,29 @@ main:
 	str	r1, [r7, #44]
 	subs	r2, r2, r1
 	cmp	r2, #1
-	bhi	.LBB57_548
-	bl	.LBB57_797
-.LBB57_548:
+	bhi	.LBB57_546
+	bl	.LBB57_793
+.LBB57_546:
 	ldr	r7, [sp, #284]
-	ldr	r2, .LCPI57_198
+	ldr	r2, .LCPI57_196
 	adds	r3, r2, r4
 	subs	r3, #255
 	movs	r2, #255
 	cmp	r4, #0
-	bne	.LBB57_549
-	b	.LBB57_573
-.LBB57_549:
+	bne	.LBB57_547
+	b	.LBB57_571
+.LBB57_547:
 	mov	r2, r4
-	ldr	r4, .LCPI57_198
-	beq	.LBB57_550
-	b	.LBB57_574
-.LBB57_550:
+	ldr	r4, .LCPI57_138
+	beq	.LBB57_548
+	b	.LBB57_572
+.LBB57_548:
 	ldr	r3, [sp, #240]
 	cmp	r3, #0
-	bne	.LBB57_552
-.LBB57_551:
+	bne	.LBB57_550
+.LBB57_549:
 	mov	r4, r2
-.LBB57_552:
+.LBB57_550:
 	rev	r2, r4
 	lsrs	r3, r2, #16
 	strb	r3, [r0, r1]
@@ -32958,65 +32904,65 @@ main:
 	str	r0, [r1, #44]
 	movs	r6, #80
 	cmp	r5, #0
-	beq	.LBB57_556
+	beq	.LBB57_554
 	muls	r5, r6, r5
 	ldr	r4, [sp, #440]
-.LBB57_554:
+.LBB57_552:
 	add	r0, sp, #640
-	ldr	r2, .LCPI57_140
+	ldr	r2, .LCPI57_139
 	add	r2, sp
 	mov	r1, r4
 	bl	_RINvXs_NtNtCsbo90dWa4sKs_10simple_dns3dns15resource_recordNtB5_14ResourceRecordNtNtB7_11wire_format10WireFormat8write_toINtNtCsiJHXauYZ6PE_5alloc3vec3VechEEB9_
 	ldr	r0, [sp, #640]
 	ldr	r1, [sp, #304]
 	cmp	r0, r1
-	beq	.LBB57_555
-	b	.LBB57_585
-.LBB57_555:
+	beq	.LBB57_553
+	b	.LBB57_583
+.LBB57_553:
 	adds	r4, #80
 	subs	r5, #80
-	bne	.LBB57_554
-.LBB57_556:
+	bne	.LBB57_552
+.LBB57_554:
 	ldr	r5, [sp, #340]
 	cmp	r5, #0
-	beq	.LBB57_560
+	beq	.LBB57_558
 	muls	r5, r6, r5
 	ldr	r4, [sp, #452]
-.LBB57_558:
+.LBB57_556:
 	add	r0, sp, #640
-	ldr	r2, .LCPI57_140
+	ldr	r2, .LCPI57_139
 	add	r2, sp
 	mov	r1, r4
 	bl	_RINvXs_NtNtCsbo90dWa4sKs_10simple_dns3dns15resource_recordNtB5_14ResourceRecordNtNtB7_11wire_format10WireFormat8write_toINtNtCsiJHXauYZ6PE_5alloc3vec3VechEEB9_
 	ldr	r0, [sp, #640]
 	ldr	r1, [sp, #304]
 	cmp	r0, r1
-	beq	.LBB57_559
-	b	.LBB57_585
-.LBB57_559:
+	beq	.LBB57_557
+	b	.LBB57_583
+.LBB57_557:
 	adds	r4, #80
 	subs	r5, #80
-	bne	.LBB57_558
-.LBB57_560:
+	bne	.LBB57_556
+.LBB57_558:
 	ldr	r0, [sp, #268]
-	ldr	r1, [sp, #236]
+	ldr	r1, [sp, #176]
 	cmp	r1, r0
-	bne	.LBB57_561
-	b	.LBB57_578
-.LBB57_561:
+	bne	.LBB57_559
+	b	.LBB57_576
+.LBB57_559:
 	ldr	r0, [sp, #264]
 	ldrb	r0, [r0]
 	str	r0, [sp, #140]
 	ldr	r5, [sp, #480]
 	cmp	r5, #0
 	ldr	r3, [sp, #324]
-	beq	.LBB57_577
+	beq	.LBB57_575
 	str	r6, [sp, #136]
 	ldr	r6, [sp, #476]
 	lsls	r4, r5, #4
 	ldr	r2, [sp, #276]
 	str	r4, [r2, #12]
-	ldr	r3, .LCPI57_141
+	ldr	r3, .LCPI57_140
 	ldr	r0, [r3, #8]
 	@APP
 	mov	r1, sp
@@ -33027,27 +32973,27 @@ main:
 	bics	r2, r0
 	adds	r0, r2, r4
 	cmp	r1, r0
-	bhs	.LBB57_563
-	bl	.LBB57_1000
-.LBB57_563:
+	bhs	.LBB57_561
+	bl	.LBB57_997
+.LBB57_561:
 	subs	r1, r2, #4
 	str	r4, [r1]
 	str	r0, [r3, #8]
 	cmp	r2, #0
-	bne	.LBB57_564
-	bl	.LBB57_1003
-.LBB57_564:
+	bne	.LBB57_562
+	bl	.LBB57_1000
+.LBB57_562:
 	mov	r3, r2
 	mov	r0, r4
 	movs	r4, #0
 	str	r5, [sp, #116]
 	str	r2, [sp, #152]
 	str	r0, [sp, #240]
-	b	.LBB57_567
-.LBB57_565:
+	b	.LBB57_565
+.LBB57_563:
 	mov	r0, r2
 	mov	r2, r1
-.LBB57_566:
+.LBB57_564:
 	subs	r5, r5, #1
 	adds	r6, #16
 	str	r0, [r3, r4]
@@ -33060,66 +33006,66 @@ main:
 	cmp	r5, #0
 	ldr	r0, [sp, #240]
 	ldr	r7, [sp, #284]
-	beq	.LBB57_576
-.LBB57_567:
+	beq	.LBB57_574
+.LBB57_565:
 	cmp	r0, r4
-	beq	.LBB57_576
+	beq	.LBB57_574
 	ldm	r6!, {r0, r1, r7}
 	ldrh	r2, [r6]
 	str	r2, [sp, #340]
 	ldr	r2, [sp, #268]
 	subs	r6, #12
 	cmp	r0, r2
-	beq	.LBB57_565
+	beq	.LBB57_563
 	cmp	r7, #0
 	ldr	r0, [sp, #328]
 	mov	r2, r7
-	beq	.LBB57_572
+	beq	.LBB57_570
 	str	r1, [sp, #160]
 	ldr	r0, [sp, #276]
 	str	r2, [r0, #12]
-	ldr	r7, .LCPI57_141
+	ldr	r7, .LCPI57_140
 	ldr	r1, [r7, #8]
 	@APP
 	mov	r7, sp
 	@NO_APP
-	str	r7, [sp, #236]
+	str	r7, [sp, #176]
 	str	r7, [r0, #24]
 	adds	r0, r1, #4
 	adds	r7, r0, r2
-	ldr	r3, [sp, #236]
+	ldr	r3, [sp, #176]
 	cmp	r3, r7
-	bhs	.LBB57_571
-	bl	.LBB57_997
-.LBB57_571:
+	bhs	.LBB57_569
+	bl	.LBB57_994
+.LBB57_569:
 	str	r2, [r1]
-	ldr	r3, .LCPI57_141
+	ldr	r3, .LCPI57_140
 	str	r7, [r3, #8]
 	ldr	r1, [sp, #160]
-.LBB57_572:
-	str	r0, [sp, #236]
+.LBB57_570:
+	str	r0, [sp, #176]
 	mov	r7, r2
 	bl	__aeabi_memcpy
-	ldr	r2, [sp, #236]
+	ldr	r2, [sp, #176]
 	mov	r0, r7
 	ldr	r3, [sp, #152]
-	b	.LBB57_566
-.LBB57_573:
-	ldr	r4, .LCPI57_139
-	bne	.LBB57_574
-	b	.LBB57_550
-.LBB57_574:
+	b	.LBB57_564
+.LBB57_571:
+	ldr	r4, .LCPI57_138
+	bne	.LBB57_572
+	b	.LBB57_548
+.LBB57_572:
 	mov	r4, r3
 	ldr	r3, [sp, #240]
 	cmp	r3, #0
-	bne	.LBB57_575
-	b	.LBB57_551
-.LBB57_575:
-	b	.LBB57_552
-.LBB57_576:
+	bne	.LBB57_573
+	b	.LBB57_549
+.LBB57_573:
+	b	.LBB57_550
+.LBB57_574:
 	ldr	r6, [sp, #136]
 	ldr	r5, [sp, #116]
-.LBB57_577:
+.LBB57_575:
 	ldr	r0, [sp, #168]
 	lsrs	r0, r0, #4
 	ldr	r2, [sp, #140]
@@ -33145,7 +33091,7 @@ main:
 	str	r0, [sp, #640]
 	str	r1, [sp, #700]
 	add	r0, sp, #520
-	ldr	r2, .LCPI57_140
+	ldr	r2, .LCPI57_139
 	add	r2, sp
 	mov	r1, r4
 	bl	_RINvXs_NtNtCsbo90dWa4sKs_10simple_dns3dns15resource_recordNtB5_14ResourceRecordNtNtB7_11wire_format10WireFormat8write_toINtNtCsiJHXauYZ6PE_5alloc3vec3VechEEB9_
@@ -33154,75 +33100,66 @@ main:
 	bl	_RINvNtCsc6P1BMjYAM_4core3ptr13drop_in_placeNtNtNtCsbo90dWa4sKs_10simple_dns3dns5rdata5RDataEBL_
 	ldr	r0, [sp, #304]
 	cmp	r5, r0
-	bne	.LBB57_585
-.LBB57_578:
+	bne	.LBB57_583
+.LBB57_576:
 	ldr	r5, [sp, #172]
 	cmp	r5, #0
-	beq	.LBB57_582
+	beq	.LBB57_580
 	muls	r5, r6, r5
 	ldr	r4, [sp, #464]
-.LBB57_580:
+.LBB57_578:
 	add	r0, sp, #640
-	ldr	r2, .LCPI57_140
+	ldr	r2, .LCPI57_139
 	add	r2, sp
 	mov	r1, r4
 	bl	_RINvXs_NtNtCsbo90dWa4sKs_10simple_dns3dns15resource_recordNtB5_14ResourceRecordNtNtB7_11wire_format10WireFormat8write_toINtNtCsiJHXauYZ6PE_5alloc3vec3VechEEB9_
 	ldr	r0, [sp, #640]
 	ldr	r1, [sp, #304]
 	cmp	r0, r1
-	bne	.LBB57_585
+	bne	.LBB57_583
 	adds	r4, #80
 	subs	r5, #80
-	bne	.LBB57_580
-.LBB57_582:
+	bne	.LBB57_578
+.LBB57_580:
 	ldr	r0, [sp, #276]
 	ldr	r5, [r0, #36]
 	ldr	r1, [r0, #40]
 	str	r1, [sp, #340]
-	ldr	r0, [r0, #44]
-	str	r0, [sp, #328]
+	ldr	r4, [r0, #44]
 	ldr	r0, [sp, #268]
 	cmp	r5, r0
-	bne	.LBB57_586
+	bne	.LBB57_584
 	ldr	r6, [sp, #336]
 	ldr	r5, [sp, #340]
 	add	r0, sp, #424
 	bl	_RINvNtCsc6P1BMjYAM_4core3ptr13drop_in_placeNtNtNtCsbo90dWa4sKs_10simple_dns3dns6packet6PacketECskL9aS9YUD5U_9netclient
 	cmp	r5, #0
-	beq	.LBB57_584
+	beq	.LBB57_582
+	b	.LBB57_409
+.LBB57_582:
+	b	.LBB57_675
+.LBB57_583:
+	movs	r4, #24
+	ldr	r5, .LCPI57_141
+	ldr	r6, [sp, #336]
 	b	.LBB57_408
 .LBB57_584:
-	b	.LBB57_679
-.LBB57_585:
-	movs	r0, #24
-	str	r0, [sp, #328]
-	ldr	r5, .LCPI57_142
-	ldr	r6, [sp, #336]
-	b	.LBB57_407
-.LBB57_586:
 	str	r6, [sp, #136]
 	ldr	r1, [sp, #336]
-	ldr	r0, [r1, #12]
+.LBB57_585:
+	ldr	r0, [r1, #64]
 	cmp	r0, #0
-	beq	.LBB57_591
-.LBB57_587:
-	ldr	r0, [r1, #8]
-	ldr	r0, [r1, #12]
+	bmi	.LBB57_589
+	ldr	r0, [r1, #64]
 	cmp	r0, #0
-	beq	.LBB57_591
-	ldr	r0, [r1, #8]
-	ldr	r0, [r1, #12]
+	bmi	.LBB57_589
+	ldr	r0, [r1, #64]
 	cmp	r0, #0
-	beq	.LBB57_591
-	ldr	r0, [r1, #8]
-	ldr	r0, [r1, #12]
+	bmi	.LBB57_589
+	ldr	r0, [r1, #64]
 	cmp	r0, #0
-	beq	.LBB57_591
-	ldr	r0, [r1, #8]
-	ldr	r0, [r1, #12]
-	cmp	r0, #0
-	bne	.LBB57_587
-.LBB57_591:
+	bpl	.LBB57_585
+.LBB57_589:
 	movs	r2, #1
 	str	r2, [r1, #8]
 	ldr	r0, [sp, #256]
@@ -33234,40 +33171,40 @@ main:
 	str	r0, [r1, #8]
 	movs	r6, #0
 	str	r6, [r1, #8]
-	str	r2, [sp, #324]
+	str	r2, [sp, #328]
 	str	r2, [r1, #8]
 	str	r6, [r1, #8]
 	add	r0, sp, #344
 	add	r1, sp, #640
 	movs	r2, #2
 	bl	_RNvXs2_NtNtCs6UyBOS6LwsO_4parm6telnet13speedy_telnetNtB5_12SpeedyTelnetINtNtCsfkGjHGYaK9V_6speedy6reader6ReaderNtB5_13TelnetContextE10read_bytes
-	add	r4, sp, #504
+	add	r2, sp, #504
 	ldr	r0, [sp, #640]
-	strh	r0, [r4]
-	ldr	r0, [sp, #328]
-	str	r0, [sp, #648]
+	strh	r0, [r2]
+	str	r4, [sp, #648]
 	ldr	r0, [sp, #340]
 	str	r0, [sp, #644]
 	str	r5, [sp, #640]
 	add	r1, sp, #640
-	mov	r0, r4
+	mov	r0, r2
+	mov	r4, r2
 	bl	_RNvMs_CskL9aS9YUD5U_9netclientNtB4_6Socket4send
 	add	r0, sp, #508
 	mov	r1, r4
-	ldr	r2, [sp, #216]
+	ldr	r2, [sp, #220]
 	bl	_RNvMs_CskL9aS9YUD5U_9netclientNtB4_6Socket4recv
 	ldr	r0, [sp, #512]
 	ldr	r1, [sp, #516]
 	ldr	r2, [sp, #276]
 	stm	r2!, {r0, r1}
 	cmp	r1, #2
-	bhs	.LBB57_592
-	b	.LBB57_675
-.LBB57_592:
+	bhs	.LBB57_590
+	b	.LBB57_672
+.LBB57_590:
 	cmp	r1, #4
-	bhs	.LBB57_593
-	b	.LBB57_675
-.LBB57_593:
+	bhs	.LBB57_591
+	b	.LBB57_672
+.LBB57_591:
 	ldrb	r2, [r0, #2]
 	ldrb	r3, [r0, #3]
 	lsls	r3, r3, #8
@@ -33275,45 +33212,45 @@ main:
 	rev	r2, r2
 	lsrs	r5, r2, #16
 	lsls	r2, r5, #25
-	bpl	.LBB57_594
-	b	.LBB57_675
-.LBB57_594:
+	bpl	.LBB57_592
+	b	.LBB57_672
+.LBB57_592:
 	lsls	r2, r5, #17
 	lsrs	r2, r2, #28
 	cmp	r2, #5
 	ldr	r3, [sp, #276]
-	bhi	.LBB57_596
-	ldr	r4, .LCPI57_143
+	bhi	.LBB57_594
+	ldr	r4, .LCPI57_142
 	ldrb	r2, [r4, r2]
-	b	.LBB57_597
-.LBB57_596:
+	b	.LBB57_595
+.LBB57_594:
 	movs	r2, #6
-.LBB57_597:
+.LBB57_595:
 	str	r2, [sp, #340]
 	ldr	r4, [sp, #164]
 	ldrb	r2, [r0]
-	str	r2, [sp, #328]
+	str	r2, [sp, #324]
 	ldrb	r2, [r0, #1]
 	str	r2, [sp, #256]
 	ldr	r2, [sp, #268]
 	str	r2, [r3, #36]
 	ands	r4, r5
 	cmp	r4, #11
-	blo	.LBB57_599
+	blo	.LBB57_597
 	movs	r4, #17
-.LBB57_599:
+.LBB57_597:
 	cmp	r1, #6
-	bhs	.LBB57_600
-	b	.LBB57_675
-.LBB57_600:
+	bhs	.LBB57_598
+	b	.LBB57_672
+.LBB57_598:
 	cmp	r1, #8
-	bhs	.LBB57_601
-	b	.LBB57_675
-.LBB57_601:
+	bhs	.LBB57_599
+	b	.LBB57_672
+.LBB57_599:
 	cmp	r1, #10
-	bhs	.LBB57_602
-	b	.LBB57_674
-.LBB57_602:
+	bhs	.LBB57_600
+	b	.LBB57_671
+.LBB57_600:
 	str	r5, [sp, #20]
 	str	r4, [sp, #164]
 	ldrb	r4, [r0, #4]
@@ -33329,15 +33266,15 @@ main:
 	ldrb	r0, [r0, #9]
 	str	r0, [sp, #24]
 	add	r0, sp, #640
-	ldr	r1, .LCPI57_144
+	ldr	r1, .LCPI57_143
 	add	r1, sp
 	bl	_RNvMNtCsbo90dWa4sKs_10simple_dns12bytes_bufferNtB2_11BytesBuffer7get_u16
 	ldr	r0, [sp, #640]
 	ldr	r1, [sp, #304]
 	cmp	r0, r1
-	beq	.LBB57_603
-	b	.LBB57_674
-.LBB57_603:
+	beq	.LBB57_601
+	b	.LBB57_671
+.LBB57_601:
 	lsls	r0, r5, #8
 	adds	r0, r0, r4
 	rev16	r4, r0
@@ -33346,17 +33283,17 @@ main:
 	str	r1, [sp, #12]
 	cmp	r0, #0
 	str	r4, [sp, #152]
-	bne	.LBB57_604
-	bl	.LBB57_901
-.LBB57_604:
+	bne	.LBB57_602
+	bl	.LBB57_904
+.LBB57_602:
 	movs	r0, #20
 	muls	r0, r4, r0
 	movs	r1, #4
 	bl	_RNvCs6aZZ1a95nPm_7___rustc12___rust_alloc
 	cmp	r0, #0
-	bne	.LBB57_605
-	bl	.LBB57_1003
-.LBB57_605:
+	bne	.LBB57_603
+	bl	.LBB57_1000
+.LBB57_603:
 	mov	r2, r0
 	movs	r6, #0
 	ldr	r0, [sp, #276]
@@ -33368,35 +33305,35 @@ main:
 	lsls	r0, r0, #8
 	str	r0, [sp, #140]
 	movs	r5, #16
-.LBB57_606:
+.LBB57_604:
 	str	r2, [sp, #240]
 	add	r0, sp, #640
-	ldr	r1, .LCPI57_144
+	ldr	r1, .LCPI57_143
 	add	r1, sp
 	bl	_RNvXs_NtNtCsbo90dWa4sKs_10simple_dns3dns4nameNtB4_4NameNtNtB6_11wire_format10WireFormat5parse
 	ldr	r4, [sp, #644]
 	ldr	r0, [sp, #640]
 	ldr	r1, [sp, #304]
 	cmp	r0, r1
-	beq	.LBB57_607
-	bl	.LBB57_919
-.LBB57_607:
+	beq	.LBB57_605
+	bl	.LBB57_922
+.LBB57_605:
 	ldr	r0, [sp, #276]
 	ldr	r2, [r0, #4]
 	ldr	r0, [r0, #8]
 	adds	r1, r0, #2
 	cmp	r1, r2
-	bls	.LBB57_608
-	b	.LBB57_675
-.LBB57_608:
-	ldr	r3, [sp, #324]
+	bls	.LBB57_606
+	b	.LBB57_672
+.LBB57_606:
+	ldr	r3, [sp, #328]
 	mvns	r3, r3
 	cmp	r0, r3
-	blo	.LBB57_609
-	bl	.LBB57_1010
-.LBB57_609:
+	blo	.LBB57_607
+	bl	.LBB57_1007
+.LBB57_607:
 	str	r4, [sp, #172]
-	str	r5, [sp, #236]
+	str	r5, [sp, #176]
 	ldr	r4, [sp, #652]
 	str	r4, [sp, #160]
 	ldr	r4, [sp, #648]
@@ -33405,13 +33342,13 @@ main:
 	str	r1, [r4, #8]
 	adds	r5, r0, #4
 	cmp	r5, r2
-	bls	.LBB57_610
-	b	.LBB57_675
-.LBB57_610:
+	bls	.LBB57_608
+	b	.LBB57_672
+.LBB57_608:
 	cmp	r1, r3
-	blo	.LBB57_611
-	bl	.LBB57_1011
-.LBB57_611:
+	blo	.LBB57_609
+	bl	.LBB57_1008
+.LBB57_609:
 	ldr	r7, [sp, #276]
 	ldr	r2, [r7]
 	ldrb	r3, [r2, r0]
@@ -33429,17 +33366,13 @@ main:
 	subs	r0, #251
 	uxth	r0, r0
 	cmp	r0, #5
-	bhs	.LBB57_614
+	bhs	.LBB57_611
 	subs	r4, #209
 	movs	r5, #0
 	mov	r0, r4
 	ldr	r7, [sp, #284]
-	b	.LBB57_616
-	.p2align	2
-.LCPI57_198:
-	.long	33023
-	.p2align	1
-.LBB57_614:
+	b	.LBB57_613
+.LBB57_611:
 	str	r1, [sp, #116]
 	mov	r5, r6
 	mov	r6, r3
@@ -33448,15 +33381,15 @@ main:
 	uxth	r2, r0
 	cmp	r2, #41
 	ldr	r7, [sp, #284]
-	bne	.LBB57_615
-	bl	.LBB57_948
-.LBB57_615:
+	bne	.LBB57_612
+	bl	.LBB57_945
+.LBB57_612:
 	lsls	r1, r1, #16
 	mov	r3, r6
 	mov	r6, r5
 	mov	r5, r1
 	ldr	r1, [sp, #116]
-.LBB57_616:
+.LBB57_613:
 	lsls	r1, r1, #8
 	adds	r1, r1, r3
 	rev	r1, r1
@@ -33466,7 +33399,7 @@ main:
 	ands	r2, r1
 	subs	r3, r2, #1
 	cmp	r3, #3
-	bhi	.LBB57_627
+	bhi	.LBB57_624
 	.p2align	2
 	add	r3, pc
 	ldrb	r3, [r3, #4]
@@ -33475,63 +33408,66 @@ main:
 	add	pc, r3
 	.p2align	2
 .LJTI57_4:
-	.byte	(.LBB57_620-(.LCPI57_81+4))/2
-	.byte	(.LBB57_630-(.LCPI57_81+4))/2
-	.byte	(.LBB57_631-(.LCPI57_81+4))/2
-	.byte	(.LBB57_632-(.LCPI57_81+4))/2
+	.byte	(.LBB57_617-(.LCPI57_81+4))/2
+	.byte	(.LBB57_627-(.LCPI57_81+4))/2
+	.byte	(.LBB57_628-(.LCPI57_81+4))/2
+	.byte	(.LBB57_629-(.LCPI57_81+4))/2
 	.p2align	1
-	.p2align	1
-.LBB57_620:
-	ldr	r2, [sp, #316]
-	b	.LBB57_633
 	.p2align	2
-.LCPI57_139:
+.LCPI57_196:
+	.long	33023
+	.p2align	1
+.LBB57_617:
+	ldr	r2, [sp, #316]
+	b	.LBB57_630
+	.p2align	2
+.LCPI57_138:
 	.long	33023
 	.p2align	2
-.LCPI57_140:
+.LCPI57_139:
 	.long	1704
 	.p2align	2
-.LCPI57_141:
+.LCPI57_140:
 	.long	.L_MergedGlobals
 	.p2align	2
-.LCPI57_142:
+.LCPI57_141:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.35
 	.p2align	2
-.LCPI57_143:
+.LCPI57_142:
 	.long	.Lswitch.table.main
 	.p2align	2
-.LCPI57_144:
+.LCPI57_143:
 	.long	1668
 	.p2align	1
-.LBB57_627:
+.LBB57_624:
 	cmp	r2, #254
 	ldr	r3, [sp, #276]
-	beq	.LBB57_634
+	beq	.LBB57_631
 	cmp	r2, #255
-	beq	.LBB57_629
-	bl	.LBB57_978
-.LBB57_629:
+	beq	.LBB57_626
+	bl	.LBB57_975
+.LBB57_626:
 	movs	r2, #0
-	b	.LBB57_635
-.LBB57_630:
-	ldr	r2, [sp, #216]
-	b	.LBB57_633
-.LBB57_631:
+	b	.LBB57_632
+.LBB57_627:
 	ldr	r2, [sp, #220]
+	b	.LBB57_630
+.LBB57_628:
+	ldr	r2, [sp, #224]
 	subs	r2, #132
-	b	.LBB57_633
-.LBB57_632:
+	b	.LBB57_630
+.LBB57_629:
 	ldr	r2, [sp, #280]
-.LBB57_633:
+.LBB57_630:
 	ldr	r3, [sp, #276]
-	b	.LBB57_635
-.LBB57_634:
+	b	.LBB57_632
+.LBB57_631:
 	ldr	r2, [sp, #16]
 	lsls	r2, r2, #9
-.LBB57_635:
+.LBB57_632:
 	uxth	r0, r0
 	orrs	r5, r0
-	ldr	r0, .LCPI57_191
+	ldr	r0, .LCPI57_197
 	ldr	r7, [sp, #44]
 	ands	r7, r0
 	lsrs	r4, r1, #15
@@ -33541,9 +33477,9 @@ main:
 	cmp	r6, r0
 	ldr	r2, [sp, #240]
 	mov	r7, r5
-	ldr	r5, [sp, #236]
-	beq	.LBB57_638
-.LBB57_636:
+	ldr	r5, [sp, #176]
+	beq	.LBB57_635
+.LBB57_633:
 	str	r4, [r2, r5]
 	adds	r0, r2, r5
 	subs	r1, r0, #4
@@ -33568,164 +33504,157 @@ main:
 	str	r7, [sp, #40]
 	str	r4, [sp, #44]
 	ldr	r7, [sp, #284]
-	beq	.LBB57_637
-	b	.LBB57_606
-.LBB57_637:
-	bl	.LBB57_928
-.LBB57_638:
-	ldr	r0, .LCPI57_146
+	beq	.LBB57_634
+	b	.LBB57_604
+.LBB57_634:
+	bl	.LBB57_923
+.LBB57_635:
+	ldr	r0, .LCPI57_145
 	add	r0, sp
 	bl	_RNvMs0_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB5_6RawVecNtNtNtCsbo90dWa4sKs_10simple_dns3dns8question8QuestionE8grow_oneBS_
 	ldr	r3, [sp, #276]
 	ldr	r2, [r3, #40]
-	b	.LBB57_636
-.LBB57_639:
+	b	.LBB57_633
+.LBB57_636:
 	movs	r6, #28
-	b	.LBB57_546
-.LBB57_640:
+	b	.LBB57_544
+.LBB57_637:
 	movs	r6, #7
-	b	.LBB57_546
-.LBB57_641:
+	b	.LBB57_544
+.LBB57_638:
 	movs	r6, #9
-	b	.LBB57_546
-.LBB57_642:
+	b	.LBB57_544
+.LBB57_639:
 	mov	r6, r7
-	b	.LBB57_546
-.LBB57_643:
+	b	.LBB57_544
+.LBB57_640:
 	movs	r6, #4
-	b	.LBB57_546
-.LBB57_644:
+	b	.LBB57_544
+.LBB57_641:
 	movs	r6, #13
-	b	.LBB57_546
-.LBB57_645:
+	b	.LBB57_544
+.LBB57_642:
 	movs	r6, #14
-	b	.LBB57_546
-.LBB57_646:
+	b	.LBB57_544
+.LBB57_643:
 	ldr	r6, [sp, #164]
-	b	.LBB57_546
-.LBB57_647:
+	b	.LBB57_544
+.LBB57_644:
 	movs	r6, #16
-	b	.LBB57_546
-.LBB57_648:
+	b	.LBB57_544
+.LBB57_645:
 	movs	r6, #6
-	b	.LBB57_546
-.LBB57_649:
+	b	.LBB57_544
+.LBB57_646:
 	movs	r6, #33
-	b	.LBB57_546
-.LBB57_650:
+	b	.LBB57_544
+.LBB57_647:
 	movs	r6, #20
-	b	.LBB57_546
-.LBB57_651:
+	b	.LBB57_544
+.LBB57_648:
 	movs	r6, #29
-	b	.LBB57_546
-.LBB57_652:
+	b	.LBB57_544
+.LBB57_649:
 	movs	r6, #41
-	b	.LBB57_546
-.LBB57_653:
+	b	.LBB57_544
+.LBB57_650:
 	movs	r6, #64
-	b	.LBB57_546
-.LBB57_654:
+	b	.LBB57_544
+.LBB57_651:
 	movs	r6, #37
-	b	.LBB57_546
-.LBB57_655:
+	b	.LBB57_544
+.LBB57_652:
 	movs	r6, #36
-	b	.LBB57_546
-.LBB57_656:
+	b	.LBB57_544
+.LBB57_653:
 	movs	r6, #45
-	b	.LBB57_546
-.LBB57_657:
+	b	.LBB57_544
+.LBB57_654:
 	movs	r6, #48
-	b	.LBB57_546
-.LBB57_658:
-	ldr	r6, [sp, #184]
-	b	.LBB57_546
-.LBB57_659:
+	b	.LBB57_544
+.LBB57_655:
+	ldr	r6, [sp, #188]
+	b	.LBB57_544
+.LBB57_656:
 	movs	r6, #43
-	b	.LBB57_546
-.LBB57_660:
+	b	.LBB57_544
+.LBB57_657:
 	ldr	r6, [sp, #312]
-	b	.LBB57_546
-.LBB57_661:
+	b	.LBB57_544
+.LBB57_658:
 	mov	r6, r1
-	b	.LBB57_546
-.LBB57_662:
+	b	.LBB57_544
+.LBB57_659:
 	movs	r6, #5
-	b	.LBB57_546
-.LBB57_663:
+	b	.LBB57_544
+.LBB57_660:
 	ldr	r6, [sp, #256]
-	b	.LBB57_546
-.LBB57_664:
+	b	.LBB57_544
+.LBB57_661:
 	movs	r6, #11
-	b	.LBB57_546
-.LBB57_665:
+	b	.LBB57_544
+.LBB57_662:
 	movs	r6, #21
-	b	.LBB57_546
-.LBB57_666:
+	b	.LBB57_544
+.LBB57_663:
 	movs	r6, #35
-	b	.LBB57_546
-.LBB57_667:
+	b	.LBB57_544
+.LBB57_664:
 	ldr	r0, [sp, #316]
 	adds	r6, r0, #1
-	b	.LBB57_546
-.LBB57_668:
+	b	.LBB57_544
+.LBB57_665:
 	movs	r6, #65
-	b	.LBB57_546
-.LBB57_669:
-	ldr	r6, [sp, #212]
-	b	.LBB57_546
-.LBB57_670:
+	b	.LBB57_544
+.LBB57_666:
+	ldr	r6, [sp, #216]
+	b	.LBB57_544
+.LBB57_667:
 	movs	r6, #109
-	b	.LBB57_546
-.LBB57_671:
+	b	.LBB57_544
+.LBB57_668:
 	movs	r6, #63
-	b	.LBB57_546
-.LBB57_672:
+	b	.LBB57_544
+.LBB57_669:
 	movs	r6, #47
-	b	.LBB57_546
-.LBB57_673:
+	b	.LBB57_544
+.LBB57_670:
 	movs	r6, #49
-	b	.LBB57_546
-.LBB57_674:
-	ldr	r0, .LCPI57_146
+	b	.LBB57_544
+.LBB57_671:
+	ldr	r0, .LCPI57_145
 	add	r0, sp
 	bl	_RINvNtCsc6P1BMjYAM_4core3ptr13drop_in_placeINtNtB4_6option6OptionNtNtNtNtCsbo90dWa4sKs_10simple_dns3dns5rdata3opt3OPTEEB19_
-.LBB57_675:
+.LBB57_672:
 	ldr	r6, [sp, #336]
-.LBB57_676:
-	movs	r0, #18
-	str	r0, [sp, #328]
-	ldr	r5, .LCPI57_147
-.LBB57_677:
+.LBB57_673:
+	movs	r4, #18
+	ldr	r5, .LCPI57_146
+.LBB57_674:
 	ldr	r0, [sp, #504]
 	bl	_RINvNtCsc6P1BMjYAM_4core3ptr13drop_in_placeNtCskL9aS9YUD5U_9netclient6SocketEBH_
 	add	r0, sp, #424
 	bl	_RINvNtCsc6P1BMjYAM_4core3ptr13drop_in_placeNtNtNtCsbo90dWa4sKs_10simple_dns3dns6packet6PacketECskL9aS9YUD5U_9netclient
 	cmp	r5, #0
-	beq	.LBB57_679
-	bl	.LBB57_408
-.LBB57_678:
-	ldr	r0, [r6, #8]
+	beq	.LBB57_675
+	bl	.LBB57_409
+.LBB57_675:
+	ldr	r0, [r6, #64]
+	cmp	r0, #0
+	bmi	.LBB57_679
+	ldr	r0, [r6, #64]
+	cmp	r0, #0
+	bmi	.LBB57_679
+	ldr	r0, [r6, #64]
+	cmp	r0, #0
+	bmi	.LBB57_679
+	ldr	r0, [r6, #64]
+	cmp	r0, #0
+	bpl	.LBB57_675
 .LBB57_679:
-	ldr	r0, [r6, #12]
-	cmp	r0, #0
-	beq	.LBB57_683
-	ldr	r0, [r6, #8]
-	ldr	r0, [r6, #12]
-	cmp	r0, #0
-	beq	.LBB57_683
-	ldr	r0, [r6, #8]
-	ldr	r0, [r6, #12]
-	cmp	r0, #0
-	beq	.LBB57_683
-	ldr	r0, [r6, #8]
-	ldr	r0, [r6, #12]
-	cmp	r0, #0
-	bne	.LBB57_678
-.LBB57_683:
 	movs	r5, #1
 	str	r5, [r6, #8]
-	ldr	r0, [sp, #328]
-	rev	r0, r0
+	rev	r0, r4
 	uxtb	r1, r0
 	str	r1, [r6, #8]
 	lsrs	r1, r0, #8
@@ -33757,9 +33686,9 @@ main:
 	ldr	r1, [sp, #640]
 	strh	r1, [r0]
 	ldr	r1, [sp, #276]
-	ldr	r6, [sp, #216]
+	ldr	r6, [sp, #220]
 	str	r6, [r1, #24]
-	ldr	r3, .LCPI57_148
+	ldr	r3, .LCPI57_147
 	ldr	r0, [r3, #8]
 	@APP
 	mov	r2, sp
@@ -33769,9 +33698,9 @@ main:
 	lsls	r1, r1, #2
 	adds	r1, r0, r1
 	cmp	r2, r1
-	bhs	.LBB57_684
-	bl	.LBB57_1001
-.LBB57_684:
+	bhs	.LBB57_680
+	bl	.LBB57_998
+.LBB57_680:
 	str	r6, [r0]
 	str	r1, [r3, #8]
 	movs	r1, #71
@@ -33792,9 +33721,9 @@ main:
 	adds	r0, #252
 	ldr	r2, [sp, #260]
 	cmp	r2, r0
-	bls	.LBB57_685
-	bl	.LBB57_951
-.LBB57_685:
+	bls	.LBB57_681
+	bl	.LBB57_948
+.LBB57_681:
 	str	r2, [sp, #260]
 	str	r1, [sp, #340]
 	str	r3, [sp, #328]
@@ -33807,23 +33736,23 @@ main:
 	ldr	r0, [sp, #340]
 	subs	r0, r0, r6
 	cmp	r0, #10
-	bhi	.LBB57_686
-	bl	.LBB57_952
-.LBB57_686:
+	bhi	.LBB57_682
+	bl	.LBB57_949
+.LBB57_682:
 	ldr	r0, [sp, #328]
-.LBB57_687:
+.LBB57_683:
 	adds	r0, r0, r6
 	movs	r2, #11
-	ldr	r1, .LCPI57_149
+	ldr	r1, .LCPI57_148
 	bl	__aeabi_memcpy
 	adds	r6, #11
 	str	r6, [sp, #636]
 	ldr	r0, [sp, #628]
 	subs	r1, r0, r6
 	cmp	r1, #3
-	bhi	.LBB57_688
-	bl	.LBB57_953
-.LBB57_688:
+	bhi	.LBB57_684
+	bl	.LBB57_950
+.LBB57_684:
 	ldr	r2, [sp, #632]
 	ldr	r1, [sp, #100]
 	strb	r1, [r2, r6]
@@ -33831,7 +33760,7 @@ main:
 	movs	r3, #116
 	str	r3, [sp, #324]
 	strb	r3, [r1, #3]
-	ldr	r3, [sp, #204]
+	ldr	r3, [sp, #208]
 	strb	r3, [r1, #2]
 	movs	r3, #111
 	str	r3, [sp, #304]
@@ -33840,10 +33769,10 @@ main:
 	str	r1, [sp, #636]
 	subs	r3, r0, r1
 	cmp	r3, #1
-	bhi	.LBB57_689
-	bl	.LBB57_954
-.LBB57_689:
-	ldr	r6, .LCPI57_150
+	bhi	.LBB57_685
+	bl	.LBB57_951
+.LBB57_685:
+	ldr	r6, .LCPI57_149
 	strb	r6, [r2, r1]
 	adds	r3, r2, r1
 	lsrs	r6, r6, #8
@@ -33853,9 +33782,9 @@ main:
 	str	r6, [sp, #636]
 	subs	r0, r0, r6
 	cmp	r7, r0
-	bls	.LBB57_690
-	bl	.LBB57_955
-.LBB57_690:
+	bls	.LBB57_686
+	bl	.LBB57_952
+.LBB57_686:
 	adds	r0, r2, r6
 	ldr	r1, [sp, #292]
 	mov	r2, r7
@@ -33865,11 +33794,11 @@ main:
 	ldr	r7, [sp, #628]
 	subs	r0, r7, r1
 	cmp	r0, #1
-	bhi	.LBB57_691
-	bl	.LBB57_956
-.LBB57_691:
+	bhi	.LBB57_687
+	bl	.LBB57_953
+.LBB57_687:
 	ldr	r3, [sp, #632]
-	ldr	r2, .LCPI57_151
+	ldr	r2, .LCPI57_150
 	strb	r2, [r3, r1]
 	adds	r0, r3, r1
 	lsrs	r2, r2, #8
@@ -33879,15 +33808,15 @@ main:
 	str	r6, [sp, #636]
 	subs	r0, r7, r6
 	cmp	r0, #9
-	bhi	.LBB57_692
-	bl	.LBB57_957
-.LBB57_692:
+	bhi	.LBB57_688
+	bl	.LBB57_954
+.LBB57_688:
 	str	r7, [sp, #292]
-.LBB57_693:
+.LBB57_689:
 	mov	r7, r3
 	adds	r0, r3, r6
 	movs	r2, #10
-	ldr	r1, .LCPI57_152
+	ldr	r1, .LCPI57_151
 	str	r2, [sp, #320]
 	bl	__aeabi_memcpy
 	adds	r6, #10
@@ -33895,10 +33824,10 @@ main:
 	ldr	r0, [sp, #292]
 	subs	r0, r0, r6
 	cmp	r0, #1
-	bhi	.LBB57_694
-	bl	.LBB57_958
-.LBB57_694:
-	ldr	r0, .LCPI57_150
+	bhi	.LBB57_690
+	bl	.LBB57_955
+.LBB57_690:
+	ldr	r0, .LCPI57_149
 	strb	r0, [r7, r6]
 	adds	r0, r7, r6
 	ldr	r1, [sp, #340]
@@ -33908,16 +33837,16 @@ main:
 	ldr	r0, [sp, #628]
 	subs	r2, r0, r1
 	cmp	r2, #3
-	bhi	.LBB57_695
-	bl	.LBB57_959
-.LBB57_695:
+	bhi	.LBB57_691
+	bl	.LBB57_956
+.LBB57_691:
 	ldr	r2, [sp, #632]
-	ldr	r3, [sp, #200]
+	ldr	r3, [sp, #204]
 	strb	r3, [r2, r1]
 	adds	r3, r2, r1
-	ldr	r6, [sp, #212]
+	ldr	r6, [sp, #216]
 	strb	r6, [r3, #3]
-	ldr	r6, [sp, #208]
+	ldr	r6, [sp, #212]
 	strb	r6, [r3, #2]
 	movs	r6, #117
 	strb	r6, [r3, #1]
@@ -33925,11 +33854,11 @@ main:
 	str	r1, [sp, #636]
 	subs	r3, r0, r1
 	cmp	r3, #1
-	bhi	.LBB57_696
-	bl	.LBB57_960
-.LBB57_696:
+	bhi	.LBB57_692
+	bl	.LBB57_957
+.LBB57_692:
 	ldr	r6, [sp, #328]
-	ldr	r3, .LCPI57_151
+	ldr	r3, .LCPI57_150
 	strb	r3, [r2, r1]
 	adds	r3, r2, r1
 	strb	r6, [r3, #1]
@@ -33937,10 +33866,10 @@ main:
 	str	r1, [sp, #636]
 	subs	r0, r0, r1
 	cmp	r0, #1
-	bhi	.LBB57_697
-	bl	.LBB57_961
-.LBB57_697:
-	ldr	r0, .LCPI57_151
+	bhi	.LBB57_693
+	bl	.LBB57_958
+.LBB57_693:
+	ldr	r0, .LCPI57_150
 	strb	r0, [r2, r1]
 	adds	r0, r2, r1
 	strb	r6, [r0, #1]
@@ -33950,16 +33879,16 @@ main:
 	add	r1, sp, #628
 	mov	r0, r6
 	bl	_RNvMs_CskL9aS9YUD5U_9netclientNtB4_6Socket4send
-	ldr	r0, .LCPI57_153
+	ldr	r0, .LCPI57_152
 	add	r0, sp
 	mov	r1, r6
-	ldr	r2, [sp, #216]
+	ldr	r2, [sp, #220]
 	bl	_RNvMs_CskL9aS9YUD5U_9netclientNtB4_6Socket4recv
-.LBB57_698:
+.LBB57_694:
 	movs	r0, #64
 	mov	r1, r4
 	ldr	r6, [sp, #316]
-.LBB57_699:
+.LBB57_695:
 	add	r2, sp, #640
 	str	r5, [r2, r1]
 	adds	r2, r2, r1
@@ -34051,7 +33980,7 @@ main:
 	str	r4, [r2, #12]
 	adds	r1, r1, r6
 	subs	r0, #16
-	bne	.LBB57_699
+	bne	.LBB57_695
 	ldr	r1, [sp, #276]
 	ldr	r2, [r1, #28]
 	ldr	r7, [r1, #32]
@@ -34065,70 +33994,70 @@ main:
 	str	r6, [r1, #40]
 	cmp	r7, #0
 	str	r7, [sp, #328]
-	bne	.LBB57_701
-	b	.LBB57_759
-.LBB57_701:
+	bne	.LBB57_697
+	b	.LBB57_755
+.LBB57_697:
 	ldr	r0, [sp, #340]
-	b	.LBB57_704
+	b	.LBB57_700
 	.p2align	2
-.LCPI57_191:
+.LCPI57_197:
 	.long	4294901760
 	.p2align	1
-.LBB57_703:
+.LBB57_699:
 	mov	r0, r1
 	cmp	r0, r6
-	blo	.LBB57_704
-	b	.LBB57_759
-.LBB57_704:
+	blo	.LBB57_700
+	b	.LBB57_755
+.LBB57_700:
 	adds	r1, r0, #1
 	ldrb	r2, [r0]
 	cmp	r2, #10
-	beq	.LBB57_703
+	beq	.LBB57_699
 	cmp	r2, #13
-	bne	.LBB57_718
+	bne	.LBB57_714
 	adds	r2, r0, #1
 	cmp	r2, r6
-	blo	.LBB57_707
-	b	.LBB57_759
-.LBB57_707:
+	blo	.LBB57_703
+	b	.LBB57_755
+.LBB57_703:
 	ldrb	r0, [r0, #1]
 	cmp	r0, #10
-	beq	.LBB57_708
-	bl	.LBB57_1004
-.LBB57_708:
+	beq	.LBB57_704
+	bl	.LBB57_1001
+.LBB57_704:
 	adds	r0, r1, #1
 	cmp	r0, r6
-	blo	.LBB57_704
-	b	.LBB57_759
+	blo	.LBB57_700
+	b	.LBB57_755
 	.p2align	2
-.LCPI57_146:
+.LCPI57_145:
 	.long	1704
 	.p2align	2
-.LCPI57_147:
+.LCPI57_146:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.36
 	.p2align	2
-.LCPI57_148:
+.LCPI57_147:
 	.long	.L_MergedGlobals
 	.p2align	2
-.LCPI57_149:
+.LCPI57_148:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.10
 	.p2align	2
-.LCPI57_150:
+.LCPI57_149:
 	.long	8250
 	.p2align	2
-.LCPI57_151:
+.LCPI57_150:
 	.long	2573
 	.p2align	2
-.LCPI57_152:
+.LCPI57_151:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.130
 	.p2align	2
-.LCPI57_153:
+.LCPI57_152:
 	.long	1692
 	.p2align	1
-.LBB57_718:
+.LBB57_714:
 	subs	r1, r6, r0
 	cmp	r1, #8
-	blo	.LBB57_722
+	blo	.LBB57_718
 	ldrb	r1, [r0, #4]
 	ldrb	r2, [r0, #5]
 	lsls	r2, r2, #8
@@ -34140,7 +34069,7 @@ main:
 	adds	r2, r3, r2
 	adds	r1, r2, r1
 	mov	r3, r1
-	ldr	r2, .LCPI57_154
+	ldr	r2, .LCPI57_185
 	eors	r3, r2
 	ldrb	r2, [r0]
 	ldrb	r7, [r0, #1]
@@ -34154,95 +34083,95 @@ main:
 	adds	r2, r2, r7
 	ldr	r7, [sp, #288]
 	adds	r2, r2, r7
-	ldr	r7, .LCPI57_155
+	ldr	r7, .LCPI57_186
 	eors	r2, r7
 	orrs	r3, r2
-	beq	.LBB57_737
-	ldr	r3, .LCPI57_156
+	beq	.LBB57_733
+	ldr	r3, .LCPI57_187
 	eors	r1, r3
 	orrs	r2, r1
 	ldr	r3, [sp, #276]
 	ldr	r7, [sp, #328]
-	beq	.LBB57_721
-	bl	.LBB57_1013
-.LBB57_721:
+	beq	.LBB57_717
+	bl	.LBB57_1009
+.LBB57_717:
 	str	r5, [sp, #288]
 	mov	r1, r0
 	adds	r1, #8
 	cmp	r1, r6
-	blo	.LBB57_738
-	b	.LBB57_759
-.LBB57_722:
+	blo	.LBB57_734
+	b	.LBB57_755
+.LBB57_718:
 	cmp	r0, r6
-	blo	.LBB57_723
-	b	.LBB57_759
-.LBB57_723:
+	blo	.LBB57_719
+	b	.LBB57_755
+.LBB57_719:
 	cmp	r2, #72
-	beq	.LBB57_724
-	bl	.LBB57_1013
-.LBB57_724:
+	beq	.LBB57_720
+	bl	.LBB57_1009
+.LBB57_720:
 	adds	r1, r0, #1
 	cmp	r1, r6
-	blo	.LBB57_725
-	b	.LBB57_759
-.LBB57_725:
+	blo	.LBB57_721
+	b	.LBB57_755
+.LBB57_721:
 	ldrb	r1, [r0, #1]
 	cmp	r1, #84
-	beq	.LBB57_726
-	bl	.LBB57_1013
-.LBB57_726:
+	beq	.LBB57_722
+	bl	.LBB57_1009
+.LBB57_722:
 	adds	r1, r0, #2
 	cmp	r1, r6
-	blo	.LBB57_727
-	b	.LBB57_759
-.LBB57_727:
+	blo	.LBB57_723
+	b	.LBB57_755
+.LBB57_723:
 	ldrb	r1, [r0, #2]
 	cmp	r1, #84
-	beq	.LBB57_728
-	bl	.LBB57_1013
-.LBB57_728:
+	beq	.LBB57_724
+	bl	.LBB57_1009
+.LBB57_724:
 	adds	r1, r0, #3
 	cmp	r1, r6
-	blo	.LBB57_729
-	b	.LBB57_759
-.LBB57_729:
+	blo	.LBB57_725
+	b	.LBB57_755
+.LBB57_725:
 	ldrb	r1, [r0, #3]
 	cmp	r1, #80
-	beq	.LBB57_730
-	bl	.LBB57_1013
-.LBB57_730:
+	beq	.LBB57_726
+	bl	.LBB57_1009
+.LBB57_726:
 	adds	r1, r0, #4
 	cmp	r1, r6
-	blo	.LBB57_731
-	b	.LBB57_759
-.LBB57_731:
+	blo	.LBB57_727
+	b	.LBB57_755
+.LBB57_727:
 	ldrb	r1, [r0, #4]
 	cmp	r1, #47
-	beq	.LBB57_732
-	bl	.LBB57_1013
-.LBB57_732:
+	beq	.LBB57_728
+	bl	.LBB57_1009
+.LBB57_728:
 	adds	r1, r0, #5
 	cmp	r1, r6
-	blo	.LBB57_733
-	b	.LBB57_759
-.LBB57_733:
+	blo	.LBB57_729
+	b	.LBB57_755
+.LBB57_729:
 	ldrb	r1, [r0, #5]
 	cmp	r1, #49
-	beq	.LBB57_734
-	bl	.LBB57_1013
-.LBB57_734:
+	beq	.LBB57_730
+	bl	.LBB57_1009
+.LBB57_730:
 	adds	r0, r0, #6
 	cmp	r0, r6
-	blo	.LBB57_735
-	b	.LBB57_759
-.LBB57_735:
+	blo	.LBB57_731
+	b	.LBB57_755
+.LBB57_731:
 	ldrb	r0, [r0]
 	cmp	r0, #46
-	bne	.LBB57_736
-	b	.LBB57_759
-.LBB57_736:
-	bl	.LBB57_1013
-.LBB57_737:
+	bne	.LBB57_732
+	b	.LBB57_755
+.LBB57_732:
+	bl	.LBB57_1009
+.LBB57_733:
 	movs	r1, #0
 	str	r1, [sp, #288]
 	ldr	r3, [sp, #276]
@@ -34250,133 +34179,133 @@ main:
 	mov	r1, r0
 	adds	r1, #8
 	cmp	r1, r6
-	blo	.LBB57_738
-	b	.LBB57_759
-.LBB57_738:
+	blo	.LBB57_734
+	b	.LBB57_755
+.LBB57_734:
 	mov	r1, r0
 	adds	r1, #9
 	str	r1, [r3, #44]
 	ldrb	r2, [r0, #8]
 	cmp	r2, #32
-	beq	.LBB57_739
-	bl	.LBB57_1013
-.LBB57_739:
+	beq	.LBB57_735
+	bl	.LBB57_1009
+.LBB57_735:
 	str	r1, [r3, #36]
 	cmp	r1, r6
-	bhs	.LBB57_759
+	bhs	.LBB57_755
 	ldrb	r1, [r0, #9]
 	subs	r1, #48
 	uxtb	r2, r1
 	cmp	r2, #9
-	bls	.LBB57_741
-	bl	.LBB57_1016
-.LBB57_741:
+	bls	.LBB57_737
+	bl	.LBB57_1012
+.LBB57_737:
 	mov	r1, r0
 	adds	r1, #10
 	cmp	r1, r6
-	bhs	.LBB57_759
+	bhs	.LBB57_755
 	ldrb	r1, [r0, #10]
 	str	r1, [sp, #284]
 	subs	r1, #48
 	uxtb	r1, r1
 	cmp	r1, #9
-	bls	.LBB57_743
-	bl	.LBB57_1016
-.LBB57_743:
+	bls	.LBB57_739
+	bl	.LBB57_1012
+.LBB57_739:
 	mov	r1, r0
 	adds	r1, #11
 	cmp	r1, r6
-	bhs	.LBB57_759
+	bhs	.LBB57_755
 	ldrb	r1, [r0, #11]
 	subs	r1, #48
 	uxtb	r1, r1
 	str	r1, [sp, #252]
 	cmp	r1, #10
-	blo	.LBB57_745
-	bl	.LBB57_1016
-.LBB57_745:
+	blo	.LBB57_741
+	bl	.LBB57_1012
+.LBB57_741:
 	mov	r1, r0
 	adds	r1, #12
 	cmp	r1, r6
-	bhs	.LBB57_759
+	bhs	.LBB57_755
 	mov	r1, r0
 	adds	r1, #13
 	str	r1, [sp, #260]
 	str	r1, [r3, #44]
 	ldrb	r1, [r0, #12]
 	cmp	r1, #10
-	beq	.LBB57_752
+	beq	.LBB57_748
 	cmp	r1, #13
-	beq	.LBB57_753
-	str	r2, [sp, #236]
-	cmp	r1, #32
 	beq	.LBB57_749
-	bl	.LBB57_1016
-.LBB57_749:
+	str	r2, [sp, #176]
+	cmp	r1, #32
+	beq	.LBB57_745
+	bl	.LBB57_1012
+.LBB57_745:
 	ldr	r0, [sp, #260]
 	str	r0, [r3, #36]
 	add	r6, sp, #520
-	ldr	r1, .LCPI57_157
+	ldr	r1, .LCPI57_156
 	add	r1, sp
 	mov	r0, r6
 	bl	_RNvCs31FEPXLwcbl_8httparse12parse_reason
 	ldrb	r0, [r6]
 	cmp	r0, #1
-	bne	.LBB57_750
-	bl	.LBB57_1022
-.LBB57_750:
+	bne	.LBB57_746
+	bl	.LBB57_1019
+.LBB57_746:
 	ldr	r0, [sp, #524]
 	cmp	r0, #0
 	ldr	r3, [sp, #276]
-	beq	.LBB57_759
+	beq	.LBB57_755
 	str	r0, [sp, #172]
 	ldr	r0, [sp, #528]
 	str	r0, [sp, #168]
 	ldr	r6, [r3, #40]
 	ldr	r0, [r3, #44]
 	str	r0, [sp, #260]
-	b	.LBB57_757
-.LBB57_752:
-	str	r2, [sp, #236]
+	b	.LBB57_753
+.LBB57_748:
+	str	r2, [sp, #176]
 	ldr	r0, [sp, #260]
 	str	r0, [r3, #36]
-	b	.LBB57_756
-.LBB57_753:
+	b	.LBB57_752
+.LBB57_749:
 	ldr	r1, [sp, #260]
 	cmp	r1, r6
-	bhs	.LBB57_759
+	bhs	.LBB57_755
 	mov	r1, r0
 	adds	r1, #14
 	str	r1, [r3, #44]
 	ldrb	r0, [r0, #13]
 	cmp	r0, #10
-	beq	.LBB57_755
-	bl	.LBB57_1016
-.LBB57_755:
-	str	r2, [sp, #236]
+	beq	.LBB57_751
+	bl	.LBB57_1012
+.LBB57_751:
+	str	r2, [sp, #176]
 	str	r1, [sp, #260]
 	str	r1, [r3, #36]
-.LBB57_756:
+.LBB57_752:
 	movs	r0, #1
 	str	r0, [sp, #172]
 	movs	r0, #0
 	str	r0, [sp, #168]
-.LBB57_757:
+.LBB57_753:
 	movs	r0, #0
 	str	r0, [sp, #240]
 	str	r0, [r3]
 	add	r0, sp, #520
-	ldr	r1, .LCPI57_158
+	ldr	r1, .LCPI57_157
 	add	r1, sp
-	ldr	r2, .LCPI57_157
+	ldr	r2, .LCPI57_156
 	add	r2, sp
-	ldr	r3, .LCPI57_159
+	ldr	r3, .LCPI57_158
 	add	r3, sp
 	str	r0, [sp, #248]
 	bl	_RNvCs31FEPXLwcbl_8httparse25parse_headers_iter_uninit
 	ldr	r0, [sp, #520]
 	cmp	r0, #2
-	bne	.LBB57_763
+	bne	.LBB57_759
 	ldr	r0, [sp, #248]
 	ldrb	r0, [r0, #4]
 	ldr	r1, [sp, #156]
@@ -34385,56 +34314,56 @@ main:
 	adds	r2, r2, r0
 	str	r2, [sp, #48]
 	ldr	r0, [sp, #256]
-	b	.LBB57_765
-.LBB57_759:
+	b	.LBB57_761
+.LBB57_755:
 	ldr	r6, [sp, #336]
-.LBB57_760:
+.LBB57_756:
 	movs	r0, #80
 	str	r0, [r6]
 	movs	r0, #97
 	str	r0, [r6]
-	ldr	r1, [sp, #208]
+	ldr	r1, [sp, #212]
 	str	r1, [r6]
 	ldr	r2, [sp, #324]
 	str	r2, [r6]
-	ldr	r2, [sp, #224]
+	ldr	r2, [sp, #228]
 	str	r2, [r6]
 	str	r0, [r6]
-	ldr	r0, [sp, #212]
+	ldr	r0, [sp, #216]
 	str	r0, [r6]
 	movs	r0, #32
 	str	r0, [r6]
 	str	r1, [r6]
-	ldr	r2, [sp, #188]
+	ldr	r2, [sp, #192]
 	str	r2, [r6]
-	ldr	r7, [sp, #204]
+	ldr	r7, [sp, #208]
 	str	r7, [r6]
 	movs	r1, #112
 	str	r1, [r6]
 	ldr	r1, [sp, #304]
 	str	r1, [r6]
-	ldr	r3, [sp, #196]
+	ldr	r3, [sp, #200]
 	str	r3, [r6]
 	str	r7, [r6]
 	str	r2, [r6]
 	movs	r1, #44
 	str	r1, [r6]
 	str	r0, [r6]
-	ldr	r0, [sp, #180]
+	ldr	r0, [sp, #184]
 	str	r0, [r6]
 	str	r2, [r6]
 	ldr	r0, [sp, #324]
 	str	r0, [r6]
-	ldr	r0, [sp, #200]
+	ldr	r0, [sp, #204]
 	str	r0, [r6]
-	ldr	r0, [sp, #176]
+	ldr	r0, [sp, #180]
 	str	r0, [r6]
-	ldr	r0, [sp, #224]
+	ldr	r0, [sp, #228]
 	str	r0, [r6]
 	str	r3, [r6]
-	ldr	r0, [sp, #192]
+	ldr	r0, [sp, #196]
 	str	r0, [r6]
-	ldr	r0, [sp, #184]
+	ldr	r0, [sp, #188]
 	str	r0, [r6]
 	str	r0, [r6]
 	str	r0, [r6]
@@ -34442,19 +34371,19 @@ main:
 	str	r0, [r6]
 	add	r0, sp, #520
 	add	r1, sp, #604
-	ldr	r2, [sp, #216]
+	ldr	r2, [sp, #220]
 	bl	_RNvMs_CskL9aS9YUD5U_9netclientNtB4_6Socket4recv
 	ldr	r6, [sp, #528]
 	cmp	r6, #0
-	beq	.LBB57_772
+	beq	.LBB57_768
 	ldr	r3, [sp, #276]
 	ldr	r0, [r3, #24]
 	ldr	r7, [sp, #328]
 	subs	r0, r0, r7
 	ldr	r1, [sp, #524]
 	cmp	r6, r0
-	bhi	.LBB57_770
-.LBB57_762:
+	bhi	.LBB57_766
+.LBB57_758:
 	ldr	r0, [sp, #340]
 	adds	r0, r0, r7
 	mov	r2, r6
@@ -34462,38 +34391,38 @@ main:
 	adds	r0, r7, r6
 	ldr	r1, [sp, #276]
 	str	r0, [r1, #32]
-	b	.LBB57_698
-.LBB57_763:
+	b	.LBB57_694
+.LBB57_759:
 	lsls	r0, r0, #31
-	beq	.LBB57_771
+	beq	.LBB57_767
 	movs	r0, #1
-.LBB57_765:
+.LBB57_761:
 	movs	r1, #4
 	movs	r3, #0
 	ldr	r6, [sp, #336]
 	mov	r2, r0
 	cmp	r0, #2
-	ldr	r0, [sp, #232]
-	beq	.LBB57_767
-.LBB57_766:
+	ldr	r0, [sp, #236]
+	beq	.LBB57_763
+.LBB57_762:
 	mov	r0, r2
-.LBB57_767:
+.LBB57_763:
 	lsls	r0, r0, #31
-	bne	.LBB57_768
-	b	.LBB57_811
-.LBB57_768:
+	bne	.LBB57_764
+	b	.LBB57_797
+.LBB57_764:
 	cmp	r2, #2
-	bne	.LBB57_769
-	bl	.LBB57_1008
-.LBB57_769:
+	bne	.LBB57_765
+	bl	.LBB57_1005
+.LBB57_765:
 	lsls	r0, r2, #31
 	add	r1, sp, #640
 	cmp	r0, #0
 	ldr	r3, [sp, #292]
-	bne	.LBB57_760
-	b	.LBB57_811
-.LBB57_770:
-	ldr	r0, .LCPI57_160
+	bne	.LBB57_756
+	b	.LBB57_797
+.LBB57_766:
+	ldr	r0, .LCPI57_159
 	add	r0, sp
 	str	r1, [sp, #292]
 	mov	r1, r7
@@ -34504,8 +34433,8 @@ main:
 	ldr	r0, [r7, #28]
 	str	r0, [sp, #340]
 	ldr	r7, [r7, #32]
-	b	.LBB57_762
-.LBB57_771:
+	b	.LBB57_758
+.LBB57_767:
 	ldr	r0, [sp, #524]
 	subs	r1, r7, r6
 	ldr	r2, [sp, #260]
@@ -34519,44 +34448,36 @@ main:
 	ldr	r0, [sp, #240]
 	mov	r2, r0
 	cmp	r0, #2
-	ldr	r0, [sp, #232]
-	bne	.LBB57_766
-	b	.LBB57_767
-.LBB57_772:
+	ldr	r0, [sp, #236]
+	bne	.LBB57_762
+	b	.LBB57_763
+.LBB57_768:
 	movs	r4, #19
-	ldr	r5, .LCPI57_161
-.LBB57_773:
+	ldr	r5, .LCPI57_160
+.LBB57_769:
 	ldr	r0, [sp, #276]
 	ldr	r0, [r0, #24]
 	cmp	r0, #0
 	ldr	r6, [sp, #336]
-	str	r4, [sp, #328]
-	beq	.LBB57_783
+	beq	.LBB57_779
 	movs	r0, #2
-.LBB57_775:
+.LBB57_771:
 	add	r1, sp, #604
 	ldrh	r1, [r1]
-	ldr	r3, [r6, #12]
+.LBB57_772:
+	ldr	r3, [r6, #64]
 	cmp	r3, #0
-	beq	.LBB57_780
+	bmi	.LBB57_776
+	ldr	r3, [r6, #64]
+	cmp	r3, #0
+	bmi	.LBB57_776
+	ldr	r3, [r6, #64]
+	cmp	r3, #0
+	bmi	.LBB57_776
+	ldr	r3, [r6, #64]
+	cmp	r3, #0
+	bpl	.LBB57_772
 .LBB57_776:
-	ldr	r3, [r6, #8]
-	ldr	r3, [r6, #12]
-	cmp	r3, #0
-	beq	.LBB57_780
-	ldr	r3, [r6, #8]
-	ldr	r3, [r6, #12]
-	cmp	r3, #0
-	beq	.LBB57_780
-	ldr	r3, [r6, #8]
-	ldr	r3, [r6, #12]
-	cmp	r3, #0
-	beq	.LBB57_780
-	ldr	r3, [r6, #8]
-	ldr	r3, [r6, #12]
-	cmp	r3, #0
-	bne	.LBB57_776
-.LBB57_780:
 	movs	r3, #4
 	str	r3, [r6, #8]
 	uxtb	r3, r1
@@ -34564,23 +34485,22 @@ main:
 	lsrs	r1, r1, #8
 	str	r1, [r6, #8]
 	cmp	r0, #2
-	bne	.LBB57_781
-	bl	.LBB57_408
-.LBB57_781:
+	bne	.LBB57_777
+	bl	.LBB57_409
+.LBB57_777:
 	lsls	r0, r0, #31
-	beq	.LBB57_789
+	beq	.LBB57_785
 	str	r2, [sp, #412]
-	ldr	r0, [sp, #328]
-	str	r0, [sp, #408]
+	str	r4, [sp, #408]
 	str	r5, [sp, #404]
-	ldr	r0, .LCPI57_162
+	ldr	r0, .LCPI57_161
 	str	r0, [sp, #644]
 	add	r0, sp, #404
 	str	r0, [sp, #640]
 	add	r3, sp, #640
-	ldr	r0, .LCPI57_163
-	ldr	r1, .LCPI57_164
-	ldr	r2, .LCPI57_165
+	ldr	r0, .LCPI57_162
+	ldr	r1, .LCPI57_163
+	ldr	r2, .LCPI57_164
 	bl	_RNvNtCsc6P1BMjYAM_4core3fmt5write
 	ldr	r0, [sp, #404]
 	str	r0, [sp, #360]
@@ -34588,130 +34508,93 @@ main:
 	str	r0, [sp, #364]
 	ldr	r0, [sp, #412]
 	str	r0, [sp, #368]
-	bl	.LBB57_114
-.LBB57_783:
+	bl	.LBB57_111
+.LBB57_779:
 	add	r0, sp, #604
 	ldrh	r0, [r0]
-	ldr	r1, [r6, #12]
+.LBB57_780:
+	ldr	r1, [r6, #64]
 	cmp	r1, #0
-	beq	.LBB57_788
+	bmi	.LBB57_784
+	ldr	r1, [r6, #64]
+	cmp	r1, #0
+	bmi	.LBB57_784
+	ldr	r1, [r6, #64]
+	cmp	r1, #0
+	bmi	.LBB57_784
+	ldr	r1, [r6, #64]
+	cmp	r1, #0
+	bpl	.LBB57_780
 .LBB57_784:
-	ldr	r1, [r6, #8]
-	ldr	r1, [r6, #12]
-	cmp	r1, #0
-	beq	.LBB57_788
-	ldr	r1, [r6, #8]
-	ldr	r1, [r6, #12]
-	cmp	r1, #0
-	beq	.LBB57_788
-	ldr	r1, [r6, #8]
-	ldr	r1, [r6, #12]
-	cmp	r1, #0
-	beq	.LBB57_788
-	ldr	r1, [r6, #8]
-	ldr	r1, [r6, #12]
-	cmp	r1, #0
-	bne	.LBB57_784
-.LBB57_788:
 	movs	r1, #4
 	str	r1, [r6, #8]
 	uxtb	r1, r0
 	str	r1, [r6, #8]
 	lsrs	r0, r0, #8
 	str	r0, [r6, #8]
-	bl	.LBB57_408
-.LBB57_789:
+	bl	.LBB57_409
+.LBB57_785:
 	ldr	r5, [sp, #376]
 	ldr	r6, [sp, #372]
 	add	r0, sp, #640
-	ldr	r1, [sp, #328]
+	mov	r1, r4
 	bl	_RNvNtNtCsc6P1BMjYAM_4core3str8converts9from_utf8
 	movs	r0, #35
 	ldr	r1, [sp, #640]
 	cmp	r1, #0
-	bne	.LBB57_791
+	bne	.LBB57_787
 	ldr	r0, [sp, #648]
-.LBB57_791:
+.LBB57_787:
 	ldr	r1, [sp, #644]
 	str	r0, [sp]
-	ldr	r3, .LCPI57_166
-	bne	.LBB57_793
+	ldr	r3, .LCPI57_165
+	bne	.LBB57_789
 	mov	r3, r1
-.LBB57_793:
+.LBB57_789:
 	add	r0, sp, #380
 	mov	r1, r6
 	mov	r2, r5
 	bl	_RNvNtCskL9aS9YUD5U_9netclient3web6render
 	ldr	r6, [sp, #336]
-	bl	.LBB57_411
-.LBB57_794:
+	bl	.LBB57_412
+.LBB57_790:
 	ldr	r5, [sp, #76]
-	bl	.LBB57_320
-.LBB57_795:
+	bl	.LBB57_317
+.LBB57_791:
 	ldr	r5, [sp, #300]
-	bl	.LBB57_320
-.LBB57_796:
+	bl	.LBB57_317
+.LBB57_792:
 	mov	r7, r3
 	movs	r3, #1
 	str	r3, [sp]
-	ldr	r0, .LCPI57_157
+	ldr	r0, .LCPI57_156
 	add	r0, sp
 	movs	r2, #2
 	bl	_RINvNvMs2_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECsbo90dWa4sKs_10simple_dns
 	ldr	r2, [r7, #36]
 	ldr	r1, [r7, #44]
-	bl	.LBB57_547
-.LBB57_797:
+	bl	.LBB57_545
+.LBB57_793:
 	movs	r3, #1
 	str	r3, [sp]
-	ldr	r0, .LCPI57_157
+	ldr	r0, .LCPI57_156
 	add	r0, sp
 	movs	r2, #2
 	bl	_RINvNvMs2_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECsbo90dWa4sKs_10simple_dns
 	ldr	r0, [r7, #40]
 	ldr	r1, [r7, #44]
-	bl	.LBB57_548
+	bl	.LBB57_546
 	.p2align	2
-.LCPI57_154:
+.LCPI57_185:
 	.long	808333615
 	.p2align	2
-.LCPI57_155:
+.LCPI57_186:
 	.long	1347703880
 	.p2align	2
-.LCPI57_156:
+.LCPI57_187:
 	.long	825110831
-	.p2align	2
-.LCPI57_157:
-	.long	1704
-	.p2align	2
-.LCPI57_158:
-	.long	1680
-	.p2align	2
-.LCPI57_159:
-	.long	1668
-	.p2align	2
-.LCPI57_160:
-	.long	1692
-	.p2align	2
-.LCPI57_161:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.16
-	.p2align	2
-.LCPI57_162:
-	.long	_RNvXsn_NtCsiJHXauYZ6PE_5alloc6stringNtB5_6StringNtNtCsc6P1BMjYAM_4core3fmt7Display3fmt
-	.p2align	2
-.LCPI57_163:
-	.long	.L_MergedGlobals
-	.p2align	2
-.LCPI57_164:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.250
-	.p2align	2
-.LCPI57_165:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.142
-	.p2align	2
-.LCPI57_166:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.141
 	.p2align	1
-.LBB57_811:
+.LBB57_797:
 	str	r3, [sp, #324]
 	str	r1, [sp, #292]
 	ldr	r0, [sp, #320]
@@ -34719,275 +34602,318 @@ main:
 	muls	r3, r0, r3
 	adds	r3, #32
 	movs	r0, #100
-	ldr	r1, [sp, #236]
+	ldr	r1, [sp, #176]
 	muls	r0, r1, r0
 	uxtb	r1, r3
 	adds	r0, r0, r1
 	ldr	r1, [sp, #252]
 	adds	r5, r0, r1
-	ldr	r0, .LCPI57_167
+	ldr	r0, .LCPI57_157
 	add	r0, sp
 	strh	r5, [r0]
 	movs	r1, #7
 	ldr	r3, [sp, #172]
 	cmp	r3, #0
-	beq	.LBB57_813
+	beq	.LBB57_799
 	ldr	r1, [sp, #168]
-.LBB57_813:
+.LBB57_799:
 	ldr	r2, [sp, #276]
 	str	r1, [r2, #40]
-	ldr	r1, .LCPI57_168
+	ldr	r1, .LCPI57_166
 	ldr	r4, [sp, #48]
-	beq	.LBB57_815
+	beq	.LBB57_801
 	ldr	r1, [sp, #172]
-.LBB57_815:
+.LBB57_801:
 	str	r1, [r2, #36]
-	ldr	r1, .LCPI57_169
+	ldr	r1, .LCPI57_167
 	str	r1, [sp, #532]
-	ldr	r1, .LCPI57_170
+	ldr	r1, .LCPI57_156
 	add	r1, sp
 	str	r1, [sp, #528]
-	ldr	r1, .LCPI57_171
+	ldr	r1, .LCPI57_168
 	str	r1, [sp, #524]
 	str	r0, [sp, #520]
 	add	r3, sp, #520
-	ldr	r0, .LCPI57_172
-	ldr	r1, .LCPI57_173
-	ldr	r2, .LCPI57_174
+	ldr	r0, .LCPI57_162
+	ldr	r1, .LCPI57_163
+	ldr	r2, .LCPI57_169
 	bl	_RNvNtCsc6P1BMjYAM_4core3fmt5write
 	movs	r0, #0
 	str	r0, [sp, #284]
 	ldr	r3, [sp, #324]
 	cmp	r3, #0
-	bne	.LBB57_816
-	b	.LBB57_904
-.LBB57_816:
+	bne	.LBB57_802
+	b	.LBB57_907
+.LBB57_802:
 	str	r5, [sp, #260]
 	lsls	r0, r3, #4
 	ldr	r5, [sp, #292]
 	adds	r4, r5, r0
-	b	.LBB57_818
-.LBB57_817:
+	b	.LBB57_821
+	.p2align	2
+.LCPI57_156:
+	.long	1704
+	.p2align	2
+.LCPI57_157:
+	.long	1680
+	.p2align	2
+.LCPI57_158:
+	.long	1668
+	.p2align	2
+.LCPI57_159:
+	.long	1692
+	.p2align	2
+.LCPI57_160:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.16
+	.p2align	2
+.LCPI57_161:
+	.long	_RNvXsn_NtCsiJHXauYZ6PE_5alloc6stringNtB5_6StringNtNtCsc6P1BMjYAM_4core3fmt7Display3fmt
+	.p2align	2
+.LCPI57_162:
+	.long	.L_MergedGlobals
+	.p2align	2
+.LCPI57_163:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.250
+	.p2align	2
+.LCPI57_164:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.142
+	.p2align	2
+.LCPI57_165:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.141
+	.p2align	2
+.LCPI57_166:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.12
+	.p2align	2
+.LCPI57_167:
+	.long	_RNvXs1i_NtCsc6P1BMjYAM_4core3fmtReNtB6_7Display3fmtB8_
+	.p2align	2
+.LCPI57_168:
+	.long	_RNvXs3_NtNtNtCsc6P1BMjYAM_4core3fmt3num3imptNtB9_7Display3fmt
+	.p2align	2
+.LCPI57_169:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.13
+	.p2align	1
+.LBB57_820:
 	adds	r5, #16
 	cmp	r5, r4
-	bne	.LBB57_818
-	b	.LBB57_902
-.LBB57_818:
+	bne	.LBB57_821
+	b	.LBB57_905
+.LBB57_821:
 	ldr	r0, [r5, #4]
 	cmp	r0, #14
-	bne	.LBB57_817
+	bne	.LBB57_820
 	ldr	r0, [r5]
 	ldrb	r1, [r0]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
 	ldr	r2, [sp, #332]
-	blo	.LBB57_821
+	blo	.LBB57_824
 	movs	r2, #0
-.LBB57_821:
+.LBB57_824:
 	orrs	r2, r1
 	cmp	r2, #99
-	bne	.LBB57_817
+	bne	.LBB57_820
 	ldrb	r1, [r0, #1]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB57_824
+	blo	.LBB57_827
 	movs	r2, #0
-	b	.LBB57_825
-.LBB57_824:
+	b	.LBB57_828
+.LBB57_827:
 	movs	r2, #32
-.LBB57_825:
+.LBB57_828:
 	orrs	r2, r1
 	cmp	r2, #111
-	bne	.LBB57_817
+	bne	.LBB57_820
 	ldrb	r1, [r0, #2]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB57_828
+	blo	.LBB57_831
 	movs	r2, #0
-	b	.LBB57_829
-.LBB57_828:
+	b	.LBB57_832
+.LBB57_831:
 	movs	r2, #32
-.LBB57_829:
+.LBB57_832:
 	orrs	r2, r1
 	cmp	r2, #110
-	bne	.LBB57_817
+	bne	.LBB57_820
 	ldrb	r1, [r0, #3]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB57_832
+	blo	.LBB57_835
 	movs	r2, #0
-	b	.LBB57_833
-.LBB57_832:
+	b	.LBB57_836
+.LBB57_835:
 	movs	r2, #32
-.LBB57_833:
+.LBB57_836:
 	orrs	r2, r1
 	cmp	r2, #116
-	bne	.LBB57_817
+	bne	.LBB57_820
 	ldrb	r1, [r0, #4]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB57_836
+	blo	.LBB57_839
 	movs	r2, #0
-	b	.LBB57_837
-.LBB57_836:
+	b	.LBB57_840
+.LBB57_839:
 	movs	r2, #32
-.LBB57_837:
+.LBB57_840:
 	orrs	r2, r1
 	cmp	r2, #101
-	bne	.LBB57_817
+	bne	.LBB57_820
 	ldrb	r1, [r0, #5]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB57_840
+	blo	.LBB57_843
 	movs	r2, #0
-	b	.LBB57_841
-.LBB57_840:
+	b	.LBB57_844
+.LBB57_843:
 	movs	r2, #32
-.LBB57_841:
+.LBB57_844:
 	orrs	r2, r1
 	cmp	r2, #110
-	bne	.LBB57_817
+	bne	.LBB57_820
 	ldrb	r1, [r0, #6]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB57_844
+	blo	.LBB57_847
 	movs	r2, #0
-	b	.LBB57_845
-.LBB57_844:
+	b	.LBB57_848
+.LBB57_847:
 	movs	r2, #32
-.LBB57_845:
+.LBB57_848:
 	orrs	r2, r1
 	cmp	r2, #116
-	bne	.LBB57_817
+	bne	.LBB57_820
 	ldrb	r1, [r0, #7]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB57_848
+	blo	.LBB57_851
 	movs	r2, #0
-	b	.LBB57_849
-.LBB57_848:
+	b	.LBB57_852
+.LBB57_851:
 	movs	r2, #32
-.LBB57_849:
+.LBB57_852:
 	orrs	r2, r1
 	cmp	r2, #45
-	bne	.LBB57_817
+	bne	.LBB57_820
 	ldrb	r1, [r0, #8]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB57_852
+	blo	.LBB57_855
 	movs	r2, #0
-	b	.LBB57_853
-.LBB57_852:
+	b	.LBB57_856
+.LBB57_855:
 	movs	r2, #32
-.LBB57_853:
+.LBB57_856:
 	orrs	r2, r1
 	cmp	r2, #108
-	bne	.LBB57_817
+	bne	.LBB57_820
 	ldrb	r1, [r0, #9]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB57_856
+	blo	.LBB57_859
 	movs	r2, #0
-	b	.LBB57_857
-.LBB57_856:
+	b	.LBB57_860
+.LBB57_859:
 	movs	r2, #32
-.LBB57_857:
+.LBB57_860:
 	orrs	r2, r1
 	cmp	r2, #101
-	bne	.LBB57_817
+	bne	.LBB57_820
 	ldrb	r1, [r0, #10]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB57_860
+	blo	.LBB57_863
 	movs	r2, #0
-	b	.LBB57_861
-.LBB57_860:
+	b	.LBB57_864
+.LBB57_863:
 	movs	r2, #32
-.LBB57_861:
+.LBB57_864:
 	orrs	r2, r1
 	cmp	r2, #110
-	beq	.LBB57_862
-	b	.LBB57_817
-.LBB57_862:
+	beq	.LBB57_865
+	b	.LBB57_820
+.LBB57_865:
 	ldrb	r1, [r0, #11]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB57_864
+	blo	.LBB57_867
 	movs	r2, #0
-	b	.LBB57_865
-.LBB57_864:
+	b	.LBB57_868
+.LBB57_867:
 	movs	r2, #32
-.LBB57_865:
+.LBB57_868:
 	orrs	r2, r1
 	cmp	r2, #103
 	ldr	r7, [sp, #328]
-	beq	.LBB57_866
-	b	.LBB57_817
-.LBB57_866:
+	beq	.LBB57_869
+	b	.LBB57_820
+.LBB57_869:
 	ldrb	r1, [r0, #12]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB57_868
+	blo	.LBB57_871
 	movs	r2, #0
-	b	.LBB57_869
-.LBB57_868:
+	b	.LBB57_872
+.LBB57_871:
 	movs	r2, #32
-.LBB57_869:
+.LBB57_872:
 	orrs	r2, r1
 	cmp	r2, #116
 	ldr	r7, [sp, #328]
-	beq	.LBB57_870
-	b	.LBB57_817
-.LBB57_870:
+	beq	.LBB57_873
+	b	.LBB57_820
+.LBB57_873:
 	ldrb	r0, [r0, #13]
 	mov	r1, r0
 	subs	r1, #65
 	cmp	r1, #26
-	blo	.LBB57_872
+	blo	.LBB57_875
 	movs	r1, #0
-	b	.LBB57_873
-.LBB57_872:
+	b	.LBB57_876
+.LBB57_875:
 	movs	r1, #32
-.LBB57_873:
+.LBB57_876:
 	orrs	r1, r0
 	cmp	r1, #104
 	ldr	r7, [sp, #328]
-	beq	.LBB57_874
-	b	.LBB57_817
-.LBB57_874:
+	beq	.LBB57_877
+	b	.LBB57_820
+.LBB57_877:
 	ldr	r0, [r5, #12]
 	cmp	r0, #0
-	bne	.LBB57_875
-	b	.LBB57_817
-.LBB57_875:
+	bne	.LBB57_878
+	b	.LBB57_820
+.LBB57_878:
 	ldr	r2, [r5, #8]
 	cmp	r0, #1
-	bne	.LBB57_878
+	bne	.LBB57_881
 	ldrb	r3, [r2]
 	cmp	r3, #43
 	ldr	r7, [sp, #328]
-	bne	.LBB57_877
-	b	.LBB57_817
-.LBB57_877:
+	bne	.LBB57_880
+	b	.LBB57_820
+.LBB57_880:
 	cmp	r3, #45
-	bne	.LBB57_879
-	b	.LBB57_817
-.LBB57_878:
+	bne	.LBB57_882
+	b	.LBB57_820
+.LBB57_881:
 	ldrb	r3, [r2]
-.LBB57_879:
+.LBB57_882:
 	subs	r1, r0, #1
 	str	r1, [sp, #252]
 	movs	r6, #0
@@ -34995,33 +34921,33 @@ main:
 	adds	r7, r2, #1
 	str	r7, [sp, #256]
 	cmp	r3, #43
-	beq	.LBB57_888
+	beq	.LBB57_891
 	str	r2, [sp, #256]
-	bne	.LBB57_889
-.LBB57_881:
-	beq	.LBB57_890
-.LBB57_882:
+	bne	.LBB57_892
+.LBB57_884:
+	beq	.LBB57_893
+.LBB57_885:
 	str	r0, [sp, #252]
 	ldr	r2, [sp, #252]
 	cmp	r2, #9
-	blo	.LBB57_891
-.LBB57_883:
+	blo	.LBB57_894
+.LBB57_886:
 	movs	r0, #0
 	str	r0, [sp, #304]
-.LBB57_884:
+.LBB57_887:
 	ldr	r0, [sp, #252]
 	cmp	r0, #0
-	bne	.LBB57_885
-	b	.LBB57_989
-.LBB57_885:
+	bne	.LBB57_888
+	b	.LBB57_986
+.LBB57_888:
 	ldr	r0, [sp, #256]
 	ldrb	r6, [r0]
 	subs	r6, #48
 	cmp	r6, #9
 	ldr	r7, [sp, #328]
-	bls	.LBB57_886
-	b	.LBB57_817
-.LBB57_886:
+	bls	.LBB57_889
+	b	.LBB57_820
+.LBB57_889:
 	movs	r2, #10
 	movs	r1, #0
 	str	r1, [sp, #248]
@@ -35035,9 +34961,9 @@ main:
 	ldr	r2, [sp, #248]
 	adcs	r2, r2
 	cmp	r1, #0
-	beq	.LBB57_887
-	b	.LBB57_817
-.LBB57_887:
+	beq	.LBB57_890
+	b	.LBB57_820
+.LBB57_890:
 	ldr	r0, [sp, #256]
 	adds	r0, r0, #1
 	str	r0, [sp, #256]
@@ -35045,23 +34971,23 @@ main:
 	subs	r0, r0, #1
 	str	r0, [sp, #252]
 	cmp	r2, #0
+	beq	.LBB57_887
+	b	.LBB57_820
+.LBB57_891:
 	beq	.LBB57_884
-	b	.LBB57_817
-.LBB57_888:
-	beq	.LBB57_881
-.LBB57_889:
+.LBB57_892:
 	mov	r1, r6
-	bne	.LBB57_882
-.LBB57_890:
+	bne	.LBB57_885
+.LBB57_893:
 	ldr	r2, [sp, #252]
 	cmp	r2, #9
-	bhs	.LBB57_883
-.LBB57_891:
+	bhs	.LBB57_886
+.LBB57_894:
 	ldr	r2, [sp, #252]
 	cmp	r2, #0
-	bne	.LBB57_892
-	b	.LBB57_988
-.LBB57_892:
+	bne	.LBB57_895
+	b	.LBB57_985
+.LBB57_895:
 	ldr	r2, [sp, #336]
 	adds	r2, #255
 	muls	r2, r0, r2
@@ -35069,15 +34995,15 @@ main:
 	str	r0, [sp, #252]
 	movs	r1, #0
 	str	r1, [sp, #304]
-.LBB57_893:
+.LBB57_896:
 	ldr	r0, [sp, #256]
 	ldrb	r3, [r0, r1]
 	subs	r3, #48
 	cmp	r3, #9
 	ldr	r7, [sp, #328]
-	bls	.LBB57_894
-	b	.LBB57_817
-.LBB57_894:
+	bls	.LBB57_897
+	b	.LBB57_820
+.LBB57_897:
 	ldr	r0, [sp, #252]
 	adds	r2, r0, r1
 	adds	r6, r2, #1
@@ -35087,18 +35013,18 @@ main:
 	adds	r0, r3, r0
 	str	r0, [sp, #304]
 	cmp	r6, #0
-	bne	.LBB57_895
-	b	.LBB57_989
-.LBB57_895:
+	bne	.LBB57_898
+	b	.LBB57_986
+.LBB57_898:
 	ldr	r0, [sp, #256]
 	adds	r3, r0, r1
 	ldrb	r6, [r3, #1]
 	subs	r6, #48
 	cmp	r6, #9
 	ldr	r7, [sp, #328]
-	bls	.LBB57_896
-	b	.LBB57_817
-.LBB57_896:
+	bls	.LBB57_899
+	b	.LBB57_820
+.LBB57_899:
 	adds	r0, r2, #2
 	str	r0, [sp, #248]
 	ldr	r0, [sp, #320]
@@ -35108,16 +35034,16 @@ main:
 	str	r7, [sp, #304]
 	ldr	r0, [sp, #248]
 	cmp	r0, #0
-	bne	.LBB57_897
-	b	.LBB57_989
-.LBB57_897:
+	bne	.LBB57_900
+	b	.LBB57_986
+.LBB57_900:
 	ldrb	r6, [r3, #2]
 	subs	r6, #48
 	cmp	r6, #9
 	ldr	r7, [sp, #328]
-	bls	.LBB57_898
-	b	.LBB57_817
-.LBB57_898:
+	bls	.LBB57_901
+	b	.LBB57_820
+.LBB57_901:
 	adds	r2, r2, #3
 	ldr	r0, [sp, #320]
 	ldr	r7, [sp, #304]
@@ -35125,16 +35051,16 @@ main:
 	adds	r7, r6, r7
 	str	r7, [sp, #304]
 	cmp	r2, #0
-	bne	.LBB57_899
-	b	.LBB57_989
-.LBB57_899:
+	bne	.LBB57_902
+	b	.LBB57_986
+.LBB57_902:
 	ldrb	r2, [r3, #3]
 	subs	r2, #48
 	cmp	r2, #9
 	ldr	r7, [sp, #328]
-	bls	.LBB57_900
-	b	.LBB57_817
-.LBB57_900:
+	bls	.LBB57_903
+	b	.LBB57_820
+.LBB57_903:
 	ldr	r0, [sp, #320]
 	ldr	r3, [sp, #304]
 	muls	r3, r0, r3
@@ -35143,42 +35069,42 @@ main:
 	adds	r1, r1, #4
 	ldr	r0, [sp, #252]
 	adds	r2, r0, r1
-	bne	.LBB57_893
-	b	.LBB57_989
-.LBB57_901:
+	bne	.LBB57_896
+	b	.LBB57_986
+.LBB57_904:
 	movs	r0, #4
 	str	r0, [sp, #240]
-	str	r6, [sp, #324]
-	b	.LBB57_929
-.LBB57_902:
+	str	r6, [sp, #328]
+	b	.LBB57_924
+.LBB57_905:
 	ldr	r6, [sp, #336]
 	ldr	r4, [sp, #48]
-.LBB57_903:
+.LBB57_906:
 	ldr	r3, [sp, #324]
 	ldr	r5, [sp, #260]
-	b	.LBB57_905
-.LBB57_904:
-.LBB57_905:
+	b	.LBB57_908
+.LBB57_907:
+.LBB57_908:
 	cmp	r7, r4
-	ldr	r2, .LCPI57_172
-	bhs	.LBB57_906
-	b	.LBB57_1014
-.LBB57_906:
+	ldr	r2, .LCPI57_170
+	bhs	.LBB57_909
+	b	.LBB57_1011
+.LBB57_909:
 	ldr	r0, [sp, #340]
 	adds	r1, r0, r4
 	subs	r4, r7, r4
 	ldr	r0, [sp, #284]
 	lsls	r0, r0, #31
-	beq	.LBB57_918
+	beq	.LBB57_921
 	ldr	r7, [sp, #304]
 	cmp	r4, r7
-	blo	.LBB57_908
-	b	.LBB57_945
-.LBB57_908:
+	blo	.LBB57_911
+	b	.LBB57_942
+.LBB57_911:
 	cmp	r7, #0
-	bpl	.LBB57_909
-	b	.LBB57_1002
-.LBB57_909:
+	bpl	.LBB57_912
+	b	.LBB57_999
+.LBB57_912:
 	str	r5, [sp, #260]
 	str	r7, [sp, #616]
 	ldr	r6, [r2, #8]
@@ -35190,11 +35116,11 @@ main:
 	adds	r0, r6, #4
 	adds	r2, r0, r7
 	cmp	r3, r2
-	bhs	.LBB57_910
-	b	.LBB57_1021
-.LBB57_910:
+	bhs	.LBB57_913
+	b	.LBB57_1018
+.LBB57_913:
 	str	r7, [r6]
-	ldr	r3, .LCPI57_172
+	ldr	r3, .LCPI57_170
 	str	r2, [r3, #8]
 	str	r7, [r5, #36]
 	str	r0, [r5, #40]
@@ -35202,31 +35128,31 @@ main:
 	mov	r2, r4
 	bl	__aeabi_memcpy
 	str	r4, [r5, #44]
-.LBB57_911:
+.LBB57_914:
 	subs	r2, r7, r4
 	movs	r7, #1
 	lsls	r0, r7, #9
 	cmp	r2, r0
-	blo	.LBB57_913
+	blo	.LBB57_916
 	mov	r2, r0
-.LBB57_913:
+.LBB57_916:
 	add	r0, sp, #520
 	add	r1, sp, #604
 	bl	_RNvMs_CskL9aS9YUD5U_9netclientNtB4_6Socket4recv
 	ldr	r5, [sp, #528]
 	cmp	r5, #0
-	bne	.LBB57_914
-	b	.LBB57_962
-.LBB57_914:
+	bne	.LBB57_917
+	b	.LBB57_959
+.LBB57_917:
 	ldr	r3, [sp, #276]
 	ldr	r0, [r3, #36]
 	subs	r0, r0, r4
 	ldr	r1, [sp, #524]
 	cmp	r5, r0
 	str	r7, [sp, #340]
-	bhi	.LBB57_917
+	bhi	.LBB57_920
 	mov	r0, r6
-.LBB57_916:
+.LBB57_919:
 	mov	r6, r0
 	adds	r0, r0, r4
 	mov	r2, r5
@@ -35236,10 +35162,10 @@ main:
 	str	r4, [r3, #44]
 	ldr	r7, [sp, #304]
 	cmp	r4, r7
-	blo	.LBB57_911
-	b	.LBB57_963
-.LBB57_917:
-	ldr	r0, .LCPI57_170
+	blo	.LBB57_914
+	b	.LBB57_960
+.LBB57_920:
+	ldr	r0, .LCPI57_171
 	add	r0, sp
 	mov	r6, r1
 	mov	r1, r4
@@ -35249,8 +35175,8 @@ main:
 	mov	r1, r6
 	ldr	r0, [r4, #40]
 	ldr	r4, [r4, #44]
-	b	.LBB57_916
-.LBB57_918:
+	b	.LBB57_919
+.LBB57_921:
 	add	r2, sp, #520
 	ldr	r0, [sp, #288]
 	strb	r0, [r2, #21]
@@ -35272,47 +35198,22 @@ main:
 	add	r0, sp, #424
 	mov	r1, r2
 	ldr	r2, [sp, #72]
-	b	.LBB57_946
-.LBB57_919:
+	b	.LBB57_943
+.LBB57_922:
 	ldr	r0, [sp, #656]
 	str	r0, [sp, #44]
 	str	r4, [sp, #40]
-	bl	.LBB57_675
-	.p2align	2
-.LCPI57_167:
-	.long	1680
-	.p2align	2
-.LCPI57_168:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.12
-	.p2align	2
-.LCPI57_169:
-	.long	_RNvXs1i_NtCsc6P1BMjYAM_4core3fmtReNtB6_7Display3fmtB8_
-	.p2align	2
-.LCPI57_170:
-	.long	1704
-	.p2align	2
-.LCPI57_171:
-	.long	_RNvXs3_NtNtNtCsc6P1BMjYAM_4core3fmt3num3imptNtB9_7Display3fmt
-	.p2align	2
-.LCPI57_172:
-	.long	.L_MergedGlobals
-	.p2align	2
-.LCPI57_173:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.250
-	.p2align	2
-.LCPI57_174:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.13
-	.p2align	1
-.LBB57_928:
+	bl	.LBB57_672
+.LBB57_923:
 	mov	r2, r1
 	ldr	r1, [r3, #36]
-	str	r1, [sp, #324]
+	str	r1, [sp, #328]
 	ldr	r1, [r3, #40]
 	str	r1, [sp, #240]
 	str	r2, [sp, #40]
 	str	r4, [sp, #44]
 	mov	r6, r0
-.LBB57_929:
+.LBB57_924:
 	ldr	r0, [sp, #32]
 	lsls	r0, r0, #8
 	ldr	r1, [sp, #36]
@@ -35320,16 +35221,16 @@ main:
 	rev	r0, r0
 	lsrs	r5, r0, #16
 	add	r0, sp, #640
-	ldr	r1, .LCPI57_175
+	ldr	r1, .LCPI57_172
 	add	r1, sp
 	mov	r2, r5
 	bl	_RINvMNtNtCsbo90dWa4sKs_10simple_dns3dns6packetNtB3_6Packet13parse_sectionNtNtB5_15resource_record14ResourceRecordEB7_
 	ldr	r0, [sp, #640]
 	ldr	r4, [sp, #304]
 	cmp	r0, r4
-	beq	.LBB57_930
-	bl	.LBB57_675
-.LBB57_930:
+	beq	.LBB57_925
+	bl	.LBB57_672
+.LBB57_925:
 	str	r5, [sp, #140]
 	ldr	r0, [sp, #24]
 	lsls	r0, r0, #8
@@ -35342,21 +35243,21 @@ main:
 	ldr	r0, [sp, #276]
 	str	r3, [sp, #168]
 	str	r3, [r0, #12]
-	str	r1, [sp, #236]
+	str	r1, [sp, #176]
 	str	r1, [r0, #16]
 	str	r2, [sp, #172]
 	str	r2, [r0, #20]
 	add	r0, sp, #640
-	ldr	r1, .LCPI57_175
+	ldr	r1, .LCPI57_172
 	add	r1, sp
 	str	r5, [sp, #160]
 	mov	r2, r5
 	bl	_RINvMNtNtCsbo90dWa4sKs_10simple_dns3dns6packetNtB3_6Packet13parse_sectionNtNtB5_15resource_record14ResourceRecordEB7_
 	ldr	r0, [sp, #640]
 	cmp	r0, r4
-	beq	.LBB57_931
-	b	.LBB57_950
-.LBB57_931:
+	beq	.LBB57_926
+	b	.LBB57_947
+.LBB57_926:
 	ldr	r0, [sp, #652]
 	ldr	r1, [sp, #648]
 	ldr	r2, [sp, #644]
@@ -35366,15 +35267,15 @@ main:
 	str	r1, [r4, #28]
 	str	r0, [r4, #32]
 	add	r0, sp, #640
-	ldr	r1, .LCPI57_175
+	ldr	r1, .LCPI57_172
 	add	r1, sp
 	ldr	r2, [sp, #12]
 	bl	_RINvMNtNtCsbo90dWa4sKs_10simple_dns3dns6packetNtB3_6Packet13parse_sectionNtNtB5_15resource_record14ResourceRecordEB7_
 	ldr	r0, [sp, #640]
 	cmp	r0, r7
-	beq	.LBB57_932
-	b	.LBB57_949
-.LBB57_932:
+	beq	.LBB57_927
+	b	.LBB57_946
+.LBB57_927:
 	ldr	r0, [sp, #652]
 	ldr	r1, [sp, #648]
 	ldr	r2, [sp, #644]
@@ -35382,22 +35283,22 @@ main:
 	str	r1, [r4, #40]
 	str	r0, [r4, #44]
 	cmp	r0, #0
-	bne	.LBB57_933
-	b	.LBB57_964
-.LBB57_933:
+	bne	.LBB57_928
+	b	.LBB57_961
+.LBB57_928:
 	ldr	r2, [sp, #136]
 	muls	r0, r2, r0
 	movs	r2, #0
-.LBB57_934:
+.LBB57_929:
 	ldr	r4, [r1]
 	cmp	r4, #0
-	bmi	.LBB57_936
+	bmi	.LBB57_931
 	movs	r4, #21
-	b	.LBB57_937
-.LBB57_936:
+	b	.LBB57_932
+.LBB57_931:
 	ldr	r3, [sp, #268]
 	eors	r4, r3
-.LBB57_937:
+.LBB57_932:
 	mov	r3, r1
 	adds	r3, #80
 	.p2align	2
@@ -35408,92 +35309,98 @@ main:
 	add	pc, r4
 	.p2align	2
 .LJTI57_5:
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_942-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_940-(.LCPI57_82+4))/2
-	.byte	(.LBB57_941-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_939-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_937-(.LCPI57_82+4))/2
+	.byte	(.LBB57_938-(.LCPI57_82+4))/2
 	.p2align	1
 	.p2align	2
-.LCPI57_175:
+.LCPI57_170:
+	.long	.L_MergedGlobals
+	.p2align	2
+.LCPI57_171:
+	.long	1704
+	.p2align	2
+.LCPI57_172:
 	.long	1668
 	.p2align	1
-.LBB57_940:
+.LBB57_937:
 	adds	r2, r2, #1
 	subs	r0, #80
 	mov	r1, r3
 	ldr	r3, [sp, #276]
-	bne	.LBB57_934
-	b	.LBB57_965
-.LBB57_941:
+	bne	.LBB57_929
+	b	.LBB57_962
+.LBB57_938:
 	ldrh	r1, [r1, #4]
 	cmp	r1, #25
-	bne	.LBB57_940
-.LBB57_942:
+	bne	.LBB57_937
+.LBB57_939:
 	add	r0, sp, #640
-	ldr	r1, .LCPI57_192
+	ldr	r1, .LCPI57_188
 	add	r1, sp
 	bl	_RNvMs_NtCsiJHXauYZ6PE_5alloc3vecINtB4_3VecNtNtNtCsbo90dWa4sKs_10simple_dns3dns15resource_record14ResourceRecordE6removeBK_
 	ldr	r0, [sp, #700]
 	ldr	r1, [sp, #268]
 	cmp	r0, r1
-	beq	.LBB57_943
-	b	.LBB57_983
-.LBB57_943:
+	beq	.LBB57_940
+	b	.LBB57_980
+.LBB57_940:
 	movs	r0, #0
 	str	r0, [sp, #304]
 	ldr	r0, [sp, #268]
 	mov	r5, r0
 	str	r0, [sp, #116]
 	ldr	r3, [sp, #276]
-	b	.LBB57_966
-.LBB57_944:
-	ldr	r0, .LCPI57_193
+	b	.LBB57_963
+.LBB57_941:
+	ldr	r0, .LCPI57_189
 	str	r0, [sp]
 	mov	r0, r6
 	mov	r1, r5
 	bl	_RNvCs2Uvs0167igg_8foldhash15hash_bytes_long
 	mov	r4, r0
 	mov	r5, r1
-	bl	.LBB57_347
-.LBB57_945:
+	bl	.LBB57_344
+.LBB57_942:
 	add	r2, sp, #520
 	ldr	r0, [sp, #288]
 	strb	r0, [r2, #21]
@@ -35515,33 +35422,32 @@ main:
 	add	r0, sp, #424
 	mov	r1, r2
 	ldr	r2, [sp, #68]
-.LBB57_946:
+.LBB57_943:
 	bl	_RNCNvMs_NtCskL9aS9YUD5U_9netclient4httpNtNtB8_10net_telnet9NetTelnet10fetch_http0B8_
-.LBB57_947:
+.LBB57_944:
 	ldr	r2, [sp, #436]
-	ldr	r0, [sp, #432]
-	str	r0, [sp, #328]
+	ldr	r4, [sp, #432]
 	ldr	r5, [sp, #428]
 	ldr	r0, [sp, #424]
-	b	.LBB57_775
-.LBB57_948:
-	ldr	r0, .LCPI57_178
+	b	.LBB57_771
+.LBB57_945:
+	ldr	r0, .LCPI57_175
 	ldr	r1, [sp, #40]
 	ands	r1, r0
 	orrs	r1, r4
 	str	r1, [sp, #40]
-	bl	.LBB57_675
-.LBB57_949:
-	ldr	r0, .LCPI57_179
+	bl	.LBB57_672
+.LBB57_946:
+	ldr	r0, .LCPI57_190
 	add	r0, sp
 	bl	_RINvNtCsc6P1BMjYAM_4core3ptr13drop_in_placeINtNtCsiJHXauYZ6PE_5alloc3vec3VecNtNtNtCsbo90dWa4sKs_10simple_dns3dns15resource_record14ResourceRecordEEB1i_
 	ldr	r7, [sp, #284]
-.LBB57_950:
-	ldr	r0, .LCPI57_194
+.LBB57_947:
+	ldr	r0, .LCPI57_191
 	add	r0, sp
 	bl	_RINvNtCsc6P1BMjYAM_4core3ptr13drop_in_placeINtNtCsiJHXauYZ6PE_5alloc3vec3VecNtNtNtCsbo90dWa4sKs_10simple_dns3dns15resource_record14ResourceRecordEEB1i_
-	bl	.LBB57_675
-.LBB57_951:
+	bl	.LBB57_672
+.LBB57_948:
 	add	r0, sp, #628
 	movs	r1, #4
 	bl	_RINvNvMs2_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECskL9aS9YUD5U_9netclient
@@ -35549,47 +35455,47 @@ main:
 	ldr	r1, [sp, #628]
 	ldr	r3, [sp, #632]
 	ldr	r6, [sp, #636]
-	bl	.LBB57_685
-.LBB57_952:
+	bl	.LBB57_681
+.LBB57_949:
 	add	r0, sp, #628
 	movs	r2, #11
 	mov	r1, r6
 	bl	_RINvNvMs2_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECskL9aS9YUD5U_9netclient
 	ldr	r0, [sp, #632]
 	ldr	r6, [sp, #636]
-	bl	.LBB57_687
-.LBB57_953:
+	bl	.LBB57_683
+.LBB57_950:
 	add	r0, sp, #628
 	movs	r2, #4
 	mov	r1, r6
 	bl	_RINvNvMs2_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECskL9aS9YUD5U_9netclient
 	ldr	r0, [sp, #628]
 	ldr	r6, [sp, #636]
-	bl	.LBB57_688
-.LBB57_954:
+	bl	.LBB57_684
+.LBB57_951:
 	add	r0, sp, #628
 	movs	r2, #2
 	bl	_RINvNvMs2_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECskL9aS9YUD5U_9netclient
 	ldr	r0, [sp, #628]
 	ldr	r2, [sp, #632]
 	ldr	r1, [sp, #636]
-	bl	.LBB57_689
-.LBB57_955:
+	bl	.LBB57_685
+.LBB57_952:
 	add	r0, sp, #628
 	mov	r1, r6
 	mov	r2, r7
 	bl	_RINvNvMs2_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECskL9aS9YUD5U_9netclient
 	ldr	r2, [sp, #632]
 	ldr	r6, [sp, #636]
-	bl	.LBB57_690
-.LBB57_956:
+	bl	.LBB57_686
+.LBB57_953:
 	add	r0, sp, #628
 	movs	r2, #2
 	bl	_RINvNvMs2_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECskL9aS9YUD5U_9netclient
 	ldr	r7, [sp, #628]
 	ldr	r1, [sp, #636]
-	bl	.LBB57_691
-.LBB57_957:
+	bl	.LBB57_687
+.LBB57_954:
 	add	r0, sp, #628
 	movs	r2, #10
 	mov	r1, r6
@@ -35598,42 +35504,42 @@ main:
 	str	r0, [sp, #292]
 	ldr	r3, [sp, #632]
 	ldr	r6, [sp, #636]
-	bl	.LBB57_693
-.LBB57_958:
+	bl	.LBB57_689
+.LBB57_955:
 	add	r0, sp, #628
 	movs	r2, #2
 	mov	r1, r6
 	bl	_RINvNvMs2_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECskL9aS9YUD5U_9netclient
 	ldr	r7, [sp, #632]
 	ldr	r6, [sp, #636]
-	bl	.LBB57_694
-.LBB57_959:
+	bl	.LBB57_690
+.LBB57_956:
 	add	r0, sp, #628
 	movs	r2, #4
 	bl	_RINvNvMs2_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECskL9aS9YUD5U_9netclient
 	ldr	r0, [sp, #628]
 	ldr	r1, [sp, #636]
-	bl	.LBB57_695
-.LBB57_960:
+	bl	.LBB57_691
+.LBB57_957:
 	add	r0, sp, #628
 	movs	r2, #2
 	bl	_RINvNvMs2_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECskL9aS9YUD5U_9netclient
 	ldr	r0, [sp, #628]
 	ldr	r2, [sp, #632]
 	ldr	r1, [sp, #636]
-	bl	.LBB57_696
-.LBB57_961:
+	bl	.LBB57_692
+.LBB57_958:
 	add	r0, sp, #628
 	movs	r2, #2
 	bl	_RINvNvMs2_NtCsiJHXauYZ6PE_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECskL9aS9YUD5U_9netclient
 	ldr	r2, [sp, #632]
 	ldr	r1, [sp, #636]
-	bl	.LBB57_697
-.LBB57_962:
+	bl	.LBB57_693
+.LBB57_959:
 	movs	r4, #20
 	ldr	r5, .LCPI57_55
-	bl	.LBB57_773
-.LBB57_963:
+	bl	.LBB57_769
+.LBB57_960:
 	add	r1, sp, #520
 	ldr	r0, [sp, #288]
 	strb	r0, [r1, #21]
@@ -35660,16 +35566,16 @@ main:
 	subs	r2, #8
 	bl	_RNCNvMs_NtCskL9aS9YUD5U_9netclient4httpNtNtB8_10net_telnet9NetTelnet10fetch_http0B8_
 	ldr	r6, [sp, #336]
-	b	.LBB57_947
-.LBB57_964:
+	b	.LBB57_944
+.LBB57_961:
 	mov	r3, r4
-.LBB57_965:
+.LBB57_962:
 	movs	r0, #0
 	str	r0, [sp, #304]
 	ldr	r0, [sp, #268]
 	mov	r5, r0
 	str	r0, [sp, #116]
-.LBB57_966:
+.LBB57_963:
 	mov	r7, r3
 	adds	r7, #24
 	ldm	r7, {r0, r1, r2, r4, r7}
@@ -35680,17 +35586,17 @@ main:
 	str	r4, [sp, #604]
 	str	r7, [sp, #608]
 	str	r3, [sp, #612]
-	ldr	r0, [sp, #324]
+	ldr	r0, [sp, #328]
 	cmp	r0, r5
-	bne	.LBB57_968
+	bne	.LBB57_965
 	ldr	r6, [sp, #336]
 	ldr	r7, [sp, #284]
-	bl	.LBB57_676
-.LBB57_968:
-	str	r0, [sp, #324]
+	bl	.LBB57_673
+.LBB57_965:
+	str	r0, [sp, #328]
 	ldr	r0, [sp, #256]
 	lsls	r0, r0, #8
-	ldr	r1, [sp, #328]
+	ldr	r1, [sp, #324]
 	adds	r0, r0, r1
 	rev	r0, r0
 	lsrs	r0, r0, #16
@@ -35717,7 +35623,7 @@ main:
 	ldr	r7, [sp, #612]
 	ldr	r0, [sp, #56]
 	stm	r0!, {r3, r4, r7}
-	ldr	r0, [sp, #236]
+	ldr	r0, [sp, #176]
 	str	r0, [sp, #536]
 	ldr	r0, [sp, #168]
 	str	r0, [sp, #532]
@@ -35739,7 +35645,7 @@ main:
 	strh	r3, [r0]
 	str	r1, [sp, #592]
 	str	r2, [sp, #596]
-	ldr	r0, [sp, #324]
+	ldr	r0, [sp, #328]
 	str	r0, [sp, #520]
 	ldr	r0, [sp, #240]
 	str	r0, [sp, #524]
@@ -35754,33 +35660,33 @@ main:
 	subs	r2, #240
 	movs	r3, #0
 	ldr	r6, [sp, #336]
-.LBB57_969:
+.LBB57_966:
 	ldr	r4, [sp, #136]
 	cmp	r4, r3
-	beq	.LBB57_979
-	ldr	r4, [sp, #236]
+	beq	.LBB57_976
+	ldr	r4, [sp, #176]
 	adds	r5, r4, r3
 	ldr	r4, [r4, r3]
 	ldr	r7, [sp, #268]
 	cmp	r4, r7
-	beq	.LBB57_982
-	cmp	r0, r3
 	beq	.LBB57_979
+	cmp	r0, r3
+	beq	.LBB57_976
 	ldr	r4, [r5, #80]
 	ldr	r7, [sp, #268]
 	cmp	r4, r7
-	beq	.LBB57_980
+	beq	.LBB57_977
 	cmp	r1, r3
-	beq	.LBB57_979
+	beq	.LBB57_976
 	mov	r4, r5
 	adds	r4, #160
 	ldr	r6, [r4]
 	ldr	r7, [sp, #268]
 	cmp	r6, r7
-	beq	.LBB57_981
+	beq	.LBB57_978
 	cmp	r2, r3
 	ldr	r6, [sp, #336]
-	beq	.LBB57_979
+	beq	.LBB57_976
 	adds	r5, #240
 	ldr	r4, [sp, #316]
 	adds	r3, r4, r3
@@ -35788,12 +35694,12 @@ main:
 	ldr	r4, [r5]
 	ldr	r5, [sp, #268]
 	cmp	r4, r5
-	bne	.LBB57_969
-	ldr	r0, [sp, #236]
+	bne	.LBB57_966
+	ldr	r0, [sp, #176]
 	adds	r5, r0, r3
 	subs	r5, #80
-	b	.LBB57_982
-.LBB57_978:
+	b	.LBB57_979
+.LBB57_975:
 	ldr	r3, [sp, #140]
 	ands	r3, r1
 	ldr	r0, .LCPI57_38
@@ -35803,23 +35709,22 @@ main:
 	orrs	r0, r2
 	orrs	r0, r3
 	str	r0, [sp, #40]
-	bl	.LBB57_675
-.LBB57_979:
+	bl	.LBB57_672
+.LBB57_976:
 	add	r0, sp, #520
 	bl	_RINvNtCsc6P1BMjYAM_4core3ptr13drop_in_placeNtNtNtCsbo90dWa4sKs_10simple_dns3dns6packet6PacketECskL9aS9YUD5U_9netclient
 	ldr	r0, [sp, #504]
 	bl	_RINvNtCsc6P1BMjYAM_4core3ptr13drop_in_placeNtCskL9aS9YUD5U_9netclient6SocketEBH_
-	movs	r0, #13
-	str	r0, [sp, #328]
+	movs	r4, #13
 	ldr	r5, .LCPI57_45
-	bl	.LBB57_407
-.LBB57_980:
+	bl	.LBB57_408
+.LBB57_977:
 	adds	r5, #80
-	b	.LBB57_982
-.LBB57_981:
+	b	.LBB57_979
+.LBB57_978:
 	mov	r5, r4
 	ldr	r6, [sp, #336]
-.LBB57_982:
+.LBB57_979:
 	ldr	r0, [r5, #4]
 	rev	r0, r0
 	ldr	r1, [sp, #276]
@@ -35841,33 +35746,32 @@ main:
 	ldr	r4, [r5, #4]
 	add	r0, sp, #520
 	bl	_RINvNtCsc6P1BMjYAM_4core3ptr13drop_in_placeNtNtNtCsbo90dWa4sKs_10simple_dns3dns6packet6PacketECskL9aS9YUD5U_9netclient
-	rev	r0, r4
-	str	r0, [sp, #328]
+	rev	r4, r4
 	movs	r5, #0
 	ldr	r7, [sp, #284]
-	bl	.LBB57_677
-.LBB57_983:
+	bl	.LBB57_674
+.LBB57_980:
 	ldr	r0, [sp, #696]
 	lsls	r0, r0, #24
 	lsrs	r0, r0, #20
 	ldr	r1, [sp, #164]
 	orrs	r0, r1
 	cmp	r0, #16
-	bhi	.LBB57_985
+	bhi	.LBB57_982
 	ldr	r1, .LCPI57_40
 	ldrb	r0, [r1, r0]
-	b	.LBB57_986
-.LBB57_985:
+	b	.LBB57_983
+.LBB57_982:
 	movs	r0, #17
-.LBB57_986:
+.LBB57_983:
 	str	r0, [sp, #164]
 	ldr	r0, [sp, #640]
 	ldr	r1, [sp, #268]
 	adds	r1, #25
 	cmp	r0, r1
-	beq	.LBB57_987
-	b	.LBB57_1023
-.LBB57_987:
+	beq	.LBB57_984
+	b	.LBB57_1020
+.LBB57_984:
 	ldr	r0, [sp, #656]
 	str	r0, [sp, #36]
 	ldr	r0, [sp, #652]
@@ -35878,18 +35782,18 @@ main:
 	str	r0, [sp, #116]
 	ldr	r3, [sp, #276]
 	ldr	r5, [sp, #268]
-	b	.LBB57_966
-.LBB57_988:
+	b	.LBB57_963
+.LBB57_985:
 	movs	r0, #0
 	str	r0, [sp, #304]
-.LBB57_989:
+.LBB57_986:
 	movs	r0, #1
 	str	r0, [sp, #284]
 	ldr	r6, [sp, #336]
 	ldr	r4, [sp, #48]
 	ldr	r7, [sp, #328]
-	b	.LBB57_903
-.LBB57_990:
+	b	.LBB57_906
+.LBB57_987:
 	str	r1, [r3, #24]
 	ldr	r0, .LCPI57_31
 	str	r0, [sp, #660]
@@ -35902,10 +35806,10 @@ main:
 	ldr	r0, .LCPI57_32
 	str	r0, [sp, #644]
 	add	r0, sp, #604
-	b	.LBB57_994
-.LBB57_991:
+	b	.LBB57_991
+.LBB57_988:
 	str	r0, [sp, #520]
-.LBB57_992:
+.LBB57_989:
 	ldr	r0, .LCPI57_31
 	str	r0, [sp, #660]
 	add	r1, sp, #424
@@ -35916,23 +35820,23 @@ main:
 	ldr	r0, .LCPI57_32
 	str	r0, [sp, #644]
 	ldr	r0, .LCPI57_72
-.LBB57_993:
+.LBB57_990:
 	add	r0, sp
-.LBB57_994:
+.LBB57_991:
 	str	r0, [sp, #640]
 	ldr	r0, .LCPI57_33
 	add	r1, sp, #640
 	ldr	r2, .LCPI57_34
 	bl	_RNvNtCsc6P1BMjYAM_4core9panicking9panic_fmt
-.LBB57_995:
+.LBB57_992:
 	ldr	r0, .LCPI57_67
 	bl	_RNvNtNtCsc6P1BMjYAM_4core9panicking11panic_const23panic_const_rem_by_zero
-.LBB57_996:
+.LBB57_993:
 	str	r1, [sp, #520]
-	b	.LBB57_998
-.LBB57_997:
+	b	.LBB57_995
+.LBB57_994:
 	str	r7, [sp, #520]
-.LBB57_998:
+.LBB57_995:
 	ldr	r0, .LCPI57_31
 	str	r0, [sp, #660]
 	ldr	r1, .LCPI57_74
@@ -35944,8 +35848,8 @@ main:
 	ldr	r0, .LCPI57_32
 	str	r0, [sp, #644]
 	ldr	r0, .LCPI57_73
-	b	.LBB57_993
-.LBB57_999:
+	b	.LBB57_990
+.LBB57_996:
 	ldr	r1, .LCPI57_24
 	str	r1, [sp]
 	movs	r4, #6
@@ -35953,10 +35857,10 @@ main:
 	mov	r3, r2
 	mov	r2, r4
 	bl	_RNvNtCsc6P1BMjYAM_4core3str16slice_error_fail
-.LBB57_1000:
+.LBB57_997:
 	str	r0, [sp, #520]
-	b	.LBB57_998
-.LBB57_1001:
+	b	.LBB57_995
+.LBB57_998:
 	str	r1, [sp, #520]
 	ldr	r0, .LCPI57_31
 	str	r0, [sp, #660]
@@ -35969,31 +35873,31 @@ main:
 	ldr	r0, .LCPI57_32
 	str	r0, [sp, #644]
 	ldr	r0, .LCPI57_74
-	b	.LBB57_993
-.LBB57_1002:
+	b	.LBB57_990
+.LBB57_999:
 	bl	_RNvNtCsiJHXauYZ6PE_5alloc7raw_vec17capacity_overflow
-.LBB57_1003:
+.LBB57_1000:
 	bl	_RNvCs6aZZ1a95nPm_7___rustc26___rust_alloc_error_handler
-.LBB57_1004:
+.LBB57_1001:
 	movs	r0, #2
 	ldr	r1, [sp, #48]
 	orrs	r1, r0
 	movs	r0, #253
 	bics	r1, r0
-	b	.LBB57_1009
-.LBB57_1005:
+	b	.LBB57_1006
+.LBB57_1002:
 	str	r2, [sp, #520]
-	b	.LBB57_992
+	b	.LBB57_989
 	.p2align	2
-.LCPI57_192:
+.LCPI57_188:
 	.long	1704
 	.p2align	2
-.LCPI57_193:
+.LCPI57_189:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.183
 	.p2align	1
-.LBB57_1008:
+.LBB57_1005:
 	ldr	r1, [sp, #48]
-.LBB57_1009:
+.LBB57_1006:
 	add	r2, sp, #520
 	strb	r1, [r2]
 	ldr	r0, .LCPI57_57
@@ -36002,37 +35906,37 @@ main:
 	movs	r1, #43
 	ldr	r3, .LCPI57_59
 	bl	_RNvNtCsc6P1BMjYAM_4core6result13unwrap_failed
-.LBB57_1010:
+.LBB57_1007:
 	ldr	r3, .LCPI57_39
 	bl	_RNvNtNtCsc6P1BMjYAM_4core5slice5index16slice_index_fail
-.LBB57_1011:
+.LBB57_1008:
 	ldr	r3, .LCPI57_39
 	mov	r0, r1
 	mov	r1, r5
 	bl	_RNvNtNtCsc6P1BMjYAM_4core5slice5index16slice_index_fail
-	.p2align	1
-.LBB57_1013:
+.LBB57_1009:
 	movs	r0, #6
 	ldr	r1, [sp, #48]
 	orrs	r1, r0
 	movs	r0, #249
 	bics	r1, r0
-	b	.LBB57_1009
-.LBB57_1014:
+	b	.LBB57_1006
+	.p2align	1
+.LBB57_1011:
 	ldr	r3, .LCPI57_56
 	mov	r0, r4
 	mov	r1, r7
 	mov	r2, r7
 	bl	_RNvNtNtCsc6P1BMjYAM_4core5slice5index16slice_index_fail
-	.p2align	1
-.LBB57_1016:
+.LBB57_1012:
 	movs	r0, #3
 	ldr	r1, [sp, #48]
 	orrs	r1, r0
 	movs	r0, #252
 	bics	r1, r0
-	b	.LBB57_1009
-.LBB57_1017:
+	b	.LBB57_1006
+	.p2align	1
+.LBB57_1014:
 	ldr	r0, .LCPI57_68
 	str	r0, [sp]
 	ldr	r0, .LCPI57_58
@@ -36041,16 +35945,16 @@ main:
 	ldr	r3, .LCPI57_69
 	bl	_RNvNtCsc6P1BMjYAM_4core6result13unwrap_failed
 	.p2align	2
-.LCPI57_178:
+.LCPI57_175:
 	.long	4294901760
 	.p2align	2
-.LCPI57_179:
+.LCPI57_190:
 	.long	1692
 	.p2align	2
-.LCPI57_194:
+.LCPI57_191:
 	.long	1680
 	.p2align	1
-.LBB57_1021:
+.LBB57_1018:
 	str	r2, [r5, #12]
 	ldr	r0, .LCPI57_31
 	str	r0, [sp, #540]
@@ -36069,15 +35973,15 @@ main:
 	add	r1, sp, #520
 	ldr	r2, .LCPI57_34
 	bl	_RNvNtCsc6P1BMjYAM_4core9panicking9panic_fmt
-.LBB57_1022:
+.LBB57_1019:
 	ldr	r0, [sp, #156]
 	ldr	r1, [sp, #48]
 	bics	r1, r0
 	add	r0, sp, #520
 	ldrb	r0, [r0, #1]
 	adds	r1, r1, r0
-	b	.LBB57_1009
-.LBB57_1023:
+	b	.LBB57_1006
+.LBB57_1020:
 	ldr	r0, .LCPI57_41
 	movs	r1, #40
 	ldr	r2, .LCPI57_42
