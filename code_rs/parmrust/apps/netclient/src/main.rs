@@ -200,7 +200,8 @@ fn main() {
     return;*/
 
     let _url = "http://info.cern.ch/hypertext/WWW/TheProject.html";
-    let url = "https://web.archive.org/web/19971210065417if_/http://backrub.stanford.edu/";
+    let url = "https://web.archive.org/web/19971210065417if_/http%3A%2F%2Fbackrub.stanford.edu%2F";
+    let url = "https://an-updated-world-wide-web.pages.dev/";
 
     let body = include_str!("../test.html");
 

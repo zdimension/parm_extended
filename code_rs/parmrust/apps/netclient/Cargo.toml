@@ -9,7 +9,7 @@ embedded-tls = { version = "0.17.0", default-features = false, features = ["allo
 htmlparser = { version = "0.2.1", path = "vendor/htmlparser", default-features = false, features = [] }
 #fluent-uri = { version = "0.3.2", default-features = false }
 httparse = { version = "1.10.1", default-features = false }
-nourl = "0.1.4"
+nourl = { version = "0.1.4", path="vendor/nourl" }
 parm = { workspace = true, features = ["embedded-graphics", "speedy"] }
 
 simple-dns = { version = "0.11.0", default-features = false, features = ["alloc"] }

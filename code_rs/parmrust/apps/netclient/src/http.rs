@@ -78,17 +78,16 @@ impl NetTelnet {
                     resp.reason.unwrap_or("(empty)")
                 );
                 // now either we got all the body, or we need to recv more based on Content-Length
-                let content_length = resp
-                    .headers
-                    .iter()
-                    .find_map(|h| {
-                        if h.name.eq_ignore_ascii_case("Content-Length") {
-                            let s = unsafe { core::str::from_utf8_unchecked(h.value) };
-                            s.parse::<usize>().ok()
-                        } else {
-                            None
-                        }
-                    });
+                let mut content_length = None;
+                let mut transfer_encoding = None;
+                for h in resp.headers.iter() {
+                    if h.name.eq_ignore_ascii_case("Content-Length") {
+                        let s = unsafe { core::str::from_utf8_unchecked(h.value) };
+                        content_length = s.parse::<usize>().ok();
+                    } else if h.name.eq_ignore_ascii_case("Transfer-Encoding") {
+                        transfer_encoding = Some(unsafe { core::str::from_utf8_unchecked(h.value) });
+                    }
+                }
                 let body = &data[len..];
                 let cb_res = if let Some(content_length) = content_length {
                     if body.len() < content_length {
@@ -105,6 +104,70 @@ impl NetTelnet {
                         callback(resp, Cow::Owned(body_data))
                     } else {
                         callback(resp, Cow::Borrowed(&body[..content_length]))
+                    }
+                } else if matches!(transfer_encoding, Some(te) if te.split(',').any(|v| v.trim().eq_ignore_ascii_case("chunked"))) {
+                    rprintln!("Chunked transfer encoding detected, parsing...");
+                    let mut chunked_data = Vec::with_capacity(body.len() + 512);
+                    chunked_data.extend_from_slice(body);
+                    let mut body_data = Vec::new();
+                    let mut pos = 0;
+
+                    loop {
+                        let line_end = loop {
+                            let mut i = pos;
+                            while i + 1 < chunked_data.len() {
+                                if chunked_data[i] == b'\r' && chunked_data[i + 1] == b'\n' {
+                                    break i;
+                                }
+                                i += 1;
+                            }
+
+                            let chunk = sock.recv(512);
+                            if chunk.len() == 0 {
+                                return Err("unfinished chunked body");
+                            }
+                            chunked_data.extend_from_slice(&chunk);
+                        };
+
+                        let mut chunk_len = 0usize;
+                        let mut saw_digit = false;
+                        for &b in &chunked_data[pos..line_end] {
+                            let digit = match b {
+                                b'0'..=b'9' => (b - b'0') as usize,
+                                b'a'..=b'f' => (b - b'a' + 10) as usize,
+                                b'A'..=b'F' => (b - b'A' + 10) as usize,
+                                b';' => break,
+                                b' ' | b'\t' if !saw_digit => continue,
+                                _ => return Err("invalid chunk size"),
+                            };
+                            saw_digit = true;
+                            chunk_len = (chunk_len << 4) | digit;
+                        }
+                        if !saw_digit {
+                            return Err("invalid chunk size");
+                        }
+
+                        pos = line_end + 2;
+                        if chunk_len == 0 {
+                            break callback(resp, Cow::Owned(body_data));
+                        }
+
+                        let chunk_end = pos.checked_add(chunk_len).ok_or("chunk size overflow")?;
+                        let frame_end = chunk_end.checked_add(2).ok_or("chunk size overflow")?;
+                        while chunked_data.len() < frame_end {
+                            let chunk = sock.recv((frame_end - chunked_data.len()).min(512) as u16);
+                            if chunk.len() == 0 {
+                                return Err("unfinished chunked body");
+                            }
+                            chunked_data.extend_from_slice(&chunk);
+                        }
+
+                        if chunked_data[chunk_end] != b'\r' || chunked_data[chunk_end + 1] != b'\n' {
+                            return Err("invalid chunk terminator");
+                        }
+
+                        body_data.extend_from_slice(&chunked_data[pos..chunk_end]);
+                        pos = frame_end;
                     }
                 } else {
                     callback(resp, Cow::Borrowed(body))
