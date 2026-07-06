@@ -1,0 +1,13 @@
+[package]
+name = "runner"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.103"
+armagnac = "0.3.0"
+minifb = "0.28.0"
+rand = "0.10.2"
+static_init = "1.0.4"
+termion = "4.0.6"
+#unicorn-engine = { version = "2.1.1", path="../../../../unicorn/bindings/rust/unicorn-engine" }
