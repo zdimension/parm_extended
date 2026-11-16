@@ -917,6 +917,7 @@ pub fn web_browser(telnet: &mut NetTelnet) {
     //let mut current_url = String::from("127.0.0.1:4568/test.html");
     //let mut current_url = String::from("https://info.cern.ch/hypertext/WWW/TheProject.html");
     let mut current_url = String::from("https://web.archive.org/web/19971210065417if_/http%3A%2F%2Fbackrub.stanford.edu%2F");
+    let mut current_url = String::from("https://an-updated-world-wide-web.pages.dev/");
     let mut current_url_view;
     
     let not_found = r#"<body><h1>404 Not Found</h1><p>The requested page was not found.</p></body>"#;

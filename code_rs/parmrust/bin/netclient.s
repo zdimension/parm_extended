@@ -1024,9 +1024,9 @@ _RINvMs6_NtCs7GY3CVlOQeJ_9hashbrown3rawINtB6_8RawTableTReBQ_EE14reserve_rehashNC
 .LCPI0_10:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI0_11:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI0_12:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .Lfunc_end0:
 	.size	_RINvMs6_NtCs7GY3CVlOQeJ_9hashbrown3rawINtB6_8RawTableTReBQ_EE14reserve_rehashNCINvNtB8_3map11make_hasherBQ_BQ_NtNtB8_6hasher18DefaultHashBuilderE0ECs9Yr4AUe4qI0_9netclient, .Lfunc_end0-_RINvMs6_NtCs7GY3CVlOQeJ_9hashbrown3rawINtB6_8RawTableTReBQ_EE14reserve_rehashNCINvNtB8_3map11make_hasherBQ_BQ_NtNtB8_6hasher18DefaultHashBuilderE0ECs9Yr4AUe4qI0_9netclient
 	.cantunwind
@@ -7804,9 +7804,9 @@ _RNCNvMs_NtCs9Yr4AUe4qI0_9netclient4httpNtNtB8_10net_telnet9NetTelnet10fetch_htt
 .LCPI11_7:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI11_8:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI11_9:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .LCPI11_10:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.34
 .Lfunc_end11:
@@ -9852,9 +9852,9 @@ _RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs9Yr4AUe4q
 .LCPI17_2:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI17_3:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI17_4:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .Lfunc_end17:
 	.size	_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs9Yr4AUe4qI0_9netclient, .Lfunc_end17-_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs9Yr4AUe4qI0_9netclient
 	.cantunwind
@@ -9992,9 +9992,9 @@ _RNvMs_Cs9Yr4AUe4qI0_9netclientNtB4_6Socket4recv:
 .LCPI18_5:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI18_6:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI18_7:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .Lfunc_end18:
 	.size	_RNvMs_Cs9Yr4AUe4qI0_9netclientNtB4_6Socket4recv, .Lfunc_end18-_RNvMs_Cs9Yr4AUe4qI0_9netclientNtB4_6Socket4recv
 	.cantunwind
@@ -10128,7 +10128,7 @@ _RNvMs_Cs9Yr4AUe4qI0_9netclientNtB4_6Socket4send:
 .LCPI19_5:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.5
 .LCPI19_6:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.35
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.35
 .LCPI19_7:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.0
 .Lfunc_end19:
@@ -17597,9 +17597,9 @@ _RNvNtCs9Yr4AUe4qI0_9netclient3web6render:
 .LCPI21_9:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI21_10:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI21_11:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .LCPI21_16:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.134
 .LCPI21_17:
@@ -17691,7 +17691,7 @@ _RNvNtCs9Yr4AUe4qI0_9netclient3web6render:
 .LCPI21_70:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.180
 .LCPI21_71:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.35
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.35
 .LCPI21_72:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.175
 .LCPI21_73:
@@ -19565,7 +19565,7 @@ _RNvXs4_NtNtCsb7ba3TghYF3_4parm6telnet13speedy_telnetNtB5_11TelnetErrorNtNtCs4L8
 .LCPI32_3:
 	.long	.Lanon.b85778989e51bb4a273b2553e80e2f5a.140
 .LCPI32_4:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.50
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.52
 .LCPI32_5:
 	.long	.Lanon.b85778989e51bb4a273b2553e80e2f5a.38
 .LCPI32_6:
@@ -20279,7 +20279,7 @@ _RNvXs5_NtCs9Yr4AUe4qI0_9netclient3webNCNvB5_6renders_0NtB5_12DynamicThing4drawB
 .LCPI33_1:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.38
 .LCPI33_2:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.35
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.35
 .LCPI33_3:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.37
 .LCPI33_4:
@@ -24124,9 +24124,9 @@ _RNvXs_NtCs9Yr4AUe4qI0_9netclient3webNtB4_7ElementNtNtNtCs4L8JVMRpR0y_4core3str6
 .LCPI40_37:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI40_38:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI40_39:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .LCPI40_40:
 	.long	_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtB8_
 .LCPI40_41:
@@ -25970,7 +25970,7 @@ _RNvXss_NtCs4L8JVMRpR0y_4core3fmtuNtB5_5Debug3fmt:
 	pop	{r7, pc}
 	.p2align	2
 .LCPI53_0:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.50
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.52
 .Lfunc_end53:
 	.size	_RNvXss_NtCs4L8JVMRpR0y_4core3fmtuNtB5_5Debug3fmt, .Lfunc_end53-_RNvXss_NtCs4L8JVMRpR0y_4core3fmtuNtB5_5Debug3fmt
 	.cantunwind
@@ -26152,24 +26152,24 @@ main:
 	.fnstart
 	.save	{r4, r5, r6, lr}
 	push	{r4, r5, r6, lr}
-	ldr	r6, .LCPI56_223
+	ldr	r6, .LCPI56_222
 	.pad	#1800
 	add	sp, r6
-	ldr	r1, .LCPI56_224
+	ldr	r1, .LCPI56_223
 	add	r1, sp
 	add	r2, sp, #432
 	add	r4, sp, #680
-	ldr	r3, .LCPI56_225
+	ldr	r3, .LCPI56_224
 	ldrb	r0, [r3]
 	cmp	r0, #1
 	bne	.LBB56_2
-	ldr	r0, .LCPI56_226
+	ldr	r0, .LCPI56_225
 	str	r0, [sp]
-	ldr	r0, .LCPI56_227
+	ldr	r0, .LCPI56_226
 	movs	r1, #43
-	ldr	r2, .LCPI56_228
+	ldr	r2, .LCPI56_227
 	add	r2, sp
-	ldr	r3, .LCPI56_229
+	ldr	r3, .LCPI56_228
 	bl	_RNvNtCs4L8JVMRpR0y_4core6result13unwrap_failed
 .LBB56_2:
 	adds	r2, #62
@@ -26189,7 +26189,7 @@ main:
 	movs	r6, #116
 	str	r6, [sp, #88]
 	str	r6, [r5]
-	str	r0, [sp, #204]
+	str	r0, [sp, #208]
 	str	r0, [r5]
 	movs	r0, #110
 	str	r0, [sp, #176]
@@ -26250,8 +26250,8 @@ main:
 	b	.LBB56_4
 .LBB56_8:
 	str	r3, [sp, #264]
-	str	r2, [sp, #216]
-	str	r1, [sp, #212]
+	str	r2, [sp, #220]
+	str	r1, [sp, #216]
 	movs	r0, #0
 	str	r0, [sp, #376]
 	str	r0, [sp, #372]
@@ -26300,7 +26300,7 @@ main:
 	ldr	r0, [sp, #232]
 	str	r0, [r5]
 	movs	r0, #91
-	str	r0, [sp, #208]
+	str	r0, [sp, #212]
 	str	r0, [r5]
 	movs	r0, #117
 	str	r0, [sp, #92]
@@ -26314,8 +26314,8 @@ main:
 	str	r0, [r5]
 	ldr	r0, [sp, #228]
 	str	r0, [r5]
-	movs	r6, #82
-	ldr	r3, [sp, #212]
+	movs	r6, #44
+	ldr	r3, [sp, #216]
 	str	r6, [r3, #12]
 	ldr	r2, .LCPI56_104
 	ldr	r7, [r2, #8]
@@ -26324,10 +26324,10 @@ main:
 	@NO_APP
 	str	r1, [sp, #432]
 	mov	r0, r7
-	adds	r0, #86
+	adds	r0, #48
 	cmp	r1, r0
 	bhs	.LBB56_14
-	bl	.LBB56_1577
+	bl	.LBB56_1584
 .LBB56_14:
 	str	r5, [sp, #292]
 	str	r4, [sp, #124]
@@ -26340,7 +26340,7 @@ main:
 	bl	__aeabi_memcpy
 	str	r6, [sp, #388]
 	str	r4, [sp, #384]
-	str	r6, [sp, #224]
+	str	r6, [sp, #152]
 	str	r6, [sp, #380]
 	ldr	r5, [sp, #332]
 	str	r5, [sp, #684]
@@ -26369,7 +26369,7 @@ main:
 	str	r6, [r0, #4]
 	movs	r0, #72
 	str	r0, [sp, #116]
-	ldr	r1, [sp, #212]
+	ldr	r1, [sp, #216]
 	str	r0, [r1, #12]
 	@APP
 	mov	r0, sp
@@ -26404,7 +26404,7 @@ main:
 	ldr	r2, .LCPI56_112
 	mov	r3, r5
 	bl	__aeabi_lmul
-	adds	r7, #93
+	adds	r7, #55
 	movs	r2, #3
 	str	r2, [sp, #348]
 	bics	r7, r2
@@ -26413,7 +26413,7 @@ main:
 	ldr	r3, [sp, #360]
 	cmp	r3, r2
 	bhs	.LBB56_15
-	bl	.LBB56_1595
+	bl	.LBB56_1600
 .LBB56_15:
 	subs	r3, r7, #4
 	ldr	r4, [sp, #116]
@@ -26452,7 +26452,7 @@ main:
 	str	r7, [sp, #528]
 	ldr	r0, [sp, #252]
 	lsls	r0, r0, #11
-	str	r0, [sp, #220]
+	str	r0, [sp, #224]
 	adds	r0, #65
 	str	r0, [sp, #716]
 	ldr	r0, .LCPI56_114
@@ -26667,26 +26667,26 @@ main:
 .LBB56_48:
 	b	.LBB56_95
 	.p2align	2
-.LCPI56_223:
+.LCPI56_222:
 	.long	4294965496
 	.p2align	2
-.LCPI56_224:
+.LCPI56_223:
 	.long	1708
 	.p2align	2
-.LCPI56_225:
+.LCPI56_224:
 	.long	.L_MergedGlobals
 	.p2align	2
+.LCPI56_225:
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.36
+	.p2align	2
 .LCPI56_226:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.36
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.35
 	.p2align	2
 .LCPI56_227:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.35
-	.p2align	2
-.LCPI56_228:
 	.long	1796
 	.p2align	2
-.LCPI56_229:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.34
+.LCPI56_228:
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.34
 	.p2align	1
 .LBB56_56:
 	uxtb	r1, r0
@@ -26962,7 +26962,7 @@ main:
 	lsls	r0, r0, #24
 	adds	r0, r0, r4
 	adds	r7, r0, r1
-	ldr	r0, .LCPI56_230
+	ldr	r0, .LCPI56_122
 	eors	r7, r0
 	ldrb	r0, [r6, #4]
 	ldrb	r1, [r6, #5]
@@ -27268,7 +27268,7 @@ main:
 	str	r0, [sp, #52]
 	add	r0, sp, #432
 	adds	r0, #68
-	str	r0, [sp, #252]
+	str	r0, [sp, #272]
 	movs	r1, #1
 	lsls	r0, r1, #8
 	str	r0, [sp, #344]
@@ -27276,29 +27276,19 @@ main:
 	str	r0, [sp, #196]
 	movs	r0, #225
 	lsls	r0, r0, #2
-	str	r0, [sp, #296]
+	str	r0, [sp, #240]
 	lsls	r0, r1, #10
-	str	r0, [sp, #312]
+	str	r0, [sp, #308]
 	str	r1, [sp, #336]
 	lsls	r0, r1, #16
 	str	r0, [sp, #332]
 	movs	r0, #0
 	mov	r4, r0
 	str	r0, [sp, #84]
-	b	.LBB56_130
-	.p2align	2
-.LCPI56_120:
-	.long	2155905152
-	.p2align	2
-.LCPI56_121:
-	.long	1065670069
-	.p2align	2
-.LCPI56_230:
-	.long	3041331479
-	.p2align	1
-.LBB56_127:
+	b	.LBB56_126
+.LBB56_124:
 	str	r2, [sp, #688]
-	str	r7, [sp, #684]
+	str	r6, [sp, #684]
 	str	r5, [sp, #680]
 	ldr	r0, .LCPI56_127
 	str	r0, [sp, #532]
@@ -27315,116 +27305,96 @@ main:
 	str	r0, [sp, #384]
 	ldr	r0, [sp, #688]
 	str	r0, [sp, #388]
-	ldr	r7, [sp, #292]
-.LBB56_128:
-	ldr	r4, [sp, #304]
-.LBB56_129:
-	ldr	r0, [sp, #308]
-.LBB56_130:
-	str	r4, [sp, #304]
+.LBB56_125:
+	ldr	r0, [sp, #304]
+.LBB56_126:
 	ldr	r2, [sp, #388]
 	ldr	r1, [sp, #384]
 	cmp	r2, #0
-	str	r0, [sp, #308]
-	beq	.LBB56_139
+	str	r0, [sp, #304]
+	str	r4, [sp, #312]
+	beq	.LBB56_136
 	adds	r0, r1, r2
 	str	r0, [sp, #360]
 	mov	r4, r7
 	adds	r4, #255
 	subs	r6, r2, #1
 	movs	r5, #0
-.LBB56_132:
+.LBB56_128:
 	adds	r0, r1, r5
 	ldrb	r7, [r1, r5]
 	subs	r7, #9
 	cmp	r7, #23
-	bls	.LBB56_133
-	b	.LBB56_188
-.LBB56_133:
+	bls	.LBB56_129
+	b	.LBB56_153
+.LBB56_129:
 	ldr	r3, [sp, #336]
 	lsls	r3, r7
 	ldr	r7, .LCPI56_131
 	tst	r3, r7
-	bne	.LBB56_134
-	b	.LBB56_188
-.LBB56_134:
+	bne	.LBB56_130
+	b	.LBB56_153
+.LBB56_130:
 	cmp	r6, r5
-	beq	.LBB56_138
+	beq	.LBB56_134
 	ldrb	r7, [r0, #1]
 	subs	r7, #9
 	cmp	r7, #23
-	bls	.LBB56_136
-	b	.LBB56_189
-.LBB56_136:
+	bls	.LBB56_132
+	b	.LBB56_155
+.LBB56_132:
 	ldr	r3, [sp, #336]
 	lsls	r3, r7
 	ldr	r7, .LCPI56_131
 	tst	r3, r7
-	bne	.LBB56_137
-	b	.LBB56_189
-.LBB56_137:
+	bne	.LBB56_133
+	b	.LBB56_155
+.LBB56_133:
 	subs	r4, r4, #2
 	adds	r5, r5, #2
 	cmp	r2, r5
-	bne	.LBB56_132
-.LBB56_138:
+	bne	.LBB56_128
+.LBB56_134:
 	ldr	r1, [sp, #360]
 	ldr	r7, [sp, #292]
-.LBB56_139:
+.LBB56_135:
+	ldr	r4, [sp, #312]
+.LBB56_136:
 	movs	r2, #0
 	str	r2, [sp, #396]
 	str	r1, [sp, #392]
-.LBB56_140:
+.LBB56_137:
 	add	r0, sp, #680
 	bl	_RNvMs0_Cskf9oGVM0soX_5nourlNtB5_3Url5parse
 	ldr	r0, [sp, #680]
 	adds	r0, r0, #1
-	beq	.LBB56_145
+	beq	.LBB56_141
 	add	r0, sp, #680
-	ldrb	r4, [r0, #29]
+	ldrb	r1, [r0, #29]
+	str	r1, [sp, #352]
 	ldrh	r1, [r0, #8]
 	ldr	r2, [sp, #704]
 	ldr	r3, [sp, #700]
-	ldr	r6, [sp, #696]
-	ldr	r5, [sp, #692]
+	ldr	r5, [sp, #696]
+	ldr	r6, [sp, #692]
 	lsls	r1, r1, #31
-	str	r2, [sp, #316]
-	str	r3, [sp, #272]
-	beq	.LBB56_158
-.LBB56_142:
+	str	r2, [sp, #296]
+	str	r3, [sp, #276]
+	beq	.LBB56_143
 	ldrh	r0, [r0, #10]
-	str	r0, [sp, #348]
-	lsrs	r1, r0, #8
-.LBB56_143:
-	str	r1, [sp, #276]
-	str	r4, [sp, #284]
-	ldr	r0, .LCPI56_132
-	str	r0, [sp, #684]
-	add	r0, sp, #392
-	str	r0, [sp, #680]
-	add	r3, sp, #680
-	ldr	r0, .LCPI56_128
-	ldr	r1, .LCPI56_129
-	ldr	r2, .LCPI56_133
-	bl	_RNvNtCs4L8JVMRpR0y_4core3fmt5write
-	cmp	r6, #15
-	str	r6, [sp, #356]
-	str	r5, [sp, #360]
-	bls	.LBB56_148
-	movs	r0, #1
-	ldr	r1, [sp, #300]
-	orrs	r1, r0
-	movs	r0, #254
-	bics	r1, r0
-	str	r1, [sp, #300]
-	ldr	r1, [sp, #216]
-	b	.LBB56_316
-.LBB56_145:
+	str	r0, [sp, #340]
+	lsrs	r3, r0, #8
+	b	.LBB56_188
+	.p2align	2
+.LCPI56_120:
+	.long	2155905152
+	.p2align	1
+.LBB56_141:
 	add	r0, sp, #680
 	ldrb	r0, [r0, #4]
 	cmp	r0, #0
-	beq	.LBB56_162
-.LBB56_146:
+	beq	.LBB56_148
+.LBB56_142:
 	ldr	r0, .LCPI56_132
 	str	r0, [sp, #684]
 	add	r0, sp, #392
@@ -27439,92 +27409,38 @@ main:
 	add	r0, sp, #400
 	movs	r2, #11
 	ldr	r1, .LCPI56_134
-	ldr	r3, .LCPI56_135
-.LBB56_147:
-	bl	_RNvNtCs9Yr4AUe4qI0_9netclient3web6render
-	b	.LBB56_339
-.LBB56_148:
-	cmp	r6, #0
-	ldr	r1, [sp, #216]
-	bne	.LBB56_149
-	b	.LBB56_185
-.LBB56_149:
-	ldrb	r1, [r5]
-	subs	r1, #48
-	cmp	r1, #9
-	bhi	.LBB56_156
-	subs	r2, r6, #1
-	mov	r0, r1
-	bne	.LBB56_151
-	b	.LBB56_187
-.LBB56_151:
-	ldrb	r0, [r5, #1]
-	subs	r0, #48
-	cmp	r0, #9
-	bls	.LBB56_152
-	b	.LBB56_204
-.LBB56_152:
-	subs	r2, r6, #2
-	ldr	r3, [sp, #228]
-	muls	r3, r1, r3
-	adds	r0, r0, r3
-	cmp	r2, #0
-	bne	.LBB56_153
-	b	.LBB56_187
-.LBB56_153:
-	ldrb	r3, [r5, #2]
-	subs	r3, #48
-	cmp	r3, #9
-	bls	.LBB56_154
-	b	.LBB56_205
-.LBB56_154:
-	subs	r2, r6, #3
-	ldr	r4, [sp, #228]
-	muls	r0, r4, r0
-	adds	r0, r3, r0
-	cmp	r2, #0
-	bne	.LBB56_155
-	b	.LBB56_187
-.LBB56_155:
-	adds	r4, r5, #3
-	ldrb	r3, [r4]
-	subs	r3, #48
-	cmp	r3, #10
-	ldr	r3, [sp, #268]
-	blo	.LBB56_156
-	b	.LBB56_206
-.LBB56_156:
-	movs	r1, #0
-	mov	r2, r6
-	mov	r4, r5
-	lsls	r1, r1, #31
-	beq	.LBB56_157
-	b	.LBB56_212
-.LBB56_157:
-	b	.LBB56_315
-.LBB56_158:
+	bl	.LBB56_425
+.LBB56_143:
 	movs	r0, #80
-	str	r0, [sp, #348]
-	lsls	r0, r4, #2
+	str	r0, [sp, #340]
+	ldr	r3, [sp, #352]
+	lsls	r0, r3, #2
 	adr	r1, .LJTI56_0
 	ldr	r0, [r1, r0]
-	mov	r1, r4
 	mov	pc, r0
+	.p2align	2
+.LJTI56_0:
+	.long	.LBB56_188+1
+	.long	.LBB56_147+1
+	.long	.LBB56_186+1
+	.long	.LBB56_187+1
+	.p2align	2
+.LCPI56_121:
+	.long	1065670069
 	.p2align	2
 .LCPI56_122:
 	.long	3041331479
 	.p2align	1
-	.p2align	2
-.LJTI56_0:
-	.long	.LBB56_161+1
-	.long	.LBB56_182+1
-	.long	.LBB56_184+1
-	.long	.LBB56_186+1
-.LBB56_161:
-	b	.LBB56_143
-.LBB56_162:
+.LBB56_147:
+	movs	r0, #187
+	str	r0, [sp, #340]
+	movs	r3, #1
+	str	r3, [sp, #352]
+	b	.LBB56_188
+.LBB56_148:
+	mov	r6, r4
 	movs	r4, #7
-	ldr	r0, [sp, #212]
+	ldr	r0, [sp, #216]
 	str	r4, [r0, #12]
 	ldr	r2, .LCPI56_128
 	ldr	r5, [r2, #8]
@@ -27535,13 +27451,13 @@ main:
 	mov	r0, r5
 	adds	r0, #11
 	cmp	r1, r0
-	bhs	.LBB56_163
-	bl	.LBB56_1577
-.LBB56_163:
+	bhs	.LBB56_149
+	bl	.LBB56_1584
+.LBB56_149:
 	stm	r5!, {r4}
 	str	r0, [r2, #8]
 	mov	r0, r5
-	ldr	r1, .LCPI56_136
+	ldr	r1, .LCPI56_135
 	mov	r2, r4
 	bl	__aeabi_memcpy
 	str	r4, [sp, #420]
@@ -27549,9 +27465,9 @@ main:
 	str	r4, [sp, #412]
 	ldr	r5, [sp, #396]
 	cmp	r5, #0
-	beq	.LBB56_164
-	bl	.LBB56_714
-.LBB56_164:
+	beq	.LBB56_150
+	bl	.LBB56_387
+.LBB56_150:
 	ldr	r0, [sp, #412]
 	str	r0, [sp, #380]
 	ldr	r1, [sp, #416]
@@ -27565,35 +27481,117 @@ main:
 	bl	_RNvMs0_Cskf9oGVM0soX_5nourlNtB5_3Url5parse
 	ldr	r0, [sp, #680]
 	adds	r0, r0, #1
-	bne	.LBB56_165
-	b	.LBB56_146
-.LBB56_165:
+	beq	.LBB56_154
 	add	r0, sp, #680
-	ldrb	r4, [r0, #29]
+	ldrb	r1, [r0, #29]
+	str	r1, [sp, #352]
 	ldrh	r1, [r0, #8]
 	ldr	r2, [sp, #704]
+	str	r2, [sp, #296]
 	ldr	r3, [sp, #700]
-	ldr	r6, [sp, #696]
-	ldr	r5, [sp, #692]
+	ldr	r5, [sp, #696]
+	ldr	r2, [sp, #692]
 	lsls	r1, r1, #31
-	str	r2, [sp, #316]
-	str	r3, [sp, #272]
-	beq	.LBB56_166
+	str	r3, [sp, #276]
+	beq	.LBB56_170
+	ldrh	r0, [r0, #10]
+	str	r0, [sp, #340]
+	lsrs	r3, r0, #8
+	mov	r6, r2
+	b	.LBB56_188
+.LBB56_153:
+	subs	r2, r2, r5
+	b	.LBB56_156
+.LBB56_154:
+	mov	r4, r6
 	b	.LBB56_142
-.LBB56_166:
+.LBB56_155:
+	adds	r2, r2, r4
+	adds	r0, r0, #1
+.LBB56_156:
+	subs	r3, r0, #4
+	adds	r1, r0, #1
+	ldr	r7, [sp, #292]
+.LBB56_157:
+	adds	r4, r3, r2
+	ldrb	r5, [r4, #3]
+	subs	r5, #9
+	cmp	r5, #23
+	bls	.LBB56_158
+	b	.LBB56_229
+.LBB56_158:
+	ldr	r6, [sp, #336]
+	lsls	r6, r5
+	ldr	r5, .LCPI56_131
+	tst	r6, r5
+	bne	.LBB56_159
+	b	.LBB56_229
+.LBB56_159:
+	cmp	r2, #1
+	beq	.LBB56_169
+	ldrb	r5, [r4, #2]
+	subs	r5, #9
+	cmp	r5, #23
+	bls	.LBB56_161
+	b	.LBB56_227
+.LBB56_161:
+	ldr	r6, [sp, #336]
+	lsls	r6, r5
+	ldr	r5, .LCPI56_131
+	tst	r6, r5
+	bne	.LBB56_162
+	b	.LBB56_227
+.LBB56_162:
+	cmp	r2, #2
+	beq	.LBB56_169
+	ldrb	r4, [r4, #1]
+	subs	r4, #9
+	cmp	r4, #23
+	bls	.LBB56_164
+	b	.LBB56_228
+.LBB56_164:
+	ldr	r5, [sp, #336]
+	lsls	r5, r4
+	ldr	r4, .LCPI56_131
+	tst	r5, r4
+	bne	.LBB56_165
+	b	.LBB56_228
+.LBB56_165:
+	cmp	r2, #3
+	beq	.LBB56_169
+	ldrb	r4, [r3, r2]
+	subs	r4, #9
+	cmp	r4, #23
+	bls	.LBB56_167
+	b	.LBB56_231
+.LBB56_167:
+	ldr	r5, [sp, #336]
+	lsls	r5, r4
+	ldr	r4, .LCPI56_131
+	tst	r5, r4
+	bne	.LBB56_168
+	b	.LBB56_231
+.LBB56_168:
+	subs	r2, r2, #4
+	bne	.LBB56_157
+.LBB56_169:
+	mov	r1, r0
+	b	.LBB56_135
+.LBB56_170:
 	movs	r0, #80
-	str	r0, [sp, #348]
-	lsls	r0, r4, #2
+	str	r0, [sp, #340]
+	ldr	r3, [sp, #352]
+	lsls	r0, r3, #2
 	adr	r1, .LJTI56_1
 	ldr	r0, [r1, r0]
-	mov	r1, r4
+	mov	r6, r2
 	mov	pc, r0
 	.p2align	2
 .LJTI56_1:
-	.long	.LBB56_183+1
-	.long	.LBB56_182+1
-	.long	.LBB56_184+1
+	.long	.LBB56_188+1
+	.long	.LBB56_185+1
 	.long	.LBB56_186+1
+	.long	.LBB56_187+1
 	.p2align	2
 .LCPI56_123:
 	.long	3380367581
@@ -27632,2252 +27630,693 @@ main:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.150
 	.p2align	2
 .LCPI56_135:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.148
-	.p2align	2
-.LCPI56_136:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.146
 	.p2align	1
-.LBB56_182:
-	movs	r0, #187
-	str	r0, [sp, #348]
-	movs	r4, #1
-	mov	r1, r4
-	b	.LBB56_143
-.LBB56_183:
-	b	.LBB56_143
-.LBB56_184:
-	movs	r1, #7
-	movs	r4, #2
-	ldr	r0, [sp, #208]
-	str	r0, [sp, #348]
-	b	.LBB56_143
 .LBB56_185:
-	movs	r0, #1
-	ldr	r2, [sp, #300]
-	orrs	r2, r0
-	movs	r0, #254
-	bics	r2, r0
-	str	r2, [sp, #300]
-	b	.LBB56_316
+	b	.LBB56_147
 .LBB56_186:
-	movs	r1, #34
-	movs	r0, #179
-	str	r0, [sp, #348]
-	movs	r4, #3
-	b	.LBB56_143
+	movs	r3, #7
+	movs	r0, #2
+	str	r0, [sp, #352]
+	ldr	r0, [sp, #212]
+	str	r0, [sp, #340]
+	b	.LBB56_188
 .LBB56_187:
-	subs	r3, r6, #1
-	subs	r2, r3, #1
-	sbcs	r3, r2
-	adds	r4, r5, r6
-	movs	r2, #0
-	b	.LBB56_206
+	movs	r3, #34
+	movs	r0, #179
+	str	r0, [sp, #340]
+	movs	r0, #3
+	str	r0, [sp, #352]
 .LBB56_188:
-	subs	r2, r2, r5
-	b	.LBB56_190
-.LBB56_189:
-	adds	r2, r2, r4
-	adds	r0, r0, #1
-.LBB56_190:
-	subs	r3, r0, #4
-	adds	r1, r0, #1
-	ldr	r7, [sp, #292]
-.LBB56_191:
-	adds	r4, r3, r2
-	ldrb	r5, [r4, #3]
-	subs	r5, #9
-	cmp	r5, #23
-	bls	.LBB56_192
-	b	.LBB56_233
-.LBB56_192:
-	ldr	r6, [sp, #336]
-	lsls	r6, r5
-	ldr	r5, .LCPI56_245
-	tst	r6, r5
-	bne	.LBB56_193
-	b	.LBB56_233
-.LBB56_193:
-	cmp	r2, #1
-	beq	.LBB56_203
-	ldrb	r5, [r4, #2]
-	subs	r5, #9
-	cmp	r5, #23
-	bls	.LBB56_195
-	b	.LBB56_231
-.LBB56_195:
-	ldr	r6, [sp, #336]
-	lsls	r6, r5
-	ldr	r5, .LCPI56_231
-	tst	r6, r5
-	bne	.LBB56_196
-	b	.LBB56_231
-.LBB56_196:
-	cmp	r2, #2
-	beq	.LBB56_203
-	ldrb	r4, [r4, #1]
-	subs	r4, #9
-	cmp	r4, #23
-	bls	.LBB56_198
-	b	.LBB56_232
-.LBB56_198:
-	ldr	r5, [sp, #336]
-	lsls	r5, r4
-	ldr	r4, .LCPI56_231
-	tst	r5, r4
-	bne	.LBB56_199
-	b	.LBB56_232
-.LBB56_199:
-	cmp	r2, #3
-	beq	.LBB56_203
-	ldrb	r4, [r3, r2]
-	subs	r4, #9
-	cmp	r4, #23
-	bls	.LBB56_201
-	b	.LBB56_235
-.LBB56_201:
-	ldr	r5, [sp, #336]
-	lsls	r5, r4
-	ldr	r4, .LCPI56_231
-	tst	r5, r4
-	bne	.LBB56_202
-	b	.LBB56_235
-.LBB56_202:
-	subs	r2, r2, #4
-	bne	.LBB56_191
-.LBB56_203:
-	mov	r1, r0
-	b	.LBB56_139
-.LBB56_204:
-	adds	r4, r5, #1
-	movs	r3, #0
-	mov	r0, r1
-	b	.LBB56_206
-.LBB56_205:
-	adds	r4, r5, #2
-	ldr	r3, [sp, #268]
-.LBB56_206:
-	subs	r5, r1, #1
-	sbcs	r1, r5
-	ldr	r5, [sp, #344]
-	cmp	r0, r5
-	blo	.LBB56_208
-	movs	r5, #0
-	b	.LBB56_209
-.LBB56_208:
-	movs	r5, #1
-.LBB56_209:
-	mvns	r3, r3
-	orrs	r1, r3
-	ands	r1, r5
-	cmp	r1, #0
-	ldr	r3, [sp, #360]
-	bne	.LBB56_225
-	mov	r4, r3
-	beq	.LBB56_226
-.LBB56_211:
-	lsls	r1, r1, #31
-	bne	.LBB56_212
-	b	.LBB56_315
-.LBB56_212:
-	cmp	r2, #0
-	bne	.LBB56_213
-	b	.LBB56_315
-.LBB56_213:
-	subs	r3, r2, #1
-	rsbs	r1, r3, #0
-	adcs	r1, r3
-	ldrb	r5, [r4]
-	cmp	r5, #46
-	ldr	r5, [sp, #268]
-	bne	.LBB56_215
-	mov	r5, r1
-.LBB56_215:
-	cmp	r5, #0
-	beq	.LBB56_216
-	b	.LBB56_315
-.LBB56_216:
-	adds	r5, r4, #1
-	ldrb	r7, [r4, #1]
-	subs	r7, #48
-	cmp	r7, #9
-	bhi	.LBB56_227
-	str	r5, [sp, #352]
-	subs	r1, r2, #2
-	mov	r6, r7
-	beq	.LBB56_229
-	ldrb	r5, [r4, #2]
-	subs	r5, #48
-	cmp	r5, #9
-	bhi	.LBB56_230
-	subs	r1, r2, #3
-	ldr	r6, [sp, #228]
-	muls	r6, r7, r6
-	adds	r6, r5, r6
-	cmp	r1, #0
-	beq	.LBB56_229
-	ldrb	r5, [r4, #3]
-	subs	r5, #48
-	cmp	r5, #9
-	bls	.LBB56_221
-	b	.LBB56_259
-.LBB56_221:
-	subs	r1, r2, #4
-	str	r6, [sp, #340]
-	ldr	r6, [sp, #228]
-	str	r5, [sp, #328]
-	ldr	r5, [sp, #340]
-	muls	r5, r6, r5
-	str	r5, [sp, #340]
-	ldr	r6, [sp, #340]
-	ldr	r5, [sp, #328]
-	adds	r6, r5, r6
-	cmp	r1, #0
-	beq	.LBB56_229
-	adds	r2, r4, #4
-	ldrb	r4, [r2]
-	subs	r4, #48
-	cmp	r4, #10
-	ldr	r5, [sp, #268]
-	blo	.LBB56_223
-	b	.LBB56_260
-.LBB56_223:
-	movs	r7, #0
-	mov	r1, r3
-	ldr	r2, [sp, #352]
-	lsls	r3, r7, #31
-	ldr	r7, [sp, #292]
-	beq	.LBB56_224
-	b	.LBB56_266
-.LBB56_224:
-	b	.LBB56_315
-.LBB56_225:
-	bne	.LBB56_211
-.LBB56_226:
-	mov	r2, r6
-	lsls	r1, r1, #31
-	bne	.LBB56_212
-	b	.LBB56_315
-.LBB56_227:
-	movs	r7, #0
-	mov	r1, r3
-	mov	r2, r5
-	lsls	r3, r7, #31
-	ldr	r7, [sp, #292]
-	beq	.LBB56_228
-	b	.LBB56_266
-.LBB56_228:
-	b	.LBB56_315
-.LBB56_229:
-	subs	r5, r3, #1
-	subs	r1, r5, #1
-	sbcs	r5, r1
-	adds	r2, r4, r2
-	movs	r1, #0
-	b	.LBB56_260
-.LBB56_230:
-	adds	r2, r4, #2
-	movs	r5, #0
-	mov	r6, r7
-	b	.LBB56_260
-.LBB56_231:
-	subs	r2, r2, #1
-	str	r0, [sp, #392]
-	str	r2, [sp, #396]
-	cmp	r2, #6
-	bhs	.LBB56_236
-	b	.LBB56_234
-.LBB56_232:
-	subs	r2, r2, #2
-.LBB56_233:
-	str	r0, [sp, #392]
-	str	r2, [sp, #396]
-	cmp	r2, #6
-	bhs	.LBB56_236
-.LBB56_234:
-	mov	r1, r0
-	b	.LBB56_140
-.LBB56_235:
-	subs	r2, r2, #3
-	str	r0, [sp, #392]
-	str	r2, [sp, #396]
-	cmp	r2, #6
-	blo	.LBB56_234
-.LBB56_236:
-	mov	r3, r0
-	ldr	r4, .LCPI56_138
-	orrs	r3, r4
-	lsls	r3, r3, #30
-	beq	.LBB56_250
-	cmp	r3, #0
-	beq	.LBB56_253
-	ldrb	r3, [r0]
-	cmp	r3, #97
-	ldr	r4, [sp, #140]
-	beq	.LBB56_239
-	b	.LBB56_286
-.LBB56_239:
-	ldr	r3, .LCPI56_138
-	adds	r3, r3, #1
-	mov	r4, r1
-	orrs	r4, r3
-	lsls	r4, r4, #30
-	bne	.LBB56_240
-	b	.LBB56_284
-.LBB56_240:
-	ldrb	r3, [r1]
-	cmp	r3, #98
-	beq	.LBB56_241
-	b	.LBB56_285
-.LBB56_241:
-	ldr	r3, .LCPI56_138
-	adds	r3, r3, #2
-	adds	r1, r1, #1
-	mov	r4, r1
-	orrs	r4, r3
-	lsls	r4, r4, #30
-	bne	.LBB56_242
-	bl	.LBB56_585
-.LBB56_242:
-	ldrb	r3, [r1]
-	cmp	r3, #111
-	ldr	r4, [sp, #96]
-	beq	.LBB56_243
-	b	.LBB56_286
-.LBB56_243:
-	ldr	r1, .LCPI56_138
-	adds	r3, r1, #3
-	adds	r1, r0, #3
-	mov	r4, r1
-	orrs	r4, r3
-	lsls	r4, r4, #30
-	bne	.LBB56_244
-	bl	.LBB56_715
-.LBB56_244:
-	ldrb	r3, [r1]
-	cmp	r3, #117
-	ldr	r4, [sp, #92]
-	beq	.LBB56_245
-	b	.LBB56_286
-.LBB56_245:
-	ldr	r1, .LCPI56_138
-	adds	r3, r1, #4
-	adds	r1, r0, #4
-	mov	r4, r1
-	orrs	r4, r3
-	lsls	r4, r4, #30
-	bne	.LBB56_246
-	bl	.LBB56_763
-.LBB56_246:
-	ldrb	r3, [r1]
-	cmp	r3, #116
-	ldr	r4, [sp, #88]
-	beq	.LBB56_247
-	b	.LBB56_286
-.LBB56_247:
-	ldr	r1, .LCPI56_138
-	adds	r3, r1, #5
-	adds	r1, r0, #5
-	mov	r4, r1
-	orrs	r4, r3
-	lsls	r4, r4, #30
-	bne	.LBB56_248
-	bl	.LBB56_764
-.LBB56_248:
-	ldrb	r3, [r1]
-	cmp	r3, #58
-	bne	.LBB56_249
-	bl	.LBB56_601
-.LBB56_249:
-	movs	r4, #58
-	b	.LBB56_286
-.LBB56_250:
-	ldr	r1, [r0]
-	ldr	r3, .LCPI56_139
-	cmp	r1, r3
-	bne	.LBB56_254
-	ldrb	r1, [r0, #4]
-	cmp	r1, #116
-	bne	.LBB56_234
-	ldrb	r1, [r0, #5]
-	cmp	r1, #58
-	bne	.LBB56_234
-	bl	.LBB56_601
-.LBB56_253:
-	movs	r1, #6
-	str	r1, [sp, #360]
-	ldr	r3, .LCPI56_138
-	mov	r1, r0
-	bl	.LBB56_587
-.LBB56_254:
-	uxtb	r3, r1
-	cmp	r3, #97
-	bne	.LBB56_282
-	ldr	r5, [sp, #264]
-	lsls	r3, r5, #8
-	ands	r3, r1
-	movs	r4, #49
-	lsls	r4, r4, #9
-	cmp	r3, r4
-	beq	.LBB56_256
-	b	.LBB56_288
-.LBB56_256:
-	lsls	r4, r5, #16
-	ands	r4, r1
-	movs	r3, #111
-	lsls	r5, r3, #16
-	cmp	r4, r5
-	beq	.LBB56_257
-	bl	.LBB56_583
-.LBB56_257:
-	lsrs	r1, r1, #24
-	cmp	r1, #117
-	bne	.LBB56_258
-	bl	.LBB56_601
-.LBB56_258:
-	movs	r3, #117
-	bl	.LBB56_584
-.LBB56_259:
-	adds	r2, r4, #3
-	ldr	r5, [sp, #268]
-.LBB56_260:
-	subs	r4, r7, #1
-	sbcs	r7, r4
-	ldr	r4, [sp, #344]
-	cmp	r6, r4
-	blo	.LBB56_262
-	movs	r4, #0
-	b	.LBB56_263
-.LBB56_262:
-	movs	r4, #1
-.LBB56_263:
-	mvns	r5, r5
-	orrs	r7, r5
-	ands	r7, r4
-	cmp	r7, #0
-	bne	.LBB56_278
-	ldr	r2, [sp, #352]
-	str	r6, [sp, #340]
-	beq	.LBB56_279
-.LBB56_265:
-	lsls	r3, r7, #31
-	ldr	r7, [sp, #292]
-	bne	.LBB56_266
-	b	.LBB56_315
-.LBB56_266:
-	cmp	r1, #0
-	bne	.LBB56_267
-	b	.LBB56_315
-.LBB56_267:
-	subs	r4, r1, #1
-	rsbs	r3, r4, #0
-	adcs	r3, r4
-	ldrb	r5, [r2]
-	cmp	r5, #46
-	ldr	r5, [sp, #268]
-	bne	.LBB56_269
-	mov	r5, r3
-.LBB56_269:
-	cmp	r5, #0
-	beq	.LBB56_270
-	b	.LBB56_315
-.LBB56_270:
-	adds	r3, r2, #1
-	ldrb	r7, [r2, #1]
-	subs	r7, #48
-	cmp	r7, #9
-	bhi	.LBB56_280
-	str	r3, [sp, #352]
-	subs	r5, r1, #2
-	mov	r6, r7
-	beq	.LBB56_281
-	ldrb	r3, [r2, #2]
-	subs	r3, #48
-	cmp	r3, #9
-	bhi	.LBB56_283
-	subs	r5, r1, #3
-	ldr	r6, [sp, #228]
-	muls	r6, r7, r6
-	adds	r6, r3, r6
-	cmp	r5, #0
-	beq	.LBB56_281
-	ldrb	r3, [r2, #3]
-	subs	r3, #48
-	cmp	r3, #9
-	bhi	.LBB56_289
-	subs	r5, r1, #4
-	str	r6, [sp, #328]
-	ldr	r6, [sp, #228]
-	str	r3, [sp, #324]
-	ldr	r3, [sp, #328]
-	muls	r3, r6, r3
-	str	r3, [sp, #328]
-	ldr	r6, [sp, #328]
-	ldr	r3, [sp, #324]
-	adds	r6, r3, r6
-	cmp	r5, #0
-	beq	.LBB56_281
-	adds	r2, r2, #4
-	ldrb	r1, [r2]
-	subs	r1, #48
-	cmp	r1, #10
-	ldr	r3, [sp, #268]
-	bhs	.LBB56_290
-	movs	r7, #0
-	mov	r5, r4
-	ldr	r2, [sp, #352]
-	lsls	r1, r7, #31
-	ldr	r7, [sp, #292]
-	bne	.LBB56_296
-	b	.LBB56_315
-.LBB56_278:
-	str	r6, [sp, #340]
-	bne	.LBB56_265
-.LBB56_279:
-	mov	r1, r3
-	lsls	r3, r7, #31
-	ldr	r7, [sp, #292]
-	bne	.LBB56_266
-	b	.LBB56_315
-.LBB56_280:
-	movs	r7, #0
-	mov	r5, r4
-	mov	r2, r3
-	lsls	r1, r7, #31
-	ldr	r7, [sp, #292]
-	bne	.LBB56_296
-	b	.LBB56_315
-.LBB56_281:
-	subs	r3, r4, #1
-	subs	r5, r3, #1
-	sbcs	r3, r5
-	adds	r2, r2, r1
-	movs	r5, #0
-	b	.LBB56_290
-.LBB56_282:
-	movs	r3, #97
-	bl	.LBB56_584
-.LBB56_283:
-	adds	r2, r2, #2
-	movs	r3, #0
-	mov	r6, r7
-	b	.LBB56_290
-.LBB56_284:
-	ldr	r4, [sp, #104]
-	bl	.LBB56_586
-.LBB56_285:
-	movs	r4, #98
-.LBB56_286:
-	subs	r1, r4, r3
-	cmp	r1, #0
-	beq	.LBB56_287
-	b	.LBB56_234
-.LBB56_287:
-	bl	.LBB56_601
-.LBB56_288:
-	lsrs	r1, r1, #8
-	movs	r3, #98
-	bl	.LBB56_584
-.LBB56_289:
-	adds	r2, r2, #3
-	ldr	r3, [sp, #268]
-.LBB56_290:
-	subs	r1, r7, #1
-	sbcs	r7, r1
-	ldr	r1, [sp, #344]
-	cmp	r6, r1
-	blo	.LBB56_292
-	movs	r1, #0
-	b	.LBB56_293
-.LBB56_292:
-	movs	r1, #1
-.LBB56_293:
-	mvns	r3, r3
-	orrs	r7, r3
-	ands	r7, r1
-	cmp	r7, #0
-	bne	.LBB56_308
-	ldr	r2, [sp, #352]
-	beq	.LBB56_309
-.LBB56_295:
-	lsls	r1, r7, #31
-	ldr	r7, [sp, #292]
-	beq	.LBB56_315
-.LBB56_296:
-	cmp	r5, #0
-	beq	.LBB56_315
-	ldrb	r1, [r2]
-	cmp	r1, #46
-	bne	.LBB56_315
-	movs	r3, #0
-	subs	r4, r5, #1
-	beq	.LBB56_311
-	ldrb	r1, [r2, #1]
-	subs	r1, #48
-	cmp	r1, #9
-	bhi	.LBB56_312
-	str	r4, [sp, #352]
-	subs	r4, r5, #2
-	mov	r3, r1
-	bne	.LBB56_301
-	bl	.LBB56_757
-.LBB56_301:
-	ldrb	r3, [r2, #2]
-	subs	r3, #48
-	cmp	r3, #9
-	bls	.LBB56_302
-	bl	.LBB56_713
-.LBB56_302:
-	subs	r4, r5, #3
-	ldr	r7, [sp, #228]
-	muls	r7, r1, r7
-	adds	r3, r3, r7
-	cmp	r4, #0
-	bne	.LBB56_303
-	bl	.LBB56_756
-.LBB56_303:
-	ldrb	r7, [r2, #3]
-	subs	r7, #48
-	cmp	r7, #9
-	bls	.LBB56_304
-	bl	.LBB56_762
-.LBB56_304:
-	subs	r4, r5, #4
-	ldr	r5, [sp, #228]
-	muls	r3, r5, r3
-	adds	r3, r7, r3
-	cmp	r4, #0
-	bne	.LBB56_305
-	bl	.LBB56_756
-.LBB56_305:
-	ldrb	r2, [r2, #4]
-	subs	r2, #48
-	cmp	r2, #10
-	ldr	r2, [sp, #268]
-	ldr	r7, [sp, #292]
-	blo	.LBB56_306
-	bl	.LBB56_758
-.LBB56_306:
-	movs	r1, #0
-	ldr	r4, [sp, #352]
-	b	.LBB56_313
-	.p2align	2
-.LCPI56_245:
-	.long	8388635
-	.p2align	1
-.LBB56_308:
-	bne	.LBB56_295
-.LBB56_309:
-	mov	r5, r4
-	lsls	r1, r7, #31
-	ldr	r7, [sp, #292]
-	bne	.LBB56_296
-	b	.LBB56_315
-	.p2align	2
-.LCPI56_231:
-	.long	8388635
-	.p2align	1
-.LBB56_311:
-	mov	r4, r3
-.LBB56_312:
-	mov	r1, r3
-.LBB56_313:
-	lsls	r1, r1, #31
-	beq	.LBB56_315
-	cmp	r4, #0
-	bne	.LBB56_315
-	bl	.LBB56_659
-.LBB56_315:
+	str	r3, [sp, #284]
+	ldr	r0, .LCPI56_229
+	str	r0, [sp, #684]
+	add	r0, sp, #392
+	str	r0, [sp, #680]
+	add	r3, sp, #680
+	ldr	r0, .LCPI56_230
+	ldr	r1, .LCPI56_231
+	ldr	r2, .LCPI56_232
+	bl	_RNvNtCs4L8JVMRpR0y_4core3fmt5write
+	cmp	r5, #15
+	str	r5, [sp, #356]
+	str	r6, [sp, #360]
+	bls	.LBB56_190
 	movs	r0, #1
 	ldr	r1, [sp, #300]
 	orrs	r1, r0
 	movs	r0, #254
 	bics	r1, r0
 	str	r1, [sp, #300]
-	ldr	r1, [sp, #216]
-	ldr	r6, [sp, #356]
-	ldr	r5, [sp, #360]
-.LBB56_316:
-	str	r5, [sp, #424]
-	str	r6, [sp, #428]
-	movs	r0, #1
-	str	r0, [sp, #340]
-	strh	r0, [r1, #2]
-	movs	r3, #0
-	ldr	r0, [sp, #252]
-	str	r3, [r0]
-	str	r3, [r0, #4]
-	strh	r3, [r0, #8]
-	ldr	r0, [sp, #344]
-	strh	r0, [r1, #4]
-	adds	r7, #255
-	str	r7, [sp, #328]
-	str	r7, [sp, #480]
-	str	r3, [sp, #432]
-	str	r3, [sp, #476]
-	movs	r4, #8
-	str	r4, [sp, #472]
-	str	r3, [sp, #468]
-	str	r3, [sp, #464]
-	str	r4, [sp, #460]
-	str	r3, [sp, #456]
-	str	r3, [sp, #452]
-	str	r4, [sp, #448]
-	str	r3, [sp, #444]
-	str	r3, [sp, #440]
-	movs	r0, #4
-	str	r0, [sp, #320]
-	str	r0, [sp, #436]
-	cmp	r6, #0
-	ldr	r7, [sp, #296]
-	str	r4, [sp, #288]
-	beq	.LBB56_327
-	movs	r1, #0
-	mov	r2, r1
-	b	.LBB56_323
-	.p2align	2
-.LCPI56_138:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.145
-	.p2align	2
-.LCPI56_139:
-	.long	1970233953
-	.p2align	1
-.LBB56_321:
-	mov	r3, r2
-.LBB56_322:
-	cmp	r6, r0
-	mov	r1, r0
-	mov	r2, r3
-	beq	.LBB56_327
-.LBB56_323:
-	ldrb	r3, [r5, r1]
-	adds	r0, r1, #1
-	cmp	r3, #46
-	bne	.LBB56_321
-	cmp	r1, r2
-	mov	r3, r0
-	beq	.LBB56_322
-	bhs	.LBB56_326
-	bl	.LBB56_1576
-.LBB56_326:
-	subs	r1, r1, r2
-	mov	r3, r2
-	b	.LBB56_329
-.LBB56_327:
-	cmp	r6, r3
-	bhi	.LBB56_328
-	b	.LBB56_500
-.LBB56_328:
-	subs	r1, r6, r3
-	mov	r0, r6
-.LBB56_329:
-	movs	r2, #62
-	mvns	r4, r2
-	mov	r2, r1
-	subs	r2, #64
-	str	r4, [sp, #352]
-	cmp	r2, r4
-	blo	.LBB56_336
-	ldr	r2, [sp, #360]
-	adds	r3, r2, r3
-	ldrb	r2, [r3]
-	movs	r7, #223
-	cmp	r2, #95
-	beq	.LBB56_333
-	mov	r4, r2
-	subs	r4, #48
-	cmp	r4, #10
-	blo	.LBB56_333
-	ands	r2, r7
-	subs	r2, #65
-	cmp	r2, #26
-	bhs	.LBB56_336
-.LBB56_333:
-	adds	r2, r3, r1
-	cmp	r1, #2
-	blo	.LBB56_334
-	b	.LBB56_444
-.LBB56_334:
-	subs	r2, r2, #1
-	ldrb	r2, [r2]
-	mov	r4, r2
-	subs	r4, #48
-	cmp	r4, #10
-	bhs	.LBB56_335
-	b	.LBB56_467
-.LBB56_335:
-	ands	r2, r7
-	subs	r2, #65
-	cmp	r2, #25
-	bhi	.LBB56_336
-	b	.LBB56_467
-.LBB56_336:
-	movs	r7, #13
-	ldr	r5, .LCPI56_140
-.LBB56_337:
-	add	r0, sp, #432
-	bl	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNtNtNtCseADBAlPmZ6Z_10simple_dns3dns6packet6PacketECs9Yr4AUe4qI0_9netclient
-.LBB56_338:
-	movs	r0, #35
-	str	r0, [sp]
-	add	r0, sp, #400
-	mov	r1, r5
-	mov	r2, r7
-	ldr	r3, .LCPI56_141
-	bl	_RNvNtCs9Yr4AUe4qI0_9netclient3web6render
-	ldr	r7, [sp, #292]
-.LBB56_339:
-	add	r0, sp, #528
-	movs	r5, #0
-	strb	r5, [r0]
-	ldr	r1, [sp, #404]
-	ldr	r0, [sp, #408]
-	str	r5, [sp, #688]
-	movs	r2, #4
-	str	r2, [sp, #316]
-	str	r2, [sp, #684]
-	str	r5, [sp, #680]
-	cmp	r0, #0
-	str	r1, [sp, #356]
-	str	r0, [sp, #340]
-	beq	.LBB56_353
-	lsls	r0, r0, #3
-	adds	r4, r1, r0
-	b	.LBB56_342
-.LBB56_341:
-	ldr	r7, [sp, #292]
-.LBB56_342:
-	ldr	r0, [r7, #24]
-	cmp	r0, #0
-	beq	.LBB56_348
-	ldr	r6, [r7, #28]
-	cmp	r6, #9
-	beq	.LBB56_347
-	cmp	r6, #27
-	beq	.LBB56_361
-	ldr	r7, [sp, #688]
-	ldr	r0, [sp, #680]
-	cmp	r7, r0
-	beq	.LBB56_352
-.LBB56_346:
-	lsls	r0, r7, #2
-	ldr	r1, [sp, #684]
-	str	r6, [r1, r0]
-	adds	r0, r7, #1
-	str	r0, [sp, #688]
-	b	.LBB56_348
-.LBB56_347:
-	adds	r0, r5, #1
-	ldr	r1, [sp, #340]
-	bl	__aeabi_uidivmod
-	mov	r5, r1
-.LBB56_348:
-	mov	r6, r5
-	ldr	r7, [sp, #356]
-	b	.LBB56_350
-.LBB56_349:
-	ldm	r7!, {r0, r1}
-	ldr	r3, [r1, #12]
-	add	r1, sp, #528
-	subs	r7, #8
-	blx	r3
-	subs	r6, r6, #1
-	adds	r7, #8
-	cmp	r7, r4
-	beq	.LBB56_341
-.LBB56_350:
-	add	r2, sp, #680
-	cmp	r6, #0
-	beq	.LBB56_349
-	movs	r2, #0
-	b	.LBB56_349
-.LBB56_352:
-	add	r0, sp, #680
-	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVeccE8grow_oneCsb7ba3TghYF3_4parm
-	b	.LBB56_346
-.LBB56_353:
-	movs	r4, #0
-	b	.LBB56_355
-.LBB56_354:
-	lsls	r0, r4, #2
-	ldr	r1, [sp, #684]
-	str	r5, [r1, r0]
-	adds	r4, r4, #1
-	str	r4, [sp, #688]
-.LBB56_355:
-	ldr	r0, [r7, #24]
-	cmp	r0, #0
-	beq	.LBB56_355
-	ldr	r5, [r7, #28]
-	cmp	r5, #27
-	beq	.LBB56_361
-	cmp	r5, #9
-	bne	.LBB56_358
-	bl	.LBB56_1582
-.LBB56_358:
-	ldr	r0, [sp, #680]
-	cmp	r4, r0
-	bne	.LBB56_354
-	add	r0, sp, #680
-	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVeccE8grow_oneCsb7ba3TghYF3_4parm
-	b	.LBB56_354
-.LBB56_360:
-	ldr	r0, [r7, #28]
-	cmp	r0, #117
-	beq	.LBB56_366
-.LBB56_361:
-	movs	r1, #63
-	str	r1, [r7]
-	ldr	r0, [sp, #232]
-	str	r0, [r7]
-.LBB56_362:
-	ldr	r0, [r7, #24]
-	cmp	r0, #0
-	bne	.LBB56_360
-	ldr	r0, [r7, #24]
-	cmp	r0, #0
-	bne	.LBB56_360
-	ldr	r0, [r7, #24]
-	cmp	r0, #0
-	bne	.LBB56_360
-	ldr	r0, [r7, #24]
-	cmp	r0, #0
-	beq	.LBB56_362
-	b	.LBB56_360
-.LBB56_366:
-	str	r1, [sp, #348]
-	b	.LBB56_369
-.LBB56_367:
-	movs	r2, #0
-	mov	r1, r3
-.LBB56_368:
-	str	r1, [sp, #392]
-	str	r2, [sp, #396]
-	cmp	r2, #0
-	beq	.LBB56_369
-	b	.LBB56_439
-.LBB56_369:
-	movs	r0, #85
-	str	r0, [r7]
-	ldr	r0, [sp, #224]
-	str	r0, [r7]
-	movs	r0, #76
-	str	r0, [r7]
-	movs	r0, #58
-	str	r0, [r7]
-	ldr	r0, [sp, #232]
-	str	r0, [r7]
-	movs	r5, #0
-	str	r5, [sp, #388]
-.LBB56_370:
-	mov	r1, r5
-.LBB56_371:
+	ldr	r1, [sp, #220]
+	bl	.LBB56_398
+.LBB56_190:
+	cmp	r5, #0
+	ldr	r1, [sp, #220]
+	beq	.LBB56_199
+	ldrb	r1, [r6]
+	subs	r1, #48
+	cmp	r1, #9
+	bhi	.LBB56_198
+	subs	r2, r5, #1
 	mov	r0, r1
-.LBB56_372:
-	ldr	r1, [r7, #24]
-	cmp	r1, #0
-	bne	.LBB56_376
-	ldr	r1, [r7, #24]
-	cmp	r1, #0
-	bne	.LBB56_376
-	ldr	r1, [r7, #24]
-	cmp	r1, #0
-	bne	.LBB56_376
-	ldr	r1, [r7, #24]
-	cmp	r1, #0
-	beq	.LBB56_372
-.LBB56_376:
-	ldr	r4, [r7, #28]
-	cmp	r4, #8
-	bne	.LBB56_380
-	movs	r1, #0
-	cmp	r0, #0
-	beq	.LBB56_371
-	ldr	r1, [sp, #384]
-	adds	r3, r1, r0
-	movs	r1, #0
-	mvns	r1, r1
-	ldrsb	r2, [r3, r1]
-	mov	r1, r7
-	adds	r1, #255
+	beq	.LBB56_200
+	ldrb	r0, [r6, #1]
+	subs	r0, #48
+	cmp	r0, #9
+	bhi	.LBB56_201
+	subs	r2, r5, #2
+	ldr	r3, [sp, #228]
+	muls	r3, r1, r3
+	adds	r0, r0, r3
 	cmp	r2, #0
-	bmi	.LBB56_390
-.LBB56_379:
-	adds	r5, r1, r0
-	str	r5, [sp, #388]
-	movs	r0, #8
-	str	r0, [r7]
-	b	.LBB56_370
-.LBB56_380:
-	cmp	r4, #10
-	bne	.LBB56_381
-	b	.LBB56_411
-.LBB56_381:
-	cmp	r4, #128
-	bhs	.LBB56_385
-	movs	r6, #1
-	ldr	r0, [sp, #380]
-	subs	r0, r0, r5
-	cmp	r6, r0
-	bhi	.LBB56_387
-.LBB56_383:
-	ldr	r0, [sp, #384]
-	adds	r0, r0, r5
-	cmp	r4, #128
-	bhs	.LBB56_388
-.LBB56_384:
-	strb	r4, [r0]
-	b	.LBB56_401
-.LBB56_385:
-	ldr	r0, [sp, #220]
-	cmp	r4, r0
-	bhs	.LBB56_393
-	movs	r6, #2
-	ldr	r0, [sp, #380]
-	subs	r0, r0, r5
-	cmp	r6, r0
-	bls	.LBB56_383
-.LBB56_387:
-	add	r0, sp, #380
-	mov	r1, r5
-	mov	r2, r6
-	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECsb7ba3TghYF3_4parm
-	ldr	r0, [sp, #384]
-	adds	r0, r0, r5
-	cmp	r4, #128
-	blo	.LBB56_384
-.LBB56_388:
-	str	r6, [sp, #360]
-	mov	r1, r4
-	ldr	r6, [sp, #348]
-	ands	r1, r6
-	movs	r2, #127
-	mvns	r2, r2
-	adds	r1, r1, r2
-	lsrs	r7, r4, #6
-	ldr	r3, [sp, #220]
-	cmp	r4, r3
-	bhs	.LBB56_395
-	strb	r1, [r0, #1]
-	movs	r1, #192
-	orrs	r7, r1
-	strb	r7, [r0]
-	b	.LBB56_400
-.LBB56_390:
-	subs	r2, r3, #2
-	ldrb	r4, [r2]
-	sxtb	r2, r4
-	movs	r5, #64
-	mvns	r5, r5
-	cmp	r2, r5
-	bgt	.LBB56_397
-	subs	r4, r3, #3
-	ldrb	r5, [r4]
-	sxtb	r6, r5
-	movs	r4, #63
-	mvns	r7, r4
-	cmp	r6, r7
-	bge	.LBB56_404
-	ands	r6, r4
-	subs	r3, r3, #4
-	ldrb	r3, [r3]
-	lsls	r3, r3, #29
-	lsrs	r3, r3, #23
-	adds	r5, r3, r6
-	b	.LBB56_405
-.LBB56_393:
-	ldr	r0, [sp, #332]
-	cmp	r4, r0
-	blo	.LBB56_398
-	ldr	r6, [sp, #316]
-	ldr	r0, [sp, #380]
-	subs	r0, r0, r5
-	cmp	r6, r0
-	bls	.LBB56_383
-	b	.LBB56_387
-.LBB56_395:
-	lsrs	r3, r4, #12
-	ands	r7, r6
-	adds	r7, r7, r2
-	str	r7, [sp, #352]
-	ldr	r7, [sp, #332]
-	cmp	r4, r7
-	bhs	.LBB56_399
-	strb	r1, [r0, #2]
-	ldr	r1, [sp, #352]
-	strb	r1, [r0, #1]
-	movs	r1, #224
-	orrs	r3, r1
-	strb	r3, [r0]
-	b	.LBB56_400
-.LBB56_397:
-	movs	r2, #31
-	ands	r4, r2
-	cmp	r4, #2
-	bhs	.LBB56_406
-	b	.LBB56_379
-.LBB56_398:
-	movs	r6, #3
-	ldr	r0, [sp, #380]
-	subs	r0, r0, r5
-	cmp	r6, r0
-	bls	.LBB56_383
-	b	.LBB56_387
-.LBB56_399:
-	movs	r7, #15
-	mvns	r7, r7
-	str	r7, [sp, #324]
-	str	r1, [sp, #320]
-	lsrs	r1, r4, #18
-	str	r1, [sp, #328]
-	ldr	r7, [sp, #324]
-	ldr	r1, [sp, #328]
-	orrs	r1, r7
-	str	r1, [sp, #328]
-	ands	r3, r6
-	adds	r2, r3, r2
-	ldr	r1, [sp, #320]
-	strb	r1, [r0, #3]
-	ldr	r1, [sp, #352]
-	strb	r1, [r0, #2]
-	strb	r2, [r0, #1]
-	ldr	r1, [sp, #328]
-	strb	r1, [r0]
-.LBB56_400:
-	ldr	r7, [sp, #292]
-	ldr	r6, [sp, #360]
-.LBB56_401:
-	adds	r5, r6, r5
-	str	r5, [sp, #388]
-	ldr	r0, [sp, #344]
-	cmp	r4, r0
-	blo	.LBB56_403
-	ldr	r4, [sp, #348]
-.LBB56_403:
-	str	r4, [r7]
-	b	.LBB56_370
-.LBB56_404:
-	movs	r3, #15
-	ands	r5, r3
-.LBB56_405:
-	ands	r2, r4
-	lsls	r3, r5, #6
-	adds	r4, r3, r2
-	ldr	r7, [sp, #292]
-	cmp	r4, #2
-	bhs	.LBB56_406
-	b	.LBB56_379
-.LBB56_406:
-	cmp	r4, #32
-	bhs	.LBB56_408
-	mov	r1, r7
-	adds	r1, #254
-	b	.LBB56_379
-.LBB56_408:
-	ldr	r1, [sp, #312]
-	cmp	r4, r1
-	blo	.LBB56_410
-	mov	r1, r7
-	adds	r1, #252
-	b	.LBB56_379
-.LBB56_410:
-	mov	r1, r7
-	adds	r1, #253
-	b	.LBB56_379
-.LBB56_411:
-	ldr	r1, [sp, #228]
-	str	r1, [r7]
-	ldr	r3, [sp, #384]
-	cmp	r0, #0
-	bne	.LBB56_412
-	b	.LBB56_367
-.LBB56_412:
-	adds	r1, r3, r0
-	str	r1, [sp, #352]
-	mov	r5, r7
-	adds	r5, #255
-	subs	r1, r0, #1
-	str	r1, [sp, #360]
-	movs	r6, #0
-.LBB56_413:
-	adds	r1, r3, r6
-	ldrb	r2, [r3, r6]
-	subs	r2, #9
-	cmp	r2, #23
-	bhi	.LBB56_420
-	movs	r4, #1
-	mov	r7, r4
-	lsls	r7, r2
-	ldr	r2, .LCPI56_142
-	tst	r7, r2
-	beq	.LBB56_420
-	movs	r2, #0
-	ldr	r7, [sp, #360]
-	cmp	r7, r6
-	beq	.LBB56_419
-	ldrb	r7, [r1, #1]
-	subs	r7, #9
-	cmp	r7, #23
-	bhi	.LBB56_421
-	lsls	r4, r7
-	ldr	r7, .LCPI56_142
-	tst	r4, r7
-	beq	.LBB56_421
-	subs	r5, r5, #2
-	adds	r6, r6, #2
-	cmp	r0, r6
-	bne	.LBB56_413
-.LBB56_419:
-	ldr	r1, [sp, #352]
-	ldr	r7, [sp, #292]
-	b	.LBB56_368
-.LBB56_420:
-	subs	r2, r0, r6
-	b	.LBB56_422
-.LBB56_421:
-	adds	r2, r0, r5
-	adds	r1, r1, #1
-.LBB56_422:
-	subs	r0, r1, #4
-	ldr	r7, [sp, #292]
-.LBB56_423:
-	adds	r5, r0, r2
-	ldrb	r3, [r5, #3]
-	subs	r3, #9
-	cmp	r3, #23
-	bls	.LBB56_424
-	b	.LBB56_368
-.LBB56_424:
-	movs	r4, #1
-	mov	r6, r4
-	lsls	r6, r3
-	ldr	r3, .LCPI56_142
-	tst	r6, r3
-	bne	.LBB56_425
-	b	.LBB56_368
-.LBB56_425:
-	movs	r3, #0
-	cmp	r2, #1
-	beq	.LBB56_435
-	ldrb	r6, [r5, #2]
-	subs	r6, #9
-	cmp	r6, #23
-	bhi	.LBB56_436
-	mov	r7, r4
-	lsls	r7, r6
-	ldr	r6, .LCPI56_142
-	tst	r7, r6
-	ldr	r7, [sp, #292]
-	beq	.LBB56_436
-	cmp	r2, #2
-	beq	.LBB56_435
-	ldrb	r5, [r5, #1]
-	subs	r5, #9
-	cmp	r5, #23
-	bhi	.LBB56_437
-	mov	r6, r4
-	lsls	r6, r5
-	ldr	r5, .LCPI56_142
-	tst	r6, r5
-	beq	.LBB56_437
-	cmp	r2, #3
-	beq	.LBB56_435
-	ldrb	r5, [r0, r2]
-	subs	r5, #9
-	cmp	r5, #23
-	bhi	.LBB56_438
-	lsls	r4, r5
-	ldr	r5, .LCPI56_142
-	tst	r4, r5
-	beq	.LBB56_438
-	subs	r2, r2, #4
-	bne	.LBB56_423
-.LBB56_435:
-	mov	r2, r3
-	b	.LBB56_368
-.LBB56_436:
-	subs	r2, r2, #1
-	b	.LBB56_368
-.LBB56_437:
-	subs	r2, r2, #2
-	b	.LBB56_368
-.LBB56_438:
-	subs	r2, r2, #3
-	b	.LBB56_368
-.LBB56_439:
-	ldr	r0, .LCPI56_143
-	ldr	r1, .LCPI56_144
-	bl	__aeabi_memclr8
-	ldr	r6, [sp, #340]
-	cmp	r6, #0
-	bne	.LBB56_440
-	bl	.LBB56_128
-.LBB56_440:
-	ldr	r4, [sp, #304]
-	ldr	r5, [sp, #356]
-	b	.LBB56_442
-.LBB56_441:
-	adds	r5, #8
-	subs	r6, r6, #1
-	bne	.LBB56_442
-	bl	.LBB56_129
-.LBB56_442:
-	ldr	r0, [r5, #4]
-	ldr	r1, [r0]
-	cmp	r1, #0
-	beq	.LBB56_441
-	ldr	r0, [r5]
-	blx	r1
-	b	.LBB56_441
-.LBB56_444:
-	adds	r4, r3, #1
-	b	.LBB56_448
-	.p2align	2
-.LCPI56_140:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.43
-	.p2align	2
-.LCPI56_141:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.148
-	.p2align	1
-.LBB56_447:
-	adds	r4, r4, #1
-	cmp	r4, r2
-	bne	.LBB56_448
-	b	.LBB56_334
-.LBB56_448:
-	ldrb	r5, [r4]
-	mov	r6, r5
-	subs	r6, #48
-	cmp	r6, #10
-	blo	.LBB56_452
-	mov	r6, r5
-	ands	r6, r7
-	subs	r6, #65
-	cmp	r6, #26
-	blo	.LBB56_452
-	cmp	r5, #95
-	beq	.LBB56_452
-	cmp	r5, #45
-	beq	.LBB56_452
-	b	.LBB56_336
-.LBB56_452:
-	adds	r4, r4, #1
-	cmp	r4, r2
-	bne	.LBB56_453
-	b	.LBB56_334
-.LBB56_453:
-	ldrb	r5, [r4]
-	mov	r6, r5
-	subs	r6, #48
-	cmp	r6, #10
-	blo	.LBB56_457
-	mov	r6, r5
-	ands	r6, r7
-	subs	r6, #65
-	cmp	r6, #26
-	blo	.LBB56_457
-	cmp	r5, #95
-	beq	.LBB56_457
-	cmp	r5, #45
-	beq	.LBB56_457
-	b	.LBB56_336
-.LBB56_457:
-	adds	r4, r4, #1
-	cmp	r4, r2
-	bne	.LBB56_458
-	b	.LBB56_334
-.LBB56_458:
-	ldrb	r5, [r4]
-	mov	r6, r5
-	subs	r6, #48
-	cmp	r6, #10
-	blo	.LBB56_462
-	mov	r6, r5
-	ands	r6, r7
-	subs	r6, #65
-	cmp	r6, #26
-	blo	.LBB56_462
-	cmp	r5, #95
-	beq	.LBB56_462
-	cmp	r5, #45
-	beq	.LBB56_462
-	b	.LBB56_336
-.LBB56_462:
-	adds	r4, r4, #1
-	cmp	r4, r2
-	bne	.LBB56_463
-	b	.LBB56_334
-.LBB56_463:
-	ldrb	r5, [r4]
-	mov	r6, r5
-	subs	r6, #48
-	cmp	r6, #10
-	blo	.LBB56_447
-	mov	r6, r5
-	ands	r6, r7
-	subs	r6, #65
-	cmp	r6, #26
-	blo	.LBB56_447
-	cmp	r5, #95
-	beq	.LBB56_447
-	cmp	r5, #45
-	beq	.LBB56_447
-	b	.LBB56_336
-.LBB56_467:
-	movs	r4, #48
-	ldr	r2, [sp, #212]
-	str	r4, [r2, #76]
-	ldr	r2, .LCPI56_145
-	ldr	r2, [r2, #8]
-	@APP
-	mov	r6, sp
-	@NO_APP
-	str	r6, [sp, #612]
-	adds	r5, r2, #7
-	movs	r2, #3
-	str	r2, [sp, #240]
-	bics	r5, r2
-	mov	r2, r5
-	adds	r5, #48
-	cmp	r6, r5
-	bhs	.LBB56_468
-	bl	.LBB56_1580
-.LBB56_468:
-	subs	r6, r2, #4
-	str	r4, [r6]
-	ldr	r4, .LCPI56_145
-	str	r5, [r4, #8]
+	beq	.LBB56_200
+	ldrb	r3, [r6, #2]
+	subs	r3, #48
+	cmp	r3, #9
+	bhi	.LBB56_202
+	subs	r2, r5, #3
+	ldr	r4, [sp, #228]
+	muls	r0, r4, r0
+	adds	r0, r3, r0
 	cmp	r2, #0
-	bne	.LBB56_469
-	bl	.LBB56_1598
-.LBB56_469:
-	ldr	r4, [sp, #292]
-	adds	r4, #255
-	str	r4, [sp, #244]
-	str	r4, [r2]
-	str	r3, [r2, #4]
-	str	r1, [r2, #8]
-	movs	r1, #1
-	str	r1, [sp, #324]
-	str	r1, [sp, #536]
-	str	r2, [sp, #248]
-	str	r2, [sp, #532]
-	movs	r1, #4
-	str	r1, [sp, #528]
-.LBB56_470:
-	ldr	r2, [sp, #356]
-	ldr	r5, [sp, #360]
-	cmp	r0, r2
-	mov	r1, r0
-	blo	.LBB56_484
-.LBB56_471:
-	cmp	r2, r0
-	bhi	.LBB56_472
-	b	.LBB56_520
-.LBB56_472:
-	subs	r5, r2, r0
-	mov	r4, r2
-.LBB56_473:
-	mov	r1, r5
-	subs	r1, #64
-	ldr	r2, [sp, #352]
-	cmp	r1, r2
-	bhs	.LBB56_474
-	b	.LBB56_336
-.LBB56_474:
-	ldr	r1, [sp, #360]
-	adds	r6, r1, r0
-	ldrb	r0, [r6]
-	cmp	r0, #95
-	beq	.LBB56_477
-	mov	r1, r0
-	subs	r1, #48
-	cmp	r1, #10
-	blo	.LBB56_477
-	ands	r0, r7
-	subs	r0, #65
-	cmp	r0, #26
-	blo	.LBB56_477
-	b	.LBB56_336
-.LBB56_477:
-	adds	r0, r6, r5
-	cmp	r5, #2
-	bhs	.LBB56_488
-.LBB56_478:
-	subs	r0, r0, #1
-	ldrb	r0, [r0]
-	mov	r1, r0
-	subs	r1, #48
-	cmp	r1, #10
-	blo	.LBB56_480
-	ands	r0, r7
-	subs	r0, #65
-	cmp	r0, #25
-	bls	.LBB56_480
-	b	.LBB56_336
-.LBB56_480:
-	ldr	r0, [sp, #528]
-	ldr	r1, [sp, #324]
-	cmp	r1, r0
-	ldr	r2, [sp, #248]
-	beq	.LBB56_499
-.LBB56_481:
-	movs	r0, #12
-	muls	r0, r1, r0
-	ldr	r3, [sp, #244]
-	str	r3, [r2, r0]
-	str	r2, [sp, #248]
-	adds	r0, r2, r0
-	str	r6, [r0, #4]
-	str	r5, [r0, #8]
-	adds	r1, r1, #1
-	str	r1, [sp, #324]
-	str	r1, [sp, #536]
-	mov	r0, r4
-	b	.LBB56_470
-.LBB56_482:
-	mov	r3, r0
-.LBB56_483:
-	cmp	r2, r4
-	mov	r0, r3
-	mov	r1, r4
-	beq	.LBB56_471
-.LBB56_484:
-	ldrb	r3, [r5, r1]
-	adds	r4, r1, #1
-	cmp	r3, #46
-	bne	.LBB56_482
-	cmp	r1, r0
-	mov	r3, r4
-	beq	.LBB56_483
-	bhs	.LBB56_487
-	bl	.LBB56_1579
-.LBB56_487:
-	subs	r5, r1, r0
-	b	.LBB56_473
-.LBB56_488:
-	adds	r1, r6, #1
-	b	.LBB56_490
-.LBB56_489:
-	adds	r1, r1, #1
-	cmp	r1, r0
-	beq	.LBB56_478
-.LBB56_490:
-	ldrb	r2, [r1]
-	mov	r3, r2
+	beq	.LBB56_200
+	adds	r4, r6, #3
+	ldrb	r3, [r4]
 	subs	r3, #48
 	cmp	r3, #10
-	blo	.LBB56_494
-	mov	r3, r2
-	ands	r3, r7
-	subs	r3, #65
-	cmp	r3, #26
-	blo	.LBB56_494
-	cmp	r2, #95
-	beq	.LBB56_494
-	cmp	r2, #45
-	beq	.LBB56_494
-	b	.LBB56_336
-.LBB56_494:
-	adds	r1, r1, #1
-	cmp	r1, r0
-	beq	.LBB56_478
-	ldrb	r3, [r1]
-	mov	r2, r3
-	subs	r2, #48
-	cmp	r2, #10
-	blo	.LBB56_489
-	mov	r2, r3
-	ands	r2, r7
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_489
-	cmp	r3, #95
-	beq	.LBB56_489
-	cmp	r3, #45
-	beq	.LBB56_489
-	b	.LBB56_336
-.LBB56_499:
-	movs	r0, #12
-	str	r0, [sp]
-	add	r0, sp, #528
-	movs	r2, #1
-	movs	r3, #4
-	ldr	r1, [sp, #324]
-	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECseADBAlPmZ6Z_10simple_dns
-	ldr	r1, [sp, #324]
-	ldr	r2, [sp, #532]
-	b	.LBB56_481
-.LBB56_500:
-	movs	r4, #4
-	movs	r5, #0
-	mov	r3, r5
-.LBB56_501:
-	str	r4, [sp, #352]
-	add	r0, sp, #432
-	mov	r4, r3
-	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecNtNtNtCseADBAlPmZ6Z_10simple_dns3dns8question8QuestionE8grow_oneBS_
-	ldr	r6, [sp, #436]
-	str	r4, [r6]
-	ldr	r0, [sp, #352]
-	str	r0, [r6, #4]
-	str	r5, [r6, #8]
-	movs	r4, #0
-	strh	r4, [r6, #12]
-	ldr	r0, [sp, #340]
-	str	r0, [sp, #440]
-	lsls	r0, r0, #8
-	strh	r0, [r6, #16]
-	ldr	r3, [sp, #212]
-	str	r7, [r3, #76]
-	ldr	r5, .LCPI56_145
-	ldr	r0, [r5, #8]
-	@APP
-	mov	r2, sp
-	@NO_APP
-	str	r2, [sp, #612]
-	movs	r1, #113
-	lsls	r1, r1, #3
-	adds	r1, r0, r1
-	cmp	r2, r1
-	bhs	.LBB56_502
-	bl	.LBB56_1581
-.LBB56_502:
-	str	r7, [r0]
-	str	r1, [r5, #8]
-	ldr	r2, [sp, #476]
-	ldr	r1, [sp, #480]
-	adds	r1, r1, #1
-	str	r2, [sp, #240]
-	str	r1, [sp, #248]
-	bne	.LBB56_504
-	mov	r1, r2
-	b	.LBB56_505
-.LBB56_504:
-	adds	r1, r2, #1
-.LBB56_505:
-	ldr	r2, [sp, #216]
-	rev16	r1, r1
-	strh	r1, [r0, #14]
-	ldr	r1, [sp, #464]
-	str	r1, [sp, #352]
-	rev16	r1, r1
-	strh	r1, [r0, #12]
-	ldr	r1, [sp, #452]
-	str	r1, [sp, #324]
-	rev16	r1, r1
-	strh	r1, [r0, #10]
-	ldr	r1, [sp, #344]
-	strh	r1, [r0, #8]
-	adds	r1, r0, #4
-	str	r1, [r3, #16]
-	ldrh	r1, [r2, #2]
-	rev16	r1, r1
-	strh	r1, [r0, #4]
-	ldrb	r1, [r2, #15]
-	movs	r5, #15
-	str	r1, [sp, #244]
-	str	r5, [sp, #200]
-	ands	r1, r5
-	mov	r7, r2
-	ldrh	r2, [r2, #4]
-	mov	r5, r3
-	ldrb	r3, [r7, #14]
-	lsls	r3, r3, #11
-	orrs	r3, r2
-	orrs	r3, r1
-	rev16	r1, r3
-	strh	r1, [r0, #6]
-	ldr	r0, [sp, #296]
-	str	r0, [r5, #12]
-	movs	r0, #12
-	str	r0, [r5, #20]
-	ldr	r1, [r6, #4]
-	ldr	r2, [r6, #8]
-	add	r0, sp, #680
-	ldr	r3, .LCPI56_146
-	add	r3, sp
-	bl	_RINvMNtNtCseADBAlPmZ6Z_10simple_dns3dns4nameNtB3_4Name12plain_appendINtNtCsa0y0V4fwJ9Z_5alloc3vec3VechEEB7_
-	ldr	r0, [sp, #680]
-	adds	r0, r0, #1
-	beq	.LBB56_507
-.LBB56_506:
-	movs	r7, #24
-	ldr	r5, .LCPI56_147
-	b	.LBB56_337
-.LBB56_507:
-	ldr	r7, [sp, #324]
-	ldrh	r0, [r6, #12]
-	mov	r2, r0
-	subs	r2, #41
-	bhi	.LBB56_509
-	mov	r2, r4
-.LBB56_509:
-	movs	r1, #251
-	lsls	r5, r1, #8
-	ldrh	r1, [r6, #14]
-	ldrb	r3, [r6, #17]
-	str	r3, [sp, #236]
-	ldrb	r4, [r6, #16]
-	lsls	r2, r2, #2
-	adr	r3, .LJTI56_2
-	ldr	r2, [r3, r2]
-	ldr	r3, [sp, #212]
-	mov	r6, r7
-	mov	pc, r2
-	.p2align	2
-.LJTI56_2:
-	.long	.LBB56_511+1
-	.long	.LBB56_535+1
-	.long	.LBB56_531+1
-	.long	.LBB56_532+1
-	.long	.LBB56_530+1
-	.long	.LBB56_533+1
-.LBB56_511:
-	adr	r2, .LJTI56_3
+	ldr	r3, [sp, #268]
+	bhs	.LBB56_203
+.LBB56_198:
+	movs	r1, #0
+	mov	r2, r5
+	mov	r4, r6
+	lsls	r1, r1, #31
+	bne	.LBB56_209
+	bl	.LBB56_397
+.LBB56_199:
+	movs	r0, #1
+	ldr	r2, [sp, #300]
+	orrs	r2, r0
+	movs	r0, #254
+	bics	r2, r0
+	str	r2, [sp, #300]
+	bl	.LBB56_398
+.LBB56_200:
+	subs	r3, r5, #1
+	subs	r2, r3, #1
+	sbcs	r3, r2
+	adds	r4, r6, r5
+	movs	r2, #0
+	b	.LBB56_203
+.LBB56_201:
+	adds	r4, r6, #1
+	movs	r3, #0
+	mov	r0, r1
+	b	.LBB56_203
+.LBB56_202:
+	adds	r4, r6, #2
+	ldr	r3, [sp, #268]
+.LBB56_203:
+	subs	r5, r1, #1
+	sbcs	r1, r5
 	ldr	r5, [sp, #344]
-	lsls	r0, r0, #1
-	ldrh	r0, [r2, r0]
-	lsls	r0, r0, #1
-.LCPI56_99:
-	add	pc, r0
+	cmp	r0, r5
+	blo	.LBB56_205
+	movs	r5, #0
+	b	.LBB56_206
+.LBB56_205:
+	movs	r5, #1
+.LBB56_206:
+	mvns	r3, r3
+	orrs	r1, r3
+	ands	r1, r5
+	cmp	r1, #0
+	bne	.LBB56_222
+	mov	r4, r6
+	ldr	r3, [sp, #356]
+	beq	.LBB56_223
+.LBB56_208:
+	lsls	r1, r1, #31
+	bne	.LBB56_209
+	b	.LBB56_397
+.LBB56_209:
+	cmp	r2, #0
+	bne	.LBB56_210
+	b	.LBB56_397
+.LBB56_210:
+	subs	r3, r2, #1
+	rsbs	r1, r3, #0
+	adcs	r1, r3
+	ldrb	r5, [r4]
+	cmp	r5, #46
+	ldr	r5, [sp, #268]
+	bne	.LBB56_212
+	mov	r5, r1
+.LBB56_212:
+	cmp	r5, #0
+	beq	.LBB56_213
+	b	.LBB56_397
+.LBB56_213:
+	adds	r5, r4, #1
+	ldrb	r6, [r4, #1]
+	subs	r6, #48
+	cmp	r6, #9
+	bhi	.LBB56_224
+	str	r5, [sp, #324]
+	subs	r1, r2, #2
+	mov	r5, r6
+	str	r0, [sp, #348]
+	bne	.LBB56_215
+	b	.LBB56_251
+.LBB56_215:
+	ldrb	r5, [r4, #2]
+	subs	r5, #48
+	cmp	r5, #9
+	bhi	.LBB56_226
+	subs	r1, r2, #3
+	ldr	r7, [sp, #228]
+	muls	r7, r6, r7
+	adds	r5, r5, r7
+	cmp	r1, #0
+	bne	.LBB56_217
+	b	.LBB56_250
+.LBB56_217:
+	str	r5, [sp, #328]
+	ldrb	r0, [r4, #3]
+	subs	r0, #48
+	cmp	r0, #9
+	ldr	r7, [sp, #292]
+	bls	.LBB56_218
+	b	.LBB56_278
+.LBB56_218:
+	subs	r1, r2, #4
+	str	r1, [sp, #320]
+	ldr	r5, [sp, #228]
+	ldr	r1, [sp, #328]
+	muls	r1, r5, r1
+	mov	r5, r1
+	ldr	r1, [sp, #320]
+	adds	r5, r0, r5
+	cmp	r1, #0
+	bne	.LBB56_219
+	b	.LBB56_251
+.LBB56_219:
+	str	r5, [sp, #328]
+	adds	r0, r4, #4
+	ldrb	r4, [r0]
+	subs	r4, #48
+	cmp	r4, #10
+	ldr	r5, [sp, #268]
+	blo	.LBB56_220
+	b	.LBB56_252
+.LBB56_220:
+	movs	r6, #0
+	mov	r1, r3
+	ldr	r2, [sp, #324]
+	ldr	r0, [sp, #348]
+	lsls	r3, r6, #31
+	beq	.LBB56_221
+	b	.LBB56_258
+.LBB56_221:
+	b	.LBB56_397
+.LBB56_222:
+	ldr	r3, [sp, #356]
+	bne	.LBB56_208
+.LBB56_223:
+	mov	r2, r3
+	lsls	r1, r1, #31
+	bne	.LBB56_209
+	b	.LBB56_397
+.LBB56_224:
+	movs	r6, #0
+	mov	r1, r3
+	mov	r2, r5
+	lsls	r3, r6, #31
+	beq	.LBB56_225
+	b	.LBB56_258
+.LBB56_225:
+	b	.LBB56_397
+.LBB56_226:
+	adds	r0, r4, #2
+	movs	r5, #0
+	str	r6, [sp, #328]
+	b	.LBB56_252
+.LBB56_227:
+	subs	r2, r2, #1
+	str	r0, [sp, #392]
+	str	r2, [sp, #396]
+	cmp	r2, #6
+	bhs	.LBB56_232
+	b	.LBB56_230
+.LBB56_228:
+	subs	r2, r2, #2
+.LBB56_229:
+	str	r0, [sp, #392]
+	str	r2, [sp, #396]
+	cmp	r2, #6
+	bhs	.LBB56_232
+.LBB56_230:
+	mov	r1, r0
+	ldr	r4, [sp, #312]
+	b	.LBB56_137
+.LBB56_231:
+	subs	r2, r2, #3
+	str	r0, [sp, #392]
+	str	r2, [sp, #396]
+	cmp	r2, #6
+	blo	.LBB56_230
+.LBB56_232:
+	mov	r3, r0
+	ldr	r4, .LCPI56_140
+	orrs	r3, r4
+	lsls	r3, r3, #30
+	beq	.LBB56_246
+	cmp	r3, #0
+	beq	.LBB56_249
+	ldrb	r3, [r0]
+	cmp	r3, #97
+	ldr	r4, [sp, #140]
+	beq	.LBB56_235
+	b	.LBB56_283
+.LBB56_235:
+	ldr	r3, .LCPI56_140
+	adds	r3, r3, #1
+	mov	r4, r1
+	orrs	r4, r3
+	lsls	r4, r4, #30
+	bne	.LBB56_236
+	b	.LBB56_281
+.LBB56_236:
+	ldrb	r3, [r1]
+	cmp	r3, #98
+	beq	.LBB56_237
+	b	.LBB56_282
+.LBB56_237:
+	ldr	r3, .LCPI56_140
+	adds	r3, r3, #2
+	adds	r1, r1, #1
+	mov	r4, r1
+	orrs	r4, r3
+	lsls	r4, r4, #30
+	bne	.LBB56_238
+	b	.LBB56_322
+.LBB56_238:
+	ldrb	r3, [r1]
+	cmp	r3, #111
+	ldr	r4, [sp, #96]
+	beq	.LBB56_239
+	b	.LBB56_283
+.LBB56_239:
+	ldr	r1, .LCPI56_140
+	adds	r3, r1, #3
+	adds	r1, r0, #3
+	mov	r4, r1
+	orrs	r4, r3
+	lsls	r4, r4, #30
+	bne	.LBB56_240
+	b	.LBB56_388
+.LBB56_240:
+	ldrb	r3, [r1]
+	cmp	r3, #117
+	ldr	r4, [sp, #92]
+	beq	.LBB56_241
+	b	.LBB56_283
+.LBB56_241:
+	ldr	r1, .LCPI56_140
+	adds	r3, r1, #4
+	adds	r1, r0, #4
+	mov	r4, r1
+	orrs	r4, r3
+	lsls	r4, r4, #30
+	bne	.LBB56_242
+	bl	.LBB56_1040
+.LBB56_242:
+	ldrb	r3, [r1]
+	cmp	r3, #116
+	ldr	r4, [sp, #88]
+	beq	.LBB56_243
+	b	.LBB56_283
+.LBB56_243:
+	ldr	r1, .LCPI56_140
+	adds	r3, r1, #5
+	adds	r1, r0, #5
+	mov	r4, r1
+	orrs	r4, r3
+	lsls	r4, r4, #30
+	bne	.LBB56_244
+	bl	.LBB56_1087
+.LBB56_244:
+	ldrb	r3, [r1]
+	cmp	r3, #58
+	bne	.LBB56_245
+	b	.LBB56_338
+.LBB56_245:
+	movs	r4, #58
+	b	.LBB56_283
+.LBB56_246:
+	ldr	r1, [r0]
+	ldr	r3, .LCPI56_141
+	cmp	r1, r3
+	bne	.LBB56_273
+	ldrb	r1, [r0, #4]
+	cmp	r1, #116
+	bne	.LBB56_230
+	ldrb	r1, [r0, #5]
+	cmp	r1, #58
+	bne	.LBB56_230
+	b	.LBB56_338
+.LBB56_249:
+	movs	r1, #6
+	str	r1, [sp, #360]
+	ldr	r3, .LCPI56_140
+	mov	r1, r0
+	b	.LBB56_324
+.LBB56_250:
+	ldr	r7, [sp, #292]
+.LBB56_251:
+	str	r5, [sp, #328]
+	subs	r5, r3, #1
+	subs	r1, r5, #1
+	sbcs	r5, r1
+	adds	r0, r4, r2
+	movs	r1, #0
+.LBB56_252:
+	subs	r4, r6, #1
+	sbcs	r6, r4
+	ldr	r4, [sp, #344]
+	ldr	r2, [sp, #328]
+	cmp	r2, r4
+	blo	.LBB56_254
+	movs	r4, #0
+	b	.LBB56_255
+.LBB56_254:
+	movs	r4, #1
+.LBB56_255:
+	mvns	r5, r5
+	orrs	r6, r5
+	ands	r6, r4
+	cmp	r6, #0
+	mov	r2, r0
+	bne	.LBB56_270
+	ldr	r2, [sp, #324]
+	ldr	r0, [sp, #348]
+	beq	.LBB56_271
+.LBB56_257:
+	lsls	r3, r6, #31
+	bne	.LBB56_258
+	b	.LBB56_397
+.LBB56_258:
+	cmp	r1, #0
+	bne	.LBB56_259
+	b	.LBB56_397
+.LBB56_259:
+	subs	r4, r1, #1
+	rsbs	r3, r4, #0
+	adcs	r3, r4
+	ldrb	r5, [r2]
+	cmp	r5, #46
+	ldr	r5, [sp, #268]
+	bne	.LBB56_261
+	mov	r5, r3
+.LBB56_261:
+	cmp	r5, #0
+	beq	.LBB56_262
+	b	.LBB56_397
+.LBB56_262:
+	adds	r3, r2, #1
+	ldrb	r6, [r2, #1]
+	subs	r6, #48
+	cmp	r6, #9
+	bhi	.LBB56_272
+	str	r3, [sp, #316]
+	str	r0, [sp, #348]
+	str	r1, [sp, #320]
+	subs	r5, r1, #2
+	mov	r1, r6
+	beq	.LBB56_287
+	ldrb	r3, [r2, #2]
+	subs	r3, #48
+	cmp	r3, #9
+	bhi	.LBB56_280
+	ldr	r0, [sp, #320]
+	subs	r5, r0, #3
+	ldr	r7, [sp, #228]
+	muls	r7, r6, r7
+	adds	r1, r3, r7
+	cmp	r5, #0
+	beq	.LBB56_286
+	ldrb	r3, [r2, #3]
+	subs	r3, #48
+	cmp	r3, #9
+	ldr	r7, [sp, #292]
+	bls	.LBB56_267
+	b	.LBB56_312
+.LBB56_267:
+	ldr	r0, [sp, #320]
+	subs	r5, r0, #4
+	mov	r0, r3
+	ldr	r3, [sp, #228]
+	muls	r1, r3, r1
+	adds	r1, r0, r1
+	cmp	r5, #0
+	beq	.LBB56_287
+	str	r1, [sp, #324]
+	adds	r0, r2, #4
+	ldrb	r1, [r0]
+	subs	r1, #48
+	cmp	r1, #10
+	ldr	r3, [sp, #268]
+	bhs	.LBB56_288
+	movs	r6, #0
+	mov	r5, r4
+	ldr	r2, [sp, #316]
+	ldr	r0, [sp, #348]
+	lsls	r1, r6, #31
+	bne	.LBB56_298
+	b	.LBB56_397
+.LBB56_270:
+	ldr	r0, [sp, #348]
+	bne	.LBB56_257
+.LBB56_271:
+	mov	r1, r3
+	lsls	r3, r6, #31
+	bne	.LBB56_258
+	b	.LBB56_397
+.LBB56_272:
+	movs	r6, #0
+	mov	r5, r4
+	mov	r2, r3
+	lsls	r1, r6, #31
+	bne	.LBB56_298
+	b	.LBB56_397
+.LBB56_273:
+	uxtb	r3, r1
+	cmp	r3, #97
+	bne	.LBB56_279
+	ldr	r5, [sp, #264]
+	lsls	r3, r5, #8
+	ands	r3, r1
+	movs	r4, #49
+	lsls	r4, r4, #9
+	cmp	r3, r4
+	bne	.LBB56_285
+	lsls	r4, r5, #16
+	ands	r4, r1
+	movs	r3, #111
+	lsls	r5, r3, #16
+	cmp	r4, r5
+	beq	.LBB56_276
+	b	.LBB56_320
+.LBB56_276:
+	lsrs	r1, r1, #24
+	cmp	r1, #117
+	bne	.LBB56_277
+	b	.LBB56_338
+.LBB56_277:
+	movs	r3, #117
+	b	.LBB56_321
+.LBB56_278:
+	adds	r0, r4, #3
+	ldr	r5, [sp, #268]
+	b	.LBB56_252
+.LBB56_279:
+	movs	r3, #97
+	b	.LBB56_321
+.LBB56_280:
+	adds	r0, r2, #2
+	movs	r3, #0
+	str	r6, [sp, #324]
+	b	.LBB56_288
+.LBB56_281:
+	ldr	r4, [sp, #104]
+	b	.LBB56_323
+.LBB56_282:
+	movs	r4, #98
+.LBB56_283:
+	subs	r1, r4, r3
+	cmp	r1, #0
+	beq	.LBB56_284
+	b	.LBB56_230
+.LBB56_284:
+	b	.LBB56_338
+.LBB56_285:
+	lsrs	r1, r1, #8
+	movs	r3, #98
+	b	.LBB56_321
+.LBB56_286:
+	ldr	r7, [sp, #292]
+.LBB56_287:
+	str	r1, [sp, #324]
+	subs	r3, r4, #1
+	subs	r5, r3, #1
+	sbcs	r3, r5
+	ldr	r0, [sp, #320]
+	adds	r0, r2, r0
+	movs	r5, #0
+.LBB56_288:
+	str	r5, [sp, #320]
+	mov	r5, r0
+	subs	r1, r6, #1
+	sbcs	r6, r1
+	ldr	r1, [sp, #344]
+	ldr	r2, [sp, #324]
+	cmp	r2, r1
+	ldr	r0, [sp, #348]
+	blo	.LBB56_294
+	movs	r1, #0
+	b	.LBB56_295
 	.p2align	2
-.LCPI56_142:
-	.long	8388635
-	.p2align	1
+.LCPI56_229:
+	.long	_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtB8_
 	.p2align	2
-.LJTI56_3:
-	.short	(.LBB56_535-(.LCPI56_99+4))/2
-	.short	(.LBB56_519-(.LCPI56_99+4))/2
-	.short	(.LBB56_722-(.LCPI56_99+4))/2
-	.short	(.LBB56_723-(.LCPI56_99+4))/2
-	.short	(.LBB56_724-(.LCPI56_99+4))/2
-	.short	(.LBB56_725-(.LCPI56_99+4))/2
-	.short	(.LBB56_726-(.LCPI56_99+4))/2
-	.short	(.LBB56_727-(.LCPI56_99+4))/2
-	.short	(.LBB56_728-(.LCPI56_99+4))/2
-	.short	(.LBB56_729-(.LCPI56_99+4))/2
-	.short	(.LBB56_730-(.LCPI56_99+4))/2
-	.short	(.LBB56_731-(.LCPI56_99+4))/2
-	.short	(.LBB56_732-(.LCPI56_99+4))/2
-	.short	(.LBB56_733-(.LCPI56_99+4))/2
-	.short	(.LBB56_734-(.LCPI56_99+4))/2
-	.short	(.LBB56_735-(.LCPI56_99+4))/2
-	.short	(.LBB56_716-(.LCPI56_99+4))/2
-	.short	(.LBB56_736-(.LCPI56_99+4))/2
-	.short	(.LBB56_737-(.LCPI56_99+4))/2
-	.short	(.LBB56_738-(.LCPI56_99+4))/2
-	.short	(.LBB56_739-(.LCPI56_99+4))/2
-	.short	(.LBB56_740-(.LCPI56_99+4))/2
-	.short	(.LBB56_741-(.LCPI56_99+4))/2
-	.short	(.LBB56_742-(.LCPI56_99+4))/2
-	.short	(.LBB56_743-(.LCPI56_99+4))/2
-	.short	(.LBB56_744-(.LCPI56_99+4))/2
-	.short	(.LBB56_745-(.LCPI56_99+4))/2
-	.short	(.LBB56_717-(.LCPI56_99+4))/2
-	.short	(.LBB56_746-(.LCPI56_99+4))/2
-	.short	(.LBB56_747-(.LCPI56_99+4))/2
-	.short	(.LBB56_748-(.LCPI56_99+4))/2
-	.short	(.LBB56_749-(.LCPI56_99+4))/2
-	.short	(.LBB56_750-(.LCPI56_99+4))/2
-	.short	(.LBB56_751-(.LCPI56_99+4))/2
-	.short	(.LBB56_718-(.LCPI56_99+4))/2
-	.short	(.LBB56_719-(.LCPI56_99+4))/2
-	.short	(.LBB56_720-(.LCPI56_99+4))/2
-	.short	(.LBB56_721-(.LCPI56_99+4))/2
-	.short	(.LBB56_752-(.LCPI56_99+4))/2
-	.short	(.LBB56_753-(.LCPI56_99+4))/2
-	.short	(.LBB56_754-(.LCPI56_99+4))/2
-	.short	(.LBB56_755-(.LCPI56_99+4))/2
-	.p2align	1
-	.p2align	2
-.LCPI56_143:
-	.long	4292870144
-	.p2align	2
-.LCPI56_144:
-	.long	691200
-	.p2align	2
-.LCPI56_145:
+.LCPI56_230:
 	.long	.L_MergedGlobals
 	.p2align	2
-.LCPI56_146:
-	.long	1720
+.LCPI56_231:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.255
 	.p2align	2
-.LCPI56_147:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.42
+.LCPI56_232:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.147
 	.p2align	1
-.LBB56_519:
-	movs	r0, #7
-	lsls	r5, r0, #10
-	b	.LBB56_535
-.LBB56_520:
-	ldr	r0, [sp, #324]
-	ldr	r5, [sp, #240]
-	ands	r5, r0
-	ldr	r4, [sp, #532]
-	ldr	r3, [sp, #528]
-	lsrs	r0, r0, #2
-	beq	.LBB56_524
-	str	r3, [sp, #352]
-	lsls	r2, r0, #2
-	mov	r3, r4
-	adds	r3, #44
-	movs	r1, #0
-	mov	r0, r1
-	ldr	r7, [sp, #292]
-.LBB56_522:
-	mov	r6, r3
-	subs	r6, #36
-	ldr	r6, [r6]
-	adds	r0, r0, r6
-	mov	r6, r3
-	subs	r6, #24
-	ldr	r6, [r6]
-	adds	r0, r0, r6
-	mov	r6, r3
-	subs	r6, #12
-	ldr	r6, [r6]
-	adds	r0, r0, r6
-	ldr	r6, [r3]
-	adds	r0, r0, r6
-	adds	r0, r0, #4
-	adds	r3, #48
-	adds	r1, r1, #4
-	cmp	r2, r1
-	bne	.LBB56_522
-	cmp	r5, #0
-	ldr	r3, [sp, #352]
-	bne	.LBB56_525
-	b	.LBB56_528
-.LBB56_524:
-	movs	r1, #0
-	mov	r0, r1
-	ldr	r7, [sp, #292]
-.LBB56_525:
-	movs	r2, #12
-	muls	r2, r1, r2
-	adds	r1, r4, r2
-	ldr	r2, [r1, #8]
-	adds	r0, r0, r2
-	adds	r0, r0, #1
-	cmp	r5, #1
-	beq	.LBB56_528
-	ldr	r2, [r1, #20]
-	adds	r0, r0, r2
-	adds	r0, r0, #1
-	cmp	r5, #2
-	beq	.LBB56_528
-	ldr	r1, [r1, #32]
-	adds	r0, r0, r1
-	adds	r0, r0, #1
-.LBB56_528:
-	subs	r0, #255
-	cmp	r0, r7
-	ldr	r7, [sp, #296]
-	ldr	r5, [sp, #324]
-	bhs	.LBB56_529
-	b	.LBB56_336
-.LBB56_529:
-	b	.LBB56_501
-.LBB56_530:
-	movs	r0, #127
-	lsls	r5, r0, #9
-	b	.LBB56_535
-.LBB56_531:
-	movs	r0, #63
-	lsls	r5, r0, #10
-	b	.LBB56_535
-.LBB56_532:
-	movs	r0, #253
-	b	.LBB56_534
-.LBB56_533:
-	ldr	r0, [sp, #264]
-.LBB56_534:
-	lsls	r5, r0, #8
-.LBB56_535:
-	ldr	r1, [r3, #20]
-	ldr	r2, [r3, #12]
-	subs	r0, r2, r1
-	mov	r7, r4
-	cmp	r0, #1
-	bhi	.LBB56_536
-	bl	.LBB56_765
-.LBB56_536:
-	ldr	r0, [r3, #16]
-	strb	r5, [r0, r1]
-	adds	r3, r0, r1
-	lsrs	r4, r5, #8
-	strb	r4, [r3, #1]
-	ldr	r3, [sp, #212]
-	adds	r1, r1, #2
-	str	r1, [r3, #20]
-	subs	r2, r2, r1
-	cmp	r2, #1
-	bhi	.LBB56_537
-	bl	.LBB56_766
-.LBB56_537:
-	ldr	r4, [sp, #236]
-	ldr	r2, .LCPI56_232
-	adds	r2, r2, r4
-	adds	r3, r2, #1
-	cmp	r4, #0
-	ldr	r2, [sp, #264]
-	bne	.LBB56_538
-	b	.LBB56_562
-.LBB56_538:
-	mov	r2, r4
-	ldr	r4, .LCPI56_233
-	beq	.LBB56_539
-	b	.LBB56_563
-.LBB56_539:
-	cmp	r7, #0
-	bne	.LBB56_541
-.LBB56_540:
-	mov	r4, r2
-.LBB56_541:
-	rev	r2, r4
-	lsrs	r3, r2, #16
-	strb	r3, [r0, r1]
-	lsrs	r2, r2, #24
-	adds	r0, r0, r1
-	strb	r2, [r0, #1]
-	adds	r0, r1, #2
-	ldr	r1, [sp, #212]
-	str	r0, [r1, #20]
-	movs	r7, #80
-	cmp	r6, #0
-	ldr	r4, [sp, #352]
-	beq	.LBB56_545
-	muls	r6, r7, r6
-	ldr	r5, [sp, #448]
-.LBB56_543:
-	add	r0, sp, #680
-	ldr	r2, .LCPI56_150
-	add	r2, sp
-	mov	r1, r5
-	bl	_RINvXs_NtNtCseADBAlPmZ6Z_10simple_dns3dns15resource_recordNtB5_14ResourceRecordNtNtB7_11wire_format10WireFormat8write_toINtNtCsa0y0V4fwJ9Z_5alloc3vec3VechEEB9_
-	ldr	r0, [sp, #680]
-	adds	r0, r0, #1
-	beq	.LBB56_544
-	b	.LBB56_506
-.LBB56_544:
-	adds	r5, #80
-	subs	r6, #80
-	bne	.LBB56_543
-.LBB56_545:
-	cmp	r4, #0
-	beq	.LBB56_549
-	muls	r4, r7, r4
-	ldr	r5, [sp, #460]
-.LBB56_547:
-	add	r0, sp, #680
-	ldr	r2, .LCPI56_150
-	add	r2, sp
-	mov	r1, r5
-	bl	_RINvXs_NtNtCseADBAlPmZ6Z_10simple_dns3dns15resource_recordNtB5_14ResourceRecordNtNtB7_11wire_format10WireFormat8write_toINtNtCsa0y0V4fwJ9Z_5alloc3vec3VechEEB9_
-	ldr	r0, [sp, #680]
-	adds	r0, r0, #1
-	beq	.LBB56_548
-	b	.LBB56_506
-.LBB56_548:
-	adds	r5, #80
-	subs	r4, #80
-	bne	.LBB56_547
-.LBB56_549:
-	ldr	r0, [sp, #248]
-	cmp	r0, #0
-	bne	.LBB56_550
-	b	.LBB56_568
-.LBB56_550:
-	ldr	r0, [sp, #216]
-	ldrb	r4, [r0]
-	ldr	r3, [sp, #488]
-	cmp	r3, #0
-	ldr	r2, [sp, #320]
-	beq	.LBB56_567
-	mov	r1, r7
-	lsls	r7, r3, #4
-	ldr	r6, [sp, #484]
-	ldr	r0, [sp, #212]
-	str	r7, [r0, #76]
-	ldr	r2, .LCPI56_151
-	ldr	r0, [r2, #8]
-	@APP
-	mov	r2, sp
-	@NO_APP
-	str	r2, [sp, #612]
-	adds	r5, r0, #7
-	movs	r0, #3
-	bics	r5, r0
-	adds	r0, r5, r7
-	cmp	r2, r0
-	bhs	.LBB56_552
-	bl	.LBB56_1592
-.LBB56_552:
-	str	r4, [sp, #128]
-	str	r3, [sp, #144]
-	str	r1, [sp, #148]
-	subs	r1, r5, #4
-	str	r7, [r1]
-	ldr	r1, .LCPI56_151
-	str	r0, [r1, #8]
-	cmp	r5, #0
-	str	r7, [sp, #248]
-	bne	.LBB56_553
-	bl	.LBB56_1601
-.LBB56_553:
-	mov	r3, r5
-	movs	r4, #0
-	ldr	r5, [sp, #144]
-	str	r3, [sp, #152]
-	b	.LBB56_556
-.LBB56_554:
-	str	r0, [sp, #324]
-	ldr	r2, [sp, #328]
-	mov	r3, r7
-	mov	r7, r1
-.LBB56_555:
-	subs	r5, r5, #1
-	adds	r6, #16
-	str	r2, [r3, r4]
-	adds	r1, r3, r4
-	ldr	r2, [sp, #352]
-	strh	r2, [r1, #12]
-	ldr	r2, [sp, #324]
-	str	r2, [r1, #4]
-	str	r7, [r1, #8]
-	adds	r4, #16
-	cmp	r5, #0
-	beq	.LBB56_566
-.LBB56_556:
-	mov	r7, r3
-	ldr	r0, [sp, #248]
-	cmp	r0, r4
-	beq	.LBB56_565
-	ldr	r3, [r6]
-	ldr	r0, [r6, #4]
-	ldr	r1, [r6, #8]
-	ldrh	r2, [r6, #12]
-	str	r2, [sp, #352]
-	adds	r3, r3, #1
-	beq	.LBB56_554
-	str	r0, [sp, #236]
-	cmp	r1, #0
-	beq	.LBB56_561
-	ldr	r0, [sp, #212]
-	str	r1, [r0, #76]
-	ldr	r0, .LCPI56_151
-	ldr	r3, [r0, #8]
-	@APP
-	mov	r0, sp
-	@NO_APP
-	str	r0, [sp, #324]
-	str	r0, [sp, #612]
-	mov	r7, r1
-	adds	r0, r3, #4
-	adds	r2, r0, r1
-	ldr	r1, [sp, #324]
-	cmp	r1, r2
-	bhs	.LBB56_560
-	bl	.LBB56_1586
-.LBB56_560:
-	str	r7, [r3]
-	ldr	r1, .LCPI56_151
-	str	r2, [r1, #8]
-	str	r0, [sp, #324]
-	ldr	r1, [sp, #236]
-	mov	r2, r7
-	bl	__aeabi_memcpy
-	mov	r2, r7
-	ldr	r3, [sp, #152]
-	b	.LBB56_555
-.LBB56_561:
-	mov	r3, r7
-	movs	r2, #0
-	mov	r7, r1
-	ldr	r1, [sp, #340]
-	str	r1, [sp, #324]
-	b	.LBB56_555
-.LBB56_562:
-	ldr	r4, .LCPI56_149
-	bne	.LBB56_563
-	b	.LBB56_539
-.LBB56_563:
-	mov	r4, r3
-	cmp	r7, #0
-	bne	.LBB56_564
-	b	.LBB56_540
-.LBB56_564:
-	b	.LBB56_541
-.LBB56_565:
-	ldr	r0, [sp, #148]
-	ldr	r3, [sp, #144]
-	ldr	r4, [sp, #128]
-	mov	r2, r7
-	mov	r7, r0
-	b	.LBB56_567
-.LBB56_566:
-	ldr	r7, [sp, #148]
-	mov	r2, r3
-	ldr	r3, [sp, #144]
-	ldr	r4, [sp, #128]
-.LBB56_567:
-	ldr	r0, [sp, #244]
-	lsrs	r0, r0, #4
-	lsls	r1, r4, #8
-	adds	r0, r1, r0
-	ldr	r1, [sp, #492]
-	add	r5, sp, #680
-	strb	r4, [r5, #18]
-	strh	r1, [r5, #16]
+.LBB56_294:
 	movs	r1, #1
-	mov	r4, r2
-	ldr	r2, [sp, #124]
-	strh	r1, [r2]
+.LBB56_295:
+	mvns	r3, r3
+	orrs	r6, r3
+	ands	r6, r1
+	cmp	r6, #0
+	mov	r2, r5
+	bne	.LBB56_309
+	ldr	r2, [sp, #316]
+	ldr	r5, [sp, #320]
+	beq	.LBB56_310
+.LBB56_297:
+	lsls	r1, r6, #31
+	bne	.LBB56_298
+	b	.LBB56_397
+.LBB56_298:
+	cmp	r5, #0
+	bne	.LBB56_299
+	b	.LBB56_397
+.LBB56_299:
+	ldrb	r1, [r2]
+	cmp	r1, #46
+	beq	.LBB56_300
+	b	.LBB56_397
+.LBB56_300:
+	movs	r3, #0
+	subs	r4, r5, #1
+	beq	.LBB56_311
+	ldrb	r1, [r2, #1]
+	subs	r1, #48
+	cmp	r1, #9
+	bhi	.LBB56_319
+	subs	r6, r5, #2
+	mov	r3, r1
+	bne	.LBB56_303
+	b	.LBB56_390
+.LBB56_303:
+	ldrb	r3, [r2, #2]
+	subs	r3, #48
+	cmp	r3, #9
+	bls	.LBB56_304
+	b	.LBB56_386
+.LBB56_304:
+	subs	r6, r5, #3
+	ldr	r7, [sp, #228]
+	muls	r7, r1, r7
+	adds	r3, r3, r7
+	cmp	r6, #0
+	bne	.LBB56_305
+	b	.LBB56_389
+.LBB56_305:
+	ldrb	r7, [r2, #3]
+	subs	r7, #48
+	cmp	r7, #9
+	bls	.LBB56_306
+	bl	.LBB56_1039
+.LBB56_306:
+	subs	r6, r5, #4
+	ldr	r5, [sp, #228]
+	muls	r3, r5, r3
+	adds	r3, r7, r3
+	cmp	r6, #0
+	bne	.LBB56_307
+	b	.LBB56_389
+.LBB56_307:
+	ldrb	r2, [r2, #4]
+	subs	r2, #48
+	cmp	r2, #10
+	ldr	r2, [sp, #268]
+	ldr	r7, [sp, #292]
+	blo	.LBB56_308
+	b	.LBB56_391
+.LBB56_308:
 	movs	r1, #0
-	str	r1, [sp, #748]
-	ldr	r2, [sp, #320]
-	str	r2, [sp, #744]
-	str	r0, [sp, #736]
-	str	r3, [sp, #692]
-	str	r4, [sp, #688]
-	str	r3, [sp, #684]
-	ldr	r0, .LCPI56_152
-	adds	r0, r0, #4
-	str	r0, [sp, #680]
-	str	r1, [sp, #740]
-	add	r0, sp, #528
-	ldr	r2, .LCPI56_150
-	add	r2, sp
-	mov	r1, r5
-	bl	_RINvXs_NtNtCseADBAlPmZ6Z_10simple_dns3dns15resource_recordNtB5_14ResourceRecordNtNtB7_11wire_format10WireFormat8write_toINtNtCsa0y0V4fwJ9Z_5alloc3vec3VechEEB9_
-	ldr	r4, [sp, #528]
-	mov	r0, r5
-	bl	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNtNtNtCseADBAlPmZ6Z_10simple_dns3dns5rdata5RDataEBH_
-	adds	r0, r4, #1
-	beq	.LBB56_568
-	b	.LBB56_506
-.LBB56_568:
-	ldr	r4, [sp, #240]
-	cmp	r4, #0
-	beq	.LBB56_572
-	muls	r4, r7, r4
-	ldr	r5, [sp, #472]
-.LBB56_570:
-	add	r0, sp, #680
-	ldr	r2, .LCPI56_150
-	add	r2, sp
-	mov	r1, r5
-	bl	_RINvXs_NtNtCseADBAlPmZ6Z_10simple_dns3dns15resource_recordNtB5_14ResourceRecordNtNtB7_11wire_format10WireFormat8write_toINtNtCsa0y0V4fwJ9Z_5alloc3vec3VechEEB9_
-	ldr	r0, [sp, #680]
-	adds	r0, r0, #1
-	beq	.LBB56_571
-	b	.LBB56_506
-.LBB56_571:
-	adds	r5, #80
-	subs	r4, #80
-	bne	.LBB56_570
-.LBB56_572:
-	str	r7, [sp, #148]
-	ldr	r0, [sp, #212]
-	mov	r7, r0
-	adds	r7, #12
-	ldm	r7, {r4, r6, r7}
-	ldr	r1, [sp, #292]
-.LBB56_573:
-	ldr	r0, [r1, #64]
-	cmp	r0, #0
-	bmi	.LBB56_577
-	ldr	r0, [r1, #64]
-	cmp	r0, #0
-	bmi	.LBB56_577
-	ldr	r0, [r1, #64]
-	cmp	r0, #0
-	bmi	.LBB56_577
-	ldr	r0, [r1, #64]
-	cmp	r0, #0
-	bpl	.LBB56_573
-.LBB56_577:
-	movs	r2, #1
-	str	r2, [r1, #8]
-	ldr	r0, [sp, #288]
-	str	r0, [r1, #8]
-	str	r0, [r1, #8]
-	str	r0, [r1, #8]
-	str	r0, [r1, #8]
-	movs	r0, #53
-	str	r0, [r1, #8]
-	movs	r0, #0
-	str	r0, [r1, #8]
-	str	r2, [sp, #352]
-	str	r2, [r1, #8]
-	str	r0, [sp, #340]
-	str	r0, [r1, #8]
-	add	r0, sp, #364
-	add	r1, sp, #680
-	movs	r2, #2
-	bl	_RNvXs2_NtNtCsb7ba3TghYF3_4parm6telnet13speedy_telnetNtB5_12SpeedyTelnetINtNtCslTdr3m3UBIq_6speedy6reader6ReaderNtB5_13TelnetContextE10read_bytes
-	add	r5, sp, #512
-	ldr	r0, [sp, #680]
-	strh	r0, [r5]
-	str	r7, [sp, #688]
-	str	r6, [sp, #684]
-	str	r4, [sp, #680]
-	add	r1, sp, #680
-	mov	r0, r5
-	bl	_RNvMs_Cs9Yr4AUe4qI0_9netclientNtB4_6Socket4send
-	add	r0, sp, #516
-	mov	r1, r5
-	ldr	r2, [sp, #196]
-	bl	_RNvMs_Cs9Yr4AUe4qI0_9netclientNtB4_6Socket4recv
-	ldr	r0, [sp, #520]
-	ldr	r1, [sp, #524]
-	ldr	r2, [sp, #212]
-	stm	r2!, {r0, r1}
-	cmp	r1, #2
-	bhs	.LBB56_578
-	bl	.LBB56_782
-.LBB56_578:
-	cmp	r1, #4
-	bhs	.LBB56_579
-	bl	.LBB56_782
-.LBB56_579:
-	ldrb	r2, [r0, #2]
-	ldrb	r3, [r0, #3]
-	lsls	r3, r3, #8
-	adds	r2, r3, r2
-	ldr	r7, [sp, #212]
-	rev	r2, r2
-	lsrs	r5, r2, #16
-	lsls	r2, r5, #25
-	bpl	.LBB56_580
-	bl	.LBB56_782
-.LBB56_580:
-	lsls	r2, r5, #17
-	lsrs	r2, r2, #28
-	cmp	r2, #5
-	bls	.LBB56_581
-	b	.LBB56_660
-.LBB56_581:
-	ldr	r4, .LCPI56_153
-	ldrb	r4, [r4, r2]
-	cmp	r1, #6
-	blo	.LBB56_582
-	b	.LBB56_661
-.LBB56_582:
-	bl	.LBB56_782
-.LBB56_583:
+	mov	r6, r4
+	b	.LBB56_395
+.LBB56_309:
+	ldr	r5, [sp, #320]
+	bne	.LBB56_297
+.LBB56_310:
+	mov	r5, r4
+	lsls	r1, r6, #31
+	bne	.LBB56_298
+	b	.LBB56_397
+.LBB56_311:
+	mov	r6, r3
+	mov	r1, r3
+	b	.LBB56_395
+.LBB56_312:
+	str	r1, [sp, #324]
+	adds	r0, r2, #3
+	ldr	r3, [sp, #268]
+	b	.LBB56_288
+	.p2align	2
+.LCPI56_140:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.145
+	.p2align	2
+.LCPI56_141:
+	.long	1970233953
+	.p2align	1
+.LBB56_319:
+	mov	r6, r4
+	mov	r1, r3
+	b	.LBB56_395
+.LBB56_320:
 	lsrs	r1, r1, #16
-.LBB56_584:
+.LBB56_321:
 	uxtb	r1, r1
 	subs	r1, r3, r1
 	cmp	r1, #0
-	beq	.LBB56_601
-	bl	.LBB56_234
-.LBB56_585:
+	beq	.LBB56_338
+	b	.LBB56_230
+.LBB56_322:
 	ldr	r4, [sp, #100]
-.LBB56_586:
+.LBB56_323:
 	str	r4, [sp, #360]
-.LBB56_587:
+.LBB56_324:
 	ldrb	r5, [r1]
 	ldrb	r6, [r1, #1]
 	lsls	r6, r6, #8
@@ -29899,93 +28338,94 @@ main:
 	adds	r4, r4, r7
 	adds	r4, r4, r6
 	cmp	r4, r5
-	bne	.LBB56_596
-.LBB56_588:
+	bne	.LBB56_333
+.LBB56_325:
 	movs	r5, #3
 	ldr	r4, [sp, #360]
 	ands	r5, r4
 	ldr	r7, [sp, #292]
-	beq	.LBB56_601
+	beq	.LBB56_338
 	movs	r6, #4
 	ands	r4, r6
 	adds	r1, r1, r4
 	adds	r3, r3, r4
-.LBB56_590:
+.LBB56_327:
 	ldrb	r4, [r1]
 	ldrb	r6, [r3]
 	cmp	r6, r4
-	bne	.LBB56_595
+	bne	.LBB56_332
 	cmp	r5, #1
-	beq	.LBB56_601
+	beq	.LBB56_338
 	ldrb	r4, [r1, #1]
 	ldrb	r6, [r3, #1]
 	cmp	r6, r4
-	bne	.LBB56_595
+	bne	.LBB56_332
 	cmp	r5, #2
-	beq	.LBB56_601
+	beq	.LBB56_338
 	ldrb	r4, [r1, #2]
 	ldrb	r6, [r3, #2]
 	cmp	r6, r4
-	beq	.LBB56_601
-.LBB56_595:
+	beq	.LBB56_338
+.LBB56_332:
 	subs	r1, r6, r4
 	cmp	r1, #0
-	beq	.LBB56_601
-	bl	.LBB56_234
-.LBB56_596:
+	beq	.LBB56_338
+	b	.LBB56_230
+.LBB56_333:
 	ldrb	r5, [r1]
 	ldrb	r6, [r3]
 	cmp	r6, r5
-	bne	.LBB56_600
+	bne	.LBB56_337
 	ldrb	r5, [r1, #1]
 	ldrb	r6, [r3, #1]
 	cmp	r6, r5
-	bne	.LBB56_600
+	bne	.LBB56_337
 	ldrb	r5, [r1, #2]
 	ldrb	r6, [r3, #2]
 	cmp	r6, r5
-	bne	.LBB56_600
+	bne	.LBB56_337
 	ldrb	r5, [r1, #3]
 	ldrb	r6, [r3, #3]
 	cmp	r6, r5
-	beq	.LBB56_588
-.LBB56_600:
+	beq	.LBB56_325
+.LBB56_337:
 	subs	r1, r6, r5
 	ldr	r7, [sp, #292]
 	cmp	r1, #0
-	beq	.LBB56_601
-	bl	.LBB56_234
-.LBB56_601:
+	beq	.LBB56_338
+	b	.LBB56_230
+.LBB56_338:
 	adds	r6, r0, #6
-	subs	r5, r2, #6
-	beq	.LBB56_607
+	subs	r4, r2, #6
+	beq	.LBB56_340
 	movs	r1, #0
 	ldrsb	r1, [r6, r1]
 	movs	r3, #64
 	mvns	r3, r3
 	cmp	r1, r3
-	bgt	.LBB56_603
-	bl	.LBB56_1591
-.LBB56_603:
-	movs	r4, #75
+	bgt	.LBB56_341
+	bl	.LBB56_1597
+.LBB56_340:
+	movs	r4, #0
+.LBB56_341:
+	movs	r1, #75
+	str	r1, [sp, #352]
 	ldr	r1, [sp, #120]
 	cmp	r1, #0
-	beq	.LBB56_608
-.LBB56_604:
+	beq	.LBB56_345
 	mov	r1, r2
 	ldr	r3, [sp, #112]
-	rors	r3, r5
+	rors	r3, r4
 	ldr	r2, [sp, #108]
-	rors	r2, r5
-	cmp	r5, #17
-	str	r6, [sp, #352]
-	str	r5, [sp, #356]
-	str	r4, [sp, #316]
-	blo	.LBB56_605
-	bl	.LBB56_1084
-.LBB56_605:
-	cmp	r5, #7
-	bls	.LBB56_611
+	rors	r2, r4
+	cmp	r4, #17
+	str	r6, [sp, #348]
+	str	r4, [sp, #360]
+	blo	.LBB56_343
+	bl	.LBB56_1099
+.LBB56_343:
+	cmp	r4, #7
+	bls	.LBB56_346
 	adds	r0, r0, r1
 	subs	r0, #8
 	ldrb	r1, [r0, #4]
@@ -29998,9 +28438,9 @@ main:
 	lsls	r5, r5, #24
 	adds	r4, r5, r4
 	adds	r4, r4, r1
-	ldr	r1, .LCPI56_154
+	ldr	r1, .LCPI56_142
 	eors	r4, r1
-	str	r4, [sp, #360]
+	str	r4, [sp, #356]
 	ldrb	r1, [r0]
 	ldrb	r4, [r0, #1]
 	lsls	r4, r4, #8
@@ -30011,9 +28451,9 @@ main:
 	lsls	r0, r0, #24
 	adds	r0, r0, r4
 	adds	r1, r0, r1
-	ldr	r0, .LCPI56_155
+	ldr	r0, .LCPI56_143
 	eors	r1, r0
-	str	r1, [sp, #348]
+	str	r1, [sp, #340]
 	ldrb	r0, [r6, #4]
 	ldrb	r1, [r6, #5]
 	lsls	r1, r1, #8
@@ -30036,26 +28476,13 @@ main:
 	adds	r1, r3, r1
 	adds	r5, r1, r0
 	eors	r5, r2
-	b	.LBB56_626
-.LBB56_607:
-	movs	r5, #0
-	movs	r4, #75
-	ldr	r1, [sp, #120]
-	cmp	r1, #0
-	bne	.LBB56_604
-.LBB56_608:
-	ldr	r3, .LCPI56_156
-	b	.LBB56_658
-	.p2align	2
-.LCPI56_232:
-	.long	32767
-	.p2align	2
-.LCPI56_233:
-	.long	4294934783
-	.p2align	1
-.LBB56_611:
-	cmp	r5, #3
-	bls	.LBB56_622
+	b	.LBB56_352
+.LBB56_345:
+	ldr	r3, .LCPI56_144
+	b	.LBB56_384
+.LBB56_346:
+	cmp	r4, #3
+	bls	.LBB56_348
 	adds	r0, r0, r1
 	subs	r0, r0, #4
 	ldrb	r1, [r0]
@@ -30068,9 +28495,9 @@ main:
 	lsls	r0, r0, #24
 	adds	r0, r0, r4
 	adds	r1, r0, r1
-	ldr	r0, .LCPI56_155
+	ldr	r0, .LCPI56_143
 	eors	r1, r0
-	str	r1, [sp, #348]
+	str	r1, [sp, #340]
 	ldrb	r0, [r6]
 	ldrb	r1, [r6, #1]
 	lsls	r1, r1, #8
@@ -30083,113 +28510,88 @@ main:
 	adds	r5, r1, r0
 	eors	r5, r2
 	mov	r4, r3
-	ldr	r0, .LCPI56_154
-	str	r0, [sp, #360]
-	b	.LBB56_626
-	.p2align	2
-.LCPI56_149:
-	.long	4294934783
-	.p2align	2
-.LCPI56_150:
-	.long	1720
-	.p2align	2
-.LCPI56_151:
-	.long	.L_MergedGlobals
-	.p2align	2
-.LCPI56_152:
-	.long	2147483669
-	.p2align	2
-.LCPI56_153:
-	.long	.Lswitch.table.main
-	.p2align	2
-.LCPI56_154:
-	.long	1065670069
-	.p2align	2
-.LCPI56_155:
-	.long	3041331479
-	.p2align	2
-.LCPI56_156:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.152
-	.p2align	1
-.LBB56_622:
-	cmp	r5, #0
-	beq	.LBB56_624
-	lsrs	r4, r5, #1
+	ldr	r0, .LCPI56_142
+	str	r0, [sp, #356]
+	b	.LBB56_352
+.LBB56_348:
+	cmp	r4, #0
+	beq	.LBB56_350
+	lsrs	r4, r4, #1
 	ldrb	r4, [r6, r4]
 	adds	r1, r0, r1
 	subs	r1, r1, #1
 	ldrb	r1, [r1]
 	lsls	r1, r1, #8
 	adds	r4, r1, r4
-	ldr	r1, .LCPI56_157
+	ldr	r1, .LCPI56_143
 	eors	r4, r1
-	str	r4, [sp, #348]
+	str	r4, [sp, #340]
 	ldrb	r0, [r0, #6]
 	eors	r2, r0
 	mov	r4, r3
-	b	.LBB56_625
-.LBB56_624:
+	b	.LBB56_351
+.LBB56_350:
 	mov	r4, r3
-	ldr	r0, .LCPI56_157
-	str	r0, [sp, #348]
-.LBB56_625:
-	ldr	r0, .LCPI56_158
-	str	r0, [sp, #360]
+	ldr	r0, .LCPI56_143
+	str	r0, [sp, #340]
+.LBB56_351:
+	ldr	r0, .LCPI56_142
+	str	r0, [sp, #356]
 	mov	r5, r2
-.LBB56_626:
-	str	r4, [sp, #324]
+.LBB56_352:
+	str	r4, [sp, #320]
 	movs	r7, #0
 	mov	r0, r5
 	mov	r1, r7
-	ldr	r2, [sp, #360]
+	ldr	r2, [sp, #356]
 	mov	r3, r7
 	bl	__aeabi_lmul
-	str	r0, [sp, #320]
-	str	r1, [sp, #340]
+	str	r0, [sp, #316]
+	str	r1, [sp, #328]
 	mov	r0, r4
 	mov	r1, r7
-	ldr	r4, [sp, #348]
+	ldr	r4, [sp, #340]
 	mov	r2, r4
 	mov	r3, r7
 	bl	__aeabi_lmul
 	mov	r6, r0
-	str	r1, [sp, #328]
-	ldr	r0, [sp, #320]
+	str	r1, [sp, #324]
+	ldr	r0, [sp, #316]
 	eors	r6, r0
 	mov	r0, r5
 	mov	r1, r7
 	mov	r2, r4
 	mov	r3, r7
 	bl	__aeabi_lmul
-	str	r0, [sp, #348]
-	str	r1, [sp, #320]
-	ldr	r0, [sp, #324]
+	str	r0, [sp, #340]
+	str	r1, [sp, #316]
+	ldr	r0, [sp, #320]
 	mov	r1, r7
-	ldr	r2, [sp, #360]
+	ldr	r2, [sp, #356]
 	mov	r3, r7
 	bl	__aeabi_lmul
 	mov	r4, r0
 	mov	r5, r1
-	ldr	r0, [sp, #320]
+	ldr	r0, [sp, #316]
 	eors	r5, r0
 	eors	r5, r6
-	ldr	r0, [sp, #340]
-	ldr	r1, [sp, #328]
+	ldr	r0, [sp, #328]
+	ldr	r1, [sp, #324]
 	eors	r1, r0
-	ldr	r0, [sp, #348]
+	ldr	r0, [sp, #340]
 	eors	r4, r0
 	eors	r4, r1
-.LBB56_627:
+.LBB56_353:
 	movs	r7, #0
 	mov	r0, r5
 	mov	r1, r7
-	ldr	r2, .LCPI56_234
+	ldr	r2, .LCPI56_145
 	mov	r3, r7
 	bl	__aeabi_lmul
-	str	r1, [sp, #360]
+	str	r1, [sp, #356]
 	mov	r0, r5
 	mov	r1, r7
-	ldr	r2, .LCPI56_235
+	ldr	r2, .LCPI56_146
 	mov	r3, r7
 	bl	__aeabi_lmul
 	mov	r6, r0
@@ -30197,7 +28599,7 @@ main:
 	eors	r4, r0
 	mov	r0, r4
 	mov	r1, r5
-	ldr	r2, .LCPI56_159
+	ldr	r2, .LCPI56_145
 	mov	r3, r7
 	bl	__aeabi_lmul
 	mov	r5, r0
@@ -30206,33 +28608,31 @@ main:
 	ands	r4, r0
 	mov	r0, r4
 	mov	r1, r7
-	ldr	r2, .LCPI56_160
+	ldr	r2, .LCPI56_146
 	mov	r3, r7
 	bl	__aeabi_lmul
 	mov	r3, r7
-	ldr	r0, [sp, #360]
+	ldr	r0, [sp, #356]
 	eors	r1, r0
 	eors	r1, r5
 	ldr	r4, [sp, #136]
 	ands	r4, r1
-	lsrs	r7, r1, #25
+	lsrs	r5, r1, #25
 	ldr	r0, [sp, #256]
-	muls	r7, r0, r7
+	muls	r5, r0, r5
 	movs	r0, #3
-	ldr	r5, [sp, #356]
-	mov	r1, r5
-	ands	r1, r0
-	str	r1, [sp, #348]
-	mov	r1, r5
-	bics	r1, r0
-	ldr	r6, [sp, #352]
-	str	r1, [sp, #328]
-	adds	r0, r6, r1
+	ldr	r1, [sp, #360]
+	mov	r2, r1
+	ands	r2, r0
+	str	r2, [sp, #340]
+	mov	r7, r1
+	bics	r7, r0
+	ldr	r6, [sp, #348]
+	adds	r0, r6, r7
 	str	r0, [sp, #324]
-	lsrs	r0, r5, #2
-	str	r0, [sp, #340]
-	str	r7, [sp, #320]
-.LBB56_628:
+	lsrs	r0, r1, #2
+	str	r0, [sp, #328]
+.LBB56_354:
 	ldr	r1, [sp, #132]
 	ldrb	r0, [r1, r4]
 	adds	r1, r1, r4
@@ -30245,17 +28645,18 @@ main:
 	lsls	r1, r1, #24
 	adds	r1, r1, r2
 	adds	r1, r1, r0
-	str	r1, [sp, #360]
-	eors	r1, r7
-	ldr	r0, .LCPI56_161
+	str	r1, [sp, #356]
+	eors	r1, r5
+	ldr	r0, .LCPI56_147
 	adds	r2, r1, r0
-	ldr	r0, .LCPI56_162
+	ldr	r0, .LCPI56_148
 	bics	r0, r1
 	ands	r0, r2
-	beq	.LBB56_654
-	str	r3, [sp, #288]
-.LBB56_630:
-	mov	r7, r0
+	beq	.LBB56_380
+	str	r3, [sp, #316]
+	str	r5, [sp, #296]
+.LBB56_356:
+	str	r0, [sp, #320]
 	rev	r0, r0
 	bl	__clzsi2
 	lsrs	r0, r0, #3
@@ -30264,573 +28665,166 @@ main:
 	ands	r0, r1
 	lsls	r0, r0, #4
 	ldr	r1, [sp, #132]
-	mov	r2, r5
 	subs	r5, r1, r0
 	mov	r0, r5
 	subs	r0, #12
 	ldr	r0, [r0]
-	cmp	r2, r0
-	bne	.LBB56_647
+	ldr	r1, [sp, #360]
+	cmp	r1, r0
+	bne	.LBB56_373
 	mov	r0, r5
 	subs	r0, #16
 	ldr	r1, [r0]
 	mov	r0, r1
 	orrs	r0, r6
 	lsls	r0, r0, #30
-	beq	.LBB56_633
+	beq	.LBB56_359
 	mov	r0, r6
-	ldr	r2, [sp, #356]
+	ldr	r2, [sp, #360]
 	bl	__aeabi_memcmp
 	cmp	r0, #0
-	beq	.LBB56_656
-	b	.LBB56_647
-.LBB56_633:
-	ldr	r3, [sp, #340]
+	beq	.LBB56_382
+	b	.LBB56_373
+.LBB56_359:
+	ldr	r3, [sp, #328]
 	cmp	r3, #0
-	beq	.LBB56_640
-	ldr	r0, [sp, #328]
-	adds	r0, r1, r0
-	str	r0, [sp, #284]
-.LBB56_635:
+	beq	.LBB56_366
+	adds	r0, r1, r7
+	str	r0, [sp, #288]
+.LBB56_361:
 	ldr	r0, [r1]
 	ldr	r2, [r6]
 	cmp	r2, r0
-	bne	.LBB56_648
+	bne	.LBB56_374
 	cmp	r3, #1
-	beq	.LBB56_639
+	beq	.LBB56_365
 	ldr	r0, [r1, #4]
 	ldr	r2, [r6, #4]
 	cmp	r2, r0
-	bne	.LBB56_648
+	bne	.LBB56_374
 	adds	r1, #8
 	adds	r6, #8
 	subs	r3, r3, #2
-	bne	.LBB56_635
-.LBB56_639:
-	ldr	r1, [sp, #284]
+	bne	.LBB56_361
+.LBB56_365:
+	ldr	r1, [sp, #288]
 	ldr	r0, [sp, #324]
-	ldr	r6, [sp, #352]
-	b	.LBB56_641
-.LBB56_640:
+	ldr	r6, [sp, #348]
+	b	.LBB56_367
+.LBB56_366:
 	mov	r0, r6
-.LBB56_641:
-	ldr	r2, [sp, #348]
+.LBB56_367:
+	ldr	r2, [sp, #340]
 	cmp	r2, #0
-	beq	.LBB56_656
+	beq	.LBB56_382
 	ldrb	r2, [r1]
 	ldrb	r3, [r0]
 	cmp	r3, r2
-	bne	.LBB56_647
-	ldr	r2, [sp, #348]
+	bne	.LBB56_373
+	ldr	r2, [sp, #340]
 	cmp	r2, #1
-	beq	.LBB56_656
+	beq	.LBB56_382
 	ldrb	r2, [r1, #1]
 	ldrb	r3, [r0, #1]
 	cmp	r3, r2
-	bne	.LBB56_647
-	ldr	r2, [sp, #348]
+	bne	.LBB56_373
+	ldr	r2, [sp, #340]
 	cmp	r2, #2
-	beq	.LBB56_656
+	beq	.LBB56_382
 	ldrb	r1, [r1, #2]
 	ldrb	r0, [r0, #2]
 	cmp	r0, r1
-	beq	.LBB56_656
-.LBB56_647:
-	subs	r0, r7, #1
-	ands	r0, r7
-	ldr	r5, [sp, #356]
-	ldr	r3, [sp, #288]
-	bne	.LBB56_630
-	b	.LBB56_654
-.LBB56_648:
+	beq	.LBB56_382
+.LBB56_373:
+	ldr	r1, [sp, #320]
+	subs	r0, r1, #1
+	ands	r0, r1
+	ldr	r3, [sp, #316]
+	ldr	r5, [sp, #296]
+	bne	.LBB56_356
+	b	.LBB56_380
+.LBB56_374:
 	uxtb	r1, r0
 	uxtb	r3, r2
 	cmp	r3, r1
-	bne	.LBB56_652
+	bne	.LBB56_378
 	lsrs	r1, r0, #8
-	str	r1, [sp, #284]
+	str	r1, [sp, #288]
 	uxtb	r3, r1
-	str	r3, [sp, #276]
+	str	r3, [sp, #284]
 	lsrs	r3, r2, #8
 	uxtb	r6, r3
-	ldr	r1, [sp, #276]
+	ldr	r1, [sp, #284]
 	cmp	r6, r1
-	ldr	r6, [sp, #352]
-	bne	.LBB56_653
+	ldr	r6, [sp, #348]
+	bne	.LBB56_379
 	lsrs	r1, r0, #16
 	lsrs	r3, r2, #16
-	str	r1, [sp, #284]
+	str	r1, [sp, #288]
 	uxtb	r1, r1
-	str	r1, [sp, #276]
+	str	r1, [sp, #284]
 	uxtb	r6, r3
-	ldr	r1, [sp, #276]
+	ldr	r1, [sp, #284]
 	cmp	r6, r1
-	ldr	r6, [sp, #352]
-	bne	.LBB56_653
+	ldr	r6, [sp, #348]
+	bne	.LBB56_379
 	lsrs	r0, r0, #24
 	lsrs	r3, r2, #24
-	str	r0, [sp, #284]
+	str	r0, [sp, #288]
 	cmp	r3, r0
-	bne	.LBB56_653
-	b	.LBB56_656
-.LBB56_652:
+	bne	.LBB56_379
+	b	.LBB56_382
+.LBB56_378:
 	mov	r3, r2
-	str	r0, [sp, #284]
-	ldr	r6, [sp, #352]
-.LBB56_653:
-	ldr	r0, [sp, #284]
+	str	r0, [sp, #288]
+	ldr	r6, [sp, #348]
+.LBB56_379:
+	ldr	r0, [sp, #288]
 	uxtb	r0, r0
 	uxtb	r1, r3
 	subs	r0, r1, r0
 	cmp	r0, #0
-	beq	.LBB56_656
-	b	.LBB56_647
-.LBB56_654:
-	ldr	r2, [sp, #360]
+	beq	.LBB56_382
+	b	.LBB56_373
+.LBB56_380:
+	ldr	r2, [sp, #356]
 	lsls	r0, r2, #1
-	ldr	r1, .LCPI56_162
+	ldr	r1, .LCPI56_148
 	ands	r2, r1
 	tst	r2, r0
-	bne	.LBB56_657
+	bne	.LBB56_383
 	adds	r3, r3, #4
 	adds	r4, r3, r4
 	ldr	r0, [sp, #136]
 	ands	r4, r0
-	ldr	r7, [sp, #320]
-	b	.LBB56_628
-.LBB56_656:
+	b	.LBB56_354
+.LBB56_382:
 	subs	r0, r5, #4
-	ldr	r4, [r0]
+	ldr	r0, [r0]
 	subs	r5, #8
 	ldr	r3, [r5]
 	ldr	r7, [sp, #292]
-	b	.LBB56_658
-.LBB56_657:
-	ldr	r3, .LCPI56_163
+	ldr	r4, [sp, #312]
+	b	.LBB56_385
+.LBB56_383:
+	ldr	r3, .LCPI56_144
 	ldr	r7, [sp, #292]
-	ldr	r4, [sp, #316]
-.LBB56_658:
-	str	r4, [sp]
+.LBB56_384:
+	ldr	r4, [sp, #312]
+	ldr	r0, [sp, #352]
+.LBB56_385:
+	str	r0, [sp]
 	add	r0, sp, #400
 	movs	r1, #1
 	movs	r2, #0
-	bl	.LBB56_147
-.LBB56_659:
-	uxtb	r1, r6
-	lsls	r1, r1, #16
-	lsls	r2, r3, #24
-	adds	r1, r2, r1
-	ldr	r2, [sp, #340]
-	uxtb	r2, r2
-	lsls	r2, r2, #8
-	adds	r1, r1, r2
-	uxtb	r0, r0
-	adds	r7, r1, r0
-	str	r7, [sp, #300]
-	b	.LBB56_789
-.LBB56_660:
-	movs	r4, #6
-	cmp	r1, #6
-	bhs	.LBB56_661
-	b	.LBB56_782
-.LBB56_661:
-	cmp	r1, #8
-	bhs	.LBB56_662
-	b	.LBB56_782
-.LBB56_662:
-	cmp	r1, #10
-	bhs	.LBB56_663
-	b	.LBB56_782
-.LBB56_663:
-	ldrb	r1, [r0]
-	str	r1, [sp, #240]
-	ldrb	r6, [r0, #1]
-	ldrb	r1, [r0, #4]
-	str	r1, [sp, #320]
-	ldrb	r1, [r0, #5]
-	str	r1, [sp, #244]
-	ldrb	r1, [r0, #6]
-	str	r1, [sp, #324]
-	ldrb	r1, [r0, #7]
-	str	r1, [sp, #248]
-	ldr	r1, [sp, #228]
-	str	r1, [r7, #8]
-	ldrb	r1, [r0, #8]
-	str	r1, [sp, #328]
-	ldrb	r0, [r0, #9]
-	str	r0, [sp, #288]
-	add	r0, sp, #680
-	ldr	r1, .LCPI56_164
-	add	r1, sp
-	bl	_RNvMNtCseADBAlPmZ6Z_10simple_dns12bytes_bufferNtB2_11BytesBuffer7get_u16
-	ldr	r0, [sp, #680]
-	adds	r0, r0, #1
-	beq	.LBB56_664
-	b	.LBB56_782
-.LBB56_664:
-	lsls	r0, r6, #8
-	ldr	r1, [sp, #240]
-	adds	r0, r0, r1
-	rev	r0, r0
-	lsrs	r1, r0, #16
-	mov	r2, r5
-	ldr	r0, .LCPI56_165
-	ands	r2, r0
-	ldr	r0, [sp, #200]
-	ands	r0, r5
-	str	r0, [sp, #200]
-	ldr	r0, [sp, #244]
-	lsls	r0, r0, #8
-	ldr	r3, [sp, #320]
-	adds	r0, r0, r3
-	str	r0, [sp, #320]
-	rev16	r0, r0
-	ldr	r3, [sp, #248]
-	lsls	r3, r3, #8
-	ldr	r5, [sp, #324]
-	adds	r3, r3, r5
-	rev	r3, r3
-	lsrs	r3, r3, #16
-	ldr	r5, [sp, #288]
-	lsls	r5, r5, #8
-	ldr	r6, [sp, #328]
-	adds	r5, r5, r6
-	ldr	r6, .LCPI56_166
-	add	r6, sp
-	strh	r3, [r6, #22]
-	str	r0, [sp, #248]
-	strh	r0, [r6, #20]
-	strh	r2, [r6, #18]
-	strh	r1, [r6, #16]
-	ldr	r1, [sp, #292]
-	adds	r1, #255
-	str	r1, [sp, #244]
-	str	r1, [r7, #12]
-	rev16	r1, r5
-	add	r2, sp, #680
-	ldrh	r2, [r2, #4]
-	lsls	r2, r2, #16
-	adds	r1, r2, r1
-	str	r1, [r7, #36]
-	ldr	r1, [sp, #200]
-	cmp	r1, #11
-	blo	.LBB56_666
-	movs	r1, #17
-.LBB56_666:
-	lsls	r1, r1, #8
-	adds	r1, r4, r1
-	str	r1, [r7, #40]
-	ldr	r0, [sp, #320]
-	cmp	r0, #0
-	bne	.LBB56_667
-	b	.LBB56_767
-.LBB56_667:
-	movs	r5, #20
-	ldr	r4, [sp, #248]
-	muls	r5, r4, r5
-	movs	r1, #4
-	mov	r0, r5
-	bl	_RNvCs7pOVZZ9zOwf_7___rustc12___rust_alloc
-	cmp	r0, #0
-	bne	.LBB56_668
-	bl	.LBB56_1606
-.LBB56_668:
-	movs	r5, #0
-	ldr	r1, [sp, #212]
-	str	r4, [r1, #76]
-	str	r0, [r1, #80]
-	str	r5, [r1, #84]
-	movs	r7, #16
-	ldr	r6, [sp, #48]
-.LBB56_669:
-	str	r5, [sp, #324]
-	str	r7, [sp, #328]
-	str	r0, [sp, #340]
-	add	r0, sp, #680
-	ldr	r1, .LCPI56_164
-	add	r1, sp
-	bl	_RNvXs_NtNtCseADBAlPmZ6Z_10simple_dns3dns4nameNtB4_4NameNtNtB6_11wire_format10WireFormat5parse
-	ldr	r0, [sp, #680]
-	adds	r1, r0, #1
-	ldr	r5, [sp, #692]
-	ldr	r4, [sp, #688]
-	ldr	r7, [sp, #684]
-	beq	.LBB56_671
-	ldr	r1, [sp, #696]
-	str	r1, [sp, #44]
-	lsrs	r3, r7, #16
-	uxtb	r6, r7
-	lsrs	r1, r7, #8
-	uxtb	r2, r1
-	ldr	r1, [sp, #268]
-	mov	r7, r0
-	mov	r0, r2
-	str	r4, [sp, #40]
-	str	r5, [sp, #48]
-	ldr	r2, [sp, #212]
-	b	.LBB56_675
-.LBB56_671:
-	str	r6, [sp, #320]
-	str	r5, [sp, #288]
-	ldr	r0, [sp, #212]
-	ldr	r2, [r0, #4]
-	ldr	r0, [r0, #8]
-	adds	r1, r0, #2
-	cmp	r1, r2
-	bhi	.LBB56_674
-	ldr	r3, [sp, #352]
-	mvns	r6, r3
-	cmp	r0, r6
-	blo	.LBB56_673
-	bl	.LBB56_1599
-.LBB56_673:
-	ldr	r3, [sp, #212]
-	str	r1, [r3, #8]
-	adds	r3, r0, #4
-	cmp	r3, r2
-	bls	.LBB56_682
-.LBB56_674:
-	ldr	r7, .LCPI56_167
-	subs	r7, #12
-	ldr	r1, [sp, #268]
-	ldr	r0, [sp, #320]
-	str	r0, [sp, #48]
-	ldr	r2, [sp, #212]
-	ldr	r3, [sp, #308]
-	ldr	r6, [sp, #304]
-	ldr	r0, [sp, #84]
-.LBB56_675:
-	str	r0, [sp, #84]
-	lsls	r0, r0, #8
-	str	r6, [sp, #304]
-	orrs	r0, r6
-	str	r3, [sp, #308]
-	lsls	r5, r3, #16
-	orrs	r5, r0
-	cmp	r1, #0
-	beq	.LBB56_676
-	b	.LBB56_768
-.LBB56_676:
-	str	r7, [sp, #288]
-	str	r5, [sp, #320]
-	ldr	r0, [r2, #76]
-	ldr	r5, [sp, #324]
-	cmp	r5, r0
-	ldr	r0, [sp, #340]
-	ldr	r7, [sp, #328]
-	ldr	r4, [sp, #44]
-	beq	.LBB56_685
-.LBB56_677:
-	str	r4, [r0, r7]
-	adds	r6, r0, r7
-	subs	r1, r6, #4
-	ldr	r4, [sp, #48]
-	str	r4, [r1]
-	mov	r1, r6
-	subs	r1, #8
-	ldr	r3, [sp, #40]
-	str	r3, [r1]
-	mov	r1, r6
-	subs	r1, #12
-	ldr	r3, [sp, #320]
-	str	r3, [r1]
-	subs	r6, #16
-	ldr	r1, [sp, #288]
-	str	r1, [r6]
-	adds	r5, r5, #1
-	str	r5, [r2, #84]
-	adds	r7, #20
-	ldr	r1, [sp, #248]
-	cmp	r1, r5
-	mov	r6, r4
-	bne	.LBB56_669
-	b	.LBB56_774
-	.p2align	2
-.LCPI56_157:
-	.long	3041331479
-	.p2align	2
-.LCPI56_158:
-	.long	1065670069
-	.p2align	2
-.LCPI56_234:
-	.long	3380367581
-	.p2align	2
-.LCPI56_235:
-	.long	3232508343
-	.p2align	1
-.LBB56_682:
-	cmp	r1, r6
-	blo	.LBB56_683
-	bl	.LBB56_1600
-.LBB56_683:
-	mov	r5, r4
-	ldr	r6, [sp, #212]
-	ldr	r2, [r6]
-	ldrb	r4, [r2, r0]
-	adds	r0, r2, r0
-	ldrb	r0, [r0, #1]
-	lsls	r0, r0, #8
-	adds	r0, r0, r4
-	rev	r0, r0
-	lsrs	r4, r0, #16
-	str	r3, [r6, #8]
-	ldrb	r3, [r2, r1]
-	adds	r0, r2, r1
-	mov	r1, r4
-	ldrb	r6, [r0, #1]
-	mov	r0, r4
-	subs	r0, #251
-	uxth	r0, r0
-	cmp	r0, #5
-	bhs	.LBB56_686
-	subs	r1, #209
-	movs	r0, #0
-	str	r0, [sp, #48]
-	mov	r0, r1
-	b	.LBB56_689
-.LBB56_685:
-	ldr	r0, .LCPI56_168
-	add	r0, sp
-	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecNtNtNtCseADBAlPmZ6Z_10simple_dns3dns8question8QuestionE8grow_oneBS_
-	ldr	r2, [sp, #212]
-	ldr	r0, [r2, #80]
-	b	.LBB56_677
-.LBB56_686:
-	mov	r4, r3
-	str	r1, [sp, #304]
-	mov	r0, r1
-	bl	_RNvXs29_NtNtCseADBAlPmZ6Z_10simple_dns3dns5rdataNtB6_4TYPEINtNtCs4L8JVMRpR0y_4core7convert4FromtE4from
-	uxth	r2, r0
-	cmp	r2, #41
-	bne	.LBB56_688
-	ldr	r7, .LCPI56_167
-	subs	r7, #19
-	ldr	r1, [sp, #304]
-	lsrs	r0, r1, #8
-	uxtb	r6, r1
-	b	.LBB56_707
-.LBB56_688:
-	lsls	r1, r1, #16
-	str	r1, [sp, #48]
-	mov	r3, r4
-.LBB56_689:
-	lsls	r1, r6, #8
-	adds	r1, r1, r3
-	rev	r1, r1
-	lsrs	r2, r1, #16
-	mov	r6, r2
-	ldr	r1, .LCPI56_169
-	ands	r6, r1
-	subs	r3, r6, #1
-	movs	r1, #0
-	cmp	r3, #3
-	bhi	.LBB56_704
-	adr	r4, .LJTI56_4
-	ldrb	r3, [r4, r3]
-	lsls	r3, r3, #1
-.LCPI56_100:
-	add	pc, r3
-	.p2align	2
-.LCPI56_159:
-	.long	3380367581
-	.p2align	1
-	.p2align	2
-.LJTI56_4:
-	.byte	(.LBB56_693-(.LCPI56_100+4))/2
-	.byte	(.LBB56_708-(.LCPI56_100+4))/2
-	.byte	(.LBB56_709-(.LCPI56_100+4))/2
-	.byte	(.LBB56_710-(.LCPI56_100+4))/2
-	.p2align	1
-.LBB56_693:
-	ldr	r3, [sp, #344]
-	b	.LBB56_712
-	.p2align	2
-.LCPI56_160:
-	.long	3232508343
-	.p2align	2
-.LCPI56_161:
-	.long	4278124287
-	.p2align	2
-.LCPI56_162:
-	.long	2155905152
-	.p2align	2
-.LCPI56_163:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.152
-	.p2align	2
-.LCPI56_164:
-	.long	1708
-	.p2align	2
-.LCPI56_165:
-	.long	34736
-	.p2align	2
-.LCPI56_166:
-	.long	1720
-	.p2align	2
-.LCPI56_167:
-	.long	2147483669
-	.p2align	2
-.LCPI56_168:
-	.long	1784
-	.p2align	2
-.LCPI56_169:
-	.long	32767
-	.p2align	1
-.LBB56_704:
-	cmp	r6, #254
-	beq	.LBB56_711
-	cmp	r6, #255
-	mov	r3, r1
-	beq	.LBB56_712
-	ldr	r7, .LCPI56_170
-	subs	r7, #21
-	lsrs	r0, r6, #8
-	uxtb	r6, r2
-.LBB56_707:
-	ldr	r1, [sp, #268]
-	ldr	r2, [sp, #320]
-	str	r2, [sp, #48]
-	ldr	r2, [sp, #212]
-	ldr	r3, [sp, #308]
-	b	.LBB56_675
-.LBB56_708:
-	ldr	r3, [sp, #196]
-	b	.LBB56_712
-.LBB56_709:
-	ldr	r3, [sp, #296]
-	subs	r3, #132
-	b	.LBB56_712
-.LBB56_710:
-	ldr	r3, [sp, #312]
-	b	.LBB56_712
-.LBB56_711:
-	movs	r3, #127
-	lsls	r3, r3, #9
-.LBB56_712:
-	uxth	r0, r0
-	ldr	r4, [sp, #48]
-	orrs	r4, r0
-	str	r4, [sp, #48]
-	ldr	r0, .LCPI56_171
-	ldr	r4, [sp, #44]
-	ands	r4, r0
-	lsrs	r0, r2, #15
-	adds	r4, r4, r0
-	orrs	r4, r3
-	str	r4, [sp, #44]
-	lsrs	r3, r5, #16
-	uxtb	r6, r5
-	lsrs	r0, r5, #8
-	uxtb	r0, r0
-	ldr	r2, [sp, #288]
-	str	r2, [sp, #40]
-	ldr	r2, [sp, #212]
-	b	.LBB56_675
-.LBB56_713:
+	b	.LBB56_426
+.LBB56_386:
 	movs	r2, #0
 	mov	r3, r1
-	b	.LBB56_758
-.LBB56_714:
-	ldr	r6, [sp, #392]
+	b	.LBB56_391
+.LBB56_387:
+	ldr	r0, [sp, #392]
+	str	r0, [sp, #360]
 	add	r0, sp, #412
 	movs	r1, #7
 	mov	r2, r5
@@ -30838,381 +28832,1776 @@ main:
 	ldr	r4, [sp, #420]
 	ldr	r0, [sp, #416]
 	adds	r0, r0, r4
-	mov	r1, r6
+	ldr	r1, [sp, #360]
 	mov	r2, r5
 	bl	__aeabi_memcpy
-	bl	.LBB56_164
-.LBB56_715:
+	bl	.LBB56_150
+.LBB56_388:
 	ldr	r5, [sp, #280]
-	b	.LBB56_590
-.LBB56_716:
-	ldr	r5, .LCPI56_172
-	adds	r5, #198
-	bl	.LBB56_535
-.LBB56_717:
-	movs	r0, #1
-	lsls	r5, r0, #14
-	bl	.LBB56_535
-.LBB56_718:
-	movs	r0, #45
-	bl	.LBB56_534
-.LBB56_719:
-	movs	r0, #3
-	lsls	r5, r0, #12
-	bl	.LBB56_535
-.LBB56_720:
-	movs	r0, #23
-	lsls	r5, r0, #9
-	bl	.LBB56_535
-.LBB56_721:
-	movs	r0, #43
-	bl	.LBB56_534
-.LBB56_722:
-	ldr	r5, [sp, #196]
-	bl	.LBB56_535
-.LBB56_723:
-	movs	r0, #3
-	bl	.LBB56_534
-.LBB56_724:
-	movs	r0, #5
-	bl	.LBB56_534
-.LBB56_725:
-	movs	r0, #7
-	bl	.LBB56_534
-.LBB56_726:
-	movs	r0, #1
-	lsls	r5, r0, #11
-	bl	.LBB56_535
-.LBB56_727:
-	movs	r0, #9
-	bl	.LBB56_534
-.LBB56_728:
-	movs	r0, #3
-	lsls	r5, r0, #10
-	bl	.LBB56_535
-.LBB56_729:
-	movs	r0, #1
-	lsls	r5, r0, #10
-	bl	.LBB56_535
-.LBB56_730:
-	movs	r0, #13
-	bl	.LBB56_534
-.LBB56_731:
-	movs	r0, #7
-	lsls	r5, r0, #9
-	bl	.LBB56_535
-.LBB56_732:
-	ldr	r0, [sp, #200]
-	bl	.LBB56_534
-.LBB56_733:
-	movs	r0, #1
-	lsls	r5, r0, #12
-	bl	.LBB56_535
-.LBB56_734:
-	movs	r0, #3
-	lsls	r5, r0, #9
-	bl	.LBB56_535
-.LBB56_735:
-	movs	r0, #11
-	bl	.LBB56_534
-.LBB56_736:
-	movs	r0, #17
-	bl	.LBB56_534
-.LBB56_737:
-	movs	r0, #9
-	lsls	r5, r0, #9
-	bl	.LBB56_535
-.LBB56_738:
-	movs	r0, #5
-	lsls	r5, r0, #10
-	bl	.LBB56_535
-.LBB56_739:
-	movs	r0, #21
-	bl	.LBB56_534
-.LBB56_740:
-	movs	r0, #35
-	bl	.LBB56_534
-.LBB56_741:
-	movs	r0, #11
-	lsls	r5, r0, #9
-	bl	.LBB56_535
-.LBB56_742:
-	movs	r0, #23
-	bl	.LBB56_534
-.LBB56_743:
-	movs	r0, #29
-	bl	.LBB56_534
-.LBB56_744:
-	movs	r0, #41
-	bl	.LBB56_534
-.LBB56_745:
-	ldr	r0, [sp, #344]
-	adds	r5, r0, #1
-	bl	.LBB56_535
-.LBB56_746:
-	movs	r0, #65
-	bl	.LBB56_534
-.LBB56_747:
-	movs	r0, #27
-	lsls	r5, r0, #10
-	bl	.LBB56_535
-.LBB56_748:
-	movs	r0, #109
-	bl	.LBB56_534
-.LBB56_749:
-	movs	r0, #37
-	bl	.LBB56_534
-.LBB56_750:
-	movs	r0, #63
-	bl	.LBB56_534
-.LBB56_751:
-	movs	r0, #9
-	lsls	r5, r0, #10
-	bl	.LBB56_535
-.LBB56_752:
-	movs	r0, #47
-	bl	.LBB56_534
-.LBB56_753:
-	movs	r0, #49
-	bl	.LBB56_534
-.LBB56_754:
-	ldr	r5, .LCPI56_173
-	subs	r5, #13
-	bl	.LBB56_535
-.LBB56_755:
-	rev16	r5, r1
-	bl	.LBB56_535
-.LBB56_756:
+	b	.LBB56_327
+.LBB56_389:
 	ldr	r7, [sp, #292]
-.LBB56_757:
-	ldr	r2, [sp, #352]
-	subs	r2, r2, #1
+.LBB56_390:
+	subs	r2, r4, #1
 	subs	r5, r2, #1
 	sbcs	r2, r5
-	movs	r4, #0
-.LBB56_758:
+	movs	r6, #0
+.LBB56_391:
 	subs	r5, r1, #1
 	sbcs	r1, r5
 	ldr	r5, [sp, #344]
 	cmp	r3, r5
-	blo	.LBB56_760
+	blo	.LBB56_393
 	movs	r5, #0
 	mvns	r2, r2
 	orrs	r1, r2
 	ands	r1, r5
-	beq	.LBB56_761
-	bl	.LBB56_313
-.LBB56_760:
+	beq	.LBB56_394
+	b	.LBB56_395
+.LBB56_393:
 	movs	r5, #1
 	mvns	r2, r2
 	orrs	r1, r2
 	ands	r1, r5
-	beq	.LBB56_761
-	bl	.LBB56_313
-.LBB56_761:
-	ldr	r4, [sp, #352]
-	bl	.LBB56_313
-.LBB56_762:
-	ldr	r2, [sp, #268]
-	ldr	r7, [sp, #292]
-	b	.LBB56_758
-.LBB56_763:
-	ldr	r5, [sp, #80]
-	bl	.LBB56_590
-.LBB56_764:
-	ldr	r5, [sp, #336]
-	bl	.LBB56_590
-.LBB56_765:
-	movs	r3, #1
-	str	r3, [sp]
-	ldr	r0, .LCPI56_174
-	add	r0, sp
-	movs	r2, #2
-	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECseADBAlPmZ6Z_10simple_dns
-	ldr	r3, [sp, #212]
-	ldr	r2, [r3, #12]
-	ldr	r1, [r3, #20]
-	bl	.LBB56_536
-.LBB56_766:
-	mov	r4, r3
-	movs	r3, #1
-	str	r3, [sp]
-	ldr	r0, .LCPI56_174
-	add	r0, sp
-	movs	r2, #2
-	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECseADBAlPmZ6Z_10simple_dns
-	ldr	r0, [r4, #16]
-	ldr	r1, [r4, #20]
-	bl	.LBB56_537
-.LBB56_767:
-	movs	r6, #4
-	ldr	r7, [sp, #340]
-	mov	r5, r7
-	b	.LBB56_775
-.LBB56_768:
-	adds	r0, r7, #1
-	ldr	r7, [sp, #48]
-	ldr	r6, [sp, #40]
-	ldr	r4, [sp, #44]
-	bne	.LBB56_781
-	b	.LBB56_776
+	bne	.LBB56_395
+.LBB56_394:
+	mov	r6, r4
+.LBB56_395:
+	lsls	r1, r1, #31
+	beq	.LBB56_397
+	cmp	r6, #0
+	bne	.LBB56_397
+	bl	.LBB56_672
+.LBB56_397:
+	movs	r0, #1
+	ldr	r1, [sp, #300]
+	orrs	r1, r0
+	movs	r0, #254
+	bics	r1, r0
+	str	r1, [sp, #300]
+	ldr	r1, [sp, #220]
+	ldr	r5, [sp, #356]
+	ldr	r6, [sp, #360]
+.LBB56_398:
+	str	r6, [sp, #424]
+	str	r5, [sp, #428]
+	movs	r0, #1
+	str	r0, [sp, #328]
+	strh	r0, [r1, #2]
+	movs	r3, #0
+	ldr	r0, [sp, #272]
+	str	r3, [r0]
+	str	r3, [r0, #4]
+	strh	r3, [r0, #8]
+	ldr	r0, [sp, #344]
+	strh	r0, [r1, #4]
+	adds	r7, #255
+	str	r7, [sp, #324]
+	str	r7, [sp, #480]
+	str	r3, [sp, #432]
+	str	r3, [sp, #476]
+	movs	r4, #8
+	str	r4, [sp, #472]
+	str	r3, [sp, #468]
+	str	r3, [sp, #464]
+	str	r4, [sp, #460]
+	str	r3, [sp, #456]
+	str	r3, [sp, #452]
+	str	r4, [sp, #448]
+	str	r3, [sp, #444]
+	str	r3, [sp, #440]
+	movs	r0, #4
+	str	r0, [sp, #316]
+	str	r0, [sp, #436]
+	cmp	r5, #0
+	str	r4, [sp, #288]
+	beq	.LBB56_413
+	movs	r1, #0
+	mov	r2, r1
+	b	.LBB56_402
+.LBB56_400:
+	mov	r3, r2
+.LBB56_401:
+	cmp	r5, r0
+	mov	r1, r0
+	mov	r2, r3
+	beq	.LBB56_413
+.LBB56_402:
+	ldrb	r3, [r6, r1]
+	adds	r0, r1, #1
+	cmp	r3, #46
+	bne	.LBB56_400
+	cmp	r1, r2
+	mov	r3, r0
+	beq	.LBB56_401
+	bhs	.LBB56_405
+	bl	.LBB56_1583
+.LBB56_405:
+	subs	r1, r1, r2
+	mov	r3, r2
+	b	.LBB56_415
 	.p2align	2
-.LCPI56_170:
+.LCPI56_142:
+	.long	1065670069
+	.p2align	2
+.LCPI56_143:
+	.long	3041331479
+	.p2align	2
+.LCPI56_144:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.152
+	.p2align	2
+.LCPI56_145:
+	.long	3380367581
+	.p2align	2
+.LCPI56_146:
+	.long	3232508343
+	.p2align	2
+.LCPI56_147:
+	.long	4278124287
+	.p2align	2
+.LCPI56_148:
+	.long	2155905152
+	.p2align	1
+.LBB56_413:
+	cmp	r5, r3
+	bhi	.LBB56_414
+	b	.LBB56_589
+.LBB56_414:
+	subs	r1, r5, r3
+	mov	r0, r5
+.LBB56_415:
+	movs	r2, #62
+	mvns	r4, r2
+	mov	r2, r1
+	subs	r2, #64
+	str	r4, [sp, #348]
+	cmp	r2, r4
+	blo	.LBB56_422
+	ldr	r2, [sp, #360]
+	adds	r3, r2, r3
+	ldrb	r2, [r3]
+	movs	r4, #223
+	cmp	r2, #95
+	beq	.LBB56_419
+	mov	r5, r2
+	subs	r5, #48
+	cmp	r5, #10
+	blo	.LBB56_419
+	ands	r2, r4
+	subs	r2, #65
+	cmp	r2, #26
+	bhs	.LBB56_422
+.LBB56_419:
+	adds	r2, r3, r1
+	cmp	r1, #2
+	blo	.LBB56_420
+	b	.LBB56_533
+.LBB56_420:
+	subs	r2, r2, #1
+	ldrb	r2, [r2]
+	mov	r5, r2
+	subs	r5, #48
+	cmp	r5, #10
+	bhs	.LBB56_421
+	b	.LBB56_556
+.LBB56_421:
+	ands	r2, r4
+	subs	r2, #65
+	cmp	r2, #25
+	bhi	.LBB56_422
+	b	.LBB56_556
+.LBB56_422:
+	movs	r6, #13
+	ldr	r5, .LCPI56_149
+	ldr	r7, [sp, #292]
+.LBB56_423:
+	ldr	r4, [sp, #312]
+	add	r0, sp, #432
+	bl	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNtNtNtCseADBAlPmZ6Z_10simple_dns3dns6packet6PacketECs9Yr4AUe4qI0_9netclient
+.LBB56_424:
+	movs	r0, #35
+	str	r0, [sp]
+	add	r0, sp, #400
+	mov	r1, r5
+	mov	r2, r6
+.LBB56_425:
+	ldr	r3, .LCPI56_150
+.LBB56_426:
+	bl	_RNvNtCs9Yr4AUe4qI0_9netclient3web6render
+.LBB56_427:
+	str	r4, [sp, #312]
+	add	r0, sp, #528
+	movs	r5, #0
+	strb	r5, [r0]
+	ldr	r1, [sp, #404]
+	ldr	r0, [sp, #408]
+	str	r5, [sp, #688]
+	movs	r2, #4
+	str	r2, [sp, #316]
+	str	r2, [sp, #684]
+	str	r5, [sp, #680]
+	cmp	r0, #0
+	str	r1, [sp, #356]
+	str	r0, [sp, #340]
+	beq	.LBB56_441
+	lsls	r0, r0, #3
+	adds	r4, r1, r0
+	b	.LBB56_430
+.LBB56_429:
+	ldr	r7, [sp, #292]
+.LBB56_430:
+	ldr	r0, [r7, #24]
+	cmp	r0, #0
+	beq	.LBB56_436
+	ldr	r6, [r7, #28]
+	cmp	r6, #9
+	beq	.LBB56_435
+	cmp	r6, #27
+	beq	.LBB56_449
+	ldr	r7, [sp, #688]
+	ldr	r0, [sp, #680]
+	cmp	r7, r0
+	beq	.LBB56_440
+.LBB56_434:
+	lsls	r0, r7, #2
+	ldr	r1, [sp, #684]
+	str	r6, [r1, r0]
+	adds	r0, r7, #1
+	str	r0, [sp, #688]
+	b	.LBB56_436
+.LBB56_435:
+	adds	r0, r5, #1
+	ldr	r1, [sp, #340]
+	bl	__aeabi_uidivmod
+	mov	r5, r1
+.LBB56_436:
+	mov	r6, r5
+	ldr	r7, [sp, #356]
+	b	.LBB56_438
+.LBB56_437:
+	ldm	r7!, {r0, r1}
+	ldr	r3, [r1, #12]
+	add	r1, sp, #528
+	subs	r7, #8
+	blx	r3
+	subs	r6, r6, #1
+	adds	r7, #8
+	cmp	r7, r4
+	beq	.LBB56_429
+.LBB56_438:
+	add	r2, sp, #680
+	cmp	r6, #0
+	beq	.LBB56_437
+	movs	r2, #0
+	b	.LBB56_437
+.LBB56_440:
+	add	r0, sp, #680
+	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVeccE8grow_oneCsb7ba3TghYF3_4parm
+	b	.LBB56_434
+.LBB56_441:
+	movs	r4, #0
+	b	.LBB56_443
+.LBB56_442:
+	lsls	r0, r4, #2
+	ldr	r1, [sp, #684]
+	str	r5, [r1, r0]
+	adds	r4, r4, #1
+	str	r4, [sp, #688]
+.LBB56_443:
+	ldr	r0, [r7, #24]
+	cmp	r0, #0
+	beq	.LBB56_443
+	ldr	r5, [r7, #28]
+	cmp	r5, #27
+	beq	.LBB56_449
+	cmp	r5, #9
+	bne	.LBB56_446
+	bl	.LBB56_1589
+.LBB56_446:
+	ldr	r0, [sp, #680]
+	cmp	r4, r0
+	bne	.LBB56_442
+	add	r0, sp, #680
+	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVeccE8grow_oneCsb7ba3TghYF3_4parm
+	b	.LBB56_442
+.LBB56_448:
+	ldr	r0, [r7, #28]
+	cmp	r0, #117
+	beq	.LBB56_454
+.LBB56_449:
+	movs	r1, #63
+	str	r1, [r7]
+	ldr	r0, [sp, #232]
+	str	r0, [r7]
+.LBB56_450:
+	ldr	r0, [r7, #24]
+	cmp	r0, #0
+	bne	.LBB56_448
+	ldr	r0, [r7, #24]
+	cmp	r0, #0
+	bne	.LBB56_448
+	ldr	r0, [r7, #24]
+	cmp	r0, #0
+	bne	.LBB56_448
+	ldr	r0, [r7, #24]
+	cmp	r0, #0
+	beq	.LBB56_450
+	b	.LBB56_448
+.LBB56_454:
+	str	r1, [sp, #348]
+	b	.LBB56_457
+.LBB56_455:
+	movs	r2, #0
+	mov	r1, r3
+.LBB56_456:
+	str	r1, [sp, #392]
+	str	r2, [sp, #396]
+	cmp	r2, #0
+	beq	.LBB56_457
+	b	.LBB56_527
+.LBB56_457:
+	movs	r0, #85
+	str	r0, [r7]
+	movs	r0, #82
+	str	r0, [r7]
+	movs	r0, #76
+	str	r0, [r7]
+	movs	r0, #58
+	str	r0, [r7]
+	ldr	r0, [sp, #232]
+	str	r0, [r7]
+	movs	r5, #0
+	str	r5, [sp, #388]
+.LBB56_458:
+	mov	r1, r5
+.LBB56_459:
+	mov	r0, r1
+.LBB56_460:
+	ldr	r1, [r7, #24]
+	cmp	r1, #0
+	bne	.LBB56_464
+	ldr	r1, [r7, #24]
+	cmp	r1, #0
+	bne	.LBB56_464
+	ldr	r1, [r7, #24]
+	cmp	r1, #0
+	bne	.LBB56_464
+	ldr	r1, [r7, #24]
+	cmp	r1, #0
+	beq	.LBB56_460
+.LBB56_464:
+	ldr	r4, [r7, #28]
+	cmp	r4, #8
+	bne	.LBB56_468
+	movs	r1, #0
+	cmp	r0, #0
+	beq	.LBB56_459
+	ldr	r1, [sp, #384]
+	adds	r3, r1, r0
+	movs	r1, #0
+	mvns	r1, r1
+	ldrsb	r2, [r3, r1]
+	mov	r1, r7
+	adds	r1, #255
+	cmp	r2, #0
+	bmi	.LBB56_478
+.LBB56_467:
+	adds	r5, r1, r0
+	str	r5, [sp, #388]
+	movs	r0, #8
+	str	r0, [r7]
+	b	.LBB56_458
+.LBB56_468:
+	cmp	r4, #10
+	bne	.LBB56_469
+	b	.LBB56_499
+.LBB56_469:
+	cmp	r4, #128
+	bhs	.LBB56_473
+	movs	r6, #1
+	ldr	r0, [sp, #380]
+	subs	r0, r0, r5
+	cmp	r6, r0
+	bhi	.LBB56_475
+.LBB56_471:
+	ldr	r0, [sp, #384]
+	adds	r0, r0, r5
+	cmp	r4, #128
+	bhs	.LBB56_476
+.LBB56_472:
+	strb	r4, [r0]
+	b	.LBB56_489
+.LBB56_473:
+	ldr	r0, [sp, #224]
+	cmp	r4, r0
+	bhs	.LBB56_481
+	movs	r6, #2
+	ldr	r0, [sp, #380]
+	subs	r0, r0, r5
+	cmp	r6, r0
+	bls	.LBB56_471
+.LBB56_475:
+	add	r0, sp, #380
+	mov	r1, r5
+	mov	r2, r6
+	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECsb7ba3TghYF3_4parm
+	ldr	r0, [sp, #384]
+	adds	r0, r0, r5
+	cmp	r4, #128
+	blo	.LBB56_472
+.LBB56_476:
+	str	r6, [sp, #360]
+	mov	r1, r4
+	ldr	r6, [sp, #348]
+	ands	r1, r6
+	movs	r2, #127
+	mvns	r2, r2
+	adds	r1, r1, r2
+	lsrs	r7, r4, #6
+	ldr	r3, [sp, #224]
+	cmp	r4, r3
+	bhs	.LBB56_483
+	strb	r1, [r0, #1]
+	movs	r1, #192
+	orrs	r7, r1
+	strb	r7, [r0]
+	b	.LBB56_488
+.LBB56_478:
+	subs	r2, r3, #2
+	ldrb	r4, [r2]
+	sxtb	r2, r4
+	movs	r5, #64
+	mvns	r5, r5
+	cmp	r2, r5
+	bgt	.LBB56_485
+	subs	r4, r3, #3
+	ldrb	r5, [r4]
+	sxtb	r6, r5
+	movs	r4, #63
+	mvns	r7, r4
+	cmp	r6, r7
+	bge	.LBB56_492
+	ands	r6, r4
+	subs	r3, r3, #4
+	ldrb	r3, [r3]
+	lsls	r3, r3, #29
+	lsrs	r3, r3, #23
+	adds	r5, r3, r6
+	b	.LBB56_493
+.LBB56_481:
+	ldr	r0, [sp, #332]
+	cmp	r4, r0
+	blo	.LBB56_486
+	ldr	r6, [sp, #316]
+	ldr	r0, [sp, #380]
+	subs	r0, r0, r5
+	cmp	r6, r0
+	bls	.LBB56_471
+	b	.LBB56_475
+.LBB56_483:
+	lsrs	r3, r4, #12
+	ands	r7, r6
+	adds	r7, r7, r2
+	str	r7, [sp, #352]
+	ldr	r7, [sp, #332]
+	cmp	r4, r7
+	bhs	.LBB56_487
+	strb	r1, [r0, #2]
+	ldr	r1, [sp, #352]
+	strb	r1, [r0, #1]
+	movs	r1, #224
+	orrs	r3, r1
+	strb	r3, [r0]
+	b	.LBB56_488
+.LBB56_485:
+	movs	r2, #31
+	ands	r4, r2
+	cmp	r4, #2
+	bhs	.LBB56_494
+	b	.LBB56_467
+.LBB56_486:
+	movs	r6, #3
+	ldr	r0, [sp, #380]
+	subs	r0, r0, r5
+	cmp	r6, r0
+	bls	.LBB56_471
+	b	.LBB56_475
+.LBB56_487:
+	movs	r7, #15
+	mvns	r7, r7
+	str	r7, [sp, #324]
+	str	r1, [sp, #320]
+	lsrs	r1, r4, #18
+	str	r1, [sp, #328]
+	ldr	r7, [sp, #324]
+	ldr	r1, [sp, #328]
+	orrs	r1, r7
+	str	r1, [sp, #328]
+	ands	r3, r6
+	adds	r2, r3, r2
+	ldr	r1, [sp, #320]
+	strb	r1, [r0, #3]
+	ldr	r1, [sp, #352]
+	strb	r1, [r0, #2]
+	strb	r2, [r0, #1]
+	ldr	r1, [sp, #328]
+	strb	r1, [r0]
+.LBB56_488:
+	ldr	r7, [sp, #292]
+	ldr	r6, [sp, #360]
+.LBB56_489:
+	adds	r5, r6, r5
+	str	r5, [sp, #388]
+	ldr	r0, [sp, #344]
+	cmp	r4, r0
+	blo	.LBB56_491
+	ldr	r4, [sp, #348]
+.LBB56_491:
+	str	r4, [r7]
+	b	.LBB56_458
+.LBB56_492:
+	movs	r3, #15
+	ands	r5, r3
+.LBB56_493:
+	ands	r2, r4
+	lsls	r3, r5, #6
+	adds	r4, r3, r2
+	ldr	r7, [sp, #292]
+	cmp	r4, #2
+	bhs	.LBB56_494
+	b	.LBB56_467
+.LBB56_494:
+	cmp	r4, #32
+	bhs	.LBB56_496
+	mov	r1, r7
+	adds	r1, #254
+	b	.LBB56_467
+.LBB56_496:
+	ldr	r1, [sp, #308]
+	cmp	r4, r1
+	blo	.LBB56_498
+	mov	r1, r7
+	adds	r1, #252
+	b	.LBB56_467
+.LBB56_498:
+	mov	r1, r7
+	adds	r1, #253
+	b	.LBB56_467
+.LBB56_499:
+	ldr	r1, [sp, #228]
+	str	r1, [r7]
+	ldr	r3, [sp, #384]
+	cmp	r0, #0
+	bne	.LBB56_500
+	b	.LBB56_455
+.LBB56_500:
+	adds	r1, r3, r0
+	str	r1, [sp, #352]
+	mov	r5, r7
+	adds	r5, #255
+	subs	r1, r0, #1
+	str	r1, [sp, #360]
+	movs	r6, #0
+.LBB56_501:
+	adds	r1, r3, r6
+	ldrb	r2, [r3, r6]
+	subs	r2, #9
+	cmp	r2, #23
+	bhi	.LBB56_508
+	movs	r4, #1
+	mov	r7, r4
+	lsls	r7, r2
+	ldr	r2, .LCPI56_151
+	tst	r7, r2
+	beq	.LBB56_508
+	movs	r2, #0
+	ldr	r7, [sp, #360]
+	cmp	r7, r6
+	beq	.LBB56_507
+	ldrb	r7, [r1, #1]
+	subs	r7, #9
+	cmp	r7, #23
+	bhi	.LBB56_509
+	lsls	r4, r7
+	ldr	r7, .LCPI56_151
+	tst	r4, r7
+	beq	.LBB56_509
+	subs	r5, r5, #2
+	adds	r6, r6, #2
+	cmp	r0, r6
+	bne	.LBB56_501
+.LBB56_507:
+	ldr	r1, [sp, #352]
+	ldr	r7, [sp, #292]
+	b	.LBB56_456
+.LBB56_508:
+	subs	r2, r0, r6
+	b	.LBB56_510
+.LBB56_509:
+	adds	r2, r0, r5
+	adds	r1, r1, #1
+.LBB56_510:
+	subs	r0, r1, #4
+	ldr	r7, [sp, #292]
+.LBB56_511:
+	adds	r5, r0, r2
+	ldrb	r3, [r5, #3]
+	subs	r3, #9
+	cmp	r3, #23
+	bls	.LBB56_512
+	b	.LBB56_456
+.LBB56_512:
+	movs	r4, #1
+	mov	r6, r4
+	lsls	r6, r3
+	ldr	r3, .LCPI56_151
+	tst	r6, r3
+	bne	.LBB56_513
+	b	.LBB56_456
+.LBB56_513:
+	movs	r3, #0
+	cmp	r2, #1
+	beq	.LBB56_523
+	ldrb	r6, [r5, #2]
+	subs	r6, #9
+	cmp	r6, #23
+	bhi	.LBB56_524
+	mov	r7, r4
+	lsls	r7, r6
+	ldr	r6, .LCPI56_151
+	tst	r7, r6
+	ldr	r7, [sp, #292]
+	beq	.LBB56_524
+	cmp	r2, #2
+	beq	.LBB56_523
+	ldrb	r5, [r5, #1]
+	subs	r5, #9
+	cmp	r5, #23
+	bhi	.LBB56_525
+	mov	r6, r4
+	lsls	r6, r5
+	ldr	r5, .LCPI56_151
+	tst	r6, r5
+	beq	.LBB56_525
+	cmp	r2, #3
+	beq	.LBB56_523
+	ldrb	r5, [r0, r2]
+	subs	r5, #9
+	cmp	r5, #23
+	bhi	.LBB56_526
+	lsls	r4, r5
+	ldr	r5, .LCPI56_151
+	tst	r4, r5
+	beq	.LBB56_526
+	subs	r2, r2, #4
+	bne	.LBB56_511
+.LBB56_523:
+	mov	r2, r3
+	b	.LBB56_456
+.LBB56_524:
+	subs	r2, r2, #1
+	b	.LBB56_456
+.LBB56_525:
+	subs	r2, r2, #2
+	b	.LBB56_456
+.LBB56_526:
+	subs	r2, r2, #3
+	b	.LBB56_456
+.LBB56_527:
+	ldr	r0, .LCPI56_152
+	ldr	r1, .LCPI56_153
+	bl	__aeabi_memclr8
+	ldr	r6, [sp, #340]
+	cmp	r6, #0
+	beq	.LBB56_532
+	ldr	r4, [sp, #312]
+	ldr	r5, [sp, #356]
+	b	.LBB56_530
+.LBB56_529:
+	adds	r5, #8
+	subs	r6, r6, #1
+	bne	.LBB56_530
+	bl	.LBB56_125
+.LBB56_530:
+	ldr	r0, [r5, #4]
+	ldr	r1, [r0]
+	cmp	r1, #0
+	beq	.LBB56_529
+	ldr	r0, [r5]
+	blx	r1
+	b	.LBB56_529
+.LBB56_532:
+	ldr	r4, [sp, #312]
+	ldr	r0, [sp, #304]
+	bl	.LBB56_126
+.LBB56_533:
+	adds	r5, r3, #1
+	b	.LBB56_537
+	.p2align	2
+.LCPI56_149:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.43
+	.p2align	2
+.LCPI56_150:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.148
+	.p2align	1
+.LBB56_536:
+	adds	r5, r5, #1
+	cmp	r5, r2
+	bne	.LBB56_537
+	b	.LBB56_420
+.LBB56_537:
+	ldrb	r6, [r5]
+	mov	r7, r6
+	subs	r7, #48
+	cmp	r7, #10
+	blo	.LBB56_541
+	mov	r7, r6
+	ands	r7, r4
+	subs	r7, #65
+	cmp	r7, #26
+	blo	.LBB56_541
+	cmp	r6, #95
+	beq	.LBB56_541
+	cmp	r6, #45
+	beq	.LBB56_541
+	b	.LBB56_422
+.LBB56_541:
+	adds	r5, r5, #1
+	cmp	r5, r2
+	bne	.LBB56_542
+	b	.LBB56_420
+.LBB56_542:
+	ldrb	r6, [r5]
+	mov	r7, r6
+	subs	r7, #48
+	cmp	r7, #10
+	blo	.LBB56_546
+	mov	r7, r6
+	ands	r7, r4
+	subs	r7, #65
+	cmp	r7, #26
+	blo	.LBB56_546
+	cmp	r6, #95
+	beq	.LBB56_546
+	cmp	r6, #45
+	beq	.LBB56_546
+	b	.LBB56_422
+.LBB56_546:
+	adds	r5, r5, #1
+	cmp	r5, r2
+	bne	.LBB56_547
+	b	.LBB56_420
+.LBB56_547:
+	ldrb	r6, [r5]
+	mov	r7, r6
+	subs	r7, #48
+	cmp	r7, #10
+	blo	.LBB56_551
+	mov	r7, r6
+	ands	r7, r4
+	subs	r7, #65
+	cmp	r7, #26
+	blo	.LBB56_551
+	cmp	r6, #95
+	beq	.LBB56_551
+	cmp	r6, #45
+	beq	.LBB56_551
+	b	.LBB56_422
+.LBB56_551:
+	adds	r5, r5, #1
+	cmp	r5, r2
+	bne	.LBB56_552
+	b	.LBB56_420
+.LBB56_552:
+	ldrb	r6, [r5]
+	mov	r7, r6
+	subs	r7, #48
+	cmp	r7, #10
+	blo	.LBB56_536
+	mov	r7, r6
+	ands	r7, r4
+	subs	r7, #65
+	cmp	r7, #26
+	blo	.LBB56_536
+	cmp	r6, #95
+	beq	.LBB56_536
+	cmp	r6, #45
+	beq	.LBB56_536
+	b	.LBB56_422
+.LBB56_556:
+	movs	r5, #48
+	ldr	r2, [sp, #216]
+	str	r5, [r2, #76]
+	ldr	r2, .LCPI56_154
+	ldr	r2, [r2, #8]
+	@APP
+	mov	r7, sp
+	@NO_APP
+	str	r7, [sp, #612]
+	adds	r6, r2, #7
+	movs	r2, #3
+	str	r2, [sp, #244]
+	bics	r6, r2
+	mov	r2, r6
+	adds	r6, #48
+	cmp	r7, r6
+	bhs	.LBB56_557
+	bl	.LBB56_1587
+.LBB56_557:
+	subs	r7, r2, #4
+	str	r5, [r7]
+	ldr	r5, .LCPI56_154
+	str	r6, [r5, #8]
+	cmp	r2, #0
+	bne	.LBB56_558
+	bl	.LBB56_1603
+.LBB56_558:
+	ldr	r7, [sp, #292]
+	mov	r5, r7
+	adds	r5, #255
+	str	r5, [sp, #248]
+	str	r5, [r2]
+	str	r3, [r2, #4]
+	str	r1, [r2, #8]
+	movs	r1, #1
+	str	r1, [sp, #320]
+	str	r1, [sp, #536]
+	str	r2, [sp, #252]
+	str	r2, [sp, #532]
+	movs	r1, #4
+	str	r1, [sp, #528]
+.LBB56_559:
+	ldr	r2, [sp, #356]
+	ldr	r3, [sp, #360]
+	cmp	r0, r2
+	mov	r1, r0
+	blo	.LBB56_573
+.LBB56_560:
+	cmp	r2, r0
+	bhi	.LBB56_561
+	b	.LBB56_609
+.LBB56_561:
+	mov	r6, r2
+	subs	r5, r2, r0
+.LBB56_562:
+	mov	r1, r5
+	subs	r1, #64
+	ldr	r2, [sp, #348]
+	cmp	r1, r2
+	bhs	.LBB56_563
+	b	.LBB56_422
+.LBB56_563:
+	ldr	r1, [sp, #360]
+	adds	r7, r1, r0
+	ldrb	r0, [r7]
+	cmp	r0, #95
+	beq	.LBB56_566
+	mov	r1, r0
+	subs	r1, #48
+	cmp	r1, #10
+	blo	.LBB56_566
+	ands	r0, r4
+	subs	r0, #65
+	cmp	r0, #26
+	blo	.LBB56_566
+	b	.LBB56_422
+.LBB56_566:
+	adds	r0, r7, r5
+	cmp	r5, #2
+	bhs	.LBB56_577
+.LBB56_567:
+	subs	r0, r0, #1
+	ldrb	r0, [r0]
+	mov	r1, r0
+	subs	r1, #48
+	cmp	r1, #10
+	blo	.LBB56_569
+	ands	r0, r4
+	subs	r0, #65
+	cmp	r0, #25
+	bls	.LBB56_569
+	b	.LBB56_422
+.LBB56_569:
+	ldr	r0, [sp, #528]
+	ldr	r1, [sp, #320]
+	cmp	r1, r0
+	ldr	r2, [sp, #252]
+	beq	.LBB56_588
+.LBB56_570:
+	movs	r0, #12
+	muls	r0, r1, r0
+	ldr	r3, [sp, #248]
+	str	r3, [r2, r0]
+	str	r2, [sp, #252]
+	adds	r0, r2, r0
+	str	r7, [r0, #4]
+	str	r5, [r0, #8]
+	adds	r1, r1, #1
+	str	r1, [sp, #320]
+	str	r1, [sp, #536]
+	mov	r0, r6
+	ldr	r7, [sp, #292]
+	b	.LBB56_559
+.LBB56_571:
+	mov	r3, r0
+.LBB56_572:
+	cmp	r2, r6
+	mov	r0, r3
+	mov	r1, r6
+	ldr	r3, [sp, #360]
+	beq	.LBB56_560
+.LBB56_573:
+	ldrb	r3, [r3, r1]
+	adds	r6, r1, #1
+	cmp	r3, #46
+	bne	.LBB56_571
+	cmp	r1, r0
+	mov	r3, r6
+	beq	.LBB56_572
+	bhs	.LBB56_576
+	bl	.LBB56_1586
+.LBB56_576:
+	subs	r5, r1, r0
+	b	.LBB56_562
+.LBB56_577:
+	adds	r1, r7, #1
+	b	.LBB56_579
+.LBB56_578:
+	adds	r1, r1, #1
+	cmp	r1, r0
+	beq	.LBB56_567
+.LBB56_579:
+	ldrb	r2, [r1]
+	mov	r3, r2
+	subs	r3, #48
+	cmp	r3, #10
+	blo	.LBB56_583
+	mov	r3, r2
+	ands	r3, r4
+	subs	r3, #65
+	cmp	r3, #26
+	blo	.LBB56_583
+	cmp	r2, #95
+	beq	.LBB56_583
+	cmp	r2, #45
+	beq	.LBB56_583
+	b	.LBB56_422
+.LBB56_583:
+	adds	r1, r1, #1
+	cmp	r1, r0
+	beq	.LBB56_567
+	ldrb	r3, [r1]
+	mov	r2, r3
+	subs	r2, #48
+	cmp	r2, #10
+	blo	.LBB56_578
+	mov	r2, r3
+	ands	r2, r4
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_578
+	cmp	r3, #95
+	beq	.LBB56_578
+	cmp	r3, #45
+	beq	.LBB56_578
+	b	.LBB56_422
+.LBB56_588:
+	movs	r0, #12
+	str	r0, [sp]
+	add	r0, sp, #528
+	movs	r2, #1
+	movs	r3, #4
+	ldr	r1, [sp, #320]
+	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECseADBAlPmZ6Z_10simple_dns
+	ldr	r1, [sp, #320]
+	ldr	r2, [sp, #532]
+	b	.LBB56_570
+.LBB56_589:
+	movs	r4, #4
+	movs	r5, #0
+	mov	r3, r5
+.LBB56_590:
+	add	r0, sp, #432
+	mov	r7, r3
+	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecNtNtNtCseADBAlPmZ6Z_10simple_dns3dns8question8QuestionE8grow_oneBS_
+	ldr	r6, [sp, #436]
+	str	r7, [r6]
+	str	r4, [r6, #4]
+	str	r5, [r6, #8]
+	movs	r4, #0
+	strh	r4, [r6, #12]
+	ldr	r0, [sp, #328]
+	str	r0, [sp, #440]
+	lsls	r0, r0, #8
+	strh	r0, [r6, #16]
+	ldr	r3, [sp, #216]
+	ldr	r7, [sp, #240]
+	str	r7, [r3, #76]
+	ldr	r5, .LCPI56_154
+	ldr	r0, [r5, #8]
+	@APP
+	mov	r2, sp
+	@NO_APP
+	str	r2, [sp, #612]
+	movs	r1, #113
+	lsls	r1, r1, #3
+	adds	r1, r0, r1
+	cmp	r2, r1
+	bhs	.LBB56_591
+	bl	.LBB56_1588
+.LBB56_591:
+	str	r7, [r0]
+	str	r1, [r5, #8]
+	ldr	r2, [sp, #476]
+	ldr	r1, [sp, #480]
+	adds	r1, r1, #1
+	str	r2, [sp, #244]
+	str	r1, [sp, #252]
+	bne	.LBB56_593
+	mov	r1, r2
+	b	.LBB56_594
+.LBB56_593:
+	adds	r1, r2, #1
+.LBB56_594:
+	ldr	r2, [sp, #220]
+	rev16	r1, r1
+	strh	r1, [r0, #14]
+	ldr	r1, [sp, #464]
+	str	r1, [sp, #348]
+	rev16	r1, r1
+	strh	r1, [r0, #12]
+	ldr	r1, [sp, #452]
+	str	r1, [sp, #320]
+	rev16	r1, r1
+	strh	r1, [r0, #10]
+	ldr	r1, [sp, #344]
+	strh	r1, [r0, #8]
+	adds	r1, r0, #4
+	str	r1, [r3, #16]
+	ldrh	r1, [r2, #2]
+	rev16	r1, r1
+	strh	r1, [r0, #4]
+	ldrb	r1, [r2, #15]
+	movs	r5, #15
+	str	r1, [sp, #248]
+	str	r5, [sp, #204]
+	ands	r1, r5
+	mov	r7, r2
+	ldrh	r2, [r2, #4]
+	mov	r5, r3
+	ldrb	r3, [r7, #14]
+	lsls	r3, r3, #11
+	orrs	r3, r2
+	orrs	r3, r1
+	rev16	r1, r3
+	strh	r1, [r0, #6]
+	ldr	r0, [sp, #240]
+	str	r0, [r5, #12]
+	movs	r0, #12
+	str	r0, [r5, #20]
+	ldr	r1, [r6, #4]
+	ldr	r2, [r6, #8]
+	add	r0, sp, #680
+	ldr	r3, .LCPI56_155
+	add	r3, sp
+	bl	_RINvMNtNtCseADBAlPmZ6Z_10simple_dns3dns4nameNtB3_4Name12plain_appendINtNtCsa0y0V4fwJ9Z_5alloc3vec3VechEEB7_
+	ldr	r0, [sp, #680]
+	adds	r0, r0, #1
+	ldr	r7, [sp, #292]
+	beq	.LBB56_596
+.LBB56_595:
+	movs	r6, #24
+	ldr	r5, .LCPI56_156
+	b	.LBB56_423
+.LBB56_596:
+	ldrh	r0, [r6, #12]
+	mov	r2, r0
+	subs	r2, #41
+	bhi	.LBB56_598
+	mov	r2, r4
+.LBB56_598:
+	movs	r1, #251
+	lsls	r4, r1, #8
+	ldrh	r1, [r6, #14]
+	ldrb	r5, [r6, #17]
+	ldrb	r6, [r6, #16]
+	lsls	r2, r2, #2
+	adr	r3, .LJTI56_2
+	ldr	r2, [r3, r2]
+	ldr	r3, [sp, #216]
+	mov	pc, r2
+	.p2align	2
+.LJTI56_2:
+	.long	.LBB56_600+1
+	.long	.LBB56_624+1
+	.long	.LBB56_620+1
+	.long	.LBB56_621+1
+	.long	.LBB56_619+1
+	.long	.LBB56_622+1
+.LBB56_600:
+	adr	r2, .LJTI56_3
+	ldr	r4, [sp, #344]
+	lsls	r0, r0, #1
+	ldrh	r0, [r2, r0]
+	lsls	r0, r0, #1
+.LCPI56_99:
+	add	pc, r0
+	.p2align	2
+.LCPI56_151:
+	.long	8388635
+	.p2align	1
+	.p2align	2
+.LJTI56_3:
+	.short	(.LBB56_624-(.LCPI56_99+4))/2
+	.short	(.LBB56_608-(.LCPI56_99+4))/2
+	.short	(.LBB56_989-(.LCPI56_99+4))/2
+	.short	(.LBB56_990-(.LCPI56_99+4))/2
+	.short	(.LBB56_991-(.LCPI56_99+4))/2
+	.short	(.LBB56_992-(.LCPI56_99+4))/2
+	.short	(.LBB56_993-(.LCPI56_99+4))/2
+	.short	(.LBB56_994-(.LCPI56_99+4))/2
+	.short	(.LBB56_995-(.LCPI56_99+4))/2
+	.short	(.LBB56_996-(.LCPI56_99+4))/2
+	.short	(.LBB56_997-(.LCPI56_99+4))/2
+	.short	(.LBB56_998-(.LCPI56_99+4))/2
+	.short	(.LBB56_1002-(.LCPI56_99+4))/2
+	.short	(.LBB56_1004-(.LCPI56_99+4))/2
+	.short	(.LBB56_1006-(.LCPI56_99+4))/2
+	.short	(.LBB56_1011-(.LCPI56_99+4))/2
+	.short	(.LBB56_983-(.LCPI56_99+4))/2
+	.short	(.LBB56_1012-(.LCPI56_99+4))/2
+	.short	(.LBB56_1013-(.LCPI56_99+4))/2
+	.short	(.LBB56_1014-(.LCPI56_99+4))/2
+	.short	(.LBB56_1015-(.LCPI56_99+4))/2
+	.short	(.LBB56_1016-(.LCPI56_99+4))/2
+	.short	(.LBB56_1017-(.LCPI56_99+4))/2
+	.short	(.LBB56_1018-(.LCPI56_99+4))/2
+	.short	(.LBB56_1019-(.LCPI56_99+4))/2
+	.short	(.LBB56_1021-(.LCPI56_99+4))/2
+	.short	(.LBB56_1027-(.LCPI56_99+4))/2
+	.short	(.LBB56_984-(.LCPI56_99+4))/2
+	.short	(.LBB56_1029-(.LCPI56_99+4))/2
+	.short	(.LBB56_1030-(.LCPI56_99+4))/2
+	.short	(.LBB56_1031-(.LCPI56_99+4))/2
+	.short	(.LBB56_1032-(.LCPI56_99+4))/2
+	.short	(.LBB56_1033-(.LCPI56_99+4))/2
+	.short	(.LBB56_1034-(.LCPI56_99+4))/2
+	.short	(.LBB56_985-(.LCPI56_99+4))/2
+	.short	(.LBB56_986-(.LCPI56_99+4))/2
+	.short	(.LBB56_987-(.LCPI56_99+4))/2
+	.short	(.LBB56_988-(.LCPI56_99+4))/2
+	.short	(.LBB56_1035-(.LCPI56_99+4))/2
+	.short	(.LBB56_1036-(.LCPI56_99+4))/2
+	.short	(.LBB56_1037-(.LCPI56_99+4))/2
+	.short	(.LBB56_1038-(.LCPI56_99+4))/2
+	.p2align	1
+	.p2align	2
+.LCPI56_152:
+	.long	4292870144
+	.p2align	2
+.LCPI56_153:
+	.long	691200
+	.p2align	2
+.LCPI56_154:
+	.long	.L_MergedGlobals
+	.p2align	2
+.LCPI56_155:
+	.long	1720
+	.p2align	2
+.LCPI56_156:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.42
+	.p2align	1
+.LBB56_608:
+	movs	r0, #7
+	lsls	r4, r0, #10
+	b	.LBB56_624
+.LBB56_609:
+	ldr	r0, [sp, #320]
+	ldr	r5, [sp, #244]
+	ands	r5, r0
+	ldr	r4, [sp, #532]
+	ldr	r3, [sp, #528]
+	lsrs	r0, r0, #2
+	beq	.LBB56_613
+	str	r3, [sp, #348]
+	lsls	r2, r0, #2
+	mov	r3, r4
+	adds	r3, #44
+	movs	r1, #0
+	mov	r0, r1
+.LBB56_611:
+	mov	r6, r3
+	subs	r6, #36
+	ldr	r6, [r6]
+	adds	r0, r0, r6
+	mov	r6, r3
+	subs	r6, #24
+	ldr	r6, [r6]
+	adds	r0, r0, r6
+	mov	r6, r3
+	subs	r6, #12
+	ldr	r6, [r6]
+	adds	r0, r0, r6
+	ldr	r6, [r3]
+	adds	r0, r0, r6
+	adds	r0, r0, #4
+	adds	r3, #48
+	adds	r1, r1, #4
+	cmp	r2, r1
+	bne	.LBB56_611
+	cmp	r5, #0
+	ldr	r3, [sp, #348]
+	bne	.LBB56_614
+	b	.LBB56_617
+.LBB56_613:
+	movs	r1, #0
+	mov	r0, r1
+.LBB56_614:
+	movs	r2, #12
+	muls	r2, r1, r2
+	adds	r1, r4, r2
+	ldr	r2, [r1, #8]
+	adds	r0, r0, r2
+	adds	r0, r0, #1
+	cmp	r5, #1
+	beq	.LBB56_617
+	ldr	r2, [r1, #20]
+	adds	r0, r0, r2
+	adds	r0, r0, #1
+	cmp	r5, #2
+	beq	.LBB56_617
+	ldr	r1, [r1, #32]
+	adds	r0, r0, r1
+	adds	r0, r0, #1
+.LBB56_617:
+	subs	r0, #255
+	cmp	r0, r7
+	ldr	r5, [sp, #320]
+	blo	.LBB56_618
+	b	.LBB56_590
+.LBB56_618:
+	movs	r6, #13
+	ldr	r5, .LCPI56_157
+	b	.LBB56_423
+.LBB56_619:
+	movs	r0, #127
+	lsls	r4, r0, #9
+	b	.LBB56_624
+.LBB56_620:
+	movs	r0, #63
+	lsls	r4, r0, #10
+	b	.LBB56_624
+.LBB56_621:
+	movs	r0, #253
+	b	.LBB56_623
+.LBB56_622:
+	ldr	r0, [sp, #264]
+.LBB56_623:
+	lsls	r4, r0, #8
+.LBB56_624:
+	ldr	r1, [r3, #20]
+	ldr	r2, [r3, #12]
+	subs	r0, r2, r1
+	cmp	r0, #1
+	bhi	.LBB56_625
+	bl	.LBB56_1088
+.LBB56_625:
+	ldr	r0, [r3, #16]
+	strb	r4, [r0, r1]
+	adds	r3, r0, r1
+	lsrs	r4, r4, #8
+	strb	r4, [r3, #1]
+	ldr	r3, [sp, #216]
+	adds	r1, r1, #2
+	str	r1, [r3, #20]
+	subs	r2, r2, r1
+	cmp	r2, #1
+	bhi	.LBB56_626
+	bl	.LBB56_1089
+.LBB56_626:
+	ldr	r2, .LCPI56_158
+	adds	r2, r2, r5
+	adds	r3, r2, #1
+	cmp	r5, #0
+	ldr	r2, [sp, #264]
+	bne	.LBB56_627
+	b	.LBB56_651
+.LBB56_627:
+	mov	r2, r5
+	ldr	r4, .LCPI56_159
+	beq	.LBB56_628
+	b	.LBB56_652
+.LBB56_628:
+	cmp	r6, #0
+	bne	.LBB56_630
+.LBB56_629:
+	mov	r4, r2
+.LBB56_630:
+	rev	r2, r4
+	lsrs	r3, r2, #16
+	strb	r3, [r0, r1]
+	lsrs	r2, r2, #24
+	adds	r0, r0, r1
+	strb	r2, [r0, #1]
+	adds	r0, r1, #2
+	ldr	r1, [sp, #216]
+	str	r0, [r1, #20]
+	movs	r0, #80
+	str	r0, [sp, #200]
+	ldr	r6, [sp, #320]
+	cmp	r6, #0
+	ldr	r4, [sp, #348]
+	beq	.LBB56_634
+	ldr	r0, [sp, #200]
+	muls	r6, r0, r6
+	ldr	r5, [sp, #448]
+.LBB56_632:
+	add	r0, sp, #680
+	ldr	r2, .LCPI56_160
+	add	r2, sp
+	mov	r1, r5
+	bl	_RINvXs_NtNtCseADBAlPmZ6Z_10simple_dns3dns15resource_recordNtB5_14ResourceRecordNtNtB7_11wire_format10WireFormat8write_toINtNtCsa0y0V4fwJ9Z_5alloc3vec3VechEEB9_
+	ldr	r0, [sp, #680]
+	adds	r0, r0, #1
+	beq	.LBB56_633
+	b	.LBB56_595
+.LBB56_633:
+	adds	r5, #80
+	subs	r6, #80
+	bne	.LBB56_632
+.LBB56_634:
+	cmp	r4, #0
+	beq	.LBB56_638
+	ldr	r0, [sp, #200]
+	muls	r4, r0, r4
+	ldr	r5, [sp, #460]
+.LBB56_636:
+	add	r0, sp, #680
+	ldr	r2, .LCPI56_160
+	add	r2, sp
+	mov	r1, r5
+	bl	_RINvXs_NtNtCseADBAlPmZ6Z_10simple_dns3dns15resource_recordNtB5_14ResourceRecordNtNtB7_11wire_format10WireFormat8write_toINtNtCsa0y0V4fwJ9Z_5alloc3vec3VechEEB9_
+	ldr	r0, [sp, #680]
+	adds	r0, r0, #1
+	beq	.LBB56_637
+	b	.LBB56_595
+.LBB56_637:
+	adds	r5, #80
+	subs	r4, #80
+	bne	.LBB56_636
+.LBB56_638:
+	ldr	r0, [sp, #252]
+	cmp	r0, #0
+	bne	.LBB56_639
+	b	.LBB56_658
+.LBB56_639:
+	ldr	r0, [sp, #220]
+	ldrb	r4, [r0]
+	ldr	r3, [sp, #488]
+	cmp	r3, #0
+	ldr	r6, [sp, #316]
+	beq	.LBB56_657
+	lsls	r6, r3, #4
+	ldr	r7, [sp, #484]
+	ldr	r0, [sp, #216]
+	str	r6, [r0, #76]
+	ldr	r2, .LCPI56_161
+	ldr	r0, [r2, #8]
+	@APP
+	mov	r1, sp
+	@NO_APP
+	str	r1, [sp, #612]
+	adds	r5, r0, #7
+	movs	r0, #3
+	bics	r5, r0
+	adds	r0, r5, r6
+	cmp	r1, r0
+	bhs	.LBB56_641
+	bl	.LBB56_1598
+.LBB56_641:
+	str	r4, [sp, #128]
+	str	r3, [sp, #144]
+	subs	r1, r5, #4
+	str	r6, [r1]
+	str	r0, [r2, #8]
+	cmp	r5, #0
+	str	r6, [sp, #252]
+	bne	.LBB56_642
+	bl	.LBB56_1606
+.LBB56_642:
+	mov	r3, r5
+	movs	r4, #0
+	ldr	r5, [sp, #144]
+	str	r3, [sp, #148]
+	b	.LBB56_645
+.LBB56_643:
+	str	r0, [sp, #320]
+	ldr	r2, [sp, #324]
+	mov	r3, r6
+	mov	r6, r1
+.LBB56_644:
+	subs	r5, r5, #1
+	adds	r7, #16
+	str	r2, [r3, r4]
+	adds	r1, r3, r4
+	ldr	r2, [sp, #348]
+	strh	r2, [r1, #12]
+	ldr	r2, [sp, #320]
+	str	r2, [r1, #4]
+	str	r6, [r1, #8]
+	adds	r4, #16
+	cmp	r5, #0
+	beq	.LBB56_655
+.LBB56_645:
+	mov	r6, r3
+	ldr	r0, [sp, #252]
+	cmp	r0, r4
+	beq	.LBB56_654
+	ldr	r3, [r7]
+	ldr	r0, [r7, #4]
+	ldr	r1, [r7, #8]
+	ldrh	r2, [r7, #12]
+	str	r2, [sp, #348]
+	adds	r3, r3, #1
+	beq	.LBB56_643
+	str	r0, [sp, #236]
+	cmp	r1, #0
+	beq	.LBB56_650
+	ldr	r0, [sp, #216]
+	str	r1, [r0, #76]
+	ldr	r0, .LCPI56_161
+	ldr	r3, [r0, #8]
+	@APP
+	mov	r0, sp
+	@NO_APP
+	str	r0, [sp, #320]
+	str	r0, [sp, #612]
+	mov	r6, r1
+	adds	r0, r3, #4
+	adds	r2, r0, r1
+	ldr	r1, [sp, #320]
+	cmp	r1, r2
+	bhs	.LBB56_649
+	bl	.LBB56_1592
+.LBB56_649:
+	str	r6, [r3]
+	ldr	r1, .LCPI56_161
+	str	r2, [r1, #8]
+	str	r0, [sp, #320]
+	ldr	r1, [sp, #236]
+	mov	r2, r6
+	bl	__aeabi_memcpy
+	mov	r2, r6
+	ldr	r3, [sp, #148]
+	b	.LBB56_644
+.LBB56_650:
+	mov	r3, r6
+	movs	r2, #0
+	mov	r6, r1
+	ldr	r1, [sp, #328]
+	str	r1, [sp, #320]
+	b	.LBB56_644
+.LBB56_651:
+	ldr	r4, .LCPI56_159
+	bne	.LBB56_652
+	b	.LBB56_628
+.LBB56_652:
+	mov	r4, r3
+	cmp	r6, #0
+	bne	.LBB56_653
+	b	.LBB56_629
+.LBB56_653:
+	b	.LBB56_630
+.LBB56_654:
+	ldr	r7, [sp, #292]
+	b	.LBB56_656
+.LBB56_655:
+	ldr	r7, [sp, #292]
+	mov	r6, r3
+.LBB56_656:
+	ldr	r3, [sp, #144]
+	ldr	r4, [sp, #128]
+.LBB56_657:
+	ldr	r0, [sp, #248]
+	lsrs	r0, r0, #4
+	lsls	r1, r4, #8
+	adds	r0, r1, r0
+	ldr	r1, [sp, #492]
+	add	r5, sp, #680
+	strb	r4, [r5, #18]
+	strh	r1, [r5, #16]
+	movs	r1, #1
+	ldr	r2, [sp, #124]
+	strh	r1, [r2]
+	movs	r1, #0
+	str	r1, [sp, #748]
+	ldr	r2, [sp, #316]
+	str	r2, [sp, #744]
+	str	r0, [sp, #736]
+	str	r3, [sp, #692]
+	str	r6, [sp, #688]
+	str	r3, [sp, #684]
+	ldr	r0, .LCPI56_162
+	adds	r0, r0, #4
+	str	r0, [sp, #680]
+	str	r1, [sp, #740]
+	add	r0, sp, #528
+	ldr	r2, .LCPI56_160
+	add	r2, sp
+	mov	r1, r5
+	bl	_RINvXs_NtNtCseADBAlPmZ6Z_10simple_dns3dns15resource_recordNtB5_14ResourceRecordNtNtB7_11wire_format10WireFormat8write_toINtNtCsa0y0V4fwJ9Z_5alloc3vec3VechEEB9_
+	ldr	r4, [sp, #528]
+	mov	r0, r5
+	bl	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNtNtNtCseADBAlPmZ6Z_10simple_dns3dns5rdata5RDataEBH_
+	adds	r0, r4, #1
+	beq	.LBB56_658
+	b	.LBB56_595
+.LBB56_658:
+	ldr	r4, [sp, #244]
+	cmp	r4, #0
+	beq	.LBB56_662
+	ldr	r0, [sp, #200]
+	muls	r4, r0, r4
+	ldr	r5, [sp, #472]
+.LBB56_660:
+	add	r0, sp, #680
+	ldr	r2, .LCPI56_160
+	add	r2, sp
+	mov	r1, r5
+	bl	_RINvXs_NtNtCseADBAlPmZ6Z_10simple_dns3dns15resource_recordNtB5_14ResourceRecordNtNtB7_11wire_format10WireFormat8write_toINtNtCsa0y0V4fwJ9Z_5alloc3vec3VechEEB9_
+	ldr	r0, [sp, #680]
+	adds	r0, r0, #1
+	beq	.LBB56_661
+	b	.LBB56_595
+.LBB56_661:
+	adds	r5, #80
+	subs	r4, #80
+	bne	.LBB56_660
+.LBB56_662:
+	ldr	r0, [sp, #216]
+	ldr	r6, [r0, #12]
+	mov	r1, r7
+	ldr	r7, [r0, #16]
+	ldr	r4, [r0, #20]
+.LBB56_663:
+	ldr	r0, [r1, #64]
+	cmp	r0, #0
+	bmi	.LBB56_667
+	ldr	r0, [r1, #64]
+	cmp	r0, #0
+	bmi	.LBB56_667
+	ldr	r0, [r1, #64]
+	cmp	r0, #0
+	bmi	.LBB56_667
+	ldr	r0, [r1, #64]
+	cmp	r0, #0
+	bpl	.LBB56_663
+.LBB56_667:
+	movs	r2, #1
+	str	r2, [r1, #8]
+	ldr	r0, [sp, #288]
+	str	r0, [r1, #8]
+	str	r0, [r1, #8]
+	str	r0, [r1, #8]
+	str	r0, [r1, #8]
+	movs	r0, #53
+	str	r0, [r1, #8]
+	movs	r0, #0
+	str	r0, [r1, #8]
+	str	r2, [sp, #348]
+	str	r2, [r1, #8]
+	str	r0, [sp, #328]
+	str	r0, [r1, #8]
+	add	r0, sp, #364
+	add	r1, sp, #680
+	movs	r2, #2
+	bl	_RNvXs2_NtNtCsb7ba3TghYF3_4parm6telnet13speedy_telnetNtB5_12SpeedyTelnetINtNtCslTdr3m3UBIq_6speedy6reader6ReaderNtB5_13TelnetContextE10read_bytes
+	add	r5, sp, #512
+	ldr	r0, [sp, #680]
+	strh	r0, [r5]
+	str	r4, [sp, #688]
+	str	r7, [sp, #684]
+	str	r6, [sp, #680]
+	add	r1, sp, #680
+	mov	r0, r5
+	bl	_RNvMs_Cs9Yr4AUe4qI0_9netclientNtB4_6Socket4send
+	add	r0, sp, #516
+	mov	r1, r5
+	ldr	r2, [sp, #196]
+	bl	_RNvMs_Cs9Yr4AUe4qI0_9netclientNtB4_6Socket4recv
+	ldr	r0, [sp, #520]
+	ldr	r1, [sp, #524]
+	ldr	r2, [sp, #216]
+	stm	r2!, {r0, r1}
+	cmp	r1, #2
+	blo	.LBB56_684
+	cmp	r1, #4
+	blo	.LBB56_684
+	ldrb	r2, [r0, #2]
+	ldrb	r3, [r0, #3]
+	lsls	r3, r3, #8
+	adds	r2, r3, r2
+	ldr	r7, [sp, #216]
+	rev	r2, r2
+	lsrs	r6, r2, #16
+	lsls	r2, r6, #25
+	bmi	.LBB56_684
+	lsls	r2, r6, #17
+	lsrs	r2, r2, #28
+	cmp	r2, #5
+	bhi	.LBB56_680
+	ldr	r4, .LCPI56_163
+	ldrb	r5, [r4, r2]
+	cmp	r1, #6
+	bhs	.LBB56_681
+	b	.LBB56_684
+.LBB56_672:
+	ldr	r1, [sp, #324]
+	uxtb	r1, r1
+	lsls	r1, r1, #16
+	lsls	r2, r3, #24
+	adds	r1, r2, r1
+	ldr	r2, [sp, #328]
+	uxtb	r2, r2
+	lsls	r2, r2, #8
+	adds	r1, r1, r2
+	uxtb	r0, r0
+	adds	r6, r1, r0
+	str	r6, [sp, #300]
+	ldr	r4, [sp, #312]
+	b	.LBB56_692
+	.p2align	2
+.LCPI56_157:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.43
+	.p2align	2
+.LCPI56_158:
+	.long	32767
+	.p2align	2
+.LCPI56_159:
+	.long	4294934783
+	.p2align	2
+.LCPI56_160:
+	.long	1720
+	.p2align	2
+.LCPI56_161:
+	.long	.L_MergedGlobals
+	.p2align	2
+.LCPI56_162:
 	.long	2147483669
 	.p2align	2
-.LCPI56_171:
-	.long	4294901760
-	.p2align	2
-.LCPI56_172:
-	.long	8250
-	.p2align	2
-.LCPI56_173:
-	.long	2573
-	.p2align	2
-.LCPI56_174:
-	.long	1720
+.LCPI56_163:
+	.long	.Lswitch.table.main
 	.p2align	1
-.LBB56_774:
-	ldr	r5, [r2, #76]
-	ldr	r6, [r2, #80]
-	mov	r7, r1
-.LBB56_775:
-	ldr	r4, [sp, #44]
-.LBB56_776:
-	ldr	r0, .LCPI56_236
-	add	r0, sp
-	ldrh	r2, [r0, #22]
+.LBB56_680:
+	movs	r5, #6
+	cmp	r1, #6
+	blo	.LBB56_684
+.LBB56_681:
+	cmp	r1, #8
+	blo	.LBB56_684
+	cmp	r1, #10
+	blo	.LBB56_684
+	ldrb	r1, [r0]
+	str	r1, [sp, #244]
+	ldrb	r4, [r0, #1]
+	ldrb	r1, [r0, #4]
+	str	r1, [sp, #316]
+	ldrb	r1, [r0, #5]
+	str	r1, [sp, #248]
+	ldrb	r1, [r0, #6]
+	str	r1, [sp, #320]
+	ldrb	r1, [r0, #7]
+	str	r1, [sp, #252]
+	ldr	r1, [sp, #228]
+	str	r1, [r7, #8]
+	ldrb	r1, [r0, #8]
+	str	r1, [sp, #324]
+	ldrb	r0, [r0, #9]
+	str	r0, [sp, #288]
 	add	r0, sp, #680
-	ldr	r1, .LCPI56_237
+	ldr	r1, .LCPI56_233
 	add	r1, sp
-	bl	_RINvMNtNtCseADBAlPmZ6Z_10simple_dns3dns6packetNtB3_6Packet13parse_sectionNtNtB5_15resource_record14ResourceRecordEB7_
+	bl	_RNvMNtCseADBAlPmZ6Z_10simple_dns12bytes_bufferNtB2_11BytesBuffer7get_u16
 	ldr	r0, [sp, #680]
 	adds	r0, r0, #1
-	bne	.LBB56_781
-	str	r7, [sp, #340]
-	str	r6, [sp, #352]
-	str	r4, [sp, #44]
-	ldr	r6, [sp, #692]
-	ldr	r4, [sp, #688]
-	ldr	r7, [sp, #684]
-	ldr	r0, [sp, #212]
-	str	r7, [r0, #44]
-	str	r4, [r0, #48]
-	str	r6, [r0, #52]
-	ldr	r2, [r0, #36]
-	add	r0, sp, #680
-	ldr	r1, .LCPI56_237
-	add	r1, sp
-	bl	_RINvMNtNtCseADBAlPmZ6Z_10simple_dns3dns6packetNtB3_6Packet13parse_sectionNtNtB5_15resource_record14ResourceRecordEB7_
-	ldr	r0, [sp, #680]
-	adds	r0, r0, #1
-	bne	.LBB56_780
-	str	r7, [sp, #320]
-	str	r6, [sp, #324]
-	str	r4, [sp, #328]
-	ldr	r0, [sp, #692]
-	ldr	r1, [sp, #688]
-	ldr	r2, [sp, #684]
-	ldr	r7, [sp, #212]
-	str	r2, [r7, #76]
-	str	r1, [r7, #80]
-	str	r0, [r7, #84]
-	ldr	r0, .LCPI56_175
-	add	r0, sp
-	ldrh	r2, [r0, #26]
-	add	r0, sp, #680
-	ldr	r1, .LCPI56_176
-	add	r1, sp
-	bl	_RINvMNtNtCseADBAlPmZ6Z_10simple_dns3dns6packetNtB3_6Packet13parse_sectionNtNtB5_15resource_record14ResourceRecordEB7_
-	ldr	r0, [sp, #680]
-	adds	r0, r0, #1
-	bne	.LBB56_779
-	bl	.LBB56_1109
-.LBB56_779:
-	ldr	r0, .LCPI56_177
-	add	r0, sp
-	bl	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueINtNtCsa0y0V4fwJ9Z_5alloc3vec3VecNtNtNtCseADBAlPmZ6Z_10simple_dns3dns15resource_record14ResourceRecordEEB1e_
-.LBB56_780:
-	ldr	r0, .LCPI56_178
-	add	r0, sp
-	bl	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueINtNtCsa0y0V4fwJ9Z_5alloc3vec3VecNtNtNtCseADBAlPmZ6Z_10simple_dns3dns15resource_record14ResourceRecordEEB1e_
-	ldr	r4, [sp, #44]
-.LBB56_781:
-	str	r4, [sp, #44]
-.LBB56_782:
-	movs	r7, #18
+	bne	.LBB56_684
+	bl	.LBB56_1041
+.LBB56_684:
+	ldr	r7, [sp, #292]
+.LBB56_685:
+	movs	r6, #18
 	ldr	r4, [sp, #268]
-	ldr	r5, .LCPI56_179
-.LBB56_783:
+	ldr	r5, .LCPI56_234
+.LBB56_686:
 	add	r0, sp, #512
 	ldrh	r0, [r0]
-	ldr	r2, [sp, #292]
-.LBB56_784:
-	ldr	r1, [r2, #64]
+.LBB56_687:
+	ldr	r1, [r7, #64]
 	cmp	r1, #0
-	bmi	.LBB56_788
-	ldr	r1, [r2, #64]
+	bmi	.LBB56_691
+	ldr	r1, [r7, #64]
 	cmp	r1, #0
-	bmi	.LBB56_788
-	ldr	r1, [r2, #64]
+	bmi	.LBB56_691
+	ldr	r1, [r7, #64]
 	cmp	r1, #0
-	bmi	.LBB56_788
-	ldr	r1, [r2, #64]
+	bmi	.LBB56_691
+	ldr	r1, [r7, #64]
 	cmp	r1, #0
-	bpl	.LBB56_784
-.LBB56_788:
+	bpl	.LBB56_687
+.LBB56_691:
 	movs	r1, #4
-	str	r1, [r2, #8]
+	str	r1, [r7, #8]
 	uxtb	r1, r0
-	str	r1, [r2, #8]
+	str	r1, [r7, #8]
 	lsrs	r0, r0, #8
-	str	r0, [r2, #8]
+	str	r0, [r7, #8]
 	add	r0, sp, #432
 	bl	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNtNtNtCseADBAlPmZ6Z_10simple_dns3dns6packet6PacketECs9Yr4AUe4qI0_9netclient
 	cmp	r4, #0
-	beq	.LBB56_789
-	bl	.LBB56_338
-.LBB56_789:
-	ldr	r2, [sp, #292]
-.LBB56_790:
-	ldr	r0, [r2, #64]
+	ldr	r4, [sp, #312]
+	beq	.LBB56_692
+	bl	.LBB56_424
+.LBB56_692:
+	str	r4, [sp, #312]
+.LBB56_693:
+	ldr	r0, [r7, #64]
 	cmp	r0, #0
-	bmi	.LBB56_794
-	ldr	r0, [r2, #64]
+	bmi	.LBB56_697
+	ldr	r0, [r7, #64]
 	cmp	r0, #0
-	bmi	.LBB56_794
-	ldr	r0, [r2, #64]
+	bmi	.LBB56_697
+	ldr	r0, [r7, #64]
 	cmp	r0, #0
-	bmi	.LBB56_794
-	ldr	r0, [r2, #64]
+	bmi	.LBB56_697
+	ldr	r0, [r7, #64]
 	cmp	r0, #0
-	bpl	.LBB56_790
-.LBB56_794:
-	movs	r5, #1
-	str	r5, [r2, #8]
-	rev	r0, r7
+	bpl	.LBB56_693
+.LBB56_697:
+	movs	r4, #1
+	str	r4, [r7, #8]
+	rev	r0, r6
 	uxtb	r1, r0
-	str	r1, [r2, #8]
+	str	r1, [r7, #8]
 	lsrs	r1, r0, #8
 	uxtb	r1, r1
-	str	r1, [r2, #8]
+	str	r1, [r7, #8]
 	lsrs	r1, r0, #16
 	uxtb	r1, r1
-	str	r1, [r2, #8]
+	str	r1, [r7, #8]
 	lsrs	r0, r0, #24
-	str	r0, [r2, #8]
-	ldr	r0, [sp, #348]
+	str	r0, [r7, #8]
+	ldr	r0, [sp, #340]
 	uxtb	r0, r0
-	str	r0, [r2, #8]
-	ldr	r0, [sp, #276]
-	str	r0, [r2, #8]
-	movs	r7, #0
-	str	r7, [r2, #8]
+	str	r0, [r7, #8]
 	ldr	r0, [sp, #284]
+	str	r0, [r7, #8]
+	movs	r5, #0
+	str	r5, [r7, #8]
+	ldr	r0, [sp, #352]
 	subs	r0, r0, #1
 	rsbs	r1, r0, #0
 	adcs	r1, r0
-	str	r1, [r2, #8]
+	str	r1, [r7, #8]
 	add	r0, sp, #364
 	add	r1, sp, #680
 	movs	r2, #2
@@ -31221,9 +30610,9 @@ main:
 	add	r0, sp, #656
 	ldr	r1, [sp, #680]
 	strh	r1, [r0]
-	ldr	r6, [sp, #196]
-	str	r6, [sp, #612]
-	ldr	r3, .LCPI56_180
+	ldr	r7, [sp, #196]
+	str	r7, [sp, #612]
+	ldr	r3, .LCPI56_166
 	ldr	r0, [r3, #8]
 	@APP
 	mov	r2, sp
@@ -31233,162 +30622,160 @@ main:
 	lsls	r1, r1, #2
 	adds	r1, r0, r1
 	cmp	r2, r1
-	bhs	.LBB56_795
-	bl	.LBB56_1594
-.LBB56_795:
-	adds	r4, r0, #4
-	str	r6, [r0]
+	bhs	.LBB56_698
+	bl	.LBB56_1599
+.LBB56_698:
+	adds	r6, r0, #4
+	str	r7, [r0]
 	str	r1, [r3, #8]
 	movs	r1, #71
-	strb	r1, [r4]
+	strb	r1, [r6]
 	movs	r1, #69
-	strb	r1, [r4, #1]
+	strb	r1, [r6, #1]
 	movs	r1, #84
-	strb	r1, [r4, #2]
+	strb	r1, [r6, #2]
 	ldr	r1, [sp, #232]
 	strb	r1, [r0, #7]
-	str	r4, [sp, #672]
-	str	r6, [sp, #668]
-	movs	r2, #4
-	str	r2, [sp, #676]
+	str	r6, [sp, #672]
+	str	r7, [sp, #668]
+	mov	r1, r7
+	movs	r7, #4
+	str	r7, [sp, #676]
 	ldr	r0, [sp, #344]
 	adds	r0, #252
-	ldr	r1, [sp, #316]
-	cmp	r1, r0
-	bls	.LBB56_796
-	bl	.LBB56_1085
-.LBB56_796:
-	cmp	r1, #0
-	mov	r0, r6
-	beq	.LBB56_798
-.LBB56_797:
-	str	r0, [sp, #352]
-	adds	r0, r4, r2
-	ldr	r1, [sp, #272]
-	mov	r6, r2
-	ldr	r2, [sp, #316]
+	ldr	r2, [sp, #296]
+	cmp	r2, r0
+	bls	.LBB56_699
+	bl	.LBB56_1100
+.LBB56_699:
+	cmp	r2, #0
+	beq	.LBB56_701
+.LBB56_700:
+	str	r1, [sp, #352]
+	adds	r0, r6, r7
+	ldr	r1, [sp, #276]
+	ldr	r2, [sp, #296]
 	bl	__aeabi_memcpy
-	ldr	r0, [sp, #352]
-	mov	r2, r6
-	ldr	r1, [sp, #316]
-.LBB56_798:
-	adds	r6, r2, r1
-	str	r6, [sp, #676]
-	subs	r0, r0, r6
+	ldr	r1, [sp, #352]
+	ldr	r2, [sp, #296]
+.LBB56_701:
+	adds	r7, r7, r2
+	str	r7, [sp, #676]
+	subs	r0, r1, r7
 	cmp	r0, #10
-	bhi	.LBB56_799
-	bl	.LBB56_1086
-.LBB56_799:
-	adds	r0, r4, r6
+	bhi	.LBB56_702
+	bl	.LBB56_1101
+.LBB56_702:
+	adds	r0, r6, r7
 	movs	r2, #11
-	ldr	r1, .LCPI56_181
+	ldr	r1, .LCPI56_167
 	bl	__aeabi_memcpy
-	adds	r6, #11
-	str	r6, [sp, #676]
+	adds	r7, #11
+	str	r7, [sp, #676]
 	ldr	r3, [sp, #668]
-	subs	r0, r3, r6
+	subs	r0, r3, r7
 	cmp	r0, #3
-	bhi	.LBB56_800
-	bl	.LBB56_1087
-.LBB56_800:
-	ldr	r4, [sp, #672]
+	bhi	.LBB56_703
+	bl	.LBB56_1102
+.LBB56_703:
+	ldr	r6, [sp, #672]
 	ldr	r0, [sp, #116]
-	strb	r0, [r4, r6]
-	adds	r0, r4, r6
+	strb	r0, [r6, r7]
+	adds	r0, r6, r7
 	movs	r1, #116
-	str	r1, [sp, #340]
+	str	r1, [sp, #328]
 	strb	r1, [r0, #3]
 	ldr	r1, [sp, #184]
 	strb	r1, [r0, #2]
 	movs	r1, #111
 	str	r1, [sp, #324]
 	strb	r1, [r0, #1]
-	adds	r1, r6, #4
+	adds	r1, r7, #4
 	str	r1, [sp, #676]
 	subs	r0, r3, r1
 	cmp	r0, #1
-	bhi	.LBB56_801
-	bl	.LBB56_1088
-.LBB56_801:
-	ldr	r2, .LCPI56_182
-	strb	r2, [r4, r1]
-	adds	r0, r4, r1
+	bhi	.LBB56_704
+	bl	.LBB56_1103
+.LBB56_704:
+	ldr	r2, .LCPI56_168
+	strb	r2, [r6, r1]
+	adds	r0, r6, r1
 	lsrs	r2, r2, #8
 	str	r2, [sp, #352]
 	strb	r2, [r0, #1]
 	adds	r1, r1, #2
 	str	r1, [sp, #676]
 	subs	r0, r3, r1
-	ldr	r6, [sp, #356]
-	cmp	r6, r0
-	bls	.LBB56_802
-	bl	.LBB56_1089
-.LBB56_802:
-	cmp	r6, #0
-	beq	.LBB56_804
-.LBB56_803:
-	str	r1, [sp, #328]
+	ldr	r7, [sp, #356]
+	cmp	r7, r0
+	bls	.LBB56_705
+	bl	.LBB56_1104
+.LBB56_705:
+	cmp	r7, #0
+	beq	.LBB56_707
+.LBB56_706:
+	str	r1, [sp, #340]
 	str	r3, [sp, #348]
-	adds	r0, r4, r1
+	adds	r0, r6, r1
 	ldr	r1, [sp, #360]
-	mov	r2, r6
+	mov	r2, r7
 	bl	__aeabi_memcpy
-	ldr	r1, [sp, #328]
+	ldr	r1, [sp, #340]
 	ldr	r3, [sp, #348]
-.LBB56_804:
-	adds	r1, r1, r6
+.LBB56_707:
+	adds	r1, r1, r7
 	str	r1, [sp, #676]
 	subs	r0, r3, r1
 	cmp	r0, #1
-	bhi	.LBB56_805
-	bl	.LBB56_1092
-.LBB56_805:
-	ldr	r2, .LCPI56_183
-	strb	r2, [r4, r1]
-	adds	r0, r4, r1
+	bhi	.LBB56_708
+	bl	.LBB56_1105
+.LBB56_708:
+	ldr	r2, .LCPI56_169
+	strb	r2, [r6, r1]
+	adds	r0, r6, r1
 	lsrs	r2, r2, #8
 	str	r2, [sp, #360]
 	strb	r2, [r0, #1]
-	adds	r4, r1, #2
-	str	r4, [sp, #676]
+	adds	r6, r1, #2
+	str	r6, [sp, #676]
 	ldr	r1, [sp, #668]
-	subs	r0, r1, r4
+	subs	r0, r1, r6
 	cmp	r0, #9
-	bhi	.LBB56_806
-	bl	.LBB56_1094
-.LBB56_806:
+	bhi	.LBB56_709
+	bl	.LBB56_1106
+.LBB56_709:
 	str	r1, [sp, #356]
-.LBB56_807:
-	ldr	r6, [sp, #672]
-	adds	r0, r6, r4
+.LBB56_710:
+	ldr	r7, [sp, #672]
+	adds	r0, r7, r6
 	movs	r2, #10
-	ldr	r1, .LCPI56_184
-	str	r2, [sp, #328]
+	ldr	r1, .LCPI56_170
+	str	r2, [sp, #340]
 	bl	__aeabi_memcpy
-	adds	r4, #10
-	str	r4, [sp, #676]
+	adds	r6, #10
+	str	r6, [sp, #676]
 	ldr	r3, [sp, #356]
-	subs	r0, r3, r4
+	subs	r0, r3, r6
 	cmp	r0, #1
-	bhi	.LBB56_808
-	bl	.LBB56_1105
-.LBB56_808:
-	ldr	r0, .LCPI56_182
-	strb	r0, [r6, r4]
-	adds	r0, r6, r4
+	bhi	.LBB56_711
+	bl	.LBB56_1107
+.LBB56_711:
+	ldr	r0, .LCPI56_168
+	strb	r0, [r7, r6]
+	adds	r0, r7, r6
 	ldr	r1, [sp, #352]
 	strb	r1, [r0, #1]
-	adds	r1, r4, #2
+	adds	r1, r6, #2
 	str	r1, [sp, #676]
 	subs	r0, r3, r1
 	cmp	r0, #3
-	bhi	.LBB56_809
-	bl	.LBB56_1106
-.LBB56_809:
-	ldr	r4, [sp, #360]
+	bhi	.LBB56_712
+	bl	.LBB56_1108
+.LBB56_712:
+	ldr	r6, [sp, #360]
 	ldr	r0, [sp, #180]
-	strb	r0, [r6, r1]
-	adds	r0, r6, r1
+	strb	r0, [r7, r1]
+	adds	r0, r7, r1
 	ldr	r2, [sp, #188]
 	strb	r2, [r0, #3]
 	ldr	r2, [sp, #192]
@@ -31400,121 +30787,122 @@ main:
 	str	r1, [sp, #676]
 	subs	r0, r3, r1
 	cmp	r0, #1
-	bhi	.LBB56_810
-	bl	.LBB56_1107
-.LBB56_810:
-	ldr	r0, .LCPI56_183
-	strb	r0, [r6, r1]
-	adds	r0, r6, r1
-	strb	r4, [r0, #1]
+	bhi	.LBB56_713
+	bl	.LBB56_1109
+.LBB56_713:
+	ldr	r0, .LCPI56_169
+	strb	r0, [r7, r1]
+	adds	r0, r7, r1
+	strb	r6, [r0, #1]
 	adds	r1, r1, #2
 	str	r1, [sp, #676]
 	ldr	r0, [sp, #668]
 	subs	r0, r0, r1
 	cmp	r0, #1
-	bhi	.LBB56_811
-	bl	.LBB56_1108
-.LBB56_811:
+	bhi	.LBB56_714
+	bl	.LBB56_1110
+.LBB56_714:
+	ldr	r7, [sp, #196]
 	ldr	r0, [sp, #672]
-	ldr	r2, .LCPI56_183
+	ldr	r2, .LCPI56_169
 	strb	r2, [r0, r1]
 	adds	r0, r0, r1
-	strb	r4, [r0, #1]
+	strb	r6, [r0, #1]
 	adds	r0, r1, #2
 	str	r0, [sp, #676]
-	add	r4, sp, #656
+	add	r6, sp, #656
 	add	r1, sp, #668
-	mov	r0, r4
+	mov	r0, r6
 	bl	_RNvMs_Cs9Yr4AUe4qI0_9netclientNtB4_6Socket4send
-	ldr	r0, .LCPI56_177
+	ldr	r0, .LCPI56_171
 	add	r0, sp
-	mov	r1, r4
-	ldr	r2, [sp, #196]
+	mov	r1, r6
+	mov	r2, r7
 	bl	_RNvMs_Cs9Yr4AUe4qI0_9netclientNtB4_6Socket4recv
-	ldr	r3, [sp, #212]
-.LBB56_812:
+	ldr	r3, [sp, #216]
+.LBB56_715:
 	movs	r0, #64
-	mov	r1, r7
-.LBB56_813:
+	mov	r1, r5
+.LBB56_716:
 	add	r2, sp, #680
-	str	r5, [r2, r1]
+	str	r4, [r2, r1]
 	adds	r2, r2, r1
-	str	r7, [r2, #4]
-	str	r5, [r2, #8]
-	str	r7, [r2, #12]
-	str	r5, [r2, #16]
-	str	r7, [r2, #20]
-	str	r5, [r2, #24]
-	str	r7, [r2, #28]
-	str	r5, [r2, #32]
-	str	r7, [r2, #36]
-	str	r5, [r2, #40]
-	str	r7, [r2, #44]
-	str	r5, [r2, #48]
-	str	r7, [r2, #52]
-	str	r5, [r2, #56]
-	str	r7, [r2, #60]
-	str	r5, [r2, #64]
-	str	r7, [r2, #68]
-	str	r5, [r2, #72]
-	str	r7, [r2, #76]
-	str	r5, [r2, #80]
-	str	r7, [r2, #84]
-	str	r5, [r2, #88]
-	str	r7, [r2, #92]
-	str	r5, [r2, #96]
-	str	r7, [r2, #100]
-	str	r5, [r2, #104]
-	str	r7, [r2, #108]
-	str	r5, [r2, #112]
-	str	r7, [r2, #116]
-	str	r5, [r2, #120]
-	str	r7, [r2, #124]
+	str	r5, [r2, #4]
+	str	r4, [r2, #8]
+	str	r5, [r2, #12]
+	str	r4, [r2, #16]
+	str	r5, [r2, #20]
+	str	r4, [r2, #24]
+	str	r5, [r2, #28]
+	str	r4, [r2, #32]
+	str	r5, [r2, #36]
+	str	r4, [r2, #40]
+	str	r5, [r2, #44]
+	str	r4, [r2, #48]
+	str	r5, [r2, #52]
+	str	r4, [r2, #56]
+	str	r5, [r2, #60]
+	str	r4, [r2, #64]
+	str	r5, [r2, #68]
+	str	r4, [r2, #72]
+	str	r5, [r2, #76]
+	str	r4, [r2, #80]
+	str	r5, [r2, #84]
+	str	r4, [r2, #88]
+	str	r5, [r2, #92]
+	str	r4, [r2, #96]
+	str	r5, [r2, #100]
+	str	r4, [r2, #104]
+	str	r5, [r2, #108]
+	str	r4, [r2, #112]
+	str	r5, [r2, #116]
+	str	r4, [r2, #120]
+	str	r5, [r2, #124]
 	adds	r1, #128
 	subs	r0, #8
-	bne	.LBB56_813
+	bne	.LBB56_716
 	ldr	r0, [r3, #80]
 	str	r0, [sp, #352]
 	ldr	r0, [r3, #84]
 	str	r0, [sp, #348]
 	cmp	r0, #0
-	bne	.LBB56_815
-	b	.LBB56_993
-.LBB56_815:
+	bne	.LBB56_718
+	b	.LBB56_892
+.LBB56_718:
 	ldr	r0, [sp, #348]
 	ldr	r2, [sp, #352]
-	adds	r4, r2, r0
-	b	.LBB56_817
-.LBB56_816:
+	adds	r7, r2, r0
+	b	.LBB56_720
+.LBB56_719:
 	mov	r2, r0
-	cmp	r2, r4
-	blo	.LBB56_817
-	b	.LBB56_993
-.LBB56_817:
+	cmp	r2, r7
+	blo	.LBB56_720
+	b	.LBB56_892
+.LBB56_720:
 	adds	r0, r2, #1
 	ldrb	r3, [r2]
 	cmp	r3, #10
-	beq	.LBB56_816
+	beq	.LBB56_719
 	cmp	r3, #13
-	bne	.LBB56_822
+	bne	.LBB56_725
 	adds	r1, r2, #1
-	cmp	r1, r4
-	blo	.LBB56_820
-	b	.LBB56_993
-.LBB56_820:
+	cmp	r1, r7
+	blo	.LBB56_723
+	b	.LBB56_892
+.LBB56_723:
 	ldrb	r1, [r2, #1]
 	cmp	r1, #10
-	beq	.LBB56_821
-	bl	.LBB56_1596
-.LBB56_821:
+	beq	.LBB56_724
+	bl	.LBB56_1601
+.LBB56_724:
 	adds	r2, r0, #1
-	cmp	r2, r4
-	blo	.LBB56_817
-	b	.LBB56_993
-.LBB56_822:
-	subs	r0, r4, r2
+	cmp	r2, r7
+	blo	.LBB56_720
+	b	.LBB56_892
+.LBB56_725:
+	subs	r0, r7, r2
 	cmp	r0, #8
-	blo	.LBB56_828
+	blo	.LBB56_729
 	ldrb	r0, [r2, #4]
 	ldrb	r1, [r2, #5]
 	lsls	r1, r1, #8
@@ -31526,7 +30914,7 @@ main:
 	adds	r1, r3, r1
 	adds	r0, r1, r0
 	mov	r6, r0
-	ldr	r1, .LCPI56_185
+	ldr	r1, .LCPI56_172
 	eors	r6, r1
 	ldrb	r1, [r2]
 	ldrb	r3, [r2, #1]
@@ -31540,276 +30928,264 @@ main:
 	adds	r1, r1, r3
 	ldr	r3, [sp, #360]
 	adds	r3, r1, r3
-	ldr	r1, .LCPI56_186
+	ldr	r1, .LCPI56_173
 	eors	r3, r1
 	movs	r1, #6
 	orrs	r6, r3
-	beq	.LBB56_856
-	ldr	r6, .LCPI56_187
+	beq	.LBB56_746
+	ldr	r6, .LCPI56_174
 	eors	r0, r6
 	orrs	r3, r0
-	beq	.LBB56_825
-	bl	.LBB56_1597
-.LBB56_825:
-	mov	r3, r5
+	beq	.LBB56_728
+	bl	.LBB56_1602
+.LBB56_728:
+	mov	r3, r4
 	mov	r0, r2
 	adds	r0, #8
-	cmp	r0, r4
-	blo	.LBB56_857
-	b	.LBB56_993
-	.p2align	2
-.LCPI56_236:
-	.long	1720
-	.p2align	2
-.LCPI56_237:
-	.long	1708
-	.p2align	1
-.LBB56_828:
-	cmp	r2, r4
-	blo	.LBB56_829
-	b	.LBB56_993
-.LBB56_829:
+	cmp	r0, r7
+	blo	.LBB56_747
+	b	.LBB56_892
+.LBB56_729:
+	cmp	r2, r7
+	blo	.LBB56_730
+	b	.LBB56_892
+.LBB56_730:
 	movs	r1, #6
 	cmp	r3, #72
-	beq	.LBB56_830
-	bl	.LBB56_1597
-.LBB56_830:
+	beq	.LBB56_731
+	bl	.LBB56_1602
+.LBB56_731:
 	adds	r0, r2, #1
-	cmp	r0, r4
-	blo	.LBB56_831
-	b	.LBB56_993
-.LBB56_831:
+	cmp	r0, r7
+	blo	.LBB56_732
+	b	.LBB56_892
+.LBB56_732:
 	ldrb	r0, [r2, #1]
 	cmp	r0, #84
-	beq	.LBB56_832
-	bl	.LBB56_1597
-.LBB56_832:
+	beq	.LBB56_733
+	bl	.LBB56_1602
+.LBB56_733:
 	adds	r0, r2, #2
-	cmp	r0, r4
-	blo	.LBB56_833
-	b	.LBB56_993
-.LBB56_833:
+	cmp	r0, r7
+	blo	.LBB56_734
+	b	.LBB56_892
+.LBB56_734:
 	ldrb	r0, [r2, #2]
 	cmp	r0, #84
-	beq	.LBB56_834
-	bl	.LBB56_1597
-.LBB56_834:
+	beq	.LBB56_735
+	bl	.LBB56_1602
+.LBB56_735:
 	adds	r0, r2, #3
-	cmp	r0, r4
-	blo	.LBB56_835
-	b	.LBB56_993
-.LBB56_835:
+	cmp	r0, r7
+	blo	.LBB56_736
+	b	.LBB56_892
+.LBB56_736:
 	ldrb	r0, [r2, #3]
 	cmp	r0, #80
-	beq	.LBB56_836
-	bl	.LBB56_1597
-.LBB56_836:
+	beq	.LBB56_737
+	bl	.LBB56_1602
+.LBB56_737:
 	adds	r0, r2, #4
-	cmp	r0, r4
-	blo	.LBB56_837
-	b	.LBB56_993
-.LBB56_837:
+	cmp	r0, r7
+	blo	.LBB56_738
+	b	.LBB56_892
+.LBB56_738:
 	ldrb	r0, [r2, #4]
 	cmp	r0, #47
-	beq	.LBB56_838
-	bl	.LBB56_1597
-.LBB56_838:
+	beq	.LBB56_739
+	bl	.LBB56_1602
+.LBB56_739:
 	adds	r0, r2, #5
-	cmp	r0, r4
-	blo	.LBB56_839
-	b	.LBB56_993
-.LBB56_839:
+	cmp	r0, r7
+	blo	.LBB56_740
+	b	.LBB56_892
+.LBB56_740:
 	ldrb	r0, [r2, #5]
 	cmp	r0, #49
-	beq	.LBB56_840
-	bl	.LBB56_1597
-.LBB56_840:
+	beq	.LBB56_741
+	bl	.LBB56_1602
+.LBB56_741:
 	adds	r0, r2, #6
-	cmp	r0, r4
-	blo	.LBB56_841
-	b	.LBB56_993
-.LBB56_841:
+	cmp	r0, r7
+	blo	.LBB56_742
+	b	.LBB56_892
+.LBB56_742:
 	ldrb	r0, [r0]
 	cmp	r0, #46
-	bne	.LBB56_842
-	b	.LBB56_993
-.LBB56_842:
-	bl	.LBB56_1597
+	bne	.LBB56_743
+	b	.LBB56_892
+.LBB56_743:
+	bl	.LBB56_1602
 	.p2align	2
-.LCPI56_175:
-	.long	1720
-	.p2align	2
-.LCPI56_176:
+.LCPI56_233:
 	.long	1708
 	.p2align	2
-.LCPI56_177:
-	.long	1784
-	.p2align	2
-.LCPI56_178:
-	.long	1752
-	.p2align	2
-.LCPI56_179:
+.LCPI56_234:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.41
-	.p2align	2
-.LCPI56_180:
-	.long	.L_MergedGlobals
-	.p2align	2
-.LCPI56_181:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.10
-	.p2align	2
-.LCPI56_182:
-	.long	8250
-	.p2align	2
-.LCPI56_183:
-	.long	2573
-	.p2align	2
-.LCPI56_184:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.137
-	.p2align	2
-.LCPI56_185:
-	.long	808333615
-	.p2align	2
-.LCPI56_186:
-	.long	1347703880
-	.p2align	2
-.LCPI56_187:
-	.long	825110831
 	.p2align	1
-.LBB56_856:
+.LBB56_746:
 	movs	r3, #0
 	mov	r0, r2
 	adds	r0, #8
-	cmp	r0, r4
-	blo	.LBB56_857
-	b	.LBB56_993
-.LBB56_857:
+	cmp	r0, r7
+	blo	.LBB56_747
+	b	.LBB56_892
+.LBB56_747:
 	ldrb	r0, [r2, #8]
 	cmp	r0, #32
-	beq	.LBB56_858
-	bl	.LBB56_1597
-.LBB56_858:
+	beq	.LBB56_748
+	bl	.LBB56_1602
+.LBB56_748:
 	mov	r0, r2
 	adds	r0, #9
-	cmp	r0, r4
-	blo	.LBB56_859
-	b	.LBB56_993
-.LBB56_859:
+	cmp	r0, r7
+	blo	.LBB56_749
+	b	.LBB56_892
+.LBB56_749:
 	ldrb	r0, [r2, #9]
 	subs	r0, #48
 	uxtb	r0, r0
 	movs	r1, #3
 	str	r0, [sp, #360]
 	cmp	r0, #9
-	bls	.LBB56_860
-	bl	.LBB56_1597
-.LBB56_860:
+	bls	.LBB56_750
+	bl	.LBB56_1602
+.LBB56_750:
 	mov	r0, r2
 	adds	r0, #10
-	cmp	r0, r4
-	blo	.LBB56_861
-	b	.LBB56_993
-.LBB56_861:
+	cmp	r0, r7
+	blo	.LBB56_751
+	b	.LBB56_892
+.LBB56_751:
 	ldrb	r0, [r2, #10]
-	str	r0, [sp, #272]
+	str	r0, [sp, #276]
 	subs	r0, #48
 	uxtb	r0, r0
 	cmp	r0, #9
-	bls	.LBB56_862
-	bl	.LBB56_1597
-.LBB56_862:
+	bls	.LBB56_752
+	bl	.LBB56_1602
+.LBB56_752:
 	mov	r0, r2
 	adds	r0, #11
-	cmp	r0, r4
-	blo	.LBB56_863
-	b	.LBB56_993
-.LBB56_863:
+	cmp	r0, r7
+	blo	.LBB56_753
+	b	.LBB56_892
+.LBB56_753:
 	ldrb	r0, [r2, #11]
 	subs	r0, #48
 	uxtb	r0, r0
-	str	r0, [sp, #244]
+	str	r0, [sp, #248]
 	cmp	r0, #9
-	bls	.LBB56_864
-	bl	.LBB56_1597
-.LBB56_864:
+	bls	.LBB56_754
+	bl	.LBB56_1602
+.LBB56_754:
 	mov	r0, r2
 	adds	r0, #12
-	cmp	r0, r4
-	blo	.LBB56_865
-	b	.LBB56_993
-.LBB56_865:
+	cmp	r0, r7
+	blo	.LBB56_755
+	b	.LBB56_892
+.LBB56_755:
 	mov	r0, r2
 	adds	r0, #13
-	str	r0, [sp, #248]
+	str	r0, [sp, #252]
 	ldrb	r0, [r2, #12]
 	movs	r6, #1
-	str	r6, [sp, #284]
-	movs	r6, #0
 	str	r6, [sp, #236]
+	movs	r6, #0
+	str	r6, [sp, #288]
 	cmp	r0, #10
-	str	r3, [sp, #240]
-	beq	.LBB56_871
+	str	r3, [sp, #244]
+	beq	.LBB56_772
 	cmp	r0, #32
-	bne	.LBB56_867
-	b	.LBB56_963
-.LBB56_867:
+	bne	.LBB56_757
+	b	.LBB56_863
+.LBB56_757:
 	cmp	r0, #13
-	ldr	r0, [sp, #248]
-	beq	.LBB56_868
-	bl	.LBB56_1597
-.LBB56_868:
-	cmp	r0, r4
-	blo	.LBB56_869
-	b	.LBB56_993
-.LBB56_869:
-	ldr	r0, [sp, #248]
+	beq	.LBB56_758
+	bl	.LBB56_1602
+.LBB56_758:
+	ldr	r0, [sp, #252]
+	cmp	r0, r7
+	blo	.LBB56_759
+	b	.LBB56_892
+.LBB56_759:
+	ldr	r0, [sp, #252]
 	ldrb	r0, [r0]
 	cmp	r0, #10
-	beq	.LBB56_870
-	bl	.LBB56_1597
-.LBB56_870:
+	beq	.LBB56_760
+	bl	.LBB56_1602
+.LBB56_760:
 	adds	r2, #14
-	b	.LBB56_872
-.LBB56_871:
-	ldr	r2, [sp, #248]
-.LBB56_872:
-	str	r2, [sp, #248]
-	cmp	r2, r4
-	blo	.LBB56_873
-	b	.LBB56_993
-.LBB56_873:
-	subs	r0, r4, #1
+	b	.LBB56_773
+	.p2align	2
+.LCPI56_166:
+	.long	.L_MergedGlobals
+	.p2align	2
+.LCPI56_167:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.10
+	.p2align	2
+.LCPI56_168:
+	.long	8250
+	.p2align	2
+.LCPI56_169:
+	.long	2573
+	.p2align	2
+.LCPI56_170:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.137
+	.p2align	2
+.LCPI56_171:
+	.long	1784
+	.p2align	2
+.LCPI56_172:
+	.long	808333615
+	.p2align	2
+.LCPI56_173:
+	.long	1347703880
+	.p2align	2
+.LCPI56_174:
+	.long	825110831
+	.p2align	1
+.LBB56_772:
+	ldr	r2, [sp, #252]
+.LBB56_773:
+	str	r2, [sp, #252]
+	cmp	r2, r7
+	blo	.LBB56_774
+	b	.LBB56_892
+.LBB56_774:
+	subs	r0, r7, #1
 	str	r0, [sp, #144]
 	movs	r0, #0
-	str	r0, [sp, #152]
+	str	r0, [sp, #200]
 	str	r0, [sp, #128]
-	ldr	r2, [sp, #248]
-.LBB56_874:
+	ldr	r2, [sp, #252]
+.LBB56_775:
 	add	r1, sp, #680
 	ldrb	r0, [r2]
 	cmp	r0, #10
-	bne	.LBB56_875
-	bl	.LBB56_1111
-.LBB56_875:
+	bne	.LBB56_776
+	bl	.LBB56_1113
+.LBB56_776:
 	str	r1, [sp, #148]
 	cmp	r0, #13
-	ldr	r1, .LCPI56_188
-	bne	.LBB56_876
-	b	.LBB56_992
-.LBB56_876:
+	ldr	r1, .LCPI56_175
+	bne	.LBB56_777
+	b	.LBB56_891
+.LBB56_777:
 	ldrb	r0, [r1, r0]
 	movs	r1, #0
 	cmp	r0, #1
-	beq	.LBB56_877
-	bl	.LBB56_1597
-.LBB56_877:
-	str	r1, [sp, #200]
+	beq	.LBB56_778
+	bl	.LBB56_1602
+.LBB56_778:
+	str	r1, [sp, #204]
 	str	r2, [sp, #36]
 	adds	r2, r2, #1
-	subs	r0, r4, r2
+	subs	r0, r7, r2
 	cmp	r0, #4
-	blo	.LBB56_883
-.LBB56_878:
-	str	r0, [sp, #288]
+	blo	.LBB56_784
+.LBB56_779:
+	str	r0, [sp, #296]
 	ldrb	r0, [r2]
 	ldrb	r3, [r2, #1]
 	lsls	r3, r3, #8
@@ -31823,191 +31199,190 @@ main:
 	adds	r3, r0, r3
 	adds	r6, r3, r6
 	uxtb	r2, r6
-	ldr	r0, .LCPI56_188
+	ldr	r0, .LCPI56_175
 	ldrb	r2, [r0, r2]
 	cmp	r2, #1
-	bne	.LBB56_895
+	bne	.LBB56_796
 	lsrs	r2, r6, #8
 	uxtb	r2, r2
 	ldrb	r2, [r0, r2]
 	cmp	r2, #1
-	bne	.LBB56_896
+	bne	.LBB56_797
 	lsrs	r2, r3, #16
 	uxtb	r2, r2
 	ldrb	r2, [r0, r2]
 	cmp	r2, #1
-	bne	.LBB56_897
+	bne	.LBB56_798
 	mov	r2, r0
 	lsrs	r0, r1, #24
 	ldrb	r0, [r2, r0]
 	cmp	r0, #0
 	ldr	r2, [sp, #356]
-	beq	.LBB56_899
+	beq	.LBB56_800
 	adds	r2, r2, #4
-	ldr	r0, [sp, #288]
+	ldr	r0, [sp, #296]
 	subs	r0, r0, #4
 	cmp	r0, #3
-	bhi	.LBB56_878
-.LBB56_883:
+	bhi	.LBB56_779
+.LBB56_784:
 	cmp	r0, #0
-	beq	.LBB56_894
-	str	r0, [sp, #288]
+	beq	.LBB56_795
+	str	r0, [sp, #296]
 	movs	r3, #0
-	ldr	r1, [sp, #200]
+	ldr	r1, [sp, #204]
 	str	r2, [sp, #356]
-.LBB56_885:
+.LBB56_786:
 	ldrb	r0, [r2, r3]
 	mov	r6, r2
-	ldr	r2, .LCPI56_188
+	ldr	r2, .LCPI56_175
 	ldrb	r0, [r2, r0]
 	cmp	r0, #1
-	bne	.LBB56_902
+	bne	.LBB56_803
 	adds	r0, r6, r3
 	adds	r0, r0, #1
-	cmp	r0, r4
-	beq	.LBB56_903
+	cmp	r0, r7
+	beq	.LBB56_804
 	ldrb	r2, [r0]
-	ldr	r6, .LCPI56_188
+	ldr	r6, .LCPI56_175
 	ldrb	r2, [r6, r2]
 	cmp	r2, #1
-	bne	.LBB56_904
+	bne	.LBB56_805
 	adds	r0, r0, #1
-	cmp	r0, r4
-	beq	.LBB56_901
+	cmp	r0, r7
+	beq	.LBB56_802
 	ldrb	r2, [r0]
 	ldrb	r2, [r6, r2]
 	cmp	r2, #1
-	bne	.LBB56_905
+	bne	.LBB56_806
 	adds	r0, r0, #1
-	cmp	r0, r4
-	beq	.LBB56_901
+	cmp	r0, r7
+	beq	.LBB56_802
 	ldrb	r2, [r0]
 	ldrb	r2, [r6, r2]
 	cmp	r2, #1
-	bne	.LBB56_906
+	bne	.LBB56_807
 	adds	r3, r3, #4
 	adds	r0, r0, #1
-	cmp	r0, r4
+	cmp	r0, r7
 	ldr	r2, [sp, #356]
-	bne	.LBB56_885
-	ldr	r3, [sp, #288]
-	b	.LBB56_909
-.LBB56_894:
+	bne	.LBB56_786
+	ldr	r3, [sp, #296]
+	b	.LBB56_810
+.LBB56_795:
 	movs	r3, #0
-	ldr	r1, [sp, #200]
-	b	.LBB56_909
-.LBB56_895:
+	ldr	r1, [sp, #204]
+	b	.LBB56_810
+.LBB56_796:
 	movs	r0, #0
-	b	.LBB56_898
-.LBB56_896:
+	b	.LBB56_799
+.LBB56_797:
 	movs	r0, #1
-	b	.LBB56_898
-.LBB56_897:
+	b	.LBB56_799
+.LBB56_798:
 	movs	r0, #2
-.LBB56_898:
+.LBB56_799:
 	ldr	r2, [sp, #356]
-	b	.LBB56_900
-.LBB56_899:
+	b	.LBB56_801
+.LBB56_800:
 	movs	r0, #3
-.LBB56_900:
-	ldr	r1, [sp, #200]
+.LBB56_801:
+	ldr	r1, [sp, #204]
 	adds	r0, r2, r0
-	b	.LBB56_910
-.LBB56_901:
-	ldr	r3, [sp, #288]
-	b	.LBB56_908
-.LBB56_902:
+	b	.LBB56_811
+.LBB56_802:
+	ldr	r3, [sp, #296]
+	b	.LBB56_809
+.LBB56_803:
 	mov	r2, r6
-	b	.LBB56_909
-.LBB56_903:
+	b	.LBB56_810
+.LBB56_804:
 	mov	r2, r6
-	ldr	r3, [sp, #288]
-	b	.LBB56_909
-.LBB56_904:
+	ldr	r3, [sp, #296]
+	b	.LBB56_810
+.LBB56_805:
 	movs	r0, #1
-	b	.LBB56_907
-.LBB56_905:
+	b	.LBB56_808
+.LBB56_806:
 	movs	r0, #2
-	b	.LBB56_907
-.LBB56_906:
+	b	.LBB56_808
+.LBB56_807:
 	movs	r0, #3
-.LBB56_907:
+.LBB56_808:
 	orrs	r3, r0
-.LBB56_908:
+.LBB56_809:
 	ldr	r2, [sp, #356]
-.LBB56_909:
+.LBB56_810:
 	adds	r0, r2, r3
-.LBB56_910:
-	str	r0, [sp, #276]
-	cmp	r0, r4
-	blo	.LBB56_911
-	b	.LBB56_993
-.LBB56_911:
-	ldr	r2, [sp, #276]
+.LBB56_811:
+	str	r0, [sp, #284]
+	cmp	r0, r7
+	blo	.LBB56_812
+	b	.LBB56_892
+.LBB56_812:
+	ldr	r2, [sp, #284]
 	ldrb	r0, [r2]
 	cmp	r0, #58
-	beq	.LBB56_912
-	bl	.LBB56_1597
-.LBB56_912:
+	beq	.LBB56_813
+	bl	.LBB56_1602
+.LBB56_813:
 	adds	r2, r2, #1
-	cmp	r2, r4
-	blo	.LBB56_913
-	b	.LBB56_993
-.LBB56_913:
-	ldr	r0, [sp, #152]
+	cmp	r2, r7
+	blo	.LBB56_814
+	b	.LBB56_892
+.LBB56_814:
+	ldr	r0, [sp, #200]
 	ldr	r1, [sp, #148]
 	adds	r0, r1, r0
-	str	r0, [sp, #200]
+	str	r0, [sp, #204]
 	ldr	r0, [sp, #144]
-	ldr	r1, [sp, #276]
+	ldr	r1, [sp, #284]
 	subs	r0, r0, r1
 	movs	r6, #0
-	b	.LBB56_915
-.LBB56_914:
+	b	.LBB56_816
+.LBB56_815:
 	subs	r6, r6, #1
 	subs	r0, r0, #1
 	mov	r2, r1
-	bne	.LBB56_915
-	b	.LBB56_993
-.LBB56_915:
+	bne	.LBB56_816
+	b	.LBB56_892
+.LBB56_816:
 	adds	r1, r2, #1
 	ldrb	r3, [r2]
 	cmp	r3, #32
-	beq	.LBB56_914
+	beq	.LBB56_815
 	cmp	r3, #9
-	beq	.LBB56_914
-	ldr	r0, .LCPI56_189
+	beq	.LBB56_815
+	ldr	r0, .LCPI56_176
 	ldrb	r0, [r0, r3]
 	cmp	r0, #1
-	beq	.LBB56_924
+	beq	.LBB56_825
 	cmp	r3, #10
-	beq	.LBB56_942
+	beq	.LBB56_843
 	mov	r0, r1
 	movs	r1, #1
 	cmp	r3, #13
-	beq	.LBB56_920
-	bl	.LBB56_1597
-.LBB56_920:
-	cmp	r0, r4
-	blo	.LBB56_921
-	b	.LBB56_993
-.LBB56_921:
+	beq	.LBB56_821
+	bl	.LBB56_1602
+.LBB56_821:
+	cmp	r0, r7
+	blo	.LBB56_822
+	b	.LBB56_892
+.LBB56_822:
 	ldrb	r0, [r2, #1]
 	cmp	r0, #10
-	ldr	r3, [sp, #276]
-	beq	.LBB56_922
-	bl	.LBB56_1597
-.LBB56_922:
+	beq	.LBB56_823
+	bl	.LBB56_1602
+.LBB56_823:
 	adds	r0, r2, #2
 	str	r0, [sp, #356]
-	b	.LBB56_943
-.LBB56_923:
+	b	.LBB56_844
+.LBB56_824:
 	ldr	r1, [sp, #356]
 	adds	r1, r1, #4
-.LBB56_924:
-	subs	r0, r4, r1
+.LBB56_825:
+	subs	r0, r7, r1
 	cmp	r0, #4
-	blo	.LBB56_930
+	blo	.LBB56_831
 	ldrb	r0, [r1]
 	mov	r3, r1
 	ldrb	r1, [r1, #1]
@@ -32020,79 +31395,79 @@ main:
 	lsls	r3, r3, #24
 	adds	r1, r3, r1
 	adds	r1, r1, r0
-	ldr	r0, .LCPI56_190
+	ldr	r0, .LCPI56_177
 	adds	r0, r1, r0
-	str	r0, [sp, #288]
+	str	r0, [sp, #296]
 	mov	r0, r1
-	ldr	r3, .LCPI56_191
+	ldr	r3, .LCPI56_178
 	eors	r0, r3
-	ldr	r3, .LCPI56_192
+	ldr	r3, .LCPI56_179
 	adds	r0, r0, r3
-	ldr	r3, [sp, #288]
+	ldr	r3, [sp, #296]
 	orrs	r0, r3
 	bics	r0, r1
-	ldr	r1, .LCPI56_193
+	ldr	r1, .LCPI56_180
 	tst	r0, r1
-	beq	.LBB56_923
+	beq	.LBB56_824
 	ldr	r3, [sp, #356]
 	lsls	r1, r0, #24
-	bmi	.LBB56_931
+	bmi	.LBB56_832
 	lsls	r1, r0, #16
-	bmi	.LBB56_932
+	bmi	.LBB56_833
 	lsls	r0, r0, #8
 	mov	r1, r3
-	bpl	.LBB56_933
+	bpl	.LBB56_834
 	ldr	r0, [sp, #320]
-	b	.LBB56_934
-.LBB56_930:
+	b	.LBB56_835
+.LBB56_831:
 	mov	r0, r1
-	b	.LBB56_935
-.LBB56_931:
+	b	.LBB56_836
+.LBB56_832:
 	movs	r0, #0
 	mov	r1, r3
-	b	.LBB56_934
-.LBB56_932:
+	b	.LBB56_835
+.LBB56_833:
 	movs	r0, #1
 	mov	r1, r3
-	b	.LBB56_934
-.LBB56_933:
+	b	.LBB56_835
+.LBB56_834:
 	movs	r0, #3
-.LBB56_934:
+.LBB56_835:
 	adds	r0, r1, r0
-.LBB56_935:
-	cmp	r0, r4
-	blo	.LBB56_936
-	b	.LBB56_993
-.LBB56_936:
+.LBB56_836:
+	cmp	r0, r7
+	blo	.LBB56_837
+	b	.LBB56_892
+.LBB56_837:
 	ldrb	r3, [r0]
-	ldr	r1, .LCPI56_189
+	ldr	r1, .LCPI56_176
 	ldrb	r1, [r1, r3]
-	str	r1, [sp, #288]
+	str	r1, [sp, #296]
 	adds	r1, r0, #1
 	str	r1, [sp, #356]
-	ldr	r1, [sp, #288]
+	ldr	r1, [sp, #296]
 	cmp	r1, #0
 	ldr	r1, [sp, #356]
-	bne	.LBB56_924
+	bne	.LBB56_825
 	cmp	r3, #10
-	beq	.LBB56_945
+	beq	.LBB56_846
 	movs	r1, #1
 	cmp	r3, #13
-	beq	.LBB56_939
-	bl	.LBB56_1597
-.LBB56_939:
+	beq	.LBB56_840
+	bl	.LBB56_1602
+.LBB56_840:
 	ldr	r3, [sp, #356]
-	cmp	r3, r4
-	blo	.LBB56_940
-	b	.LBB56_993
-.LBB56_940:
+	cmp	r3, r7
+	blo	.LBB56_841
+	b	.LBB56_892
+.LBB56_841:
 	ldrb	r3, [r0, #1]
 	cmp	r3, #10
 	mov	r3, r0
-	ldr	r0, [sp, #276]
-	beq	.LBB56_941
-	bl	.LBB56_1597
-.LBB56_941:
+	ldr	r0, [sp, #284]
+	beq	.LBB56_842
+	bl	.LBB56_1602
+.LBB56_842:
 	ldr	r1, [sp, #36]
 	subs	r0, r0, r1
 	str	r0, [sp, #24]
@@ -32100,43 +31475,41 @@ main:
 	adds	r1, #254
 	adds	r0, r3, #2
 	str	r0, [sp, #356]
-	b	.LBB56_946
-.LBB56_942:
+	b	.LBB56_847
+.LBB56_843:
 	str	r1, [sp, #356]
-	ldr	r3, [sp, #276]
-.LBB56_943:
-	ldr	r0, [sp, #312]
-	ldr	r1, [sp, #152]
+.LBB56_844:
+	ldr	r3, [sp, #36]
+	ldr	r0, [sp, #308]
+	ldr	r1, [sp, #200]
 	cmp	r1, r0
-	ldr	r6, [sp, #128]
-	bne	.LBB56_944
-	bl	.LBB56_1607
-.LBB56_944:
-	ldr	r1, [sp, #36]
-	subs	r0, r3, r1
-	str	r0, [sp, #24]
+	bne	.LBB56_845
+	bl	.LBB56_1612
+.LBB56_845:
+	ldr	r0, [sp, #284]
+	subs	r6, r0, r3
 	movs	r0, #0
 	str	r0, [sp, #28]
-	b	.LBB56_958
-.LBB56_945:
+	b	.LBB56_858
+.LBB56_846:
 	ldr	r0, [sp, #36]
-	ldr	r1, [sp, #276]
+	ldr	r1, [sp, #284]
 	subs	r0, r1, r0
 	str	r0, [sp, #24]
 	ldr	r1, [sp, #292]
 	adds	r1, #255
-.LBB56_946:
-	ldr	r0, [sp, #312]
-	ldr	r3, [sp, #152]
+.LBB56_847:
+	ldr	r0, [sp, #308]
+	ldr	r3, [sp, #200]
 	cmp	r3, r0
-	bne	.LBB56_947
-	bl	.LBB56_1607
-.LBB56_947:
+	bne	.LBB56_848
+	bl	.LBB56_1612
+.LBB56_848:
 	ldr	r0, [sp, #356]
 	adds	r0, r0, r1
 	subs	r3, r0, r2
-	ldr	r1, [sp, #276]
-	beq	.LBB56_955
+	ldr	r1, [sp, #284]
+	beq	.LBB56_856
 	str	r3, [sp, #28]
 	adds	r3, r0, r6
 	ldr	r6, [sp, #292]
@@ -32145,237 +31518,237 @@ main:
 	adds	r0, r1, r0
 	subs	r1, r0, #2
 	str	r6, [sp, #148]
-.LBB56_949:
-	str	r3, [sp, #276]
+.LBB56_850:
+	str	r3, [sp, #284]
 	adds	r3, r6, r3
 	subs	r0, r3, #1
 	str	r0, [sp, #32]
-	str	r1, [sp, #288]
+	str	r1, [sp, #296]
 	adds	r0, r1, r6
 	ldrb	r6, [r0, #1]
 	subs	r6, #9
 	cmp	r6, #23
-	bhi	.LBB56_961
+	bhi	.LBB56_861
 	movs	r1, #1
 	mov	r0, r1
 	lsls	r0, r6
-	ldr	r6, .LCPI56_194
+	ldr	r6, .LCPI56_181
 	tst	r0, r6
-	beq	.LBB56_961
+	beq	.LBB56_861
 	subs	r0, r3, #2
-	beq	.LBB56_956
+	beq	.LBB56_857
 	ldr	r6, [sp, #148]
-	ldr	r0, [sp, #288]
+	ldr	r0, [sp, #296]
 	ldrb	r3, [r0, r6]
 	subs	r3, #9
 	cmp	r3, #23
-	bhi	.LBB56_960
+	bhi	.LBB56_860
 	lsls	r1, r3
-	ldr	r0, .LCPI56_194
+	ldr	r0, .LCPI56_181
 	tst	r1, r0
-	beq	.LBB56_960
-	ldr	r3, [sp, #276]
+	beq	.LBB56_860
+	ldr	r3, [sp, #284]
 	subs	r3, r3, #2
 	adds	r0, r6, r3
-	ldr	r1, [sp, #288]
+	ldr	r1, [sp, #296]
 	subs	r1, r1, #2
 	cmp	r0, #1
-	bne	.LBB56_949
-	b	.LBB56_956
-.LBB56_955:
+	bne	.LBB56_850
+	b	.LBB56_857
+.LBB56_856:
 	movs	r0, #0
 	str	r0, [sp, #28]
-.LBB56_956:
-	ldr	r6, [sp, #128]
-.LBB56_957:
-	ldr	r1, [sp, #36]
-.LBB56_958:
+.LBB56_857:
+	ldr	r3, [sp, #36]
+	ldr	r6, [sp, #24]
+.LBB56_858:
 	add	r0, sp, #680
-	ldr	r3, [sp, #152]
-	str	r1, [r0, r3]
-	ldr	r0, [sp, #200]
-	ldr	r1, [sp, #24]
-	str	r1, [r0, #4]
+	ldr	r1, [sp, #200]
+	str	r3, [r0, r1]
+	ldr	r0, [sp, #204]
+	str	r6, [r0, #4]
 	str	r2, [r0, #8]
-	ldr	r1, [sp, #28]
-	str	r1, [r0, #12]
-	adds	r6, r6, #1
-	str	r6, [sp, #128]
-	adds	r3, #16
-	str	r3, [sp, #152]
+	ldr	r2, [sp, #28]
+	str	r2, [r0, #12]
+	ldr	r0, [sp, #128]
+	adds	r0, r0, #1
+	str	r0, [sp, #128]
+	adds	r1, #16
+	str	r1, [sp, #200]
 	ldr	r2, [sp, #356]
-	cmp	r2, r4
-	bhs	.LBB56_959
-	b	.LBB56_874
-.LBB56_959:
-	b	.LBB56_993
-.LBB56_960:
+	cmp	r2, r7
+	bhs	.LBB56_859
+	b	.LBB56_775
+.LBB56_859:
+	b	.LBB56_892
+.LBB56_860:
 	ldr	r0, [sp, #32]
 	subs	r0, r0, #1
 	str	r0, [sp, #32]
-.LBB56_961:
-	ldr	r3, [sp, #28]
+.LBB56_861:
+	ldr	r0, [sp, #28]
 	ldr	r1, [sp, #32]
-	cmp	r1, r3
-	ldr	r6, [sp, #128]
-	bls	.LBB56_962
-	bl	.LBB56_1603
-.LBB56_962:
+	cmp	r1, r0
+	ldr	r3, [sp, #36]
+	ldr	r6, [sp, #24]
+	bls	.LBB56_862
+	bl	.LBB56_1608
+.LBB56_862:
 	str	r1, [sp, #28]
-	b	.LBB56_957
-.LBB56_963:
-	ldr	r0, [sp, #248]
-	cmp	r0, r4
-	blo	.LBB56_964
-	b	.LBB56_993
-.LBB56_964:
+	b	.LBB56_858
+.LBB56_863:
+	ldr	r0, [sp, #252]
+	cmp	r0, r7
+	blo	.LBB56_864
+	b	.LBB56_892
+.LBB56_864:
 	movs	r0, #0
 	movs	r6, #13
-	str	r1, [sp, #200]
-	b	.LBB56_966
-.LBB56_965:
+	str	r1, [sp, #204]
+	b	.LBB56_866
+.LBB56_865:
 	adds	r6, r1, #1
 	adds	r3, r2, r6
-	cmp	r3, r4
-	bne	.LBB56_966
-	b	.LBB56_993
-.LBB56_966:
-	str	r0, [sp, #276]
+	cmp	r3, r7
+	bne	.LBB56_866
+	b	.LBB56_892
+.LBB56_866:
+	str	r0, [sp, #284]
 	ldrb	r3, [r2, r6]
 	str	r3, [sp, #356]
 	subs	r3, #9
 	cmp	r3, #23
 	mov	r1, r6
-	bhi	.LBB56_978
+	bhi	.LBB56_878
 	adds	r6, r2, r1
 	adds	r0, r6, #1
 	lsls	r3, r3, #2
-	str	r3, [sp, #288]
+	str	r3, [sp, #296]
 	adr	r3, .LJTI56_5
-	str	r1, [sp, #284]
-	ldr	r1, [sp, #288]
+	str	r1, [sp, #288]
+	ldr	r1, [sp, #296]
 	ldr	r3, [r3, r1]
-	ldr	r1, [sp, #284]
+	ldr	r1, [sp, #288]
 	mov	pc, r3
 	.p2align	2
 .LJTI56_5:
-	.long	.LBB56_976+1
-	.long	.LBB56_980+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_985+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_978+1
-	.long	.LBB56_976+1
+	.long	.LBB56_876+1
+	.long	.LBB56_880+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_882+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_878+1
+	.long	.LBB56_876+1
 	.p2align	2
-.LCPI56_188:
+.LCPI56_175:
 	.long	_RNvCsaDIep1TqQxb_8httparse9TOKEN_MAP
 	.p2align	2
-.LCPI56_189:
+.LCPI56_176:
 	.long	_RNvCsaDIep1TqQxb_8httparse16HEADER_VALUE_MAP
 	.p2align	2
-.LCPI56_190:
+.LCPI56_177:
 	.long	3755991008
 	.p2align	2
-.LCPI56_191:
+.LCPI56_178:
 	.long	2139062143
 	.p2align	2
-.LCPI56_192:
+.LCPI56_179:
 	.long	4278124287
 	.p2align	2
-.LCPI56_193:
+.LCPI56_180:
 	.long	2155905152
 	.p2align	2
-.LCPI56_194:
+.LCPI56_181:
 	.long	8388627
 	.p2align	1
-.LBB56_976:
+.LBB56_876:
 	ldr	r0, [sp, #356]
 	sxtb	r0, r0
 	cmp	r0, #0
 	ldr	r0, [sp, #268]
-	bmi	.LBB56_965
-	ldr	r0, [sp, #276]
-	b	.LBB56_965
-.LBB56_978:
+	bmi	.LBB56_865
+	ldr	r0, [sp, #284]
+	b	.LBB56_865
+.LBB56_878:
 	ldr	r0, [sp, #356]
 	sxtb	r3, r0
 	cmp	r3, #0
-	bmi	.LBB56_976
+	bmi	.LBB56_876
 	ldr	r3, [sp, #356]
 	subs	r3, #33
 	cmp	r3, #94
-	blo	.LBB56_976
-	bl	.LBB56_1604
-.LBB56_980:
+	blo	.LBB56_876
+	bl	.LBB56_1609
+.LBB56_880:
 	mov	r2, r0
 	subs	r1, #13
-	movs	r3, #0
-	movs	r0, #1
-	str	r0, [sp, #284]
-	ldr	r0, [sp, #276]
+	movs	r0, #0
+	str	r0, [sp, #288]
+	movs	r3, #1
+	ldr	r0, [sp, #284]
 	lsls	r0, r0, #31
 	cmp	r0, #0
-	bne	.LBB56_982
-	ldr	r0, [sp, #248]
-	str	r0, [sp, #284]
-.LBB56_982:
-	bne	.LBB56_984
-	mov	r3, r1
-.LBB56_984:
+	bne	.LBB56_889
+	ldr	r3, [sp, #252]
 	str	r3, [sp, #236]
-	b	.LBB56_872
-.LBB56_985:
-	cmp	r0, r4
-	ldr	r1, [sp, #200]
-	ldr	r2, [sp, #276]
-	bhs	.LBB56_993
+	beq	.LBB56_890
+	b	.LBB56_773
+.LBB56_882:
+	cmp	r0, r7
+	ldr	r1, [sp, #204]
+	ldr	r3, [sp, #284]
+	bhs	.LBB56_892
 	ldrb	r0, [r0]
 	cmp	r0, #10
-	beq	.LBB56_987
-	bl	.LBB56_1597
-.LBB56_987:
-	mov	r1, r2
-	ldr	r3, [sp, #248]
-	subs	r0, r6, r3
-	str	r0, [sp, #356]
+	beq	.LBB56_884
+	bl	.LBB56_1602
+.LBB56_884:
+	ldr	r2, [sp, #252]
+	subs	r1, r6, r2
 	movs	r0, #0
+	str	r0, [sp, #288]
+	movs	r0, #1
 	str	r0, [sp, #236]
-	movs	r2, #1
-	lsls	r0, r1, #31
+	lsls	r0, r3, #31
 	cmp	r0, #0
-	bne	.LBB56_989
-	mov	r2, r3
-.LBB56_989:
-	str	r2, [sp, #284]
-	bne	.LBB56_991
-	ldr	r0, [sp, #356]
-	str	r0, [sp, #236]
-.LBB56_991:
+	bne	.LBB56_886
+	str	r2, [sp, #236]
+.LBB56_886:
+	bne	.LBB56_888
+	str	r1, [sp, #288]
+.LBB56_888:
 	adds	r2, r6, #2
-	b	.LBB56_872
-.LBB56_992:
+	b	.LBB56_773
+.LBB56_889:
+	str	r3, [sp, #236]
+	beq	.LBB56_890
+	b	.LBB56_773
+.LBB56_890:
+	str	r1, [sp, #288]
+	b	.LBB56_773
+.LBB56_891:
 	adds	r0, r2, #1
-	cmp	r0, r4
-	bhs	.LBB56_993
-	b	.LBB56_1138
-.LBB56_993:
+	cmp	r0, r7
+	bhs	.LBB56_892
+	bl	.LBB56_1141
+.LBB56_892:
 	movs	r0, #80
 	ldr	r2, [sp, #292]
 	str	r0, [r2]
@@ -32383,56 +31756,55 @@ main:
 	str	r0, [r2]
 	ldr	r1, [sp, #192]
 	str	r1, [r2]
-	ldr	r3, [sp, #340]
+	ldr	r3, [sp, #328]
 	str	r3, [r2]
-	ldr	r3, [sp, #204]
-	str	r3, [r2]
+	ldr	r6, [sp, #208]
+	str	r6, [r2]
 	str	r0, [r2]
 	ldr	r0, [sp, #188]
 	str	r0, [r2]
 	movs	r0, #32
 	str	r0, [r2]
 	str	r1, [r2]
-	ldr	r3, [sp, #168]
-	str	r3, [r2]
+	ldr	r7, [sp, #168]
+	str	r7, [r2]
 	ldr	r6, [sp, #184]
 	str	r6, [r2]
 	movs	r1, #112
 	str	r1, [r2]
 	ldr	r1, [sp, #324]
 	str	r1, [r2]
-	ldr	r4, [sp, #176]
-	str	r4, [r2]
-	str	r6, [r2]
-	str	r3, [r2]
-	movs	r1, #44
+	ldr	r1, [sp, #176]
 	str	r1, [r2]
+	str	r6, [r2]
+	str	r7, [r2]
+	ldr	r6, [sp, #152]
+	str	r6, [r2]
 	str	r0, [r2]
 	ldr	r0, [sp, #164]
 	str	r0, [r2]
+	str	r7, [r2]
 	str	r3, [r2]
-	ldr	r0, [sp, #340]
-	str	r0, [r2]
 	ldr	r0, [sp, #180]
 	str	r0, [r2]
 	ldr	r0, [sp, #156]
 	str	r0, [r2]
-	ldr	r0, [sp, #204]
+	ldr	r0, [sp, #208]
 	str	r0, [r2]
-	str	r4, [r2]
+	str	r1, [r2]
 	ldr	r0, [sp, #172]
 	str	r0, [r2]
 	ldr	r0, [sp, #160]
 	str	r0, [r2]
 	str	r0, [r2]
 	str	r0, [r2]
-	ldr	r0, [sp, #328]
+	ldr	r0, [sp, #340]
 	str	r0, [r2]
-	ldr	r0, .LCPI56_238
+	ldr	r0, .LCPI56_244
 	add	r0, sp
 	ldr	r1, [sp, #196]
 	strh	r1, [r0]
-	ldr	r2, .LCPI56_239
+	ldr	r2, .LCPI56_245
 	str	r2, [sp, #444]
 	add	r1, sp, #656
 	str	r1, [sp, #440]
@@ -32441,46 +31813,46 @@ main:
 	movs	r0, #0
 	str	r0, [sp, #360]
 	movs	r0, #16
-	ldr	r6, .LCPI56_240
-	b	.LBB56_996
-.LBB56_994:
+	ldr	r6, .LCPI56_246
+	b	.LBB56_895
+.LBB56_893:
 	mov	r6, r0
-.LBB56_995:
+.LBB56_894:
 	ldrb	r0, [r6]
 	cmp	r0, #0
-	bne	.LBB56_996
-	b	.LBB56_1034
-.LBB56_996:
-	adds	r4, r6, #1
+	bne	.LBB56_895
+	b	.LBB56_932
+.LBB56_895:
+	adds	r7, r6, #1
 	sxtb	r1, r0
 	cmp	r1, #0
-	bmi	.LBB56_1000
+	bmi	.LBB56_899
 	movs	r2, #3
 	ands	r2, r0
-	mov	r1, r4
-	beq	.LBB56_1006
+	mov	r1, r7
+	beq	.LBB56_905
 	ldrb	r1, [r6, #1]
 	ldr	r3, [sp, #292]
 	str	r1, [r3]
 	cmp	r2, #1
-	bne	.LBB56_1004
+	bne	.LBB56_903
 	adds	r1, r6, #2
-	adds	r6, r4, r0
+	adds	r6, r7, r0
 	cmp	r0, #4
-	blo	.LBB56_995
-	b	.LBB56_1007
-.LBB56_1000:
+	blo	.LBB56_894
+	b	.LBB56_906
+.LBB56_899:
 	cmp	r0, #128
-	beq	.LBB56_1009
+	beq	.LBB56_908
 	cmp	r0, #192
-	bne	.LBB56_1013
+	bne	.LBB56_912
 	movs	r0, #0
 	str	r0, [sp, #540]
-	ldr	r0, .LCPI56_198
+	ldr	r0, .LCPI56_238
 	str	r0, [sp, #536]
-	ldr	r0, .LCPI56_199
+	ldr	r0, .LCPI56_239
 	str	r0, [sp, #532]
-	ldr	r0, .LCPI56_200
+	ldr	r0, .LCPI56_240
 	str	r0, [sp, #528]
 	ldr	r0, [sp, #360]
 	lsls	r1, r0, #3
@@ -32491,27 +31863,27 @@ main:
 	add	r1, sp, #528
 	blx	r2
 	cmp	r0, #0
-	beq	.LBB56_1003
-	b	.LBB56_1034
-.LBB56_1003:
+	beq	.LBB56_902
+	b	.LBB56_932
+.LBB56_902:
 	ldr	r0, [sp, #360]
 	adds	r0, r0, #1
 	str	r0, [sp, #360]
-	mov	r6, r4
-	b	.LBB56_995
-.LBB56_1004:
+	mov	r6, r7
+	b	.LBB56_894
+.LBB56_903:
 	ldrb	r1, [r6, #2]
 	str	r1, [r3]
 	cmp	r2, #2
-	bne	.LBB56_1016
+	bne	.LBB56_915
 	adds	r1, r6, #3
-.LBB56_1006:
-	adds	r6, r4, r0
+.LBB56_905:
+	adds	r6, r7, r0
 	cmp	r0, #4
-	blo	.LBB56_995
-.LBB56_1007:
+	blo	.LBB56_894
+.LBB56_906:
 	ldr	r2, [sp, #292]
-.LBB56_1008:
+.LBB56_907:
 	ldrb	r0, [r1]
 	str	r0, [r2]
 	ldrb	r0, [r1, #1]
@@ -32522,117 +31894,117 @@ main:
 	str	r0, [r2]
 	adds	r1, r1, #4
 	cmp	r1, r6
-	bne	.LBB56_1008
-	b	.LBB56_995
-.LBB56_1009:
-	ldrb	r0, [r4]
-	ldrb	r1, [r4, #1]
+	bne	.LBB56_907
+	b	.LBB56_894
+.LBB56_908:
+	ldrb	r0, [r7]
+	ldrb	r1, [r7, #1]
 	lsls	r1, r1, #8
 	adds	r0, r1, r0
 	uxth	r2, r0
 	adds	r1, r6, #3
 	adds	r0, r1, r2
 	cmp	r2, #0
-	beq	.LBB56_994
+	beq	.LBB56_893
 	movs	r3, #3
 	ands	r3, r2
-	beq	.LBB56_1030
+	ldr	r7, [sp, #292]
+	beq	.LBB56_929
 	ldrb	r1, [r6, #3]
-	ldr	r4, [sp, #292]
-	str	r1, [r4]
+	str	r1, [r7]
 	cmp	r3, #1
-	bne	.LBB56_1028
+	bne	.LBB56_927
 	adds	r1, r6, #4
 	cmp	r2, #4
-	blo	.LBB56_994
-	b	.LBB56_1031
-.LBB56_1013:
+	bhs	.LBB56_930
+	b	.LBB56_893
+.LBB56_912:
 	lsls	r1, r0, #31
-	bne	.LBB56_1017
-	ldr	r1, .LCPI56_198
+	bne	.LBB56_916
+	ldr	r1, .LCPI56_185
 	str	r1, [sp, #356]
 	movs	r3, #0
 	lsls	r1, r0, #30
-	bpl	.LBB56_1018
-.LBB56_1015:
-	ldrb	r1, [r4]
-	ldrb	r2, [r4, #1]
+	bpl	.LBB56_917
+.LBB56_914:
+	ldrb	r1, [r7]
+	ldrb	r2, [r7, #1]
 	lsls	r2, r2, #8
 	adds	r2, r2, r1
-	adds	r4, r4, #2
+	adds	r7, r7, #2
 	lsls	r1, r0, #29
-	bmi	.LBB56_1019
-	b	.LBB56_1020
-.LBB56_1016:
+	bmi	.LBB56_918
+	b	.LBB56_919
+.LBB56_915:
 	ldrb	r1, [r6, #3]
 	str	r1, [r3]
 	adds	r1, r6, #4
-	adds	r6, r4, r0
+	adds	r6, r7, r0
 	cmp	r0, #4
-	blo	.LBB56_995
-	b	.LBB56_1007
-.LBB56_1017:
-	ldrb	r1, [r4]
-	ldrb	r2, [r4, #1]
+	blo	.LBB56_894
+	b	.LBB56_906
+.LBB56_916:
+	ldrb	r1, [r7]
+	ldrb	r2, [r7, #1]
 	lsls	r2, r2, #8
 	adds	r1, r2, r1
-	ldrb	r2, [r4, #2]
+	ldrb	r2, [r7, #2]
 	lsls	r2, r2, #16
-	ldrb	r3, [r4, #3]
+	ldrb	r3, [r7, #3]
 	lsls	r3, r3, #24
 	adds	r2, r3, r2
 	adds	r1, r2, r1
 	str	r1, [sp, #356]
-	adds	r4, r4, #4
+	adds	r7, r7, #4
 	movs	r3, #0
 	lsls	r1, r0, #30
-	bmi	.LBB56_1015
-.LBB56_1018:
+	bmi	.LBB56_914
+.LBB56_917:
 	mov	r2, r3
 	lsls	r1, r0, #29
-	bpl	.LBB56_1020
-.LBB56_1019:
-	ldrb	r1, [r4]
-	ldrb	r3, [r4, #1]
+	bpl	.LBB56_919
+.LBB56_918:
+	ldrb	r1, [r7]
+	ldrb	r3, [r7, #1]
 	lsls	r3, r3, #8
 	adds	r3, r3, r1
-	adds	r4, r4, #2
-.LBB56_1020:
+	adds	r7, r7, #2
+.LBB56_919:
 	lsls	r1, r0, #28
-	bmi	.LBB56_1022
-	mov	r6, r4
+	bmi	.LBB56_921
+	mov	r6, r7
 	lsls	r1, r0, #27
-	bmi	.LBB56_1023
-	b	.LBB56_1024
-.LBB56_1022:
-	ldrb	r1, [r4]
-	ldrb	r6, [r4, #1]
+	bmi	.LBB56_922
+	b	.LBB56_923
+.LBB56_921:
+	ldrb	r1, [r7]
+	ldrb	r6, [r7, #1]
 	lsls	r6, r6, #8
 	adds	r1, r6, r1
 	str	r1, [sp, #360]
-	adds	r6, r4, #2
+	adds	r6, r7, #2
 	lsls	r1, r0, #27
-	bpl	.LBB56_1024
-.LBB56_1023:
+	bpl	.LBB56_923
+.LBB56_922:
 	lsls	r1, r2, #3
 	add	r2, sp, #432
 	adds	r1, r2, r1
 	ldrh	r2, [r1, #4]
-.LBB56_1024:
+.LBB56_923:
 	lsls	r0, r0, #26
-	bpl	.LBB56_1026
+	bpl	.LBB56_925
 	lsls	r0, r3, #3
 	add	r1, sp, #432
 	adds	r0, r1, r0
 	ldrh	r3, [r0, #4]
-.LBB56_1026:
-	ldr	r0, .LCPI56_200
+.LBB56_925:
+	ldr	r0, .LCPI56_187
 	add	r1, sp, #528
 	strh	r3, [r1, #14]
 	strh	r2, [r1, #12]
 	ldr	r2, [sp, #356]
 	str	r2, [sp, #536]
-	ldr	r2, .LCPI56_199
+	ldr	r2, .LCPI56_186
 	str	r2, [sp, #532]
 	str	r0, [sp, #528]
 	ldr	r0, [sp, #360]
@@ -32643,118 +32015,116 @@ main:
 	ldr	r2, [r2, #4]
 	blx	r2
 	cmp	r0, #0
-	bne	.LBB56_1034
+	bne	.LBB56_932
 	ldr	r0, [sp, #360]
 	adds	r0, r0, #1
 	str	r0, [sp, #360]
-	b	.LBB56_995
-.LBB56_1028:
+	b	.LBB56_894
+.LBB56_927:
 	ldrb	r1, [r6, #4]
-	str	r1, [r4]
+	str	r1, [r7]
 	cmp	r3, #2
-	bne	.LBB56_1033
+	bne	.LBB56_931
 	adds	r1, r6, #5
-.LBB56_1030:
+.LBB56_929:
 	cmp	r2, #4
-	bhs	.LBB56_1031
-	b	.LBB56_994
-.LBB56_1031:
-	ldr	r3, [sp, #292]
-.LBB56_1032:
+	bhs	.LBB56_930
+	b	.LBB56_893
+.LBB56_930:
 	ldrb	r2, [r1]
-	str	r2, [r3]
+	str	r2, [r7]
 	ldrb	r2, [r1, #1]
-	str	r2, [r3]
+	str	r2, [r7]
 	ldrb	r2, [r1, #2]
-	str	r2, [r3]
+	str	r2, [r7]
 	ldrb	r2, [r1, #3]
-	str	r2, [r3]
+	str	r2, [r7]
 	adds	r1, r1, #4
 	cmp	r1, r0
-	bne	.LBB56_1032
-	b	.LBB56_994
-.LBB56_1033:
+	bne	.LBB56_930
+	b	.LBB56_893
+.LBB56_931:
 	ldrb	r1, [r6, #5]
-	str	r1, [r4]
+	str	r1, [r7]
 	adds	r1, r6, #6
 	cmp	r2, #4
-	bhs	.LBB56_1031
-	b	.LBB56_994
-.LBB56_1034:
+	bhs	.LBB56_930
+	b	.LBB56_893
+.LBB56_932:
 	movs	r0, #0
 	str	r0, [sp, #444]
 	str	r0, [sp, #440]
 	str	r0, [sp, #436]
 	movs	r0, #1
 	str	r0, [sp, #432]
-	ldr	r0, .LCPI56_195
+	ldr	r0, .LCPI56_182
 	add	r0, sp
 	ldrh	r0, [r0]
 	add	r1, sp, #656
 	ldrh	r1, [r1]
-	ldr	r4, [sp, #292]
-.LBB56_1035:
-	ldr	r2, [r4, #64]
+	ldr	r6, [sp, #292]
+.LBB56_933:
+	ldr	r2, [r6, #64]
 	cmp	r2, #0
-	bmi	.LBB56_1039
-	ldr	r2, [r4, #64]
+	bmi	.LBB56_937
+	ldr	r2, [r6, #64]
 	cmp	r2, #0
-	bmi	.LBB56_1039
-	ldr	r2, [r4, #64]
+	bmi	.LBB56_937
+	ldr	r2, [r6, #64]
 	cmp	r2, #0
-	bmi	.LBB56_1039
-	ldr	r2, [r4, #64]
+	bmi	.LBB56_937
+	ldr	r2, [r6, #64]
 	cmp	r2, #0
-	bpl	.LBB56_1035
-.LBB56_1039:
+	bpl	.LBB56_933
+.LBB56_937:
 	movs	r2, #3
-	str	r2, [r4, #8]
+	str	r2, [r6, #8]
 	uxtb	r2, r1
-	str	r2, [r4, #8]
+	str	r2, [r6, #8]
 	lsrs	r1, r1, #8
-	str	r1, [r4, #8]
+	str	r1, [r6, #8]
 	uxtb	r1, r0
-	str	r1, [r4, #8]
+	str	r1, [r6, #8]
 	lsrs	r0, r0, #8
-	str	r0, [r4, #8]
-.LBB56_1040:
-	ldr	r0, [r4, #64]
+	str	r0, [r6, #8]
+.LBB56_938:
+	ldr	r0, [r6, #64]
 	cmp	r0, #0
-	bpl	.LBB56_1044
-	ldr	r0, [r4, #64]
+	bpl	.LBB56_942
+	ldr	r0, [r6, #64]
 	cmp	r0, #0
-	bpl	.LBB56_1044
-	ldr	r0, [r4, #64]
+	bpl	.LBB56_942
+	ldr	r0, [r6, #64]
 	cmp	r0, #0
-	bpl	.LBB56_1044
-	ldr	r0, [r4, #64]
+	bpl	.LBB56_942
+	ldr	r0, [r6, #64]
 	cmp	r0, #0
-	bmi	.LBB56_1040
-.LBB56_1044:
+	bmi	.LBB56_938
+.LBB56_942:
 	add	r1, sp, #528
 	strb	r0, [r1]
-	ldr	r3, [sp, #212]
-.LBB56_1045:
-	ldr	r0, [r4, #64]
+	ldr	r3, [sp, #216]
+.LBB56_943:
+	ldr	r0, [r6, #64]
 	cmp	r0, #0
-	bpl	.LBB56_1049
-	ldr	r0, [r4, #64]
+	bpl	.LBB56_947
+	ldr	r0, [r6, #64]
 	cmp	r0, #0
-	bpl	.LBB56_1049
-	ldr	r0, [r4, #64]
+	bpl	.LBB56_947
+	ldr	r0, [r6, #64]
 	cmp	r0, #0
-	bpl	.LBB56_1049
-	ldr	r0, [r4, #64]
+	bpl	.LBB56_947
+	ldr	r0, [r6, #64]
 	cmp	r0, #0
-	bmi	.LBB56_1045
-.LBB56_1049:
+	bmi	.LBB56_943
+.LBB56_947:
 	add	r1, sp, #528
 	strb	r0, [r1, #1]
-	ldrh	r4, [r1]
-	cmp	r4, #0
-	beq	.LBB56_1062
-	str	r4, [r3, #44]
-	ldr	r6, .LCPI56_200
+	ldrh	r7, [r1]
+	cmp	r7, #0
+	beq	.LBB56_960
+	str	r7, [r3, #44]
+	ldr	r6, .LCPI56_187
 	ldr	r2, [r6, #8]
 	mov	r0, r3
 	@APP
@@ -32762,348 +32132,953 @@ main:
 	@NO_APP
 	str	r3, [r0, #56]
 	adds	r1, r2, #4
-	adds	r0, r1, r4
+	adds	r0, r1, r7
 	cmp	r3, r0
-	bhs	.LBB56_1051
-	bl	.LBB56_1583
-.LBB56_1051:
-	str	r4, [r2]
+	bhs	.LBB56_949
+	bl	.LBB56_1590
+.LBB56_949:
+	str	r7, [r2]
 	str	r0, [r6, #8]
 	mov	r2, r1
-	b	.LBB56_1053
-.LBB56_1052:
+	b	.LBB56_951
+.LBB56_950:
 	strb	r3, [r2]
 	adds	r2, r2, #1
 	cmp	r2, r0
-	beq	.LBB56_1058
-.LBB56_1053:
+	beq	.LBB56_956
+.LBB56_951:
 	ldr	r6, [sp, #292]
-.LBB56_1054:
+.LBB56_952:
 	ldr	r3, [r6, #64]
 	cmp	r3, #0
-	bpl	.LBB56_1052
+	bpl	.LBB56_950
 	ldr	r3, [r6, #64]
 	cmp	r3, #0
-	bpl	.LBB56_1052
+	bpl	.LBB56_950
 	ldr	r3, [r6, #64]
 	cmp	r3, #0
-	bpl	.LBB56_1052
+	bpl	.LBB56_950
 	ldr	r3, [r6, #64]
 	cmp	r3, #0
-	bmi	.LBB56_1054
-	b	.LBB56_1052
-.LBB56_1058:
-	cmp	r4, #0
-	beq	.LBB56_1076
-	ldr	r3, [sp, #212]
+	bmi	.LBB56_952
+	b	.LBB56_950
+.LBB56_956:
+	cmp	r7, #0
+	beq	.LBB56_961
+	ldr	r3, [sp, #216]
 	ldr	r0, [r3, #76]
 	ldr	r6, [sp, #348]
 	subs	r0, r0, r6
-	cmp	r0, r4
-	blo	.LBB56_1061
-.LBB56_1060:
+	cmp	r0, r7
+	blo	.LBB56_959
+.LBB56_958:
 	ldr	r0, [sp, #352]
 	adds	r0, r0, r6
-	mov	r2, r4
+	mov	r2, r7
 	bl	__aeabi_memcpy
-	adds	r0, r6, r4
-	ldr	r3, [sp, #212]
+	adds	r0, r6, r7
+	ldr	r3, [sp, #216]
 	str	r0, [r3, #84]
-	bl	.LBB56_812
-.LBB56_1061:
-	ldr	r0, .LCPI56_201
+	bl	.LBB56_715
+.LBB56_959:
+	ldr	r0, .LCPI56_241
 	add	r0, sp
 	str	r1, [sp, #360]
 	mov	r1, r6
-	mov	r2, r4
+	mov	r2, r7
 	mov	r6, r3
 	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
 	ldr	r1, [sp, #360]
 	ldr	r0, [r6, #80]
 	str	r0, [sp, #352]
 	ldr	r6, [r6, #84]
-	b	.LBB56_1060
-.LBB56_1062:
+	b	.LBB56_958
+.LBB56_960:
 	add	r0, sp, #432
 	movs	r1, #1
 	movs	r2, #0
 	bl	_RNvMs_NtNtCsb7ba3TghYF3_4parm4heap15circular_bufferNtB4_14CircularBuffer17consume_into_slow
-	ldr	r0, [sp, #212]
-	movs	r7, #19
-	ldr	r5, .LCPI56_202
+	ldr	r0, [sp, #216]
+	movs	r6, #19
+	ldr	r5, .LCPI56_247
+	b	.LBB56_963
+.LBB56_961:
+	movs	r6, #19
+	ldr	r5, .LCPI56_247
+.LBB56_962:
+	ldr	r0, [sp, #216]
+.LBB56_963:
 	ldr	r0, [r0, #76]
 	cmp	r0, #0
-	beq	.LBB56_1078
-.LBB56_1063:
-	ldr	r0, [sp, #292]
+	ldr	r7, [sp, #292]
+	ldr	r4, [sp, #312]
+	beq	.LBB56_977
+	mov	r0, r7
 	adds	r0, #255
-.LBB56_1064:
+.LBB56_965:
 	add	r1, sp, #656
 	ldrh	r1, [r1]
-	ldr	r4, [sp, #292]
-.LBB56_1065:
-	ldr	r3, [r4, #64]
+.LBB56_966:
+	ldr	r3, [r7, #64]
 	cmp	r3, #0
-	bmi	.LBB56_1069
-	ldr	r3, [r4, #64]
+	bmi	.LBB56_970
+	ldr	r3, [r7, #64]
 	cmp	r3, #0
-	bmi	.LBB56_1069
-	ldr	r3, [r4, #64]
+	bmi	.LBB56_970
+	ldr	r3, [r7, #64]
 	cmp	r3, #0
-	bmi	.LBB56_1069
-	ldr	r3, [r4, #64]
+	bmi	.LBB56_970
+	ldr	r3, [r7, #64]
 	cmp	r3, #0
-	bpl	.LBB56_1065
-.LBB56_1069:
+	bpl	.LBB56_966
+.LBB56_970:
 	movs	r3, #4
-	str	r3, [r4, #8]
+	str	r3, [r7, #8]
 	uxtb	r3, r1
-	str	r3, [r4, #8]
+	str	r3, [r7, #8]
 	lsrs	r1, r1, #8
-	str	r1, [r4, #8]
+	str	r1, [r7, #8]
 	adds	r1, r0, #1
-	bne	.LBB56_1070
-	bl	.LBB56_338
-.LBB56_1070:
+	bne	.LBB56_971
+	bl	.LBB56_424
+.LBB56_971:
 	cmp	r0, #1
-	bne	.LBB56_1071
-	bl	.LBB56_127
-.LBB56_1071:
+	bne	.LBB56_972
+	bl	.LBB56_124
+.LBB56_972:
 	ldr	r4, [sp, #396]
 	ldr	r5, [sp, #392]
 	add	r0, sp, #680
-	mov	r1, r7
+	mov	r1, r6
 	bl	_RNvNtNtCs4L8JVMRpR0y_4core3str8converts9from_utf8
 	movs	r0, #35
 	ldr	r1, [sp, #680]
 	cmp	r1, #0
-	bne	.LBB56_1073
+	bne	.LBB56_974
 	ldr	r0, [sp, #688]
-.LBB56_1073:
+.LBB56_974:
 	ldr	r1, [sp, #684]
 	str	r0, [sp]
-	ldr	r3, .LCPI56_203
-	ldr	r7, [sp, #292]
-	bne	.LBB56_1075
+	ldr	r3, .LCPI56_190
+	bne	.LBB56_976
 	mov	r3, r1
-.LBB56_1075:
+.LBB56_976:
 	add	r0, sp, #400
 	mov	r1, r5
 	mov	r2, r4
-	bl	.LBB56_147
-.LBB56_1076:
-	movs	r7, #19
-	ldr	r5, .LCPI56_202
-.LBB56_1077:
-	ldr	r0, [sp, #212]
-	ldr	r0, [r0, #76]
-	cmp	r0, #0
-	bne	.LBB56_1063
-.LBB56_1078:
+	bl	_RNvNtCs9Yr4AUe4qI0_9netclient3web6render
+	ldr	r4, [sp, #312]
+	bl	.LBB56_427
+.LBB56_977:
 	add	r0, sp, #656
 	ldrh	r0, [r0]
-	ldr	r2, [sp, #292]
-.LBB56_1079:
-	ldr	r1, [r2, #64]
+.LBB56_978:
+	ldr	r1, [r7, #64]
 	cmp	r1, #0
-	bmi	.LBB56_1083
-	ldr	r1, [r2, #64]
+	bmi	.LBB56_982
+	ldr	r1, [r7, #64]
 	cmp	r1, #0
-	bmi	.LBB56_1083
-	ldr	r1, [r2, #64]
+	bmi	.LBB56_982
+	ldr	r1, [r7, #64]
 	cmp	r1, #0
-	bmi	.LBB56_1083
-	ldr	r1, [r2, #64]
+	bmi	.LBB56_982
+	ldr	r1, [r7, #64]
 	cmp	r1, #0
-	bpl	.LBB56_1079
-.LBB56_1083:
+	bpl	.LBB56_978
+.LBB56_982:
 	movs	r1, #4
-	str	r1, [r2, #8]
+	str	r1, [r7, #8]
 	uxtb	r1, r0
-	str	r1, [r2, #8]
+	str	r1, [r7, #8]
 	lsrs	r0, r0, #8
-	str	r0, [r2, #8]
-	bl	.LBB56_338
-.LBB56_1084:
-	ldr	r0, .LCPI56_204
-	str	r0, [sp]
-	mov	r0, r6
-	mov	r1, r5
-	bl	_RNvCscFQX8RfWnHn_8foldhash15hash_bytes_long
-	mov	r4, r0
-	mov	r5, r1
-	bl	.LBB56_627
-.LBB56_1085:
-	add	r0, sp, #668
-	movs	r1, #4
-	ldr	r2, [sp, #316]
-	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
-	ldr	r0, [sp, #668]
-	ldr	r4, [sp, #672]
-	ldr	r2, [sp, #676]
-	bl	.LBB56_797
-.LBB56_1086:
-	add	r0, sp, #668
-	movs	r2, #11
-	mov	r1, r6
-	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
-	ldr	r4, [sp, #672]
-	ldr	r6, [sp, #676]
-	bl	.LBB56_799
-.LBB56_1087:
-	add	r0, sp, #668
-	movs	r2, #4
-	mov	r1, r6
-	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
-	ldr	r3, [sp, #668]
-	ldr	r6, [sp, #676]
-	bl	.LBB56_800
-.LBB56_1088:
-	add	r0, sp, #668
-	movs	r2, #2
-	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
-	ldr	r4, [sp, #672]
-	ldr	r3, [sp, #668]
-	ldr	r1, [sp, #676]
-	bl	.LBB56_801
-.LBB56_1089:
-	add	r0, sp, #668
-	mov	r2, r6
-	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
-	ldr	r3, [sp, #668]
-	ldr	r4, [sp, #672]
-	ldr	r1, [sp, #676]
-	bl	.LBB56_803
+	str	r0, [r7, #8]
+	bl	.LBB56_424
+.LBB56_983:
+	ldr	r4, .LCPI56_191
+	adds	r4, #198
+	bl	.LBB56_624
+.LBB56_984:
+	movs	r0, #1
+	lsls	r4, r0, #14
+	bl	.LBB56_624
+.LBB56_985:
+	movs	r0, #45
+	bl	.LBB56_623
+.LBB56_986:
+	movs	r0, #3
+	lsls	r4, r0, #12
+	bl	.LBB56_624
+.LBB56_987:
+	movs	r0, #23
+	lsls	r4, r0, #9
+	bl	.LBB56_624
+.LBB56_988:
+	movs	r0, #43
+	bl	.LBB56_623
+.LBB56_989:
+	ldr	r4, [sp, #196]
+	bl	.LBB56_624
+.LBB56_990:
+	movs	r0, #3
+	bl	.LBB56_623
+.LBB56_991:
+	movs	r0, #5
+	bl	.LBB56_623
+.LBB56_992:
+	movs	r0, #7
+	bl	.LBB56_623
+.LBB56_993:
+	movs	r0, #1
+	lsls	r4, r0, #11
+	bl	.LBB56_624
+.LBB56_994:
+	movs	r0, #9
+	bl	.LBB56_623
+.LBB56_995:
+	movs	r0, #3
+	lsls	r4, r0, #10
+	bl	.LBB56_624
+.LBB56_996:
+	movs	r0, #1
+	lsls	r4, r0, #10
+	bl	.LBB56_624
+.LBB56_997:
+	movs	r0, #13
+	bl	.LBB56_623
+.LBB56_998:
+	movs	r0, #7
+	lsls	r4, r0, #9
+	bl	.LBB56_624
 	.p2align	2
-.LCPI56_238:
+.LCPI56_244:
 	.long	1708
 	.p2align	2
-.LCPI56_239:
+.LCPI56_245:
 	.long	_RNvXs3_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3imptNtB9_7Display3fmt
-	.p2align	1
-.LBB56_1092:
-	add	r0, sp, #668
-	movs	r2, #2
-	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
-	ldr	r4, [sp, #672]
-	ldr	r1, [sp, #676]
-	bl	.LBB56_805
 	.p2align	2
-.LCPI56_240:
+.LCPI56_246:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.135
 	.p2align	1
-.LBB56_1094:
-	add	r0, sp, #668
-	movs	r2, #10
+.LBB56_1002:
+	ldr	r0, [sp, #204]
+	bl	.LBB56_623
+	.p2align	1
+.LBB56_1004:
+	movs	r0, #1
+	lsls	r4, r0, #12
+	bl	.LBB56_624
+	.p2align	1
+.LBB56_1006:
+	movs	r0, #3
+	lsls	r4, r0, #9
+	bl	.LBB56_624
+	.p2align	2
+.LCPI56_238:
+	.long	1610612768
+	.p2align	2
+.LCPI56_239:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.255
+	.p2align	2
+.LCPI56_240:
+	.long	.L_MergedGlobals
+	.p2align	1
+.LBB56_1011:
+	movs	r0, #11
+	bl	.LBB56_623
+.LBB56_1012:
+	movs	r0, #17
+	bl	.LBB56_623
+.LBB56_1013:
+	movs	r0, #9
+	lsls	r4, r0, #9
+	bl	.LBB56_624
+.LBB56_1014:
+	movs	r0, #5
+	lsls	r4, r0, #10
+	bl	.LBB56_624
+.LBB56_1015:
+	movs	r0, #21
+	bl	.LBB56_623
+.LBB56_1016:
+	movs	r0, #35
+	bl	.LBB56_623
+.LBB56_1017:
+	movs	r0, #11
+	lsls	r4, r0, #9
+	bl	.LBB56_624
+.LBB56_1018:
+	movs	r0, #23
+	bl	.LBB56_623
+.LBB56_1019:
+	movs	r0, #29
+	bl	.LBB56_623
+	.p2align	2
+.LCPI56_182:
+	.long	1708
+	.p2align	1
+.LBB56_1021:
+	movs	r0, #41
+	bl	.LBB56_623
+	.p2align	2
+.LCPI56_185:
+	.long	1610612768
+	.p2align	2
+.LCPI56_186:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.255
+	.p2align	2
+.LCPI56_187:
+	.long	.L_MergedGlobals
+	.p2align	1
+.LBB56_1027:
+	ldr	r0, [sp, #344]
+	adds	r4, r0, #1
+	bl	.LBB56_624
+	.p2align	2
+.LCPI56_241:
+	.long	1784
+	.p2align	1
+.LBB56_1029:
+	movs	r0, #65
+	bl	.LBB56_623
+.LBB56_1030:
+	movs	r0, #27
+	lsls	r4, r0, #10
+	bl	.LBB56_624
+.LBB56_1031:
+	movs	r0, #109
+	bl	.LBB56_623
+.LBB56_1032:
+	movs	r0, #37
+	bl	.LBB56_623
+.LBB56_1033:
+	movs	r0, #63
+	bl	.LBB56_623
+.LBB56_1034:
+	movs	r0, #9
+	lsls	r4, r0, #10
+	bl	.LBB56_624
+.LBB56_1035:
+	movs	r0, #47
+	bl	.LBB56_623
+.LBB56_1036:
+	movs	r0, #49
+	bl	.LBB56_623
+.LBB56_1037:
+	ldr	r4, .LCPI56_192
+	subs	r4, #13
+	bl	.LBB56_624
+.LBB56_1038:
+	rev16	r4, r1
+	bl	.LBB56_624
+.LBB56_1039:
+	ldr	r2, [sp, #268]
+	ldr	r7, [sp, #292]
+	bl	.LBB56_391
+.LBB56_1040:
+	ldr	r5, [sp, #80]
+	bl	.LBB56_327
+.LBB56_1041:
+	lsls	r0, r4, #8
+	ldr	r1, [sp, #244]
+	adds	r0, r0, r1
+	rev	r0, r0
+	lsrs	r1, r0, #16
+	mov	r2, r6
+	ldr	r0, .LCPI56_193
+	ands	r2, r0
+	ldr	r0, [sp, #204]
+	ands	r0, r6
+	str	r0, [sp, #204]
+	ldr	r0, [sp, #248]
+	lsls	r0, r0, #8
+	ldr	r3, [sp, #316]
+	adds	r0, r0, r3
+	str	r0, [sp, #316]
+	rev16	r0, r0
+	ldr	r3, [sp, #252]
+	lsls	r3, r3, #8
+	ldr	r4, [sp, #320]
+	adds	r3, r3, r4
+	rev	r3, r3
+	lsrs	r3, r3, #16
+	ldr	r4, [sp, #288]
+	lsls	r4, r4, #8
+	ldr	r6, [sp, #324]
+	adds	r4, r4, r6
+	ldr	r6, .LCPI56_194
+	add	r6, sp
+	strh	r3, [r6, #22]
+	str	r0, [sp, #252]
+	strh	r0, [r6, #20]
+	strh	r2, [r6, #18]
+	strh	r1, [r6, #16]
+	ldr	r1, [sp, #292]
+	adds	r1, #255
+	str	r1, [sp, #244]
+	str	r1, [r7, #12]
+	rev16	r1, r4
+	add	r2, sp, #680
+	ldrh	r2, [r2, #4]
+	lsls	r2, r2, #16
+	adds	r1, r2, r1
+	str	r1, [r7, #36]
+	ldr	r1, [sp, #204]
+	cmp	r1, #11
+	blo	.LBB56_1043
+	movs	r1, #17
+.LBB56_1043:
+	lsls	r1, r1, #8
+	adds	r1, r5, r1
+	str	r1, [r7, #40]
+	ldr	r0, [sp, #316]
+	cmp	r0, #0
+	ldr	r4, [sp, #44]
+	bne	.LBB56_1044
+	b	.LBB56_1090
+.LBB56_1044:
+	movs	r5, #20
+	ldr	r6, [sp, #252]
+	muls	r5, r6, r5
+	movs	r1, #4
+	mov	r0, r5
+	bl	_RNvCs7pOVZZ9zOwf_7___rustc12___rust_alloc
+	cmp	r0, #0
+	bne	.LBB56_1045
+	bl	.LBB56_1611
+.LBB56_1045:
+	movs	r3, #0
+	ldr	r1, [sp, #216]
+	str	r6, [r1, #76]
+	str	r0, [sp, #324]
+	str	r0, [r1, #80]
+	str	r3, [r1, #84]
+	movs	r4, #16
+	ldr	r5, [sp, #48]
+	ldr	r7, [sp, #292]
+.LBB56_1046:
+	str	r3, [sp, #316]
+	str	r4, [sp, #320]
+	add	r0, sp, #680
+	ldr	r1, .LCPI56_195
+	add	r1, sp
+	bl	_RNvXs_NtNtCseADBAlPmZ6Z_10simple_dns3dns4nameNtB4_4NameNtNtB6_11wire_format10WireFormat5parse
+	ldr	r0, [sp, #680]
+	adds	r1, r0, #1
+	ldr	r6, [sp, #692]
+	ldr	r4, [sp, #688]
+	ldr	r2, [sp, #684]
+	beq	.LBB56_1048
+	ldr	r1, [sp, #696]
+	str	r1, [sp, #40]
+	lsrs	r3, r2, #16
+	mov	r5, r6
+	uxtb	r6, r2
+	lsrs	r1, r2, #8
+	uxtb	r2, r1
+	ldr	r1, [sp, #268]
+	str	r0, [sp, #328]
+	mov	r0, r2
+	str	r4, [sp, #44]
+	str	r5, [sp, #48]
+	ldr	r2, [sp, #216]
+	b	.LBB56_1052
+.LBB56_1048:
+	str	r2, [sp, #328]
+	str	r4, [sp, #288]
+	ldr	r0, [sp, #216]
+	ldr	r2, [r0, #4]
+	ldr	r0, [r0, #8]
+	adds	r1, r0, #2
+	cmp	r1, r2
+	bhi	.LBB56_1051
+	ldr	r3, [sp, #348]
+	mvns	r7, r3
+	cmp	r0, r7
+	blo	.LBB56_1050
+	bl	.LBB56_1604
+.LBB56_1050:
+	ldr	r3, [sp, #216]
+	str	r1, [r3, #8]
+	adds	r3, r0, #4
+	cmp	r3, r2
+	bls	.LBB56_1055
+.LBB56_1051:
+	ldr	r0, .LCPI56_196
+	subs	r0, #12
+	str	r0, [sp, #328]
+	ldr	r1, [sp, #268]
+	str	r5, [sp, #48]
+	ldr	r2, [sp, #216]
+	ldr	r7, [sp, #292]
+	ldr	r3, [sp, #304]
+	ldr	r6, [sp, #312]
+	ldr	r0, [sp, #84]
+.LBB56_1052:
+	str	r0, [sp, #84]
+	lsls	r0, r0, #8
+	str	r6, [sp, #312]
+	orrs	r0, r6
+	str	r3, [sp, #304]
+	lsls	r5, r3, #16
+	orrs	r5, r0
+	cmp	r1, #0
+	beq	.LBB56_1053
+	b	.LBB56_1091
+.LBB56_1053:
+	str	r5, [sp, #288]
+	ldr	r0, [r2, #76]
+	ldr	r6, [sp, #316]
+	cmp	r6, r0
+	ldr	r0, [sp, #40]
+	ldr	r1, [sp, #324]
+	ldr	r4, [sp, #320]
+	beq	.LBB56_1058
+.LBB56_1054:
+	str	r0, [r1, r4]
+	str	r1, [sp, #324]
+	adds	r0, r1, r4
+	subs	r1, r0, #4
+	ldr	r5, [sp, #48]
+	str	r5, [r1]
+	mov	r1, r0
+	subs	r1, #8
+	ldr	r3, [sp, #44]
+	str	r3, [r1]
+	mov	r1, r0
+	subs	r1, #12
+	ldr	r3, [sp, #288]
+	str	r3, [r1]
+	subs	r0, #16
+	ldr	r1, [sp, #328]
+	str	r1, [r0]
+	adds	r3, r6, #1
+	str	r3, [r2, #84]
+	adds	r4, #20
+	ldr	r0, [sp, #252]
+	cmp	r0, r3
+	bne	.LBB56_1046
+	b	.LBB56_1092
+.LBB56_1055:
+	cmp	r1, r7
+	blo	.LBB56_1056
+	bl	.LBB56_1605
+.LBB56_1056:
+	ldr	r7, [sp, #216]
+	ldr	r2, [r7]
+	ldrb	r4, [r2, r0]
+	adds	r0, r2, r0
+	ldrb	r0, [r0, #1]
+	lsls	r0, r0, #8
+	adds	r0, r0, r4
+	rev	r0, r0
+	lsrs	r4, r0, #16
+	str	r3, [r7, #8]
+	ldrb	r3, [r2, r1]
+	adds	r0, r2, r1
 	mov	r1, r4
-	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
-	ldr	r0, [sp, #668]
-	str	r0, [sp, #356]
-	ldr	r4, [sp, #676]
-	bl	.LBB56_807
+	ldrb	r7, [r0, #1]
+	mov	r0, r4
+	subs	r0, #251
+	uxth	r0, r0
+	cmp	r0, #5
+	bhs	.LBB56_1059
+	subs	r1, #209
+	movs	r0, #0
+	str	r0, [sp, #48]
+	mov	r0, r1
+	b	.LBB56_1062
+.LBB56_1058:
+	ldr	r0, .LCPI56_188
+	add	r0, sp
+	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecNtNtNtCseADBAlPmZ6Z_10simple_dns3dns8question8QuestionE8grow_oneBS_
+	ldr	r0, [sp, #40]
+	ldr	r2, [sp, #216]
+	ldr	r1, [r2, #80]
+	b	.LBB56_1054
+.LBB56_1059:
+	mov	r4, r3
+	str	r1, [sp, #312]
+	mov	r0, r1
+	bl	_RNvXs29_NtNtCseADBAlPmZ6Z_10simple_dns3dns5rdataNtB6_4TYPEINtNtCs4L8JVMRpR0y_4core7convert4FromtE4from
+	uxth	r2, r0
+	cmp	r2, #41
+	bne	.LBB56_1061
+	ldr	r0, .LCPI56_196
+	subs	r0, #19
+	str	r0, [sp, #328]
+	ldr	r1, [sp, #312]
+	lsrs	r0, r1, #8
+	uxtb	r6, r1
+	b	.LBB56_1080
+.LBB56_1061:
+	lsls	r1, r1, #16
+	str	r1, [sp, #48]
+	mov	r3, r4
+.LBB56_1062:
+	lsls	r1, r7, #8
+	adds	r1, r1, r3
+	rev	r1, r1
+	lsrs	r2, r1, #16
+	mov	r7, r2
+	ldr	r1, .LCPI56_197
+	ands	r7, r1
+	subs	r3, r7, #1
+	movs	r1, #0
+	cmp	r3, #3
+	str	r6, [sp, #248]
+	bhi	.LBB56_1077
+	.p2align	2
+	add	r3, pc
+	ldrb	r3, [r3, #4]
+	lsls	r3, r3, #1
+.LCPI56_101:
+	add	pc, r3
+	.p2align	2
+.LJTI56_4:
+	.byte	(.LBB56_1066-(.LCPI56_101+4))/2
+	.byte	(.LBB56_1081-(.LCPI56_101+4))/2
+	.byte	(.LBB56_1082-(.LCPI56_101+4))/2
+	.byte	(.LBB56_1083-(.LCPI56_101+4))/2
+	.p2align	1
+	.p2align	2
+.LCPI56_247:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.24
+	.p2align	1
+.LBB56_1066:
+	ldr	r3, [sp, #344]
+	b	.LBB56_1085
+	.p2align	2
+.LCPI56_188:
+	.long	1784
+	.p2align	2
+.LCPI56_190:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.148
+	.p2align	2
+.LCPI56_191:
+	.long	8250
+	.p2align	2
+.LCPI56_192:
+	.long	2573
+	.p2align	2
+.LCPI56_193:
+	.long	34736
+	.p2align	2
+.LCPI56_194:
+	.long	1720
 	.p2align	2
 .LCPI56_195:
 	.long	1708
 	.p2align	2
-.LCPI56_198:
-	.long	1610612768
+.LCPI56_196:
+	.long	2147483669
 	.p2align	2
-.LCPI56_199:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.255
-	.p2align	2
-.LCPI56_200:
-	.long	.L_MergedGlobals
-	.p2align	2
-.LCPI56_201:
-	.long	1784
-	.p2align	2
-.LCPI56_202:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.24
-	.p2align	2
-.LCPI56_203:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.148
-	.p2align	2
-.LCPI56_204:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.188
+.LCPI56_197:
+	.long	32767
 	.p2align	1
-.LBB56_1105:
+.LBB56_1077:
+	cmp	r7, #254
+	beq	.LBB56_1084
+	cmp	r7, #255
+	mov	r3, r1
+	ldr	r6, [sp, #288]
+	beq	.LBB56_1086
+	ldr	r0, .LCPI56_242
+	subs	r0, #21
+	str	r0, [sp, #328]
+	lsrs	r0, r7, #8
+	uxtb	r6, r2
+.LBB56_1080:
+	ldr	r1, [sp, #268]
+	str	r5, [sp, #48]
+	ldr	r2, [sp, #216]
+	ldr	r7, [sp, #292]
+	ldr	r3, [sp, #304]
+	b	.LBB56_1052
+.LBB56_1081:
+	ldr	r3, [sp, #196]
+	b	.LBB56_1085
+.LBB56_1082:
+	ldr	r3, [sp, #240]
+	subs	r3, #132
+	b	.LBB56_1085
+.LBB56_1083:
+	ldr	r3, [sp, #308]
+	b	.LBB56_1085
+.LBB56_1084:
+	movs	r3, #127
+	lsls	r3, r3, #9
+.LBB56_1085:
+	ldr	r6, [sp, #288]
+.LBB56_1086:
+	uxth	r0, r0
+	ldr	r5, [sp, #48]
+	orrs	r5, r0
+	str	r5, [sp, #48]
+	ldr	r0, .LCPI56_199
+	ldr	r5, [sp, #40]
+	ands	r5, r0
+	lsrs	r0, r2, #15
+	adds	r5, r5, r0
+	orrs	r5, r3
+	str	r5, [sp, #40]
+	lsrs	r3, r6, #16
+	mov	r0, r6
+	uxtb	r6, r6
+	lsrs	r0, r0, #8
+	uxtb	r0, r0
+	ldr	r2, [sp, #248]
+	str	r2, [sp, #44]
+	ldr	r2, [sp, #216]
+	ldr	r7, [sp, #292]
+	b	.LBB56_1052
+.LBB56_1087:
+	ldr	r5, [sp, #336]
+	bl	.LBB56_327
+.LBB56_1088:
+	movs	r3, #1
+	str	r3, [sp]
+	ldr	r0, .LCPI56_200
+	add	r0, sp
+	movs	r2, #2
+	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECseADBAlPmZ6Z_10simple_dns
+	ldr	r3, [sp, #216]
+	ldr	r2, [r3, #12]
+	ldr	r1, [r3, #20]
+	bl	.LBB56_625
+.LBB56_1089:
+	mov	r4, r3
+	movs	r3, #1
+	str	r3, [sp]
+	ldr	r0, .LCPI56_200
+	add	r0, sp
+	movs	r2, #2
+	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECseADBAlPmZ6Z_10simple_dns
+	ldr	r0, [r4, #16]
+	ldr	r1, [r4, #20]
+	bl	.LBB56_626
+.LBB56_1090:
+	movs	r6, #4
+	ldr	r5, [sp, #328]
+	ldr	r7, [sp, #292]
+	b	.LBB56_1093
+.LBB56_1091:
+	ldr	r0, [sp, #328]
+	adds	r0, r0, #1
+	ldr	r0, [sp, #48]
+	str	r0, [sp, #328]
+	ldr	r4, [sp, #44]
+	mov	r6, r4
+	bne	.LBB56_1098
+	b	.LBB56_1093
+.LBB56_1092:
+	ldr	r5, [r2, #76]
+	ldr	r6, [r2, #80]
+	str	r0, [sp, #328]
+	ldr	r4, [sp, #44]
+.LBB56_1093:
+	ldr	r0, .LCPI56_200
+	add	r0, sp
+	ldrh	r2, [r0, #22]
+	add	r0, sp, #680
+	ldr	r1, .LCPI56_201
+	add	r1, sp
+	bl	_RINvMNtNtCseADBAlPmZ6Z_10simple_dns3dns6packetNtB3_6Packet13parse_sectionNtNtB5_15resource_record14ResourceRecordEB7_
+	ldr	r0, [sp, #680]
+	adds	r0, r0, #1
+	bne	.LBB56_1098
+	str	r6, [sp, #324]
+	ldr	r1, [sp, #692]
+	ldr	r6, [sp, #688]
+	ldr	r7, [sp, #684]
+	ldr	r0, [sp, #216]
+	str	r7, [r0, #44]
+	str	r6, [r0, #48]
+	str	r1, [sp, #348]
+	str	r1, [r0, #52]
+	ldr	r2, [r0, #36]
+	add	r0, sp, #680
+	ldr	r1, .LCPI56_201
+	add	r1, sp
+	bl	_RINvMNtNtCseADBAlPmZ6Z_10simple_dns3dns6packetNtB3_6Packet13parse_sectionNtNtB5_15resource_record14ResourceRecordEB7_
+	ldr	r0, [sp, #680]
+	adds	r0, r0, #1
+	bne	.LBB56_1097
+	str	r7, [sp, #316]
+	str	r6, [sp, #320]
+	str	r4, [sp, #44]
+	ldr	r0, [sp, #692]
+	ldr	r1, [sp, #688]
+	ldr	r2, [sp, #684]
+	ldr	r4, [sp, #216]
+	str	r2, [r4, #76]
+	str	r1, [r4, #80]
+	str	r0, [r4, #84]
+	ldr	r0, .LCPI56_200
+	add	r0, sp
+	ldrh	r2, [r0, #26]
+	add	r0, sp, #680
+	ldr	r1, .LCPI56_201
+	add	r1, sp
+	bl	_RINvMNtNtCseADBAlPmZ6Z_10simple_dns3dns6packetNtB3_6Packet13parse_sectionNtNtB5_15resource_record14ResourceRecordEB7_
+	ldr	r0, [sp, #680]
+	adds	r0, r0, #1
+	beq	.LBB56_1111
+	ldr	r0, .LCPI56_202
+	add	r0, sp
+	bl	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueINtNtCsa0y0V4fwJ9Z_5alloc3vec3VecNtNtNtCseADBAlPmZ6Z_10simple_dns3dns15resource_record14ResourceRecordEEB1e_
+	ldr	r4, [sp, #44]
+.LBB56_1097:
+	ldr	r0, .LCPI56_203
+	add	r0, sp
+	bl	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueINtNtCsa0y0V4fwJ9Z_5alloc3vec3VecNtNtNtCseADBAlPmZ6Z_10simple_dns3dns15resource_record14ResourceRecordEEB1e_
+	ldr	r7, [sp, #292]
+.LBB56_1098:
+	str	r4, [sp, #44]
+	bl	.LBB56_685
+.LBB56_1099:
+	ldr	r0, .LCPI56_204
+	str	r0, [sp]
+	mov	r0, r6
+	mov	r1, r4
+	bl	_RNvCscFQX8RfWnHn_8foldhash15hash_bytes_long
+	mov	r4, r0
+	mov	r5, r1
+	bl	.LBB56_353
+.LBB56_1100:
+	add	r0, sp, #668
+	movs	r1, #4
+	ldr	r2, [sp, #296]
+	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
+	ldr	r1, [sp, #668]
+	ldr	r6, [sp, #672]
+	ldr	r7, [sp, #676]
+	bl	.LBB56_700
+.LBB56_1101:
+	add	r0, sp, #668
+	movs	r2, #11
+	mov	r1, r7
+	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
+	ldr	r6, [sp, #672]
+	ldr	r7, [sp, #676]
+	bl	.LBB56_702
+.LBB56_1102:
+	add	r0, sp, #668
+	movs	r2, #4
+	mov	r1, r7
+	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
+	ldr	r3, [sp, #668]
+	ldr	r7, [sp, #676]
+	bl	.LBB56_703
+.LBB56_1103:
 	add	r0, sp, #668
 	movs	r2, #2
-	mov	r1, r4
 	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
 	ldr	r6, [sp, #672]
 	ldr	r3, [sp, #668]
-	ldr	r4, [sp, #676]
-	bl	.LBB56_808
+	ldr	r1, [sp, #676]
+	bl	.LBB56_704
+.LBB56_1104:
+	add	r0, sp, #668
+	mov	r2, r7
+	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
+	ldr	r3, [sp, #668]
+	ldr	r6, [sp, #672]
+	ldr	r1, [sp, #676]
+	bl	.LBB56_706
+.LBB56_1105:
+	add	r0, sp, #668
+	movs	r2, #2
+	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
+	ldr	r6, [sp, #672]
+	ldr	r1, [sp, #676]
+	bl	.LBB56_708
 .LBB56_1106:
+	add	r0, sp, #668
+	movs	r2, #10
+	mov	r1, r6
+	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
+	ldr	r0, [sp, #668]
+	str	r0, [sp, #356]
+	ldr	r6, [sp, #676]
+	bl	.LBB56_710
+.LBB56_1107:
+	add	r0, sp, #668
+	movs	r2, #2
+	mov	r1, r6
+	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
+	ldr	r7, [sp, #672]
+	ldr	r3, [sp, #668]
+	ldr	r6, [sp, #676]
+	bl	.LBB56_711
+.LBB56_1108:
 	add	r0, sp, #668
 	movs	r2, #4
 	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
 	ldr	r3, [sp, #668]
-	ldr	r6, [sp, #672]
+	ldr	r7, [sp, #672]
 	ldr	r1, [sp, #676]
-	bl	.LBB56_809
-.LBB56_1107:
-	add	r0, sp, #668
-	movs	r2, #2
-	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
-	ldr	r6, [sp, #672]
-	ldr	r1, [sp, #676]
-	bl	.LBB56_810
-.LBB56_1108:
-	add	r0, sp, #668
-	movs	r2, #2
-	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
-	ldr	r1, [sp, #676]
-	bl	.LBB56_811
+	bl	.LBB56_712
 .LBB56_1109:
+	add	r0, sp, #668
+	movs	r2, #2
+	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
+	ldr	r7, [sp, #672]
+	ldr	r1, [sp, #676]
+	bl	.LBB56_713
+.LBB56_1110:
+	add	r0, sp, #668
+	movs	r2, #2
+	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
+	ldr	r1, [sp, #676]
+	bl	.LBB56_714
+.LBB56_1111:
 	ldr	r0, [sp, #692]
 	ldr	r1, [sp, #688]
 	ldr	r2, [sp, #684]
-	ldr	r3, [sp, #148]
+	ldr	r3, [sp, #200]
 	muls	r3, r0, r3
 	adds	r3, r1, r3
-	str	r2, [r7, #56]
-	str	r1, [r7, #60]
-	mov	r2, r7
+	str	r2, [r4, #56]
+	str	r1, [r4, #60]
+	mov	r2, r4
 	adds	r2, #64
 	stm	r2!, {r0, r1, r3}
-	ldr	r0, .LCPI56_246
+	ldr	r0, .LCPI56_205
 	add	r0, sp
 	bl	_RINvXs2J_NtNtCs4L8JVMRpR0y_4core5slice4iterINtB7_4IterNtNtNtCseADBAlPmZ6Z_10simple_dns3dns15resource_record14ResourceRecordENtNtNtNtBb_4iter6traits8iterator8Iterator8positionNCNvMNtBU_6packetNtB2R_6Packet5parse0EBW_
 	cmp	r0, #1
-	bne	.LBB56_1114
+	bne	.LBB56_1116
 	mov	r2, r1
 	add	r0, sp, #680
-	ldr	r1, .LCPI56_242
+	ldr	r1, .LCPI56_206
 	add	r1, sp
 	bl	_RNCNvMNtNtCseADBAlPmZ6Z_10simple_dns3dns6packetNtB4_6Packet5parses_0B8_
-	b	.LBB56_1115
-.LBB56_1111:
-	ldr	r5, [sp, #248]
-	subs	r0, r2, r5
+	b	.LBB56_1117
+.LBB56_1113:
+	ldr	r6, [sp, #252]
+	subs	r0, r2, r6
 	adds	r0, r0, #1
-.LBB56_1112:
-	lsrs	r1, r0, #8
-	str	r1, [sp, #356]
-	uxtb	r6, r0
-	movs	r7, #100
+.LBB56_1114:
+	lsrs	r4, r0, #8
+	uxtb	r5, r0
+	movs	r0, #100
+	str	r0, [sp, #20]
 	ldr	r1, [sp, #360]
-	muls	r1, r7, r1
-	ldr	r0, [sp, #328]
-	ldr	r2, [sp, #272]
+	muls	r1, r0, r1
+	ldr	r0, [sp, #340]
+	ldr	r2, [sp, #276]
 	muls	r2, r0, r2
 	adds	r2, #32
 	uxtb	r0, r2
 	adds	r0, r1, r0
-	ldr	r1, [sp, #244]
+	ldr	r1, [sp, #248]
 	adds	r1, r0, r1
 	add	r0, sp, #612
 	str	r1, [sp, #28]
 	strh	r1, [r0]
-	ldr	r1, [sp, #236]
+	ldr	r1, [sp, #288]
 	str	r1, [sp, #436]
-	ldr	r1, [sp, #284]
+	ldr	r1, [sp, #236]
 	str	r1, [sp, #432]
 	ldr	r1, .LCPI56_207
 	str	r1, [sp, #540]
@@ -33117,44 +33092,45 @@ main:
 	ldr	r1, .LCPI56_210
 	ldr	r2, .LCPI56_211
 	bl	_RNvNtCs4L8JVMRpR0y_4core3fmt5write
-	ldr	r0, [sp, #356]
-	lsls	r0, r0, #8
-	adds	r0, r0, r6
-	ldr	r6, [sp, #348]
-	subs	r1, r6, r4
-	adds	r1, r1, r5
-	adds	r4, r1, r0
+	lsls	r0, r4, #8
+	adds	r0, r0, r5
+	ldr	r1, [sp, #348]
+	subs	r2, r1, r7
+	adds	r2, r2, r6
+	adds	r2, r2, r0
 	add	r0, sp, #680
-	ldr	r1, [sp, #128]
-	cmp	r1, #0
-	bne	.LBB56_1113
-	b	.LBB56_1132
-.LBB56_1113:
-	str	r7, [sp, #16]
-	lsls	r1, r1, #4
-	adds	r5, r0, r1
+	ldr	r3, [sp, #128]
+	cmp	r3, #0
+	bne	.LBB56_1115
+	b	.LBB56_1134
+.LBB56_1115:
+	mov	r6, r1
+	str	r2, [sp, #24]
+	lsls	r1, r3, #4
+	adds	r4, r0, r1
 	movs	r1, #0
-	add	r7, sp, #680
+	add	r5, sp, #680
 	str	r1, [sp, #356]
 	str	r1, [sp, #320]
-	ldr	r3, [sp, #240]
-	b	.LBB56_1143
-.LBB56_1114:
+	ldr	r7, [sp, #292]
+	ldr	r3, [sp, #244]
+	b	.LBB56_1163
+.LBB56_1116:
 	ldr	r0, [sp, #244]
 	str	r0, [sp, #740]
-.LBB56_1115:
-	ldr	r6, [sp, #320]
-	ldr	r4, .LCPI56_212
-	add	r4, sp
+.LBB56_1117:
+	ldr	r6, [sp, #348]
+	ldr	r7, .LCPI56_200
+	add	r7, sp
 	add	r1, sp, #680
-	mov	r0, r4
+	mov	r0, r7
 	bl	_RNvMNtNtCseADBAlPmZ6Z_10simple_dns3dns6headerNtB2_6Header24extract_info_from_opt_rr
 	add	r0, sp, #612
-	ldm	r4!, {r1, r2, r3, r7}
-	stm	r0!, {r1, r2, r3, r7}
-	ldm	r4!, {r1, r2, r3, r7}
-	stm	r0!, {r1, r2, r3, r7}
-	ldr	r3, [sp, #212]
+	ldm	r7!, {r1, r2, r3, r4}
+	stm	r0!, {r1, r2, r3, r4}
+	ldm	r7!, {r1, r2, r3, r4}
+	stm	r0!, {r1, r2, r3, r4}
+	ldr	r3, [sp, #216]
 	mov	r2, r3
 	adds	r2, #76
 	ldm	r2, {r0, r1, r2}
@@ -33168,12 +33144,12 @@ main:
 	str	r1, [sp, #648]
 	str	r2, [sp, #652]
 	adds	r0, r5, #1
-	bne	.LBB56_1116
-	bl	.LBB56_782
-.LBB56_1116:
-	ldr	r0, [sp, #340]
+	bne	.LBB56_1118
+	bl	.LBB56_684
+.LBB56_1118:
+	ldr	r0, [sp, #328]
 	lsrs	r0, r0, #16
-	str	r0, [sp, #320]
+	str	r0, [sp, #348]
 	ldr	r1, [sp, #656]
 	ldr	r2, [sp, #660]
 	ldr	r3, [sp, #664]
@@ -33184,126 +33160,132 @@ main:
 	ldr	r3, [sp, #652]
 	ldr	r0, [sp, #64]
 	stm	r0!, {r1, r2, r3}
-	ldr	r4, [sp, #328]
-	str	r4, [sp, #544]
-	str	r6, [sp, #540]
-	ldr	r0, [sp, #324]
-	str	r0, [sp, #548]
+	ldr	r0, [sp, #320]
+	str	r0, [sp, #544]
+	ldr	r0, [sp, #316]
+	str	r0, [sp, #540]
+	str	r6, [sp, #548]
 	add	r1, sp, #612
 	ldr	r2, [sp, #68]
-	ldm	r1!, {r0, r3, r6, r7}
-	stm	r2!, {r0, r3, r6, r7}
-	ldm	r1!, {r0, r3, r6, r7}
-	stm	r2!, {r0, r3, r6, r7}
-	ldr	r0, [sp, #340]
+	ldm	r1!, {r0, r3, r4, r7}
+	stm	r2!, {r0, r3, r4, r7}
+	ldm	r1!, {r0, r3, r4, r7}
+	stm	r2!, {r0, r3, r4, r7}
+	ldr	r0, [sp, #328]
 	uxth	r0, r0
-	ldr	r1, [sp, #320]
+	ldr	r1, [sp, #348]
 	lsls	r1, r1, #16
 	adds	r0, r1, r0
-	ldr	r1, [sp, #324]
 	str	r0, [sp, #536]
-	ldr	r0, [sp, #352]
+	ldr	r0, [sp, #324]
 	str	r0, [sp, #532]
 	str	r5, [sp, #528]
-	cmp	r1, #0
+	cmp	r6, #0
 	ldr	r7, [sp, #292]
-	beq	.LBB56_1126
-	mov	r6, r4
+	beq	.LBB56_1128
 	mov	r0, r7
 	adds	r0, #176
-	muls	r0, r1, r0
+	muls	r0, r6, r0
 	mov	r1, r0
 	adds	r1, #80
 	movs	r2, #0
-.LBB56_1118:
-	ldr	r3, [r6, r2]
-	ldr	r4, .LCPI56_213
+.LBB56_1120:
+	ldr	r3, [sp, #320]
+	ldr	r3, [r3, r2]
+	ldr	r4, .LCPI56_198
 	subs	r4, #21
 	cmp	r3, r4
-	beq	.LBB56_1134
+	beq	.LBB56_1136
 	adds	r5, r1, r2
-	beq	.LBB56_1126
-	adds	r3, r6, r2
+	beq	.LBB56_1128
+	ldr	r3, [sp, #320]
+	adds	r3, r3, r2
 	ldr	r6, [r3, #80]
 	cmp	r6, r4
-	beq	.LBB56_1135
+	beq	.LBB56_1137
 	adds	r6, r0, r2
 	adds	r6, #160
-	beq	.LBB56_1126
+	beq	.LBB56_1128
 	mov	r6, r3
 	adds	r6, #160
 	ldr	r7, [r6]
 	cmp	r7, r4
-	beq	.LBB56_1136
+	beq	.LBB56_1139
 	adds	r5, #160
 	ldr	r7, [sp, #292]
-	ldr	r6, [sp, #328]
-	beq	.LBB56_1126
+	beq	.LBB56_1128
 	adds	r3, #240
 	ldr	r5, [r3]
 	cmp	r5, r4
-	beq	.LBB56_1137
+	beq	.LBB56_1140
 	ldr	r3, [sp, #344]
 	adds	r2, r3, r2
 	adds	r2, #64
 	adds	r3, r0, r2
-	bne	.LBB56_1118
-.LBB56_1126:
+	bne	.LBB56_1120
+.LBB56_1128:
 	add	r0, sp, #528
 	bl	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNtNtNtCseADBAlPmZ6Z_10simple_dns3dns6packet6PacketECs9Yr4AUe4qI0_9netclient
 	add	r0, sp, #512
 	ldrh	r0, [r0]
-.LBB56_1127:
+.LBB56_1129:
 	ldr	r1, [r7, #64]
 	cmp	r1, #0
-	bmi	.LBB56_1131
+	bmi	.LBB56_1133
 	ldr	r1, [r7, #64]
 	cmp	r1, #0
-	bmi	.LBB56_1131
+	bmi	.LBB56_1133
 	ldr	r1, [r7, #64]
 	cmp	r1, #0
-	bmi	.LBB56_1131
+	bmi	.LBB56_1133
 	ldr	r1, [r7, #64]
 	cmp	r1, #0
-	bpl	.LBB56_1127
-.LBB56_1131:
+	bpl	.LBB56_1129
+.LBB56_1133:
 	movs	r1, #4
 	str	r1, [r7, #8]
 	uxtb	r1, r0
 	str	r1, [r7, #8]
 	lsrs	r0, r0, #8
 	str	r0, [r7, #8]
-	movs	r7, #13
-	ldr	r5, .LCPI56_214
-	bl	.LBB56_337
-.LBB56_1132:
-	cmp	r6, r4
-	ldr	r3, [sp, #240]
-	bhs	.LBB56_1133
-	bl	.LBB56_1602
-.LBB56_1133:
-	ldr	r0, [sp, #352]
-	adds	r7, r0, r4
-	subs	r5, r6, r4
-	ldr	r2, [sp, #284]
-	ldr	r4, [sp, #28]
-	bl	.LBB56_1567
+	movs	r6, #13
+	ldr	r5, .LCPI56_212
+	bl	.LBB56_423
 .LBB56_1134:
-	adds	r3, r6, r2
-	b	.LBB56_1137
+	cmp	r1, r2
+	ldr	r7, [sp, #292]
+	ldr	r3, [sp, #244]
+	bhs	.LBB56_1135
+	bl	.LBB56_1607
 .LBB56_1135:
-	adds	r3, #80
-	b	.LBB56_1137
+	ldr	r0, [sp, #352]
+	adds	r6, r0, r2
+	subs	r5, r1, r2
+	ldr	r4, [sp, #312]
+	ldr	r2, [sp, #28]
+	bl	.LBB56_1572
 .LBB56_1136:
-	mov	r3, r6
+	ldr	r0, [sp, #320]
+	adds	r3, r0, r2
+	b	.LBB56_1140
 .LBB56_1137:
+	adds	r3, #80
+	b	.LBB56_1140
+	.p2align	2
+.LCPI56_242:
+	.long	2147483669
+	.p2align	1
+.LBB56_1139:
+	mov	r3, r6
+	ldr	r7, [sp, #292]
+.LBB56_1140:
 	ldr	r0, [r3, #4]
-	rev	r7, r0
-	ldr	r0, [sp, #212]
-	str	r7, [r0, #12]
-	ldr	r0, .LCPI56_215
+	rev	r6, r0
+	ldr	r0, [sp, #216]
+	str	r6, [r0, #12]
+	ldr	r0, .LCPI56_213
 	str	r0, [sp, #692]
-	ldr	r0, .LCPI56_212
+	ldr	r0, .LCPI56_200
 	add	r0, sp
 	str	r0, [sp, #688]
 	ldr	r0, .LCPI56_207
@@ -33313,355 +33295,50 @@ main:
 	add	r3, sp, #680
 	ldr	r0, .LCPI56_209
 	ldr	r1, .LCPI56_210
-	ldr	r2, .LCPI56_216
+	ldr	r2, .LCPI56_214
 	bl	_RNvNtCs4L8JVMRpR0y_4core3fmt5write
 	add	r0, sp, #528
 	bl	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNtNtNtCseADBAlPmZ6Z_10simple_dns3dns6packet6PacketECs9Yr4AUe4qI0_9netclient
 	movs	r4, #0
 	mov	r5, r4
-	bl	.LBB56_783
-.LBB56_1138:
+	bl	.LBB56_686
+.LBB56_1141:
 	ldrb	r0, [r0]
 	cmp	r0, #10
-	beq	.LBB56_1139
-	bl	.LBB56_1596
-.LBB56_1139:
-	ldr	r5, [sp, #248]
-	subs	r0, r2, r5
-	adds	r0, r0, #2
-	b	.LBB56_1112
-.LBB56_1140:
-.LBB56_1141:
-	ldr	r6, [sp, #348]
-	ldr	r3, [sp, #240]
+	beq	.LBB56_1142
+	bl	.LBB56_1601
 .LBB56_1142:
-	adds	r7, #16
-	cmp	r7, r5
-	bne	.LBB56_1143
-	b	.LBB56_1319
-.LBB56_1143:
-	ldm	r7!, {r0, r1}
-	subs	r7, #8
-	cmp	r1, #14
-	beq	.LBB56_1150
-	cmp	r1, #17
-	bne	.LBB56_1142
-	ldrb	r1, [r0]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	ldr	r2, [sp, #232]
-	blo	.LBB56_1147
-	movs	r2, #0
-.LBB56_1147:
-	orrs	r2, r1
-	cmp	r2, #116
-	bne	.LBB56_1142
-	ldrb	r1, [r0, #1]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1156
-	movs	r2, #0
-	b	.LBB56_1157
-.LBB56_1150:
-	ldrb	r1, [r0]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1152
-	movs	r2, #0
-	b	.LBB56_1153
-.LBB56_1152:
-	movs	r2, #32
-.LBB56_1153:
-	orrs	r2, r1
-	cmp	r2, #99
-	bne	.LBB56_1142
-	ldrb	r1, [r0, #1]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1160
-	movs	r2, #0
-	b	.LBB56_1161
-.LBB56_1156:
-	movs	r2, #32
-.LBB56_1157:
-	orrs	r2, r1
-	cmp	r2, #114
-	bne	.LBB56_1142
-	ldrb	r1, [r0, #2]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1164
-	movs	r2, #0
-	b	.LBB56_1165
-.LBB56_1160:
-	movs	r2, #32
-.LBB56_1161:
-	orrs	r2, r1
-	cmp	r2, #111
-	bne	.LBB56_1142
-	ldrb	r1, [r0, #2]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1168
-	movs	r2, #0
-	b	.LBB56_1169
-.LBB56_1164:
-	movs	r2, #32
-.LBB56_1165:
-	orrs	r2, r1
-	cmp	r2, #97
-	bne	.LBB56_1142
-	ldrb	r1, [r0, #3]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1172
-	movs	r2, #0
-	b	.LBB56_1173
-.LBB56_1168:
-	movs	r2, #32
-.LBB56_1169:
-	orrs	r2, r1
-	cmp	r2, #110
-	bne	.LBB56_1142
-	ldrb	r1, [r0, #3]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1176
-	movs	r2, #0
-	b	.LBB56_1177
-.LBB56_1172:
-	movs	r2, #32
-.LBB56_1173:
-	orrs	r2, r1
-	cmp	r2, #110
-	bne	.LBB56_1142
-	ldrb	r1, [r0, #4]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1180
-	movs	r2, #0
-	b	.LBB56_1181
-.LBB56_1176:
-	movs	r2, #32
-.LBB56_1177:
-	orrs	r2, r1
-	cmp	r2, #116
-	bne	.LBB56_1142
-	ldrb	r1, [r0, #4]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1184
-	movs	r2, #0
-	b	.LBB56_1185
-.LBB56_1180:
-	movs	r2, #32
-.LBB56_1181:
-	orrs	r2, r1
-	cmp	r2, #115
-	bne	.LBB56_1142
-	ldrb	r1, [r0, #5]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1188
-	movs	r2, #0
-	b	.LBB56_1189
-.LBB56_1184:
-	movs	r2, #32
-.LBB56_1185:
-	orrs	r2, r1
-	cmp	r2, #101
-	bne	.LBB56_1142
-	ldrb	r1, [r0, #5]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1192
-	movs	r2, #0
-	b	.LBB56_1193
-.LBB56_1188:
-	movs	r2, #32
-.LBB56_1189:
-	orrs	r2, r1
-	cmp	r2, #102
-	beq	.LBB56_1190
-	b	.LBB56_1141
-.LBB56_1190:
-	ldrb	r1, [r0, #6]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1196
-	movs	r2, #0
-	b	.LBB56_1197
-.LBB56_1192:
-	movs	r2, #32
-.LBB56_1193:
-	orrs	r2, r1
-	cmp	r2, #110
-	beq	.LBB56_1194
-	b	.LBB56_1141
-.LBB56_1194:
-	ldrb	r1, [r0, #6]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1200
-	movs	r2, #0
-	b	.LBB56_1201
-.LBB56_1196:
-	movs	r2, #32
-.LBB56_1197:
-	orrs	r2, r1
-	cmp	r2, #101
-	beq	.LBB56_1198
-	b	.LBB56_1141
-.LBB56_1198:
-	ldrb	r1, [r0, #7]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1204
-	movs	r2, #0
-	b	.LBB56_1205
-.LBB56_1200:
-	movs	r2, #32
-.LBB56_1201:
-	orrs	r2, r1
-	cmp	r2, #116
-	beq	.LBB56_1202
-	b	.LBB56_1141
-.LBB56_1202:
-	ldrb	r1, [r0, #7]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1208
-	movs	r2, #0
-	b	.LBB56_1209
-.LBB56_1204:
-	movs	r2, #32
-.LBB56_1205:
-	orrs	r2, r1
-	cmp	r2, #114
-	beq	.LBB56_1206
-	b	.LBB56_1141
-.LBB56_1206:
-	ldrb	r1, [r0, #8]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1212
-	movs	r2, #0
-	b	.LBB56_1213
-.LBB56_1208:
-	movs	r2, #32
-.LBB56_1209:
-	orrs	r2, r1
-	cmp	r2, #45
-	beq	.LBB56_1210
-	b	.LBB56_1141
-.LBB56_1210:
-	ldrb	r1, [r0, #8]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1216
-	movs	r2, #0
-	b	.LBB56_1217
-.LBB56_1212:
-	movs	r2, #32
-.LBB56_1213:
-	orrs	r2, r1
-	cmp	r2, #45
-	beq	.LBB56_1214
-	b	.LBB56_1141
-.LBB56_1214:
-	ldrb	r1, [r0, #9]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1220
-	movs	r2, #0
-	b	.LBB56_1221
-.LBB56_1216:
-	movs	r2, #32
-.LBB56_1217:
-	orrs	r2, r1
-	cmp	r2, #108
-	beq	.LBB56_1218
-	b	.LBB56_1141
-.LBB56_1218:
-	ldrb	r1, [r0, #9]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1225
-	movs	r2, #0
-	b	.LBB56_1226
-.LBB56_1220:
-	movs	r2, #32
-.LBB56_1221:
-	orrs	r2, r1
-	cmp	r2, #101
-	beq	.LBB56_1222
-	b	.LBB56_1141
-.LBB56_1222:
-	ldrb	r1, [r0, #10]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1231
-	movs	r2, #0
-	b	.LBB56_1232
+	ldr	r6, [sp, #252]
+	subs	r0, r2, r6
+	adds	r0, r0, #2
+	b	.LBB56_1114
 	.p2align	2
-.LCPI56_246:
+.LCPI56_198:
+	.long	2147483669
+	.p2align	2
+.LCPI56_199:
+	.long	4294901760
+	.p2align	2
+.LCPI56_200:
+	.long	1720
+	.p2align	2
+.LCPI56_201:
+	.long	1708
+	.p2align	2
+.LCPI56_202:
+	.long	1784
+	.p2align	2
+.LCPI56_203:
+	.long	1752
+	.p2align	2
+.LCPI56_204:
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.188
+	.p2align	2
+.LCPI56_205:
 	.long	1776
-	.p2align	1
-.LBB56_1225:
-	movs	r2, #32
-.LBB56_1226:
-	orrs	r2, r1
-	cmp	r2, #101
-	beq	.LBB56_1227
-	b	.LBB56_1141
-.LBB56_1227:
-	ldrb	r1, [r0, #10]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1247
-	movs	r2, #0
-	b	.LBB56_1248
 	.p2align	2
-.LCPI56_242:
+.LCPI56_206:
 	.long	1764
-	.p2align	1
-.LBB56_1231:
-	movs	r2, #32
-.LBB56_1232:
-	orrs	r2, r1
-	cmp	r2, #110
-	beq	.LBB56_1233
-	b	.LBB56_1141
-.LBB56_1233:
-	ldrb	r1, [r0, #11]
-	mov	r2, r1
-	subs	r2, #65
-	cmp	r2, #26
-	blo	.LBB56_1251
-	movs	r2, #0
-	b	.LBB56_1252
 	.p2align	2
 .LCPI56_207:
 	.long	_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtB8_
@@ -33679,296 +33356,606 @@ main:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.13
 	.p2align	2
 .LCPI56_212:
-	.long	1720
-	.p2align	2
-.LCPI56_213:
-	.long	2147483669
-	.p2align	2
-.LCPI56_214:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.40
 	.p2align	2
-.LCPI56_215:
+.LCPI56_213:
 	.long	_RNvXs6_NtNtCs4L8JVMRpR0y_4core3net7ip_addrNtB5_8Ipv4AddrNtNtB9_3fmt7Display3fmt
 	.p2align	2
-.LCPI56_216:
+.LCPI56_214:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.39
 	.p2align	1
-.LBB56_1247:
+.LBB56_1160:
+.LBB56_1161:
+	ldr	r7, [sp, #292]
+	ldr	r6, [sp, #348]
+	ldr	r3, [sp, #244]
+.LBB56_1162:
+	adds	r5, #16
+	cmp	r5, r4
+	bne	.LBB56_1163
+	b	.LBB56_1324
+.LBB56_1163:
+	ldm	r5!, {r0, r1}
+	subs	r5, #8
+	cmp	r1, #14
+	beq	.LBB56_1170
+	cmp	r1, #17
+	bne	.LBB56_1162
+	ldrb	r1, [r0]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	ldr	r2, [sp, #232]
+	blo	.LBB56_1167
+	movs	r2, #0
+.LBB56_1167:
+	orrs	r2, r1
+	cmp	r2, #116
+	bne	.LBB56_1162
+	ldrb	r1, [r0, #1]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1176
+	movs	r2, #0
+	b	.LBB56_1177
+.LBB56_1170:
+	ldrb	r1, [r0]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1172
+	movs	r2, #0
+	b	.LBB56_1173
+.LBB56_1172:
 	movs	r2, #32
-.LBB56_1248:
+.LBB56_1173:
+	orrs	r2, r1
+	cmp	r2, #99
+	bne	.LBB56_1162
+	ldrb	r1, [r0, #1]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1180
+	movs	r2, #0
+	b	.LBB56_1181
+.LBB56_1176:
+	movs	r2, #32
+.LBB56_1177:
+	orrs	r2, r1
+	cmp	r2, #114
+	bne	.LBB56_1162
+	ldrb	r1, [r0, #2]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1184
+	movs	r2, #0
+	b	.LBB56_1185
+.LBB56_1180:
+	movs	r2, #32
+.LBB56_1181:
+	orrs	r2, r1
+	cmp	r2, #111
+	bne	.LBB56_1162
+	ldrb	r1, [r0, #2]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1188
+	movs	r2, #0
+	b	.LBB56_1189
+.LBB56_1184:
+	movs	r2, #32
+.LBB56_1185:
+	orrs	r2, r1
+	cmp	r2, #97
+	bne	.LBB56_1162
+	ldrb	r1, [r0, #3]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1192
+	movs	r2, #0
+	b	.LBB56_1193
+.LBB56_1188:
+	movs	r2, #32
+.LBB56_1189:
 	orrs	r2, r1
 	cmp	r2, #110
-	beq	.LBB56_1249
-	b	.LBB56_1141
+	bne	.LBB56_1162
+	ldrb	r1, [r0, #3]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1196
+	movs	r2, #0
+	b	.LBB56_1197
+.LBB56_1192:
+	movs	r2, #32
+.LBB56_1193:
+	orrs	r2, r1
+	cmp	r2, #110
+	bne	.LBB56_1162
+	ldrb	r1, [r0, #4]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1200
+	movs	r2, #0
+	b	.LBB56_1201
+.LBB56_1196:
+	movs	r2, #32
+.LBB56_1197:
+	orrs	r2, r1
+	cmp	r2, #116
+	bne	.LBB56_1162
+	ldrb	r1, [r0, #4]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1204
+	movs	r2, #0
+	b	.LBB56_1205
+.LBB56_1200:
+	movs	r2, #32
+.LBB56_1201:
+	orrs	r2, r1
+	cmp	r2, #115
+	bne	.LBB56_1162
+	ldrb	r1, [r0, #5]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1208
+	movs	r2, #0
+	b	.LBB56_1209
+.LBB56_1204:
+	movs	r2, #32
+.LBB56_1205:
+	orrs	r2, r1
+	cmp	r2, #101
+	bne	.LBB56_1162
+	ldrb	r1, [r0, #5]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1212
+	movs	r2, #0
+	b	.LBB56_1213
+.LBB56_1208:
+	movs	r2, #32
+.LBB56_1209:
+	orrs	r2, r1
+	cmp	r2, #102
+	beq	.LBB56_1210
+	b	.LBB56_1161
+.LBB56_1210:
+	ldrb	r1, [r0, #6]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1216
+	movs	r2, #0
+	b	.LBB56_1217
+.LBB56_1212:
+	movs	r2, #32
+.LBB56_1213:
+	orrs	r2, r1
+	cmp	r2, #110
+	beq	.LBB56_1214
+	b	.LBB56_1161
+.LBB56_1214:
+	ldrb	r1, [r0, #6]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1220
+	movs	r2, #0
+	b	.LBB56_1221
+.LBB56_1216:
+	movs	r2, #32
+.LBB56_1217:
+	orrs	r2, r1
+	cmp	r2, #101
+	beq	.LBB56_1218
+	b	.LBB56_1161
+.LBB56_1218:
+	ldrb	r1, [r0, #7]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1224
+	movs	r2, #0
+	b	.LBB56_1225
+.LBB56_1220:
+	movs	r2, #32
+.LBB56_1221:
+	orrs	r2, r1
+	cmp	r2, #116
+	beq	.LBB56_1222
+	b	.LBB56_1161
+.LBB56_1222:
+	ldrb	r1, [r0, #7]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1228
+	movs	r2, #0
+	b	.LBB56_1229
+.LBB56_1224:
+	movs	r2, #32
+.LBB56_1225:
+	orrs	r2, r1
+	cmp	r2, #114
+	beq	.LBB56_1226
+	b	.LBB56_1161
+.LBB56_1226:
+	ldrb	r1, [r0, #8]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1232
+	movs	r2, #0
+	b	.LBB56_1233
+.LBB56_1228:
+	movs	r2, #32
+.LBB56_1229:
+	orrs	r2, r1
+	cmp	r2, #45
+	beq	.LBB56_1230
+	b	.LBB56_1161
+.LBB56_1230:
+	ldrb	r1, [r0, #8]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1236
+	movs	r2, #0
+	b	.LBB56_1237
+.LBB56_1232:
+	movs	r2, #32
+.LBB56_1233:
+	orrs	r2, r1
+	cmp	r2, #45
+	beq	.LBB56_1234
+	b	.LBB56_1161
+.LBB56_1234:
+	ldrb	r1, [r0, #9]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1240
+	movs	r2, #0
+	b	.LBB56_1241
+.LBB56_1236:
+	movs	r2, #32
+.LBB56_1237:
+	orrs	r2, r1
+	cmp	r2, #108
+	beq	.LBB56_1238
+	b	.LBB56_1161
+.LBB56_1238:
+	ldrb	r1, [r0, #9]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1244
+	movs	r2, #0
+	b	.LBB56_1245
+.LBB56_1240:
+	movs	r2, #32
+.LBB56_1241:
+	orrs	r2, r1
+	cmp	r2, #101
+	beq	.LBB56_1242
+	b	.LBB56_1161
+.LBB56_1242:
+	ldrb	r1, [r0, #10]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1248
+	movs	r2, #0
+	b	.LBB56_1249
+.LBB56_1244:
+	movs	r2, #32
+.LBB56_1245:
+	orrs	r2, r1
+	cmp	r2, #101
+	beq	.LBB56_1246
+	b	.LBB56_1161
+.LBB56_1246:
+	ldrb	r1, [r0, #10]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1252
+	movs	r2, #0
+	b	.LBB56_1253
+.LBB56_1248:
+	movs	r2, #32
 .LBB56_1249:
+	orrs	r2, r1
+	cmp	r2, #110
+	beq	.LBB56_1250
+	b	.LBB56_1161
+.LBB56_1250:
 	ldrb	r1, [r0, #11]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB56_1255
+	blo	.LBB56_1256
 	movs	r2, #0
-	b	.LBB56_1256
-.LBB56_1251:
-	movs	r2, #32
+	b	.LBB56_1257
 .LBB56_1252:
+	movs	r2, #32
+.LBB56_1253:
+	orrs	r2, r1
+	cmp	r2, #110
+	beq	.LBB56_1254
+	b	.LBB56_1161
+.LBB56_1254:
+	ldrb	r1, [r0, #11]
+	mov	r2, r1
+	subs	r2, #65
+	cmp	r2, #26
+	blo	.LBB56_1260
+	movs	r2, #0
+	b	.LBB56_1261
+.LBB56_1256:
+	movs	r2, #32
+.LBB56_1257:
 	orrs	r2, r1
 	cmp	r2, #99
-	beq	.LBB56_1253
-	b	.LBB56_1141
-.LBB56_1253:
+	beq	.LBB56_1258
+	b	.LBB56_1161
+.LBB56_1258:
 	ldrb	r1, [r0, #12]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB56_1259
+	blo	.LBB56_1264
 	movs	r2, #0
-	b	.LBB56_1260
-.LBB56_1255:
+	b	.LBB56_1265
+.LBB56_1260:
 	movs	r2, #32
-.LBB56_1256:
+.LBB56_1261:
 	orrs	r2, r1
 	cmp	r2, #103
-	beq	.LBB56_1257
-	b	.LBB56_1141
-.LBB56_1257:
+	beq	.LBB56_1262
+	b	.LBB56_1161
+.LBB56_1262:
 	ldrb	r1, [r0, #12]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB56_1263
+	blo	.LBB56_1268
 	movs	r2, #0
-	b	.LBB56_1264
-.LBB56_1259:
+	b	.LBB56_1269
+.LBB56_1264:
 	movs	r2, #32
-.LBB56_1260:
+.LBB56_1265:
 	orrs	r2, r1
 	cmp	r2, #111
-	beq	.LBB56_1261
-	b	.LBB56_1141
-.LBB56_1261:
+	beq	.LBB56_1266
+	b	.LBB56_1161
+.LBB56_1266:
 	ldrb	r1, [r0, #13]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB56_1267
+	blo	.LBB56_1272
 	movs	r2, #0
-	b	.LBB56_1268
-.LBB56_1263:
+	b	.LBB56_1273
+.LBB56_1268:
 	movs	r2, #32
-.LBB56_1264:
+.LBB56_1269:
 	orrs	r2, r1
 	cmp	r2, #116
-	beq	.LBB56_1265
-	b	.LBB56_1141
-.LBB56_1265:
+	beq	.LBB56_1270
+	b	.LBB56_1161
+.LBB56_1270:
 	ldrb	r0, [r0, #13]
 	mov	r1, r0
 	subs	r1, #65
 	cmp	r1, #26
-	blo	.LBB56_1271
+	blo	.LBB56_1276
 	movs	r1, #0
-	b	.LBB56_1272
-.LBB56_1267:
+	b	.LBB56_1277
+.LBB56_1272:
 	movs	r2, #32
-.LBB56_1268:
+.LBB56_1273:
 	orrs	r2, r1
 	cmp	r2, #100
-	beq	.LBB56_1269
-	b	.LBB56_1141
-.LBB56_1269:
+	beq	.LBB56_1274
+	b	.LBB56_1161
+.LBB56_1274:
 	ldrb	r1, [r0, #14]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB56_1277
+	blo	.LBB56_1282
 	movs	r2, #0
-	b	.LBB56_1278
-.LBB56_1271:
+	b	.LBB56_1283
+.LBB56_1276:
 	movs	r1, #32
-.LBB56_1272:
+.LBB56_1277:
 	orrs	r1, r0
 	cmp	r1, #104
-	beq	.LBB56_1273
-	b	.LBB56_1141
-.LBB56_1273:
-	ldr	r0, [r7, #12]
+	beq	.LBB56_1278
+	b	.LBB56_1161
+.LBB56_1278:
+	ldr	r0, [r5, #12]
 	movs	r1, #0
 	str	r1, [sp, #356]
 	cmp	r0, #0
-	bne	.LBB56_1274
-	b	.LBB56_1140
-.LBB56_1274:
-	ldr	r1, [r7, #8]
+	bne	.LBB56_1279
+	b	.LBB56_1160
+.LBB56_1279:
+	ldr	r1, [r5, #8]
 	cmp	r0, #1
-	bne	.LBB56_1281
+	bne	.LBB56_1286
 	ldrb	r2, [r1]
 	cmp	r2, #43
-	bne	.LBB56_1276
-	b	.LBB56_1140
-.LBB56_1276:
+	bne	.LBB56_1281
+	b	.LBB56_1160
+.LBB56_1281:
 	cmp	r2, #45
-	bne	.LBB56_1282
-	b	.LBB56_1140
-.LBB56_1277:
+	bne	.LBB56_1287
+	b	.LBB56_1160
+.LBB56_1282:
 	movs	r2, #32
-.LBB56_1278:
+.LBB56_1283:
 	orrs	r2, r1
 	cmp	r2, #105
-	beq	.LBB56_1279
-	b	.LBB56_1141
-.LBB56_1279:
+	beq	.LBB56_1284
+	b	.LBB56_1161
+.LBB56_1284:
 	ldrb	r1, [r0, #15]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	bhs	.LBB56_1280
-	b	.LBB56_1310
-.LBB56_1280:
-	movs	r2, #0
-	b	.LBB56_1311
-.LBB56_1281:
-	ldrb	r2, [r1]
-.LBB56_1282:
-	subs	r6, r0, #1
-	adds	r3, r1, #1
-	str	r3, [sp, #276]
-	cmp	r2, #43
-	beq	.LBB56_1302
-	str	r1, [sp, #276]
-	bne	.LBB56_1303
-.LBB56_1284:
-	cmp	r6, #9
-	bhs	.LBB56_1304
+	bhs	.LBB56_1285
+	b	.LBB56_1315
 .LBB56_1285:
-	cmp	r6, #0
-	bne	.LBB56_1286
-	b	.LBB56_1317
+	movs	r2, #0
+	b	.LBB56_1316
 .LBB56_1286:
-	ldr	r0, [sp, #276]
-	ldrb	r0, [r0]
+	ldrb	r2, [r1]
+.LBB56_1287:
+	subs	r7, r0, #1
+	adds	r6, r1, #1
+	cmp	r2, #43
+	beq	.LBB56_1307
+	mov	r6, r1
+	bne	.LBB56_1308
+.LBB56_1289:
+	cmp	r7, #9
+	bhs	.LBB56_1309
+.LBB56_1290:
+	cmp	r7, #0
+	bne	.LBB56_1291
+	b	.LBB56_1322
+.LBB56_1291:
+	ldrb	r0, [r6]
 	subs	r0, #48
 	movs	r1, #0
 	str	r1, [sp, #356]
 	str	r0, [sp, #360]
 	cmp	r0, #9
-	bls	.LBB56_1287
-	b	.LBB56_1140
-.LBB56_1287:
-	cmp	r6, #1
-	bne	.LBB56_1288
-	b	.LBB56_1318
-.LBB56_1288:
-	ldr	r0, [sp, #276]
-	ldrb	r0, [r0, #1]
-	subs	r0, #48
-	cmp	r0, #9
-	bls	.LBB56_1289
-	b	.LBB56_1140
-.LBB56_1289:
-	ldr	r1, [sp, #328]
-	ldr	r2, [sp, #360]
-	muls	r2, r1, r2
-	adds	r2, r0, r2
-	str	r2, [sp, #360]
-	cmp	r6, #2
-	bne	.LBB56_1290
-	b	.LBB56_1318
-.LBB56_1290:
-	ldr	r0, [sp, #276]
-	ldrb	r0, [r0, #2]
-	subs	r0, #48
-	cmp	r0, #9
-	bls	.LBB56_1291
-	b	.LBB56_1140
-.LBB56_1291:
-	ldr	r1, [sp, #328]
-	ldr	r2, [sp, #360]
-	muls	r2, r1, r2
-	adds	r2, r0, r2
-	str	r2, [sp, #360]
-	cmp	r6, #3
-	beq	.LBB56_1318
-	ldr	r0, [sp, #276]
-	ldrb	r0, [r0, #3]
-	subs	r0, #48
-	cmp	r0, #9
-	bls	.LBB56_1293
-	b	.LBB56_1140
+	bls	.LBB56_1292
+	b	.LBB56_1160
+.LBB56_1292:
+	cmp	r7, #1
+	bne	.LBB56_1293
+	b	.LBB56_1323
 .LBB56_1293:
-	ldr	r1, [sp, #328]
+	ldrb	r0, [r6, #1]
+	subs	r0, #48
+	cmp	r0, #9
+	bls	.LBB56_1294
+	b	.LBB56_1160
+.LBB56_1294:
+	ldr	r1, [sp, #340]
 	ldr	r2, [sp, #360]
 	muls	r2, r1, r2
 	adds	r2, r0, r2
 	str	r2, [sp, #360]
-	cmp	r6, #4
-	beq	.LBB56_1318
-	ldr	r0, [sp, #276]
-	ldrb	r0, [r0, #4]
-	subs	r0, #48
-	cmp	r0, #9
-	bls	.LBB56_1295
-	b	.LBB56_1140
+	cmp	r7, #2
+	bne	.LBB56_1295
+	b	.LBB56_1323
 .LBB56_1295:
-	ldr	r1, [sp, #328]
-	ldr	r2, [sp, #360]
-	muls	r2, r1, r2
-	adds	r2, r0, r2
-	str	r2, [sp, #360]
-	cmp	r6, #5
-	beq	.LBB56_1318
-	ldr	r0, [sp, #276]
-	ldrb	r0, [r0, #5]
+	ldrb	r0, [r6, #2]
 	subs	r0, #48
 	cmp	r0, #9
-	bls	.LBB56_1297
-	b	.LBB56_1140
-.LBB56_1297:
-	ldr	r1, [sp, #328]
+	bls	.LBB56_1296
+	b	.LBB56_1160
+.LBB56_1296:
+	ldr	r1, [sp, #340]
 	ldr	r2, [sp, #360]
 	muls	r2, r1, r2
 	adds	r2, r0, r2
 	str	r2, [sp, #360]
-	cmp	r6, #6
-	beq	.LBB56_1318
-	ldr	r0, [sp, #276]
-	ldrb	r0, [r0, #6]
+	cmp	r7, #3
+	beq	.LBB56_1323
+	ldrb	r0, [r6, #3]
 	subs	r0, #48
 	cmp	r0, #9
-	bls	.LBB56_1299
-	b	.LBB56_1140
-.LBB56_1299:
-	ldr	r1, [sp, #328]
+	bls	.LBB56_1298
+	b	.LBB56_1160
+.LBB56_1298:
+	ldr	r1, [sp, #340]
 	ldr	r2, [sp, #360]
 	muls	r2, r1, r2
 	adds	r2, r0, r2
 	str	r2, [sp, #360]
-	cmp	r6, #7
-	beq	.LBB56_1318
-	ldr	r0, [sp, #276]
-	ldrb	r0, [r0, #7]
+	cmp	r7, #4
+	beq	.LBB56_1323
+	ldrb	r0, [r6, #4]
 	subs	r0, #48
 	cmp	r0, #9
-	bls	.LBB56_1301
-	b	.LBB56_1140
-.LBB56_1301:
-	ldr	r1, [sp, #328]
+	bls	.LBB56_1300
+	b	.LBB56_1160
+.LBB56_1300:
+	ldr	r1, [sp, #340]
 	ldr	r2, [sp, #360]
 	muls	r2, r1, r2
 	adds	r2, r0, r2
 	str	r2, [sp, #360]
-	b	.LBB56_1318
+	cmp	r7, #5
+	beq	.LBB56_1323
+	ldrb	r0, [r6, #5]
+	subs	r0, #48
+	cmp	r0, #9
+	bls	.LBB56_1302
+	b	.LBB56_1160
 .LBB56_1302:
-	beq	.LBB56_1284
-.LBB56_1303:
-	mov	r6, r0
-	cmp	r6, #9
-	blo	.LBB56_1285
+	ldr	r1, [sp, #340]
+	ldr	r2, [sp, #360]
+	muls	r2, r1, r2
+	adds	r2, r0, r2
+	str	r2, [sp, #360]
+	cmp	r7, #6
+	beq	.LBB56_1323
+	ldrb	r0, [r6, #6]
+	subs	r0, #48
+	cmp	r0, #9
+	bls	.LBB56_1304
+	b	.LBB56_1160
 .LBB56_1304:
+	ldr	r1, [sp, #340]
+	ldr	r2, [sp, #360]
+	muls	r2, r1, r2
+	adds	r2, r0, r2
+	str	r2, [sp, #360]
+	cmp	r7, #7
+	beq	.LBB56_1323
+	ldrb	r0, [r6, #7]
+	subs	r0, #48
+	cmp	r0, #9
+	bls	.LBB56_1306
+	b	.LBB56_1160
+.LBB56_1306:
+	ldr	r1, [sp, #340]
+	ldr	r2, [sp, #360]
+	muls	r2, r1, r2
+	adds	r2, r0, r2
+	str	r2, [sp, #360]
+	b	.LBB56_1323
+.LBB56_1307:
+	beq	.LBB56_1289
+.LBB56_1308:
+	mov	r7, r0
+	cmp	r7, #9
+	blo	.LBB56_1290
+.LBB56_1309:
 	movs	r0, #0
 	str	r0, [sp, #360]
-.LBB56_1305:
-	cmp	r6, #0
-	beq	.LBB56_1318
+.LBB56_1310:
+	cmp	r7, #0
+	beq	.LBB56_1323
 	movs	r2, #10
 	movs	r1, #0
 	ldr	r0, [sp, #360]
@@ -33977,11 +33964,10 @@ main:
 	bl	__aeabi_lmul
 	subs	r2, r1, #1
 	sbcs	r1, r2
-	beq	.LBB56_1307
-	b	.LBB56_1140
-.LBB56_1307:
-	ldr	r1, [sp, #276]
-	ldrb	r2, [r1]
+	beq	.LBB56_1312
+	b	.LBB56_1160
+.LBB56_1312:
+	ldrb	r2, [r6]
 	subs	r2, #48
 	movs	r1, #0
 	adds	r0, r2, r0
@@ -33990,129 +33976,127 @@ main:
 	adcs	r1, r1
 	cmp	r2, #9
 	ldr	r0, [sp, #268]
-	bhi	.LBB56_1309
+	bhi	.LBB56_1314
 	mov	r0, r1
-.LBB56_1309:
-	ldr	r1, [sp, #276]
-	adds	r1, r1, #1
-	str	r1, [sp, #276]
-	subs	r6, r6, #1
+.LBB56_1314:
+	adds	r6, r6, #1
+	subs	r7, r7, #1
 	cmp	r0, #0
-	beq	.LBB56_1305
-	b	.LBB56_1140
-.LBB56_1310:
+	beq	.LBB56_1310
+	b	.LBB56_1160
+.LBB56_1315:
 	movs	r2, #32
-.LBB56_1311:
+.LBB56_1316:
 	orrs	r2, r1
 	cmp	r2, #110
-	beq	.LBB56_1312
-	b	.LBB56_1141
-.LBB56_1312:
+	beq	.LBB56_1317
+	b	.LBB56_1161
+.LBB56_1317:
 	ldrb	r0, [r0, #16]
 	mov	r1, r0
 	subs	r1, #65
 	cmp	r1, #26
-	blo	.LBB56_1314
+	blo	.LBB56_1319
 	movs	r1, #0
-	b	.LBB56_1315
-.LBB56_1314:
+	b	.LBB56_1320
+.LBB56_1319:
 	movs	r1, #32
-.LBB56_1315:
+.LBB56_1320:
 	orrs	r1, r0
 	cmp	r1, #103
-	beq	.LBB56_1316
-	b	.LBB56_1141
-.LBB56_1316:
-	ldr	r0, [r7, #8]
+	beq	.LBB56_1321
+	b	.LBB56_1161
+.LBB56_1321:
+	ldr	r0, [r5, #8]
 	str	r0, [sp, #320]
-	ldr	r0, [r7, #12]
-	str	r0, [sp, #288]
-	b	.LBB56_1141
-.LBB56_1317:
+	ldr	r0, [r5, #12]
+	str	r0, [sp, #296]
+	b	.LBB56_1161
+.LBB56_1322:
 	movs	r0, #0
 	str	r0, [sp, #360]
-.LBB56_1318:
+.LBB56_1323:
 	ldr	r0, [sp, #268]
 	str	r0, [sp, #356]
-	b	.LBB56_1141
-.LBB56_1319:
-	cmp	r6, r4
-	ldr	r5, [sp, #292]
-	bhs	.LBB56_1320
-	bl	.LBB56_1602
-.LBB56_1320:
+	b	.LBB56_1161
+.LBB56_1324:
+	ldr	r2, [sp, #24]
+	mov	r1, r6
+	cmp	r6, r2
+	bhs	.LBB56_1325
+	bl	.LBB56_1607
+.LBB56_1325:
 	ldr	r0, [sp, #352]
-	adds	r0, r0, r4
-	str	r0, [sp, #24]
-	subs	r7, r6, r4
+	adds	r5, r0, r2
+	subs	r1, r1, r2
 	ldr	r0, [sp, #356]
 	lsls	r0, r0, #31
-	beq	.LBB56_1334
+	ldr	r4, [sp, #312]
+	beq	.LBB56_1338
 	ldr	r6, [sp, #360]
-	cmp	r7, r6
-	blo	.LBB56_1322
-	bl	.LBB56_1561
-.LBB56_1322:
+	cmp	r1, r6
+	blo	.LBB56_1327
+	bl	.LBB56_1565
+.LBB56_1327:
 	cmp	r6, #0
-	bpl	.LBB56_1323
-	bl	.LBB56_1608
-.LBB56_1323:
-	mov	r5, r4
-	ldr	r1, [sp, #212]
+	bpl	.LBB56_1328
+	bl	.LBB56_1613
+.LBB56_1328:
+	mov	r4, r1
+	ldr	r1, [sp, #216]
 	str	r6, [r1, #44]
-	ldr	r4, .LCPI56_243
-	ldr	r0, [r4, #8]
+	ldr	r3, .LCPI56_215
+	ldr	r0, [r3, #8]
 	@APP
 	mov	r2, sp
 	@NO_APP
 	str	r2, [r1, #56]
-	adds	r3, r0, #4
-	adds	r1, r3, r6
+	adds	r7, r0, #4
+	adds	r1, r7, r6
 	cmp	r2, r1
-	bhs	.LBB56_1324
-	bl	.LBB56_1605
-.LBB56_1324:
+	bhs	.LBB56_1329
+	bl	.LBB56_1610
+.LBB56_1329:
 	str	r6, [r0]
-	str	r1, [r4, #8]
-	mov	r4, r3
-	str	r3, [sp, #436]
+	str	r1, [r3, #8]
+	str	r7, [sp, #356]
+	str	r7, [sp, #436]
 	str	r6, [sp, #432]
 	ldr	r0, [sp, #348]
-	cmp	r0, r5
-	beq	.LBB56_1326
-	mov	r0, r4
 	ldr	r1, [sp, #24]
-	mov	r2, r7
+	cmp	r0, r1
+	beq	.LBB56_1331
+	ldr	r0, [sp, #356]
+	mov	r1, r5
+	mov	r2, r4
 	bl	__aeabi_memcpy
-.LBB56_1326:
-	mov	r0, r7
-	str	r7, [sp, #440]
-.LBB56_1327:
+.LBB56_1331:
+	mov	r0, r4
+	str	r4, [sp, #440]
+.LBB56_1332:
 	mov	r5, r0
 	subs	r2, r6, r0
-	movs	r0, #1
-	str	r0, [sp, #356]
-	lsls	r0, r0, #9
+	movs	r4, #1
+	lsls	r0, r4, #9
 	cmp	r2, r0
-	blo	.LBB56_1329
+	blo	.LBB56_1334
 	mov	r2, r0
-.LBB56_1329:
+.LBB56_1334:
 	add	r0, sp, #528
 	add	r1, sp, #656
 	bl	_RNvMs_Cs9Yr4AUe4qI0_9netclientNtB4_6Socket4recv
 	ldr	r7, [sp, #536]
 	cmp	r7, #0
-	bne	.LBB56_1330
-	bl	.LBB56_1562
-.LBB56_1330:
+	bne	.LBB56_1335
+	bl	.LBB56_1567
+.LBB56_1335:
 	ldr	r0, [sp, #432]
 	subs	r0, r0, r5
 	ldr	r6, [sp, #532]
 	cmp	r7, r0
-	bhi	.LBB56_1333
-	mov	r0, r4
-.LBB56_1332:
-	mov	r4, r0
+	bhi	.LBB56_1337
+.LBB56_1336:
+	ldr	r0, [sp, #356]
 	adds	r0, r0, r5
 	mov	r1, r6
 	mov	r2, r7
@@ -34121,94 +34105,122 @@ main:
 	str	r0, [sp, #440]
 	ldr	r6, [sp, #360]
 	cmp	r0, r6
-	blo	.LBB56_1327
-	b	.LBB56_1563
-.LBB56_1333:
+	blo	.LBB56_1332
+	bl	.LBB56_1568
+.LBB56_1337:
 	add	r0, sp, #432
 	mov	r1, r5
 	mov	r2, r7
 	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
 	ldr	r0, [sp, #436]
+	str	r0, [sp, #356]
 	ldr	r5, [sp, #440]
-	b	.LBB56_1332
-.LBB56_1334:
-	str	r7, [sp, #20]
+	b	.LBB56_1336
+.LBB56_1338:
+	str	r5, [sp, #12]
+	str	r1, [sp, #16]
 	ldr	r0, [sp, #320]
 	cmp	r0, #0
-	bne	.LBB56_1335
-	bl	.LBB56_1566
-.LBB56_1335:
-	str	r4, [sp, #12]
-	ldr	r4, [sp, #288]
-	subs	r0, r4, #2
-	str	r0, [sp, #144]
-	subs	r0, r4, #1
-	str	r0, [sp, #36]
-	subs	r0, r4, #3
+	bne	.LBB56_1339
+	bl	.LBB56_1571
+.LBB56_1339:
+	ldr	r0, [sp, #296]
+	subs	r1, r0, #2
+	str	r1, [sp, #144]
+	subs	r1, r0, #1
+	str	r1, [sp, #36]
+	subs	r0, r0, #3
 	str	r0, [sp, #32]
 	movs	r0, #45
 	lsls	r0, r0, #7
-	str	r0, [sp, #152]
-	movs	r0, #3
 	str	r0, [sp, #200]
+	movs	r0, #3
+	str	r0, [sp, #204]
 	lsls	r0, r0, #12
 	str	r0, [sp, #148]
 	movs	r1, #0
-	str	r1, [sp, #360]
-	b	.LBB56_1337
-.LBB56_1336:
-	ldr	r0, [sp, #272]
-	cmp	r0, #0
-	ldr	r1, [sp, #276]
-	beq	.LBB56_1337
-	b	.LBB56_1566
-.LBB56_1337:
-	mov	r2, r1
-	ldr	r5, [sp, #360]
-	cmp	r4, r5
-	bhs	.LBB56_1340
-.LBB56_1338:
-	str	r2, [sp, #276]
-.LBB56_1339:
-	ldr	r0, [sp, #268]
-	str	r0, [sp, #272]
-	mov	r0, r4
-	b	.LBB56_1404
+	str	r1, [sp, #352]
+	b	.LBB56_1341
 .LBB56_1340:
-	str	r2, [sp, #352]
-	b	.LBB56_1342
+	ldr	r0, [sp, #276]
+	cmp	r0, #0
+	ldr	r1, [sp, #284]
+	beq	.LBB56_1341
+	bl	.LBB56_1571
 .LBB56_1341:
-	cmp	r5, r4
-	ldr	r3, [sp, #240]
-	bhi	.LBB56_1338
+	mov	r5, r1
+	ldr	r2, [sp, #296]
+	ldr	r4, [sp, #352]
+	cmp	r2, r4
+	bhs	.LBB56_1344
 .LBB56_1342:
-	ldr	r0, [sp, #320]
-	adds	r1, r0, r5
-	subs	r6, r4, r5
-	cmp	r6, #8
-	str	r5, [sp, #360]
-	bhs	.LBB56_1346
-	cmp	r4, r5
-	bne	.LBB56_1344
-	b	.LBB56_1480
+	str	r5, [sp, #284]
+.LBB56_1343:
+	ldr	r0, [sp, #268]
+	str	r0, [sp, #276]
+	mov	r0, r2
+	b	.LBB56_1408
 .LBB56_1344:
+	str	r5, [sp, #248]
+	b	.LBB56_1346
+.LBB56_1345:
+	cmp	r4, r2
+	ldr	r3, [sp, #244]
+	bhi	.LBB56_1342
+.LBB56_1346:
+	ldr	r0, [sp, #320]
+	adds	r1, r0, r4
+	subs	r6, r2, r4
+	cmp	r6, #8
+	bhs	.LBB56_1350
+	cmp	r2, r4
+	bne	.LBB56_1348
+	b	.LBB56_1405
+.LBB56_1348:
 	ldrb	r0, [r1]
 	cmp	r0, #44
-	bne	.LBB56_1356
+	bne	.LBB56_1362
 	movs	r3, #0
-	b	.LBB56_1398
-.LBB56_1346:
+	adds	r0, r3, r4
+	adds	r4, r0, #1
+	cmp	r0, r2
+	bhs	.LBB56_1345
+	b	.LBB56_1394
+.LBB56_1350:
+	str	r4, [sp, #352]
 	adds	r3, r1, #3
-	ldr	r0, [sp, #200]
+	ldr	r0, [sp, #204]
 	bics	r3, r0
 	subs	r0, r3, r1
 	str	r6, [sp, #356]
-	bne	.LBB56_1348
-	mov	r3, r6
-	subs	r3, #8
+	bne	.LBB56_1354
+	subs	r6, #8
+	str	r6, [sp, #360]
 	movs	r0, #0
-	b	.LBB56_1380
-.LBB56_1348:
+.LBB56_1352:
+	adds	r4, r1, r0
+	ldr	r4, [r4, #4]
+	ldr	r3, .LCPI56_216
+	eors	r4, r3
+	ldr	r2, .LCPI56_217
+	subs	r5, r2, r4
+	orrs	r5, r4
+	ldr	r4, [r1, r0]
+	mov	r6, r4
+	eors	r6, r3
+	subs	r6, r2, r6
+	orrs	r6, r4
+	ldr	r2, .LCPI56_218
+	ands	r6, r2
+	ands	r6, r5
+	cmp	r6, r2
+	bne	.LBB56_1369
+	adds	r0, #8
+	ldr	r2, [sp, #360]
+	cmp	r0, r2
+	bls	.LBB56_1352
+	b	.LBB56_1369
+.LBB56_1354:
 	mvns	r4, r1
 	adds	r4, r4, r3
 	subs	r3, r3, r1
@@ -34217,132 +34229,72 @@ main:
 	movs	r3, #0
 	ldrb	r6, [r1, r3]
 	cmp	r6, #44
-	beq	.LBB56_1371
-.LBB56_1349:
+	bne	.LBB56_1355
+	b	.LBB56_1391
+.LBB56_1355:
 	cmp	r4, r3
-	beq	.LBB56_1362
+	beq	.LBB56_1368
 	adds	r6, r1, r3
 	ldrb	r2, [r6, #1]
 	cmp	r2, #44
-	beq	.LBB56_1368
+	beq	.LBB56_1388
 	cmp	r5, r3
-	beq	.LBB56_1362
+	beq	.LBB56_1368
 	ldrb	r2, [r6, #2]
 	cmp	r2, #44
-	beq	.LBB56_1369
+	beq	.LBB56_1389
 	cmp	r7, r3
-	beq	.LBB56_1362
+	beq	.LBB56_1368
 	ldrb	r2, [r6, #3]
 	cmp	r2, #44
-	beq	.LBB56_1370
+	beq	.LBB56_1390
 	adds	r3, r3, #4
 	ldrb	r6, [r1, r3]
 	cmp	r6, #44
-	bne	.LBB56_1349
-	b	.LBB56_1371
-.LBB56_1356:
+	bne	.LBB56_1355
+	b	.LBB56_1391
+.LBB56_1362:
 	cmp	r6, #1
-	bne	.LBB56_1357
-	b	.LBB56_1480
-.LBB56_1357:
+	bne	.LBB56_1363
+	b	.LBB56_1405
+.LBB56_1363:
 	ldrb	r0, [r1, #1]
 	cmp	r0, #44
-	bne	.LBB56_1359
+	bne	.LBB56_1365
 	movs	r3, #1
-	b	.LBB56_1398
-.LBB56_1359:
+	adds	r0, r3, r4
+	adds	r4, r0, #1
+	cmp	r0, r2
+	bhs	.LBB56_1345
+	b	.LBB56_1394
+.LBB56_1365:
 	cmp	r6, #2
-	bne	.LBB56_1360
-	b	.LBB56_1480
-.LBB56_1360:
+	bne	.LBB56_1366
+	b	.LBB56_1405
+.LBB56_1366:
 	ldrb	r0, [r1, #2]
 	cmp	r0, #44
-	bne	.LBB56_1363
+	bne	.LBB56_1379
 	movs	r3, #2
-	b	.LBB56_1398
-.LBB56_1362:
-	ldr	r3, [sp, #356]
-	subs	r3, #8
-	b	.LBB56_1379
-.LBB56_1363:
-	cmp	r6, #3
-	bne	.LBB56_1364
-	b	.LBB56_1493
-.LBB56_1364:
-	ldrb	r0, [r1, #3]
-	cmp	r0, #44
-	ldr	r3, [sp, #200]
-	beq	.LBB56_1398
-	cmp	r6, #4
-	bne	.LBB56_1366
-	b	.LBB56_1493
-.LBB56_1366:
-	ldrb	r0, [r1, #4]
-	cmp	r0, #44
-	bne	.LBB56_1372
-	movs	r3, #4
-	b	.LBB56_1398
+	adds	r0, r3, r4
+	adds	r4, r0, #1
+	cmp	r0, r2
+	bhs	.LBB56_1345
+	b	.LBB56_1394
 .LBB56_1368:
-	adds	r3, r3, #1
-	b	.LBB56_1371
+	ldr	r2, [sp, #356]
+	subs	r2, #8
+	str	r2, [sp, #360]
+	cmp	r0, r2
+	ldr	r7, [sp, #292]
+	bls	.LBB56_1352
 .LBB56_1369:
-	adds	r3, r3, #2
-	b	.LBB56_1371
-.LBB56_1370:
-	adds	r3, r3, #3
-.LBB56_1371:
-	ldr	r4, [sp, #288]
-	ldr	r5, [sp, #360]
-	b	.LBB56_1397
-.LBB56_1372:
-	cmp	r6, #5
-	beq	.LBB56_1402
-	ldrb	r0, [r1, #5]
-	cmp	r0, #44
-	bne	.LBB56_1375
-	movs	r3, #5
-	b	.LBB56_1378
-.LBB56_1375:
-	cmp	r6, #6
-	beq	.LBB56_1402
-	ldrb	r0, [r1, #6]
-	cmp	r0, #44
-	bne	.LBB56_1402
-	movs	r3, #6
-.LBB56_1378:
-	ldr	r4, [sp, #288]
-	ldr	r5, [sp, #360]
-	b	.LBB56_1398
-.LBB56_1379:
-	cmp	r0, r3
-	bhi	.LBB56_1382
-.LBB56_1380:
-	adds	r4, r1, r0
-	ldr	r4, [r4, #4]
-	ldr	r7, .LCPI56_218
-	eors	r4, r7
-	ldr	r2, .LCPI56_219
-	subs	r5, r2, r4
-	orrs	r5, r4
-	ldr	r4, [r1, r0]
-	mov	r6, r4
-	eors	r6, r7
-	subs	r6, r2, r6
-	orrs	r6, r4
-	ldr	r2, .LCPI56_220
-	ands	r6, r2
-	ands	r6, r5
-	cmp	r6, r2
-	bne	.LBB56_1382
-	adds	r0, #8
-	b	.LBB56_1379
-.LBB56_1382:
 	ldr	r2, [sp, #356]
 	cmp	r2, r0
-	beq	.LBB56_1401
+	beq	.LBB56_1402
 	adds	r2, r1, r0
 	ldr	r1, [sp, #144]
-	ldr	r6, [sp, #360]
+	ldr	r6, [sp, #352]
 	subs	r1, r1, r6
 	subs	r3, r1, r0
 	ldr	r1, [sp, #36]
@@ -34351,137 +34303,206 @@ main:
 	ldr	r1, [sp, #32]
 	subs	r1, r1, r6
 	subs	r5, r1, r0
-	ldr	r1, [sp, #288]
+	ldr	r1, [sp, #296]
 	subs	r1, r1, r0
-	mov	r7, r6
 	subs	r1, r1, r6
-	str	r1, [sp, #356]
+	str	r1, [sp, #360]
 	movs	r1, #0
-.LBB56_1384:
+.LBB56_1371:
 	ldrb	r6, [r2, r1]
 	cmp	r6, #44
-	beq	.LBB56_1395
+	beq	.LBB56_1387
 	cmp	r4, r1
-	beq	.LBB56_1401
+	beq	.LBB56_1402
 	adds	r6, r2, r1
 	ldrb	r7, [r6, #1]
 	cmp	r7, #44
-	beq	.LBB56_1392
+	beq	.LBB56_1384
 	cmp	r3, r1
-	beq	.LBB56_1401
+	beq	.LBB56_1403
 	ldrb	r7, [r6, #2]
 	cmp	r7, #44
-	beq	.LBB56_1393
+	beq	.LBB56_1385
 	cmp	r5, r1
-	ldr	r7, [sp, #360]
-	beq	.LBB56_1401
+	ldr	r7, [sp, #292]
+	beq	.LBB56_1402
 	ldrb	r6, [r6, #3]
 	cmp	r6, #44
-	beq	.LBB56_1394
+	beq	.LBB56_1386
 	adds	r1, r1, #4
-	ldr	r6, [sp, #356]
+	ldr	r6, [sp, #360]
 	cmp	r6, r1
-	bne	.LBB56_1384
-	b	.LBB56_1401
-.LBB56_1392:
+	bne	.LBB56_1371
+	b	.LBB56_1402
+.LBB56_1379:
+	cmp	r6, #3
+	bne	.LBB56_1380
+	b	.LBB56_1495
+.LBB56_1380:
+	ldrb	r0, [r1, #3]
+	cmp	r0, #44
+	ldr	r3, [sp, #204]
+	beq	.LBB56_1393
+	cmp	r6, #4
+	bne	.LBB56_1382
+	b	.LBB56_1495
+.LBB56_1382:
+	ldrb	r0, [r1, #4]
+	cmp	r0, #44
+	bne	.LBB56_1395
+	movs	r3, #4
+	adds	r0, r3, r4
+	adds	r4, r0, #1
+	cmp	r0, r2
+	blo	.LBB56_1394
+	b	.LBB56_1345
+.LBB56_1384:
 	adds	r1, r1, #1
-	ldr	r5, [sp, #360]
-	b	.LBB56_1396
-.LBB56_1393:
-	adds	r1, r1, #2
-	ldr	r5, [sp, #360]
-	b	.LBB56_1396
-.LBB56_1394:
-	adds	r1, r1, #3
-.LBB56_1395:
-	mov	r5, r7
-.LBB56_1396:
+	ldr	r7, [sp, #292]
 	adds	r3, r1, r0
-	ldr	r4, [sp, #288]
-.LBB56_1397:
-	ldr	r2, [sp, #352]
-.LBB56_1398:
-	adds	r0, r3, r5
-	adds	r5, r0, #1
-	cmp	r0, r4
-	blo	.LBB56_1399
-	b	.LBB56_1341
-.LBB56_1399:
+	b	.LBB56_1392
+.LBB56_1385:
+	adds	r1, r1, #2
+	ldr	r7, [sp, #292]
+	adds	r3, r1, r0
+	b	.LBB56_1392
+.LBB56_1386:
+	adds	r1, r1, #3
+.LBB56_1387:
+	adds	r3, r1, r0
+	b	.LBB56_1392
+.LBB56_1388:
+	adds	r3, r3, #1
+	b	.LBB56_1391
+.LBB56_1389:
+	adds	r3, r3, #2
+	b	.LBB56_1391
+.LBB56_1390:
+	adds	r3, r3, #3
+.LBB56_1391:
+	ldr	r7, [sp, #292]
+.LBB56_1392:
+	ldr	r2, [sp, #296]
+	ldr	r4, [sp, #352]
+	ldr	r5, [sp, #248]
+.LBB56_1393:
+	adds	r0, r3, r4
+	adds	r4, r0, #1
+	cmp	r0, r2
+	blo	.LBB56_1394
+	b	.LBB56_1345
+.LBB56_1394:
 	ldr	r1, [sp, #320]
 	ldrb	r1, [r1, r0]
 	cmp	r1, #44
-	beq	.LBB56_1400
-	b	.LBB56_1341
-.LBB56_1400:
-	movs	r1, #0
-	str	r1, [sp, #272]
-	str	r5, [sp, #276]
-	b	.LBB56_1403
+	beq	.LBB56_1406
+	b	.LBB56_1345
+.LBB56_1395:
+	cmp	r6, #5
+	beq	.LBB56_1404
+	ldrb	r0, [r1, #5]
+	cmp	r0, #44
+	bne	.LBB56_1398
+	movs	r3, #5
+	b	.LBB56_1401
+.LBB56_1398:
+	cmp	r6, #6
+	beq	.LBB56_1404
+	ldrb	r0, [r1, #6]
+	cmp	r0, #44
+	bne	.LBB56_1404
+	movs	r3, #6
 .LBB56_1401:
-	ldr	r2, [sp, #352]
-.LBB56_1402:
-	str	r2, [sp, #276]
-	ldr	r0, [sp, #288]
-	mov	r5, r0
-	ldr	r1, [sp, #268]
-	str	r1, [sp, #272]
-.LBB56_1403:
-	ldr	r3, [sp, #240]
-.LBB56_1404:
-	ldr	r1, [sp, #320]
-	adds	r7, r1, r0
-	adds	r4, r1, r2
+	ldr	r7, [sp, #292]
+	ldr	r2, [sp, #296]
+	adds	r0, r3, r4
+	adds	r4, r0, #1
 	cmp	r0, r2
-	str	r5, [sp, #360]
-	str	r4, [sp, #248]
-	bne	.LBB56_1407
-	movs	r5, #0
-	str	r5, [sp, #244]
-	cmp	r4, r7
-	bne	.LBB56_1406
-	b	.LBB56_1464
+	blo	.LBB56_1394
+	b	.LBB56_1345
+.LBB56_1402:
+	ldr	r5, [sp, #248]
+	str	r5, [sp, #284]
+	ldr	r0, [sp, #296]
+	mov	r4, r0
+	ldr	r1, [sp, #268]
+	str	r1, [sp, #276]
+	b	.LBB56_1407
+.LBB56_1403:
+	ldr	r5, [sp, #248]
+.LBB56_1404:
+	str	r5, [sp, #284]
+	ldr	r0, [sp, #296]
+	mov	r4, r0
+	ldr	r1, [sp, #268]
+	str	r1, [sp, #276]
+	ldr	r7, [sp, #292]
+	b	.LBB56_1407
+.LBB56_1405:
+	str	r5, [sp, #284]
+	mov	r4, r2
+	b	.LBB56_1343
 .LBB56_1406:
-	str	r5, [sp, #352]
-	b	.LBB56_1435
+	movs	r1, #0
+	str	r1, [sp, #276]
+	str	r4, [sp, #284]
 .LBB56_1407:
-	movs	r6, #0
-	mov	r3, r6
-	str	r6, [sp, #356]
-	b	.LBB56_1410
+	ldr	r3, [sp, #244]
 .LBB56_1408:
+	str	r4, [sp, #352]
+	ldr	r1, [sp, #320]
+	adds	r6, r1, r0
+	adds	r4, r1, r5
+	cmp	r0, r5
+	str	r4, [sp, #252]
+	bne	.LBB56_1411
+	movs	r5, #0
+	str	r5, [sp, #248]
+	cmp	r4, r6
+	bne	.LBB56_1410
+	b	.LBB56_1467
+.LBB56_1410:
+	str	r5, [sp, #356]
+	b	.LBB56_1439
+.LBB56_1411:
+	movs	r3, #0
+	str	r3, [sp, #356]
+	str	r6, [sp, #360]
+	b	.LBB56_1414
+.LBB56_1412:
 	uxtb	r0, r0
-	ldr	r1, .LCPI56_221
+	ldr	r1, .LCPI56_219
 	ldrb	r0, [r1, r0]
 	lsls	r0, r0, #31
-	beq	.LBB56_1430
-.LBB56_1409:
-	cmp	r4, r7
-	beq	.LBB56_1431
-.LBB56_1410:
+	beq	.LBB56_1434
+.LBB56_1413:
+	cmp	r4, r6
+	beq	.LBB56_1435
+.LBB56_1414:
 	mov	r2, r4
 	mov	r5, r3
-	ldrsb	r1, [r4, r6]
+	ldr	r0, [sp, #356]
+	ldrsb	r1, [r4, r0]
 	uxtb	r0, r1
 	cmp	r1, #0
-	bmi	.LBB56_1412
+	bmi	.LBB56_1416
 	adds	r4, r2, #1
-	b	.LBB56_1418
-.LBB56_1412:
-	mov	r3, r7
-	mov	r7, r5
+	b	.LBB56_1422
+.LBB56_1416:
+	mov	r3, r5
 	ldrb	r6, [r2, #1]
 	movs	r5, #63
 	ands	r6, r5
 	movs	r4, #31
 	ands	r4, r0
 	cmp	r0, #224
-	blo	.LBB56_1415
+	blo	.LBB56_1419
 	ldrb	r1, [r2, #2]
 	ands	r1, r5
 	lsls	r6, r6, #6
 	adds	r6, r6, r1
 	cmp	r0, #240
-	blo	.LBB56_1416
+	blo	.LBB56_1420
 	ldrb	r0, [r2, #3]
 	ands	r0, r5
 	lsls	r1, r6, #6
@@ -34490,498 +34511,497 @@ main:
 	lsrs	r1, r1, #11
 	adds	r0, r0, r1
 	adds	r4, r2, #4
-	b	.LBB56_1417
-.LBB56_1415:
+	b	.LBB56_1421
+.LBB56_1419:
 	lsls	r0, r4, #6
 	adds	r0, r0, r6
 	adds	r4, r2, #2
-	b	.LBB56_1417
-.LBB56_1416:
+	b	.LBB56_1421
+.LBB56_1420:
 	lsls	r0, r4, #12
 	adds	r0, r6, r0
 	adds	r4, r2, #3
-.LBB56_1417:
-	mov	r5, r7
-	mov	r7, r3
-	ldr	r6, [sp, #356]
-.LBB56_1418:
+.LBB56_1421:
+	mov	r5, r3
+	ldr	r6, [sp, #360]
+.LBB56_1422:
 	subs	r1, r4, r2
 	adds	r3, r1, r5
 	mov	r1, r0
 	subs	r1, #9
 	cmp	r1, #5
-	blo	.LBB56_1409
+	blo	.LBB56_1413
 	cmp	r0, #32
-	beq	.LBB56_1409
+	beq	.LBB56_1413
 	cmp	r0, #133
-	blo	.LBB56_1430
+	blo	.LBB56_1434
 	lsrs	r2, r0, #8
 	cmp	r2, #31
-	bgt	.LBB56_1425
+	bgt	.LBB56_1429
 	cmp	r2, #0
-	beq	.LBB56_1408
+	beq	.LBB56_1412
 	cmp	r2, #22
-	bne	.LBB56_1430
-	ldr	r1, [sp, #152]
-	b	.LBB56_1428
-.LBB56_1425:
-	cmp	r2, #32
-	beq	.LBB56_1429
-	cmp	r2, #48
-	bne	.LBB56_1430
-	ldr	r1, [sp, #148]
-.LBB56_1428:
-	cmp	r0, r1
-	beq	.LBB56_1409
-	b	.LBB56_1430
+	bne	.LBB56_1434
+	ldr	r1, [sp, #200]
+	b	.LBB56_1432
 .LBB56_1429:
-	uxtb	r0, r0
-	ldr	r1, .LCPI56_221
-	ldrb	r0, [r1, r0]
-	lsls	r0, r0, #30
-	bmi	.LBB56_1409
-.LBB56_1430:
-	str	r3, [sp, #244]
-	ldr	r3, [sp, #240]
-	cmp	r4, r7
-	bne	.LBB56_1406
-	b	.LBB56_1464
-.LBB56_1431:
-	movs	r5, #0
-	mov	r0, r5
+	cmp	r2, #32
+	beq	.LBB56_1433
+	cmp	r2, #48
+	bne	.LBB56_1434
+	ldr	r1, [sp, #148]
 .LBB56_1432:
-	ldr	r3, [sp, #240]
-	b	.LBB56_1465
+	cmp	r0, r1
+	beq	.LBB56_1413
+	b	.LBB56_1434
 .LBB56_1433:
 	uxtb	r0, r0
-	ldr	r1, .LCPI56_221
+	ldr	r1, .LCPI56_219
+	ldrb	r0, [r1, r0]
+	lsls	r0, r0, #30
+	bmi	.LBB56_1413
+.LBB56_1434:
+	str	r3, [sp, #248]
+	ldr	r3, [sp, #244]
+	cmp	r4, r6
+	bne	.LBB56_1410
+	b	.LBB56_1467
+.LBB56_1435:
+	movs	r5, #0
+	mov	r0, r5
+.LBB56_1436:
+	ldr	r3, [sp, #244]
+	b	.LBB56_1468
+.LBB56_1437:
+	uxtb	r0, r0
+	ldr	r1, .LCPI56_219
 	ldrb	r0, [r1, r0]
 	lsls	r0, r0, #31
-	beq	.LBB56_1457
-.LBB56_1434:
-	cmp	r4, r7
-	beq	.LBB56_1463
-.LBB56_1435:
-	mov	r3, r7
+	beq	.LBB56_1465
+.LBB56_1438:
+	cmp	r4, r6
+	beq	.LBB56_1466
+.LBB56_1439:
+	mov	r3, r6
 	movs	r0, #0
 	mvns	r0, r0
-	ldrsb	r0, [r7, r0]
+	ldrsb	r0, [r6, r0]
 	cmp	r0, #0
-	bmi	.LBB56_1437
-	subs	r7, r3, #1
-	b	.LBB56_1444
-.LBB56_1437:
-	subs	r7, r3, #2
-	ldrb	r5, [r7]
+	bmi	.LBB56_1441
+	subs	r6, r3, #1
+	b	.LBB56_1453
+.LBB56_1441:
+	subs	r1, r3, #2
+	str	r1, [sp, #360]
+	ldrb	r5, [r1]
 	sxtb	r6, r5
 	movs	r2, #63
 	mvns	r1, r2
 	cmp	r6, r1
-	bge	.LBB56_1440
+	bge	.LBB56_1444
 	subs	r5, r3, #3
-	str	r5, [sp, #356]
+	str	r5, [sp, #360]
 	ldrb	r5, [r5]
 	sxtb	r7, r5
 	cmp	r7, r1
-	bge	.LBB56_1441
+	bge	.LBB56_1450
 	ands	r7, r2
 	subs	r1, r3, #4
-	str	r1, [sp, #356]
+	str	r1, [sp, #360]
 	ldrb	r1, [r1]
 	lsls	r1, r1, #29
 	lsrs	r1, r1, #23
 	adds	r5, r1, r7
-	b	.LBB56_1442
-.LBB56_1440:
+	b	.LBB56_1451
+.LBB56_1444:
 	movs	r1, #31
 	ands	r5, r1
-	b	.LBB56_1443
-.LBB56_1441:
+	b	.LBB56_1452
+	.p2align	2
+.LCPI56_215:
+	.long	.L_MergedGlobals
+	.p2align	2
+.LCPI56_216:
+	.long	741092396
+	.p2align	2
+.LCPI56_217:
+	.long	16843008
+	.p2align	2
+.LCPI56_218:
+	.long	2155905152
+	.p2align	2
+.LCPI56_219:
+	.long	_RNvNtNtNtCs4L8JVMRpR0y_4core7unicode12unicode_data11white_space14WHITESPACE_MAP
+	.p2align	1
+.LBB56_1450:
 	movs	r1, #15
 	ands	r5, r1
-.LBB56_1442:
+.LBB56_1451:
 	ands	r6, r2
 	lsls	r1, r5, #6
 	adds	r5, r1, r6
-	ldr	r7, [sp, #356]
-.LBB56_1443:
+	ldr	r7, [sp, #292]
+.LBB56_1452:
 	ands	r0, r2
 	lsls	r1, r5, #6
 	adds	r0, r1, r0
-	ldr	r5, [sp, #352]
-.LBB56_1444:
+	ldr	r5, [sp, #356]
+	ldr	r6, [sp, #360]
+.LBB56_1453:
 	mov	r1, r0
 	subs	r1, #9
 	cmp	r1, #5
-	blo	.LBB56_1434
+	blo	.LBB56_1438
 	cmp	r0, #32
-	beq	.LBB56_1434
+	beq	.LBB56_1438
 	cmp	r0, #133
-	blo	.LBB56_1457
+	blo	.LBB56_1465
 	lsrs	r2, r0, #8
 	cmp	r2, #31
-	bgt	.LBB56_1451
+	bgt	.LBB56_1460
 	cmp	r2, #0
-	beq	.LBB56_1433
+	beq	.LBB56_1437
 	cmp	r2, #22
-	bne	.LBB56_1457
-	ldr	r1, [sp, #152]
-	b	.LBB56_1454
-.LBB56_1451:
+	bne	.LBB56_1465
+	ldr	r1, [sp, #200]
+	b	.LBB56_1463
+.LBB56_1460:
 	cmp	r2, #32
-	beq	.LBB56_1456
+	beq	.LBB56_1464
 	cmp	r2, #48
-	bne	.LBB56_1457
+	bne	.LBB56_1465
 	ldr	r1, [sp, #148]
-.LBB56_1454:
+.LBB56_1463:
 	cmp	r0, r1
-	beq	.LBB56_1434
-	b	.LBB56_1457
-	.p2align	2
-.LCPI56_243:
-	.long	.L_MergedGlobals
-	.p2align	1
-.LBB56_1456:
+	beq	.LBB56_1438
+	b	.LBB56_1465
+.LBB56_1464:
 	uxtb	r0, r0
-	ldr	r1, .LCPI56_221
+	ldr	r1, .LCPI56_243
 	ldrb	r0, [r1, r0]
 	lsls	r0, r0, #30
-	bmi	.LBB56_1434
-.LBB56_1457:
-	ldr	r0, [sp, #244]
+	bmi	.LBB56_1438
+.LBB56_1465:
+	ldr	r0, [sp, #248]
 	subs	r0, r0, r4
 	adds	r0, r0, r3
-	b	.LBB56_1432
-	.p2align	2
-.LCPI56_218:
-	.long	741092396
-	.p2align	2
-.LCPI56_219:
-	.long	16843008
-	.p2align	2
-.LCPI56_220:
-	.long	2155905152
-	.p2align	2
-.LCPI56_221:
-	.long	_RNvNtNtNtCs4L8JVMRpR0y_4core7unicode12unicode_data11white_space14WHITESPACE_MAP
-	.p2align	1
-.LBB56_1463:
-	ldr	r3, [sp, #240]
-.LBB56_1464:
-	ldr	r0, [sp, #244]
-.LBB56_1465:
+	b	.LBB56_1436
+.LBB56_1466:
+	ldr	r3, [sp, #244]
+.LBB56_1467:
+	ldr	r0, [sp, #248]
+.LBB56_1468:
 	subs	r0, r0, r5
 	cmp	r0, #7
-	ldr	r4, [sp, #288]
-	beq	.LBB56_1466
-	b	.LBB56_1336
-.LBB56_1466:
-	ldr	r0, [sp, #248]
+	ldr	r4, [sp, #312]
+	beq	.LBB56_1469
+	b	.LBB56_1340
+.LBB56_1469:
+	ldr	r0, [sp, #252]
 	ldrb	r0, [r0, r5]
 	mov	r1, r0
 	subs	r1, #65
 	cmp	r1, #26
-	blo	.LBB56_1468
+	blo	.LBB56_1471
 	movs	r1, #0
-	b	.LBB56_1469
-.LBB56_1468:
+	b	.LBB56_1472
+.LBB56_1471:
 	movs	r1, #32
-.LBB56_1469:
+.LBB56_1472:
 	orrs	r1, r0
 	cmp	r1, #99
-	beq	.LBB56_1470
-	b	.LBB56_1336
-.LBB56_1470:
-	ldr	r0, [sp, #248]
+	beq	.LBB56_1473
+	b	.LBB56_1340
+.LBB56_1473:
+	ldr	r0, [sp, #252]
 	adds	r0, r0, r5
 	ldrb	r1, [r0, #1]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB56_1472
+	blo	.LBB56_1475
 	movs	r2, #0
-	b	.LBB56_1473
-.LBB56_1472:
+	b	.LBB56_1476
+.LBB56_1475:
 	movs	r2, #32
-.LBB56_1473:
+.LBB56_1476:
 	orrs	r2, r1
 	cmp	r2, #104
-	beq	.LBB56_1474
-	b	.LBB56_1336
-.LBB56_1474:
+	beq	.LBB56_1477
+	b	.LBB56_1340
+.LBB56_1477:
 	ldrb	r1, [r0, #2]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB56_1476
+	blo	.LBB56_1479
 	movs	r2, #0
-	b	.LBB56_1477
-.LBB56_1476:
+	b	.LBB56_1480
+.LBB56_1479:
 	movs	r2, #32
-.LBB56_1477:
+.LBB56_1480:
 	orrs	r2, r1
 	cmp	r2, #117
-	beq	.LBB56_1478
-	b	.LBB56_1336
-.LBB56_1478:
+	beq	.LBB56_1481
+	b	.LBB56_1340
+.LBB56_1481:
 	ldrb	r1, [r0, #3]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB56_1481
+	blo	.LBB56_1483
 	movs	r2, #0
-	b	.LBB56_1482
-.LBB56_1480:
-	str	r2, [sp, #276]
-	mov	r5, r4
-	b	.LBB56_1339
-.LBB56_1481:
+	b	.LBB56_1484
+.LBB56_1483:
 	movs	r2, #32
-.LBB56_1482:
+.LBB56_1484:
 	orrs	r2, r1
 	cmp	r2, #110
-	beq	.LBB56_1483
-	b	.LBB56_1336
-.LBB56_1483:
+	beq	.LBB56_1485
+	b	.LBB56_1340
+.LBB56_1485:
 	ldrb	r1, [r0, #4]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB56_1485
+	blo	.LBB56_1487
 	movs	r2, #0
-	b	.LBB56_1486
-.LBB56_1485:
+	b	.LBB56_1488
+.LBB56_1487:
 	movs	r2, #32
-.LBB56_1486:
+.LBB56_1488:
 	orrs	r2, r1
 	cmp	r2, #107
-	ldr	r3, [sp, #240]
-	ldr	r4, [sp, #288]
-	beq	.LBB56_1487
-	b	.LBB56_1336
-.LBB56_1487:
+	ldr	r7, [sp, #292]
+	ldr	r4, [sp, #312]
+	ldr	r3, [sp, #244]
+	beq	.LBB56_1489
+	b	.LBB56_1340
+.LBB56_1489:
 	ldrb	r1, [r0, #5]
 	mov	r2, r1
 	subs	r2, #65
 	cmp	r2, #26
-	blo	.LBB56_1489
+	blo	.LBB56_1491
 	movs	r2, #0
-	b	.LBB56_1490
-.LBB56_1489:
+	b	.LBB56_1492
+.LBB56_1491:
 	movs	r2, #32
-.LBB56_1490:
+.LBB56_1492:
 	orrs	r2, r1
 	cmp	r2, #101
-	ldr	r3, [sp, #240]
-	ldr	r4, [sp, #288]
-	beq	.LBB56_1491
-	b	.LBB56_1336
-.LBB56_1491:
+	ldr	r7, [sp, #292]
+	ldr	r4, [sp, #312]
+	ldr	r3, [sp, #244]
+	beq	.LBB56_1493
+	b	.LBB56_1340
+.LBB56_1493:
 	ldrb	r1, [r0, #6]
 	mov	r0, r1
 	subs	r0, #65
 	cmp	r0, #26
-	blo	.LBB56_1494
+	blo	.LBB56_1496
 	movs	r0, #0
-	b	.LBB56_1495
-.LBB56_1493:
-	str	r2, [sp, #276]
-	mov	r5, r4
-	ldr	r0, [sp, #268]
-	str	r0, [sp, #272]
-	mov	r0, r4
-	b	.LBB56_1403
-.LBB56_1494:
-	movs	r0, #32
+	b	.LBB56_1497
 .LBB56_1495:
+	str	r5, [sp, #284]
+	mov	r4, r2
+	ldr	r0, [sp, #268]
+	str	r0, [sp, #276]
+	mov	r0, r2
+	b	.LBB56_1407
+.LBB56_1496:
+	movs	r0, #32
+.LBB56_1497:
 	orrs	r0, r1
 	mov	r1, r0
 	subs	r1, #100
 	rsbs	r2, r1, #0
 	adcs	r2, r1
-	ldr	r1, [sp, #272]
-	orrs	r1, r2
-	ldr	r3, [sp, #240]
-	ldr	r4, [sp, #288]
 	ldr	r1, [sp, #276]
-	bne	.LBB56_1496
-	b	.LBB56_1337
-.LBB56_1496:
+	orrs	r1, r2
+	ldr	r7, [sp, #292]
+	ldr	r3, [sp, #244]
+	ldr	r1, [sp, #284]
+	bne	.LBB56_1498
+	b	.LBB56_1341
+.LBB56_1498:
 	cmp	r0, #100
-	beq	.LBB56_1497
-	b	.LBB56_1565
-.LBB56_1497:
+	beq	.LBB56_1499
+	b	.LBB56_1570
+.LBB56_1499:
 	movs	r0, #67
-	ldr	r3, [sp, #292]
-	str	r0, [r3]
+	ldr	r2, [sp, #292]
+	str	r0, [r2]
 	ldr	r0, [sp, #156]
-	str	r0, [r3]
+	str	r0, [r2]
 	ldr	r0, [sp, #316]
-	str	r0, [r3]
-	ldr	r5, [sp, #176]
-	str	r5, [r3]
+	str	r0, [r2]
+	ldr	r6, [sp, #176]
+	str	r6, [r2]
 	movs	r0, #107
-	str	r0, [r3]
+	str	r0, [r2]
 	ldr	r0, [sp, #168]
-	str	r0, [r3]
-	ldr	r1, [sp, #16]
-	str	r1, [r3]
-	movs	r4, #32
-	str	r4, [r3]
-	ldr	r7, [sp, #340]
-	str	r7, [r3]
-	ldr	r6, [sp, #192]
-	str	r6, [r3]
-	movs	r2, #97
-	str	r2, [sp, #360]
-	str	r2, [r3]
-	str	r5, [r3]
-	ldr	r2, [sp, #184]
-	str	r2, [r3]
-	ldr	r2, [sp, #164]
-	str	r2, [r3]
-	str	r0, [r3]
-	str	r6, [r3]
-	str	r4, [r3]
-	str	r0, [r3]
-	str	r5, [r3]
-	ldr	r2, [sp, #180]
-	str	r2, [r3]
-	ldr	r6, [sp, #324]
-	str	r6, [r3]
-	str	r1, [r3]
-	ldr	r6, [sp, #204]
-	str	r6, [r3]
-	str	r5, [r3]
-	ldr	r6, [sp, #172]
-	str	r6, [r3]
-	str	r4, [r3]
-	str	r1, [r3]
-	str	r0, [r3]
-	str	r7, [r3]
-	str	r0, [r3]
-	str	r2, [r3]
-	str	r7, [r3]
-	str	r0, [r3]
-	str	r1, [r3]
-	movs	r2, #44
-	str	r2, [r3]
-	str	r4, [r3]
+	str	r0, [r2]
+	ldr	r4, [sp, #20]
+	str	r4, [r2]
+	movs	r5, #32
+	str	r5, [r2]
+	ldr	r1, [sp, #328]
+	str	r1, [r2]
+	ldr	r7, [sp, #192]
+	str	r7, [r2]
+	movs	r3, #97
+	str	r3, [sp, #360]
+	str	r3, [r2]
+	str	r6, [r2]
+	ldr	r3, [sp, #184]
+	str	r3, [r2]
+	ldr	r3, [sp, #164]
+	str	r3, [r2]
+	str	r0, [r2]
+	str	r7, [r2]
+	str	r5, [r2]
+	str	r0, [r2]
+	str	r6, [r2]
+	ldr	r3, [sp, #180]
+	str	r3, [r2]
+	ldr	r7, [sp, #324]
+	str	r7, [r2]
+	str	r4, [r2]
+	ldr	r7, [sp, #208]
+	str	r7, [r2]
+	str	r6, [r2]
+	ldr	r1, [sp, #172]
+	str	r1, [r2]
+	str	r5, [r2]
+	str	r4, [r2]
+	str	r0, [r2]
+	ldr	r1, [sp, #328]
+	str	r1, [r2]
+	str	r0, [r2]
+	str	r3, [r2]
+	str	r1, [r2]
+	str	r0, [r2]
+	str	r4, [r2]
+	ldr	r0, [sp, #152]
+	str	r0, [r2]
+	str	r5, [r2]
 	movs	r0, #112
-	str	r0, [r3]
+	str	r0, [r2]
 	ldr	r0, [sp, #360]
-	str	r0, [r3]
+	str	r0, [r2]
 	ldr	r0, [sp, #192]
-	str	r0, [r3]
+	str	r0, [r2]
 	ldr	r0, [sp, #184]
-	str	r0, [r3]
-	ldr	r0, [sp, #204]
-	str	r0, [r3]
-	str	r5, [r3]
-	str	r6, [r3]
+	str	r0, [r2]
+	str	r7, [r2]
+	str	r6, [r2]
+	ldr	r0, [sp, #172]
+	str	r0, [r2]
 	ldr	r0, [sp, #160]
-	str	r0, [r3]
-	str	r0, [r3]
-	str	r0, [r3]
-	ldr	r0, [sp, #328]
-	str	r0, [r3]
+	str	r0, [r2]
+	str	r0, [r2]
+	str	r0, [r2]
+	ldr	r0, [sp, #340]
+	str	r0, [r2]
 	ldr	r0, [sp, #196]
-	ldr	r1, [sp, #20]
+	ldr	r1, [sp, #16]
 	adds	r5, r1, r0
 	cmp	r5, #0
-	bpl	.LBB56_1498
-	b	.LBB56_1608
-.LBB56_1498:
-	bne	.LBB56_1499
-	b	.LBB56_1571
-.LBB56_1499:
+	bpl	.LBB56_1500
+	b	.LBB56_1613
+.LBB56_1500:
+	bne	.LBB56_1501
+	b	.LBB56_1578
+.LBB56_1501:
 	movs	r1, #1
 	mov	r0, r5
 	bl	_RNvCs7pOVZZ9zOwf_7___rustc12___rust_alloc
 	cmp	r0, #0
-	bne	.LBB56_1500
-	b	.LBB56_1606
-.LBB56_1500:
+	bne	.LBB56_1502
+	b	.LBB56_1611
+.LBB56_1502:
 	mov	r6, r0
 	movs	r4, #0
 	str	r4, [sp, #620]
 	str	r0, [sp, #616]
 	str	r5, [sp, #612]
-	ldr	r0, .LCPI56_244
-	ldr	r1, [sp, #20]
+	ldr	r0, .LCPI56_221
+	ldr	r1, [sp, #16]
 	cmp	r1, r0
-	blo	.LBB56_1501
-	b	.LBB56_1572
-.LBB56_1501:
-	ldr	r0, [sp, #348]
-	ldr	r1, [sp, #12]
-	cmp	r0, r1
-	beq	.LBB56_1503
-.LBB56_1502:
-	adds	r0, r6, r4
-	ldr	r1, [sp, #24]
-	ldr	r2, [sp, #20]
-	bl	__aeabi_memcpy
+	blo	.LBB56_1503
+	b	.LBB56_1579
 .LBB56_1503:
-	ldr	r0, [sp, #20]
+	ldr	r0, [sp, #348]
+	ldr	r1, [sp, #24]
+	cmp	r0, r1
+	beq	.LBB56_1505
+.LBB56_1504:
+	adds	r0, r6, r4
+	ldr	r1, [sp, #12]
+	ldr	r2, [sp, #16]
+	bl	__aeabi_memcpy
+.LBB56_1505:
+	ldr	r0, [sp, #16]
 	adds	r0, r4, r0
 	str	r0, [sp, #360]
 	str	r0, [sp, #620]
 	movs	r0, #1
-	str	r0, [sp, #340]
+	str	r0, [sp, #348]
 	str	r0, [sp, #436]
 	movs	r0, #0
 	str	r0, [sp, #432]
-	str	r0, [sp, #352]
-.LBB56_1504:
-	str	r0, [sp, #440]
-	ldr	r0, [sp, #352]
-	adds	r0, r0, #1
 	str	r0, [sp, #356]
-	ldr	r0, [sp, #360]
-	ldr	r1, [sp, #356]
-	cmp	r1, r0
-	bhs	.LBB56_1510
-.LBB56_1505:
-	ldr	r0, [sp, #360]
-	subs	r2, r0, #1
-	ldr	r1, [sp, #352]
-	b	.LBB56_1507
 .LBB56_1506:
-	adds	r1, r1, #1
-	cmp	r2, r1
-	beq	.LBB56_1510
+	str	r0, [sp, #440]
+	ldr	r0, [sp, #356]
+	adds	r0, r0, #1
+	str	r0, [sp, #352]
+	ldr	r0, [sp, #360]
+	ldr	r1, [sp, #352]
+	cmp	r1, r0
+	bhs	.LBB56_1512
 .LBB56_1507:
 	ldr	r0, [sp, #360]
-	cmp	r1, r0
-	blo	.LBB56_1508
-	b	.LBB56_1609
+	subs	r2, r0, #1
+	ldr	r1, [sp, #356]
+	b	.LBB56_1509
 .LBB56_1508:
+	adds	r1, r1, #1
+	cmp	r2, r1
+	beq	.LBB56_1512
+.LBB56_1509:
+	ldr	r0, [sp, #360]
+	cmp	r1, r0
+	blo	.LBB56_1510
+	b	.LBB56_1614
+.LBB56_1510:
 	ldrb	r0, [r6, r1]
 	cmp	r0, #13
-	bne	.LBB56_1506
+	bne	.LBB56_1508
 	adds	r0, r6, r1
 	ldrb	r3, [r0, #1]
 	cmp	r3, #10
-	bne	.LBB56_1506
-	b	.LBB56_1514
-.LBB56_1510:
+	bne	.LBB56_1508
+	b	.LBB56_1516
+.LBB56_1512:
 	add	r0, sp, #528
 	add	r1, sp, #656
 	ldr	r2, [sp, #196]
 	bl	_RNvMs_Cs9Yr4AUe4qI0_9netclientNtB4_6Socket4recv
 	ldr	r5, [sp, #536]
 	cmp	r5, #0
-	bne	.LBB56_1511
-	b	.LBB56_1570
-.LBB56_1511:
+	bne	.LBB56_1513
+	b	.LBB56_1576
+.LBB56_1513:
 	ldr	r0, [sp, #612]
 	ldr	r1, [sp, #360]
 	subs	r0, r0, r1
 	ldr	r7, [sp, #532]
 	cmp	r5, r0
-	bhi	.LBB56_1513
-.LBB56_1512:
+	bhi	.LBB56_1515
+.LBB56_1514:
 	ldr	r4, [sp, #360]
 	adds	r0, r6, r4
 	mov	r1, r7
@@ -34991,11 +35011,11 @@ main:
 	str	r4, [sp, #360]
 	str	r4, [sp, #620]
 	ldr	r0, [sp, #360]
-	ldr	r1, [sp, #356]
+	ldr	r1, [sp, #352]
 	cmp	r1, r0
-	blo	.LBB56_1505
-	b	.LBB56_1510
-.LBB56_1513:
+	blo	.LBB56_1507
+	b	.LBB56_1512
+.LBB56_1515:
 	add	r0, sp, #612
 	ldr	r1, [sp, #360]
 	mov	r2, r5
@@ -35003,259 +35023,266 @@ main:
 	ldr	r6, [sp, #616]
 	ldr	r0, [sp, #620]
 	str	r0, [sp, #360]
-	b	.LBB56_1512
-.LBB56_1514:
-	ldr	r2, [sp, #352]
-	cmp	r1, r2
-	bhs	.LBB56_1515
-	b	.LBB56_1610
-.LBB56_1515:
-	movs	r7, #18
-	ldr	r2, [sp, #352]
-	cmp	r2, r1
-	bne	.LBB56_1516
-	b	.LBB56_1569
+	b	.LBB56_1514
 .LBB56_1516:
-	ldr	r2, [sp, #352]
+	ldr	r2, [sp, #356]
+	cmp	r1, r2
+	bhs	.LBB56_1517
+	b	.LBB56_1615
+.LBB56_1517:
+	movs	r2, #18
+	str	r2, [sp, #352]
+	ldr	r2, [sp, #356]
+	cmp	r2, r1
+	bne	.LBB56_1518
+	b	.LBB56_1575
+.LBB56_1518:
+	ldr	r2, [sp, #356]
 	adds	r4, r6, r2
 	movs	r6, #0
-	str	r6, [sp, #356]
-	b	.LBB56_1519
-.LBB56_1517:
+	mov	r5, r6
+	b	.LBB56_1521
+.LBB56_1519:
 	mov	r4, r2
-	mov	r5, r3
-.LBB56_1518:
-	uxtb	r2, r5
-	ldr	r3, [sp, #356]
-	lsls	r3, r3, #4
-	orrs	r3, r2
-	str	r3, [sp, #356]
+	mov	r3, r7
+.LBB56_1520:
+	uxtb	r2, r3
+	lsls	r5, r5, #4
+	orrs	r5, r2
 	cmp	r4, r0
 	ldr	r6, [sp, #268]
-	beq	.LBB56_1543
-.LBB56_1519:
+	beq	.LBB56_1545
+.LBB56_1521:
 	adds	r2, r4, #1
-	ldrb	r5, [r4]
-	mov	r3, r5
-	subs	r3, #48
-	uxtb	r4, r3
+	ldrb	r3, [r4]
+	mov	r7, r3
+	subs	r7, #48
+	uxtb	r4, r7
 	cmp	r4, #10
-	blo	.LBB56_1517
-	mov	r3, r5
-	subs	r3, #97
-	uxtb	r3, r3
-	cmp	r3, #6
-	bhs	.LBB56_1522
-	mov	r4, r2
-	subs	r5, #87
-	b	.LBB56_1518
-.LBB56_1522:
-	mov	r3, r5
-	subs	r3, #65
-	uxtb	r3, r3
-	cmp	r3, #6
+	blo	.LBB56_1519
+	mov	r4, r3
+	subs	r4, #97
+	uxtb	r4, r4
+	cmp	r4, #6
 	bhs	.LBB56_1524
 	mov	r4, r2
-	subs	r5, #55
-	b	.LBB56_1518
+	subs	r3, #87
+	b	.LBB56_1520
 .LBB56_1524:
-	cmp	r5, #9
-	beq	.LBB56_1529
-	cmp	r5, #32
-	bne	.LBB56_1541
+	mov	r4, r3
+	subs	r4, #65
+	uxtb	r4, r4
+	cmp	r4, #6
+	bhs	.LBB56_1526
+	mov	r4, r2
+	subs	r3, #55
+	b	.LBB56_1520
+.LBB56_1526:
+	cmp	r3, #9
+	beq	.LBB56_1531
+	cmp	r3, #32
+	bne	.LBB56_1543
 	subs	r4, r2, r0
 	rsbs	r3, r4, #0
 	adcs	r3, r4
 	lsls	r4, r6, #31
 	ldr	r4, [sp, #268]
-	bne	.LBB56_1528
+	bne	.LBB56_1530
 	mov	r4, r3
-.LBB56_1528:
+.LBB56_1530:
 	cmp	r4, #0
-	beq	.LBB56_1533
-	b	.LBB56_1569
-.LBB56_1529:
-	subs	r4, r2, r0
-	rsbs	r3, r4, #0
-	adcs	r3, r4
-	lsls	r4, r6, #31
-	ldr	r4, [sp, #268]
-	bne	.LBB56_1531
-	mov	r4, r3
+	beq	.LBB56_1535
+	b	.LBB56_1575
 .LBB56_1531:
+	subs	r4, r2, r0
+	rsbs	r3, r4, #0
+	adcs	r3, r4
+	lsls	r4, r6, #31
+	ldr	r4, [sp, #268]
+	bne	.LBB56_1533
+	mov	r4, r3
+.LBB56_1533:
 	cmp	r4, #0
-	beq	.LBB56_1533
-	b	.LBB56_1569
-.LBB56_1532:
+	beq	.LBB56_1535
+	b	.LBB56_1575
+.LBB56_1534:
 	adds	r2, r2, #1
 	cmp	r2, r0
-	bne	.LBB56_1533
-	b	.LBB56_1569
-.LBB56_1533:
-	ldrb	r5, [r2]
-	mov	r6, r5
+	bne	.LBB56_1535
+	b	.LBB56_1575
+.LBB56_1535:
+	ldrb	r3, [r2]
+	mov	r6, r3
 	subs	r6, #48
-	uxtb	r3, r6
-	cmp	r3, #10
-	blo	.LBB56_1538
-	mov	r3, r5
-	subs	r3, #97
-	uxtb	r3, r3
-	cmp	r3, #6
-	blo	.LBB56_1539
-	mov	r3, r5
-	subs	r3, #65
-	uxtb	r3, r3
-	cmp	r3, #6
+	uxtb	r4, r6
+	cmp	r4, #10
 	blo	.LBB56_1540
-	cmp	r5, #9
-	beq	.LBB56_1532
-	cmp	r5, #32
-	beq	.LBB56_1532
-	b	.LBB56_1569
-.LBB56_1538:
-	adds	r4, r2, #1
-	mov	r5, r6
-	b	.LBB56_1518
-.LBB56_1539:
-	adds	r4, r2, #1
-	subs	r5, #87
-	b	.LBB56_1518
+	mov	r4, r3
+	subs	r4, #97
+	uxtb	r4, r4
+	cmp	r4, #6
+	blo	.LBB56_1541
+	mov	r4, r3
+	subs	r4, #65
+	uxtb	r4, r4
+	cmp	r4, #6
+	blo	.LBB56_1542
+	cmp	r3, #9
+	beq	.LBB56_1534
+	cmp	r3, #32
+	beq	.LBB56_1534
+	b	.LBB56_1575
 .LBB56_1540:
 	adds	r4, r2, #1
-	subs	r5, #55
-	b	.LBB56_1518
+	mov	r3, r6
+	b	.LBB56_1520
 .LBB56_1541:
-	cmp	r5, #59
-	beq	.LBB56_1542
-	b	.LBB56_1569
+	adds	r4, r2, #1
+	subs	r3, #87
+	b	.LBB56_1520
 .LBB56_1542:
-	lsls	r0, r6, #31
-	bne	.LBB56_1543
-	b	.LBB56_1569
+	adds	r4, r2, #1
+	subs	r3, #55
+	b	.LBB56_1520
 .LBB56_1543:
-	ldr	r0, [sp, #356]
-	cmp	r0, #0
-	bne	.LBB56_1544
-	b	.LBB56_1574
+	cmp	r3, #59
+	beq	.LBB56_1544
+	b	.LBB56_1575
 .LBB56_1544:
-	adds	r1, r1, #2
-	ldr	r0, [sp, #356]
-	str	r1, [sp, #328]
-	adds	r1, r0, r1
-	movs	r7, #19
-	cmp	r1, r0
-	bhs	.LBB56_1545
+	lsls	r0, r6, #31
+	bne	.LBB56_1545
 	b	.LBB56_1575
 .LBB56_1545:
-	mov	r4, r1
+	cmp	r5, #0
+	bne	.LBB56_1546
+	b	.LBB56_1581
+.LBB56_1546:
+	adds	r0, r1, #2
+	str	r0, [sp, #328]
+	adds	r1, r5, r0
+	movs	r0, #19
+	str	r0, [sp, #352]
+	str	r1, [sp, #340]
+	cmp	r1, r5
+	bhs	.LBB56_1547
+	b	.LBB56_1582
+.LBB56_1547:
 	movs	r0, #2
 	mvns	r0, r0
+	ldr	r1, [sp, #340]
 	cmp	r1, r0
-	bls	.LBB56_1546
-	b	.LBB56_1575
-.LBB56_1546:
-	adds	r1, r4, #2
-	ldr	r0, [sp, #360]
-	str	r1, [sp, #352]
-	cmp	r0, r1
-	bhs	.LBB56_1553
-.LBB56_1547:
-	ldr	r0, [sp, #360]
-	ldr	r1, [sp, #352]
-	subs	r2, r1, r0
+	bls	.LBB56_1548
+	b	.LBB56_1582
+.LBB56_1548:
 	ldr	r0, [sp, #340]
+	adds	r1, r0, #2
+	ldr	r0, [sp, #360]
+	str	r1, [sp, #356]
+	cmp	r0, r1
+	bhs	.LBB56_1556
+.LBB56_1549:
+	ldr	r0, [sp, #360]
+	ldr	r1, [sp, #356]
+	subs	r2, r1, r0
+	ldr	r0, [sp, #348]
 	lsls	r0, r0, #9
 	cmp	r2, r0
-	blo	.LBB56_1549
+	blo	.LBB56_1551
 	mov	r2, r0
-.LBB56_1549:
+.LBB56_1551:
 	add	r0, sp, #528
 	add	r1, sp, #656
 	bl	_RNvMs_Cs9Yr4AUe4qI0_9netclientNtB4_6Socket4recv
 	ldr	r7, [sp, #536]
 	cmp	r7, #0
-	bne	.LBB56_1550
-	b	.LBB56_1570
-.LBB56_1550:
+	bne	.LBB56_1552
+	b	.LBB56_1576
+.LBB56_1552:
 	ldr	r0, [sp, #612]
 	ldr	r1, [sp, #360]
 	subs	r0, r0, r1
 	ldr	r1, [sp, #532]
-	str	r1, [sp, #348]
+	str	r1, [sp, #352]
 	cmp	r7, r0
-	bhi	.LBB56_1552
-.LBB56_1551:
+	bhi	.LBB56_1554
+.LBB56_1553:
 	ldr	r6, [sp, #616]
-	ldr	r5, [sp, #360]
-	adds	r0, r6, r5
-	ldr	r1, [sp, #348]
+	ldr	r4, [sp, #360]
+	adds	r0, r6, r4
+	ldr	r1, [sp, #352]
 	mov	r2, r7
 	bl	__aeabi_memcpy
-	adds	r5, r5, r7
-	str	r5, [sp, #620]
-	str	r5, [sp, #360]
-	ldr	r0, [sp, #352]
-	cmp	r5, r0
-	blo	.LBB56_1547
-	b	.LBB56_1554
-.LBB56_1552:
+	adds	r4, r4, r7
+	str	r4, [sp, #620]
+	str	r4, [sp, #360]
+	ldr	r0, [sp, #356]
+	cmp	r4, r0
+	blo	.LBB56_1549
+	b	.LBB56_1557
+.LBB56_1554:
 	add	r0, sp, #612
 	ldr	r1, [sp, #360]
 	mov	r2, r7
 	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
 	ldr	r0, [sp, #620]
 	str	r0, [sp, #360]
-	b	.LBB56_1551
-.LBB56_1553:
-	ldr	r6, [sp, #616]
-.LBB56_1554:
-	ldr	r0, [sp, #360]
-	cmp	r4, r0
-	blo	.LBB56_1555
-	b	.LBB56_1611
-.LBB56_1555:
-	ldrb	r0, [r6, r4]
-	movs	r7, #24
-	cmp	r0, #13
-	beq	.LBB56_1556
-	b	.LBB56_1573
+	b	.LBB56_1553
+	.p2align	2
+.LCPI56_243:
+	.long	_RNvNtNtNtCs4L8JVMRpR0y_4core7unicode12unicode_data11white_space14WHITESPACE_MAP
+	.p2align	1
 .LBB56_1556:
-	adds	r0, r4, #1
+	ldr	r6, [sp, #616]
+.LBB56_1557:
+	ldr	r0, [sp, #360]
+	ldr	r1, [sp, #340]
+	cmp	r1, r0
+	blo	.LBB56_1558
+	b	.LBB56_1616
+.LBB56_1558:
+	ldr	r0, [sp, #340]
+	ldrb	r0, [r6, r0]
+	movs	r1, #24
+	str	r1, [sp, #352]
+	cmp	r0, #13
+	beq	.LBB56_1559
+	b	.LBB56_1580
+.LBB56_1559:
+	ldr	r0, [sp, #340]
+	adds	r0, r0, #1
 	ldr	r1, [sp, #360]
 	cmp	r0, r1
-	blo	.LBB56_1557
-	b	.LBB56_1612
-.LBB56_1557:
+	blo	.LBB56_1560
+	b	.LBB56_1617
+.LBB56_1560:
 	ldrb	r0, [r6, r0]
 	cmp	r0, #10
-	beq	.LBB56_1558
-	b	.LBB56_1573
-.LBB56_1558:
+	beq	.LBB56_1561
+	b	.LBB56_1580
+.LBB56_1561:
 	ldr	r7, [sp, #440]
 	ldr	r0, [sp, #432]
 	subs	r0, r0, r7
-	ldr	r1, [sp, #356]
-	cmp	r1, r0
-	bhi	.LBB56_1560
-.LBB56_1559:
+	cmp	r5, r0
+	bhi	.LBB56_1563
+.LBB56_1562:
 	ldr	r0, [sp, #328]
 	adds	r1, r6, r0
 	ldr	r0, [sp, #436]
 	adds	r0, r0, r7
-	ldr	r4, [sp, #356]
-	mov	r2, r4
+	mov	r2, r5
 	bl	__aeabi_memcpy
-	adds	r0, r7, r4
-	b	.LBB56_1504
-.LBB56_1560:
+	adds	r0, r7, r5
+	b	.LBB56_1506
+.LBB56_1563:
 	add	r0, sp, #432
 	mov	r1, r7
-	ldr	r2, [sp, #356]
+	mov	r2, r5
 	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
 	ldr	r7, [sp, #440]
-	b	.LBB56_1559
-.LBB56_1561:
+	b	.LBB56_1562
+	.p2align	1
+.LBB56_1565:
 	add	r1, sp, #528
 	strb	r3, [r1, #21]
 	movs	r0, #1
@@ -35264,47 +35291,49 @@ main:
 	strh	r2, [r1, #2]
 	strh	r0, [r1]
 	str	r6, [sp, #560]
-	ldr	r0, [sp, #24]
-	str	r0, [sp, #556]
-	ldr	r0, [sp, #236]
+	str	r5, [sp, #556]
+	ldr	r0, [sp, #288]
 	str	r0, [sp, #544]
-	ldr	r0, [sp, #284]
+	ldr	r0, [sp, #236]
 	str	r0, [sp, #540]
 	ldr	r0, [sp, #128]
 	str	r0, [sp, #536]
 	add	r0, sp, #680
 	str	r0, [sp, #532]
-	mov	r0, r5
+	mov	r0, r7
 	adds	r0, #255
 	str	r0, [sp, #552]
 	ldr	r0, .LCPI56_91
 	add	r0, sp
 	ldr	r2, [sp, #60]
-	b	.LBB56_1568
-.LBB56_1562:
-	movs	r7, #20
+	b	.LBB56_1573
+	.p2align	2
+.LCPI56_221:
+	.long	4294966784
+	.p2align	1
+.LBB56_1567:
+	movs	r6, #20
 	ldr	r5, .LCPI56_65
-	bl	.LBB56_1077
-.LBB56_1563:
+	bl	.LBB56_962
+.LBB56_1568:
 	add	r1, sp, #528
-	ldr	r0, [sp, #240]
+	ldr	r0, [sp, #244]
 	strb	r0, [r1, #21]
-	ldr	r2, [sp, #356]
-	strb	r2, [r1, #20]
+	strb	r4, [r1, #20]
 	ldr	r0, [sp, #28]
 	strh	r0, [r1, #2]
-	strh	r2, [r1]
+	strh	r4, [r1]
 	ldr	r0, [sp, #432]
 	ldr	r4, [sp, #436]
 	ldr	r3, [sp, #440]
 	ldr	r2, [sp, #56]
-.LBB56_1564:
+.LBB56_1569:
 	str	r0, [r2]
 	str	r4, [r2, #4]
 	str	r3, [r2, #8]
-	ldr	r0, [sp, #236]
+	ldr	r0, [sp, #288]
 	str	r0, [sp, #544]
-	ldr	r0, [sp, #284]
+	ldr	r0, [sp, #236]
 	str	r0, [sp, #540]
 	ldr	r0, [sp, #128]
 	str	r0, [sp, #536]
@@ -35312,73 +35341,83 @@ main:
 	str	r0, [sp, #532]
 	ldr	r0, .LCPI56_91
 	add	r0, sp
-	b	.LBB56_1568
-.LBB56_1565:
-	ldr	r3, [sp, #240]
-.LBB56_1566:
-	ldr	r2, [sp, #284]
-	ldr	r4, [sp, #28]
-	ldr	r5, [sp, #20]
-	ldr	r7, [sp, #24]
-.LBB56_1567:
+	bl	_RNCNvMs_NtCs9Yr4AUe4qI0_9netclient4httpNtNtB8_10net_telnet9NetTelnet10fetch_http0B8_
+	ldr	r7, [sp, #292]
+	ldr	r4, [sp, #312]
+	b	.LBB56_1574
+.LBB56_1570:
+	ldr	r7, [sp, #292]
+	ldr	r4, [sp, #312]
+	ldr	r3, [sp, #244]
+.LBB56_1571:
+	ldr	r2, [sp, #28]
+	ldr	r5, [sp, #16]
+	ldr	r6, [sp, #12]
+.LBB56_1572:
 	add	r1, sp, #528
 	strb	r3, [r1, #21]
 	movs	r0, #1
 	strb	r0, [r1, #20]
-	strh	r4, [r1, #2]
+	strh	r2, [r1, #2]
 	strh	r0, [r1]
 	str	r5, [sp, #560]
-	str	r7, [sp, #556]
-	ldr	r0, [sp, #236]
+	str	r6, [sp, #556]
+	ldr	r0, [sp, #288]
 	str	r0, [sp, #544]
-	str	r2, [sp, #540]
+	ldr	r0, [sp, #236]
+	str	r0, [sp, #540]
 	ldr	r0, [sp, #128]
 	str	r0, [sp, #536]
 	add	r0, sp, #680
 	str	r0, [sp, #532]
-	ldr	r0, [sp, #292]
+	mov	r0, r7
 	adds	r0, #255
 	str	r0, [sp, #552]
 	ldr	r0, .LCPI56_91
 	add	r0, sp
 	ldr	r2, [sp, #76]
-.LBB56_1568:
+.LBB56_1573:
 	bl	_RNCNvMs_NtCs9Yr4AUe4qI0_9netclient4httpNtNtB8_10net_telnet9NetTelnet10fetch_http0B8_
-	ldr	r1, [sp, #212]
-	mov	r7, r1
-	adds	r7, #12
-	ldm	r7, {r0, r5, r7}
+.LBB56_1574:
+	ldr	r1, [sp, #216]
+	mov	r6, r1
+	adds	r6, #12
+	ldm	r6, {r0, r5, r6}
 	ldr	r2, [r1, #24]
-	bl	.LBB56_1064
-.LBB56_1569:
+	bl	.LBB56_965
+.LBB56_1575:
 	ldr	r5, .LCPI56_59
-	bl	.LBB56_1077
-.LBB56_1570:
-	movs	r7, #23
+	b	.LBB56_1577
+.LBB56_1576:
+	movs	r0, #23
+	str	r0, [sp, #352]
 	ldr	r5, .LCPI56_58
-	bl	.LBB56_1077
-.LBB56_1571:
+.LBB56_1577:
+	ldr	r0, [sp, #216]
+	ldr	r6, [sp, #352]
+	bl	.LBB56_963
+.LBB56_1578:
 	movs	r0, #0
 	str	r0, [sp, #620]
 	movs	r1, #1
 	str	r1, [sp, #616]
 	str	r0, [sp, #612]
-.LBB56_1572:
+.LBB56_1579:
 	add	r0, sp, #612
 	movs	r1, #0
-	ldr	r2, [sp, #20]
+	ldr	r2, [sp, #16]
 	bl	_RINvNvMs2_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB8_11RawVecInnerpE7reserve21do_reserve_and_handleNtNtBa_5alloc6GlobalECs9Yr4AUe4qI0_9netclient
 	ldr	r6, [sp, #616]
 	ldr	r4, [sp, #620]
-	b	.LBB56_1502
-.LBB56_1573:
+	b	.LBB56_1504
+.LBB56_1580:
 	ldr	r5, .LCPI56_62
-	bl	.LBB56_1077
-.LBB56_1574:
+	b	.LBB56_1577
+.LBB56_1581:
 	add	r1, sp, #528
-	ldr	r0, [sp, #240]
+	ldr	r0, [sp, #244]
 	strb	r0, [r1, #21]
-	ldr	r2, [sp, #340]
+	ldr	r2, [sp, #348]
 	strb	r2, [r1, #20]
 	ldr	r0, [sp, #28]
 	strh	r0, [r1, #2]
@@ -35387,18 +35426,18 @@ main:
 	ldr	r4, [sp, #436]
 	ldr	r3, [sp, #440]
 	ldr	r2, [sp, #52]
-	b	.LBB56_1564
-.LBB56_1575:
+	b	.LBB56_1569
+.LBB56_1582:
 	ldr	r5, .LCPI56_60
-	bl	.LBB56_1077
-.LBB56_1576:
+	b	.LBB56_1577
+.LBB56_1583:
 	ldr	r3, .LCPI56_31
 	mov	r0, r2
-	mov	r2, r6
+	mov	r2, r5
 	bl	_RNvNtNtCs4L8JVMRpR0y_4core5slice5index16slice_index_fail
-.LBB56_1577:
+.LBB56_1584:
 	str	r0, [sp, #528]
-.LBB56_1578:
+.LBB56_1585:
 	ldr	r0, .LCPI56_34
 	str	r0, [sp, #700]
 	add	r1, sp, #432
@@ -35409,13 +35448,13 @@ main:
 	ldr	r0, .LCPI56_35
 	str	r0, [sp, #684]
 	ldr	r0, .LCPI56_91
-	b	.LBB56_1589
-.LBB56_1579:
+	b	.LBB56_1595
+.LBB56_1586:
 	ldr	r3, .LCPI56_31
 	bl	_RNvNtNtCs4L8JVMRpR0y_4core5slice5index16slice_index_fail
-.LBB56_1580:
-	ldr	r0, [sp, #212]
-	str	r5, [r0, #12]
+.LBB56_1587:
+	ldr	r0, [sp, #216]
+	str	r6, [r0, #12]
 	ldr	r0, .LCPI56_34
 	str	r0, [sp, #700]
 	add	r1, sp, #612
@@ -35423,16 +35462,16 @@ main:
 	str	r0, [sp, #692]
 	ldr	r0, .LCPI56_91
 	add	r0, sp
-	b	.LBB56_1588
-.LBB56_1581:
+	b	.LBB56_1594
+.LBB56_1588:
 	str	r1, [sp, #528]
-	b	.LBB56_1587
-.LBB56_1582:
+	b	.LBB56_1593
+.LBB56_1589:
 	ldr	r0, .LCPI56_85
 	bl	_RNvNtNtCs4L8JVMRpR0y_4core9panicking11panic_const23panic_const_rem_by_zero
-.LBB56_1583:
+.LBB56_1590:
 	str	r0, [sp, #612]
-.LBB56_1584:
+.LBB56_1591:
 	ldr	r0, .LCPI56_34
 	str	r0, [sp, #548]
 	ldr	r1, .LCPI56_94
@@ -35450,33 +35489,29 @@ main:
 	add	r1, sp, #528
 	ldr	r2, .LCPI56_37
 	bl	_RNvNtCs4L8JVMRpR0y_4core9panicking9panic_fmt
-	.p2align	2
-.LCPI56_244:
-	.long	4294966784
-	.p2align	1
-.LBB56_1586:
+.LBB56_1592:
 	str	r2, [sp, #528]
-.LBB56_1587:
+.LBB56_1593:
 	ldr	r0, .LCPI56_34
 	str	r0, [sp, #700]
 	add	r1, sp, #612
 	str	r1, [sp, #696]
 	str	r0, [sp, #692]
 	add	r0, sp, #528
-.LBB56_1588:
+.LBB56_1594:
 	str	r0, [sp, #688]
 	ldr	r0, .LCPI56_35
 	str	r0, [sp, #684]
 	ldr	r0, .LCPI56_92
-.LBB56_1589:
+.LBB56_1595:
 	add	r0, sp
-.LBB56_1590:
+.LBB56_1596:
 	str	r0, [sp, #680]
 	ldr	r0, .LCPI56_36
 	add	r1, sp, #680
 	ldr	r2, .LCPI56_37
 	bl	_RNvNtCs4L8JVMRpR0y_4core9panicking9panic_fmt
-.LBB56_1591:
+.LBB56_1597:
 	ldr	r1, .LCPI56_25
 	str	r1, [sp]
 	movs	r4, #6
@@ -35484,11 +35519,10 @@ main:
 	mov	r3, r2
 	mov	r2, r4
 	bl	_RNvNtCs4L8JVMRpR0y_4core3str16slice_error_fail
-.LBB56_1592:
+.LBB56_1598:
 	str	r0, [sp, #528]
-	b	.LBB56_1587
-	.p2align	1
-.LBB56_1594:
+	b	.LBB56_1593
+.LBB56_1599:
 	str	r1, [sp, #528]
 	ldr	r0, .LCPI56_34
 	str	r0, [sp, #700]
@@ -35500,13 +35534,13 @@ main:
 	ldr	r0, .LCPI56_35
 	str	r0, [sp, #684]
 	add	r0, sp, #612
-	b	.LBB56_1590
-.LBB56_1595:
+	b	.LBB56_1596
+.LBB56_1600:
 	str	r2, [sp, #528]
-	b	.LBB56_1578
-.LBB56_1596:
+	b	.LBB56_1585
+.LBB56_1601:
 	movs	r1, #2
-.LBB56_1597:
+.LBB56_1602:
 	add	r2, sp, #528
 	strb	r1, [r2]
 	ldr	r0, .LCPI56_73
@@ -35515,62 +35549,61 @@ main:
 	movs	r1, #43
 	ldr	r3, .LCPI56_75
 	bl	_RNvNtCs4L8JVMRpR0y_4core6result13unwrap_failed
-.LBB56_1598:
+.LBB56_1603:
 	movs	r0, #48
 	bl	_RNvNtCsa0y0V4fwJ9Z_5alloc5alloc18handle_alloc_error
-.LBB56_1599:
+.LBB56_1604:
 	ldr	r3, .LCPI56_42
 	bl	_RNvNtNtCs4L8JVMRpR0y_4core5slice5index16slice_index_fail
-.LBB56_1600:
+.LBB56_1605:
 	ldr	r4, .LCPI56_42
 	mov	r0, r1
 	mov	r1, r3
 	mov	r3, r4
 	bl	_RNvNtNtCs4L8JVMRpR0y_4core5slice5index16slice_index_fail
-.LBB56_1601:
-	ldr	r0, [sp, #248]
-	bl	_RNvNtCsa0y0V4fwJ9Z_5alloc5alloc18handle_alloc_error
-.LBB56_1602:
-	ldr	r3, .LCPI56_66
-	mov	r0, r4
-	mov	r1, r6
-	mov	r2, r6
-	bl	_RNvNtNtCs4L8JVMRpR0y_4core5slice5index16slice_index_fail
-.LBB56_1603:
-	movs	r0, #0
-	mov	r2, r3
-	ldr	r3, .LCPI56_72
-	bl	_RNvNtNtCs4L8JVMRpR0y_4core5slice5index16slice_index_fail
-.LBB56_1604:
-	ldr	r1, [sp, #200]
-	b	.LBB56_1597
-.LBB56_1605:
-	str	r1, [sp, #612]
-	b	.LBB56_1584
 .LBB56_1606:
-	mov	r0, r5
+	ldr	r0, [sp, #252]
 	bl	_RNvNtCsa0y0V4fwJ9Z_5alloc5alloc18handle_alloc_error
 .LBB56_1607:
-	movs	r1, #5
-	b	.LBB56_1597
+	ldr	r3, .LCPI56_66
+	mov	r0, r2
+	mov	r2, r1
+	bl	_RNvNtNtCs4L8JVMRpR0y_4core5slice5index16slice_index_fail
 .LBB56_1608:
-	bl	_RNvNtCsa0y0V4fwJ9Z_5alloc7raw_vec17capacity_overflow
+	mov	r2, r0
+	movs	r0, #0
+	ldr	r3, .LCPI56_72
+	bl	_RNvNtNtCs4L8JVMRpR0y_4core5slice5index16slice_index_fail
 .LBB56_1609:
+	ldr	r1, [sp, #204]
+	b	.LBB56_1602
+.LBB56_1610:
+	str	r1, [sp, #612]
+	b	.LBB56_1591
+.LBB56_1611:
+	mov	r0, r5
+	bl	_RNvNtCsa0y0V4fwJ9Z_5alloc5alloc18handle_alloc_error
+.LBB56_1612:
+	movs	r1, #5
+	b	.LBB56_1602
+.LBB56_1613:
+	bl	_RNvNtCsa0y0V4fwJ9Z_5alloc7raw_vec17capacity_overflow
+.LBB56_1614:
 	ldr	r2, .LCPI56_57
 	ldr	r0, [sp, #360]
 	mov	r1, r0
 	bl	_RNvNtCs4L8JVMRpR0y_4core9panicking18panic_bounds_check
-.LBB56_1610:
+.LBB56_1615:
 	ldr	r3, .LCPI56_64
-	ldr	r0, [sp, #352]
+	ldr	r0, [sp, #356]
 	ldr	r2, [sp, #360]
 	bl	_RNvNtNtCs4L8JVMRpR0y_4core5slice5index16slice_index_fail
-.LBB56_1611:
+.LBB56_1616:
 	ldr	r2, .LCPI56_61
-	mov	r0, r4
+	ldr	r0, [sp, #340]
 	ldr	r1, [sp, #360]
 	bl	_RNvNtCs4L8JVMRpR0y_4core9panicking18panic_bounds_check
-.LBB56_1612:
+.LBB56_1617:
 	ldr	r2, .LCPI56_63
 	ldr	r1, [sp, #360]
 	bl	_RNvNtCs4L8JVMRpR0y_4core9panicking18panic_bounds_check
@@ -35584,9 +35617,9 @@ main:
 .LCPI56_35:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI56_36:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI56_37:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .LCPI56_42:
 	.long	.Lanon.d162e95fcfe3df1664283f14cd5a174a.3
 .LCPI56_57:
@@ -35614,7 +35647,7 @@ main:
 .LCPI56_73:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.26
 .LCPI56_74:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.35
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.35
 .LCPI56_75:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.25
 .LCPI56_85:
@@ -35883,9 +35916,9 @@ _RNvNvNtNtCshljGeWkTGxF_11compact_str4repr4heap12allocate_ptr30allocate_with_cap
 .LCPI64_3:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI64_4:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI64_5:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .LCPI64_6:
 	.long	.Lanon.98b2859cab7685952a4e7283495af51a.26
 .LCPI64_7:
@@ -42226,7 +42259,7 @@ _RNvXs6_NtNtCs4L8JVMRpR0y_4core3net7ip_addrNtB5_8Ipv4AddrNtNtB9_3fmt7Display3fmt
 .LCPI103_4:
 	.long	.Lanon.b85778989e51bb4a273b2553e80e2f5a.397
 .LCPI103_5:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.35
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.35
 .LCPI103_6:
 	.long	.Lanon.b85778989e51bb4a273b2553e80e2f5a.393
 .Lfunc_end103:
@@ -46670,7 +46703,7 @@ _RNvMs0_NtCsg12bUqy9Pjs_10htmlparser6streamNtB5_6Stream11skip_string:
 .LCPI118_0:
 	.long	.Lanon.c5033f4f7c4a3d90132929577238a99d.17
 .LCPI118_1:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.35
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.35
 .LCPI118_2:
 	.long	.Lanon.c5033f4f7c4a3d90132929577238a99d.15
 .LCPI118_3:
@@ -64935,9 +64968,9 @@ _RNvCs7pOVZZ9zOwf_7___rustc12___rust_alloc:
 .LCPI147_2:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI147_3:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI147_4:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .Lfunc_end147:
 	.size	_RNvCs7pOVZZ9zOwf_7___rustc12___rust_alloc, .Lfunc_end147-_RNvCs7pOVZZ9zOwf_7___rustc12___rust_alloc
 	.cantunwind
@@ -64993,9 +65026,9 @@ _RNvCs7pOVZZ9zOwf_7___rustc17rust_begin_unwind:
 .LCPI148_3:
 	.long	.L_MergedGlobals
 .LCPI148_4:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.48
 .LCPI148_5:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.16
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.16
 .Lfunc_end148:
 	.size	_RNvCs7pOVZZ9zOwf_7___rustc17rust_begin_unwind, .Lfunc_end148-_RNvCs7pOVZZ9zOwf_7___rustc17rust_begin_unwind
 	.cantunwind
@@ -65100,7 +65133,7 @@ _RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB
 	b	.LBB150_11
 	.p2align	2
 .LCPI150_0:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.48
 .Lfunc_end150:
 	.size	_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_, .Lfunc_end150-_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_
 	.cantunwind
@@ -65272,9 +65305,9 @@ _RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCsb7ba3TghY
 .LCPI152_2:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI152_3:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI152_4:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .Lfunc_end152:
 	.size	_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCsb7ba3TghYF3_4parm, .Lfunc_end152-_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCsb7ba3TghYF3_4parm
 	.cantunwind
@@ -65413,17 +65446,17 @@ _RNvMs_NtNtCsb7ba3TghYF3_4parm4heap15circular_bufferNtB4_14CircularBuffer17consu
 	bl	_RNvNtNtCs4L8JVMRpR0y_4core9panicking11panic_const23panic_const_rem_by_zero
 	.p2align	2
 .LCPI153_0:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.30
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.30
 .LCPI153_1:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.29
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.29
 .LCPI153_2:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.31
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.31
 .LCPI153_3:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.32
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.32
 .LCPI153_4:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.25
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.25
 .LCPI153_5:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.26
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.26
 .Lfunc_end153:
 	.size	_RNvMs_NtNtCsb7ba3TghYF3_4parm4heap15circular_bufferNtB4_14CircularBuffer17consume_into_slow, .Lfunc_end153-_RNvMs_NtNtCsb7ba3TghYF3_4parm4heap15circular_bufferNtB4_14CircularBuffer17consume_into_slow
 	.cantunwind
@@ -65582,13 +65615,13 @@ _RNvXs17_CsdSgyyxKleEr_3logNtB6_14SetLoggerErrorNtNtCs4L8JVMRpR0y_4core3fmt5Debu
 	pop	{r4, r5, r6, r7, pc}
 	.p2align	2
 .LCPI155_0:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.43
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.43
 .LCPI155_1:
 	.long	.Lanon.b85778989e51bb4a273b2553e80e2f5a.40
 .LCPI155_2:
 	.long	.Lanon.b85778989e51bb4a273b2553e80e2f5a.140
 .LCPI155_3:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.50
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.52
 .LCPI155_4:
 	.long	.Lanon.b85778989e51bb4a273b2553e80e2f5a.38
 .LCPI155_5:
@@ -65710,7 +65743,7 @@ _RNvXs2_NtNtCsb7ba3TghYF3_4parm6telnet13speedy_telnetNtB5_12SpeedyTelnetINtNtCsl
 	bl	_RNvNtNtCs4L8JVMRpR0y_4core5slice5index16slice_index_fail
 	.p2align	2
 .LCPI156_0:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.18
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.18
 .Lfunc_end156:
 	.size	_RNvXs2_NtNtCsb7ba3TghYF3_4parm6telnet13speedy_telnetNtB5_12SpeedyTelnetINtNtCslTdr3m3UBIq_6speedy6reader6ReaderNtB5_13TelnetContextE10read_bytes, .Lfunc_end156-_RNvXs2_NtNtCsb7ba3TghYF3_4parm6telnet13speedy_telnetNtB5_12SpeedyTelnetINtNtCslTdr3m3UBIq_6speedy6reader6ReaderNtB5_13TelnetContextE10read_bytes
 	.cantunwind
@@ -67791,9 +67824,9 @@ invalid_instruction:
 	bl	_RNvNtCs4L8JVMRpR0y_4core9panicking9panic_fmt
 	.p2align	2
 .LCPI172_0:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.51
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.53
 .LCPI172_1:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.53
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.55
 .Lfunc_end172:
 	.size	invalid_instruction, .Lfunc_end172-invalid_instruction
 	.cantunwind
@@ -68117,9 +68150,9 @@ _RINvNtNtNtCs4L8JVMRpR0y_4core5slice4sort6stable14driftsort_mainNtNtNtNtCseADBAl
 .LCPI176_4:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI176_5:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI176_6:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .LCPI176_7:
 	.long	4294963172
 .LCPI176_8:
@@ -72561,9 +72594,9 @@ _RNvXsa_NtCsa0y0V4fwJ9Z_5alloc3vecINtB5_3VecNtNtNtNtCseADBAlPmZ6Z_10simple_dns3d
 .LCPI184_2:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI184_3:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI184_4:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .Lfunc_end184:
 	.size	_RNvXsa_NtCsa0y0V4fwJ9Z_5alloc3vecINtB5_3VecNtNtNtNtCseADBAlPmZ6Z_10simple_dns3dns5rdata4nsec14NsecTypeBitMapENtNtCs4L8JVMRpR0y_4core5clone5Clone5cloneBN_, .Lfunc_end184-_RNvXsa_NtCsa0y0V4fwJ9Z_5alloc3vecINtB5_3VecNtNtNtNtCseADBAlPmZ6Z_10simple_dns3dns5rdata4nsec14NsecTypeBitMapENtNtCs4L8JVMRpR0y_4core5clone5Clone5cloneBN_
 	.cantunwind
@@ -72755,9 +72788,9 @@ _RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCseADBAlPmZ
 .LCPI186_2:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI186_3:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI186_4:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .Lfunc_end186:
 	.size	_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCseADBAlPmZ6Z_10simple_dns, .Lfunc_end186-_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCseADBAlPmZ6Z_10simple_dns
 	.cantunwind
@@ -79078,9 +79111,9 @@ _RINvMNtNtCseADBAlPmZ6Z_10simple_dns3dns6packetNtB3_6Packet13parse_sectionNtNtB5
 .LCPI196_2:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI196_3:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI196_4:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .Lfunc_end196:
 	.size	_RINvMNtNtCseADBAlPmZ6Z_10simple_dns3dns6packetNtB3_6Packet13parse_sectionNtNtB5_15resource_record14ResourceRecordEB7_, .Lfunc_end196-_RINvMNtNtCseADBAlPmZ6Z_10simple_dns3dns6packetNtB3_6Packet13parse_sectionNtNtB5_15resource_record14ResourceRecordEB7_
 	.cantunwind
@@ -85765,9 +85798,9 @@ _RNvXs2_NtNtNtCseADBAlPmZ6Z_10simple_dns3dns5rdata4svcbNtB5_8SVCParamNtNtB9_11wi
 .LCPI208_12:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI208_13:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI208_14:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .Lfunc_end208:
 	.size	_RNvXs2_NtNtNtCseADBAlPmZ6Z_10simple_dns3dns5rdata4svcbNtB5_8SVCParamNtNtB9_11wire_format10WireFormat5parse, .Lfunc_end208-_RNvXs2_NtNtNtCseADBAlPmZ6Z_10simple_dns3dns5rdata4svcbNtB5_8SVCParamNtNtB9_11wire_format10WireFormat5parse
 	.cantunwind
@@ -86943,9 +86976,9 @@ _RNvMsi_NtNtNtCsa0y0V4fwJ9Z_5alloc11collections5btree3mapINtB5_8BTreeMaptNtNtNtN
 .LCPI209_8:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI209_9:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI209_10:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .LCPI209_11:
 	.long	.Lanon.d162e95fcfe3df1664283f14cd5a174a.52
 .LCPI209_12:
@@ -87233,9 +87266,9 @@ _RINvMsW_NtNtNtCsa0y0V4fwJ9Z_5alloc11collections5btree4nodeINtB6_6HandleINtB6_7N
 .LCPI210_5:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI210_6:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37
 .LCPI210_7:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39
 .Lfunc_end210:
 	.size	_RINvMsW_NtNtNtCsa0y0V4fwJ9Z_5alloc11collections5btree4nodeINtB6_6HandleINtB6_7NodeRefNtNtB6_6marker3MuttNtNtB8_7set_val9SetValZSTNtB1n_8InternalENtB1n_2KVE5splitNtNtBc_5alloc6GlobalECseADBAlPmZ6Z_10simple_dns, .Lfunc_end210-_RINvMsW_NtNtNtCsa0y0V4fwJ9Z_5alloc11collections5btree4nodeINtB6_6HandleINtB6_7NodeRefNtNtB6_6marker3MuttNtNtB8_7set_val9SetValZSTNtB1n_8InternalENtB1n_2KVE5splitNtNtBc_5alloc6GlobalECseADBAlPmZ6Z_10simple_dns
 	.cantunwind
@@ -88620,8 +88653,8 @@ _RNvNvXs_NtNtCseADBAlPmZ6Z_10simple_dns3dns4nameNtB6_4NameNtNtB8_11wire_format10
 	.section	.rodata..Lanon.fad58de7366495db4650cfefac2fcd61.140,"a",%progbits
 	.p2align	2, 0x0
 .Lanon.fad58de7366495db4650cfefac2fcd61.140:
-	.ascii	"https://web.archive.org/web/19971210065417if_/http%3A%2F%2Fbackrub.stanford.edu%2F"
-	.size	.Lanon.fad58de7366495db4650cfefac2fcd61.140, 82
+	.ascii	"https://an-updated-world-wide-web.pages.dev/"
+	.size	.Lanon.fad58de7366495db4650cfefac2fcd61.140, 44
 
 	.type	.Lanon.fad58de7366495db4650cfefac2fcd61.141,%object
 	.section	.rodata.cst4,"aM",%progbits,4
@@ -88688,7 +88721,7 @@ _RNvNvXs_NtNtCseADBAlPmZ6Z_10simple_dns3dns4nameNtB6_4NameNtNtB8_11wire_format10
 	.p2align	2, 0x0
 .Lanon.fad58de7366495db4650cfefac2fcd61.151:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.35
-	.asciz	"\031\000\000\000\245\003\000\000.\000\000"
+	.asciz	"\031\000\000\000\246\003\000\000.\000\000"
 	.size	.Lanon.fad58de7366495db4650cfefac2fcd61.151, 16
 
 	.type	.Lanon.fad58de7366495db4650cfefac2fcd61.152,%object
@@ -90727,158 +90760,158 @@ _RNvCsaDIep1TqQxb_8httparse9TOKEN_MAP:
 	.asciz	"y\000\000\000k\004\000\000$\000\000"
 	.size	.Lanon.56d1b7c2345842248779782f7e3356ab.24, 16
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.0,%object
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.0,%object
 	.section	.rodata.str1.1,"aMS",%progbits,1
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.0:
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.0:
 	.asciz	"parm/src/heap/circular_buffer.rs"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.0, 33
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.0, 33
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.5,%object
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.5:
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.5,%object
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.5:
 	.asciz	"parm/src/tty.rs"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.5, 16
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.5, 16
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.16,%object
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.16:
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.16,%object
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.16:
 	.asciz	"\007PANIC: \300\004 at \300\001:\300\001\n"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.16, 21
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.16, 21
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.18,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.18,"a",%progbits
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.18,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.18,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.18:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.0
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.18:
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.0
 	.asciz	" \000\000\000\350\000\000\000:\000\000"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.18, 16
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.18, 16
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.25,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.25,"a",%progbits
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.25:
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.25,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.25,"a",%progbits
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.25:
 	.ascii	"assertion failed: buffer.len() <= self.length"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.25, 45
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.25, 45
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.26,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.26,"a",%progbits
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.26,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.26,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.26:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.0
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.26:
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.0
 	.asciz	" \000\000\000\373\000\000\000\t\000\000"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.26, 16
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.26, 16
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.29,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.29,"a",%progbits
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.29,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.29,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.29:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.0
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.29:
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.0
 	.asciz	" \000\000\000\273\000\000\000\035\000\000"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.29, 16
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.29, 16
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.30,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.30,"a",%progbits
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.30,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.30,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.30:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.0
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.30:
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.0
 	.asciz	" \000\000\000\334\000\000\000\031\000\000"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.30, 16
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.30, 16
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.31,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.31,"a",%progbits
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.31,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.31,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.31:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.0
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.31:
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.0
 	.asciz	" \000\000\000\261\000\000\0001\000\000"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.31, 16
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.31, 16
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.32,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.32,"a",%progbits
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.32,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.32,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.32:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.0
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.32:
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.0
 	.asciz	" \000\000\000\261\000\000\000\026\000\000"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.32, 16
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.32, 16
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.34,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.34,"a",%progbits
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.34,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.34,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.34:
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.34:
 	.asciz	"\000\000\000\000\000\000\000\000\001\000\000"
 	.long	_RNvXs17_CsdSgyyxKleEr_3logNtB6_14SetLoggerErrorNtNtCs4L8JVMRpR0y_4core3fmt5Debug3fmt
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.34, 16
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.34, 16
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.35,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.35,"a",%progbits
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.35:
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.35,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.35,"a",%progbits
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.35:
 	.ascii	"called `Result::unwrap()` on an `Err` value"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.35, 43
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.35, 43
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.36,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.36,"a",%progbits
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.36,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.36,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.36:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.5
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.36:
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.5
 	.asciz	"\017\000\000\000\314\001\000\000/\000\000"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.36, 16
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.36, 16
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37,%object
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37,%object
 	.section	.rodata.str1.1,"aMS",%progbits,1
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37:
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37:
 	.asciz	"\023Heap overflow:size=\300\006 next=\300\005, sp=\300"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37, 37
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.37, 37
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.38,%object
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.38:
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.38,%object
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.38:
 	.asciz	"parm/src/heap.rs"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.38, 17
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.38, 17
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39,"a",%progbits
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.38
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39:
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.38
 	.asciz	"\020\000\000\000:\000\000\000\t\000\000"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39, 16
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.39, 16
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.43,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.43,"a",%progbits
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.43:
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.43,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.43,"a",%progbits
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.43:
 	.ascii	"SetLoggerError"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.43, 14
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.43, 14
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48,"a",%progbits
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.48,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.48,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48:
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.48:
 	.asciz	"\000\000\000\000\000\000\000\000\001\000\000"
 	.long	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str
 	.long	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char
 	.long	_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48, 24
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.48, 24
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.50,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.50,"a",%progbits
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.50:
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.52,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.52,"a",%progbits
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.52:
 	.ascii	"()"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.50, 2
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.52, 2
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.51,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.51,"a",%progbits
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.51:
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.53,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.53,"a",%progbits
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.53:
 	.ascii	"invalid instruction"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.51, 19
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.53, 19
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.52,%object
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.54,%object
 	.section	.rodata.str1.1,"aMS",%progbits,1
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.52:
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.54:
 	.asciz	"parm/src/lib.rs"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.52, 16
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.54, 16
 
-	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.53,%object
-	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.53,"a",%progbits
+	.type	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.55,%object
+	.section	.rodata..Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.55,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.53:
-	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.52
+.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.55:
+	.long	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.54
 	.asciz	"\017\000\000\000>\000\000\000\005\000\000"
-	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.53, 16
+	.size	.Lanon.6d54ada50725bb59e11bcb18f8dd9d3d.55, 16
 
 	.type	.Lanon.d162e95fcfe3df1664283f14cd5a174a.1,%object
 	.section	.rodata.str1.1,"aMS",%progbits,1
