@@ -15745,6 +15745,20 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
       </elementAttributes>
       <pos x="-1060" y="-1620"/>
     </visualElement>
+    <visualElement>
+      <elementName>Tunnel</elementName>
+      <elementAttributes>
+        <entry>
+          <string>rotation</string>
+          <rotation rotation="2"/>
+        </entry>
+        <entry>
+          <string>NetName</string>
+          <string>TelnetBuf_Av</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-620" y="-940"/>
+    </visualElement>
   </visualElements>
   <wires>
     <wire>
@@ -21118,10 +21132,6 @@ the Telnet component should drop the byte as soon as it&apos;s read and cache it
     <wire>
       <p1 x="-600" y="-940"/>
       <p2 x="-400" y="-940"/>
-    </wire>
-    <wire>
-      <p1 x="-640" y="-940"/>
-      <p2 x="-620" y="-940"/>
     </wire>
     <wire>
       <p1 x="-940" y="-940"/>
