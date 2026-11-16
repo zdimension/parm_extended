@@ -104,23 +104,20 @@ pub fn read_n_blocking(n: usize) -> Vec<u8> {
 }
 
 pub fn read_all_as<T>(conv: fn(u8) -> T, stop: fn(u8) -> bool) -> Vec<T> {
-    while !data_available() {
-        continue;
-    }
     let mut data = Vec::with_capacity(32);
-    while let Some(char_read) = read() {
+    // wait for the first byte, then take whatever else is there
+    let mut next = Some(read_blocking());
+    while let Some(char_read) = next {
         if stop(char_read) {
             break;
         }
         data.push(conv(char_read));
+        next = read();
     }
     data
 }
 
 pub fn read_until_as<T>(conv: fn(u8) -> T, stop: fn(u8) -> bool) -> Vec<T> {
-    while !data_available() {
-        continue;
-    }
     let mut data = Vec::with_capacity(32);
     loop {
         let char_read = read_blocking();
@@ -145,9 +142,6 @@ pub fn read_line() -> String {
 }
 
 pub fn read_line_to(out: &mut String, echo: bool) {
-    while !data_available() {
-        continue;
-    }
     loop {
         let char_read = read_blocking();
         if echo {
