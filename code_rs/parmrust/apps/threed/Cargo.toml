@@ -1,0 +1,9 @@
+[package]
+name = "threed"
+version = "0.1.0"
+edition.workspace = true
+
+[dependencies]
+embedded-3dgfx = { version = "0.3.0", default-features = false }
+parm = { workspace = true, features = ["embedded-graphics"] }
+nalgebra = { version = "*", default-features = false }
