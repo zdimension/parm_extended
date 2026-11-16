@@ -254,10 +254,18 @@ impl fp32 {
     #[inline(always)]
     pub fn recip(self) -> Option<fp32> {
         if self.0 == 0 {
-            None
-        } else {
-            Some(fp32(2 * (((1 << 31 - 1) / (self.0 as u32)) as i32)))
+            return None;
         }
+        // In 16.16, 1/x has raw value 2^32 / raw(x). The division is unsigned,
+        // so divide the magnitude and restore the sign afterwards.
+        // 2^32 / a == (2^32 - a) / a + 1, and 2^32 - a is a.wrapping_neg() in u32.
+        let a = self.0.unsigned_abs();
+        let mag = if a <= 2 {
+            i32::MAX // |1/x| >= 2^15 doesn't fit: saturate
+        } else {
+            (a.wrapping_neg() / a + 1) as i32
+        };
+        Some(fp32(if self.0 < 0 { -mag } else { mag }))
     }
 
     #[inline(always)]
@@ -337,13 +345,15 @@ impl Div<i32> for fp32 {
 impl Div<fp32> for fp32 {
     type Output = fp32;
     fn div(self, rhs: fp32) -> Self::Output {
-        fp32((((self.0 << 8) as u32 / rhs.0 as u32) << 8) as i32)
+        // The division is unsigned, so divide the magnitudes and restore the sign afterwards.
+        let q = (((self.0.unsigned_abs() << 8) / rhs.0.unsigned_abs()) << 8) as i32;
+        fp32(if (self.0 < 0) != (rhs.0 < 0) { -q } else { q })
     }
 }
 
 impl DivAssign<fp32> for fp32 {
     fn div_assign(&mut self, rhs: fp32) {
-        self.0 = (((self.0 << 8) as u32 / rhs.0 as u32) << 8) as i32;
+        *self = *self / rhs;
     }
 }
 
