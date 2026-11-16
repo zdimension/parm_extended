@@ -3,4 +3,4 @@
 target = "thumb-nofp.json"
 
 [alias]
-runner = "run --target host-tuple --package runner"
+runner = "run --release --target host-tuple --package runner"

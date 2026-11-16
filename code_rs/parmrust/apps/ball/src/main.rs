@@ -30,7 +30,7 @@ fn main() {
     // for y in x.iter().map(|x| x.to_string()) {
     //     println!(y.as_str());
     // }
-    println!("hello world");
+    /*println!("hello world");
     let x = [1, 4, 9];
     let y = x.map(|x| x.to_string());
     for z in y.iter() {
@@ -53,7 +53,7 @@ fn main() {
     }
     println!();
     println!(x.iter().map(|x| x.to_string()).collect::<alloc::vec::Vec<_>>().join(", ").as_str());
-    return;
+    return;*/
     let mut p = Vec2::default();
     let mut v = Vec2(fp32::from(5), fp32::ZERO);
     let a = Vec2(fp32::ZERO, fp32::from(9.81));
