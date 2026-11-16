@@ -318,7 +318,7 @@ impl CRepl {
             rprintln!("addr={:x}", code.as_ptr() as usize);
             let res = unsafe {
                 let ptr: fn() -> u32 = core::mem::transmute(code.as_ptr());
-                breakpoint();
+                //breakpoint();
                 ptr()
             };
             rprint!("-> {}: ", ty);

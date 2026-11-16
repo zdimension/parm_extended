@@ -934,98 +934,106 @@ impl<'a> Compiler<'a> {
             }
 
             Assignment(op) => {
-                let (mut lty, lev): EvalTy<'e> = self.eval_expression_raw(l)?;
-
-                if let (None, Expression::Initializer(InitializerList { items })) = (op, r) {
-                    return Ok((rvalue(UnqualType::Void.into()), Emission((Impure, Box::new(move |c, out| {
-                        let mut auto_idx = 0;
-                        use UnaryOp::Deref;
-                        for (designators, val) in items {
-                            let mut target = l.clone();
-                            if designators.is_empty() {
-                                target = Expression::UnaryOp(Deref, Expression::BinOp(
-                                    Simple(Plus),
-                                    target.into(),
-                                    Expression::IntegerLiteral(auto_idx, Unsigned).into()
-                                ).into());
-                            } else {
-                                for designator in designators {
-                                    match designator {
-                                        Designator::Member(name) => {
-                                            target = Expression::MemberAccess(target.into(), name.clone(), AccessType::Dot);
-                                        }
-                                        Designator::Index(idx) => {
-                                            target = Expression::UnaryOp(Deref, Expression::BinOp(
-                                                Simple(Plus),
-                                                target.into(),
-                                                Expression::IntegerLiteral(*idx, Unsigned).into()
-                                            ).into());
-                                        }
-                                    }
-                                }
-                            }
-                            let ev = c.eval_bin_op(Assignment(None), &target, val)?.1;
-                            c.flush_and_discard(out, ev)?;
-                            auto_idx += 1;
-                        }
-                        Ok(())
-                    }))).into()));
-                }
-
-                if let UnqualType::Array(_, _) = *lty.ty.unqual {
-                    comperr!("Cannot assign to array type: {}", lty.ty);
-                }
-
-                if let UnqualType::Function(_) = *lty.ty.unqual {
-                    comperr!("Cannot assign to function type: {}", lty.ty);
-                }
-
-                lty.ty = lty.ty.decay();
-
-                let (rty, rev) = if let Some(op) = op {
-                    // todo: this will eval l twice...
-                    self.eval_bin_op(Simple(op), l, r)?
-                } else {
-                    self.eval_expression(r)?
-                };
-
-                if *rty.ty.unqual == UnqualType::Void {
-                    comperr!("Cannot assign void type");
-                }
-
-                let Some(laddr) = lty.addr else {
-                    comperr!("Cannot assign to non-lvalue expression: {}", lty.ty);
-                };
-
-                if lty.ty.type_qualifiers.is_const {
-                    comperr!("Cannot assign to const-qualified type: {}", lty.ty);
-                }
-
-                if laddr.side_effects.len() != lev.side_effects.len() {
-                    panic!("weird!???");
-                }
-
-                let rev = match self.eval_auto_convert((rty, rev), &lty.ty)? {
-                    Ok(ev) => ev,
-                    Err(ety) => comperr!(
-                        "Cannot assign value of type {} to lvalue of type {}",
-                        ety.0.ty.unqual,
-                        lty.ty.unqual,
-                    )
-                };
-
-                let oty = lty.ty.clone();
-
-                (rvalue(oty), Emission((Impure, Box::new(move |c, out| {
-                    let laddr = c.flush_side_effects(out, laddr.apply_transforms())?;
-                    c.flush_eval_to_reg(out, rev)?;
-                    c.store_into(&lty.ty, laddr, out)?;
-                    Ok(())
-                }))).into())
+                self.eval_assignment(l, r, op)?
             }
         })
     }
 
+    #[inline(never)]
+    fn eval_assignment<'e>(&mut self, l: &'e Expression, r: &'e Expression, op: Option<AssignableOperator>) -> Result<(Analysis2<'e>, FullEvaluation<'e>), CompileError> {
+        let (mut lty, lev): EvalTy<'e> = self.eval_expression_raw(l)?;
+        
+        if let (None, Expression::Initializer(InitializerList { items })) = (op, r) {
+            use AssignableOperator::*;
+            use BinOp::*;
+            return Ok((rvalue(UnqualType::Void.into()), Emission((Impure, Box::new(move |c, out| {
+                let mut auto_idx = 0;
+                use UnaryOp::Deref;
+                for (designators, val) in items {
+                    let mut target = l.clone();
+                    if designators.is_empty() {
+                        target = Expression::UnaryOp(Deref, Expression::BinOp(
+                            Simple(Plus),
+                            target.into(),
+                            Expression::IntegerLiteral(auto_idx, Unsigned).into()
+                        ).into());
+                    } else {
+                        for designator in designators {
+                            match designator {
+                                Designator::Member(name) => {
+                                    target = Expression::MemberAccess(target.into(), name.clone(), AccessType::Dot);
+                                }
+                                Designator::Index(idx) => {
+                                    target = Expression::UnaryOp(Deref, Expression::BinOp(
+                                        Simple(Plus),
+                                        target.into(),
+                                        Expression::IntegerLiteral(*idx, Unsigned).into()
+                                    ).into());
+                                }
+                            }
+                        }
+                    }
+                    let ev = c.eval_bin_op(Assignment(None), &target, val)?.1;
+                    c.flush_and_discard(out, ev)?;
+                    auto_idx += 1;
+                }
+                Ok(())
+            }))).into()));
+        }
+
+        if let UnqualType::Array(_, _) = *lty.ty.unqual {
+            comperr!("Cannot assign to array type: {}", lty.ty);
+        }
+
+        if let UnqualType::Function(_) = *lty.ty.unqual {
+            comperr!("Cannot assign to function type: {}", lty.ty);
+        }
+
+        lty.ty = lty.ty.decay();
+
+        let (rty, rev) = if let Some(op) = op {
+            // todo: this will eval l twice...
+            self.eval_bin_op(Simple(op), l, r)?
+        } else {
+            self.eval_expression(r)?
+        };
+
+        if *rty.ty.unqual == UnqualType::Void {
+            comperr!("Cannot assign void type");
+        }
+
+        let Some(laddr) = lty.addr else {
+            comperr!("Cannot assign to non-lvalue expression: {}", lty.ty);
+        };
+
+        if lty.ty.type_qualifiers.is_const {
+            comperr!("Cannot assign to const-qualified type: {}", lty.ty);
+        }
+
+        if laddr.side_effects.len() != lev.side_effects.len() {
+            panic!("weird!???");
+        }
+
+        let rev = match self.eval_auto_convert((rty, rev), &lty.ty)? {
+            Ok(ev) => ev,
+            Err(ety) => comperr!(
+                        "Cannot assign value of type {} to lvalue of type {}",
+                        ety.0.ty.unqual,
+                        lty.ty.unqual,
+                    )
+        };
+
+        let oty = lty.ty.clone();
+
+        Ok((rvalue(oty), Emission((Impure, Box::new(move |c, out| {
+            let laddr = c.flush_side_effects(out, laddr.apply_transforms())?;
+            c.flush_eval_to_reg(out, rev)?;
+            c.store_into(&lty.ty, laddr, out)?;
+            Ok(())
+        }))).into()))
+    }
+
+    #[inline(never)]
     fn eval_addition<'e>(&mut self, l: &'e Expression, r: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
         let (lty, lev) = self.eval_expression(l)?;
         let (rty, rev) = self.eval_expression(r)?;
@@ -1134,6 +1142,7 @@ impl<'a> Compiler<'a> {
         rv
     }
 
+    #[inline(never)]
     fn eval_bitwise<'e>(&mut self, bop: AssignableOperator, l: &'e Expression, r: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
         let (lty, lev) = self.eval_expression(l)?;
         let (rty, rev) = self.eval_expression(r)?;
@@ -1464,6 +1473,7 @@ impl<'a> Compiler<'a> {
         }
     }
 
+    #[inline(never)]
     fn eval_comparison<'e>(&mut self, cop: Comparison, l: &'e Expression, r: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
         let (lty, lev) = self.eval_expression(l)?;
         let (rty, rev) = self.eval_expression(r)?;
@@ -1683,6 +1693,7 @@ impl<'a> Compiler<'a> {
         Ok((rvalue(oty), rv))
     }
 
+    #[inline(never)]
     fn eval_bool_op<'e>(&mut self, bop: BoolOp, l: &'e Expression, r: &'e Expression) -> Result<EvalTy<'e>, CompileError> {
         let (lty, lev) = self.eval_expression(l)?;
         let (rty, rev) = self.eval_expression(r)?;
@@ -2138,67 +2149,7 @@ impl<'a> Compiler<'a> {
                 })))
             }*/
             Expression::FuncCall(f, args) => {
-                let (fa, fev) = self.eval_expression_raw(f)?;
-                // if fev.purity() == Impure {
-                //     comperr!("Impure function call, don't handle that yet");
-                // }
-
-                let (addr, fi) = match &*fa.ty.unqual {
-                    UnqualType::Function(fi) => {
-                        let Some(faddr) = fa.addr else {
-                            comperr!("Function call without address");
-                        };
-                        (faddr, fi)
-                    },
-                    UnqualType::Pointer(p) if let UnqualType::Function(fi) = &*p.unqual => {
-                        (fev, fi)
-                    },
-                    _ => comperr!("Expected function type for function call, found: {}", fa.ty),
-                };
-
-                if args.len() != fi.args.len() {
-                    comperr!(
-                        "Function call argument count mismatch: expected {}, found {}",
-                        fi.args.len(),
-                        args.len()
-                    );
-                }
-
-                let aev = fi.args.iter().zip(args.iter()).enumerate().map(|(i, (exp, got))| {
-                    let argev = self.eval_expression(got)?;
-                    match self.eval_auto_convert(argev, &exp.1.unqual)? {
-                        Ok(ev) => Ok(ev),
-                        Err(ety) => comperr!(
-                            "Argument {} of function call has incompatible type: expected {}, found {}",
-                            i + 1,
-                            exp.1,
-                            ety.0.ty
-                        )
-                    }
-                }).collect::<Result<Vec<_>, _>>()?;
-
-                (rvalue(fi.ret.clone()), Emission((Impure, Box::new(move |c, out| {
-                    if out != R0 {
-                        // save R0
-                        c.emit_push(RegList::new([R0], false));
-                    }
-                    // Push all args to stack
-                    for arg in aev.into_iter().rev() {
-                        c.flush_eval_to_reg(out, arg)?;
-                        c.emit_push(RegList::new([out], false));
-                    }
-                    //c.emit_address_to_reg(addr, out)?;
-                    c.flush_eval_to_reg(out, addr)?;
-                    c.emit(BlxLo { rm: out });
-                    c.emit(AddSp { immw7: u9::new((args.len() * 4) as u16) });
-                    if out != R0 {
-                        // todo: find a way to omit this instruction if the result is being discarded
-                        c.emit(Movs { rd: out, rm: R0 }); // Move return value to out
-                        // restore R0
-                        c.emit_pop(RegList::new([R0], false));
-                    }
-                    Ok(())
-                }))).into())
+                self.eval_function_call(f, args)?
             }
             Expression::UnaryOp(op, val) => {
                 self.eval_unary_op(*op, val)?
@@ -2230,6 +2181,70 @@ impl<'a> Compiler<'a> {
             _ => todo!()
         };
         Ok(res)
+    }
+
+    fn eval_function_call<'e>(&mut self, f: &'e Box<Expression>, args: &'e Vec<Expression>) -> Result<(Analysis2<'e>, FullEvaluation<'e>), CompileError> {
+        let (fa, fev) = self.eval_expression_raw(f)?;
+        // if fev.purity() == Impure {
+        //     comperr!("Impure function call, don't handle that yet");
+        // }
+
+        let (addr, fi) = match &*fa.ty.unqual {
+            UnqualType::Function(fi) => {
+                let Some(faddr) = fa.addr else {
+                    comperr!("Function call without address");
+                };
+                (faddr, fi)
+            },
+            UnqualType::Pointer(p) if let UnqualType::Function(fi) = &*p.unqual => {
+                (fev, fi)
+            },
+            _ => comperr!("Expected function type for function call, found: {}", fa.ty),
+        };
+
+        if args.len() != fi.args.len() {
+            comperr!(
+                        "Function call argument count mismatch: expected {}, found {}",
+                        fi.args.len(),
+                        args.len()
+                    );
+        }
+
+        let aev = fi.args.iter().zip(args.iter()).enumerate().map(|(i, (exp, got))| {
+            let argev = self.eval_expression(got)?;
+            match self.eval_auto_convert(argev, &exp.1.unqual)? {
+                Ok(ev) => Ok(ev),
+                Err(ety) => comperr!(
+                            "Argument {} of function call has incompatible type: expected {}, found {}",
+                            i + 1,
+                            exp.1,
+                            ety.0.ty
+                        )
+            }
+        }).collect::<Result<Vec<_>, _>>()?;
+
+        Ok((rvalue(fi.ret.clone()), Emission((Impure, Box::new(move |c, out| {
+            if out != R0 {
+                // save R0
+                c.emit_push(RegList::new([R0], false));
+            }
+            // Push all args to stack
+            for arg in aev.into_iter().rev() {
+                c.flush_eval_to_reg(out, arg)?;
+                c.emit_push(RegList::new([out], false));
+            }
+            //c.emit_address_to_reg(addr, out)?;
+            c.flush_eval_to_reg(out, addr)?;
+            c.emit(BlxLo { rm: out });
+            c.emit(AddSp { immw7: u9::new((args.len() * 4) as u16) });
+            if out != R0 {
+                // todo: find a way to omit this instruction if the result is being discarded
+                c.emit(Movs { rd: out, rm: R0 }); // Move return value to out
+                // restore R0
+                c.emit_pop(RegList::new([R0], false));
+            }
+            Ok(())
+        }))).into()))
     }
 
     fn eval_member_access<'e>(&mut self, obj: &'e Expression, mem: &str, mode: AccessType) -> Result<EvalTy<'e>, CompileError> {
