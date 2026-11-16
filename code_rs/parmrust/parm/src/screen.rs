@@ -5,6 +5,7 @@ use crate::screen::tty::AnsiEscape;
 use crate::tty::{ParmDisplay, DisplayTarget};
 use crate::print;
 use core::ops::Not;
+use embedded_graphics::pixelcolor::Rgb565;
 #[cfg(feature = "embedded-graphics")]
 use embedded_graphics::prelude::*;
 #[cfg(feature = "embedded-graphics")]
@@ -133,6 +134,54 @@ impl DrawTarget for ParmScreen {
     fn clear(&mut self, color: Self::Color) -> Result<(), Self::Error> {
         clear(self.0, color);
         Ok(())
+    }
+}
+
+#[cfg(feature = "embedded-graphics")]
+pub struct ParmScreen565(pub ParmScreen);
+
+#[cfg(feature = "embedded-graphics")]
+impl OriginDimensions for ParmScreen565 {
+    fn size(&self) -> Size {
+        Size::new(WIDTH as u32, HEIGHT as u32)
+    }
+}
+
+#[cfg(feature = "embedded-graphics")]
+impl DrawTarget for ParmScreen565 {
+    type Color = embedded_graphics::pixelcolor::Rgb565;
+    type Error = core::convert::Infallible;
+
+    #[inline(always)]
+    fn draw_iter<I>(&mut self, pixels: I) -> Result<(), Self::Error>
+    where
+        I: IntoIterator<Item=Pixel<Self::Color>>
+    {
+        self.0.draw_iter(pixels.into_iter().map(|Pixel(coord, color)| Pixel(coord, Color::from(color))))
+    }
+    
+    #[inline(always)]
+    fn fill_contiguous<I>(&mut self, area: &Rectangle, colors: I) -> Result<(), Self::Error>
+    where
+        I: IntoIterator<Item=Self::Color>,
+    {
+        self.0.fill_contiguous(area, colors.into_iter().map(|color| Color::from(color)))
+    }
+    
+    #[inline(always)]
+    fn fill_solid(&mut self, area: &Rectangle, color: Self::Color) -> Result<(), Self::Error> {
+        self.0.fill_solid(area, Color::from(color))
+    }
+    
+    #[inline(always)]
+    fn clear(&mut self, color: Self::Color) -> Result<(), Self::Error> {
+        self.0.clear(Color::from(color))
+    }
+}
+
+impl From<Rgb565> for Color {
+    fn from(c: Rgb565) -> Self {
+        Color::Color15(Color15bpp(c.r(), c.g() >> 1, c.b()))
     }
 }
 
