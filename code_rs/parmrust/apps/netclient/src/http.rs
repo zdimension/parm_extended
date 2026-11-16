@@ -113,11 +113,11 @@ impl NetTelnet {
                     let mut pos = 0;
 
                     loop {
-                        let line_end = loop {
+                        let line_end = 'outer: loop {
                             let mut i = pos;
                             while i + 1 < chunked_data.len() {
                                 if chunked_data[i] == b'\r' && chunked_data[i + 1] == b'\n' {
-                                    break i;
+                                    break 'outer i;
                                 }
                                 i += 1;
                             }
