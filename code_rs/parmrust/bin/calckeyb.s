@@ -14,7 +14,7 @@
 	.eabi_attribute	38, 1
 	.eabi_attribute	14, 0
 	.code	16
-	.file	"calckeyb.52201481206a36c5-cgu.0"
+	.file	"calckeyb.3e2de0f69107a12-cgu.0"
 
 	.text
 	.p2align	1
@@ -1044,15 +1044,15 @@ _RNvCs7pOVZZ9zOwf_7___rustc17rust_begin_unwind:
 .LCPI7_0:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI7_1:
-	.long	_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsdQ0Iybs8NSI_4parm
+	.long	_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsb7ba3TghYF3_4parm
 .LCPI7_2:
 	.long	_RNvXs1_NtNtCs4L8JVMRpR0y_4core5panic10panic_infoNtB5_12PanicMessageNtNtB9_3fmt7Display3fmt
 .LCPI7_3:
-	.long	_RNvNtCsdQ0Iybs8NSI_4parm3tty3TTY
+	.long	_RNvNtCsb7ba3TghYF3_4parm3tty3TTY
 .LCPI7_4:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.48
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48
 .LCPI7_5:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.16
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.16
 .Lfunc_end7:
 	.size	_RNvCs7pOVZZ9zOwf_7___rustc17rust_begin_unwind, .Lfunc_end7-_RNvCs7pOVZZ9zOwf_7___rustc17rust_begin_unwind
 	.cantunwind
@@ -1088,12 +1088,12 @@ _RNvXs1_NtNtCs4L8JVMRpR0y_4core5panic10panic_infoNtB5_12PanicMessageNtNtB9_3fmt7
 	.cantunwind
 	.fnend
 
-	.section	.text._RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsdQ0Iybs8NSI_4parm,"ax",%progbits
+	.section	.text._RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsb7ba3TghYF3_4parm,"ax",%progbits
 	.p2align	2
-	.type	_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsdQ0Iybs8NSI_4parm,%function
+	.type	_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsb7ba3TghYF3_4parm,%function
 	.code	16
 	.thumb_func
-_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsdQ0Iybs8NSI_4parm:
+_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsb7ba3TghYF3_4parm:
 	.fnstart
 	.save	{r4, r5, r6, r7, lr}
 	push	{r4, r5, r6, r7, lr}
@@ -1859,16 +1859,16 @@ _RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsdQ0Iybs8NSI_4parm:
 .LCPI9_4:
 	.long	2097151
 .Lfunc_end9:
-	.size	_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsdQ0Iybs8NSI_4parm, .Lfunc_end9-_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsdQ0Iybs8NSI_4parm
+	.size	_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsb7ba3TghYF3_4parm, .Lfunc_end9-_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsb7ba3TghYF3_4parm
 	.cantunwind
 	.fnend
 
-	.section	.text._RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str,"ax",%progbits
+	.section	.text._RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str,"ax",%progbits
 	.p2align	1
-	.type	_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str,%function
+	.type	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str,%function
 	.code	16
 	.thumb_func
-_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str:
+_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str:
 	.fnstart
 	.save	{r4, lr}
 	push	{r4, lr}
@@ -1923,16 +1923,16 @@ _RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write
 	bhs	.LBB10_7
 	b	.LBB10_9
 .Lfunc_end10:
-	.size	_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str, .Lfunc_end10-_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str
+	.size	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str, .Lfunc_end10-_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str
 	.cantunwind
 	.fnend
 
-	.section	.text._RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char,"ax",%progbits
+	.section	.text._RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char,"ax",%progbits
 	.p2align	1
-	.type	_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char,%function
+	.type	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char,%function
 	.code	16
 	.thumb_func
-_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char:
+_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char:
 	.fnstart
 	lsrs	r0, r1, #8
 	beq	.LBB11_2
@@ -1944,16 +1944,16 @@ _RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10writ
 	movs	r0, #0
 	bx	lr
 .Lfunc_end11:
-	.size	_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char, .Lfunc_end11-_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char
+	.size	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char, .Lfunc_end11-_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char
 	.cantunwind
 	.fnend
 
-	.section	.text._RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_,"ax",%progbits
+	.section	.text._RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_,"ax",%progbits
 	.p2align	2
-	.type	_RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_,%function
+	.type	_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_,%function
 	.code	16
 	.thumb_func
-_RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_:
+_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_:
 	.fnstart
 	.save	{r4, r5, r6, lr}
 	push	{r4, r5, r6, lr}
@@ -2017,9 +2017,9 @@ _RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB
 	b	.LBB12_11
 	.p2align	2
 .LCPI12_0:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.48
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48
 .Lfunc_end12:
-	.size	_RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_, .Lfunc_end12-_RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_
+	.size	_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_, .Lfunc_end12-_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_
 	.cantunwind
 	.fnend
 
@@ -4098,9 +4098,9 @@ invalid_instruction:
 	bl	_RNvNtCs4L8JVMRpR0y_4core9panicking9panic_fmt
 	.p2align	2
 .LCPI28_0:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.51
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.51
 .LCPI28_1:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.53
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.53
 .Lfunc_end28:
 	.size	invalid_instruction, .Lfunc_end28-invalid_instruction
 	.cantunwind
@@ -4322,46 +4322,46 @@ strlen:
 	.ascii	"attempt to divide by zero"
 	.size	.Lanon.b85778989e51bb4a273b2553e80e2f5a.211, 25
 
-	.type	.Lanon.5f08c8627574ddd27618718ec113c415.16,%object
+	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.16,%object
 	.section	.rodata.str1.1,"aMS",%progbits,1
-.Lanon.5f08c8627574ddd27618718ec113c415.16:
+.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.16:
 	.asciz	"\007PANIC: \300\004 at \300\001:\300\001\n"
-	.size	.Lanon.5f08c8627574ddd27618718ec113c415.16, 21
+	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.16, 21
 
-	.type	_RNvNtCsdQ0Iybs8NSI_4parm3tty3TTY,%object
-	.section	.bss._RNvNtCsdQ0Iybs8NSI_4parm3tty3TTY,"aw",%nobits
-_RNvNtCsdQ0Iybs8NSI_4parm3tty3TTY:
-	.size	_RNvNtCsdQ0Iybs8NSI_4parm3tty3TTY, 0
+	.type	_RNvNtCsb7ba3TghYF3_4parm3tty3TTY,%object
+	.section	.bss._RNvNtCsb7ba3TghYF3_4parm3tty3TTY,"aw",%nobits
+_RNvNtCsb7ba3TghYF3_4parm3tty3TTY:
+	.size	_RNvNtCsb7ba3TghYF3_4parm3tty3TTY, 0
 
-	.type	.Lanon.5f08c8627574ddd27618718ec113c415.48,%object
-	.section	.rodata..Lanon.5f08c8627574ddd27618718ec113c415.48,"a",%progbits
+	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48,%object
+	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.5f08c8627574ddd27618718ec113c415.48:
+.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48:
 	.asciz	"\000\000\000\000\000\000\000\000\001\000\000"
-	.long	_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str
-	.long	_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char
-	.long	_RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_
-	.size	.Lanon.5f08c8627574ddd27618718ec113c415.48, 24
+	.long	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str
+	.long	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char
+	.long	_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_
+	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48, 24
 
-	.type	.Lanon.5f08c8627574ddd27618718ec113c415.51,%object
-	.section	.rodata..Lanon.5f08c8627574ddd27618718ec113c415.51,"a",%progbits
-.Lanon.5f08c8627574ddd27618718ec113c415.51:
+	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.51,%object
+	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.51,"a",%progbits
+.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.51:
 	.ascii	"invalid instruction"
-	.size	.Lanon.5f08c8627574ddd27618718ec113c415.51, 19
+	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.51, 19
 
-	.type	.Lanon.5f08c8627574ddd27618718ec113c415.52,%object
+	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.52,%object
 	.section	.rodata.str1.1,"aMS",%progbits,1
-.Lanon.5f08c8627574ddd27618718ec113c415.52:
+.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.52:
 	.asciz	"parm/src/lib.rs"
-	.size	.Lanon.5f08c8627574ddd27618718ec113c415.52, 16
+	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.52, 16
 
-	.type	.Lanon.5f08c8627574ddd27618718ec113c415.53,%object
-	.section	.rodata..Lanon.5f08c8627574ddd27618718ec113c415.53,"a",%progbits
+	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.53,%object
+	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.53,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.5f08c8627574ddd27618718ec113c415.53:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.52
+.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.53:
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.52
 	.asciz	"\017\000\000\000>\000\000\000\005\000\000"
-	.size	.Lanon.5f08c8627574ddd27618718ec113c415.53, 16
+	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.53, 16
 
 	.ident	"rustc version 1.98.0-nightly (6368fd52c 2026-05-29)"
 	.section	".note.GNU-stack","",%progbits

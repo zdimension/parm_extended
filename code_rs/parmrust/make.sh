@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
+# Usage: [OUT=outname] ./make.sh NAME [assembler args...]
+# Produces bin/$OUT.raw (OUT defaults to digital_out).
 
 NAME=$1
 shift 1
+OUT=${OUT:-digital_out}
 TARGET=thumb-nofp
 RELEASE=1
 CARGO_ARG=
@@ -25,7 +28,7 @@ cp $TARGET_DIR/deps/$NAME-*.s bin/$NAME.s
 mv $TARGET_DIR/deps/$NAME-*.s $TARGET_DIR/deps/$NAME.s.bak
 pushd bin
 ../../../asm/assembleur.py ../$TARGET_DIR/deps/compiler_builtins*.s ../$TARGET_DIR/deps/$NAME.s.bak $@ &&
-cp ../$TARGET_DIR/deps/$NAME.s.raw digital_out.raw
+cp ../$TARGET_DIR/deps/$NAME.s.raw "$OUT.raw"
 
 #if [[ "$*" == *"--disasm"* ]]; then
 #  if [ -z $NAME ]; then

@@ -14,7 +14,7 @@
 	.eabi_attribute	38, 1
 	.eabi_attribute	14, 0
 	.code	16
-	.file	"coop_multitask_async.4671545e18a37637-cgu.0"
+	.file	"coop_multitask_async.3739d02bb7f86433-cgu.0"
 
 	.text
 	.p2align	1
@@ -110,38 +110,38 @@ _ZN63_$LT$core..cell..BorrowMutError$u20$as$u20$core..fmt..Debug$GT$3fmt17hd3989
 
 
 
-	.section	.text._RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs62XOI40cAmN_20coop_multitask_async4main0EBF_,"ax",%progbits
+	.section	.text._RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs4JXSzVgDWRb_20coop_multitask_async4main0EBF_,"ax",%progbits
 	.p2align	1
-	.type	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs62XOI40cAmN_20coop_multitask_async4main0EBF_,%function
+	.type	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs4JXSzVgDWRb_20coop_multitask_async4main0EBF_,%function
 	.code	16
 	.thumb_func
-_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs62XOI40cAmN_20coop_multitask_async4main0EBF_:
+_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs4JXSzVgDWRb_20coop_multitask_async4main0EBF_:
 	.fnstart
 	bx	lr
 .Lfunc_end0:
-	.size	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs62XOI40cAmN_20coop_multitask_async4main0EBF_, .Lfunc_end0-_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs62XOI40cAmN_20coop_multitask_async4main0EBF_
+	.size	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs4JXSzVgDWRb_20coop_multitask_async4main0EBF_, .Lfunc_end0-_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs4JXSzVgDWRb_20coop_multitask_async4main0EBF_
 	.cantunwind
 	.fnend
 
-	.section	.text._RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs62XOI40cAmN_20coop_multitask_async4mains_0EBF_,"ax",%progbits
+	.section	.text._RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains_0EBF_,"ax",%progbits
 	.p2align	1
-	.type	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs62XOI40cAmN_20coop_multitask_async4mains_0EBF_,%function
+	.type	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains_0EBF_,%function
 	.code	16
 	.thumb_func
-_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs62XOI40cAmN_20coop_multitask_async4mains_0EBF_:
+_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains_0EBF_:
 	.fnstart
 	bx	lr
 .Lfunc_end1:
-	.size	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs62XOI40cAmN_20coop_multitask_async4mains_0EBF_, .Lfunc_end1-_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs62XOI40cAmN_20coop_multitask_async4mains_0EBF_
+	.size	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains_0EBF_, .Lfunc_end1-_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains_0EBF_
 	.cantunwind
 	.fnend
 
-	.section	.text._RNCNvCs62XOI40cAmN_20coop_multitask_async4main0B3_,"ax",%progbits
+	.section	.text._RNCNvCs4JXSzVgDWRb_20coop_multitask_async4main0B3_,"ax",%progbits
 	.p2align	2
-	.type	_RNCNvCs62XOI40cAmN_20coop_multitask_async4main0B3_,%function
+	.type	_RNCNvCs4JXSzVgDWRb_20coop_multitask_async4main0B3_,%function
 	.code	16
 	.thumb_func
-_RNCNvCs62XOI40cAmN_20coop_multitask_async4main0B3_:
+_RNCNvCs4JXSzVgDWRb_20coop_multitask_async4main0B3_:
 	.fnstart
 	.save	{r4, r5, r6, r7, lr}
 	push	{r4, r5, r6, r7, lr}
@@ -320,16 +320,16 @@ _RNCNvCs62XOI40cAmN_20coop_multitask_async4main0B3_:
 .LCPI2_2:
 	.long	4292870144
 .Lfunc_end2:
-	.size	_RNCNvCs62XOI40cAmN_20coop_multitask_async4main0B3_, .Lfunc_end2-_RNCNvCs62XOI40cAmN_20coop_multitask_async4main0B3_
+	.size	_RNCNvCs4JXSzVgDWRb_20coop_multitask_async4main0B3_, .Lfunc_end2-_RNCNvCs4JXSzVgDWRb_20coop_multitask_async4main0B3_
 	.cantunwind
 	.fnend
 
-	.section	.text._RNCNvCs62XOI40cAmN_20coop_multitask_async4mains0_0B3_,"ax",%progbits
+	.section	.text._RNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains0_0B3_,"ax",%progbits
 	.p2align	2
-	.type	_RNCNvCs62XOI40cAmN_20coop_multitask_async4mains0_0B3_,%function
+	.type	_RNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains0_0B3_,%function
 	.code	16
 	.thumb_func
-_RNCNvCs62XOI40cAmN_20coop_multitask_async4mains0_0B3_:
+_RNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains0_0B3_:
 	.fnstart
 	.save	{r4, r5, r7, lr}
 	push	{r4, r5, r7, lr}
@@ -456,22 +456,22 @@ _RNCNvCs62XOI40cAmN_20coop_multitask_async4mains0_0B3_:
 .LCPI3_0:
 	.long	_RNvXs9_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3implNtB9_7Display3fmt
 .LCPI3_1:
-	.long	_RNvNtCsdQ0Iybs8NSI_4parm3tty3TTY
+	.long	_RNvNtCsb7ba3TghYF3_4parm3tty3TTY
 .LCPI3_2:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.5
 .LCPI3_3:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.2
 .Lfunc_end3:
-	.size	_RNCNvCs62XOI40cAmN_20coop_multitask_async4mains0_0B3_, .Lfunc_end3-_RNCNvCs62XOI40cAmN_20coop_multitask_async4mains0_0B3_
+	.size	_RNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains0_0B3_, .Lfunc_end3-_RNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains0_0B3_
 	.cantunwind
 	.fnend
 
-	.section	.text._RNCNvCs62XOI40cAmN_20coop_multitask_async4mains_0B3_,"ax",%progbits
+	.section	.text._RNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains_0B3_,"ax",%progbits
 	.p2align	2
-	.type	_RNCNvCs62XOI40cAmN_20coop_multitask_async4mains_0B3_,%function
+	.type	_RNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains_0B3_,%function
 	.code	16
 	.thumb_func
-_RNCNvCs62XOI40cAmN_20coop_multitask_async4mains_0B3_:
+_RNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains_0B3_:
 	.fnstart
 	.save	{r4, r5, r6, r7, lr}
 	push	{r4, r5, r6, r7, lr}
@@ -512,35 +512,35 @@ _RNCNvCs62XOI40cAmN_20coop_multitask_async4mains_0B3_:
 .LCPI4_0:
 	.long	_RNvXsk_NtCs4L8JVMRpR0y_4core3fmtcNtB5_7Display3fmt
 .LCPI4_1:
-	.long	_RNvNtCsdQ0Iybs8NSI_4parm3tty3TTY
+	.long	_RNvNtCsb7ba3TghYF3_4parm3tty3TTY
 .LCPI4_2:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.5
 .LCPI4_3:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.3
 .Lfunc_end4:
-	.size	_RNCNvCs62XOI40cAmN_20coop_multitask_async4mains_0B3_, .Lfunc_end4-_RNCNvCs62XOI40cAmN_20coop_multitask_async4mains_0B3_
+	.size	_RNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains_0B3_, .Lfunc_end4-_RNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains_0B3_
 	.cantunwind
 	.fnend
 
-	.section	.text._RNvCs62XOI40cAmN_20coop_multitask_async10drop_waker,"ax",%progbits
+	.section	.text._RNvCs4JXSzVgDWRb_20coop_multitask_async10drop_waker,"ax",%progbits
 	.p2align	1
-	.type	_RNvCs62XOI40cAmN_20coop_multitask_async10drop_waker,%function
+	.type	_RNvCs4JXSzVgDWRb_20coop_multitask_async10drop_waker,%function
 	.code	16
 	.thumb_func
-_RNvCs62XOI40cAmN_20coop_multitask_async10drop_waker:
+_RNvCs4JXSzVgDWRb_20coop_multitask_async10drop_waker:
 	.fnstart
 	bx	lr
 .Lfunc_end5:
-	.size	_RNvCs62XOI40cAmN_20coop_multitask_async10drop_waker, .Lfunc_end5-_RNvCs62XOI40cAmN_20coop_multitask_async10drop_waker
+	.size	_RNvCs4JXSzVgDWRb_20coop_multitask_async10drop_waker, .Lfunc_end5-_RNvCs4JXSzVgDWRb_20coop_multitask_async10drop_waker
 	.cantunwind
 	.fnend
 
-	.section	.text._RNvCs62XOI40cAmN_20coop_multitask_async11clone_waker,"ax",%progbits
+	.section	.text._RNvCs4JXSzVgDWRb_20coop_multitask_async11clone_waker,"ax",%progbits
 	.p2align	2
-	.type	_RNvCs62XOI40cAmN_20coop_multitask_async11clone_waker,%function
+	.type	_RNvCs4JXSzVgDWRb_20coop_multitask_async11clone_waker,%function
 	.code	16
 	.thumb_func
-_RNvCs62XOI40cAmN_20coop_multitask_async11clone_waker:
+_RNvCs4JXSzVgDWRb_20coop_multitask_async11clone_waker:
 	.fnstart
 	ldr	r0, .LCPI6_0
 	movs	r1, #0
@@ -549,37 +549,37 @@ _RNvCs62XOI40cAmN_20coop_multitask_async11clone_waker:
 .LCPI6_0:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.4
 .Lfunc_end6:
-	.size	_RNvCs62XOI40cAmN_20coop_multitask_async11clone_waker, .Lfunc_end6-_RNvCs62XOI40cAmN_20coop_multitask_async11clone_waker
+	.size	_RNvCs4JXSzVgDWRb_20coop_multitask_async11clone_waker, .Lfunc_end6-_RNvCs4JXSzVgDWRb_20coop_multitask_async11clone_waker
 	.cantunwind
 	.fnend
 
-	.section	.text.unlikely._RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs62XOI40cAmN_20coop_multitask_async,"ax",%progbits
+	.section	.text.unlikely._RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs4JXSzVgDWRb_20coop_multitask_async,"ax",%progbits
 	.p2align	1
-	.type	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs62XOI40cAmN_20coop_multitask_async,%function
+	.type	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs4JXSzVgDWRb_20coop_multitask_async,%function
 	.code	16
 	.thumb_func
-_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs62XOI40cAmN_20coop_multitask_async:
+_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs4JXSzVgDWRb_20coop_multitask_async:
 	.fnstart
 	.save	{r7, lr}
 	push	{r7, lr}
 	ldr	r1, [r0]
-	bl	_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner14grow_amortizedCs62XOI40cAmN_20coop_multitask_async
+	bl	_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner14grow_amortizedCs4JXSzVgDWRb_20coop_multitask_async
 	adds	r2, r0, #1
 	bne	.LBB7_2
 	pop	{r7, pc}
 .LBB7_2:
 	bl	_RNvNtCsa0y0V4fwJ9Z_5alloc7raw_vec12handle_error
 .Lfunc_end7:
-	.size	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs62XOI40cAmN_20coop_multitask_async, .Lfunc_end7-_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs62XOI40cAmN_20coop_multitask_async
+	.size	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs4JXSzVgDWRb_20coop_multitask_async, .Lfunc_end7-_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs4JXSzVgDWRb_20coop_multitask_async
 	.cantunwind
 	.fnend
 
-	.section	.text.unlikely._RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs62XOI40cAmN_20coop_multitask_async,"ax",%progbits
+	.section	.text.unlikely._RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs4JXSzVgDWRb_20coop_multitask_async,"ax",%progbits
 	.p2align	2
-	.type	_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs62XOI40cAmN_20coop_multitask_async,%function
+	.type	_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs4JXSzVgDWRb_20coop_multitask_async,%function
 	.code	16
 	.thumb_func
-_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs62XOI40cAmN_20coop_multitask_async:
+_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs4JXSzVgDWRb_20coop_multitask_async:
 	.fnstart
 	.save	{r4, r5, r6, r7, lr}
 	push	{r4, r5, r6, r7, lr}
@@ -679,26 +679,26 @@ _RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs62XOI40cA
 .LCPI8_0:
 	.long	2147483645
 .LCPI8_1:
-	.long	_RNvNtCsdQ0Iybs8NSI_4parm4heap10HEAP_FREEP.0
+	.long	_RNvNtCsb7ba3TghYF3_4parm4heap10HEAP_FREEP.0
 .LCPI8_2:
 	.long	_RNvXs6_NtNtCs4L8JVMRpR0y_4core3fmt3numjNtB7_8LowerHex3fmt
 .LCPI8_3:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI8_4:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.37
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
 .LCPI8_5:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.39
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
 .Lfunc_end8:
-	.size	_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs62XOI40cAmN_20coop_multitask_async, .Lfunc_end8-_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs62XOI40cAmN_20coop_multitask_async
+	.size	_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs4JXSzVgDWRb_20coop_multitask_async, .Lfunc_end8-_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs4JXSzVgDWRb_20coop_multitask_async
 	.cantunwind
 	.fnend
 
-	.section	.text.unlikely._RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner14grow_amortizedCs62XOI40cAmN_20coop_multitask_async,"ax",%progbits
+	.section	.text.unlikely._RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner14grow_amortizedCs4JXSzVgDWRb_20coop_multitask_async,"ax",%progbits
 	.p2align	1
-	.type	_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner14grow_amortizedCs62XOI40cAmN_20coop_multitask_async,%function
+	.type	_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner14grow_amortizedCs4JXSzVgDWRb_20coop_multitask_async,%function
 	.code	16
 	.thumb_func
-_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner14grow_amortizedCs62XOI40cAmN_20coop_multitask_async:
+_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner14grow_amortizedCs4JXSzVgDWRb_20coop_multitask_async:
 	.fnstart
 	.save	{r4, r5, r7, lr}
 	push	{r4, r5, r7, lr}
@@ -719,7 +719,7 @@ _RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner14grow_amortizedCs62XOI4
 	ldr	r2, [r4, #4]
 	add	r0, sp, #4
 	mov	r3, r5
-	bl	_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs62XOI40cAmN_20coop_multitask_async
+	bl	_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner11finish_growCs4JXSzVgDWRb_20coop_multitask_async
 	ldr	r0, [sp, #4]
 	cmp	r0, #0
 	beq	.LBB9_6
@@ -736,16 +736,16 @@ _RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner14grow_amortizedCs62XOI4
 	add	sp, #16
 	pop	{r4, r5, r7, pc}
 .Lfunc_end9:
-	.size	_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner14grow_amortizedCs62XOI40cAmN_20coop_multitask_async, .Lfunc_end9-_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner14grow_amortizedCs62XOI40cAmN_20coop_multitask_async
+	.size	_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner14grow_amortizedCs4JXSzVgDWRb_20coop_multitask_async, .Lfunc_end9-_RNvMs4_NtCsa0y0V4fwJ9Z_5alloc7raw_vecNtB5_11RawVecInner14grow_amortizedCs4JXSzVgDWRb_20coop_multitask_async
 	.cantunwind
 	.fnend
 
-	.section	.text._RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char,"ax",%progbits
+	.section	.text._RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char,"ax",%progbits
 	.p2align	1
-	.type	_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char,%function
+	.type	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char,%function
 	.code	16
 	.thumb_func
-_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char:
+_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char:
 	.fnstart
 	lsrs	r0, r1, #8
 	beq	.LBB10_2
@@ -757,16 +757,16 @@ _RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10writ
 	movs	r0, #0
 	bx	lr
 .Lfunc_end10:
-	.size	_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char, .Lfunc_end10-_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char
+	.size	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char, .Lfunc_end10-_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char
 	.cantunwind
 	.fnend
 
-	.section	.text._RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str,"ax",%progbits
+	.section	.text._RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str,"ax",%progbits
 	.p2align	1
-	.type	_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str,%function
+	.type	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str,%function
 	.code	16
 	.thumb_func
-_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str:
+_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str:
 	.fnstart
 	.save	{r4, lr}
 	push	{r4, lr}
@@ -821,16 +821,16 @@ _RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write
 	bhs	.LBB11_7
 	b	.LBB11_9
 .Lfunc_end11:
-	.size	_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str, .Lfunc_end11-_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str
+	.size	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str, .Lfunc_end11-_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str
 	.cantunwind
 	.fnend
 
-	.section	.text._RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtCs62XOI40cAmN_20coop_multitask_async,"ax",%progbits
+	.section	.text._RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtCs4JXSzVgDWRb_20coop_multitask_async,"ax",%progbits
 	.p2align	2
-	.type	_RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtCs62XOI40cAmN_20coop_multitask_async,%function
+	.type	_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtCs4JXSzVgDWRb_20coop_multitask_async,%function
 	.code	16
 	.thumb_func
-_RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtCs62XOI40cAmN_20coop_multitask_async:
+_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtCs4JXSzVgDWRb_20coop_multitask_async:
 	.fnstart
 	.save	{r4, r5, r6, lr}
 	push	{r4, r5, r6, lr}
@@ -896,7 +896,7 @@ _RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtC
 .LCPI12_0:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.5
 .Lfunc_end12:
-	.size	_RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtCs62XOI40cAmN_20coop_multitask_async, .Lfunc_end12-_RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtCs62XOI40cAmN_20coop_multitask_async
+	.size	_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtCs4JXSzVgDWRb_20coop_multitask_async, .Lfunc_end12-_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtCs4JXSzVgDWRb_20coop_multitask_async
 	.cantunwind
 	.fnend
 
@@ -1159,7 +1159,7 @@ main:
 .LBB13_2:
 	strb	r4, [r5, #13]
 	add	r0, sp, #96
-	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs62XOI40cAmN_20coop_multitask_async
+	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs4JXSzVgDWRb_20coop_multitask_async
 	ldr	r6, [sp, #100]
 	ldr	r0, .LCPI13_1
 	str	r5, [r6]
@@ -1385,14 +1385,14 @@ main:
 .LBB13_28:
 	add	r0, sp, #96
 	mov	r4, r3
-	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs62XOI40cAmN_20coop_multitask_async
+	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs4JXSzVgDWRb_20coop_multitask_async
 	mov	r3, r4
 	ldr	r0, [r4]
 	ldr	r6, [sp, #100]
 	b	.LBB13_4
 .LBB13_29:
 	add	r0, sp, #96
-	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs62XOI40cAmN_20coop_multitask_async
+	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecINtNtCs4L8JVMRpR0y_4core3pin3PinINtNtB7_5boxed3BoxDNtNtNtBR_6future6future6Futurep6OutputuEL_EEE8grow_oneCs4JXSzVgDWRb_20coop_multitask_async
 	ldr	r6, [sp, #100]
 	b	.LBB13_7
 .LBB13_30:
@@ -1424,7 +1424,7 @@ main:
 	bl	_RNvNtCsa0y0V4fwJ9Z_5alloc5alloc18handle_alloc_error
 	.p2align	2
 .LCPI13_0:
-	.long	_RNvNtCsdQ0Iybs8NSI_4parm4heap10HEAP_FREEP.0
+	.long	_RNvNtCsb7ba3TghYF3_4parm4heap10HEAP_FREEP.0
 .LCPI13_1:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.6
 .LCPI13_2:
@@ -1438,9 +1438,9 @@ main:
 .LCPI13_6:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI13_7:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.37
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37
 .LCPI13_8:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.39
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39
 .Lfunc_end13:
 	.size	main, .Lfunc_end13-main
 	.cantunwind
@@ -3401,15 +3401,15 @@ _RNvCs7pOVZZ9zOwf_7___rustc17rust_begin_unwind:
 .LCPI31_0:
 	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 .LCPI31_1:
-	.long	_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsdQ0Iybs8NSI_4parm
+	.long	_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsb7ba3TghYF3_4parm
 .LCPI31_2:
 	.long	_RNvXs1_NtNtCs4L8JVMRpR0y_4core5panic10panic_infoNtB5_12PanicMessageNtNtB9_3fmt7Display3fmt
 .LCPI31_3:
-	.long	_RNvNtCsdQ0Iybs8NSI_4parm3tty3TTY
+	.long	_RNvNtCsb7ba3TghYF3_4parm3tty3TTY
 .LCPI31_4:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.48
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48
 .LCPI31_5:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.16
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.16
 .Lfunc_end31:
 	.size	_RNvCs7pOVZZ9zOwf_7___rustc17rust_begin_unwind, .Lfunc_end31-_RNvCs7pOVZZ9zOwf_7___rustc17rust_begin_unwind
 	.cantunwind
@@ -3445,12 +3445,12 @@ _RNvXs1_NtNtCs4L8JVMRpR0y_4core5panic10panic_infoNtB5_12PanicMessageNtNtB9_3fmt7
 	.cantunwind
 	.fnend
 
-	.section	.text._RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsdQ0Iybs8NSI_4parm,"ax",%progbits
+	.section	.text._RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsb7ba3TghYF3_4parm,"ax",%progbits
 	.p2align	1
-	.type	_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsdQ0Iybs8NSI_4parm,%function
+	.type	_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsb7ba3TghYF3_4parm,%function
 	.code	16
 	.thumb_func
-_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsdQ0Iybs8NSI_4parm:
+_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsb7ba3TghYF3_4parm:
 	.fnstart
 	.save	{r7, lr}
 	push	{r7, lr}
@@ -3460,16 +3460,16 @@ _RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsdQ0Iybs8NSI_4parm:
 	bl	_RNvMsa_NtCs4L8JVMRpR0y_4core3fmtNtB5_9Formatter3pad
 	pop	{r7, pc}
 .Lfunc_end33:
-	.size	_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsdQ0Iybs8NSI_4parm, .Lfunc_end33-_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsdQ0Iybs8NSI_4parm
+	.size	_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsb7ba3TghYF3_4parm, .Lfunc_end33-_RNvXs1i_NtCs4L8JVMRpR0y_4core3fmtReNtB6_7Display3fmtCsb7ba3TghYF3_4parm
 	.cantunwind
 	.fnend
 
-	.section	.text._RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_,"ax",%progbits
+	.section	.text._RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_,"ax",%progbits
 	.p2align	2
-	.type	_RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_,%function
+	.type	_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_,%function
 	.code	16
 	.thumb_func
-_RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_:
+_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_:
 	.fnstart
 	.save	{r4, r5, r6, lr}
 	push	{r4, r5, r6, lr}
@@ -3533,9 +3533,9 @@ _RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB
 	b	.LBB34_11
 	.p2align	2
 .LCPI34_0:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.48
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48
 .Lfunc_end34:
-	.size	_RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_, .Lfunc_end34-_RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_
+	.size	_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_, .Lfunc_end34-_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_
 	.cantunwind
 	.fnend
 
@@ -5614,9 +5614,9 @@ invalid_instruction:
 	bl	_RNvNtCs4L8JVMRpR0y_4core9panicking9panic_fmt
 	.p2align	2
 .LCPI50_0:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.51
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.51
 .LCPI50_1:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.53
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.53
 .Lfunc_end50:
 	.size	invalid_instruction, .Lfunc_end50-invalid_instruction
 	.cantunwind
@@ -5763,7 +5763,7 @@ run:
 	b	.LBB52_1
 	.p2align	2
 .LCPI52_0:
-	.long	_RNvNtCsdQ0Iybs8NSI_4parm4heap10HEAP_FREEP.0
+	.long	_RNvNtCsb7ba3TghYF3_4parm4heap10HEAP_FREEP.0
 .LCPI52_1:
 	.long	HEAPSTART
 .Lfunc_end52:
@@ -5849,10 +5849,10 @@ strlen:
 	.section	.rodata..Lanon.fad58de7366495db4650cfefac2fcd61.4,"a",%progbits
 	.p2align	2, 0x0
 .Lanon.fad58de7366495db4650cfefac2fcd61.4:
-	.long	_RNvCs62XOI40cAmN_20coop_multitask_async11clone_waker
-	.long	_RNvCs62XOI40cAmN_20coop_multitask_async10drop_waker
-	.long	_RNvCs62XOI40cAmN_20coop_multitask_async10drop_waker
-	.long	_RNvCs62XOI40cAmN_20coop_multitask_async10drop_waker
+	.long	_RNvCs4JXSzVgDWRb_20coop_multitask_async11clone_waker
+	.long	_RNvCs4JXSzVgDWRb_20coop_multitask_async10drop_waker
+	.long	_RNvCs4JXSzVgDWRb_20coop_multitask_async10drop_waker
+	.long	_RNvCs4JXSzVgDWRb_20coop_multitask_async10drop_waker
 	.size	.Lanon.fad58de7366495db4650cfefac2fcd61.4, 16
 
 	.type	.Lanon.fad58de7366495db4650cfefac2fcd61.5,%object
@@ -5860,36 +5860,36 @@ strlen:
 	.p2align	2, 0x0
 .Lanon.fad58de7366495db4650cfefac2fcd61.5:
 	.asciz	"\000\000\000\000\000\000\000\000\001\000\000"
-	.long	_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str
-	.long	_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char
-	.long	_RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtCs62XOI40cAmN_20coop_multitask_async
+	.long	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str
+	.long	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char
+	.long	_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtCs4JXSzVgDWRb_20coop_multitask_async
 	.size	.Lanon.fad58de7366495db4650cfefac2fcd61.5, 24
 
 	.type	.Lanon.fad58de7366495db4650cfefac2fcd61.6,%object
 	.section	.rodata..Lanon.fad58de7366495db4650cfefac2fcd61.6,"a",%progbits
 	.p2align	2, 0x0
 .Lanon.fad58de7366495db4650cfefac2fcd61.6:
-	.long	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs62XOI40cAmN_20coop_multitask_async4main0EBF_
+	.long	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs4JXSzVgDWRb_20coop_multitask_async4main0EBF_
 	.asciz	"\020\000\000\000\004\000\000"
-	.long	_RNCNvCs62XOI40cAmN_20coop_multitask_async4main0B3_
+	.long	_RNCNvCs4JXSzVgDWRb_20coop_multitask_async4main0B3_
 	.size	.Lanon.fad58de7366495db4650cfefac2fcd61.6, 16
 
 	.type	.Lanon.fad58de7366495db4650cfefac2fcd61.7,%object
 	.section	.rodata..Lanon.fad58de7366495db4650cfefac2fcd61.7,"a",%progbits
 	.p2align	2, 0x0
 .Lanon.fad58de7366495db4650cfefac2fcd61.7:
-	.long	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs62XOI40cAmN_20coop_multitask_async4mains_0EBF_
+	.long	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains_0EBF_
 	.asciz	"\001\000\000\000\001\000\000"
-	.long	_RNCNvCs62XOI40cAmN_20coop_multitask_async4mains_0B3_
+	.long	_RNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains_0B3_
 	.size	.Lanon.fad58de7366495db4650cfefac2fcd61.7, 16
 
 	.type	.Lanon.fad58de7366495db4650cfefac2fcd61.8,%object
 	.section	.rodata..Lanon.fad58de7366495db4650cfefac2fcd61.8,"a",%progbits
 	.p2align	2, 0x0
 .Lanon.fad58de7366495db4650cfefac2fcd61.8:
-	.long	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs62XOI40cAmN_20coop_multitask_async4main0EBF_
+	.long	_RINvNtCs4L8JVMRpR0y_4core3ptr9drop_glueNCNvCs4JXSzVgDWRb_20coop_multitask_async4main0EBF_
 	.asciz	" \000\000\000\004\000\000"
-	.long	_RNCNvCs62XOI40cAmN_20coop_multitask_async4mains0_0B3_
+	.long	_RNCNvCs4JXSzVgDWRb_20coop_multitask_async4mains0_0B3_
 	.size	.Lanon.fad58de7366495db4650cfefac2fcd61.8, 16
 
 	.type	.Lanon.d6eaf6733b1399c8ad24a445bbdd7203.1,%object
@@ -5955,72 +5955,72 @@ strlen:
 	.ascii	"0x"
 	.size	.Lanon.b85778989e51bb4a273b2553e80e2f5a.389, 2
 
-	.type	.Lanon.5f08c8627574ddd27618718ec113c415.16,%object
+	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.16,%object
 	.section	.rodata.str1.1,"aMS",%progbits,1
-.Lanon.5f08c8627574ddd27618718ec113c415.16:
+.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.16:
 	.asciz	"\007PANIC: \300\004 at \300\001:\300\001\n"
-	.size	.Lanon.5f08c8627574ddd27618718ec113c415.16, 21
+	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.16, 21
 
-	.type	_RNvNtCsdQ0Iybs8NSI_4parm3tty3TTY,%object
-	.section	.bss._RNvNtCsdQ0Iybs8NSI_4parm3tty3TTY,"aw",%nobits
-_RNvNtCsdQ0Iybs8NSI_4parm3tty3TTY:
-	.size	_RNvNtCsdQ0Iybs8NSI_4parm3tty3TTY, 0
+	.type	_RNvNtCsb7ba3TghYF3_4parm3tty3TTY,%object
+	.section	.bss._RNvNtCsb7ba3TghYF3_4parm3tty3TTY,"aw",%nobits
+_RNvNtCsb7ba3TghYF3_4parm3tty3TTY:
+	.size	_RNvNtCsb7ba3TghYF3_4parm3tty3TTY, 0
 
-	.type	_RNvNtCsdQ0Iybs8NSI_4parm4heap10HEAP_FREEP.0,%object
-	.section	.bss._RNvNtCsdQ0Iybs8NSI_4parm4heap10HEAP_FREEP.0,"aw",%nobits
+	.type	_RNvNtCsb7ba3TghYF3_4parm4heap10HEAP_FREEP.0,%object
+	.section	.bss._RNvNtCsb7ba3TghYF3_4parm4heap10HEAP_FREEP.0,"aw",%nobits
 	.p2align	2, 0x0
-_RNvNtCsdQ0Iybs8NSI_4parm4heap10HEAP_FREEP.0:
+_RNvNtCsb7ba3TghYF3_4parm4heap10HEAP_FREEP.0:
 	.long	0
-	.size	_RNvNtCsdQ0Iybs8NSI_4parm4heap10HEAP_FREEP.0, 4
+	.size	_RNvNtCsb7ba3TghYF3_4parm4heap10HEAP_FREEP.0, 4
 
-	.type	.Lanon.5f08c8627574ddd27618718ec113c415.37,%object
+	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37,%object
 	.section	.rodata.str1.1,"aMS",%progbits,1
-.Lanon.5f08c8627574ddd27618718ec113c415.37:
+.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37:
 	.asciz	"\023Heap overflow:size=\300\006 next=\300\005, sp=\300"
-	.size	.Lanon.5f08c8627574ddd27618718ec113c415.37, 37
+	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.37, 37
 
-	.type	.Lanon.5f08c8627574ddd27618718ec113c415.38,%object
-.Lanon.5f08c8627574ddd27618718ec113c415.38:
+	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.38,%object
+.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.38:
 	.asciz	"parm/src/heap.rs"
-	.size	.Lanon.5f08c8627574ddd27618718ec113c415.38, 17
+	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.38, 17
 
-	.type	.Lanon.5f08c8627574ddd27618718ec113c415.39,%object
-	.section	.rodata..Lanon.5f08c8627574ddd27618718ec113c415.39,"a",%progbits
+	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39,%object
+	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.5f08c8627574ddd27618718ec113c415.39:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.38
+.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39:
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.38
 	.asciz	"\020\000\000\000:\000\000\000\t\000\000"
-	.size	.Lanon.5f08c8627574ddd27618718ec113c415.39, 16
+	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.39, 16
 
-	.type	.Lanon.5f08c8627574ddd27618718ec113c415.48,%object
-	.section	.rodata..Lanon.5f08c8627574ddd27618718ec113c415.48,"a",%progbits
+	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48,%object
+	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.5f08c8627574ddd27618718ec113c415.48:
+.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48:
 	.asciz	"\000\000\000\000\000\000\000\000\001\000\000"
-	.long	_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str
-	.long	_RNvXs_NtCsdQ0Iybs8NSI_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char
-	.long	_RNvYNtNtCsdQ0Iybs8NSI_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_
-	.size	.Lanon.5f08c8627574ddd27618718ec113c415.48, 24
+	.long	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_str
+	.long	_RNvXs_NtCsb7ba3TghYF3_4parm3ttyNtB4_3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write10write_char
+	.long	_RNvYNtNtCsb7ba3TghYF3_4parm3tty3TtyNtNtCs4L8JVMRpR0y_4core3fmt5Write9write_fmtB6_
+	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.48, 24
 
-	.type	.Lanon.5f08c8627574ddd27618718ec113c415.51,%object
-	.section	.rodata..Lanon.5f08c8627574ddd27618718ec113c415.51,"a",%progbits
-.Lanon.5f08c8627574ddd27618718ec113c415.51:
+	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.51,%object
+	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.51,"a",%progbits
+.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.51:
 	.ascii	"invalid instruction"
-	.size	.Lanon.5f08c8627574ddd27618718ec113c415.51, 19
+	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.51, 19
 
-	.type	.Lanon.5f08c8627574ddd27618718ec113c415.52,%object
+	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.52,%object
 	.section	.rodata.str1.1,"aMS",%progbits,1
-.Lanon.5f08c8627574ddd27618718ec113c415.52:
+.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.52:
 	.asciz	"parm/src/lib.rs"
-	.size	.Lanon.5f08c8627574ddd27618718ec113c415.52, 16
+	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.52, 16
 
-	.type	.Lanon.5f08c8627574ddd27618718ec113c415.53,%object
-	.section	.rodata..Lanon.5f08c8627574ddd27618718ec113c415.53,"a",%progbits
+	.type	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.53,%object
+	.section	.rodata..Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.53,"a",%progbits
 	.p2align	2, 0x0
-.Lanon.5f08c8627574ddd27618718ec113c415.53:
-	.long	.Lanon.5f08c8627574ddd27618718ec113c415.52
+.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.53:
+	.long	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.52
 	.asciz	"\017\000\000\000>\000\000\000\005\000\000"
-	.size	.Lanon.5f08c8627574ddd27618718ec113c415.53, 16
+	.size	.Lanon.f0fbe5d12b0263ec2c6a5041abb06a1d.53, 16
 
 	.ident	"rustc version 1.98.0-nightly (6368fd52c 2026-05-29)"
 	.section	".note.GNU-stack","",%progbits
