@@ -30,6 +30,7 @@ struct Mmio {
     start: Instant,
     disp: Rc<RefCell<Display>>,
     telnet: (Receiver<u8>, Option<u8>, Sender<u8>),
+    breakpoint: bool
 }
 
 
@@ -40,7 +41,10 @@ impl Mmio {
         let mut stdin = termion::async_stdin().bytes();
         
         // listen on 4567. Clients can connect and send/receive data
-        let listener = TcpListener::bind("127.0.0.1:4567").expect("Failed to bind to port 4567");
+        let listener = TcpListener::bind("[::]:4567").unwrap_or_else(|_| {
+            println!("Failed to bind to port 4567. Using 4568 instead.");
+            TcpListener::bind("[::]:4568").expect("Failed to bind to port 4568")
+        });
         let (tx_recv, rx_recv) = mpsc::channel();
         let (tx_send, rx_send) = mpsc::channel();
         thread::spawn(move || {
@@ -89,7 +93,8 @@ impl Mmio {
             regs: [0; 4],
             start: Instant::now(),
             disp,
-            telnet: (rx_recv, None, tx_send)
+            telnet: (rx_recv, None, tx_send),
+            breakpoint: false
         }
     }
     
@@ -179,7 +184,7 @@ impl MemoryInterface for Mmio {
             5 => todo!(), // MIDIon
             6 => todo!(), // MIDIinstr
             12 => self.disp.borrow_mut().current_buffer = value != 0, // DISPbuf
-            15 => { return Err(MemoryAccessError::PrivilegedOnly); }
+            15 => { self.breakpoint = true; println!("*** BREAKPOINT"); }, // BREAK
             _ => { println!("*** {address}"); return Err(MemoryAccessError::InvalidAddress) }
         }
         Ok(())
@@ -348,12 +353,10 @@ fn main() -> anyhow::Result<()> {
         }
         match proc.next_event() {
             Ok(_) => {},
-            Err(RunError::MemWrite { cause: PrivilegedOnly, .. }) => {
-                println!("Breakpoint hit at PC={:08x}, continue?", proc.registers.pc);
-                /*let mut input = String::new();
-                std::io::stdin().read_line(&mut input).unwrap();*/
-            }
             e @ Err(_) => { e.unwrap(); }
+        }
+        if mmio.borrow().breakpoint {
+            println!("*** breakpoint hit at PC = 0x{:08X}", proc.registers.pc);
         }
     }
     
