@@ -5736,13 +5736,13 @@ main:
 	str	r3, [sp, #84]
 	adds	r0, r0, #7
 	movs	r2, #3
-	str	r2, [sp, #16]
+	str	r2, [sp, #12]
 	bics	r0, r2
 	mov	r2, r0
 	adds	r2, #240
 	cmp	r3, r2
 	bhs	.LBB20_1
-	bl	.LBB20_412
+	bl	.LBB20_408
 .LBB20_1:
 	subs	r3, r0, #4
 	str	r1, [r3]
@@ -5755,14 +5755,14 @@ main:
 	movs	r3, #0
 	str	r3, [sp, #76]
 	movs	r2, #10
-	str	r2, [sp, #60]
+	str	r2, [sp, #56]
 	str	r2, [sp, #68]
 	str	r0, [sp, #72]
 	add	r2, sp, #80
-	str	r3, [sp, #56]
+	str	r3, [sp, #52]
 	strh	r3, [r2]
-	movs	r5, #128
-	str	r5, [sp, #252]
+	movs	r6, #128
+	str	r6, [sp, #252]
 	@APP
 	mov	r3, sp
 	@NO_APP
@@ -5772,47 +5772,47 @@ main:
 	adds	r2, r0, r2
 	cmp	r3, r2
 	bhs	.LBB20_4
-	bl	.LBB20_413
+	bl	.LBB20_409
 .LBB20_4:
-	str	r5, [sp, #12]
-	str	r5, [r0, r1]
+	str	r6, [r0, r1]
 	str	r2, [r4]
 	movs	r1, #32
-	str	r1, [sp, #64]
+	str	r1, [sp, #60]
 	str	r1, [sp, #84]
 	adds	r0, #244
 	str	r0, [sp, #88]
 	movs	r0, #1
-	str	r0, [sp, #24]
-	lsls	r6, r0, #8
+	str	r0, [sp, #20]
+	lsls	r0, r0, #8
+	str	r0, [sp, #64]
 	movs	r0, #5
 	lsls	r0, r0, #29
-	str	r0, [sp, #36]
+	str	r0, [sp, #32]
 	movs	r0, #255
 	mvns	r4, r0
 	mov	r0, r4
 	adds	r0, #255
 	str	r0, [sp]
-	str	r0, [sp, #52]
-	str	r6, [sp, #48]
+	str	r0, [sp, #48]
+	str	r6, [sp, #44]
 	b	.LBB20_7
 .LBB20_5:
 	cmp	r1, #78
 	bne	.LBB20_6
-	bl	.LBB20_253
+	bl	.LBB20_247
 .LBB20_6:
 	add	r0, sp, #68
 	add	r1, sp, #80
 	bl	_RNvCs659I7ZJCFS4_5basic25process_instruction_input
 	mov	r0, r4
 	adds	r0, #255
-	str	r0, [sp, #52]
+	str	r0, [sp, #48]
 .LBB20_7:
 	movs	r0, #62
 	str	r0, [r4]
-	ldr	r0, [sp, #64]
+	ldr	r0, [sp, #60]
 	str	r0, [r4]
-	ldr	r5, [sp, #56]
+	ldr	r5, [sp, #52]
 	str	r5, [sp, #92]
 .LBB20_8:
 	mov	r0, r5
@@ -5855,7 +5855,8 @@ main:
 	str	r7, [r1, r0]
 	adds	r5, r5, #1
 	str	r5, [sp, #92]
-	cmp	r7, r6
+	ldr	r0, [sp, #64]
+	cmp	r7, r0
 	blo	.LBB20_21
 	movs	r7, #63
 .LBB20_21:
@@ -5866,7 +5867,7 @@ main:
 	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVeccE8grow_oneCsb7ba3TghYF3_4parm
 	b	.LBB20_19
 .LBB20_23:
-	ldr	r0, [sp, #60]
+	ldr	r0, [sp, #56]
 	str	r0, [r4]
 	ldr	r2, [sp, #88]
 	cmp	r3, #4
@@ -5884,55 +5885,55 @@ main:
 .LBB20_26:
 	cmp	r6, #76
 	bne	.LBB20_41
-	str	r7, [sp, #40]
-	str	r2, [sp, #44]
+	str	r7, [sp, #36]
+	str	r2, [sp, #40]
 	ldr	r7, [r2, #4]
 	mov	r6, r7
 	subs	r6, #97
 	cmp	r6, #26
 	bhs	.LBB20_29
-	ldr	r2, [sp, #40]
+	ldr	r2, [sp, #36]
 	ands	r7, r2
 .LBB20_29:
 	cmp	r7, #73
 	bne	.LBB20_42
-	ldr	r2, [sp, #44]
+	ldr	r2, [sp, #40]
 	ldr	r6, [r2, #8]
 	mov	r7, r6
 	subs	r7, #97
 	cmp	r7, #26
 	bhs	.LBB20_32
-	ldr	r2, [sp, #40]
+	ldr	r2, [sp, #36]
 	ands	r6, r2
 .LBB20_32:
 	cmp	r6, #83
-	ldr	r2, [sp, #44]
+	ldr	r2, [sp, #40]
 	bne	.LBB20_41
 	ldr	r6, [r2, #12]
 	mov	r7, r6
 	subs	r7, #97
 	cmp	r7, #26
 	bhs	.LBB20_35
-	ldr	r2, [sp, #40]
+	ldr	r2, [sp, #36]
 	ands	r6, r2
 .LBB20_35:
 	cmp	r6, #84
-	ldr	r6, [sp, #48]
-	ldr	r2, [sp, #44]
+	ldr	r6, [sp, #44]
+	ldr	r2, [sp, #40]
 	bne	.LBB20_43
 	movs	r0, #84
 	str	r0, [r4]
 	movs	r1, #79
-	str	r1, [sp, #20]
+	str	r1, [sp, #16]
 	str	r1, [r4]
-	str	r0, [sp, #40]
+	str	r0, [sp, #36]
 	str	r0, [r4]
 	movs	r0, #65
 	str	r0, [r4]
 	movs	r0, #76
-	str	r0, [sp, #32]
+	str	r0, [sp, #28]
 	str	r0, [r4]
-	ldr	r0, [sp, #64]
+	ldr	r0, [sp, #60]
 	str	r0, [r4]
 	ldr	r7, [sp, #72]
 	ldr	r5, [sp, #76]
@@ -5948,9 +5949,9 @@ main:
 	bl	_RNvNtCs4L8JVMRpR0y_4core3fmt5write
 	cmp	r0, #0
 	beq	.LBB20_37
-	bl	.LBB20_402
+	bl	.LBB20_393
 .LBB20_37:
-	ldr	r0, [sp, #60]
+	ldr	r0, [sp, #56]
 	str	r0, [r4]
 	cmp	r5, #0
 	bne	.LBB20_38
@@ -5960,9 +5961,9 @@ main:
 	muls	r0, r5, r0
 	mov	r2, r7
 	adds	r0, r7, r0
-	str	r0, [sp, #44]
-	ldr	r5, .LCPI20_34
-	b	.LBB20_208
+	str	r0, [sp, #40]
+	ldr	r5, .LCPI20_36
+	b	.LBB20_201
 .LBB20_39:
 	cmp	r3, #3
 	beq	.LBB20_40
@@ -5977,13 +5978,13 @@ main:
 	bhs	.LBB20_44
 	b	.LBB20_45
 .LBB20_41:
-	ldr	r6, [sp, #48]
+	ldr	r6, [sp, #44]
 	cmp	r5, #26
 	bhs	.LBB20_44
 	b	.LBB20_45
 .LBB20_42:
-	ldr	r6, [sp, #48]
-	ldr	r2, [sp, #44]
+	ldr	r6, [sp, #44]
+	ldr	r2, [sp, #40]
 .LBB20_43:
 	cmp	r5, #26
 	blo	.LBB20_45
@@ -6022,7 +6023,7 @@ main:
 	ldr	r0, [r2, #4]
 	movs	r2, #95
 	mov	r1, r0
-	str	r2, [sp, #44]
+	str	r2, [sp, #40]
 	ands	r1, r2
 	mov	r7, r0
 	subs	r7, #97
@@ -6038,7 +6039,7 @@ main:
 	subs	r2, #97
 	cmp	r2, #26
 	bhs	.LBB20_58
-	ldr	r2, [sp, #44]
+	ldr	r2, [sp, #40]
 	ands	r6, r2
 .LBB20_58:
 	cmp	r6, #77
@@ -6048,7 +6049,7 @@ main:
 	subs	r2, #97
 	cmp	r2, #26
 	bhs	.LBB20_61
-	ldr	r2, [sp, #44]
+	ldr	r2, [sp, #40]
 	ands	r6, r2
 .LBB20_61:
 	cmp	r6, #82
@@ -6058,7 +6059,7 @@ main:
 	subs	r2, #97
 	cmp	r2, #26
 	bhs	.LBB20_64
-	ldr	r2, [sp, #44]
+	ldr	r2, [sp, #40]
 	ands	r6, r2
 .LBB20_64:
 	cmp	r6, #85
@@ -6068,20 +6069,20 @@ main:
 	subs	r2, #97
 	cmp	r2, #26
 	bhs	.LBB20_67
-	ldr	r2, [sp, #44]
+	ldr	r2, [sp, #40]
 	ands	r6, r2
 .LBB20_67:
 	cmp	r6, #78
-	ldr	r6, [sp, #48]
+	ldr	r6, [sp, #44]
 	bne	.LBB20_86
-	ldr	r0, [sp, #52]
+	ldr	r0, [sp, #48]
 	adds	r0, r0, #1
 	bne	.LBB20_69
-	bl	.LBB20_396
+	bl	.LBB20_390
 .LBB20_69:
 	ldr	r0, [sp, #4]
 	blx	r0
-	bl	.LBB20_393
+	bl	.LBB20_387
 .LBB20_70:
 	cmp	r0, #65
 	bne	.LBB20_73
@@ -6095,7 +6096,7 @@ main:
 	bhs	.LBB20_87
 	b	.LBB20_88
 .LBB20_72:
-	ldr	r6, [sp, #48]
+	ldr	r6, [sp, #44]
 	cmp	r7, #26
 	bhs	.LBB20_87
 	b	.LBB20_88
@@ -6144,7 +6145,7 @@ main:
 .LBB20_84:
 	b	.LBB20_165
 .LBB20_85:
-	ldr	r6, [sp, #48]
+	ldr	r6, [sp, #44]
 .LBB20_86:
 	cmp	r7, #26
 	blo	.LBB20_88
@@ -6169,7 +6170,7 @@ main:
 	b	.LBB20_6
 .LBB20_92:
 	ldr	r0, [sp, #72]
-	str	r0, [sp, #32]
+	str	r0, [sp, #28]
 	ldr	r1, [sp, #76]
 	movs	r2, #4
 	cmp	r1, #0
@@ -6185,19 +6186,19 @@ main:
 	@NO_APP
 	str	r6, [sp, #200]
 	adds	r3, r3, #7
-	ldr	r5, [sp, #16]
+	ldr	r5, [sp, #12]
 	bics	r3, r5
 	adds	r5, r3, r0
 	cmp	r6, r5
 	bhs	.LBB20_94
-	bl	.LBB20_407
+	bl	.LBB20_399
 .LBB20_94:
 	subs	r6, r3, #4
 	str	r0, [r6]
 	str	r5, [r7]
 	cmp	r3, #0
 	bne	.LBB20_95
-	bl	.LBB20_416
+	bl	.LBB20_412
 .LBB20_95:
 	str	r0, [sp, #252]
 	@APP
@@ -6208,7 +6209,7 @@ main:
 	adds	r5, r6, r0
 	cmp	r7, r5
 	bhs	.LBB20_96
-	bl	.LBB20_407
+	bl	.LBB20_399
 .LBB20_96:
 	str	r0, [r3, r0]
 	ldr	r0, .LCPI20_34
@@ -6223,7 +6224,7 @@ main:
 	str	r1, [sp, #228]
 	add	r0, sp, #216
 	stm	r0!, {r1, r3, r5}
-	ldr	r0, [sp, #24]
+	ldr	r0, [sp, #20]
 	str	r0, [sp, #208]
 	ldr	r0, .LCPI20_38
 	adds	r0, #128
@@ -6231,20 +6232,20 @@ main:
 	cmp	r1, #0
 	ldr	r7, .LCPI20_39
 	bne	.LBB20_98
-	bl	.LBB20_394
+	bl	.LBB20_388
 .LBB20_98:
 	movs	r0, #24
 	muls	r0, r1, r0
-	ldr	r5, [sp, #32]
-	str	r0, [sp, #28]
+	ldr	r5, [sp, #28]
+	str	r0, [sp, #24]
 	adds	r7, r5, r0
-	str	r7, [sp, #40]
+	str	r7, [sp, #36]
 	b	.LBB20_103
 .LBB20_99:
 	uxth	r0, r5
-	ldr	r5, [sp, #24]
+	ldr	r5, [sp, #20]
 .LBB20_100:
-	ldr	r3, [sp, #44]
+	ldr	r3, [sp, #40]
 .LBB20_101:
 	str	r0, [sp, #212]
 	str	r5, [sp, #208]
@@ -6252,7 +6253,7 @@ main:
 	cmp	r3, r7
 	mov	r5, r3
 	bne	.LBB20_103
-	bl	.LBB20_346
+	bl	.LBB20_340
 .LBB20_103:
 	ldr	r6, [sp, #236]
 	ldr	r1, [sp, #208]
@@ -6272,7 +6273,7 @@ main:
 	adds	r0, r6, #1
 	str	r0, [sp, #236]
 	ldr	r0, [r5]
-	ldr	r7, [sp, #40]
+	ldr	r7, [sp, #36]
 	.p2align	2
 	add	r0, pc
 	ldrb	r0, [r0, #4]
@@ -6309,7 +6310,7 @@ main:
 .LBB20_112:
 	b	.LBB20_102
 .LBB20_113:
-	str	r3, [sp, #44]
+	str	r3, [sp, #40]
 	ldr	r1, [r5, #8]
 	ldr	r2, [r5, #12]
 	add	r0, sp, #208
@@ -6327,7 +6328,7 @@ main:
 	bne	.LBB20_115
 	b	.LBB20_158
 .LBB20_115:
-	ldr	r0, .LCPI20_40
+	ldr	r0, .LCPI20_62
 	adds	r0, r6, r0
 	lsls	r1, r5, #2
 	ldr	r2, [sp, #220]
@@ -6336,7 +6337,7 @@ main:
 	str	r6, [sp, #224]
 	movs	r0, #1
 	str	r0, [sp, #208]
-	ldr	r0, .LCPI20_61
+	ldr	r0, .LCPI20_41
 	str	r0, [sp, #212]
 	ldr	r0, [sp, #216]
 	cmp	r6, r0
@@ -6345,21 +6346,21 @@ main:
 .LBB20_116:
 	lsls	r0, r6, #2
 	ldr	r1, [sp, #220]
-	ldr	r2, .LCPI20_62
+	ldr	r2, .LCPI20_42
 	str	r2, [r1, r0]
 	adds	r0, r5, #2
 	str	r0, [sp, #224]
 	movs	r5, #0
 	b	.LBB20_143
 .LBB20_117:
-	str	r3, [sp, #44]
+	str	r3, [sp, #40]
 	ldr	r1, [r5, #12]
 	ldr	r2, [r5, #16]
 	add	r0, sp, #208
 	bl	_RNvMNvMsf_Cs659I7ZJCFS4_5basicNtB8_7Program8assembleNtB2_9Assembler10write_expr
 	ldrh	r0, [r5, #4]
 	lsls	r5, r0, #6
-	ldr	r0, .LCPI20_63
+	ldr	r0, .LCPI20_43
 	orrs	r5, r0
 	ldr	r0, [sp, #208]
 	cmp	r0, #1
@@ -6369,7 +6370,7 @@ main:
 	ldr	r6, [sp, #224]
 	ldr	r0, [sp, #216]
 	cmp	r6, r0
-	ldr	r3, [sp, #44]
+	ldr	r3, [sp, #40]
 	bne	.LBB20_119
 	b	.LBB20_153
 .LBB20_119:
@@ -6381,7 +6382,7 @@ main:
 	adds	r0, r6, #1
 	str	r0, [sp, #224]
 	movs	r5, #0
-	ldr	r7, [sp, #40]
+	ldr	r7, [sp, #36]
 	b	.LBB20_101
 .LBB20_120:
 	ldr	r0, [sp, #208]
@@ -6392,7 +6393,7 @@ main:
 	ldr	r6, [sp, #224]
 	ldr	r0, [sp, #216]
 	cmp	r6, r0
-	str	r6, [sp, #20]
+	str	r6, [sp, #16]
 	bne	.LBB20_122
 	b	.LBB20_154
 .LBB20_122:
@@ -6416,16 +6417,16 @@ main:
 	ldr	r1, [sp, #220]
 	ldr	r2, .LCPI20_45
 	str	r2, [r1, r0]
-	ldr	r0, [sp, #20]
+	ldr	r0, [sp, #16]
 	adds	r0, r0, #2
 	str	r0, [sp, #224]
 	b	.LBB20_140
 .LBB20_124:
-	str	r3, [sp, #44]
+	str	r3, [sp, #40]
 	ldrh	r0, [r5, #4]
 	movs	r6, #0
-	ldr	r1, [sp, #28]
-	ldr	r2, [sp, #32]
+	ldr	r1, [sp, #24]
+	ldr	r2, [sp, #28]
 .LBB20_125:
 	cmp	r1, #0
 	beq	.LBB20_134
@@ -6459,14 +6460,14 @@ main:
 	ldrh	r3, [r3, #24]
 	cmp	r3, r0
 	blo	.LBB20_125
-	ldr	r0, [sp, #16]
+	ldr	r0, [sp, #12]
 	b	.LBB20_147
 .LBB20_134:
 	ldr	r0, [sp, #208]
 	cmp	r0, #1
-	ldr	r5, [sp, #24]
+	ldr	r5, [sp, #20]
 	ldr	r0, .LCPI20_46
-	ldr	r3, [sp, #44]
+	ldr	r3, [sp, #40]
 	beq	.LBB20_135
 	b	.LBB20_101
 .LBB20_135:
@@ -6490,7 +6491,7 @@ main:
 	b	.LBB20_101
 .LBB20_137:
 	movs	r0, #1
-	str	r0, [sp, #44]
+	str	r0, [sp, #40]
 	str	r0, [sp, #208]
 	ldr	r0, .LCPI20_48
 	adds	r0, #196
@@ -6507,7 +6508,7 @@ main:
 	str	r1, [r2, r0]
 	adds	r6, r5, #1
 	str	r6, [sp, #224]
-	ldr	r0, [sp, #44]
+	ldr	r0, [sp, #40]
 	str	r0, [sp, #208]
 	ldr	r0, .LCPI20_50
 	str	r0, [sp, #212]
@@ -6547,9 +6548,9 @@ main:
 .LBB20_144:
 	add	r0, sp, #208
 	adds	r0, #20
-	str	r1, [sp, #44]
+	str	r1, [sp, #40]
 	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecjE8grow_oneCs659I7ZJCFS4_5basic
-	ldr	r1, [sp, #44]
+	ldr	r1, [sp, #40]
 	b	.LBB20_104
 .LBB20_145:
 	movs	r0, #1
@@ -6584,8 +6585,8 @@ main:
 	ldr	r6, [sp, #224]
 	ldr	r0, [sp, #216]
 	cmp	r6, r0
-	ldr	r7, [sp, #40]
-	ldr	r3, [sp, #44]
+	ldr	r7, [sp, #36]
+	ldr	r3, [sp, #40]
 	beq	.LBB20_163
 .LBB20_151:
 	lsls	r0, r6, #2
@@ -6598,14 +6599,14 @@ main:
 	b	.LBB20_101
 .LBB20_152:
 	movs	r0, #0
-	ldr	r5, [sp, #24]
-	ldr	r7, [sp, #40]
+	ldr	r5, [sp, #20]
+	ldr	r7, [sp, #36]
 	b	.LBB20_100
 .LBB20_153:
 	add	r0, sp, #208
 	adds	r0, #8
 	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecjE8grow_oneCs659I7ZJCFS4_5basic
-	ldr	r3, [sp, #44]
+	ldr	r3, [sp, #40]
 	b	.LBB20_119
 .LBB20_154:
 	add	r0, sp, #208
@@ -6613,14 +6614,14 @@ main:
 	mov	r6, r3
 	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecjE8grow_oneCs659I7ZJCFS4_5basic
 	mov	r3, r6
-	ldr	r6, [sp, #20]
+	ldr	r6, [sp, #16]
 	b	.LBB20_122
 .LBB20_155:
 	add	r0, sp, #208
 	adds	r0, #8
-	str	r3, [sp, #44]
+	str	r3, [sp, #40]
 	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecjE8grow_oneCs659I7ZJCFS4_5basic
-	ldr	r3, [sp, #44]
+	ldr	r3, [sp, #40]
 	b	.LBB20_123
 .LBB20_156:
 	add	r0, sp, #208
@@ -6632,9 +6633,9 @@ main:
 .LBB20_157:
 	add	r0, sp, #208
 	adds	r0, #8
-	str	r3, [sp, #44]
+	str	r3, [sp, #40]
 	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecjE8grow_oneCs659I7ZJCFS4_5basic
-	ldr	r3, [sp, #44]
+	ldr	r3, [sp, #40]
 	b	.LBB20_139
 .LBB20_158:
 	add	r0, sp, #208
@@ -6654,46 +6655,33 @@ main:
 .LBB20_161:
 	add	r0, sp, #208
 	adds	r0, #32
-	str	r2, [sp, #20]
+	str	r2, [sp, #16]
 	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecNtNvMsf_Cs659I7ZJCFS4_5basicNtBU_7Program8assemble10RelocationE8grow_oneBU_
-	ldr	r2, [sp, #20]
+	ldr	r2, [sp, #16]
 	ldr	r0, [sp, #208]
 	b	.LBB20_149
 .LBB20_162:
 	add	r0, sp, #208
 	adds	r0, #8
 	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecjE8grow_oneCs659I7ZJCFS4_5basic
-	ldr	r3, [sp, #44]
+	ldr	r3, [sp, #40]
 	b	.LBB20_136
 .LBB20_163:
 	add	r0, sp, #208
 	adds	r0, #8
 	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecjE8grow_oneCs659I7ZJCFS4_5basic
-	ldr	r3, [sp, #44]
+	ldr	r3, [sp, #40]
 	b	.LBB20_151
 .LBB20_164:
-	ldr	r0, [sp, #60]
+	ldr	r0, [sp, #56]
 	str	r0, [r4]
 	add	r0, sp, #68
 	add	r1, sp, #80
 	mov	r3, r7
 	bl	_RNvCs659I7ZJCFS4_5basic25process_instruction_input
+	ldr	r6, [sp, #44]
 .LBB20_165:
-	ldr	r0, [r4, #12]
-	cmp	r0, #0
-	bne	.LBB20_169
-	ldr	r0, [r4, #12]
-	cmp	r0, #0
-	bne	.LBB20_169
-	ldr	r0, [r4, #12]
-	cmp	r0, #0
-	bne	.LBB20_169
-	ldr	r0, [r4, #12]
-	cmp	r0, #0
-	beq	.LBB20_165
-.LBB20_169:
-	ldr	r5, [sp, #12]
-	str	r5, [sp, #252]
+	str	r6, [sp, #252]
 	ldr	r3, .LCPI20_53
 	ldr	r0, [r3]
 	@APP
@@ -6701,208 +6689,190 @@ main:
 	@NO_APP
 	str	r2, [sp, #200]
 	adds	r0, r0, #7
-	ldr	r1, [sp, #16]
+	ldr	r1, [sp, #12]
 	bics	r0, r1
 	mov	r1, r0
 	adds	r1, #128
 	cmp	r2, r1
-	bhs	.LBB20_170
-	bl	.LBB20_403
-.LBB20_170:
+	bhs	.LBB20_166
+	bl	.LBB20_394
+.LBB20_166:
 	subs	r2, r0, #4
-	str	r5, [r2]
+	str	r6, [r2]
 	str	r1, [r3]
 	str	r0, [sp, #100]
-	ldr	r1, [sp, #64]
+	ldr	r1, [sp, #60]
 	str	r1, [sp, #96]
 	movs	r7, #0
-	b	.LBB20_172
-.LBB20_171:
+	b	.LBB20_168
+.LBB20_167:
 	lsls	r1, r7, #2
 	str	r5, [r0, r1]
 	adds	r7, r7, #1
-.LBB20_172:
+.LBB20_168:
 	str	r7, [sp, #104]
+.LBB20_169:
+	ldr	r1, [r4, #64]
+	cmp	r1, #0
+	bpl	.LBB20_173
+	ldr	r1, [r4, #64]
+	cmp	r1, #0
+	bpl	.LBB20_173
+	ldr	r1, [r4, #64]
+	cmp	r1, #0
+	bpl	.LBB20_173
+	ldr	r1, [r4, #64]
+	cmp	r1, #0
+	bmi	.LBB20_169
 .LBB20_173:
-	ldr	r1, [r4, #64]
-	cmp	r1, #0
-	bpl	.LBB20_177
-	ldr	r1, [r4, #64]
-	cmp	r1, #0
-	bpl	.LBB20_177
-	ldr	r1, [r4, #64]
-	cmp	r1, #0
-	bpl	.LBB20_177
-	ldr	r1, [r4, #64]
-	cmp	r1, #0
-	bmi	.LBB20_173
-.LBB20_177:
 	uxtb	r5, r1
 	cmp	r5, #10
-	beq	.LBB20_180
+	beq	.LBB20_176
 	ldr	r1, [sp, #96]
 	cmp	r7, r1
-	bne	.LBB20_171
+	bne	.LBB20_167
 	add	r0, sp, #96
 	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVeccE8grow_oneCsb7ba3TghYF3_4parm
 	ldr	r0, [sp, #100]
-	b	.LBB20_171
-.LBB20_180:
+	b	.LBB20_167
+.LBB20_176:
 	cmp	r7, #0
-	bne	.LBB20_181
+	bne	.LBB20_177
 	b	.LBB20_7
-.LBB20_181:
+.LBB20_177:
 	ldr	r2, [sp, #100]
 	movs	r0, #35
 	str	r0, [r4]
-	ldr	r0, [sp, #64]
+	ldr	r0, [sp, #60]
 	str	r0, [r4]
-	lsls	r1, r7, #2
-	subs	r3, r1, #4
+	lsls	r6, r7, #2
+	subs	r3, r6, #4
 	mvns	r0, r3
 	lsls	r0, r0, #28
 	lsrs	r0, r0, #30
 	mov	r0, r2
-	beq	.LBB20_193
+	beq	.LBB20_189
 	mov	r0, r2
 	ldm	r0!, {r5}
-	cmp	r5, r6
-	blo	.LBB20_184
+	ldr	r1, [sp, #64]
+	cmp	r5, r1
+	blo	.LBB20_180
 	movs	r5, #63
-.LBB20_184:
+.LBB20_180:
 	str	r5, [r4]
 	lsls	r5, r3, #28
 	lsrs	r5, r5, #30
-	beq	.LBB20_189
+	beq	.LBB20_185
 	ldr	r0, [r2, #4]
-	cmp	r0, r6
-	blo	.LBB20_187
+	ldr	r1, [sp, #64]
+	cmp	r0, r1
+	blo	.LBB20_183
 	movs	r0, #63
-.LBB20_187:
+.LBB20_183:
 	str	r0, [r4]
 	movs	r0, #12
 	ands	r0, r3
 	cmp	r0, #4
-	bne	.LBB20_190
+	bne	.LBB20_186
 	mov	r0, r2
 	adds	r0, #8
-.LBB20_189:
+.LBB20_185:
 	cmp	r3, #12
 	blo	.LBB20_164
-	b	.LBB20_193
-.LBB20_190:
+	b	.LBB20_189
+.LBB20_186:
 	ldr	r0, [r2, #8]
-	cmp	r0, r6
-	blo	.LBB20_192
+	ldr	r1, [sp, #64]
+	cmp	r0, r1
+	blo	.LBB20_188
 	movs	r0, #63
-.LBB20_192:
+.LBB20_188:
 	str	r0, [r4]
 	mov	r0, r2
 	adds	r0, #12
 	cmp	r3, #12
 	blo	.LBB20_164
-.LBB20_193:
-	adds	r1, r2, r1
-	b	.LBB20_195
-.LBB20_194:
+.LBB20_189:
+	adds	r1, r2, r6
+	b	.LBB20_191
+.LBB20_190:
 	str	r5, [r4]
 	adds	r0, #16
 	cmp	r0, r1
 	beq	.LBB20_164
-.LBB20_195:
+.LBB20_191:
 	ldr	r5, [r0]
 	movs	r3, #63
+	ldr	r6, [sp, #64]
 	cmp	r5, r6
-	blo	.LBB20_199
+	blo	.LBB20_193
 	mov	r5, r3
+.LBB20_193:
 	str	r5, [r4]
 	ldr	r5, [r0, #4]
+	ldr	r6, [sp, #64]
 	cmp	r5, r6
-	bhs	.LBB20_200
-.LBB20_197:
+	blo	.LBB20_195
+	mov	r5, r3
+.LBB20_195:
 	str	r5, [r4]
 	ldr	r5, [r0, #8]
-	cmp	r5, r6
-	blo	.LBB20_201
-.LBB20_198:
-	mov	r5, r3
-	str	r5, [r4]
-	ldr	r5, [r0, #12]
-	cmp	r5, r6
-	blo	.LBB20_194
-	b	.LBB20_202
-.LBB20_199:
-	str	r5, [r4]
-	ldr	r5, [r0, #4]
+	ldr	r6, [sp, #64]
 	cmp	r5, r6
 	blo	.LBB20_197
-.LBB20_200:
 	mov	r5, r3
-	str	r5, [r4]
-	ldr	r5, [r0, #8]
-	cmp	r5, r6
-	bhs	.LBB20_198
-.LBB20_201:
+.LBB20_197:
 	str	r5, [r4]
 	ldr	r5, [r0, #12]
+	ldr	r6, [sp, #64]
 	cmp	r5, r6
-	blo	.LBB20_194
-.LBB20_202:
+	blo	.LBB20_190
 	mov	r5, r3
-	b	.LBB20_194
-	.p2align	2
-.LCPI20_40:
-	.long	574291968
-	.p2align	2
-.LCPI20_61:
-	.long	17362
-	.p2align	2
-.LCPI20_62:
-	.long	1611744210
-	.p2align	1
-.LBB20_206:
+	b	.LBB20_190
+.LBB20_199:
 	str	r0, [r4]
 	movs	r0, #44
 	str	r0, [r4]
-	ldr	r0, [sp, #64]
+	ldr	r0, [sp, #60]
 	str	r0, [r4]
 	ldr	r0, [r7, #16]
 	adds	r0, #65
 	uxtb	r0, r0
 	str	r0, [r4]
-	ldr	r5, .LCPI20_53
-	ldr	r2, [sp, #28]
-.LBB20_207:
-	ldr	r0, [sp, #60]
+	ldr	r5, .LCPI20_54
+	ldr	r6, [sp, #44]
+	ldr	r2, [sp, #24]
+.LBB20_200:
+	ldr	r0, [sp, #56]
 	str	r0, [r4]
-	ldr	r0, [sp, #44]
+	ldr	r0, [sp, #40]
 	cmp	r2, r0
-	bne	.LBB20_208
+	bne	.LBB20_201
 	b	.LBB20_7
-.LBB20_208:
+.LBB20_201:
 	mov	r7, r2
 	ldrh	r0, [r2, #20]
 	str	r0, [sp, #200]
-	ldr	r2, .LCPI20_54
+	ldr	r2, .LCPI20_55
 	str	r2, [sp, #212]
 	add	r0, sp, #200
 	str	r0, [sp, #208]
 	movs	r1, #0
 	str	r1, [sp, #108]
-	ldr	r1, .LCPI20_55
-	str	r1, [sp, #104]
 	ldr	r1, .LCPI20_56
-	str	r1, [sp, #100]
-	str	r5, [sp, #96]
+	str	r1, [sp, #104]
+	str	r5, [sp, #100]
+	ldr	r1, .LCPI20_53
+	str	r1, [sp, #96]
 	add	r1, sp, #96
 	blx	r2
 	cmp	r0, #0
-	beq	.LBB20_209
-	b	.LBB20_402
-.LBB20_209:
+	beq	.LBB20_202
+	b	.LBB20_393
+.LBB20_202:
 	mov	r2, r7
 	adds	r2, #24
-	ldr	r0, [sp, #64]
+	ldr	r0, [sp, #60]
 	str	r0, [r4]
 	ldr	r0, [r7]
 	adr	r1, .LJTI20_2
@@ -6911,20 +6881,26 @@ main:
 .LCPI20_32:
 	add	pc, r0
 	.p2align	2
-.LCPI20_41:
-	.long	17362
-	.p2align	2
-.LCPI20_63:
-	.long	24577
+.LCPI20_62:
+	.long	574291968
 	.p2align	1
 	.p2align	2
 .LJTI20_2:
-	.byte	(.LBB20_224-(.LCPI20_32+4))/2
-	.byte	(.LBB20_239-(.LCPI20_32+4))/2
-	.byte	(.LBB20_227-(.LCPI20_32+4))/2
-	.byte	(.LBB20_237-(.LCPI20_32+4))/2
-	.byte	(.LBB20_225-(.LCPI20_32+4))/2
+	.byte	(.LBB20_218-(.LCPI20_32+4))/2
+	.byte	(.LBB20_233-(.LCPI20_32+4))/2
+	.byte	(.LBB20_221-(.LCPI20_32+4))/2
+	.byte	(.LBB20_231-(.LCPI20_32+4))/2
+	.byte	(.LBB20_219-(.LCPI20_32+4))/2
 	.p2align	1
+	.p2align	2
+.LCPI20_41:
+	.long	17362
+	.p2align	2
+.LCPI20_42:
+	.long	1611744210
+	.p2align	2
+.LCPI20_43:
+	.long	24577
 	.p2align	2
 .LCPI20_44:
 	.long	587137024
@@ -6953,7 +6929,7 @@ main:
 .LCPI20_52:
 	.long	24593
 	.p2align	1
-.LBB20_224:
+.LBB20_218:
 	movs	r0, #80
 	str	r0, [r4]
 	movs	r0, #82
@@ -6962,21 +6938,21 @@ main:
 	str	r0, [r4]
 	movs	r0, #78
 	str	r0, [r4]
-	ldr	r0, [sp, #40]
+	ldr	r0, [sp, #36]
 	str	r0, [r4]
-	ldr	r0, [sp, #64]
+	ldr	r0, [sp, #60]
 	str	r0, [r4]
 	ldr	r0, [r7, #8]
 	ldr	r1, [r7, #12]
-	b	.LBB20_226
-.LBB20_225:
-	ldr	r0, [sp, #32]
+	b	.LBB20_220
+.LBB20_219:
+	ldr	r0, [sp, #28]
 	str	r0, [r4]
 	movs	r0, #69
 	str	r0, [r4]
-	ldr	r0, [sp, #40]
+	ldr	r0, [sp, #36]
 	str	r0, [r4]
-	ldr	r1, [sp, #64]
+	ldr	r1, [sp, #60]
 	str	r1, [r4]
 	ldr	r0, [r7, #4]
 	adds	r0, #65
@@ -6988,13 +6964,13 @@ main:
 	str	r1, [r4]
 	ldr	r0, [r7, #12]
 	ldr	r1, [r7, #16]
-.LBB20_226:
+.LBB20_220:
 	mov	r7, r2
 	bl	_RINvXs2_Cs659I7ZJCFS4_5basicNtB6_10ExpressionNtNtCsb7ba3TghYF3_4parm3tty11ParmDisplay5writeNtBJ_3TtyEB6_
 	mov	r2, r7
-	b	.LBB20_207
-.LBB20_227:
-	str	r2, [sp, #28]
+	b	.LBB20_200
+.LBB20_221:
+	str	r2, [sp, #24]
 	movs	r0, #73
 	str	r0, [r4]
 	movs	r0, #78
@@ -7003,17 +6979,17 @@ main:
 	str	r0, [r4]
 	movs	r0, #85
 	str	r0, [r4]
-	ldr	r0, [sp, #40]
+	ldr	r0, [sp, #36]
 	str	r0, [r4]
-	ldr	r0, [sp, #64]
+	ldr	r0, [sp, #60]
 	str	r0, [r4]
 	movs	r0, #34
 	str	r0, [r4]
 	ldr	r1, [r7, #12]
 	cmp	r1, #0
-	bne	.LBB20_228
-	b	.LBB20_206
-.LBB20_228:
+	bne	.LBB20_222
+	b	.LBB20_199
+.LBB20_222:
 	ldr	r2, [r7, #8]
 	lsls	r3, r1, #2
 	subs	r5, r3, #4
@@ -7021,163 +6997,152 @@ main:
 	lsls	r1, r1, #28
 	lsrs	r1, r1, #30
 	mov	r1, r2
-	beq	.LBB20_243
+	beq	.LBB20_237
 	str	r3, [sp, #8]
 	mov	r1, r2
-	mov	r3, r6
 	ldm	r1!, {r6}
+	ldr	r3, [sp, #64]
 	cmp	r6, r3
-	blo	.LBB20_231
+	blo	.LBB20_225
 	movs	r6, #63
-.LBB20_231:
+.LBB20_225:
 	str	r6, [r4]
 	lsls	r6, r5, #28
 	lsrs	r6, r6, #30
-	ldr	r6, [sp, #48]
-	ldr	r3, [sp, #8]
-	beq	.LBB20_236
+	beq	.LBB20_230
 	ldr	r1, [r2, #4]
-	cmp	r1, r6
-	blo	.LBB20_234
+	ldr	r3, [sp, #64]
+	cmp	r1, r3
+	blo	.LBB20_228
 	movs	r1, #63
-.LBB20_234:
+.LBB20_228:
 	str	r1, [r4]
 	movs	r1, #12
 	ands	r1, r5
 	cmp	r1, #4
-	bne	.LBB20_240
+	bne	.LBB20_234
 	mov	r1, r2
 	adds	r1, #8
-.LBB20_236:
+.LBB20_230:
 	cmp	r5, #12
-	bhs	.LBB20_243
-	b	.LBB20_206
-.LBB20_237:
+	ldr	r3, [sp, #8]
+	bhs	.LBB20_237
+	b	.LBB20_199
+.LBB20_231:
 	movs	r0, #71
 	str	r0, [r4]
-	ldr	r1, [sp, #20]
+	ldr	r1, [sp, #16]
 	str	r1, [r4]
-	ldr	r0, [sp, #40]
+	ldr	r0, [sp, #36]
 	str	r0, [r4]
 	str	r1, [r4]
-	ldr	r0, [sp, #64]
+	ldr	r0, [sp, #60]
 	str	r0, [r4]
 	ldrh	r0, [r7, #4]
 	str	r0, [sp, #208]
-	ldr	r0, .LCPI20_54
+	ldr	r0, .LCPI20_55
 	str	r0, [sp, #100]
 	add	r0, sp, #208
 	str	r0, [sp, #96]
 	add	r3, sp, #96
-	mov	r0, r5
-	ldr	r1, .LCPI20_56
+	ldr	r0, .LCPI20_53
+	mov	r1, r5
 	mov	r7, r2
 	ldr	r2, .LCPI20_57
 	bl	_RNvNtCs4L8JVMRpR0y_4core3fmt5write
 	mov	r2, r7
 	cmp	r0, #0
-	bne	.LBB20_238
-	b	.LBB20_207
-.LBB20_238:
-	b	.LBB20_402
-.LBB20_239:
+	bne	.LBB20_232
+	b	.LBB20_200
+.LBB20_232:
+	b	.LBB20_393
+.LBB20_233:
 	movs	r0, #67
 	str	r0, [r4]
-	ldr	r0, [sp, #32]
+	ldr	r0, [sp, #28]
 	str	r0, [r4]
 	movs	r0, #83
 	str	r0, [r4]
-	b	.LBB20_207
-.LBB20_240:
+	b	.LBB20_200
+.LBB20_234:
 	ldr	r1, [r2, #8]
-	cmp	r1, r6
-	blo	.LBB20_242
+	ldr	r3, [sp, #64]
+	cmp	r1, r3
+	blo	.LBB20_236
 	movs	r1, #63
-.LBB20_242:
+.LBB20_236:
 	str	r1, [r4]
 	mov	r1, r2
 	adds	r1, #12
 	cmp	r5, #12
-	bhs	.LBB20_243
-	b	.LBB20_206
-.LBB20_243:
+	ldr	r3, [sp, #8]
+	bhs	.LBB20_237
+	b	.LBB20_199
+.LBB20_237:
 	adds	r2, r2, r3
-	b	.LBB20_245
-.LBB20_244:
+	b	.LBB20_239
+.LBB20_238:
 	str	r5, [r4]
 	adds	r1, #16
 	cmp	r1, r2
-	bne	.LBB20_245
-	b	.LBB20_206
-.LBB20_245:
+	bne	.LBB20_239
+	b	.LBB20_199
+.LBB20_239:
 	ldr	r5, [r1]
 	movs	r3, #63
+	ldr	r6, [sp, #64]
 	cmp	r5, r6
-	blo	.LBB20_249
+	blo	.LBB20_241
 	mov	r5, r3
+.LBB20_241:
 	str	r5, [r4]
 	ldr	r5, [r1, #4]
+	ldr	r6, [sp, #64]
 	cmp	r5, r6
-	bhs	.LBB20_250
+	blo	.LBB20_243
+	mov	r5, r3
+.LBB20_243:
+	str	r5, [r4]
+	ldr	r5, [r1, #8]
+	ldr	r6, [sp, #64]
+	cmp	r5, r6
+	blo	.LBB20_245
+	mov	r5, r3
+.LBB20_245:
+	str	r5, [r4]
+	ldr	r5, [r1, #12]
+	ldr	r6, [sp, #64]
+	cmp	r5, r6
+	blo	.LBB20_238
+	mov	r5, r3
+	b	.LBB20_238
 .LBB20_247:
-	str	r5, [r4]
-	ldr	r5, [r1, #8]
-	cmp	r5, r6
-	blo	.LBB20_251
-.LBB20_248:
-	mov	r5, r3
-	str	r5, [r4]
-	ldr	r5, [r1, #12]
-	cmp	r5, r6
-	blo	.LBB20_244
-	b	.LBB20_252
-.LBB20_249:
-	str	r5, [r4]
-	ldr	r5, [r1, #4]
-	cmp	r5, r6
-	blo	.LBB20_247
-.LBB20_250:
-	mov	r5, r3
-	str	r5, [r4]
-	ldr	r5, [r1, #8]
-	cmp	r5, r6
-	bhs	.LBB20_248
-.LBB20_251:
-	str	r5, [r4]
-	ldr	r5, [r1, #12]
-	cmp	r5, r6
-	blo	.LBB20_244
-.LBB20_252:
-	mov	r5, r3
-	b	.LBB20_244
-.LBB20_253:
 	ldr	r0, [sp, #72]
-	str	r0, [sp, #40]
+	str	r0, [sp, #36]
 	ldr	r5, [sp, #76]
 	add	r0, sp, #96
 	movs	r1, #104
 	bl	__aeabi_memclr4
-	str	r5, [sp, #32]
+	str	r5, [sp, #28]
 	cmp	r5, #0
-	bne	.LBB20_254
+	bne	.LBB20_248
 	bl	.LBB20_7
-.LBB20_254:
+.LBB20_248:
 	movs	r1, #24
-	str	r1, [sp, #28]
-	ldr	r0, [sp, #32]
+	str	r1, [sp, #24]
+	ldr	r0, [sp, #28]
 	muls	r1, r0, r1
-	ldr	r0, [sp, #40]
+	ldr	r0, [sp, #36]
 	str	r1, [sp, #8]
 	adds	r0, r0, r1
-	str	r0, [sp, #44]
+	str	r0, [sp, #40]
 	movs	r7, #0
-.LBB20_255:
-	ldr	r0, [sp, #28]
+.LBB20_249:
+	ldr	r0, [sp, #24]
 	muls	r0, r7, r0
-	ldr	r1, [sp, #40]
-	adds	r3, r1, r0
+	ldr	r1, [sp, #36]
+	adds	r5, r1, r0
 	ldr	r0, [r1, r0]
-	ldr	r5, .LCPI20_53
 	.p2align	2
 	add	r0, pc
 	ldrb	r0, [r0, #4]
@@ -7186,44 +7151,44 @@ main:
 	add	pc, r0
 	.p2align	2
 .LJTI20_1:
-	.byte	(.LBB20_262-(.LCPI20_33+4))/2
-	.byte	(.LBB20_296-(.LCPI20_33+4))/2
-	.byte	(.LBB20_276-(.LCPI20_33+4))/2
-	.byte	(.LBB20_286-(.LCPI20_33+4))/2
-	.byte	(.LBB20_273-(.LCPI20_33+4))/2
+	.byte	(.LBB20_256-(.LCPI20_33+4))/2
+	.byte	(.LBB20_291-(.LCPI20_33+4))/2
+	.byte	(.LBB20_271-(.LCPI20_33+4))/2
+	.byte	(.LBB20_281-(.LCPI20_33+4))/2
+	.byte	(.LBB20_268-(.LCPI20_33+4))/2
 	.p2align	1
 	.p2align	2
 .LCPI20_53:
 	.long	.L_MergedGlobals
 	.p2align	2
 .LCPI20_54:
-	.long	_RNvXs9_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3implNtB9_7Display3fmt
+	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.26
 	.p2align	2
 .LCPI20_55:
-	.long	1610612768
+	.long	_RNvXs9_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3implNtB9_7Display3fmt
 	.p2align	2
 .LCPI20_56:
-	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.26
+	.long	1610612768
 	.p2align	2
 .LCPI20_57:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.0
 	.p2align	1
-.LBB20_262:
-	ldr	r2, [r3, #8]
-	ldr	r3, [r3, #12]
+.LBB20_256:
+	ldr	r2, [r5, #8]
+	ldr	r3, [r5, #12]
 	add	r0, sp, #208
 	add	r1, sp, #96
 	bl	_RNvMsc_Cs659I7ZJCFS4_5basicNtB5_14ProgramContext4eval
 	ldr	r0, [sp, #208]
 	cmp	r0, #1
-	beq	.LBB20_263
-	b	.LBB20_297
-.LBB20_263:
+	beq	.LBB20_257
+	b	.LBB20_292
+.LBB20_257:
 	ldr	r0, [sp, #220]
 	cmp	r0, #0
-	bne	.LBB20_264
-	b	.LBB20_298
-.LBB20_264:
+	bne	.LBB20_258
+	b	.LBB20_293
+.LBB20_258:
 	lsls	r1, r0, #2
 	ldr	r2, [sp, #216]
 	subs	r3, r1, #4
@@ -7231,65 +7196,71 @@ main:
 	lsls	r0, r0, #28
 	lsrs	r0, r0, #30
 	mov	r0, r2
-	bne	.LBB20_265
-	b	.LBB20_336
-.LBB20_265:
+	bne	.LBB20_259
+	b	.LBB20_330
+.LBB20_259:
 	mov	r0, r2
 	ldm	r0!, {r5}
+	ldr	r6, [sp, #64]
 	cmp	r5, r6
-	blo	.LBB20_267
+	blo	.LBB20_261
 	movs	r5, #63
-.LBB20_267:
+.LBB20_261:
 	str	r5, [r4]
 	lsls	r5, r3, #28
 	lsrs	r5, r5, #30
-	beq	.LBB20_272
+	ldr	r6, [sp, #44]
+	beq	.LBB20_266
 	ldr	r0, [r2, #4]
-	cmp	r0, r6
-	blo	.LBB20_270
+	ldr	r5, [sp, #64]
+	cmp	r0, r5
+	blo	.LBB20_264
 	movs	r0, #63
-.LBB20_270:
+.LBB20_264:
 	str	r0, [r4]
 	movs	r0, #12
 	ands	r0, r3
 	cmp	r0, #4
-	beq	.LBB20_271
-	b	.LBB20_333
-.LBB20_271:
+	beq	.LBB20_265
+	b	.LBB20_327
+.LBB20_265:
 	mov	r0, r2
 	adds	r0, #8
-.LBB20_272:
+.LBB20_266:
 	cmp	r3, #12
-	blo	.LBB20_298
-	b	.LBB20_336
-.LBB20_273:
-	ldr	r2, [r3, #12]
-	mov	r5, r3
-	ldr	r3, [r3, #16]
+	bhs	.LBB20_267
+	b	.LBB20_293
+.LBB20_267:
+	b	.LBB20_330
+.LBB20_268:
+	ldr	r2, [r5, #12]
+	ldr	r3, [r5, #16]
 	add	r0, sp, #208
 	add	r1, sp, #96
 	bl	_RNvMsc_Cs659I7ZJCFS4_5basicNtB5_14ProgramContext4eval
 	ldr	r0, [sp, #208]
 	cmp	r0, #0
-	beq	.LBB20_274
-	b	.LBB20_395
-.LBB20_274:
+	beq	.LBB20_269
+	b	.LBB20_389
+.LBB20_269:
 	ldr	r0, [r5, #4]
 	cmp	r0, #25
-	bls	.LBB20_275
-	b	.LBB20_415
-.LBB20_275:
+	bls	.LBB20_270
+	b	.LBB20_411
+.LBB20_270:
 	lsls	r0, r0, #2
 	add	r1, sp, #96
 	ldr	r2, [sp, #212]
 	str	r2, [r1, r0]
-	b	.LBB20_321
-.LBB20_276:
-	str	r3, [sp, #20]
-	ldr	r0, [r3, #12]
+	b	.LBB20_315
+.LBB20_271:
+	str	r5, [sp, #16]
+	ldr	r0, [r5, #12]
 	cmp	r0, #0
-	beq	.LBB20_308
-	ldr	r1, [sp, #20]
+	bne	.LBB20_272
+	b	.LBB20_303
+.LBB20_272:
+	ldr	r1, [sp, #16]
 	ldr	r1, [r1, #8]
 	lsls	r2, r0, #2
 	subs	r3, r2, #4
@@ -7297,313 +7268,294 @@ main:
 	lsls	r0, r0, #28
 	lsrs	r0, r0, #30
 	mov	r0, r1
-	bne	.LBB20_278
-	b	.LBB20_323
-.LBB20_278:
+	bne	.LBB20_273
+	b	.LBB20_317
+.LBB20_273:
 	mov	r0, r1
 	ldm	r0!, {r5}
+	ldr	r6, [sp, #64]
 	cmp	r5, r6
-	blo	.LBB20_280
+	blo	.LBB20_275
 	movs	r5, #63
-.LBB20_280:
+.LBB20_275:
 	str	r5, [r4]
 	lsls	r5, r3, #28
 	lsrs	r5, r5, #30
-	beq	.LBB20_285
+	ldr	r6, [sp, #44]
+	beq	.LBB20_280
 	ldr	r0, [r1, #4]
-	cmp	r0, r6
-	blo	.LBB20_283
+	ldr	r5, [sp, #64]
+	cmp	r0, r5
+	blo	.LBB20_278
 	movs	r0, #63
-.LBB20_283:
+.LBB20_278:
 	str	r0, [r4]
 	movs	r0, #12
 	ands	r0, r3
 	cmp	r0, #4
-	bne	.LBB20_305
+	bne	.LBB20_300
 	mov	r0, r1
 	adds	r0, #8
-.LBB20_285:
+.LBB20_280:
 	cmp	r3, #12
-	blo	.LBB20_308
-	b	.LBB20_323
-.LBB20_286:
-	ldrh	r0, [r3, #4]
+	blo	.LBB20_303
+	b	.LBB20_317
+.LBB20_281:
+	ldrh	r0, [r5, #4]
 	movs	r5, #0
 	ldr	r1, [sp, #8]
-	ldr	r2, [sp, #40]
-	str	r0, [sp, #20]
-.LBB20_287:
+	ldr	r2, [sp, #36]
+	str	r0, [sp, #16]
+.LBB20_282:
 	cmp	r1, #0
-	bne	.LBB20_288
+	bne	.LBB20_283
 	bl	.LBB20_7
-.LBB20_288:
+.LBB20_283:
 	mov	r7, r5
 	ldrh	r3, [r2, #20]
 	cmp	r3, r0
-	bhs	.LBB20_303
+	bhs	.LBB20_298
 	mov	r3, r2
 	adds	r3, #24
-	ldr	r5, [sp, #44]
+	ldr	r5, [sp, #40]
 	cmp	r3, r5
-	bne	.LBB20_290
+	bne	.LBB20_285
 	bl	.LBB20_7
-.LBB20_290:
+.LBB20_285:
 	ldrh	r3, [r2, #44]
 	cmp	r3, r0
-	bhs	.LBB20_300
+	bhs	.LBB20_295
 	mov	r3, r2
 	adds	r3, #48
-	ldr	r5, [sp, #44]
+	ldr	r5, [sp, #40]
 	cmp	r3, r5
-	bne	.LBB20_292
+	bne	.LBB20_287
 	bl	.LBB20_7
-.LBB20_292:
+.LBB20_287:
 	mov	r3, r2
 	adds	r3, #68
 	ldrh	r5, [r3]
 	cmp	r5, r0
-	bhs	.LBB20_301
+	bhs	.LBB20_296
 	mov	r5, r2
 	adds	r5, #72
-	mov	r0, r7
-	ldr	r7, [sp, #44]
+	mov	r0, r6
+	mov	r6, r7
+	ldr	r7, [sp, #40]
 	cmp	r5, r7
-	mov	r7, r0
-	ldr	r0, [sp, #20]
-	bne	.LBB20_294
+	mov	r7, r6
+	mov	r6, r0
+	ldr	r0, [sp, #16]
+	bne	.LBB20_289
 	bl	.LBB20_7
-.LBB20_294:
+.LBB20_289:
 	subs	r1, #96
 	adds	r5, r7, #4
 	adds	r2, #96
 	ldrh	r3, [r3, #24]
 	cmp	r3, r0
-	blo	.LBB20_287
-	ldr	r0, [sp, #16]
-	b	.LBB20_302
-.LBB20_296:
+	blo	.LBB20_282
+	ldr	r0, [sp, #12]
+	b	.LBB20_297
+.LBB20_291:
 	movs	r0, #12
-	b	.LBB20_299
-.LBB20_297:
+	b	.LBB20_294
+.LBB20_292:
 	ldr	r0, [sp, #212]
 	str	r0, [sp, #252]
-	ldr	r0, .LCPI20_64
+	ldr	r0, .LCPI20_63
 	str	r0, [sp, #204]
 	add	r0, sp, #252
 	str	r0, [sp, #200]
 	add	r3, sp, #200
-	mov	r0, r5
+	ldr	r0, .LCPI20_64
 	ldr	r1, .LCPI20_65
 	ldr	r2, .LCPI20_66
 	bl	_RNvNtCs4L8JVMRpR0y_4core3fmt5write
 	cmp	r0, #0
-	beq	.LBB20_298
-	b	.LBB20_402
-.LBB20_298:
-	ldr	r0, [sp, #60]
-.LBB20_299:
+	beq	.LBB20_293
+	b	.LBB20_393
+.LBB20_293:
+	ldr	r0, [sp, #56]
+.LBB20_294:
 	str	r0, [r4]
-	b	.LBB20_321
-.LBB20_300:
+	b	.LBB20_315
+.LBB20_295:
 	movs	r0, #1
-	b	.LBB20_302
-.LBB20_301:
+	b	.LBB20_297
+.LBB20_296:
 	movs	r0, #2
-.LBB20_302:
+.LBB20_297:
 	orrs	r7, r0
-.LBB20_303:
-	ldr	r0, [sp, #32]
+.LBB20_298:
+	ldr	r0, [sp, #28]
 	cmp	r7, r0
-	bhs	.LBB20_304
-	b	.LBB20_255
-.LBB20_304:
+	bhs	.LBB20_299
+	b	.LBB20_249
+.LBB20_299:
 	bl	.LBB20_7
-.LBB20_305:
+.LBB20_300:
 	ldr	r0, [r1, #8]
-	cmp	r0, r6
-	blo	.LBB20_307
+	ldr	r5, [sp, #64]
+	cmp	r0, r5
+	blo	.LBB20_302
 	movs	r0, #63
-.LBB20_307:
+.LBB20_302:
 	str	r0, [r4]
 	mov	r0, r1
 	adds	r0, #12
 	cmp	r3, #12
-	bhs	.LBB20_323
-.LBB20_308:
+	bhs	.LBB20_317
+.LBB20_303:
 	movs	r0, #63
 	str	r0, [r4]
-	ldr	r0, [sp, #64]
+	ldr	r0, [sp, #60]
 	str	r0, [r4]
 	movs	r0, #0
-.LBB20_309:
-	ldr	r3, [sp, #20]
-.LBB20_310:
+	ldr	r5, [sp, #16]
+.LBB20_304:
 	ldr	r1, [r4, #24]
 	cmp	r1, #0
-	bne	.LBB20_314
+	bne	.LBB20_308
 	ldr	r1, [r4, #24]
 	cmp	r1, #0
-	bne	.LBB20_314
+	bne	.LBB20_308
 	ldr	r1, [r4, #24]
 	cmp	r1, #0
-	bne	.LBB20_314
+	bne	.LBB20_308
 	ldr	r1, [r4, #24]
 	cmp	r1, #0
-	beq	.LBB20_310
-.LBB20_314:
+	beq	.LBB20_304
+.LBB20_308:
 	ldr	r1, [r4, #28]
 	cmp	r1, #8
-	beq	.LBB20_318
+	beq	.LBB20_312
 	cmp	r1, #10
-	beq	.LBB20_319
+	beq	.LBB20_313
 	mov	r2, r1
 	subs	r2, #48
 	cmp	r2, #10
-	bhs	.LBB20_310
+	bhs	.LBB20_304
 	str	r1, [r4]
-	ldr	r1, [sp, #60]
+	ldr	r1, [sp, #56]
 	muls	r0, r1, r0
 	adds	r0, r2, r0
-	b	.LBB20_310
-.LBB20_318:
+	b	.LBB20_304
+.LBB20_312:
 	movs	r1, #8
 	str	r1, [r4]
 	movs	r1, #10
 	bl	__aeabi_uidiv
-	b	.LBB20_309
-.LBB20_319:
-	ldr	r1, [sp, #60]
+	b	.LBB20_304
+.LBB20_313:
+	ldr	r1, [sp, #56]
 	str	r1, [r4]
-	ldr	r3, [r3, #16]
+	ldr	r3, [r5, #16]
 	cmp	r3, #26
-	blo	.LBB20_320
-	b	.LBB20_414
-.LBB20_320:
+	blo	.LBB20_314
+	b	.LBB20_410
+.LBB20_314:
 	lsls	r1, r3, #2
 	add	r2, sp, #96
 	str	r0, [r2, r1]
-.LBB20_321:
+.LBB20_315:
 	adds	r7, r7, #1
-	ldr	r0, [sp, #32]
+	ldr	r0, [sp, #28]
 	cmp	r7, r0
-	bhs	.LBB20_322
-	b	.LBB20_255
-.LBB20_322:
+	bhs	.LBB20_316
+	b	.LBB20_249
+.LBB20_316:
 	bl	.LBB20_7
-.LBB20_323:
+.LBB20_317:
 	adds	r1, r1, r2
-	b	.LBB20_325
-.LBB20_324:
+	b	.LBB20_319
+.LBB20_318:
 	str	r3, [r4]
 	adds	r0, #16
 	cmp	r0, r1
-	beq	.LBB20_308
-.LBB20_325:
+	beq	.LBB20_303
+.LBB20_319:
 	ldr	r3, [r0]
 	movs	r2, #63
-	cmp	r3, r6
-	blo	.LBB20_329
+	ldr	r5, [sp, #64]
+	cmp	r3, r5
+	blo	.LBB20_321
 	mov	r3, r2
+.LBB20_321:
 	str	r3, [r4]
 	ldr	r3, [r0, #4]
-	cmp	r3, r6
-	bhs	.LBB20_330
+	ldr	r5, [sp, #64]
+	cmp	r3, r5
+	blo	.LBB20_323
+	mov	r3, r2
+.LBB20_323:
+	str	r3, [r4]
+	ldr	r3, [r0, #8]
+	ldr	r5, [sp, #64]
+	cmp	r3, r5
+	blo	.LBB20_325
+	mov	r3, r2
+.LBB20_325:
+	str	r3, [r4]
+	ldr	r3, [r0, #12]
+	ldr	r5, [sp, #64]
+	cmp	r3, r5
+	blo	.LBB20_318
+	mov	r3, r2
+	b	.LBB20_318
 .LBB20_327:
-	str	r3, [r4]
-	ldr	r3, [r0, #8]
-	cmp	r3, r6
-	blo	.LBB20_331
-.LBB20_328:
-	mov	r3, r2
-	str	r3, [r4]
-	ldr	r3, [r0, #12]
-	cmp	r3, r6
-	blo	.LBB20_324
-	b	.LBB20_332
-.LBB20_329:
-	str	r3, [r4]
-	ldr	r3, [r0, #4]
-	cmp	r3, r6
-	blo	.LBB20_327
-.LBB20_330:
-	mov	r3, r2
-	str	r3, [r4]
-	ldr	r3, [r0, #8]
-	cmp	r3, r6
-	bhs	.LBB20_328
-.LBB20_331:
-	str	r3, [r4]
-	ldr	r3, [r0, #12]
-	cmp	r3, r6
-	blo	.LBB20_324
-.LBB20_332:
-	mov	r3, r2
-	b	.LBB20_324
-.LBB20_333:
 	ldr	r0, [r2, #8]
-	cmp	r0, r6
-	blo	.LBB20_335
+	ldr	r5, [sp, #64]
+	cmp	r0, r5
+	blo	.LBB20_329
 	movs	r0, #63
-.LBB20_335:
+.LBB20_329:
 	str	r0, [r4]
 	mov	r0, r2
 	adds	r0, #12
 	cmp	r3, #12
-	blo	.LBB20_298
-.LBB20_336:
+	blo	.LBB20_293
+.LBB20_330:
 	adds	r1, r2, r1
-	b	.LBB20_338
-.LBB20_337:
+	b	.LBB20_332
+.LBB20_331:
 	str	r3, [r4]
 	adds	r0, #16
 	cmp	r0, r1
-	bne	.LBB20_338
-	b	.LBB20_298
-.LBB20_338:
+	beq	.LBB20_293
+.LBB20_332:
 	ldr	r3, [r0]
 	movs	r2, #63
-	cmp	r3, r6
-	blo	.LBB20_342
+	ldr	r5, [sp, #64]
+	cmp	r3, r5
+	blo	.LBB20_334
 	mov	r3, r2
+.LBB20_334:
 	str	r3, [r4]
 	ldr	r3, [r0, #4]
-	cmp	r3, r6
-	bhs	.LBB20_343
+	ldr	r5, [sp, #64]
+	cmp	r3, r5
+	blo	.LBB20_336
+	mov	r3, r2
+.LBB20_336:
+	str	r3, [r4]
+	ldr	r3, [r0, #8]
+	ldr	r5, [sp, #64]
+	cmp	r3, r5
+	blo	.LBB20_338
+	mov	r3, r2
+.LBB20_338:
+	str	r3, [r4]
+	ldr	r3, [r0, #12]
+	ldr	r5, [sp, #64]
+	cmp	r3, r5
+	blo	.LBB20_331
+	mov	r3, r2
+	b	.LBB20_331
 .LBB20_340:
-	str	r3, [r4]
-	ldr	r3, [r0, #8]
-	cmp	r3, r6
-	blo	.LBB20_344
-.LBB20_341:
-	mov	r3, r2
-	str	r3, [r4]
-	ldr	r3, [r0, #12]
-	cmp	r3, r6
-	blo	.LBB20_337
-	b	.LBB20_345
-.LBB20_342:
-	str	r3, [r4]
-	ldr	r3, [r0, #4]
-	cmp	r3, r6
-	blo	.LBB20_340
-.LBB20_343:
-	mov	r3, r2
-	str	r3, [r4]
-	ldr	r3, [r0, #8]
-	cmp	r3, r6
-	bhs	.LBB20_341
-.LBB20_344:
-	str	r3, [r4]
-	ldr	r3, [r0, #12]
-	cmp	r3, r6
-	blo	.LBB20_337
-.LBB20_345:
-	mov	r3, r2
-	b	.LBB20_337
-.LBB20_346:
 	ldr	r0, [sp, #208]
 	cmp	r0, #1
-	bne	.LBB20_349
+	bne	.LBB20_343
 	add	r0, sp, #208
 	ldrh	r0, [r0, #4]
 	ldr	r1, .LCPI20_21
@@ -7611,17 +7563,17 @@ main:
 	ldr	r5, [sp, #224]
 	ldr	r0, [sp, #216]
 	cmp	r5, r0
-	bne	.LBB20_348
-	b	.LBB20_394
-.LBB20_348:
+	bne	.LBB20_342
+	b	.LBB20_388
+.LBB20_342:
 	lsls	r0, r5, #2
 	ldr	r1, [sp, #220]
 	str	r7, [r1, r0]
 	adds	r0, r5, #1
 	str	r0, [sp, #224]
 	movs	r0, #1
-	b	.LBB20_351
-.LBB20_349:
+	b	.LBB20_345
+.LBB20_343:
 	ldr	r0, .LCPI20_5
 	str	r0, [sp, #212]
 	movs	r0, #1
@@ -7629,9 +7581,9 @@ main:
 	ldr	r5, [sp, #224]
 	ldr	r0, [sp, #216]
 	cmp	r5, r0
-	bne	.LBB20_350
-	b	.LBB20_401
-.LBB20_350:
+	bne	.LBB20_344
+	b	.LBB20_392
+.LBB20_344:
 	lsls	r0, r5, #2
 	ldr	r1, [sp, #220]
 	ldr	r2, .LCPI20_20
@@ -7639,7 +7591,7 @@ main:
 	adds	r0, r5, #1
 	str	r0, [sp, #224]
 	movs	r0, #0
-.LBB20_351:
+.LBB20_345:
 	ldr	r1, .LCPI20_3
 	str	r1, [sp, #212]
 	str	r0, [sp, #208]
@@ -7653,72 +7605,72 @@ main:
 	stm	r1!, {r2, r3, r5, r6}
 	ldr	r0, [sp, #96]
 	cmp	r0, #0
-	beq	.LBB20_354
+	beq	.LBB20_348
 	add	r0, sp, #96
 	ldrh	r6, [r0, #4]
 	ldr	r5, [sp, #112]
 	ldr	r0, [sp, #104]
 	cmp	r5, r0
-	bne	.LBB20_353
-	b	.LBB20_400
-.LBB20_353:
+	bne	.LBB20_347
+	b	.LBB20_391
+.LBB20_347:
 	movs	r0, #35
 	lsls	r0, r0, #25
 	adds	r0, r6, r0
 	lsls	r1, r5, #2
 	ldr	r2, [sp, #108]
-	str	r2, [sp, #44]
+	str	r2, [sp, #40]
 	str	r0, [r2, r1]
 	adds	r1, r5, #1
-	b	.LBB20_355
-.LBB20_354:
+	b	.LBB20_349
+.LBB20_348:
 	ldr	r1, [sp, #112]
 	ldr	r0, [sp, #108]
-	str	r0, [sp, #44]
-.LBB20_355:
+	str	r0, [sp, #40]
+.LBB20_349:
 	ldr	r0, [sp, #136]
 	cmp	r0, #0
-	ldr	r6, [sp, #48]
-	str	r1, [sp, #40]
-	beq	.LBB20_363
+	ldr	r6, [sp, #44]
+	str	r1, [sp, #36]
+	beq	.LBB20_357
 	lsls	r5, r0, #3
 	ldr	r2, [sp, #132]
 	ldr	r0, [sp, #120]
-	str	r0, [sp, #28]
+	str	r0, [sp, #24]
 	ldr	r0, [sp, #124]
-	str	r0, [sp, #32]
-	b	.LBB20_359
-.LBB20_357:
+	str	r0, [sp, #28]
+	b	.LBB20_353
+.LBB20_351:
 	uxth	r1, r6
 	lsls	r0, r0, #16
 	adds	r0, r0, r1
-.LBB20_358:
+.LBB20_352:
 	adds	r2, #8
-	ldr	r1, [sp, #44]
+	ldr	r1, [sp, #40]
 	adds	r1, r1, r3
 	str	r0, [r1]
 	subs	r5, #8
-	ldr	r6, [sp, #48]
-	ldr	r1, [sp, #40]
-	beq	.LBB20_363
-.LBB20_359:
+	ldr	r6, [sp, #44]
+	ldr	r1, [sp, #36]
+	beq	.LBB20_357
+.LBB20_353:
 	ldr	r0, [r2, #4]
-	ldr	r3, [sp, #32]
+	ldr	r3, [sp, #28]
 	cmp	r0, r3
-	blo	.LBB20_360
-	b	.LBB20_410
-.LBB20_360:
+	blo	.LBB20_354
+	b	.LBB20_402
+.LBB20_354:
 	ldr	r7, [r2]
 	lsrs	r3, r7, #1
 	cmp	r1, r3
-	bhi	.LBB20_361
-	b	.LBB20_411
-.LBB20_361:
+	bhi	.LBB20_355
+	b	.LBB20_406
+.LBB20_355:
 	lsls	r3, r3, #2
-	ldr	r1, [sp, #44]
+	ldr	r1, [sp, #40]
 	ldr	r6, [r1, r3]
 	lsls	r0, r0, #2
-	ldr	r1, [sp, #28]
+	ldr	r1, [sp, #24]
 	ldr	r0, [r1, r0]
 	subs	r0, r7, r0
 	ldr	r1, .LCPI20_24
@@ -7727,39 +7679,65 @@ main:
 	lsls	r0, r0, #13
 	adds	r0, r1, r0
 	lsls	r1, r7, #31
-	bne	.LBB20_357
+	bne	.LBB20_351
 	ldr	r1, .LCPI20_25
 	ands	r6, r1
 	adds	r0, r0, r6
-	b	.LBB20_358
-.LBB20_363:
+	b	.LBB20_352
+.LBB20_357:
 	ldr	r0, [sp, #104]
 	adds	r1, r0, #1
-	beq	.LBB20_392
-	str	r0, [sp, #52]
-	ldr	r0, [sp, #40]
+	beq	.LBB20_386
+	str	r0, [sp, #48]
+	ldr	r0, [sp, #36]
 	cmp	r0, #0
-	beq	.LBB20_391
+	beq	.LBB20_385
 	lsls	r1, r0, #2
-	ldr	r3, [sp, #44]
-	b	.LBB20_368
-.LBB20_366:
+	ldr	r3, [sp, #40]
+	b	.LBB20_362
+.LBB20_360:
 	adds	r6, #246
 	uxtb	r6, r6
 	adds	r6, #97
-.LBB20_367:
+.LBB20_361:
 	str	r6, [r4]
-	ldr	r2, [sp, #60]
+	ldr	r2, [sp, #56]
 	str	r2, [r4]
 	subs	r1, r1, #4
-	beq	.LBB20_391
-.LBB20_368:
+	beq	.LBB20_385
+.LBB20_362:
 	ldm	r3!, {r5}
 	uxth	r6, r5
 	lsrs	r2, r6, #12
 	lsrs	r6, r6, #13
 	cmp	r6, #5
-	blo	.LBB20_370
+	blo	.LBB20_364
+	adds	r2, #246
+	uxtb	r2, r2
+	adds	r2, #97
+	b	.LBB20_365
+.LBB20_364:
+	adds	r2, #48
+.LBB20_365:
+	str	r2, [r4]
+	lsls	r6, r5, #20
+	lsrs	r2, r6, #28
+	ldr	r7, [sp, #32]
+	cmp	r7, r6
+	bhi	.LBB20_367
+	adds	r2, #246
+	uxtb	r2, r2
+	adds	r2, #97
+	b	.LBB20_368
+.LBB20_367:
+	adds	r2, #48
+.LBB20_368:
+	str	r2, [r4]
+	lsls	r6, r5, #24
+	lsrs	r2, r6, #28
+	ldr	r7, [sp, #32]
+	cmp	r7, r6
+	bhi	.LBB20_370
 	adds	r2, #246
 	uxtb	r2, r2
 	adds	r2, #97
@@ -7768,10 +7746,12 @@ main:
 	adds	r2, #48
 .LBB20_371:
 	str	r2, [r4]
-	lsls	r6, r5, #20
-	lsrs	r2, r6, #28
-	ldr	r7, [sp, #36]
-	cmp	r7, r6
+	movs	r6, #15
+	mov	r2, r5
+	ands	r2, r6
+	lsls	r7, r5, #28
+	ldr	r0, [sp, #32]
+	cmp	r0, r7
 	bhi	.LBB20_373
 	adds	r2, #246
 	uxtb	r2, r2
@@ -7781,11 +7761,12 @@ main:
 	adds	r2, #48
 .LBB20_374:
 	str	r2, [r4]
-	lsls	r6, r5, #24
-	lsrs	r2, r6, #28
-	ldr	r7, [sp, #36]
-	cmp	r7, r6
-	bhi	.LBB20_376
+	ldr	r2, [sp, #60]
+	str	r2, [r4]
+	lsrs	r2, r5, #28
+	ldr	r0, [sp, #32]
+	cmp	r5, r0
+	blo	.LBB20_376
 	adds	r2, #246
 	uxtb	r2, r2
 	adds	r2, #97
@@ -7794,77 +7775,48 @@ main:
 	adds	r2, #48
 .LBB20_377:
 	str	r2, [r4]
-	movs	r6, #15
-	mov	r2, r5
-	ands	r2, r6
-	lsls	r7, r5, #28
-	ldr	r0, [sp, #36]
-	cmp	r0, r7
-	bhi	.LBB20_379
-	adds	r2, #246
-	uxtb	r2, r2
-	adds	r2, #97
-	b	.LBB20_380
-.LBB20_379:
-	adds	r2, #48
-.LBB20_380:
-	str	r2, [r4]
-	ldr	r2, [sp, #64]
-	str	r2, [r4]
-	lsrs	r2, r5, #28
-	ldr	r0, [sp, #36]
-	cmp	r5, r0
-	blo	.LBB20_382
-	adds	r2, #246
-	uxtb	r2, r2
-	adds	r2, #97
-	b	.LBB20_383
-.LBB20_382:
-	adds	r2, #48
-.LBB20_383:
-	str	r2, [r4]
 	lsrs	r2, r5, #16
 	lsls	r7, r2, #20
 	lsrs	r5, r7, #28
-	ldr	r0, [sp, #36]
+	ldr	r0, [sp, #32]
 	cmp	r0, r7
-	bhi	.LBB20_385
+	bhi	.LBB20_379
 	adds	r5, #246
 	uxtb	r5, r5
 	adds	r5, #97
-	b	.LBB20_386
-.LBB20_385:
+	b	.LBB20_380
+.LBB20_379:
 	adds	r5, #48
-.LBB20_386:
+.LBB20_380:
 	str	r5, [r4]
 	lsls	r7, r2, #24
 	lsrs	r5, r7, #28
-	ldr	r0, [sp, #36]
+	ldr	r0, [sp, #32]
 	cmp	r0, r7
-	bhi	.LBB20_388
+	bhi	.LBB20_382
 	adds	r5, #246
 	uxtb	r5, r5
 	adds	r5, #97
-	b	.LBB20_389
-.LBB20_388:
+	b	.LBB20_383
+.LBB20_382:
 	adds	r5, #48
-.LBB20_389:
+.LBB20_383:
 	str	r5, [r4]
 	ands	r6, r2
 	lsls	r2, r2, #28
-	ldr	r0, [sp, #36]
+	ldr	r0, [sp, #32]
 	cmp	r0, r2
-	bls	.LBB20_366
+	bls	.LBB20_360
 	adds	r6, #48
-	b	.LBB20_367
-.LBB20_391:
-	ldr	r1, [sp, #60]
+	b	.LBB20_361
+.LBB20_385:
+	ldr	r1, [sp, #56]
 	str	r1, [r4]
-	ldr	r0, [sp, #44]
+	ldr	r0, [sp, #40]
 	str	r0, [sp, #4]
-	ldr	r6, [sp, #48]
+	ldr	r6, [sp, #44]
 	bl	.LBB20_7
-.LBB20_392:
+.LBB20_386:
 	movs	r0, #69
 	str	r0, [r4]
 	movs	r0, #114
@@ -7873,16 +7825,16 @@ main:
 	movs	r1, #111
 	str	r1, [r4]
 	str	r0, [r4]
-.LBB20_393:
-	ldr	r0, [sp, #60]
+.LBB20_387:
+	ldr	r0, [sp, #56]
 	str	r0, [r4]
 	bl	.LBB20_7
-.LBB20_394:
+.LBB20_388:
 	add	r0, sp, #208
 	adds	r0, #8
 	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecjE8grow_oneCs659I7ZJCFS4_5basic
-	b	.LBB20_348
-.LBB20_395:
+	b	.LBB20_342
+.LBB20_389:
 	movs	r0, #86
 	str	r0, [r4]
 	movs	r3, #97
@@ -7900,13 +7852,12 @@ main:
 	str	r1, [r4]
 	movs	r2, #115
 	str	r2, [r4]
-	ldr	r6, [sp, #64]
-	str	r6, [r4]
+	ldr	r7, [sp, #60]
+	str	r7, [r4]
 	str	r3, [r4]
 	str	r0, [r4]
 	str	r1, [r4]
-	str	r6, [r4]
-	ldr	r6, [sp, #48]
+	str	r7, [r4]
 	str	r5, [r4]
 	movs	r3, #110
 	str	r3, [r4]
@@ -7918,7 +7869,7 @@ main:
 	str	r1, [r4]
 	str	r0, [r4]
 	str	r2, [r4]
-	ldr	r2, [sp, #60]
+	ldr	r2, [sp, #56]
 	str	r2, [r4]
 	movs	r1, #69
 	str	r1, [r4]
@@ -7929,7 +7880,7 @@ main:
 	str	r0, [r4]
 	str	r2, [r4]
 	bl	.LBB20_7
-.LBB20_396:
+.LBB20_390:
 	movs	r0, #77
 	str	r0, [r4]
 	movs	r0, #117
@@ -7938,7 +7889,7 @@ main:
 	str	r0, [r4]
 	movs	r1, #116
 	str	r1, [r4]
-	ldr	r1, [sp, #64]
+	ldr	r1, [sp, #60]
 	str	r1, [r4]
 	movs	r1, #97
 	str	r1, [r4]
@@ -7953,14 +7904,33 @@ main:
 	movs	r1, #108
 	str	r1, [r4]
 	str	r0, [r4]
-	ldr	r0, [sp, #60]
+	ldr	r0, [sp, #56]
 	str	r0, [r4]
 	ldr	r0, [sp]
-	str	r0, [sp, #52]
+	str	r0, [sp, #48]
 	bl	.LBB20_7
+.LBB20_391:
+	add	r0, sp, #96
+	adds	r0, #8
+	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecjE8grow_oneCs659I7ZJCFS4_5basic
+	b	.LBB20_347
+.LBB20_392:
+	add	r0, sp, #208
+	adds	r0, #8
+	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecjE8grow_oneCs659I7ZJCFS4_5basic
+	b	.LBB20_344
+.LBB20_393:
+	add	r0, sp, #256
+	bl	_RNvNtCs4L8JVMRpR0y_4core6result13unwrap_failed
+.LBB20_394:
+	str	r1, [sp, #208]
+	b	.LBB20_400
+	.p2align	2
+.LCPI20_63:
+	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
 	.p2align	2
 .LCPI20_64:
-	.long	_RNvXs8_NtNtNtCs4L8JVMRpR0y_4core3fmt3num3impmNtB9_7Display3fmt
+	.long	.L_MergedGlobals
 	.p2align	2
 .LCPI20_65:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.26
@@ -7968,26 +7938,9 @@ main:
 .LCPI20_66:
 	.long	.Lanon.fad58de7366495db4650cfefac2fcd61.0
 	.p2align	1
-.LBB20_400:
-	add	r0, sp, #96
-	adds	r0, #8
-	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecjE8grow_oneCs659I7ZJCFS4_5basic
-	b	.LBB20_353
-.LBB20_401:
-	add	r0, sp, #208
-	adds	r0, #8
-	bl	_RNvMs3_NtCsa0y0V4fwJ9Z_5alloc7raw_vecINtB5_6RawVecjE8grow_oneCs659I7ZJCFS4_5basic
-	b	.LBB20_350
-.LBB20_402:
-	add	r0, sp, #256
-	bl	_RNvNtCs4L8JVMRpR0y_4core6result13unwrap_failed
-.LBB20_403:
-	str	r1, [sp, #208]
-	b	.LBB20_408
-	.p2align	1
-.LBB20_407:
+.LBB20_399:
 	str	r5, [sp, #208]
-.LBB20_408:
+.LBB20_400:
 	ldr	r0, .LCPI20_7
 	str	r0, [sp, #116]
 	add	r1, sp, #200
@@ -7998,21 +7951,23 @@ main:
 	ldr	r0, .LCPI20_8
 	str	r0, [sp, #100]
 	add	r0, sp, #252
-.LBB20_409:
+.LBB20_401:
 	str	r0, [sp, #96]
 	ldr	r0, .LCPI20_9
 	add	r1, sp, #96
 	ldr	r2, .LCPI20_10
 	bl	_RNvNtCs4L8JVMRpR0y_4core9panicking9panic_fmt
-.LBB20_410:
+.LBB20_402:
 	ldr	r2, .LCPI20_22
-	ldr	r1, [sp, #32]
+	ldr	r1, [sp, #28]
 	bl	_RNvNtCs4L8JVMRpR0y_4core9panicking18panic_bounds_check
-.LBB20_411:
+	.p2align	1
+.LBB20_406:
 	ldr	r2, .LCPI20_23
 	mov	r0, r3
 	bl	_RNvNtCs4L8JVMRpR0y_4core9panicking18panic_bounds_check
-.LBB20_412:
+	.p2align	1
+.LBB20_408:
 	str	r2, [sp, #208]
 	ldr	r0, .LCPI20_7
 	str	r0, [sp, #116]
@@ -8024,20 +7979,20 @@ main:
 	ldr	r0, .LCPI20_8
 	str	r0, [sp, #100]
 	add	r0, sp, #68
-	b	.LBB20_409
-.LBB20_413:
+	b	.LBB20_401
+.LBB20_409:
 	str	r2, [sp, #208]
-	b	.LBB20_408
-.LBB20_414:
+	b	.LBB20_400
+.LBB20_410:
 	movs	r1, #26
 	ldr	r2, .LCPI20_26
 	mov	r0, r3
 	bl	_RNvNtCs4L8JVMRpR0y_4core9panicking18panic_bounds_check
-.LBB20_415:
+.LBB20_411:
 	movs	r1, #26
 	ldr	r2, .LCPI20_26
 	bl	_RNvNtCs4L8JVMRpR0y_4core9panicking18panic_bounds_check
-.LBB20_416:
+.LBB20_412:
 	bl	_RNvNtCsa0y0V4fwJ9Z_5alloc5alloc18handle_alloc_error
 	.p2align	2
 .LCPI20_3:

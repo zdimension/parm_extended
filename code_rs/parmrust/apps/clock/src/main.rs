@@ -4,7 +4,7 @@
 #![feature(concat_bytes)]
 
 extern crate alloc;
-use parm::screen::{ParmScreen, Color, ColorSimple};
+use parm::screen::{Buffer, ParmScreen, Color, ColorSimple};
 use parm::embedded_graphics::prelude::*;
 use parm::embedded_graphics::primitives::{Circle, Line, PrimitiveStyle};
 use parm::mmio::TIMER;
@@ -24,7 +24,7 @@ fn main() {
     let initial_seconds = get_initial_time();
     let start_centis = TIMER.read();
 
-    let mut screen = ParmScreen;
+    let mut screen = ParmScreen(Buffer::B0);
 
     // Clock parameters (128x128 target)
     let center = Point::new(64, 64);
